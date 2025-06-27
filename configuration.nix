@@ -222,4 +222,20 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  # Enable USB automounting for external drives.
+  boot.supportedFilesystems = [ "exfat" "ntfs" ];
+
+  services.udisks2.enable = true;   # daemon that owns the mount
+  services.gvfs.enable   = true;    # for GNOME, Thunar, etc.
+  services.devmon.enable = true;    # optional: instant automount helpers
+
+  fileSystems."/media/usb" = {
+    device  = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21";   # or …by-label/USBDISK
+    fsType  = "vfat";                          # ext4, exfat, ntfs, …
+    options = [
+      "nofail"               # don’t drop to emergency shell if absent
+      "x-systemd.automount"  # mount on first access instead of at boot
+    ];
+  };
 }
