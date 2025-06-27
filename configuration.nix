@@ -103,34 +103,36 @@
     # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    alacritty
+    alejandra # nix formatter
     bat
-    mpv
     fd
     gcc
+    gh # GitHub CLI
+    gimp3
     git
+    gparted
+    inxi # system information tool
+    k3d # k3s in docker
+    k3s # kubes
     keepassxc
     lazygit
-    lf
+    legcord # Discord client
+    lf # Terminal file manager
+    mpv
     ncdu
+    nixd # nix LSP
+    podman
     ripgrep
+    signal-desktop
+    slack
+    synology-drive-client
     tmux
     unzip
     uv
-    wezterm
-    wl-clipboard
     vscode
-    slack
-    legcord
-    synology-drive-client
-    gparted
-    podman
-    k3s
-    inxi
-    (neovim.overrideAttrs (old: {
-      # Add wl-clipboard as a build input to Neovim
-      nativeBuildInputs = old.nativeBuildInputs ++ [ wl-clipboard ];
-    }))
+    wezterm
+    wl-clipboard # Clipboard management for Wayland
+    (neovim.overrideAttrs (old: { nativeBuildInputs = old.nativeBuildInputs ++ [ wl-clipboard ]; }))
   ];
 
   programs.steam = {
