@@ -1,14 +1,15 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -82,10 +83,10 @@
   users.users.david = {
     isNormalUser = true;
     description = "David";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -100,39 +101,49 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-    # List packages installed in system profile. To search, run:
+  # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+
+    ## Terminal apps
+    (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
     alejandra # nix formatter
     bat
     fd
     gcc
     gh # GitHub CLI
-    gimp3
     git
-    gparted
     inxi # system information tool
+    jq # JSON processor
     k3d # k3s in docker
     k3s # kubes
-    keepassxc
     lazygit
-    legcord # Discord client
     lf # Terminal file manager
-    mpv
     ncdu
     nixd # nix LSP
     podman
+    sqlfluff # SQL linter and formatter
+    tmux
+    unzip
+    uv
+    wl-clipboard # Clipboard management for Wayland
+    xq-xml # XML processor
+    yq-go # YAML processor
+
+    ## GUI apps
+    fooyin # Music player
+    gimp3
+    gparted
+    keepassxc
+    legcord # Discord client
+    mpv
     ripgrep
     signal-desktop
     slack
     synology-drive-client
-    tmux
-    unzip
-    uv
     vscode
     wezterm
-    wl-clipboard # Clipboard management for Wayland
-    (neovim.overrideAttrs (old: { nativeBuildInputs = old.nativeBuildInputs ++ [ wl-clipboard ]; }))
+
   ];
 
   programs.steam = {
