@@ -16,7 +16,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "odin";
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -143,6 +143,7 @@
     ## GUI apps
     chromium
     fooyin # Music player
+    fsearch
     gimp3
     gparted
     itch
@@ -157,6 +158,7 @@
     wezterm
     wireguard-tools
     wireguard-ui
+
   ];
 
   programs.steam = {
