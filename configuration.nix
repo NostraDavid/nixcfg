@@ -79,11 +79,16 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", GROUP="hidraw", MODE="0660"
+  '';
+  users.groups.hidraw = {};
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.david = {
     isNormalUser = true;
     description = "David";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "hidraw"];
     packages = with pkgs; [
       kdePackages.kate
       #  thunderbird
@@ -110,6 +115,7 @@
     alejandra # nix formatter
     bat
     fd
+    ffmpeg
     gcc
     gh # GitHub CLI
     git
@@ -121,19 +127,25 @@
     lf # Terminal file manager
     ncdu
     nixd # nix LSP
+    ntfs3g    # NTFS driver for work.
+    parallel
     podman
+    rsync
     sqlfluff # SQL linter and formatter
     tmux
     unzip
     uv
     wl-clipboard # Clipboard management for Wayland
     xq-xml # XML processor
+    yt-dlp
     yq-go # YAML processor
 
     ## GUI apps
+    chromium
     fooyin # Music player
     gimp3
     gparted
+    itch
     keepassxc
     legcord # Discord client
     mpv
@@ -143,7 +155,8 @@
     synology-drive-client
     vscode
     wezterm
-
+    wireguard-tools
+    wireguard-ui
   ];
 
   programs.steam = {
@@ -238,4 +251,5 @@
       "x-systemd.automount"  # mount on first access instead of at boot
     ];
   };
+
 }
