@@ -15,6 +15,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Enable the Flakes feature and the accompanying new nix command-line tool
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  environment.variables.EDITOR = "vim";
+  environment.variables.VISUAL = "vim";
+
   networking.hostName = "odin";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -105,6 +110,11 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  programs.bash.shellAliases = {
+    vi = "nvim";
+    vim = "nvim";
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
