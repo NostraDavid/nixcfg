@@ -141,6 +141,7 @@
     parallel
     podman
     rsync
+    stow
     sqlfluff # SQL linter and formatter
     tmux
     unzip
