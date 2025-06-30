@@ -144,9 +144,11 @@
     podman
     ripgrep # Search tool (rg)
     rsync
+    ruff
     sqlfluff # SQL linter and formatter
     stow
     tmux
+    ty
     unzip
     uv
     wl-clipboard # Clipboard management for Wayland
