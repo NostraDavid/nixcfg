@@ -129,6 +129,7 @@
     gcc
     gh # GitHub CLI
     git
+    helix
     inxi # system information tool
     jq # JSON processor
     k3d # k3s in docker
@@ -141,15 +142,15 @@
     parallel
     podman
     rsync
-    stow
     sqlfluff # SQL linter and formatter
+    stow
     tmux
     unzip
     uv
     wl-clipboard # Clipboard management for Wayland
     xq-xml # XML processor
-    yt-dlp
     yq-go # YAML processor
+    yt-dlp
 
     ## GUI apps
     chromium
