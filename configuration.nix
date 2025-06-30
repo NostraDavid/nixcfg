@@ -129,11 +129,12 @@
     gcc
     gh # GitHub CLI
     git
-    helix
+    helix # Text editor (hx)
     inxi # system information tool
     jq # JSON processor
     k3d # k3s in docker
     k3s # kubes
+    kakoune # Text editor
     lazygit
     lf # Terminal file manager
     ncdu
@@ -141,6 +142,7 @@
     ntfs3g    # NTFS driver for work.
     parallel
     podman
+    ripgrep # Search tool (rg)
     rsync
     sqlfluff # SQL linter and formatter
     stow
@@ -162,7 +164,6 @@
     keepassxc
     legcord # Discord client
     mpv
-    ripgrep
     signal-desktop
     slack
     synology-drive-client
