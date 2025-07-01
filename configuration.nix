@@ -85,15 +85,20 @@
   # services.xserver.libinput.enable = true;
 
   services.udev.extraRules = ''
+    # Chromium Nuphy Air rules
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", GROUP="hidraw", MODE="0660"
+
+    # Whatpulse rules
+    KERNEL=="event*", NAME="input/%k", MODE="640", GROUP="input"
   '';
   users.groups.hidraw = {};
+  users.groups.input = {};
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.david = {
     isNormalUser = true;
     description = "David";
-    extraGroups = ["networkmanager" "wheel" "hidraw"];
+    extraGroups = ["networkmanager" "wheel" "hidraw" "input"];
     packages = with pkgs; [
       kdePackages.kate
       #  thunderbird
@@ -120,6 +125,15 @@
     vim = "nvim";
   };
 
+  # xdg-desktop-portal-hyprland
+  # # Next six lines courtesy of Jennifer Darlene on 22 Jan 2024 to get basic Hyprland working
+  # programs.hyprland = {
+  #   enable = true;
+  #   xwayland.enable = true; # allow x11 applications
+  # };
+  # programs.sway.enable = true;
+  # console.useXkbConfig = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -127,10 +141,14 @@
     ## Terminal apps
     (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
     alejandra # nix formatter
+    atuin # shell history manager
     bat
-    fd
+    curl
+    eza
+    fd # sometimes also fdfind or fd-find
     ffmpeg
     gcc
+    gemini-cli
     gh # GitHub CLI
     git
     helix # Text editor (hx)
@@ -139,24 +157,32 @@
     k3d # k3s in docker
     k3s # kubes
     kakoune # Text editor
+    killall # kill processes by name
     lazygit
     lf # Terminal file manager
+    libpcap # for Whatpulse
+    mlocate # locate command
     ncdu
     nixd # nix LSP
+    nnn # Terminal file manager
     ntfs3g    # NTFS driver for work.
+    p7zip # 7zip command line tool
     parallel
     podman
     ripgrep # Search tool (rg)
     rsync
     ruff
     sqlfluff # SQL linter and formatter
-    stow
+    starship # Shell prompt
+    stow # GNU Stow for managing dotfiles
     tmux
-    ty
+    ty # Astral type checker
     unzip
-    uv
+    uv # Astral project manager
+    wget
     wl-clipboard # Clipboard management for Wayland
     xq-xml # XML processor
+    xz # Compression tool
     yq-go # YAML processor
     yt-dlp
 
@@ -179,6 +205,18 @@
     wezterm
     wireguard-tools
     wireguard-ui
+
+    # # Next ten lines courtest of Jennifer Darlene on 22 Jan 2024 to get basic Hyprland working
+    # waybar # status bar
+    # mako # notification daemon
+    # libnotify # for mako
+    # swww # wallpaper daemon
+    # kitty # terminal
+    # rofi-wayland # wl equiv of rofi app launcher, window switcher ...
+    # networkmanagerapplet # tray applet for network manager -- nm-applet
+    # grim # screenshot utility
+    # grimblast # grim helper
+    # udiskie # automount removable media
 
   ];
 
