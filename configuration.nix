@@ -157,6 +157,7 @@
     yt-dlp
 
     ## GUI apps
+    appimage-run # Run AppImages via command line
     chromium
     fooyin # Music player
     fsearch
@@ -165,7 +166,9 @@
     itch
     keepassxc
     legcord # Discord client
+    mission-center # Task Manager
     mpv
+    remmina # Remote Desktop Protocol client
     signal-desktop
     slack
     synology-drive-client
