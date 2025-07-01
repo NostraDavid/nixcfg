@@ -104,6 +104,10 @@
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "david";
 
+  # enable appimage support
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
+
   # Install GUI apps
   programs.firefox.enable = true;
   programs.thunderbird.enable = true;
@@ -157,7 +161,6 @@
     yt-dlp
 
     ## GUI apps
-    appimage-run # Run AppImages via command line
     chromium
     fooyin # Music player
     fsearch
