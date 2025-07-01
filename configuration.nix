@@ -148,7 +148,7 @@
     fd # sometimes also fdfind or fd-find
     ffmpeg
     gcc
-    gemini-cli
+    # gemini-cli
     gh # GitHub CLI
     git
     helix # Text editor (hx)
