@@ -125,6 +125,36 @@
     vim = "nvim";
   };
 
+  # # Enable common container config files in /etc/containers
+  # virtualisation.containers.enable = true;
+  # virtualisation = {
+  #   podman = {
+  #     enable = true;
+
+  #     # Create a `docker` alias for podman, to use it as a drop-in replacement
+  #     dockerCompat = true;
+
+  #     # Required for containers under podman-compose to be able to talk to each other.
+  #     defaultNetwork.settings.dns_enabled = true;
+  #   };
+  # };
+
+  services.k3s = {
+    enable = true;
+    manifests.nginx.content = {
+      apiVersion = "v1";
+      kind = "Pod";
+      metadata.name = "nginx";
+      spec.containers = [
+        {
+          name = "nginx";
+          image = "nginx:1.14.2";
+          ports = [ { containerPort = 80; } ];
+        }
+      ];
+    };
+  };
+
   # xdg-desktop-portal-hyprland
   # # Next six lines courtesy of Jennifer Darlene on 22 Jan 2024 to get basic Hyprland working
   # programs.hyprland = {
@@ -140,6 +170,12 @@
 
     ## Terminal apps
     (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
+    # dive # Docker image explorer
+    # gemini-cli
+    # podman
+    # podman-compose
+    # podman-desktop
+    # podman-tui
     alejandra # nix formatter
     atuin # shell history manager
     bat
@@ -148,16 +184,19 @@
     fd # sometimes also fdfind or fd-find
     ffmpeg
     gcc
-    # gemini-cli
     gh # GitHub CLI
     git
     helix # Text editor (hx)
+    helm
     inxi # system information tool
     jq # JSON processor
     k3d # k3s in docker
     k3s # kubes
     kakoune # Text editor
     killall # kill processes by name
+    kubectl
+    kdash # Kubernetes dashboard
+    k9s # Kubernetes CLI tool
     lazygit
     lf # Terminal file manager
     libpcap # for Whatpulse
@@ -168,7 +207,6 @@
     ntfs3g    # NTFS driver for work.
     p7zip # 7zip command line tool
     parallel
-    podman
     ripgrep # Search tool (rg)
     rsync
     ruff
