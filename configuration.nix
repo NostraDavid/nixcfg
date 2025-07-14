@@ -182,6 +182,8 @@
     # podman-tui
     alejandra # nix formatter
     atuin # shell history manager
+    qalculate-qt
+    speedcrunch
     bat
     curl
     eza
