@@ -182,8 +182,6 @@
     # podman-tui
     alejandra # nix formatter
     atuin # shell history manager
-    qalculate-qt
-    speedcrunch
     bat
     curl
     eza
@@ -195,14 +193,15 @@
     helix # Text editor (hx)
     helm
     inxi # system information tool
+    jpegoptim # JPEG image optimizer
     jq # JSON processor
     k3d # k3s in docker
     k3s # kubes
+    k9s # Kubernetes CLI tool
     kakoune # Text editor
+    kdash # Kubernetes dashboard
     killall # kill processes by name
     kubectl
-    kdash # Kubernetes dashboard
-    k9s # Kubernetes CLI tool
     lazygit
     lf # Terminal file manager
     libpcap # for Whatpulse
@@ -211,11 +210,14 @@
     nixd # nix LSP
     nnn # Terminal file manager
     ntfs3g    # NTFS driver for work.
+    optipng # PNG image optimizer
     p7zip # 7zip command line tool
     parallel
+    qalculate-qt
     ripgrep # Search tool (rg)
     rsync
     ruff
+    speedcrunch
     sqlfluff # SQL linter and formatter
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
