@@ -17,8 +17,6 @@
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = ["nix-command" "flakes"];
-  environment.variables.EDITOR = "vim";
-  environment.variables.VISUAL = "vim";
 
   networking.hostName = "odin";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -109,253 +107,261 @@
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "david";
 
-  # enable appimage support
-  programs.appimage.enable = true;
-  programs.appimage.binfmt = true;
-
-  # Install GUI apps
-  programs.firefox = {
-    enable = true;
-    # Add a simple Enterprise policy: trust whatever the OS trusts
-    policies.Certificates.ImportEnterpriseRoots = true;
-  };
-  programs.thunderbird.enable = true;
-  programs.starship = {
-    enable = true;
-
-    settings = {
-      "$schema" = "https://starship.rs/config-schema.json";
-
-      format = "$git_branch$git_commit$git_state$git_metrics$git_status$directory$python$status$character";
-
-      add_newline = false;
-      command_timeout = 500;
-      palette = "powerline_status";
-
-      palettes.powerline_status = {
-        term_bg = "#1e1e1e";
-        dark_bg = "#303030";
-        light_bg = "#585858";
-        pyth = "#26b446";
-        stat = "#d75f00";
-
-        orange = "#ffaf00";
-        darkblue = "#005faf";
-        brightestorange = "#ffaf00";
-        mediumorange = "#ff8700";
-      };
-
-      git_branch = {
-        style = "bg:dark_bg";
-        format = "[$symbol $branch]($style)";
-        symbol = "";
-        truncation_length = 12;
-        truncation_symbol = "…";
-        only_attached = true;
-      };
-
-      git_commit = {
-        style = "purple bg:dark_bg";
-        format = "[ $tag$hash]($style)";
-        tag_symbol = "🔖 ";
-        tag_disabled = false;
-        only_detached = true;
-      };
-
-      git_state = {
-        style = "bg:dark_bg";
-        format = "\\([$state( $progress_current/$progress_total)]($style)\\) ";
-      };
-
-      git_status = {
-        style = "bg:dark_bg";
-        format = "[ $conflicted$stashed$deleted$renamed$modified$typechanged$staged$untracked$ahead_behind$ahead_count$behind_count ]($style)";
-        up_to_date = "";
-        behind = "[↓ \${count}](fg:white bg:prev_bg) ";
-        ahead = "[↑ \${count}](fg:white bg:prev_bg) ";
-        staged = "[● \${count}](fg:green bg:prev_bg) ";
-        deleted = "[✖ \${count}](fg:red bg:prev_bg) ";
-        renamed = "[➜ \${count}](fg:purple bg:prev_bg) ";
-        stashed = "[⚑ \${count}](fg:darkblue bg:prev_bg) ";
-        untracked = "[… \${count}](fg:brightestorange bg:prev_bg ) ";
-        modified = "[✚ \${count}](fg:mediumorange bg:prev_bg) ";
-        conflicted = "[═ \${count}](fg:yellow bg:prev_bg) ";
-        diverged = "⇕ \${ahead_count}⇣\${behind_count}";
-      };
-
-      directory = {
-        style = "bg:light_bg";
-        format = "[](fg:prev_bg fg:light_bg bg:light_bg)[ $path ]($style)";
-        truncation_length = 3;
-        truncation_symbol = "…  ";
-        truncate_to_repo = false;
-        read_only = " 󰌾";
-        use_os_path_sep = true;
-        substitutions = {
-          "Documents" = "󰈙 ";
-          "Downloads" = " ";
-          "Music" = " ";
-          "Pictures" = " ";
-        };
-      };
-
-      python = {
-        symbol = "";
-        style = "bg:pyth";
-        format = "[](fg:prev_bg bg:pyth)[ $symbol $version ]($style)";
-      };
-
-      status = {
-        style = "bg:stat";
-        format = "[](fg:prev_bg bg:stat)[$int]($style)";
-        disabled = false;
-      };
-
-      character = {
-        success_symbol = "[](fg:prev_bg)";
-        error_symbol = "[](fg:stat)";
-      };
-
-      time = {
-        disabled = false;
-        time_format = "%R";
-        style = "bg:term_bg";
-        format = "[$time]($style) ";
-      };
-
-      os = {
-        style = "bg:#9A348E";
-        disabled = true;
-      };
-
-      package = {
-        disabled = true;
-        symbol = "󰏗 ";
-      };
-
-      battery = {
-        full_symbol = ":battery:";
-        charging_symbol = ":zap: ";
-        discharging_symbol = ":skull: ";
-        empty_symbol = ":low_battery: ";
-      };
-
-      # Language modules (shared style and format)
-      c = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      elixir = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      elm = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      golang = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      gradle = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      haskell = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      java = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      julia = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      nodejs = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      nim = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      rust = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-      scala = {
-        style = "bg:#86BBD8";
-        format = "[ $symbol ($version) ]($style)";
-      };
-
-      gradle.symbol = " ";
-      c.symbol = " ";
-      elixir.symbol = " ";
-      elm.symbol = " ";
-      golang.symbol = " ";
-      haskell.symbol = " ";
-      java.symbol = " ";
-      julia.symbol = " ";
-      nodejs.symbol = "";
-      nim.symbol = "󰆥 ";
-      rust.symbol = "";
-      scala.symbol = " ";
-
-      docker_context = {
-        symbol = " ";
-        style = "bg:#06969A";
-        format = "[ $symbol $context ]($style)";
-      };
-
-      # Symbols
-      aws.symbol = "  ";
-      buf.symbol = " ";
-      cmake.symbol = " ";
-      conda.symbol = " ";
-      crystal.symbol = " ";
-      dart.symbol = " ";
-      fennel.symbol = " ";
-      fossil_branch.symbol = " ";
-      guix_shell.symbol = " ";
-      haxe.symbol = " ";
-      hg_branch.symbol = " ";
-      hostname.ssh_symbol = " ";
-      kotlin.symbol = " ";
-      lua.symbol = " ";
-      memory_usage.symbol = "󰍛 ";
-      meson.symbol = "󰔷 ";
-      nix_shell.symbol = " ";
-      ocaml.symbol = " ";
-      perl.symbol = " ";
-      php.symbol = " ";
-      pijul_channel.symbol = " ";
-      rlang.symbol = "󰟔 ";
-      ruby.symbol = " ";
-      swift.symbol = " ";
-      zig.symbol = " ";
-
-      os.symbols = {
-        NixOS = " ";
-        Macos = " ";
-        Ubuntu = " ";
-        Debian = " ";
-        Fedora = " ";
-        Arch = " ";
-        Windows = "󰍲 ";
-        # ... add the rest as needed
+  programs = {
+    # enable appimage support, for Whatpulse and other AppImages
+    appimage = {
+      enable = true;
+      binfmt = true;
+    };
+    bash = {
+      shellAliases = {
+        vi = "nvim";
+        vim = "nvim";
       };
     };
+    firefox = {
+      enable = true;
+      # Add a simple Enterprise policy: trust whatever the OS trusts
+      policies.Certificates.ImportEnterpriseRoots = true;
+    };
+    starship = {
+      enable = true;
+
+      settings = {
+        "$schema" = "https://starship.rs/config-schema.json";
+
+        format = "$git_branch$git_commit$git_state$git_metrics$git_status$directory$python$status$character";
+
+        add_newline = false;
+        command_timeout = 500;
+        palette = "powerline_status";
+
+        palettes.powerline_status = {
+          term_bg = "#1e1e1e";
+          dark_bg = "#303030";
+          light_bg = "#585858";
+          pyth = "#26b446";
+          stat = "#d75f00";
+
+          orange = "#ffaf00";
+          darkblue = "#005faf";
+          brightestorange = "#ffaf00";
+          mediumorange = "#ff8700";
+        };
+
+        git_branch = {
+          style = "bg:dark_bg";
+          format = "[$symbol $branch]($style)";
+          symbol = "";
+          truncation_length = 12;
+          truncation_symbol = "…";
+          only_attached = true;
+        };
+
+        git_commit = {
+          style = "purple bg:dark_bg";
+          format = "[ $tag$hash]($style)";
+          tag_symbol = "🔖 ";
+          tag_disabled = false;
+          only_detached = true;
+        };
+
+        git_state = {
+          style = "bg:dark_bg";
+          format = "\\([$state( $progress_current/$progress_total)]($style)\\) ";
+        };
+
+        git_status = {
+          style = "bg:dark_bg";
+          format = "[ $conflicted$stashed$deleted$renamed$modified$typechanged$staged$untracked$ahead_behind$ahead_count$behind_count ]($style)";
+          up_to_date = "";
+          behind = "[↓ \${count}](fg:white bg:prev_bg) ";
+          ahead = "[↑ \${count}](fg:white bg:prev_bg) ";
+          staged = "[● \${count}](fg:green bg:prev_bg) ";
+          deleted = "[✖ \${count}](fg:red bg:prev_bg) ";
+          renamed = "[➜ \${count}](fg:purple bg:prev_bg) ";
+          stashed = "[⚑ \${count}](fg:darkblue bg:prev_bg) ";
+          untracked = "[… \${count}](fg:brightestorange bg:prev_bg ) ";
+          modified = "[✚ \${count}](fg:mediumorange bg:prev_bg) ";
+          conflicted = "[═ \${count}](fg:yellow bg:prev_bg) ";
+          diverged = "⇕ \${ahead_count}⇣\${behind_count}";
+        };
+
+        directory = {
+          style = "bg:light_bg";
+          format = "[](fg:prev_bg fg:light_bg bg:light_bg)[ $path ]($style)";
+          truncation_length = 3;
+          truncation_symbol = "…  ";
+          truncate_to_repo = false;
+          read_only = " 󰌾";
+          use_os_path_sep = true;
+          substitutions = {
+            "Documents" = "󰈙 ";
+            "Downloads" = " ";
+            "Music" = " ";
+            "Pictures" = " ";
+          };
+        };
+
+        python = {
+          symbol = "";
+          style = "bg:pyth";
+          format = "[](fg:prev_bg bg:pyth)[ $symbol $version ]($style)";
+        };
+
+        status = {
+          style = "bg:stat";
+          format = "[](fg:prev_bg bg:stat)[$int]($style)";
+          disabled = false;
+        };
+
+        character = {
+          success_symbol = "[](fg:prev_bg)";
+          error_symbol = "[](fg:stat)";
+        };
+
+        time = {
+          disabled = false;
+          time_format = "%R";
+          style = "bg:term_bg";
+          format = "[$time]($style) ";
+        };
+
+        os = {
+          style = "bg:#9A348E";
+          disabled = true;
+        };
+
+        package = {
+          disabled = true;
+          symbol = "󰏗 ";
+        };
+
+        battery = {
+          full_symbol = ":battery:";
+          charging_symbol = ":zap: ";
+          discharging_symbol = ":skull: ";
+          empty_symbol = ":low_battery: ";
+        };
+
+        # Language modules (shared style and format)
+        c = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        elixir = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        elm = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        golang = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        gradle = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        haskell = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        java = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        julia = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        nodejs = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        nim = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        rust = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+        scala = {
+          style = "bg:#86BBD8";
+          format = "[ $symbol ($version) ]($style)";
+        };
+
+        gradle.symbol = " ";
+        c.symbol = " ";
+        elixir.symbol = " ";
+        elm.symbol = " ";
+        golang.symbol = " ";
+        haskell.symbol = " ";
+        java.symbol = " ";
+        julia.symbol = " ";
+        nodejs.symbol = "";
+        nim.symbol = "󰆥 ";
+        rust.symbol = "";
+        scala.symbol = " ";
+
+        docker_context = {
+          symbol = " ";
+          style = "bg:#06969A";
+          format = "[ $symbol $context ]($style)";
+        };
+
+        # Symbols
+        aws.symbol = "  ";
+        buf.symbol = " ";
+        cmake.symbol = " ";
+        conda.symbol = " ";
+        crystal.symbol = " ";
+        dart.symbol = " ";
+        fennel.symbol = " ";
+        fossil_branch.symbol = " ";
+        guix_shell.symbol = " ";
+        haxe.symbol = " ";
+        hg_branch.symbol = " ";
+        hostname.ssh_symbol = " ";
+        kotlin.symbol = " ";
+        lua.symbol = " ";
+        memory_usage.symbol = "󰍛 ";
+        meson.symbol = "󰔷 ";
+        nix_shell.symbol = " ";
+        ocaml.symbol = " ";
+        perl.symbol = " ";
+        php.symbol = " ";
+        pijul_channel.symbol = " ";
+        rlang.symbol = "󰟔 ";
+        ruby.symbol = " ";
+        swift.symbol = " ";
+        zig.symbol = " ";
+
+        os.symbols = {
+          NixOS = " ";
+          Macos = " ";
+          Ubuntu = " ";
+          Debian = " ";
+          Fedora = " ";
+          Arch = " ";
+          Windows = "󰍲 ";
+        };
+      };
+    };
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+      localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    };
+    thunderbird.enable = true;
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  programs.bash.shellAliases = {
-    vi = "nvim";
-    vim = "nvim";
-  };
 
   # # Enable common container config files in /etc/containers
   # virtualisation.containers.enable = true;
@@ -398,109 +404,108 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    ## Terminal apps
-    (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
-    # dive # Docker image explorer
-    # gemini-cli
-    # podman
-    # podman-compose
-    # podman-desktop
-    # podman-tui
-    alejandra # nix formatter
-    atuin # shell history manager
-    bat
-    curl
-    eza
-    fd # sometimes also fdfind or fd-find
-    ffmpeg
-    gcc
-    gh # GitHub CLI
-    git
-    helix # Text editor (hx)
-    helm
-    image_optim # Image optimization tool
-    inxi # system information tool
-    jpegoptim # JPEG image optimizer
-    jq # JSON processor
-    k3d # k3s in docker
-    k3s # kubes
-    k9s # Kubernetes CLI tool
-    kakoune # Text editor
-    kdash # Kubernetes dashboard
-    killall # kill processes by name
-    kubectl
-    lazygit
-    lf # Terminal file manager
-    libpcap # for Whatpulse
-    mlocate # locate command
-    ncdu
-    nixd # nix LSP
-    nnn # Terminal file manager
-    ntfs3g # NTFS driver for work.
-    optipng # PNG image optimizer
-    oxipng # PNG image optimizer
-    p7zip # 7zip command line tool
-    parallel
-    pv # Pipe viewer, useful for monitoring data through a pipe
-    qalculate-qt
-    ripgrep # Search tool (rg)
-    rsync
-    ruff
-    speedcrunch
-    sqlfluff # SQL linter and formatter
-    starship # Shell prompt
-    stow # GNU Stow for managing dotfiles
-    tmux
-    ty # Astral type checker
-    unzip
-    uv # Astral project manager
-    wget
-    wl-clipboard # Clipboard management for Wayland
-    xq-xml # XML processor
-    xz # Compression tool
-    yq-go # YAML processor
-    yt-dlp
-    zopfli # For zopflipng; optimize PNG files
+  environment = {
+    variables = {
+      EDITOR = "vim";
+      VISUAL = "vim";
+    };
+    systemPackages = with pkgs; [
+      ## Terminal apps
+      (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
+      # dive # Docker image explorer
+      # gemini-cli
+      # podman
+      # podman-compose
+      # podman-desktop
+      # podman-tui
+      alejandra # nix formatter
+      atuin # shell history manager
+      bat
+      curl
+      eza
+      fd # sometimes also fdfind or fd-find
+      ffmpeg
+      gcc
+      gh # GitHub CLI
+      git
+      helix # Text editor (hx)
+      helm
+      image_optim # Image optimization tool
+      inxi # system information tool
+      jpegoptim # JPEG image optimizer
+      jq # JSON processor
+      k3d # k3s in docker
+      k3s # kubes
+      k9s # Kubernetes CLI tool
+      kakoune # Text editor
+      kdash # Kubernetes dashboard
+      killall # kill processes by name
+      kubectl
+      lazygit
+      lf # Terminal file manager
+      libpcap # for Whatpulse
+      mlocate # locate command
+      ncdu
+      nixd # nix LSP
+      nnn # Terminal file manager
+      ntfs3g # NTFS driver for work.
+      optipng # PNG image optimizer
+      oxipng # PNG image optimizer
+      p7zip # 7zip command line tool
+      parallel
+      pv # Pipe viewer, useful for monitoring data through a pipe
+      qalculate-qt
+      ripgrep # Search tool (rg)
+      rsync
+      ruff
+      speedcrunch
+      sqlfluff # SQL linter and formatter
+      starship # Shell prompt
+      stow # GNU Stow for managing dotfiles
+      tmux
+      ty # Astral type checker
+      unzip
+      uv # Astral project manager
+      wget
+      wl-clipboard # Clipboard management for Wayland
+      xq-xml # XML processor
+      xz # Compression tool
+      yq-go # YAML processor
+      yt-dlp
+      zopfli # For zopflipng; optimize PNG files
 
-    ## GUI apps
-    chromium
-    fooyin # Music player
-    fsearch
-    gimp3
-    gparted
-    itch
-    keepassxc
-    legcord # Discord client
-    mission-center # Task Manager
-    mpv
-    remmina # Remote Desktop Protocol client
-    signal-desktop
-    slack
-    synology-drive-client
-    vscode
-    wezterm
-    wireguard-tools
-    wireguard-ui
+      ## GUI apps
+      chromium
+      fooyin # Music player
+      fsearch
+      gimp3
+      gparted
+      itch
+      keepassxc
+      legcord # Discord client
+      mission-center # Task Manager
+      mpv
+      remmina # Remote Desktop Protocol client
+      signal-desktop
+      slack
+      synology-drive-client
+      vscode
+      wezterm
+      wireguard-tools
+      wireguard-ui
 
-    # # Next ten lines courtest of Jennifer Darlene on 22 Jan 2024 to get basic Hyprland working
-    # waybar # status bar
-    # mako # notification daemon
-    # libnotify # for mako
-    # swww # wallpaper daemon
-    # kitty # terminal
-    # rofi-wayland # wl equiv of rofi app launcher, window switcher ...
-    # networkmanagerapplet # tray applet for network manager -- nm-applet
-    # grim # screenshot utility
-    # grimblast # grim helper
-    # udiskie # automount removable media
-  ];
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+      # # Next ten lines courtest of Jennifer Darlene on 22 Jan 2024 to get basic Hyprland working
+      # waybar # status bar
+      # mako # notification daemon
+      # libnotify # for mako
+      # swww # wallpaper daemon
+      # kitty # terminal
+      # rofi-wayland # wl equiv of rofi app launcher, window switcher ...
+      # networkmanagerapplet # tray applet for network manager -- nm-applet
+      # grim # screenshot utility
+      # grimblast # grim helper
+      # udiskie # automount removable media
+    ];
   };
 
   fonts.packages = with pkgs; [
