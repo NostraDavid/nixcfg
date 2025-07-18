@@ -442,6 +442,7 @@
     oxipng # PNG image optimizer
     p7zip # 7zip command line tool
     parallel
+    pv # Pipe viewer, useful for monitoring data through a pipe
     qalculate-qt
     ripgrep # Search tool (rg)
     rsync
