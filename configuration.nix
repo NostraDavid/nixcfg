@@ -192,6 +192,7 @@
     git
     helix # Text editor (hx)
     helm
+    image_optim # Image optimization tool
     inxi # system information tool
     jpegoptim # JPEG image optimizer
     jq # JSON processor
@@ -211,6 +212,7 @@
     nnn # Terminal file manager
     ntfs3g    # NTFS driver for work.
     optipng # PNG image optimizer
+    oxipng # PNG image optimizer
     p7zip # 7zip command line tool
     parallel
     qalculate-qt
@@ -231,6 +233,7 @@
     xz # Compression tool
     yq-go # YAML processor
     yt-dlp
+    zopfli # For zopflipng; optimize PNG files
 
     ## GUI apps
     chromium
