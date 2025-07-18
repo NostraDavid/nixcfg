@@ -6,6 +6,10 @@ sudo nixos-rebuild switch
 # == update local nixos configuration ==
 time sudo nixos-rebuild switch -I nixos-config=configuration.nix
 
+# == update the nixos channel ==
+# This is useful if you want to update the channel before rebuilding.
+time nix-channel --update
+
 # == test the configuration change, until reboot ==
 nixos-rebuild test
 
