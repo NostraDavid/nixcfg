@@ -3,6 +3,9 @@
 # == update local nixos configuration ==
 time sudo nixos-rebuild switch -I nixos-config=configuration.nix
 
+# == update local nixos configuration with flake ==
+time sudo nixos-rebuild switch --flake .#nixos --impure
+
 # == build the new configuration - /etc/nixos/configuration.nix ==
 sudo nixos-rebuild switch
 
