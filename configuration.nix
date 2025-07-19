@@ -53,6 +53,13 @@
     #   allowedUDPPorts = [ ... ];
     # };
   };
+
+  location = {
+    provider = "manual";
+    latitude = 52.10096542330675;
+    longitude = 5.6463355681420895;
+  };
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
@@ -92,6 +99,8 @@
       LC_TELEPHONE = "nl_NL.UTF-8";
       # Date and time format (YYYY-MM-DD)
       LC_TIME = "en_DK.UTF-8";
+
+      LANGUAGE = "en_US.UTF-8";
     };
   };
 
@@ -523,7 +532,7 @@
       dnsutils # `dig` + `nslookup`
       eza
       fd # sometimes also fdfind or fd-find
-      ffmpeg
+      ffmpeg-full
       freetype
       gcc
       gh # GitHub CLI
