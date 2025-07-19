@@ -143,6 +143,15 @@
       #media-session.enable = true;
     };
 
+    # Enable the OpenSSH daemon.
+    openssh.enable = true;
+    # Load nvidia driver for Xorg and Wayland
+    xserver.videoDrivers = ["nvidia"];
+
+    udisks2.enable = true; # daemon that owns the mount
+    gvfs.enable = true; # for GNOME, Thunar, etc.
+    devmon.enable = true; # optional: instant automount helpers
+
     k3s = {
       enable = true;
       manifests.nginx.content = {
@@ -159,14 +168,21 @@
       };
     };
 
-    # Enable the OpenSSH daemon.
-    openssh.enable = true;
-    # Load nvidia driver for Xorg and Wayland
-    xserver.videoDrivers = ["nvidia"];
+    # https://github.com/ryan4yin/nix-config/blob/90f36202a916b3e6f893edf8a5a89862d83983bc/modules/nixos/base/monitoring.nix
+    prometheus.exporters.node = {
+      enable = false;
+      listenAddress = "0.0.0.0";
+      port = 9100;
+      # There're already a lot of collectors enabled by default
+      # https://github.com/prometheus/node_exporter?tab=readme-ov-file#enabled-by-default
+      enabledCollectors = [
+        "systemd"
+        "logind"
+      ];
 
-    udisks2.enable = true; # daemon that owns the mount
-    gvfs.enable = true; # for GNOME, Thunar, etc.
-    devmon.enable = true; # optional: instant automount helpers
+      # use either enabledCollectors or disabledCollectors
+      # disabledCollectors = [];
+    };
   };
 
   # Enable sound with pipewire.
@@ -501,20 +517,28 @@
       alejandra # nix formatter
       atuin # shell history manager
       bat
+      btop # Resource monitor
       curl
       direnv # Environment variable manager for dev
+      dnsutils # `dig` + `nslookup`
       eza
       fd # sometimes also fdfind or fd-find
       ffmpeg
+      freetype
       gcc
       gh # GitHub CLI
       git
+      git-lfs # Git Large File Storage
       helix # Text editor (hx)
       helm
+      home-manager # Home Manager for managing user configurations
+      hyperfine # Command-line benchmarking tool
       image_optim # Image optimization tool
       inxi # system information tool
+      ipcalc # it is a calculator for the IPv4/v6 addresses
       jpegoptim # JPEG image optimizer
       jq # JSON processor
+      just # justcfile
       k3d # k3s in docker
       k3s # kubes
       k9s # Kubernetes CLI tool
@@ -525,7 +549,9 @@
       lazygit
       lf # Terminal file manager
       libpcap # for Whatpulse
+      lsof # List open files
       mlocate # locate command
+      mtr # A network diagnostic tool
       ncdu
       nixd # nix LSP
       nnn # Terminal file manager
@@ -544,6 +570,7 @@
       starship # Shell prompt
       stow # GNU Stow for managing dotfiles
       tmux
+      tree # Display directory structure in a tree-like format
       ty # Astral type checker
       unzip
       uv # Astral project manager
@@ -556,8 +583,6 @@
       yq-go # YAML processor
       yt-dlp
       zopfli # For zopflipng; optimize PNG files
-      freetype
-      home-manager # Home Manager for managing user configurations
 
       ## GUI apps
       chromium
