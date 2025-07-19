@@ -6,6 +6,9 @@ time sudo nixos-rebuild switch -I nixos-config=configuration.nix
 # == update local nixos configuration with flake ==
 time sudo nixos-rebuild switch --flake .#nixos --impure
 
+# == update the flake lock file ==
+sudo nix flake update
+
 # == build the new configuration - /etc/nixos/configuration.nix ==
 sudo nixos-rebuild switch
 
