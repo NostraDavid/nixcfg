@@ -33,8 +33,11 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
+    LC_ALL = "en_US.UTF-8";
+    LC_CTYPE = "en_US.UTF8";
+    LC_MESSAGES = "en_US.UTF-8";
+    LC_COLLATE = "nl_NL.UTF-8";
     LC_ADDRESS = "nl_NL.UTF-8";
     LC_IDENTIFICATION = "nl_NL.UTF-8";
     LC_MEASUREMENT = "nl_NL.UTF-8";
