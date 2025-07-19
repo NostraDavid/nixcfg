@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 
-# == build the new configuration - /etc/nixos/configuration.nix ==
-sudo nixos-rebuild switch
-
 # == update local nixos configuration ==
 time sudo nixos-rebuild switch -I nixos-config=configuration.nix
 
+# == build the new configuration - /etc/nixos/configuration.nix ==
+sudo nixos-rebuild switch
+
 # == update the nixos channel ==
 # This is useful if you want to update the channel before rebuilding.
-time nix-channel --update
+nix-channel --update
 
 # == test the configuration change, until reboot ==
-nixos-rebuild test
+sudo nixos-rebuild test
+
+# == boot into the new configuration on next reboot (great for big changes) ==
+sudo nixos-rebuild boot
 
 # == repl ==
-nixos-rebuild repl
+sudo nixos-rebuild repl
 
 # == build a vm ==
 nixos-rebuild build-vm
