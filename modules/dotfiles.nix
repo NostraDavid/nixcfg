@@ -35,6 +35,8 @@
     };
     ".viminfo".source = ../dotfiles/vim-9.0/.viminfo;
     ".vimrc".source = ../dotfiles/vim-9.0/.vimrc;
+    "dev/find-uncommitted.sh".source = ../dotfiles/dev/find-uncommitted.sh;
+    "dev/grab.sh".source = ../dotfiles/dev/grab.sh;
   };
 
   home.sessionVariables = {};
