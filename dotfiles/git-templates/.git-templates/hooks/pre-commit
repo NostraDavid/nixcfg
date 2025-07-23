@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# run `git config --global init.templatedir '~/.git-templates'` to make it working, I think?
+
+# if you want to prevent committing directly to master
+if [ "$branch" = "master" ]; then
+    echo "You can't commit directly to master branch"
+    exit 1
+fi

@@ -1,1 +1,15 @@
-elder-futhark.md
+/*
+
+# files
+!.gitignore
+!flake.lock
+!flake.nix
+!README.md
+
+# folders (ordered by when added)
+!docs/
+!dotfiles/
+!hosts/
+!users/
+!home/
+!modules/

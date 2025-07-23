@@ -1,0 +1,56 @@
+[user]
+	email = 55331731+NostraDavid@users.noreply.github.com
+	name = NostraDavid
+[push]
+	default = simple
+	autoSetupRemote = true
+[pull]
+	# run this, if you want to skip rebase: `git pull origin master --no-rebase`
+	rebase = true
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[alias]
+	lg = log --color --graph --abbrev-commit --pretty=format:'%Cred%h %C(bold blue)%an%Creset %Cgreen%ad -%C(yellow)%d%Creset %s' --date=format:'%Y-%m-%d %H:%M'
+	st = status
+	co = "!f() { git checkout $(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf --query=\"$1\" --select-1); }; f"
+	br = branch
+	ci = commit -v
+	cam = commit -am
+	df = diff
+	sa = stash
+	mt = mergetool
+	cp = cherry-pick
+	pl = pull --rebase
+	yeet = "!f() { git add -A && git commit -m \"$@\" && git push; }; f"
+[init]
+	templatedir = ~/.git-templates
+	defaultBranch = master
+[pager]
+	branch = false
+    #diff = delta
+	#show = delta
+	#log = delta
+[core]
+	# autocrlf = true
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    #pager = delta
+#[interactive]
+    #diffFilter = delta --color-only
+[delta]
+	navigate = true    # use n and N to move between diff sections
+	light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+	line-numbers = true
+	side-by-side = true
+[merge]
+	conflictstyle = diff3
+	ff = true
+	tool = vimdiff
+[diff]
+	colorMoved = default
+	tool = vimdiff
+# "reuse recorded resolution" should help me with an improved rebase
+[rerere]
+	enabled = true
