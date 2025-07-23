@@ -54,9 +54,9 @@ function ff() {
 function code_f() {
     local dir
     if [ -n "$1" ]; then
-        dir=$(fdfind . ~/dev --no-ignore-vcs --max-depth 2 --type d | fzf --query="$1" -1)
+        dir=$(fd . ~/dev --no-ignore-vcs --max-depth 2 --type d | fzf --query="$1" -1)
     else
-        dir=$(fdfind . ~/dev --no-ignore-vcs --max-depth 2 --type d | fzf --prompt="Select directory: ")
+        dir=$(fd . ~/dev --no-ignore-vcs --max-depth 2 --type d | fzf --prompt="Select directory: ")
     fi
 
     # Check if a directory was selected
