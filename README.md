@@ -1,6 +1,7 @@
 ---
 changelog:
   - 2025-06-27 initial file
+  - 2025-07-23 stabilized on nix flakes
 ---
 # Nix
 
