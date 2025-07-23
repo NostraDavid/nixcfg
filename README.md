@@ -1,7 +1,7 @@
 ---
 changelog:
-  - 2025-06-27 initial file
-  - 2025-07-23 stabilized on nix flakes
+  2025-06-27: "initial file"
+  2025-07-23: "stabilized on nix flakes"
 ---
 # NostraDavid's nixconfig & dotfiles
 
