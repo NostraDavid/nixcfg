@@ -3,6 +3,7 @@
   main-user,
   ...
 }: {
+  home-manager.backupFileExtension = "hm.bak";
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.${main-user} = {

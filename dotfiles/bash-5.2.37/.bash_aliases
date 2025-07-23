@@ -53,10 +53,10 @@ function ff() {
 # requires: fzf, fd, code
 function code_f() {
     local dir
-    if [ -n "$1" ]; then
-        dir=$(fd . ~/dev --no-ignore-vcs --max-depth 2 --type d | fzf --query="$1" -1)
+    if [ -n "$*" ]; then
+        dir=$(fd . "$HOME/dev" --no-ignore-vcs --max-depth 2 --type d | fzf --query="$*" -1)
     else
-        dir=$(fd . ~/dev --no-ignore-vcs --max-depth 2 --type d | fzf --prompt="Select directory: ")
+        dir=$(fd . $HOME/dev --no-ignore-vcs --max-depth 2 --type d | fzf --prompt="Select directory: ")
     fi
 
     # Check if a directory was selected

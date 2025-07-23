@@ -26,6 +26,7 @@
     dnsutils # `dig` + `nslookup`
     eza
     fd # sometimes also fdfind or fd-find
+    fzf # Fuzzy finder
     ffmpeg-full
     freetype
     gcc
