@@ -224,6 +224,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
+    localBinInPath = true; # Python support
     systemPackages = with pkgs; [
       (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
       btop
