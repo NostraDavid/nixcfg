@@ -1,5 +1,9 @@
 # Home-manager configuration specific to the 'wodan' host.
-{pkgs, inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   # # Add the git version override
   # nixpkgs.overlays = [
   #   (final: prev: {
@@ -61,7 +65,6 @@
     ntfs3g # NTFS driver for work.
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
-    p7zip # 7zip command line tool
     parallel
     powerline # The best Bash Prompt!
     pv # Pipe viewer, useful for monitoring data through a pipe
@@ -82,9 +85,18 @@
     wineWowPackages.stable # support both 32-bit and 64-bit applications
     wl-clipboard # Clipboard management for Wayland
     xq-xml # XML processor
-    xz # Compression tool
     yq-go # YAML processor
     yt-dlp
+
+    # compression tools
+    brotli
+    bzip2
+    gzip
+    p7zip # 7zip command line tool
+    pigz # Parallel implementation of gzip
+    rar
+    xz
+    zip
     zopfli # For zopflipng; optimize PNG files
 
     ## GUI apps
