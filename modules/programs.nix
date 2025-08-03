@@ -59,7 +59,8 @@
     lsof # List open files
     mlocate # locate command
     mtr # A network diagnostic tool
-    ncdu
+    ncdu # Disk usage analyzer with ncurses interface
+    gdu # Disk usage analyzer with Go
     nixd # nix LSP
     nnn # Terminal file manager
     ntfs3g # NTFS driver for work.
