@@ -49,6 +49,9 @@
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
+  # improve battery life
+  powerManagement.powertop.enable = true;
+
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services = {
@@ -70,6 +73,19 @@
     # Enable the KDE Plasma Desktop Environment.
     displayManager.sddm.enable = true;
     desktopManager.plasma6.enable = true;
+
+    # improve battery life
+    power-profiles-daemon.enable = false;
+    tlp = {
+      enable = true;
+      settings = {
+        CPU_BOOST_ON_AC = 1;
+        CPU_BOOST_ON_BAT = 0;
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+        STOP_CHARGE_THRESH_BAT0 = 95;
+      };
+    };
 
     # Enable CUPS to print documents.
     printing.enable = false;
