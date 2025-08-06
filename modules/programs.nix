@@ -101,6 +101,7 @@
     zopfli # For zopflipng; optimize PNG files
 
     ## GUI apps
+    anki
     chromium
     fooyin # Music player
     fsearch
