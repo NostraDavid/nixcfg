@@ -11,7 +11,7 @@ alias gitundo="git reset --soft HEAD~1"
 alias grep='grep --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
-alias ll='ls -alF'
+alias ll='ls -alhF'
 alias ls='ls --color=auto'
 alias ncdu='ncdu --color=dark'
 alias sudo='sudo '
