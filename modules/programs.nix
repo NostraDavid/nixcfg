@@ -110,6 +110,7 @@
     itch
     keepassxc
     legcord # Discord client
+    libreoffice-qt6
     loupe # Simple image viewer
     mission-center # Task Manager
     mpv
