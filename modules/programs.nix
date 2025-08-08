@@ -113,6 +113,8 @@
     keepassxc # Password manager
     legcord # Discord client
     kdePackages.kmail # Email client
+    kdePackages.kmail-account-wizard # KMail account wizard
+    kdePackages.akonadi-import-wizard # KMail import wizard
     libreoffice-qt6 # Office suite
     loupe # Simple image viewer
     mission-center # Task Manager
