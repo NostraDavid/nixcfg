@@ -30,10 +30,11 @@
     dnsutils # `dig` + `nslookup`
     eza
     fd # sometimes also fdfind or fd-find
-    fzf # Fuzzy finder
     ffmpeg-full
     freetype
+    fzf # Fuzzy finder
     gcc
+    gdu # Disk usage analyzer with Go
     gh # GitHub CLI
     git # This will now use your pinned version (2.45.0)
     git-lfs # Git Large File Storage
@@ -61,9 +62,10 @@
     mtr # A network diagnostic tool
     mutt # Terminal-based email client
     ncdu # Disk usage analyzer with ncurses interface
-    gdu # Disk usage analyzer with Go
+    newsboat # RSS reader
     nixd # nix LSP
     nnn # Terminal file manager
+    nom # RSS reader
     ntfs3g # NTFS driver for work.
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
@@ -103,23 +105,29 @@
 
     ## GUI apps
     anki # Flashcard app
-    evolution # Email client
     chromium # Web browser
+    evolution # Email client
+    fluent-reader # RSS reader
     fooyin # Music player
     fsearch # Everything replacement
     gimp3 # Image editor
     gparted # Partition editor
     itch # Game launcher
-    keepassxc # Password manager
-    legcord # Discord client
+    kdePackages.akonadi-import-wizard # KMail import wizard
+    kdePackages.akregator # RSS reader
     kdePackages.kmail # Email client
     kdePackages.kmail-account-wizard # KMail account wizard
-    kdePackages.akonadi-import-wizard # KMail import wizard
+    keepassxc # Password manager
+    legcord # Discord client
     libreoffice-qt6 # Office suite
+    liferea # RSS reader
     loupe # Simple image viewer
     mission-center # Task Manager
     mpv # Media player
+    newsflash # RSS reader
+    raven-reader # RSS reader
     remmina # Remote Desktop Protocol client
+    rssguard # RSS reader
     signal-desktop # Signal messaging app
     slack # Slack messaging app
     speedcrunch # Calculator
