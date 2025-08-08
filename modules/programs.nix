@@ -43,6 +43,7 @@
     home-manager # Home Manager for managing user configurations
     hyperfine # Command-line benchmarking tool
     image_optim # Image optimization tool
+    inotify-tools # Tools to watch for file system events
     inxi # system information tool
     ipcalc # it is a calculator for the IPv4/v6 addresses
     jpegoptim # JPEG image optimizer
