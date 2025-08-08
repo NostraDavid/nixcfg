@@ -59,6 +59,7 @@
     lsof # List open files
     mlocate # locate command
     mtr # A network diagnostic tool
+    mutt # Terminal-based email client
     ncdu # Disk usage analyzer with ncurses interface
     gdu # Disk usage analyzer with Go
     nixd # nix LSP
@@ -101,27 +102,29 @@
     zopfli # For zopflipng; optimize PNG files
 
     ## GUI apps
-    anki
-    chromium
+    anki # Flashcard app
+    evolution # Email client
+    chromium # Web browser
     fooyin # Music player
-    fsearch
-    gimp3
-    gparted
-    itch
-    keepassxc
+    fsearch # Everything replacement
+    gimp3 # Image editor
+    gparted # Partition editor
+    itch # Game launcher
+    keepassxc # Password manager
     legcord # Discord client
-    libreoffice-qt6
+    kdePackages.kmail # Email client
+    libreoffice-qt6 # Office suite
     loupe # Simple image viewer
     mission-center # Task Manager
-    mpv
+    mpv # Media player
     remmina # Remote Desktop Protocol client
-    signal-desktop
-    slack
-    speedcrunch
-    synology-drive-client
-    vscode
-    wezterm
-    wireguard-tools
-    wireguard-ui
+    signal-desktop # Signal messaging app
+    slack # Slack messaging app
+    speedcrunch # Calculator
+    synology-drive-client # Synology Drive client
+    vscode # Visual Studio Code
+    wezterm # Terminal emulator
+    wireguard-tools # WireGuard tools
+    wireguard-ui # WireGuard UI
   ];
 }
