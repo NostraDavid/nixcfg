@@ -85,6 +85,7 @@
     ty # Astral type checker
     unzip
     uv # Astral project manager
+    viddy # Watch alternative with better color support
     wget
     winetricks
     wineWowPackages.stable # support both 32-bit and 64-bit applications
@@ -126,6 +127,7 @@
     mission-center # Task Manager
     mpv # Media player
     newsflash # RSS reader
+    qbittorrent-enhanced # Torrent client
     raven-reader # RSS reader
     remmina # Remote Desktop Protocol client
     rssguard # RSS reader
