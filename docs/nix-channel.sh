@@ -11,5 +11,3 @@ nix-channel --add https://channels.nixos.org/nixos-25.05 nixos
 
 # == upgrade NixOS ==
 nixos-rebuild switch --upgrade
-
-

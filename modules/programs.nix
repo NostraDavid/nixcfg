@@ -115,10 +115,7 @@
     gimp3 # Image editor
     gparted # Partition editor
     itch # Game launcher
-    kdePackages.akonadi-import-wizard # KMail import wizard
     kdePackages.akregator # RSS reader
-    kdePackages.kmail # Email client
-    kdePackages.kmail-account-wizard # KMail account wizard
     keepassxc # Password manager
     legcord # Discord client
     libreoffice-qt6 # Office suite
