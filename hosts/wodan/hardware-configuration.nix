@@ -12,7 +12,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "thunderbolt" "usb_storage" "usbhid" "sd_mod"];
+  boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "thunderbolt" "usbhid"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
@@ -28,6 +28,31 @@
     options = ["fmask=0077" "dmask=0077"];
   };
 
+  fileSystems."/var/lib/kubelet/pods/7086795b-dcbb-46a9-a71d-a685f851fe1f/volumes/kubernetes.io~projected/kube-api-access-hjc64" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+  };
+
+  fileSystems."/var/lib/kubelet/pods/ae6a2a42-9fd1-425d-a4eb-becbab80f9b0/volumes/kubernetes.io~projected/kube-api-access-fgwtf" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+  };
+
+  fileSystems."/var/lib/kubelet/pods/a37eef63-f312-41c6-9497-2b1dbab7c0a4/volumes/kubernetes.io~projected/kube-api-access-8x9sk" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+  };
+
+  fileSystems."/var/lib/kubelet/pods/9b75ace7-6fa9-4e72-aba2-acd46d6bf1f1/volumes/kubernetes.io~projected/kube-api-access-zm9sv" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+  };
+
+  fileSystems."/home/david/data" = {
+    device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21";
+    fsType = "ext4";
+  };
+
   swapDevices = [
     {device = "/dev/disk/by-uuid/f2283536-44b5-40a9-9daa-e8c883b5e395";}
   ];
@@ -37,7 +62,14 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.cni0.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp7s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.flannel.1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth4434e4f2.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth5b9612c8.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth7cc5f426.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth99de93c2.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vetha8346008.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp8s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

@@ -267,6 +267,12 @@
       # grim # screenshot utility
       # grimblast # grim helper
       # udiskie # automount removable media
+
+      # CUDA
+      cudaPackages.cudatoolkit
+      cudaPackages.cudnn
+      cudaPackages.nccl
+      nvtopPackages.full
     ];
   };
 
@@ -311,11 +317,13 @@
       # supported GPUs is at:
       # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
       # Only available from driver 515.43.04+
-      open = true;
+      open = false;
 
       # Enable the Nvidia settings menu,
       # accessible via `nvidia-settings`.
       nvidiaSettings = true;
+
+      nvidiaPersistenced = true; # Enable the nvidia-persistenced daemon to keep the GPU powered on when not in use.
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -339,8 +347,8 @@
 
   systemd.user.services.legcord = {
     enable = true;
-    after = [ "network.target" ];
-    wantedBy = [ "default.target" ];
+    after = ["network.target"];
+    wantedBy = ["default.target"];
     description = "Legcord Discord Client";
     serviceConfig = {
       Type = "simple";

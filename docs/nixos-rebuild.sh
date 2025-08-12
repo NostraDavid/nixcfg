@@ -30,4 +30,4 @@ nixos-rebuild build-vm
 ./result/bin/run-*-vm
 
 # == garbage collect old generations ==
-nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/\w+-system|\{memory|/proc)"
+nix-store --gc --print-roots | grep -vE "^(/nix/var|/run/\w+-system|\{memory|/proc)"
