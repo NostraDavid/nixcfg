@@ -38,6 +38,7 @@
     gh # GitHub CLI
     git # This will now use your pinned version (2.45.0)
     git-lfs # Git Large File Storage
+    glances # htop with temperature information
     helix # Text editor (hx)
     helm
     home-manager # Home Manager for managing user configurations
@@ -114,6 +115,7 @@
     fsearch # Everything replacement
     gimp3 # Image editor
     gparted # Partition editor
+    hardinfo2 # Temperature and system information tool
     itch # Game launcher
     kdePackages.akregator # RSS reader
     keepassxc # Password manager
