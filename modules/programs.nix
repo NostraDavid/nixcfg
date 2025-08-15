@@ -60,6 +60,7 @@
     lf # Terminal file manager
     libpcap # for Whatpulse
     lsof # List open files
+    lynx # Terminal-based web browser
     mlocate # locate command
     mtr # A network diagnostic tool
     mutt # Terminal-based email client
@@ -87,6 +88,7 @@
     unzip
     uv # Astral project manager
     viddy # Watch alternative with better color support
+    w3m # Text-based web browser
     wget
     winetricks
     wineWowPackages.stable # support both 32-bit and 64-bit applications
