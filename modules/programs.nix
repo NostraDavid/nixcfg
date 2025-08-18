@@ -70,6 +70,7 @@
     nnn # Terminal file manager
     nom # RSS reader
     ntfs3g # NTFS driver for work.
+    ollama # Local LLM server
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
     parallel
@@ -82,6 +83,8 @@
     sqlfluff # SQL linter and formatter
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
+    tabby # Self-hosted AI coding assistant
+    tabby-agent # Language server used to communicate with Tabby server
     tmux
     tree # Display directory structure in a tree-like format
     ty # Astral type checker
