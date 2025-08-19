@@ -9,6 +9,10 @@
     ".bash_profile".source = ../dotfiles/bash-5.2.37/.bash_profile;
     ".bashrc".source = ../dotfiles/bash-5.2.37/.bashrc;
     ".config/bat/config".source = ../dotfiles/bat-0.25.0/.config/bat/config;
+    ".config/neovim/" = {
+      source = ../dotfiles/neovim-0.11/.config/neovim;
+      recursive = true;
+    };
     ".config/pip/pip.conf".source = ../dotfiles/pip-22+/.config/pip/pip.conf;
     ".config/powerline" = {
       source = ../dotfiles/powerline-bash/.config/powerline;
