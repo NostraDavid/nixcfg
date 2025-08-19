@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -166,8 +166,37 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Additional VSCode-like settings
+vim.o.termguicolors = true -- Enable 24-bit RGB colors
+vim.o.wrap = false -- Don't wrap lines
+vim.o.sidescrolloff = 8 -- Keep 8 columns visible to the side when scrolling horizontally
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+
+-- VSCode-like keybindings
+vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { desc = 'Save file' })
+vim.keymap.set('i', '<C-s>', '<Esc><cmd>w<CR>a', { desc = 'Save file' })
+vim.keymap.set('n', '<C-a>', 'ggVG', { desc = 'Select all' })
+vim.keymap.set('n', '<C-z>', 'u', { desc = 'Undo' })
+vim.keymap.set('n', '<C-y>', '<C-r>', { desc = 'Redo' })
+
+-- Better window navigation (like VSCode split navigation)
+vim.keymap.set('n', '<C-1>', '1gt', { desc = 'Go to tab 1' })
+vim.keymap.set('n', '<C-2>', '2gt', { desc = 'Go to tab 2' })
+vim.keymap.set('n', '<C-3>', '3gt', { desc = 'Go to tab 3' })
+vim.keymap.set('n', '<C-4>', '4gt', { desc = 'Go to tab 4' })
+vim.keymap.set('n', '<C-5>', '5gt', { desc = 'Go to tab 5' })
+
+-- Move lines up/down (like VSCode Alt+Up/Down)
+vim.keymap.set('n', '<A-j>', '<cmd>m .+1<CR>==', { desc = 'Move line down' })
+vim.keymap.set('n', '<A-k>', '<cmd>m .-2<CR>==', { desc = 'Move line up' })
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
+
+-- Duplicate line (like VSCode Ctrl+Shift+D)
+vim.keymap.set('n', '<C-S-d>', 'yyp', { desc = 'Duplicate line' })
+vim.keymap.set('v', '<C-S-d>', 'y`>pgv', { desc = 'Duplicate selection' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -216,6 +245,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.hl.on_yank()
+  end,
+})
+
+-- Load Python-specific configuration
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'python',
+  group = vim.api.nvim_create_augroup('python-config', { clear = true }),
+  callback = function()
+    require('custom.python')
   end,
 })
 
@@ -673,7 +711,17 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = 'workspace',
+              },
+            },
+          },
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -716,6 +764,11 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'black', -- Python formatter
+        'isort', -- Python import sorter
+        'ruff', -- Python linter and formatter
+        'mypy', -- Python type checker
+        'debugpy', -- Python debugger
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -769,7 +822,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -944,7 +997,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -962,6 +1015,233 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+
+  -- File explorer similar to VSCode's sidebar
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    version = '*',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'MunifTanjim/nui.nvim',
+    },
+    cmd = 'Neotree',
+    keys = {
+      { '<leader>e', ':Neotree toggle<CR>', desc = 'Toggle file [E]xplorer' },
+      { '<leader>o', ':Neotree focus<CR>', desc = 'Focus file explorer' },
+    },
+    opts = {
+      filesystem = {
+        window = {
+          mappings = {
+            ['<leader>e'] = 'close_window',
+          },
+        },
+      },
+    },
+  },
+
+  -- Better terminal integration
+  {
+    'akinsho/toggleterm.nvim',
+    version = '*',
+    keys = {
+      { '<C-\\>', '<cmd>ToggleTerm<CR>', desc = 'Toggle terminal' },
+      { '<leader>tt', '<cmd>ToggleTerm direction=tab<CR>', desc = 'Toggle terminal in new tab' },
+      { '<leader>th', '<cmd>ToggleTerm direction=horizontal<CR>', desc = 'Toggle horizontal terminal' },
+      { '<leader>tv', '<cmd>ToggleTerm direction=vertical size=80<CR>', desc = 'Toggle vertical terminal' },
+    },
+    opts = {
+      size = 20,
+      open_mapping = [[<C-\>]],
+      shading_factor = 2,
+      direction = 'float',
+      float_opts = {
+        border = 'curved',
+        highlights = { border = 'Normal', background = 'Normal' },
+      },
+    },
+  },
+
+  -- Python debugging support
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      'mfussenegger/nvim-dap-python',
+      'rcarriga/nvim-dap-ui',
+      'theHamsta/nvim-dap-virtual-text',
+      'nvim-neotest/nvim-nio',
+    },
+    keys = {
+      { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Toggle [D]ebug [B]reakpoint' },
+      { '<leader>dc', function() require('dap').continue() end, desc = 'Debug: Start/[C]ontinue' },
+      { '<leader>di', function() require('dap').step_into() end, desc = 'Debug: Step [I]nto' },
+      { '<leader>do', function() require('dap').step_over() end, desc = 'Debug: Step [O]ver' },
+      { '<leader>dO', function() require('dap').step_out() end, desc = 'Debug: Step [O]ut' },
+      { '<leader>dr', function() require('dap').repl.toggle() end, desc = 'Debug: Toggle [R]EPL' },
+      { '<leader>dl', function() require('dap').run_last() end, desc = 'Debug: Run [L]ast' },
+      { '<leader>du', function() require('dapui').toggle() end, desc = 'Debug: Toggle [U]I' },
+    },
+    config = function()
+      local dap = require('dap')
+      local dapui = require('dapui')
+
+      -- Setup DAP UI
+      dapui.setup()
+
+      -- Setup virtual text
+      require('nvim-dap-virtual-text').setup()
+
+      -- Setup Python debugging
+      require('dap-python').setup('python')
+
+      -- Automatically open/close UI
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated['dapui_config'] = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited['dapui_config'] = function()
+        dapui.close()
+      end
+    end,
+  },
+
+  -- Testing framework for Python
+  {
+    'nvim-neotest/neotest',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+      'antoinemadec/FixCursorHold.nvim',
+      'nvim-neotest/neotest-python',
+    },
+    keys = {
+      { '<leader>tn', function() require('neotest').run.run() end, desc = '[T]est [N]earest' },
+      { '<leader>tf', function() require('neotest').run.run(vim.fn.expand('%')) end, desc = '[T]est [F]ile' },
+      { '<leader>td', function() require('neotest').run.run({ strategy = 'dap' }) end, desc = '[T]est [D]ebug' },
+      { '<leader>ts', function() require('neotest').summary.toggle() end, desc = '[T]est [S]ummary' },
+      { '<leader>to', function() require('neotest').output.open() end, desc = '[T]est [O]utput' },
+    },
+    config = function()
+      require('neotest').setup({
+        adapters = {
+          require('neotest-python')({
+            dap = { justMyCode = false },
+            args = { '--log-level', 'DEBUG' },
+            runner = 'pytest',
+          }),
+        },
+      })
+    end,
+  },
+
+  -- Better Python indentation
+  { 'Vimjas/vim-python-pep8-indent', ft = 'python' },
+
+  -- Python docstring support
+  {
+    'danymat/neogen',
+    dependencies = 'nvim-treesitter/nvim-treesitter',
+    keys = {
+      { '<leader>nf', function() require('neogen').generate({ type = 'func' }) end, desc = 'Generate function docstring' },
+      { '<leader>nc', function() require('neogen').generate({ type = 'class' }) end, desc = 'Generate class docstring' },
+    },
+    opts = {
+      snippet_engine = 'luasnip',
+      languages = {
+        python = {
+          template = {
+            annotation_convention = 'google_docstrings',
+          },
+        },
+      },
+    },
+  },
+
+  -- Indent guides (like VSCode)
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
+    opts = {
+      indent = {
+        char = '│',
+        tab_char = '│',
+      },
+      scope = { enabled = false },
+      exclude = {
+        filetypes = {
+          'help',
+          'alpha',
+          'dashboard',
+          'neo-tree',
+          'Trouble',
+          'trouble',
+          'lazy',
+          'mason',
+          'notify',
+          'toggleterm',
+          'lazyterm',
+        },
+      },
+    },
+  },
+
+  -- Enhanced commenting (like VSCode Ctrl+/)
+  {
+    'numToStr/Comment.nvim',
+    keys = {
+      { '<C-_>', function() require('Comment.api').toggle.linewise.current() end, desc = 'Toggle comment' },
+      { '<C-_>', "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", mode = 'v', desc = 'Toggle comment' },
+    },
+    opts = {},
+  },
+
+  -- Auto-close brackets, quotes, etc.
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    opts = {},
+  },
+
+  -- Buffer management (like VSCode tabs)
+  {
+    'akinsho/bufferline.nvim',
+    version = '*',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    keys = {
+      { '<Tab>', '<Cmd>BufferLineCycleNext<CR>', desc = 'Next buffer' },
+      { '<S-Tab>', '<Cmd>BufferLineCyclePrev<CR>', desc = 'Previous buffer' },
+      { '<leader>bd', '<Cmd>bdelete<CR>', desc = '[B]uffer [D]elete' },
+      { '<leader>bo', '<Cmd>BufferLineCloseOthers<CR>', desc = '[B]uffer close [O]thers' },
+    },
+    opts = {
+      options = {
+        diagnostics = 'nvim_lsp',
+        separator_style = 'slant',
+        offsets = {
+          {
+            filetype = 'neo-tree',
+            text = 'File Explorer',
+            highlight = 'Directory',
+            text_align = 'left',
+          },
+        },
+      },
+    },
+  },
+
+  -- Enhanced search and replace
+  {
+    'nvim-pack/nvim-spectre',
+    dependencies = 'nvim-lua/plenary.nvim',
+    keys = {
+      { '<leader>S', function() require('spectre').toggle() end, desc = 'Toggle [S]pectre' },
+      { '<leader>sw', function() require('spectre').open_visual({ select_word = true }) end, desc = '[S]earch current [W]ord' },
+      { '<leader>sp', function() require('spectre').open_file_search({ select_word = true }) end, desc = '[S]earch in current file' },
+    },
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
