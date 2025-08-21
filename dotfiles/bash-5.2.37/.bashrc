@@ -219,3 +219,7 @@ if [[ -n "$TMUX" ]]; then
     # Ignore EOF (Ctrl+D) in tmux sessions
     set -o ignoreeof
 fi
+
+# == github copilot ==
+# Installation: `gh extension install github/gh-copilot``
+eval "$(gh copilot alias -- bash)"
