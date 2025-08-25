@@ -42,6 +42,7 @@
     helix # Text editor (hx)
     helm
     home-manager # Home Manager for managing user configurations
+    httpie # User-friendly HTTP client
     hyperfine # Command-line benchmarking tool
     image_optim # Image optimization tool
     inotify-tools # Tools to watch for file system events
