@@ -226,47 +226,7 @@
   environment = {
     localBinInPath = true; # Python support
     systemPackages = with pkgs; [
-      (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
-      btop
-      curl
-      fd
-      git
-      git-lfs
-      helix
-      jq
-      killall
-      lazygit
-      lf
-      mlocate
-      ncdu
-      nnn
-      parallel
-      ripgrep
-      rsync
-      starship
-      tmux
-      tree
-      vim
-      wget
-      # dive # Docker image explorer
-      # gemini-cli
-      # podman
-      # podman-compose
-      # podman-desktop
-      # podman-tui
-      # wineWowPackages.waylandFull # native wayland support (unstable)
-
-      # # Next ten lines courtest of Jennifer Darlene on 22 Jan 2024 to get basic Hyprland working
-      # waybar # status bar
-      # mako # notification daemon
-      # libnotify # for mako
-      # swww # wallpaper daemon
-      # kitty # terminal
-      # rofi-wayland # wl equiv of rofi app launcher, window switcher ...
-      # networkmanagerapplet # tray applet for network manager -- nm-applet
-      # grim # screenshot utility
-      # grimblast # grim helper
-      # udiskie # automount removable media
+      nodejs_24 # for npx
 
       # CUDA
       cudaPackages.cudatoolkit

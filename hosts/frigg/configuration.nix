@@ -173,28 +173,7 @@
   environment = {
     localBinInPath = true; # Python support
     systemPackages = with pkgs; [
-      (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
-      btop
-      curl
-      fd
-      git
-      git-lfs
-      helix
-      jq
-      killall
-      lazygit
-      lf
-      mlocate
-      ncdu
-      nnn
-      parallel
-      ripgrep
-      rsync
-      starship
-      tmux
-      tree
-      vim
-      wget
+      # packages go here
     ];
   };
 
