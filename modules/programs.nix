@@ -97,6 +97,7 @@
     winetricks
     wineWowPackages.stable # support both 32-bit and 64-bit applications
     wl-clipboard # Clipboard management for Wayland
+    xh # httpie and curl alternative
     xq-xml # XML processor
     yq-go # YAML processor
     yt-dlp
