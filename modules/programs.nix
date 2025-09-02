@@ -28,6 +28,7 @@
     curl
     direnv # Environment variable manager for dev
     dnsutils # `dig` + `nslookup`
+    du-dust # better du called dust
     eza
     fd # sometimes also fdfind or fd-find
     ffmpeg-full
@@ -41,6 +42,7 @@
     glances # htop with temperature information
     helix # Text editor (hx)
     helm
+    htop # Resource monitor
     home-manager # Home Manager for managing user configurations
     httpie # User-friendly HTTP client
     hyperfine # Command-line benchmarking tool
