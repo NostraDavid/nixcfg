@@ -25,6 +25,7 @@
     atuin # shell history manager
     bat
     btop # Resource monitor
+    codex # Code autocompletion tool
     curl
     direnv # Environment variable manager for dev
     dnsutils # `dig` + `nslookup`
