@@ -136,6 +136,7 @@
     mission-center # Task Manager
     mpv # Media player
     newsflash # RSS reader
+    nuclear # Music player
     qbittorrent-enhanced # Torrent client
     raven-reader # RSS reader
     remmina # Remote Desktop Protocol client
