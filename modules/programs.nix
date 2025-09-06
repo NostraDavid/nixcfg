@@ -122,6 +122,7 @@
     evolution # Email client
     fluent-reader # RSS reader
     fooyin # Music player
+    friture # Real-time audio analyzer
     fsearch # Everything replacement
     gimp3 # Image editor
     gparted # Partition editor
