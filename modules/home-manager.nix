@@ -1,6 +1,7 @@
 {
   hostname,
   main-user,
+  inputs,
   ...
 }: {
   home-manager.backupFileExtension = "hm.bak";
@@ -11,6 +12,8 @@
       ./dotfiles.nix
       ./programs.nix
     ];
+
+    _module.args = { inherit inputs; };
 
     programs.home-manager.enable = true;
     home.username = main-user;

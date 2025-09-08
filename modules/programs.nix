@@ -3,7 +3,9 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
+in {
   # # Add the git version override
   # nixpkgs.overlays = [
   #   (final: prev: {
@@ -25,7 +27,6 @@
     atuin # shell history manager
     bat
     btop # Resource monitor
-    codex # Code autocompletion tool
     curl
     direnv # Environment variable manager for dev
     dnsutils # `dig` + `nslookup`
@@ -104,6 +105,9 @@
     xq-xml # XML processor
     yq-go # YAML processor
     yt-dlp
+
+    # unstable
+    pkgs-unstable.codex # Code autocompletion tool
 
     # compression tools
     brotli

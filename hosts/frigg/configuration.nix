@@ -17,7 +17,7 @@
     ../../modules/i18n.nix
     ../../modules/storage_optimization.nix
     inputs.home-manager.nixosModules.home-manager
-    (import ../../modules/home-manager.nix {inherit hostname main-user;})
+    (import ../../modules/home-manager.nix {inherit hostname main-user inputs;})
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
