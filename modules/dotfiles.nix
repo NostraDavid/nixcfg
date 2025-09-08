@@ -41,6 +41,7 @@
     ".vimrc".source = ../dotfiles/vim-9.0/.vimrc;
     "dev/find-uncommitted.sh".source = ../dotfiles/dev/find-uncommitted.sh;
     "dev/grab.sh".source = ../dotfiles/dev/grab.sh;
+    "dev/grab_parallel.sh".source = ../dotfiles/dev/grab_parallel.sh;
   };
 
   home.sessionVariables = {};
