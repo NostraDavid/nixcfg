@@ -15,6 +15,7 @@ alias ll='ls -alhF'
 alias ls='ls --color=auto'
 alias ncdu='ncdu --color=dark'
 alias sudo='sudo '
+alias vi='nvim'
 alias generate_gitignore='echo "# ignore all direct items, nonrecursively
 /*
 
