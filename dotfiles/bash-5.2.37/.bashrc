@@ -47,6 +47,9 @@ HISTCONTROL=erasedups:ignoredups:ignorespace
 # my god this is good! <3 `history`
 HISTTIMEFORMAT="%F %T "
 
+# enables bash to write a command immediately after execution
+PROMPT_COMMAND='history -a; history -n'
+
 # Allow ctrl-S for history navigation (with ctrl-R)
 stty -ixon
 
