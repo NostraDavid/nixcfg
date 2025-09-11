@@ -42,6 +42,7 @@
     "dev/find-uncommitted.sh".source = ../dotfiles/dev/find-uncommitted.sh;
     "dev/grab.sh".source = ../dotfiles/dev/grab.sh;
     "dev/grab_parallel.sh".source = ../dotfiles/dev/grab_parallel.sh;
+    ".local/bin/folder_stats".source = ../dotfiles/scripts/folder_stats;
   };
 
   home.sessionVariables = {};
