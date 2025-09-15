@@ -44,8 +44,8 @@ in {
     glances # htop with temperature information
     helix # Text editor (hx)
     helm
-    htop # Resource monitor
     home-manager # Home Manager for managing user configurations
+    htop # Resource monitor
     httpie # User-friendly HTTP client
     hyperfine # Command-line benchmarking tool
     image_optim # Image optimization tool
@@ -86,6 +86,7 @@ in {
     rsync
     ruff
     sqlfluff # SQL linter and formatter
+    sqruff # SQL formatter and linter
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
     tabby # Self-hosted AI coding assistant
