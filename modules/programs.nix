@@ -147,6 +147,7 @@ in {
     raven-reader # RSS reader
     remmina # Remote Desktop Protocol client
     rssguard # RSS reader
+    notepad-next # notepad alternative
     signal-desktop # Signal messaging app
     slack # Slack messaging app
     speedcrunch # Calculator
