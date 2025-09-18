@@ -125,12 +125,24 @@
       };
     };
 
-    redis = {
-      enable = true;
+    # Default TCP instance on localhost
+    redis.servers."".settings = {
+      port = 6379; # 0..65535; default 6379 for the "" instance
+      bind = "127.0.0.1"; # listen only on loopback
+      save = ["900 1" "300 10" "60 10000"];
+      appendonly = "yes"; # AOF for durability
+      # Optional: simple auth (prefer ACLs in real setups)
+      # requirepass = "change-me";
+    };
+
+    # Socket-only instance "cache"
+    redis.servers."cache" = {
+      port = 0; # disable TCP
+      unixSocket = "/run/redis-cache/redis.sock";
+      unixSocketPerm = 770; # group-writable
       settings = {
-        appendonly = "yes";
-        save = ["900 1" "300 10" "60 10000"];
-        maxmemory = "0";
+        databases = 16;
+        # requirepass = "change-me";
       };
     };
 
@@ -158,6 +170,7 @@
     groups = {
       hidraw = {};
       input = {};
+      redis-cache.members = [ "${main-user}" ];
     };
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users.${main-user} = {
