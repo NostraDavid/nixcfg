@@ -125,6 +125,15 @@
       };
     };
 
+    redis = {
+      enable = true;
+      settings = {
+        appendonly = "yes";
+        save = ["900 1" "300 10" "60 10000"];
+        maxmemory = "0";
+      };
+    };
+
     # https://github.com/ryan4yin/nix-config/blob/90f36202a916b3e6f893edf8a5a89862d83983bc/modules/nixos/base/monitoring.nix
     prometheus.exporters.node = {
       enable = false;
