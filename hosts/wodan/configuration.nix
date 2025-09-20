@@ -108,59 +108,6 @@
     udisks2.enable = true; # daemon that owns the mount
     gvfs.enable = true; # for GNOME, Thunar, etc.
     devmon.enable = true; # optional: instant automount helpers
-
-    k3s = {
-      enable = true;
-      manifests.nginx.content = {
-        apiVersion = "v1";
-        kind = "Pod";
-        metadata.name = "nginx";
-        spec.containers = [
-          {
-            name = "nginx";
-            image = "nginx:1.14.2";
-            ports = [{containerPort = 80;}];
-          }
-        ];
-      };
-    };
-
-    # Default TCP instance on localhost
-    redis.servers."".settings = {
-      port = 6379; # 0..65535; default 6379 for the "" instance
-      bind = "127.0.0.1"; # listen only on loopback
-      save = ["900 1" "300 10" "60 10000"];
-      appendonly = "yes"; # AOF for durability
-      # Optional: simple auth (prefer ACLs in real setups)
-      # requirepass = "change-me";
-    };
-
-    # Socket-only instance "cache"
-    redis.servers."cache" = {
-      port = 0; # disable TCP
-      unixSocket = "/run/redis-cache/redis.sock";
-      unixSocketPerm = 770; # group-writable
-      settings = {
-        databases = 16;
-        # requirepass = "change-me";
-      };
-    };
-
-    # https://github.com/ryan4yin/nix-config/blob/90f36202a916b3e6f893edf8a5a89862d83983bc/modules/nixos/base/monitoring.nix
-    prometheus.exporters.node = {
-      enable = false;
-      listenAddress = "0.0.0.0";
-      port = 9100;
-      # There're already a lot of collectors enabled by default
-      # https://github.com/prometheus/node_exporter?tab=readme-ov-file#enabled-by-default
-      enabledCollectors = [
-        "systemd"
-        "logind"
-      ];
-
-      # use either enabledCollectors or disabledCollectors
-      # disabledCollectors = [];
-    };
   };
 
   # Enable sound with pipewire.
@@ -170,7 +117,6 @@
     groups = {
       hidraw = {};
       input = {};
-      redis-cache.members = [ "${main-user}" ];
     };
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users.${main-user} = {
