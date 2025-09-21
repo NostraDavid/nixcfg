@@ -31,7 +31,8 @@ in {
     direnv # Environment variable manager for dev
     dnsutils # `dig` + `nslookup`
     du-dust # better du called dust
-    eza
+    exfatprogs # ExFAT FS utilities
+    eza # modern replacement for `ls`
     fd # sometimes also fdfind or fd-find
     ffmpeg-full
     freetype
