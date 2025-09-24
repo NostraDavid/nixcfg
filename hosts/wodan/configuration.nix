@@ -168,18 +168,18 @@
   nixpkgs.config.allowUnfree = true;
 
   # # Enable common container config files in /etc/containers
-  # virtualisation.containers.enable = true;
-  # virtualisation = {
-  #   podman = {
-  #     enable = true;
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
 
-  #     # Create a `docker` alias for podman, to use it as a drop-in replacement
-  #     dockerCompat = true;
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
 
-  #     # Required for containers under podman-compose to be able to talk to each other.
-  #     defaultNetwork.settings.dns_enabled = true;
-  #   };
-  # };
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
 
   # xdg-desktop-portal-hyprland
   # # Next six lines courtesy of Jennifer Darlene on 22 Jan 2024 to get basic Hyprland working
@@ -202,6 +202,9 @@
       cudaPackages.cudnn
       cudaPackages.nccl
       nvtopPackages.full
+
+      podman-desktop # GUI for managing containers
+      podman-compose # docker-compose alternative
     ];
   };
 
