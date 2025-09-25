@@ -83,6 +83,7 @@ in {
     powerline # The best Bash Prompt!
     pv # Pipe viewer, useful for monitoring data through a pipe
     qalculate-qt
+    redpanda-client # Kafka alternative
     ripgrep # Search tool (rg)
     rsync
     ruff
