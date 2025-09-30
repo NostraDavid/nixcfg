@@ -153,6 +153,7 @@
       enable = true;
       binfmt = true;
     };
+    # nix-ld to enable `uv sync`
     nix-ld = {
       # https://wiki.nixos.org/wiki/Nix-ld
       enable = true;

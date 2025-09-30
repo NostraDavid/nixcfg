@@ -137,7 +137,7 @@
       enable = true;
       binfmt = true;
     };
-    # needed for Python packages that use C libraries
+    # nix-ld to enable `uv sync`
     nix-ld = {
       # https://wiki.nixos.org/wiki/Nix-ld
       enable = true;
