@@ -74,6 +74,7 @@ in {
     newsboat # RSS reader
     nixd # nix LSP
     nnn # Terminal file manager
+    nodejs_24 # for npx, for vscode
     nom # RSS reader
     ntfs3g # NTFS driver for work.
     ollama # Local LLM server

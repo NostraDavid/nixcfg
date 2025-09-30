@@ -195,8 +195,6 @@
   environment = {
     localBinInPath = true; # Python support
     systemPackages = with pkgs; [
-      nodejs_24 # for npx
-
       # CUDA
       cudaPackages.cudatoolkit
       cudaPackages.cudnn
