@@ -113,6 +113,11 @@ in {
     # unstable
     pkgs-unstable.codex # Code autocompletion tool
 
+
+    # podman
+    podman-desktop # GUI for managing containers
+    podman-compose # docker-compose alternative
+
     # compression tools
     brotli
     bzip2

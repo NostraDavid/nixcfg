@@ -200,9 +200,6 @@
       cudaPackages.cudnn
       cudaPackages.nccl
       nvtopPackages.full
-
-      podman-desktop # GUI for managing containers
-      podman-compose # docker-compose alternative
     ];
   };
 
