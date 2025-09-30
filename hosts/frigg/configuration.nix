@@ -153,6 +153,13 @@
       enable = true;
       binfmt = true;
     };
+    nix-ld = {
+      # https://wiki.nixos.org/wiki/Nix-ld
+      enable = true;
+      libraries = with pkgs; [
+        freetype
+      ];
+    };
     firefox = {
       enable = true;
       # Add a simple Enterprise policy: trust whatever the OS trusts
