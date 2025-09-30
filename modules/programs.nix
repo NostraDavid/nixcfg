@@ -88,6 +88,7 @@ in {
     ripgrep # Search tool (rg)
     rsync
     ruff
+    shfmt # Shell script formatter
     sqlfluff # SQL linter and formatter
     sqruff # SQL formatter and linter
     starship # Shell prompt
