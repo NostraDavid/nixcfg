@@ -86,36 +86,45 @@ case "$TERM" in
 xterm-color | *-256color) color_prompt=yes ;;
 esac
 
+use_starship_prompt=
+if command -v starship >/dev/null 2>&1; then
+    use_starship_prompt=1
+fi
+
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
 force_color_prompt=yes
 
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-        # We have color support; assume it's compliant with Ecma-48
-        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-        # a case would tend to support setf rather than setaf.)
-        color_prompt=yes
-    else
-        color_prompt=
+if [ -z "$use_starship_prompt" ]; then
+    if [ -n "$force_color_prompt" ]; then
+        if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+            # We have color support; assume it's compliant with Ecma-48
+            # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+            # a case would tend to support setf rather than setaf.)
+            color_prompt=yes
+        else
+            color_prompt=
+        fi
     fi
-fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    if [ "$color_prompt" = yes ]; then
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    fi
+    unset color_prompt force_color_prompt
+
+    # If this is an xterm set the title to user@host:dir
+    case "$TERM" in
+    xterm* | rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
+    *) ;;
+    esac
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    unset color_prompt force_color_prompt
 fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm* | rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*) ;;
-esac
 
 # enable color support of ls
 if [ -x /usr/bin/dircolors ]; then
@@ -172,17 +181,17 @@ export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 # `sudo apt install powerline powerline-gitstatus`
 # Actual location:
 # /nix/store/37lnwwvibh01mihs3dn3fkxjqxss6lzw-python3.12-powerline-2.8.4/share/bash/powerline.sh
-if [ -f /etc/profiles/per-user/david/share/bash/powerline.sh ]; then
-    powerline-daemon -q 2>/dev/null
-    POWERLINE_BASH_CONTINUATION=1
-    POWERLINE_BASH_SELECT=1
-    source /etc/profiles/per-user/david/share/bash/powerline.sh
-elif [ -f "$HOME/.nix-profile/share/bash/powerline.sh" ]; then
-    powerline-daemon -q 2>/dev/null
-    POWERLINE_BASH_CONTINUATION=1
-    POWERLINE_BASH_SELECT=1
-    source "$HOME/.nix-profile/share/bash/powerline.sh"
-fi
+# if [ -f /etc/profiles/per-user/david/share/bash/powerline.sh ]; then
+#     powerline-daemon -q 2>/dev/null
+#     POWERLINE_BASH_CONTINUATION=1
+#     POWERLINE_BASH_SELECT=1
+#     source /etc/profiles/per-user/david/share/bash/powerline.sh
+# elif [ -f "$HOME/.nix-profile/share/bash/powerline.sh" ]; then
+#     powerline-daemon -q 2>/dev/null
+#     POWERLINE_BASH_CONTINUATION=1
+#     POWERLINE_BASH_SELECT=1
+#     source "$HOME/.nix-profile/share/bash/powerline.sh"
+# fi
 
 # == python 3.7+ ==
 # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONDEVMODE
@@ -221,6 +230,11 @@ tmux-git-autofetch() { ("$HOME/.tmux/plugins/tmux-git-autofetch/git-autofetch.tm
 if [[ -n "$TMUX" ]]; then
     # Ignore EOF (Ctrl+D) in tmux sessions
     set -o ignoreeof
+fi
+
+# == starship prompt ==
+if [ -n "$use_starship_prompt" ]; then
+    eval "$(starship init bash)"
 fi
 
 # == github copilot ==

@@ -8,6 +8,36 @@
     inherit (pkgs) system;
     config = pkgs.config // {allowUnfree = true;};
   };
+
+  pythonPackages = pkgs.python3Packages;
+
+  powerlineGitstatus = pythonPackages.buildPythonPackage rec {
+    pname = "powerline-gitstatus";
+    version = "1.3.3";
+    format = "pyproject";
+
+    src = pythonPackages.fetchPypi {
+      pname = "powerline_gitstatus";
+      inherit version;
+      sha256 = "sha256-HkROlH1lSgm9eEbagoO7qHo5jJ4FGWxHV/h/ELaaDhY=";
+    };
+
+    nativeBuildInputs = with pythonPackages; [ setuptools wheel ];
+    propagatedBuildInputs = [ pythonPackages.powerline ];
+    doCheck = false;
+    pythonImportsCheck = [ "powerline_gitstatus" ];
+
+    meta = {
+      description = "Powerline segment that displays Git repository status";
+      homepage = "https://github.com/jaspernbrouwer/powerline-gitstatus";
+      license = pkgs.lib.licenses.mit;
+    };
+  };
+
+  powerlineWithGit = pkgs.symlinkJoin {
+    name = "powerline-with-git";
+    paths = [ pythonPackages.powerline powerlineGitstatus ];
+  };
 in {
   # # Add the git version override
   # nixpkgs.overlays = [
@@ -84,7 +114,7 @@ in {
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
     parallel
-    powerline # The best Bash Prompt!
+    powerlineWithGit # Python powerline with git status segments
     pv # Pipe viewer, useful for monitoring data through a pipe
     qalculate-qt
     redpanda-client # Kafka alternative
