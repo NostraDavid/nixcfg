@@ -4,7 +4,11 @@
   inputs,
   ...
 }: let
-  pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
+  pkgs-unstable =
+    import inputs.nixpkgs-unstable {
+      inherit (pkgs) system;
+      config = pkgs.config // {allowUnfree = true;};
+    };
 in {
   # # Add the git version override
   # nixpkgs.overlays = [
@@ -113,7 +117,7 @@ in {
 
     # unstable
     pkgs-unstable.codex # Code autocompletion tool
-
+    pkgs-unstable.vscode # Visual Studio Code
 
     # podman
     podman-desktop # GUI for managing containers
@@ -161,7 +165,6 @@ in {
     slack # Slack messaging app
     speedcrunch # Calculator
     synology-drive-client # Synology Drive client
-    vscode # Visual Studio Code
     wezterm # Terminal emulator
     wireguard-tools # WireGuard tools
     wireguard-ui # WireGuard UI
