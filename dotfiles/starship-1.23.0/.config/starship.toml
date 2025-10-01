@@ -53,10 +53,11 @@ gray8 = '#9e9e9e'
 brightred = '#d70000'
 mediumpurple = '#875fd7'
 brightestorange = '#ffaf00'
+darkblue = '#005faf'
 
 # == current prompt settings ==
 [python]
-style = 'fg:white bg:darkcyan'
+style = 'bold fg:white bg:darkcyan'
 format = "[ $virtualenv ]($style)"
 
 [git_branch]
