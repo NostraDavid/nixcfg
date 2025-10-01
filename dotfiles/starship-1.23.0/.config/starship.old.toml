@@ -13,11 +13,13 @@
 
 # == current prompt ==
 format = """
-$python\
 $git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
 $git_status\
 $directory\
-$jobs\
+$python\
 $status\
 $character\
 """
@@ -37,39 +39,29 @@ stat = '#d75f00' # orange
 
 # git_status colors
 orange = '#ffaf00'
-white = '#ffffff'
-darkcyan = '#5fafd7'
-darkestgreen = '#005f00'
-brightgreen = '#afd700'
-brightyellow = '#ffd700'
-mediumorange = '#d75f00'
-darkestred = '#5f0000'
-gray0 = '#121212'
-gray4 = '#585858'
-gray9 = '#bcbcbc'
-gray10 = '#d0d0d0'
-gray2 = '#303030'
-gray8 = '#9e9e9e'
-brightred = '#d70000'
-mediumpurple = '#875fd7'
+darkblue = '#005faf'
 brightestorange = '#ffaf00'
+mediumorange = '#ff8700'
 
 # == current prompt settings ==
-[python]
-style = 'fg:white bg:darkcyan'
-format = "[ $virtualenv ]($style)"
-
 [git_branch]
-style = 'fg:gray9 bg:gray2'
-format = """
-[ ](fg:prev_bg bg:gray2)\
-[$symbol $branch]($style)\
-"""
+style = 'bg:dark_bg'
+format = '[$symbol $branch]($style)'
 symbol = ''
 truncation_length = 12
 truncation_symbol = '…'
 only_attached = true
 
+[git_commit]
+style = 'purple bg:dark_bg'
+format = '[ $tag$hash]($style)'
+tag_symbol = ':bookmark: '
+tag_disabled = false
+only_detached = true
+
+[git_state]
+style = 'bg:dark_bg'
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
 
 # [git_status]
 # style = 'bg:dark_bg'
@@ -99,55 +91,41 @@ only_attached = true
 # "gitstatus_stashed":         { "fg": "darkblue",        "bg": "gray2", "attrs": [] }
 
 [git_status]
-style = 'fg:gray8 bg:prev_bg'
+style = 'bg:dark_bg'
 format = """[ \
-$behind_count\
-$ahead_behind\
-$ahead_count\
-$staged\
 $conflicted\
-$modified\
-$untracked\
 $stashed\
 $deleted\
 $renamed\
+$modified\
 $typechanged\
- ]($style)\
+$staged\
+$untracked\
+$ahead_behind\
+$ahead_count\
+$behind_count ]($style)\
 """
+up_to_date = ''
+
 behind = '[↓ ${count}](fg:white bg:prev_bg) '
 ahead = '[↑ ${count}](fg:white bg:prev_bg) '
 staged = '[● ${count}](fg:green bg:prev_bg) '
-conflicted = '[✖ ${count}](fg:brightred bg:prev_bg) '
-modified = '[✚ ${count}](fg:mediumorange bg:prev_bg) '
-untracked = '[… ${count}](fg:brightestorange bg:prev_bg) '
+deleted = '[✖ ${count}](fg:red bg:prev_bg) '
+renamed = '[➜ ${count}](fg:purple bg:prev_bg) '
 stashed = '[⚑ ${count}](fg:darkblue bg:prev_bg) '
+untracked = '[… ${count}](fg:brightestorange bg:prev_bg ) '
+modified = '[✚ ${count}](fg:mediumorange bg:prev_bg) '
+conflicted = '[═ ${count}](fg:yellow bg:prev_bg) '
+diverged = '⇕ ${ahead_count}⇣${behind_count}'
 
 [directory]
-style = 'fg:gray10 bg:gray4'
-format = """
-[ ](fg:prev_bg bg:gray4)\
-[$path]($style)\
-[$read_only]($read_only_style)\
-"""
-truncation_length = 1
-# truncation_symbol = '…  '
+style = 'bg:light_bg'
+format = '[](fg:prev_bg fg:light_bg bg:light_bg)[ $path ]($style)'
+truncation_length = 3
+truncation_symbol = '…  '
 truncate_to_repo = false
-home_symbol = '~'
 read_only = ' 󰌾'
 use_os_path_sep = true
-fish_style_pwd_dir_length = 3
-# substitutions break the fish_style_pwd_dir_length setting...
-# substitutions = { '/' = '  ' }
-
-[jobs]
-format = """
-[](fg:mediumorange bg:prev_bg)\
-[ $symbol$number]($style)\
-"""
-style = 'fg:brightyellow bg:mediumorange'
-symbol = '⚙ '
-threshold = 1
-number_threshold = 1
 
 # Here is how you can shorten some long paths by text replacement
 # similar to mapped_locations in Oh My Posh:
@@ -162,11 +140,16 @@ number_threshold = 1
 # So either put "Important Documents" before "Documents" or use the substituted version:
 # "Important 󰈙 " = " 󰈙 "
 
+[python]
+symbol = ''
+style = 'bg:pyth'
+format = '[](fg:prev_bg bg:pyth)[ $symbol $version ]($style)'
+
 [status]
-style = 'fg:brightestorange bg:stat'
+style = 'bg:stat'
 format = """
-[ ](fg:prev_bg bg:stat)\
-[$int ]($style)\
+[](fg:prev_bg bg:stat)\
+[$int]($style)\
 """
 disabled = false
 
