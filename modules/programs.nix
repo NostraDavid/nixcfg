@@ -4,11 +4,10 @@
   inputs,
   ...
 }: let
-  pkgs-unstable =
-    import inputs.nixpkgs-unstable {
-      inherit (pkgs) system;
-      config = pkgs.config // {allowUnfree = true;};
-    };
+  pkgs-unstable = import inputs.nixpkgs-unstable {
+    inherit (pkgs) system;
+    config = pkgs.config // {allowUnfree = true;};
+  };
 in {
   # # Add the git version override
   # nixpkgs.overlays = [
