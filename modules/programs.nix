@@ -85,7 +85,7 @@ in {
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
     parallel
-    powerline-go # Go implementation of powerline
+    powerline # The best Bash Prompt!
     pv # Pipe viewer, useful for monitoring data through a pipe
     qalculate-qt
     redpanda-client # Kafka alternative
