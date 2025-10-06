@@ -14,8 +14,10 @@
 # == current prompt ==
 format = """
 $python\
+${custom.py_git_sep}\
 $git_branch\
 $git_status\
+${custom.git_dir_sep}\
 $directory\
 $jobs\
 $status\
@@ -60,11 +62,18 @@ darkblue = '#005faf'
 style = 'bold fg:white bg:darkcyan'
 format = "[ $virtualenv ]($style)"
 
+[custom.py_git_sep]
+# Separator shown only when BOTH a Python virtualenv and a git repo are active
+# We embed the glyph directly in format so command can be a cheap no-op.
+command = "printf ''"
+when = 'test -n "$VIRTUAL_ENV" && git rev-parse --is-inside-work-tree >/dev/null 2>&1'
+format = "[](fg:prev_bg bg:gray2)"
+shell = ["bash", "--noprofile", "--norc"]
+
 [git_branch]
 style = 'fg:gray9 bg:gray2'
 format = """
-[ ](fg:prev_bg bg:gray2)\
-[$symbol $branch]($style)\
+[ $symbol $branch]($style)\
 """
 symbol = ''
 truncation_length = 12
@@ -123,11 +132,17 @@ modified = '[✚ ${count}](fg:mediumorange bg:prev_bg) '
 untracked = '[… ${count}](fg:brightestorange bg:prev_bg) '
 stashed = '[⚑ ${count}](fg:darkblue bg:prev_bg) '
 
+[custom.git_dir_sep]
+# Separator between git block and directory (only inside a git repo)
+command = "printf ''"
+when = 'git rev-parse --is-inside-work-tree >/dev/null 2>&1'
+format = "[](fg:prev_bg bg:gray4)"
+shell = ["bash", "--noprofile", "--norc"]
+
 [directory]
 style = 'fg:gray10 bg:gray4'
 format = """
-[ ](fg:prev_bg bg:gray4)\
-[$path]($style)\
+[ $path ]($style)\
 [$read_only]($read_only_style)\
 """
 truncation_length = 1
@@ -142,7 +157,7 @@ fish_style_pwd_dir_length = 3
 
 [jobs]
 format = """
-[](fg:mediumorange bg:prev_bg)\
+[](fg:prev_bg bg:mediumorange)\
 [ $symbol$number]($style)\
 """
 style = 'fg:brightyellow bg:mediumorange'
