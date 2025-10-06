@@ -42,6 +42,7 @@ in {
     freetype
     fzf # Fuzzy finder
     gcc
+    gcc-unwrapped # to fix `ImportError: libstdc++.so.6: cannot open shared object file: No such file or directory` for numpy
     gdu # Disk usage analyzer with Go
     gh # GitHub CLI
     git # This will now use your pinned version (2.45.0)
