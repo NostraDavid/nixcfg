@@ -15,7 +15,7 @@
 format = """
 $python\
 ${custom.py_git_sep}\
-$git_branch\
+${custom.git_branch_clean}${custom.git_branch_dirty}\
 $git_status\
 ${custom.git_dir_sep}\
 $directory\
@@ -42,6 +42,7 @@ orange = '#ffaf00'
 white = '#ffffff'
 darkcyan = '#5fafd7'
 darkestgreen = '#005f00'
+mediumgreen = '#008000'
 brightgreen = '#afd700'
 brightyellow = '#ffd700'
 mediumorange = '#d75f00'
@@ -61,10 +62,11 @@ darkblue = '#005faf'
 [python]
 style = 'bold fg:white bg:darkcyan'
 format = "[ $virtualenv ]($style)"
+detect_files = []
+detect_extensions = []
+detect_folders = []
 
 [custom.py_git_sep]
-# Separator shown only when BOTH a Python virtualenv and a git repo are active
-# We embed the glyph directly in format so command can be a cheap no-op.
 command = "printf ''"
 when = 'test -n "$VIRTUAL_ENV" && git rev-parse --is-inside-work-tree >/dev/null 2>&1'
 format = "[](fg:prev_bg bg:gray2)"
@@ -79,6 +81,21 @@ symbol = ''
 truncation_length = 12
 truncation_symbol = '…'
 only_attached = true
+disabled = true # replaced by custom.git_branch_clean / custom.git_branch_dirty for conditional coloring
+
+# Custom branch modules to color branch green when repo is clean, gray otherwise.
+# We split into two modules with mutually exclusive 'when' conditions for clarity & minimal logic.
+[custom.git_branch_clean]
+command = "b=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
+when = 'git rev-parse --is-inside-work-tree >/dev/null 2>&1 && test -z "$(git status --porcelain 2>/dev/null)"'
+format = "[ $output](fg:mediumgreen bg:gray2)"
+shell = ["bash", "--noprofile", "--norc"]
+
+[custom.git_branch_dirty]
+command = "b=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
+when = 'git rev-parse --is-inside-work-tree >/dev/null 2>&1 && test -n "$(git status --porcelain 2>/dev/null)"'
+format = "[ $output](fg:gray9 bg:gray2)"
+shell = ["bash", "--noprofile", "--norc"]
 
 
 # [git_status]
@@ -131,6 +148,11 @@ conflicted = '[✖ ${count}](fg:brightred bg:prev_bg) '
 modified = '[✚ ${count}](fg:mediumorange bg:prev_bg) '
 untracked = '[… ${count}](fg:brightestorange bg:prev_bg) '
 stashed = '[⚑ ${count}](fg:darkblue bg:prev_bg) '
+diverged = '[↓ ${behind_count} ↑ ${ahead_count}](fg:white bg:prev_bg) '
+deleted = '[ ${count}](fg:brightred bg:prev_bg) '
+renamed = '[➜ ${count}](fg:brightgreen bg:prev_bg) '
+typechanged = '[ ${count}](fg:orange bg:prev_bg) '
+# up_to_date	''	The format of up_to_date
 
 [custom.git_dir_sep]
 # Separator between git block and directory (only inside a git repo)
