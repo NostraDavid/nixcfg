@@ -100,6 +100,8 @@ in {
     tabby # Self-hosted AI coding assistant
     tabby-agent # Language server used to communicate with Tabby server
     tmux
+    tts # coqui-tts
+    flite # flite -f <file>
     tree # Display directory structure in a tree-like format
     ty # Astral type checker
     unzip
