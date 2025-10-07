@@ -8,7 +8,6 @@
     inherit (pkgs) system;
     config = pkgs.config // {allowUnfree = true;};
   };
-
 in {
   # # Add the git version override
   # nixpkgs.overlays = [
@@ -106,7 +105,7 @@ in {
     tree # Display directory structure in a tree-like format
     ty # Astral type checker
     unzip
-    uv # Astral project manager
+    # Astral project manager
     viddy # Watch alternative with better color support
     w3m # Text-based web browser
     wget
@@ -121,6 +120,7 @@ in {
     # unstable
     pkgs-unstable.codex # Code autocompletion tool
     pkgs-unstable.vscode # Visual Studio Code
+    pkgs-unstable.uv
 
     # podman
     podman-desktop # GUI for managing containers
