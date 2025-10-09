@@ -221,7 +221,7 @@
 
   # Enable OpenGL
   hardware = {
-    opengl.enable = true;
+    # opengl.enable = true; # This is now graphics.enable
 
     graphics = {
       enable = true;
