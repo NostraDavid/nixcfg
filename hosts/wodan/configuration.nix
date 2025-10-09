@@ -143,6 +143,8 @@
       enable = true;
       libraries = with pkgs; [
         freetype
+        libGL
+        libglvnd
       ];
     };
     firefox = {
@@ -219,6 +221,8 @@
 
   # Enable OpenGL
   hardware = {
+    opengl.enable = true;
+
     graphics = {
       enable = true;
       enable32Bit = true;
