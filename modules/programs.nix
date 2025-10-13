@@ -8,21 +8,10 @@
     inherit (pkgs) system;
     config = pkgs.config // {allowUnfree = true;};
   };
+  pkgs-local = pkgs.extend (_final: prev: {
+    github-copilot-cli = prev.callPackage ../pkgs/github-copilot-cli {};
+  });
 in {
-  # # Add the git version override
-  # nixpkgs.overlays = [
-  #   (final: prev: {
-  #     git = prev.git.overrideAttrs (oldAttrs: rec {
-  #       version = "2.45.0"; # specify the version you want
-  #       src = prev.fetchurl {
-  #         url = "https://github.com/git/git/archive/v${version}.tar.gz";
-  #         # nix-prefetch-url https://github.com/git/git/archive/v2.45.0.tar.gznix-prefetch-url https://github.com/git/git/archive/v2.45.0.tar.gz
-  #         sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # you'll need to get the correct hash
-  #       };
-  #     });
-  #   })
-  # ];
-
   home.packages = with pkgs; [
     ## Terminal apps
     (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
@@ -121,6 +110,9 @@ in {
     pkgs-unstable.codex # Code autocompletion tool
     pkgs-unstable.vscode # Visual Studio Code
     pkgs-unstable.uv
+
+    # local
+    pkgs-local.github-copilot-cli
 
     # podman
     podman-desktop # GUI for managing containers
