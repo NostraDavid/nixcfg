@@ -23,28 +23,29 @@
     ...
   } @ inputs: let
     main-user = "david";
-  in {
-    nixosConfigurations = {
-      wodan = nixpkgs.lib.nixosSystem {
+    mkHost = {
+      hostname,
+      path,
+    }:
+      nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [./hosts/wodan/configuration.nix];
+        modules = [path];
         specialArgs = {
           inherit inputs;
-          hostname = "wodan";
+          hostname = hostname;
           main-user = main-user;
         };
       };
+  in {
+    nixosConfigurations = {
+      wodan = mkHost {
+        hostname = "wodan";
+        path = ./hosts/wodan/configuration.nix;
+      };
 
-      frigg = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/frigg/configuration.nix
-        ];
-        specialArgs = {
-          inherit inputs;
-          hostname = "frigg";
-          main-user = main-user;
-        };
+      frigg = mkHost {
+        hostname = "frigg";
+        path = ./hosts/frigg/configuration.nix;
       };
     };
   };
