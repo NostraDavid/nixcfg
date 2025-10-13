@@ -10,6 +10,7 @@
   };
   pkgs-local = pkgs.extend (_final: prev: {
     github-copilot-cli = prev.callPackage ../pkgs/github-copilot-cli {};
+    # pixieditor = prev.callPackage ../pkgs/pixieditor {};
   });
 in {
   home.packages = with pkgs; [
@@ -27,6 +28,7 @@ in {
     eza # modern replacement for `ls`
     fd # sometimes also fdfind or fd-find
     ffmpeg-full
+    file # file type identifier
     freetype
     fzf # Fuzzy finder
     gcc
@@ -113,6 +115,7 @@ in {
 
     # local
     pkgs-local.github-copilot-cli
+    pkgs-local.pixieditor
 
     # podman
     podman-desktop # GUI for managing containers

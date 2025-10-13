@@ -22,14 +22,34 @@
     home-manager-unstable,
     ...
   } @ inputs: let
+    lib = nixpkgs.lib;
+    systems = [
+      "x86_64-linux"
+    ];
+    forAllSystems = f: lib.genAttrs systems (system: f system);
+    overlay-local = final: prev: {
+      github-copilot-cli = prev.callPackage ./pkgs/github-copilot-cli {};
+      pixieditor = prev.callPackage ./pkgs/pixieditor {};
+    };
+    pkgsFor = system:
+      import nixpkgs {
+        inherit system;
+        config = {allowUnfree = true;};
+        overlays = [ overlay-local ];
+      };
     main-user = "david";
     mkHost = {
       hostname,
       path,
     }:
-      nixpkgs.lib.nixosSystem {
+      lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [path];
+        modules = [
+          {
+            nixpkgs.overlays = [overlay-local];
+          }
+          path
+        ];
         specialArgs = {
           inherit inputs;
           hostname = hostname;
@@ -37,6 +57,16 @@
         };
       };
   in {
+    overlays.default = overlay-local;
+
+    legacyPackages = forAllSystems pkgsFor;
+
+    packages = forAllSystems (system: let
+      pkgs = pkgsFor system;
+    in {
+      inherit (pkgs) github-copilot-cli pixieditor;
+    });
+
     nixosConfigurations = {
       wodan = mkHost {
         hostname = "wodan";
