@@ -15,7 +15,6 @@
 in {
   home.packages = with pkgs; [
     ## Terminal apps
-    (neovim.overrideAttrs (old: {nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];}))
     alejandra # nix formatter
     atuin # shell history manager
     bat
@@ -107,6 +106,17 @@ in {
     xq-xml # XML processor
     yq-go # YAML processor
     yt-dlp
+
+    # Neovim related
+    (pkgs-unstable.neovim.overrideAttrs (old: {
+      nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];
+    }))
+    xclip # X11 clipboard fallback for Neovim when Wayland not active
+    markdownlint-cli
+    luajit # Lua 5.1 compat
+    luajitPackages.luarocks_bootstrap
+    jdk17 # openjdk for nvim-lsp-java
+    dotnet-sdk
 
     # unstable
     pkgs-unstable.codex # Code autocompletion tool
