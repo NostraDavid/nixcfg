@@ -240,3 +240,11 @@ fi
 # == github copilot ==
 # Installation: `gh extension install github/gh-copilot``
 eval "$(gh copilot alias -- bash)"
+
+# fzf integration
+if [ -n "${XDG_DATA_DIRS-}" ]; then
+  for dir in ${XDG_DATA_DIRS//:/ }; do
+    [ -f "$dir/fzf/completion.bash" ] && source "$dir/fzf/completion.bash"
+    [ -f "$dir/fzf/key-bindings.bash" ] && source "$dir/fzf/key-bindings.bash"
+  done
+fi
