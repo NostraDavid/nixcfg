@@ -12,7 +12,7 @@
     ".bash_profile".source = mk "${dot}/bash-5.2.37/.bash_profile";
     ".bashrc".source = mk "${dot}/bash-5.2.37/.bashrc";
     ".config/bat/config".source = mk "${dot}/bat-0.25.0/.config/bat/config";
-    ".config/neovim/".source = mk "${dot}/neovim-0.11/.config/neovim";
+    ".config/nvim/".source = mk "${dot}/neovim-0.11/.config/nvim";
     ".config/pip/pip.conf".source = mk "${dot}/pip-22+/.config/pip/pip.conf";
     ".config/powerline".source = mk "${dot}/powerline-bash/.config/powerline";
     ".config/pypoetry/".source = mk "${dot}/pypoetry-2.1/.config/pypoetry";

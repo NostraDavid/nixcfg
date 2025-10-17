@@ -15,19 +15,28 @@
 in {
   home.packages = with pkgs; [
     ## Terminal apps
+    # Astral project manager
     alejandra # nix formatter
     atuin # shell history manager
-    bat
+    bat # cat replacement
     btop # Resource monitor
+    colordiff # diff viewer
+    csvkit # Python based CSV toolkit (heavier)
     curl
+    delta # diff viewer
+    diff-so-fancy # diff viewer
+    difftastic # diff viewer
+    diffutils # Diff
     direnv # Environment variable manager for dev
     dnsutils # `dig` + `nslookup`
     du-dust # better du called dust
+    duckdb
     exfatprogs # ExFAT FS utilities
     eza # modern replacement for `ls`
     fd # sometimes also fdfind or fd-find
     ffmpeg-full
     file # file type identifier
+    flite # flite -f <file>
     freetype
     fzf # Fuzzy finder
     gcc
@@ -37,6 +46,9 @@ in {
     git # This will now use your pinned version (2.45.0)
     git-lfs # Git Large File Storage
     glances # htop with temperature information
+    gnugrep # GNU grep
+    gnused # GNU sed
+    hadolint # Dockerfile linter
     helix # Text editor (hx)
     helm
     home-manager # Home Manager for managing user configurations
@@ -44,6 +56,7 @@ in {
     httpie # User-friendly HTTP client
     hyperfine # Command-line benchmarking tool
     image_optim # Image optimization tool
+    inetutils # telnet
     inotify-tools # Tools to watch for file system events
     inxi # system information tool
     ipcalc # it is a calculator for the IPv4/v6 addresses
@@ -57,14 +70,19 @@ in {
     kdash # Kubernetes dashboard
     killall # kill processes by name
     lazygit
+    less # terminal pager
     lf # Terminal file manager
     libpcap # for Whatpulse
+    lsd # A modern replacement for 'ls' command
     lsof # List open files
     lynx # Terminal-based web browser
+    miller # CSV processor
     mlocate # locate command
+    most # terminal pager
     mtr # A network diagnostic tool
     mutt # Terminal-based email client
     ncdu # Disk usage analyzer with ncurses interface
+    netcat-gnu
     newsboat # RSS reader
     nixd # nix LSP
     nnn # Terminal file manager
@@ -75,28 +93,33 @@ in {
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
     parallel
+    parquet-tools
     powerline # The best Bash Prompt!
+    procs
     pv # Pipe viewer, useful for monitoring data through a pipe
     qalculate-qt
     redpanda-client # Kafka alternative
+    riffdiff # diff viewer
     ripgrep # Search tool (rg)
     rsync
     ruff
     shfmt # Shell script formatter
     sqlfluff # SQL linter and formatter
+    sqlite
     sqruff # SQL formatter and linter
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
+    strace
     tabby # Self-hosted AI coding assistant
     tabby-agent # Language server used to communicate with Tabby server
     tmux
-    tts # coqui-tts
-    flite # flite -f <file>
     tree # Display directory structure in a tree-like format
+    tts # coqui-tts
     ty # Astral type checker
     unzip
-    # Astral project manager
+    util-linux # For `chrt` command
     viddy # Watch alternative with better color support
+    visidata # Interactive terminal multitool for tabular data
     w3m # Text-based web browser
     wget
     winetricks
@@ -104,8 +127,12 @@ in {
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
     xq-xml # XML processor
+    xz # Compression tool
     yq-go # YAML processor
     yt-dlp
+    zopfli # For zopflipng; optimize PNG files
+    zoxide
+    zstd
 
     # Neovim related
     (pkgs-unstable.neovim.overrideAttrs (old: {
