@@ -172,7 +172,7 @@ in {
     ## GUI apps
     anki # Flashcard app
     chromium # Web browser
-    dbeaver # Database management tool
+    dbeaver-bin # Database management tool
     evolution # Email client
     fluent-reader # RSS reader
     fooyin # Music player
