@@ -172,6 +172,7 @@ in {
     ## GUI apps
     anki # Flashcard app
     chromium # Web browser
+    dbeaver # Database management tool
     evolution # Email client
     fluent-reader # RSS reader
     fooyin # Music player
@@ -190,12 +191,12 @@ in {
     mission-center # Task Manager
     mpv # Media player
     newsflash # RSS reader
+    notepad-next # notepad alternative
     nuclear # Music player
     qbittorrent-enhanced # Torrent client
     raven-reader # RSS reader
     remmina # Remote Desktop Protocol client
     rssguard # RSS reader
-    notepad-next # notepad alternative
     signal-desktop # Signal messaging app
     slack # Slack messaging app
     speedcrunch # Calculator
