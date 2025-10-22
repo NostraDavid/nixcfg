@@ -45,6 +45,11 @@
     #   allowedTCPPorts = [ ... ];
     #   allowedUDPPorts = [ ... ];
     # };
+
+    hosts = {
+      # related to project ctb
+      "127.0.0.1" = ["pgadmin.lan" "redpanda.lan"];
+    };
   };
 
   # Set your time zone.
