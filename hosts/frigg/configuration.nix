@@ -182,9 +182,15 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # # Enable common container config files in /etc/containers
-  virtualisation.containers.enable = true;
+  # Enable common container config files in /etc/containers
+  systemd.user.services.podman = {
+    enable = true;
+    wantedBy = ["default.target"];
+  };
   virtualisation = {
+    containers = {
+      enable = true;
+    };
     podman = {
       enable = true;
 
