@@ -153,6 +153,7 @@ in {
     # local
     pkgs-local.github-copilot-cli
     pkgs-local.pixieditor
+    pkgs-local.nanocoder
 
     # podman
     podman-desktop # GUI for managing containers

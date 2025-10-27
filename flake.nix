@@ -28,6 +28,7 @@
     ];
     forAllSystems = f: lib.genAttrs systems (system: f system);
     overlay-local = final: prev: {
+      nanocoder = prev.callPackage ./pkgs/nanocoder {};
       github-copilot-cli = prev.callPackage ./pkgs/github-copilot-cli {};
       pixieditor = prev.callPackage ./pkgs/pixieditor {};
     };
@@ -35,7 +36,7 @@
       import nixpkgs {
         inherit system;
         config = {allowUnfree = true;};
-        overlays = [ overlay-local ];
+        overlays = [overlay-local];
       };
     main-user = "david";
     mkHost = {
@@ -64,7 +65,7 @@
     packages = forAllSystems (system: let
       pkgs = pkgsFor system;
     in {
-      inherit (pkgs) github-copilot-cli pixieditor;
+      inherit (pkgs) nanocoder github-copilot-cli pixieditor;
     });
 
     nixosConfigurations = {
