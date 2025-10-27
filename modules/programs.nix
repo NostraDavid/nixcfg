@@ -89,7 +89,6 @@ in {
     nodejs_24 # for npx, for vscode
     nom # RSS reader
     ntfs3g # NTFS driver for work.
-    ollama # Local LLM server
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
     parallel
@@ -149,6 +148,7 @@ in {
     pkgs-unstable.codex # Code autocompletion tool
     pkgs-unstable.vscode # Visual Studio Code
     pkgs-unstable.uv
+    pkgs-unstable.ollama-cuda # Local LLM server
 
     # local
     pkgs-local.github-copilot-cli
