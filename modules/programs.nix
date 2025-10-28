@@ -149,6 +149,7 @@ in {
     pkgs-unstable.vscode # Visual Studio Code
     pkgs-unstable.uv
     pkgs-unstable.ollama-cuda # Local LLM server
+    pkgs-unstable.vllm # High-performance inference server for large language models
 
     # local
     pkgs-local.github-copilot-cli
