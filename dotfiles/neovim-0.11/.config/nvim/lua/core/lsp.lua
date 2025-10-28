@@ -1,8 +1,10 @@
 -- core/lsp.lua - LSP configuration layer
--- Loaded by nvim-lspconfig plugin spec via pcall(require, 'core.lsp')
+-- Loaded by nvim-lspconfig plugin spec via pcall(require, "core.lsp")
 
-local ok_lsp, lspconfig = pcall(require, "lspconfig")
-if not ok_lsp then
+if not vim.lsp or not vim.lsp.config or not vim.lsp.enable then
+	vim.schedule(function()
+		vim.notify("vim.lsp.config/vim.lsp.enable not available (requires Neovim 0.11+)", vim.log.levels.WARN)
+	end)
 	return
 end
 
@@ -93,10 +95,18 @@ for name, cfg_fn in pairs(servers) do
 	local cfg = cfg_fn() or {}
 	cfg.on_attach = on_attach
 	cfg.capabilities = capabilities
-	local ok = pcall(lspconfig[name].setup, cfg)
-	if not ok then
+
+	local ok_cfg, err_cfg = pcall(vim.lsp.config, name, cfg)
+	if ok_cfg then
+		local ok_enable, err_enable = pcall(vim.lsp.enable, name)
+		if not ok_enable then
+			vim.schedule(function()
+				vim.notify(("LSP enable failed for %s: %s"):format(name, err_enable), vim.log.levels.WARN)
+			end)
+		end
+	else
 		vim.schedule(function()
-			vim.notify(("LSP setup failed for %s"):format(name), vim.log.levels.WARN)
+			vim.notify(("LSP config failed for %s: %s"):format(name, err_cfg), vim.log.levels.WARN)
 		end)
 	end
 end
