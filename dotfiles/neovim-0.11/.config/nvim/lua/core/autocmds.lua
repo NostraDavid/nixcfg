@@ -73,13 +73,11 @@ vim.api.nvim_create_autocmd("FileType", {
     pattern = {"bash", "css", "dockerfile", "groovy", "hcl", "html", "ini", "json", "lua", "markdown", "python",
                "query", "regex", "sql", "toml", "vim", "vimdoc", "xml", "yaml"},
     callback = function()
-        if vim.fn.exists("*nvim_treesitter#foldexpr") > 0 then
-            vim.opt_local.foldmethod = "expr"
-            vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
-            vim.opt_local.foldlevel = 99
-            vim.opt_local.foldlevelstart = 99
-            vim.opt_local.foldenable = true
-        end
+        vim.opt_local.foldmethod = "expr"
+        vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        vim.opt_local.foldlevel = 99
+        vim.opt_local.foldlevelstart = 99
+        vim.opt_local.foldenable = true
     end
 })
 
