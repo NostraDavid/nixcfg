@@ -93,6 +93,7 @@ in {
     oxipng # PNG image optimizer
     parallel
     parquet-tools
+    postgresql # for psql
     powerline # The best Bash Prompt!
     procs
     pv # Pipe viewer, useful for monitoring data through a pipe
