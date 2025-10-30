@@ -133,7 +133,7 @@ in {
     zopfli # For zopflipng; optimize PNG files
     zoxide
     lz4 # Fastest compression algorithm
-    zstd # Fast compression algorithm with better ratio than lz4
+    zstd # Fast compression algorithm with better ratio than lz4; contains zstdcat for decompression
 
     # Neovim related
     (pkgs-unstable.neovim.overrideAttrs (old: {
