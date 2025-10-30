@@ -132,7 +132,8 @@ in {
     yt-dlp
     zopfli # For zopflipng; optimize PNG files
     zoxide
-    zstd
+    lz4 # Fastest compression algorithm
+    zstd # Fast compression algorithm with better ratio than lz4
 
     # Neovim related
     (pkgs-unstable.neovim.overrideAttrs (old: {
