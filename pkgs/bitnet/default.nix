@@ -19,10 +19,23 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [ cmake ];
 
+  preConfigure = ''
+    rm -f include/bitnet-lut-kernels.h
+    ln -s ../preset_kernels/bitnet_b1_58-large/bitnet-lut-kernels-tl2.h include/bitnet-lut-kernels.h
+    rm -f 3rdparty/llama.cpp/ggml/include/ggml-bitnet.h
+    ln -s ../../../../include/ggml-bitnet.h 3rdparty/llama.cpp/ggml/include/ggml-bitnet.h
+  '';
+
+  postConfigure = ''
+    ln -sf 3rdparty/llama.cpp/LlamaConfig.cmake LlamaConfig.cmake
+    ln -sf 3rdparty/llama.cpp/LlamaConfigVersion.cmake LlamaConfigVersion.cmake
+  '';
+
   cmakeFlags = [
     "-DLLAMA_BUILD_COMMON=ON"
     "-DLLAMA_BUILD_EXAMPLES=ON"
     "-DLLAMA_BUILD_TESTS=OFF"
+    "-DBITNET_X86_TL2=ON"
   ];
 
   meta = {
