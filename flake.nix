@@ -31,6 +31,7 @@
       nanocoder = prev.callPackage ./pkgs/nanocoder {};
       github-copilot-cli = prev.callPackage ./pkgs/github-copilot-cli {};
       pixieditor = prev.callPackage ./pkgs/pixieditor {};
+      bitnet = prev.callPackage ./pkgs/bitnet {};
     };
     pkgsFor = system:
       import nixpkgs {
@@ -65,7 +66,7 @@
     packages = forAllSystems (system: let
       pkgs = pkgsFor system;
     in {
-      inherit (pkgs) nanocoder github-copilot-cli pixieditor;
+      inherit (pkgs) nanocoder github-copilot-cli pixieditor bitnet;
     });
 
     nixosConfigurations = {
