@@ -1,5 +1,5 @@
 # nix build .#github-copilot-cli
-
+# note that future versions may break this process... Like 0.0.350!
 {
   lib,
   buildNpmPackage,
@@ -9,14 +9,15 @@
 
 buildNpmPackage (finalAttrs: {
   pname = "github-copilot-cli";
-  version = "0.0.339";
+  version = "0.0.349";
 
   src = fetchzip {
     url = "https://registry.npmjs.org/@github/copilot/-/copilot-${finalAttrs.version}.tgz";
-    hash = "sha256-dgdlvsFVwFRziehe9wYjtWPGOFTtT/Px+9fkRy37c0k=";
+    hash = "sha256-lIa36K0YnH3ZqWKvIwFsBHNJCwHjVL9EtayWXKl6vIo=";
   };
 
-  npmDepsHash = "sha256-sojOiXpbdfvKmwVslbU3LA0+DM9MuCUS5wegsH/2LrQ=";
+  npmDepsHash = "sha256-LH5nt5PbwdVXjtdnlZGhhRKRIPrLbCW7cyL7WhKV1ps=";
+
 
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
