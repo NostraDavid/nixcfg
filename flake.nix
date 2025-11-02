@@ -66,7 +66,7 @@
     packages = forAllSystems (system: let
       pkgs = pkgsFor system;
     in {
-      inherit (pkgs) nanocoder github-copilot-cli pixieditor bitnet;
+      inherit (pkgs) nanocoder github-copilot-cli pixieditor bitnet opencode;
     });
 
     nixosConfigurations = {

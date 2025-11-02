@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# Updates pkgs/github-copilot-cli/default.nix to the desired upstream release.
+
+set -euo pipefail
+
+version="${1:-}"
+if [[ -z "${version}" ]]; then
+  version="$(npm view @github/copilot version)"
+fi
+
+repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
+default_nix="${repo_root}/pkgs/github-copilot-cli/default.nix"
+package_json="${repo_root}/pkgs/github-copilot-cli/package.json"
+package_lock="${repo_root}/pkgs/github-copilot-cli/package-lock.json"
+
+case "$(uname -s)" in
+  Linux) npm_platform="linux" ;;
+  Darwin) npm_platform="darwin" ;;
+  *) npm_platform="$(uname -s | tr '[:upper:]' '[:lower:]')" ;;
+esac
+
+case "$(uname -m)" in
+  x86_64) npm_arch="x64" ;;
+  aarch64|arm64) npm_arch="arm64" ;;
+  *) npm_arch="$(uname -m)" ;;
+esac
+
+tmp_dir="$(mktemp -d)"
+cleanup() {
+  rm -rf "${tmp_dir}"
+}
+trap cleanup EXIT
+
+printf 'Updating github-copilot-cli to version %s\n' "${version}"
+
+prefetch_json="$(nix store prefetch-file --json --unpack "https://registry.npmjs.org/@github/copilot/-/copilot-${version}.tgz")"
+source_hash="$(printf '%s' "${prefetch_json}" | jq -r '.hash')"
+store_path="$(printf '%s' "${prefetch_json}" | jq -r '.storePath // .path')"
+
+package_json_src="$(find "${store_path}" -maxdepth 5 -type f -name package.json -print -quit)"
+if [[ -z "${package_json_src}" ]]; then
+  echo 'Unable to locate package.json in fetched tarball.' >&2
+  exit 1
+fi
+package_src_dir="$(dirname "${package_json_src}")"
+
+cp "${package_src_dir}/package.json" "${package_json}"
+
+if [[ -f "${package_src_dir}/package-lock.json" ]]; then
+  cp "${package_src_dir}/package-lock.json" "${package_lock}"
+else
+  work_dir="${tmp_dir}/package-src"
+  mkdir -p "${work_dir}"
+  cp -R "${package_src_dir}"/. "${work_dir}"/
+  chmod -R u+w "${work_dir}"
+  (
+    cd "${work_dir}" && \
+    npm_config_platform="${npm_platform}" \
+    npm_config_arch="${npm_arch}" \
+    npm_config_force=true \
+    npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+  )
+  cp "${work_dir}/package-lock.json" "${package_lock}"
+fi
+
+sed -i "0,/version = \".*\";/s#version = \".*\";#version = \"${version}\";#" "${default_nix}"
+sed -i "0,/hash = \".*\";/s#hash = \".*\";#hash = \"${source_hash}\";#" "${default_nix}"
+sed -i "0,/npmDepsHash = .*/s#npmDepsHash = .*;#npmDepsHash = lib.fakeHash;#" "${default_nix}"
+
+echo 'Determining npmDepsHash...'
+build_log="${tmp_dir}/build.log"
+if nix build .#github-copilot-cli --no-link >"${build_log}" 2>&1; then
+  echo 'nix build unexpectedly succeeded while npmDepsHash was set to lib.fakeHash.' >&2
+  cat "${build_log}" >&2
+  exit 1
+fi
+
+new_npm_hash="$(grep -oE 'got:\s+sha256-[A-Za-z0-9+/=]+' "${build_log}" | awk '{print $2}' | tail -n1)"
+if [[ -z "${new_npm_hash}" ]]; then
+  echo 'Failed to extract npmDepsHash from nix build output.' >&2
+  cat "${build_log}" >&2
+  exit 1
+fi
+
+sed -i "0,/npmDepsHash = lib.fakeHash;/s#npmDepsHash = lib.fakeHash;#npmDepsHash = \"${new_npm_hash}\";#" "${default_nix}"
+
+echo 'Verifying nix build...'
+nix build .#github-copilot-cli --no-link
+
+echo 'github-copilot-cli update complete.'

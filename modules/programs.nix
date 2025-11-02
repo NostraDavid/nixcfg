@@ -10,6 +10,8 @@
   };
   pkgs-local = pkgs.extend (_final: prev: {
     github-copilot-cli = prev.callPackage ../pkgs/github-copilot-cli {};
+    opencode = prev.callPackage ../pkgs/opencode {};
+    nanocoder = prev.callPackage ../pkgs/nanocoder {};
     # pixieditor = prev.callPackage ../pkgs/pixieditor {};
   });
 in {
@@ -158,6 +160,7 @@ in {
     pkgs-local.pixieditor
     pkgs-local.nanocoder
     pkgs-local.bitnet
+    pkgs-local.opencode
 
     # podman
     podman-desktop # GUI for managing containers
