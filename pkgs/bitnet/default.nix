@@ -1,11 +1,11 @@
 {
   lib,
-  stdenv,
+  llvmPackages_20,
   cmake,
   fetchFromGitHub,
 }:
 
-stdenv.mkDerivation (finalAttrs: {
+llvmPackages_20.stdenv.mkDerivation (finalAttrs: {
   pname = "bitnet";
   version = "unstable-2025-06-03";
 
@@ -17,18 +17,19 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-bRnrjsE+WdZXAAtDISDu8qICLI70q2TFDSZyI5mzvEY=";
   };
 
-  nativeBuildInputs = [ cmake ];
+  nativeBuildInputs = [
+    cmake
+    llvmPackages_20.clang
+    llvmPackages_20.lld
+  ];
 
   preConfigure = ''
     rm -f include/bitnet-lut-kernels.h
     ln -s ../preset_kernels/bitnet_b1_58-large/bitnet-lut-kernels-tl2.h include/bitnet-lut-kernels.h
     rm -f 3rdparty/llama.cpp/ggml/include/ggml-bitnet.h
     ln -s ../../../../include/ggml-bitnet.h 3rdparty/llama.cpp/ggml/include/ggml-bitnet.h
-  '';
-
-  postConfigure = ''
-    ln -sf 3rdparty/llama.cpp/LlamaConfig.cmake LlamaConfig.cmake
-    ln -sf 3rdparty/llama.cpp/LlamaConfigVersion.cmake LlamaConfigVersion.cmake
+    # Provide llama.h at the project root so CMake install succeeds
+    cp 3rdparty/llama.cpp/include/llama.h llama.h
   '';
 
   cmakeFlags = [
