@@ -10,8 +10,8 @@
   };
   pkgs-local = pkgs.extend (_final: prev: {
     github-copilot-cli = prev.callPackage ../pkgs/github-copilot-cli {};
+    nanocoder = prev.callPackage ../pkgs/nanocoder {};
     # opencode = prev.callPackage ../pkgs/opencode {};
-    # nanocoder = prev.callPackage ../pkgs/nanocoder {};
     # pixieditor = prev.callPackage ../pkgs/pixieditor {};
   });
 in {
@@ -159,8 +159,8 @@ in {
     # local
     pkgs-local.github-copilot-cli
     pkgs-local.pixieditor
-    # pkgs-local.nanocoder
-    # pkgs-local.bitnet
+    pkgs-local.nanocoder
+    pkgs-local.bitnet
     # pkgs-local.opencode
 
     # podman

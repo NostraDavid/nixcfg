@@ -29,7 +29,7 @@
     forAllSystems = f: lib.genAttrs systems (system: f system);
     overlay-local = final: prev: {
       github-copilot-cli = prev.callPackage ./pkgs/github-copilot-cli {};
-      # nanocoder = prev.callPackage ./pkgs/nanocoder {};
+      nanocoder = prev.callPackage ./pkgs/nanocoder {};
       # pixieditor = prev.callPackage ./pkgs/pixieditor {};
       # bitnet = prev.callPackage ./pkgs/bitnet {};
     };

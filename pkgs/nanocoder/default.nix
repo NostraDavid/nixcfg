@@ -7,14 +7,14 @@
 
 buildNpmPackage (finalAttrs: {
   pname = "nanocoder";
-  version = "1.14.0";
+  version = "1.14.2";
 
   src = fetchzip {
     url = "https://registry.npmjs.org/@nanocollective/nanocoder/-/nanocoder-${finalAttrs.version}.tgz";
-    hash = "sha256-GQTryj34NslrFHA8W3IkcSjASmc/cYskd8R9DlAPNbQ=";
+    hash = "sha256-6Oc6wa78ynNkX5mgvNNNX9kpIIM+TQr1aRc4I73u0rg=";
   };
 
-  npmDepsHash = "sha256-c566+lRQUEwynf+k9oMvM8s76VHvLi8i/8vo2j33Pos=";
+  npmDepsHash = "sha256-txlyhwPsN8E+ZULQY6xz4OeyGtNKkbLzoNjZAsdz4uo=";
 
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
@@ -34,6 +34,5 @@ buildNpmPackage (finalAttrs: {
       dbreyfogle
     ];
     mainProgram = "nanocoder";
-    platforms = lib.platforms.linux;
   };
 })
