@@ -30,6 +30,7 @@
     overlay-local = final: prev: {
       github-copilot-cli = prev.callPackage ./pkgs/github-copilot-cli {};
       nanocoder = prev.callPackage ./pkgs/nanocoder {};
+      opencode = prev.callPackage ./pkgs/opencode {};
       # pixieditor = prev.callPackage ./pkgs/pixieditor {};
       # bitnet = prev.callPackage ./pkgs/bitnet {};
     };
