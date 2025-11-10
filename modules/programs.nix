@@ -214,5 +214,6 @@ in {
     wezterm # Terminal emulator
     wireguard-tools # WireGuard tools
     wireguard-ui # WireGuard UI
+    qdirstat # Disk usage analyzer with Qt GUI
   ];
 }
