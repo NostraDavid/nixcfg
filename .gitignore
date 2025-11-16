@@ -6,6 +6,7 @@
 !flake.nix
 !README.md
 !AGENTS.md
+!huisplan.md
 
 # folders (ordered by when added)
 !.github/
