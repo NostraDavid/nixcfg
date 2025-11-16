@@ -5,11 +5,12 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "opencode";
-  version = "1.0.12";
+  version = "1.0.67";
 
   src = fetchzip {
     url = "https://github.com/sst/opencode/releases/download/v${finalAttrs.version}/opencode-linux-x64.zip";
-    hash = "sha256-hJcELSMyAPTLC/bZamsqX4TRkVYqqs8ABxpOl4RGq6Q=";
+    # nix store prefetch-file https://github.com/sst/opencode/releases/download/v1.0.67/opencode-linux-x64.zip
+    hash = "sha256-TPEaMA3bN5Qwjg03q6WlFmej6VVI+ZgcAIVDipZGWCQ=";
     stripRoot = false;
   };
 

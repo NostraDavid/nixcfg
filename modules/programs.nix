@@ -12,6 +12,7 @@
     github-copilot-cli = prev.callPackage ../pkgs/github-copilot-cli {};
     nanocoder = prev.callPackage ../pkgs/nanocoder {};
     opencode = prev.callPackage ../pkgs/opencode {};
+    vscode = prev.callPackage ../pkgs/vscode {vscode = prev.vscode;};
     # bitnet = prev.callPackage ../pkgs/bitnet {};
     # pixieditor = prev.callPackage ../pkgs/pixieditor {};
   });
@@ -151,7 +152,6 @@ in {
 
     # unstable
     pkgs-unstable.codex # Code autocompletion tool
-    pkgs-unstable.vscode # Visual Studio Code
     pkgs-unstable.uv
     pkgs-unstable.ollama-cuda # Local LLM server
     pkgs-unstable.vllm # High-performance inference server for large language models
@@ -162,6 +162,7 @@ in {
     pkgs-local.pixieditor
     pkgs-local.nanocoder
     pkgs-local.opencode
+    pkgs-local.vscode
     # pkgs-local.bitnet
 
     # podman
