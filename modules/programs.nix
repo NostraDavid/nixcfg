@@ -13,8 +13,9 @@
     nanocoder = prev.callPackage ../pkgs/nanocoder {};
     opencode = prev.callPackage ../pkgs/opencode {};
     vscode = prev.callPackage ../pkgs/vscode {vscode = prev.vscode;};
-    # bitnet = prev.callPackage ../pkgs/bitnet {};
-    # pixieditor = prev.callPackage ../pkgs/pixieditor {};
+    goose = prev.callPackage ../pkgs/goose {};
+    bitnet = prev.callPackage ../pkgs/bitnet {};
+    pixieditor = prev.callPackage ../pkgs/pixieditor {};
   });
 in {
   home.packages = with pkgs; [
@@ -114,8 +115,8 @@ in {
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
     strace
-    tabby # Self-hosted AI coding assistant
-    tabby-agent # Language server used to communicate with Tabby server
+    # tabby # Self-hosted AI coding assistant
+    # tabby-agent # Language server used to communicate with Tabby server
     tmux
     tree # Display directory structure in a tree-like format
     tts # coqui-tts
@@ -163,7 +164,8 @@ in {
     pkgs-local.nanocoder
     pkgs-local.opencode
     pkgs-local.vscode
-    # pkgs-local.bitnet
+    pkgs-local.goose
+    pkgs-local.bitnet
 
     # podman
     podman-desktop # GUI for managing containers

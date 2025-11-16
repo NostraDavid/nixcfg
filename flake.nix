@@ -32,8 +32,9 @@
       nanocoder = prev.callPackage ./pkgs/nanocoder {};
       opencode = prev.callPackage ./pkgs/opencode {};
       vscode = prev.callPackage ./pkgs/vscode {vscode = prev.vscode;};
-      # pixieditor = prev.callPackage ./pkgs/pixieditor {};
+      pixieditor = prev.callPackage ./pkgs/pixieditor {};
       bitnet = prev.callPackage ./pkgs/bitnet {};
+      goose = prev.callPackage ./pkgs/goose {};
     };
     pkgsFor = system:
       import nixpkgs {
@@ -69,7 +70,7 @@
       pkgs = pkgsFor system;
     in {
       # inherit (pkgs) nanocoder github-copilot-cli pixieditor bitnet opencode;
-      inherit (pkgs) nanocoder github-copilot-cli pixieditor vscode;
+      inherit (pkgs) nanocoder github-copilot-cli pixieditor vscode goose;
     });
 
     nixosConfigurations = {
