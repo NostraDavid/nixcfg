@@ -33,7 +33,7 @@
       opencode = prev.callPackage ./pkgs/opencode {};
       vscode = prev.callPackage ./pkgs/vscode {vscode = prev.vscode;};
       # pixieditor = prev.callPackage ./pkgs/pixieditor {};
-      # bitnet = prev.callPackage ./pkgs/bitnet {};
+      bitnet = prev.callPackage ./pkgs/bitnet {};
     };
     pkgsFor = system:
       import nixpkgs {

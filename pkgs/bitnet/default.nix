@@ -32,6 +32,18 @@ llvmPackages_20.stdenv.mkDerivation (finalAttrs: {
     cp 3rdparty/llama.cpp/include/llama.h llama.h
   '';
 
+  # Upstream install target expects a generated LlamaConfig.cmake that is
+  # currently missing, so provide a minimal stub so the install phase succeeds.
+  preBuild = ''
+    cat > LlamaConfig.cmake <<'EOF'
+get_filename_component(_LLAMA_PREFIX "''${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
+set(Llama_INCLUDE_DIR "''${_LLAMA_PREFIX}/include")
+set(Llama_LIBRARY "''${_LLAMA_PREFIX}/lib/libggml.so")
+set(Llama_LIBRARIES "''${Llama_LIBRARY}")
+set(Llama_FOUND TRUE)
+EOF
+  '';
+
   cmakeFlags = [
     "-DLLAMA_BUILD_COMMON=ON"
     "-DLLAMA_BUILD_EXAMPLES=ON"
