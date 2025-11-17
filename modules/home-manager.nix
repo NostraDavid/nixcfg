@@ -1,5 +1,4 @@
 {
-  hostname,
   main-user,
   inputs,
   ...

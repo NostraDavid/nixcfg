@@ -60,6 +60,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     ];
     mainProgram = "goose";
     platforms = ["x86_64-linux"];
-    sourceProvenance = with lib.sourceTypes; [lib.sourceTypes.binaryNativeCode];
+    sourceProvenance = [lib.sourceTypes.binaryNativeCode];
   };
 })
