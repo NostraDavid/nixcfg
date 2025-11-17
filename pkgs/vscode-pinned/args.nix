@@ -1,0 +1,3 @@
+{prev, ...}: {
+  vscode = prev.vscode;
+}

@@ -27,15 +27,35 @@
       "x86_64-linux"
     ];
     forAllSystems = f: lib.genAttrs systems (system: f system);
-    overlay-local = final: prev: {
-      github-copilot-cli = prev.callPackage ./pkgs/github-copilot-cli {};
-      nanocoder = prev.callPackage ./pkgs/nanocoder {};
-      opencode = prev.callPackage ./pkgs/opencode {};
-      vscode = prev.callPackage ./pkgs/vscode {vscode = prev.vscode;};
-      pixieditor = prev.callPackage ./pkgs/pixieditor {};
-      bitnet = prev.callPackage ./pkgs/bitnet {};
-      goose = prev.callPackage ./pkgs/goose {};
-    };
+    overlay-local = final: prev: let
+      inherit
+        (builtins)
+        attrNames
+        filter
+        listToAttrs
+        map
+        pathExists
+        readDir
+        ;
+      pkgsDir = ./pkgs;
+      entries = readDir pkgsDir;
+      packageNames =
+        filter (name: entries.${name} == "directory") (attrNames entries);
+    in
+      listToAttrs (map
+        (name: {
+          inherit name;
+          value = let
+            pkgPath = pkgsDir + "/${name}";
+            argsPath = pkgPath + "/args.nix";
+            fileArgs =
+              if pathExists argsPath
+              then import argsPath {inherit final prev;}
+              else {};
+          in
+            prev.callPackage pkgPath fileArgs;
+        })
+        packageNames);
     pkgsFor = system:
       import nixpkgs {
         inherit system;
@@ -67,11 +87,18 @@
     legacyPackages = forAllSystems pkgsFor;
 
     packages = forAllSystems (system: let
+      inherit (builtins) attrNames filter listToAttrs map readDir;
       pkgs = pkgsFor system;
-    in {
-      # inherit (pkgs) nanocoder github-copilot-cli pixieditor bitnet opencode;
-      inherit (pkgs) nanocoder github-copilot-cli pixieditor vscode goose;
-    });
+      entries = readDir ./pkgs;
+      localPackageNames =
+        filter (name: entries.${name} == "directory") (attrNames entries);
+    in
+      listToAttrs (map
+        (name: {
+          inherit name;
+          value = pkgs.${name};
+        })
+        localPackageNames));
 
     nixosConfigurations = {
       wodan = mkHost {

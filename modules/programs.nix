@@ -8,15 +8,18 @@
     inherit (pkgs) system;
     config = pkgs.config // {allowUnfree = true;};
   };
-  pkgs-local = pkgs.extend (_final: prev: {
-    github-copilot-cli = prev.callPackage ../pkgs/github-copilot-cli {};
-    nanocoder = prev.callPackage ../pkgs/nanocoder {};
-    opencode = prev.callPackage ../pkgs/opencode {};
-    vscode = prev.callPackage ../pkgs/vscode {vscode = prev.vscode;};
-    goose = prev.callPackage ../pkgs/goose {};
-    bitnet = prev.callPackage ../pkgs/bitnet {};
-    pixieditor = prev.callPackage ../pkgs/pixieditor {};
-  });
+  inherit (builtins) attrNames filter listToAttrs map readDir;
+  localPackageNames = let
+    entries = readDir ../pkgs;
+  in
+    filter (name: entries.${name} == "directory") (attrNames entries);
+  pkgs-local =
+    listToAttrs
+    (map (name: {
+        inherit name;
+        value = pkgs.${name};
+      })
+      localPackageNames);
 in {
   home.packages = with pkgs; [
     ## Terminal apps
@@ -163,7 +166,7 @@ in {
     pkgs-local.pixieditor
     pkgs-local.nanocoder
     pkgs-local.opencode
-    pkgs-local.vscode
+    pkgs-local.vscode-pinned
     pkgs-local.goose
     pkgs-local.bitnet
 
