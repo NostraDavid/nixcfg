@@ -167,6 +167,7 @@ in {
     pkgs-local.nanocoder
     pkgs-local.opencode
     pkgs-local.vscode-pinned
+    pkgs-local.synology-drive-client-pinned
     pkgs-local.goose
     pkgs-local.bitnet
 
@@ -216,7 +217,7 @@ in {
     signal-desktop # Signal messaging app
     slack # Slack messaging app
     speedcrunch # Calculator
-    synology-drive-client # Synology Drive client
+    # synology-drive-client # Synology Drive client
     wezterm # Terminal emulator
     wireguard-tools # WireGuard tools
     wireguard-ui # WireGuard UI
