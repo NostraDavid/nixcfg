@@ -48,7 +48,7 @@
 
     hosts = {
       # related to project ctb
-      "127.0.0.1" = ["pgadmin.lan" "redpanda.lan"];
+      "127.0.0.1" = ["mlflow.localhost"];
     };
   };
 
