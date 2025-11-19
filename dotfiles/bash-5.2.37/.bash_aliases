@@ -17,7 +17,7 @@ alias ls='ls --color=auto'
 alias ncdu='ncdu --color=dark'
 alias sudo='sudo '
 alias vi='nvim'
-alias rplasma='systemctl --user restart plasma-plasmashell.service'
+alias plasma_restart='systemctl --user restart plasma-plasmashell.service'
 alias generate_gitignore='echo "# ignore all direct items, nonrecursively
 /*
 
