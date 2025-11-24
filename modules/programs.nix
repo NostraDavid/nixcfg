@@ -166,6 +166,7 @@ in {
     freetype
 
     # unstable
+    pkgs-unstable.vscode
     pkgs-unstable.codex # Code autocompletion tool
     pkgs-unstable.uv
     pkgs-unstable.ollama-cuda # Local LLM server
@@ -179,7 +180,7 @@ in {
     pkgs-local.pixieditor
     pkgs-local.nanocoder
     pkgs-local.opencode
-    pkgs-local.vscode-pinned
+    # pkgs-local.vscode-pinned
     pkgs-local.synology-drive-client-pinned
     pkgs-local.goose
     pkgs-local.bitnet
