@@ -154,12 +154,25 @@ in {
     jdk17 # openjdk for nvim-lsp-java
     dotnet-sdk
 
+    # GUI libs for Haemwend
+    xorg.libX11
+    libGL
+    xorg.libXrender
+    xorg.libXext
+    xorg.libXcursor
+    xorg.libXrandr
+    xorg.libXi
+    fontconfig
+    freetype
+
     # unstable
     pkgs-unstable.codex # Code autocompletion tool
     pkgs-unstable.uv
     pkgs-unstable.ollama-cuda # Local LLM server
     pkgs-unstable.vllm # High-performance inference server for large language models
     pkgs-unstable.zed-editor # Zed text editor
+    pkgs-unstable.gemini-cli # Gemini protocol command line client
+    # pkgs-unstable.openra_2019-release
 
     # local
     pkgs-local.github-copilot-cli
