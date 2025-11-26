@@ -30,6 +30,7 @@
     "dev/grab.sh".source = mk "${dot}/dev/grab.sh";
     "dev/grab_parallel.sh".source = mk "${dot}/dev/grab_parallel.sh";
     ".local/bin/folder_stats".source = mk "${dot}/scripts/folder_stats";
+    ".config/GIMP/3.0/".source = mk "${dot}/gimp-3.0/.config/GIMP/3.0";
   };
 
   home.sessionVariables = {};
