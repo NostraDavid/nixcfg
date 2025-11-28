@@ -1,90 +1,76 @@
 # NixOS Configuration - AI Coding Agent Instructions
 
-## Architecture Overview
+## Architecture
 
-This is a **NixOS Flakes-based configuration** managing multiple hosts with shared components:
+**Flakes-based multi-host NixOS config** with Home Manager integration.
 
-- **`flake.nix`**: Entry point defining `nixosConfigurations` for each host (wodan, frigg)
-- **`hosts/`**: Host-specific configurations that import shared modules
-- **`modules/`**: Reusable NixOS modules (boot, i18n, programs, etc.)
-- **`dotfiles/`**: Application configurations organized by package version (e.g., `bash-5.2.37/`)
+```
+flake.nix              # Entry point: mkHost helper, overlay-local for pkgs/
+├── hosts/<name>/      # Per-host config + hardware-configuration.nix
+├── modules/           # Shared modules imported by hosts
+├── pkgs/              # Custom package derivations (auto-discovered via overlay)
+└── dotfiles/          # Version-specific configs symlinked via Home Manager
+```
+
+**Data flow**: `flake.nix` → `mkHost` passes `hostname`/`main-user` via `specialArgs` → host imports modules → `home-manager.nix` wires user config.
+
+## Commands
+
+```bash
+sudo nixos-rebuild switch --flake .#wodan   # Apply changes
+sudo nixos-rebuild test --flake .#wodan     # Test (reverts on reboot)
+sudo nix flake update                       # Update inputs
+alejandra .                                 # Format Nix files before commit
+```
 
 ## Key Patterns
 
-### Module Import Strategy
+### Adding Packages
 
-Host configurations follow this pattern:
+- **System packages**: `environment.systemPackages` in `hosts/<host>/configuration.nix`
+- **User packages**: `home.packages` in `modules/programs.nix`
+- **Unstable packages**: Use `pkgs-unstable.<pkg>` (see `programs.nix` line 7-10)
+- **Local packages**: Add directory to `pkgs/`, automatically picked up via `overlay-local`
+
+### Custom Package Pattern (`pkgs/`)
+
+Packages are auto-discovered. Create `pkgs/<name>/default.nix`:
 
 ```nix
-imports = [
-  ./hardware-configuration.nix
-  ../../modules/boot.nix
-  inputs.home-manager.nixosModules.home-manager
-  (import ../../modules/home-manager.nix {inherit hostname main-user;})
-];
+{ fetchurl, vscode }: let          # Args from callPackage
+  version = "1.106.0";
+in vscode.overrideAttrs (_: { inherit version src; })
 ```
 
-### Dotfiles Management via Home Manager
+Optional `args.nix` for custom callPackage arguments (see `pkgs/vscode-pinned/`).
 
-- Dotfiles use **version-specific directories** (`tmux-3.5a/`, `starship-1.23.0/`)
-- Symlinked via `modules/dotfiles.nix` using `home.file`
-- Structured for compatibility with GNU `stow` (original management tool)
+### Dotfiles Convention
 
-### Parameter Passing
+Version-specific directories (`bash-5.2.37/`, `tmux-3.5a/`) symlinked in `modules/dotfiles.nix`:
 
-- Uses `specialArgs` in flake to pass `hostname` and `main-user` to configurations
-- Modules receive parameters via function arguments: `{hostname, main-user, ...}:`
-
-## Development Workflows
-
-### Configuration Management
-
-```bash
-# Apply configuration changes
-sudo nixos-rebuild switch --flake .#wodan
-
-# Test changes (reverts on reboot)
-sudo nixos-rebuild test --flake .#wodan
-
-# Update flake inputs
-sudo nix flake update
+```nix
+".bashrc".source = mk "${dot}/bash-5.2.37/.bashrc";
 ```
 
-### Adding New Hosts
+Structure preserved for GNU `stow` compatibility.
 
-1. Create `hosts/HOSTNAME/configuration.nix` and `hardware-configuration.nix`
-2. Add entry to `flake.nix` nixosConfigurations
-3. Import shared modules using the established pattern
+### Module Parameters
 
-### Package Management
+Modules receive flake inputs via function args:
 
-- System packages: Add to `environment.systemPackages` in host configs
-- User packages: Add to `home.packages` in `modules/programs.nix`
-- Use package overrides for customization (see neovim example with wl-clipboard)
+```nix
+{ pkgs, inputs, hostname, main-user, ... }:
+```
 
-## Project-Specific Conventions
+## Host-Specific Notes
 
-### Hardware-Specific Features
+- **wodan**: NVIDIA + CUDA, Steam, Podman, NuPhy/Whatpulse udev rules, custom certs in `certs/`
+- **frigg**: Different hardware, same module pattern
 
-- **wodan**: Gaming rig with NVIDIA drivers, Steam, hardware groups for NuPhy keyboard/Whatpulse
-- **frigg**: Different hardware profile, same modular approach
+## Conventions
 
-### Security & Certificates
-
-- Custom PKI certificates in `hosts/*/certs/` for enterprise environments
-- Firefox configured to trust OS certificate store
-
-### Service Configuration
-
-- K3s with inline manifests using Nix attribute sets
-- Prometheus exporters disabled by default (enable per-host)
-- Hardware-specific udev rules for peripheral support
-
-## Critical Dependencies
-
-- **NixOS 25.05** channel (stable)
-- **Home Manager** for user-level configuration
-- **Flakes** experimental feature must be enabled
-- Custom certificates for enterprise network integration
-
-When modifying configurations, always test with `nixos-rebuild test` before switching to avoid system breakage.
+- Two-space indent, trailing semicolons
+- Lowercase filenames matching existing patterns
+- Format with `alejandra` before committing
+- Always `nixos-rebuild test` before `switch`
+- Never manually edit `hardware-configuration.nix` unless hardware changes
