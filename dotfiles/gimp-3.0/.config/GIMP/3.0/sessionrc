@@ -83,18 +83,18 @@
     (monitor 1))
 (session-info "toplevel"
     (factory-entry "gimp-toolbox-color-dialog")
-    (position 26 594)
-    (monitor 0))
+    (position 1249 594)
+    (monitor 1))
 (session-info "toplevel"
     (factory-entry "gimp-file-save-dialog")
     (position 26 23)
     (size 1096 822)
-    (monitor 0))
+    (monitor 1))
 (session-info "toplevel"
     (factory-entry "gimp-file-export-dialog")
     (position 26 23)
     (size 1096 822)
-    (monitor 0))
+    (monitor 1))
 
 (hide-docks no)
 (single-window-mode yes)
