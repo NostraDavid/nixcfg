@@ -74,3 +74,5 @@ Modules receive flake inputs via function args:
 - Format with `alejandra` before committing
 - Always `nixos-rebuild test` before `switch`
 - Never manually edit `hardware-configuration.nix` unless hardware changes
+
+> For workflow/PR conventions, see `AGENTS.md`
