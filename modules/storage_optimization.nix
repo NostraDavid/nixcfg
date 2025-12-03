@@ -1,5 +1,8 @@
 {...}: {
   nix = {
+    settings = {
+      max-jobs = 24;
+    };
     gc = {
       automatic = true;
       dates = "daily";

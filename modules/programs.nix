@@ -37,7 +37,7 @@ in {
     diffutils # Diff
     direnv # Environment variable manager for dev
     dnsutils # `dig` + `nslookup`
-    du-dust # better du called dust
+    dust # better du called dust
     duckdb
     exfatprogs # ExFAT FS utilities
     eza # modern replacement for `ls`
@@ -186,7 +186,7 @@ in {
     pkgs-local.nanocoder
     pkgs-local.opencode
     # pkgs-local.vscode-pinned
-    pkgs-local.synology-drive-client-pinned
+    # pkgs-local.synology-drive-client-pinned # kaput in 25.11
     pkgs-local.goose
     pkgs-local.bitnet
 
@@ -211,7 +211,7 @@ in {
     dbeaver-bin # Database management tool
     evolution # Email client
     fluent-reader # RSS reader
-    fooyin # Music player
+    # fooyin # Music player # kaput in 25.11
     friture # Real-time audio analyzer
     fsearch # Everything replacement
     gimp3 # Image editor
@@ -236,7 +236,7 @@ in {
     signal-desktop # Signal messaging app
     slack # Slack messaging app
     speedcrunch # Calculator
-    # synology-drive-client # Synology Drive client
+    synology-drive-client # Synology Drive client
     wezterm # Terminal emulator
     wireguard-tools # WireGuard tools
     wireguard-ui # WireGuard UI
