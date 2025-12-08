@@ -21,5 +21,10 @@
         "net.ipv4.ip_unprivileged_port_start" = 80;
       };
     };
+
+    kernelParams = [
+      # This is to fix the sleep breaking KDE Plasma issue
+      "mem_sleep_default=s2idle"
+    ];
   };
 }
