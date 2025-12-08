@@ -87,6 +87,9 @@
 
       # Whatpulse rules
       KERNEL=="event*", NAME="input/%k", MODE="640", GROUP="input"
+
+      # Nvidia GPU power management - keep GPU powered on when in use
+      ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{power/control}="on"
     '';
 
     # Enable touchpad support (enabled default in most desktopManager).
@@ -171,8 +174,11 @@
     };
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # Allow unfree packages (required for the pinned NVIDIA driver)
+  nixpkgs.config = {
+    allowUnfree = true;
+    nvidia.acceptLicense = true;
+  };
 
   # Enable common container config files in /etc/containers
   systemd.user.services.podman = {
@@ -253,6 +259,9 @@
       # Experimental and only works on modern Nvidia GPUs (Turing or newer).
       powerManagement.finegrained = false;
 
+      # Disable GSP; pinned 570 driver does not ship firmware in this pin
+      gsp.enable = false;
+
       # Use the NVidia open source kernel module (not to be confused with the
       # independent third-party "nouveau" open source driver).
       # Support is limited to the Turing and later architectures. Full list of
@@ -267,8 +276,13 @@
 
       nvidiaPersistenced = true; # Enable the nvidia-persistenced daemon to keep the GPU powered on when not in use.
 
-      # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      # Pin the NVIDIA driver to avoid userland/kernel API mismatches during switch
+      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+        version = "570.195.03";
+        sha256_64bit = "sha256-1H3oHZpRNJamCtyc+nL+nhYsZfJyL7lgxPUxvXrF3B4=";
+        settingsSha256 = "sha256-mjKkMEPV6W69PO8jKAKxAS861B82CtCpwVTeNr5CqUY=";
+        persistencedSha256 = "sha256-BMpo2PIabhHjZQqUQi/W5DYhgAPmfCdFvXdN6ND2Bfs=";
+      };
     };
   };
 
