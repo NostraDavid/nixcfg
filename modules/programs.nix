@@ -112,6 +112,7 @@ in {
     ripgrep # Search tool (rg)
     rsync
     ruff
+    shellcheck
     shfmt # Shell script formatter
     sqlfluff # SQL linter and formatter
     sqlite
