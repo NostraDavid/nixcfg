@@ -97,6 +97,7 @@ in {
     nodejs_24 # for npx, for vscode
     nom # RSS reader
     ntfs3g # NTFS driver for work.
+    openssl # SSL/TLS toolkit
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
     parallel
