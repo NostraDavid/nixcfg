@@ -5,7 +5,7 @@
   ...
 }: let
   pkgs-unstable = import inputs.nixpkgs-unstable {
-    inherit (pkgs) system;
+    inherit (pkgs.stdenv.hostPlatform) system;
     config = pkgs.config // {allowUnfree = true;};
   };
   inherit (builtins) attrNames filter listToAttrs map readDir;
@@ -176,7 +176,7 @@ in {
     pkgs-unstable.vscode
     pkgs-unstable.codex # Code autocompletion tool
     pkgs-unstable.uv
-    pkgs-unstable.ollama-cuda # Local LLM server
+    # pkgs-unstable.ollama-cuda # Local LLM server
     pkgs-unstable.vllm # High-performance inference server for large language models
     pkgs-unstable.zed-editor # Zed text editor
     pkgs-unstable.gemini-cli # Gemini protocol command line client

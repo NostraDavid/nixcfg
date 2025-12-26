@@ -16,6 +16,12 @@ buildNpmPackage (finalAttrs: {
 
   npmDepsHash = "sha256-txlyhwPsN8E+ZULQY6xz4OeyGtNKkbLzoNjZAsdz4uo=";
 
+  npmConfigProduction = true;
+  npmConfigOptional = false;
+  npmFlags = [
+    "--omit=dev"
+  ];
+
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
   '';
