@@ -58,6 +58,13 @@
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services = {
+    guacamole-server = {
+       enable = true;
+       host = "127.0.0.1";
+       port = 4822;
+       userMappingXml = ./user-mapping.xml;
+   };
+
     xserver = {
       enable = true;
       # Load nvidia driver for Xorg and Wayland
