@@ -143,6 +143,7 @@ in {
     wineWowPackages.stable # support both 32-bit and 64-bit applications
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
+    xrdp # Remote Desktop Protocol client
     xq-xml # XML processor
     xz # Compression tool
     yq-go # YAML processor
