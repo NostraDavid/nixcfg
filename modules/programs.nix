@@ -113,6 +113,8 @@ in {
     rsync
     ruff
     rustdesk
+    rustdesk-server
+    nomachine-client
     spotify
     shellcheck
     shfmt # Shell script formatter
