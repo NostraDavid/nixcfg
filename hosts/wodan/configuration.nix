@@ -91,6 +91,7 @@
       enable = true;
       wayland.enable = false;
     };
+    displayManager.defaultSession = "plasma";
     desktopManager.plasma6.enable = true;
 
     # Enable CUPS to print documents.
