@@ -115,6 +115,8 @@ in {
     rustdesk
     rustdesk-server
     nomachine-client
+    guacamole-client
+    guacamole-server
     spotify
     shellcheck
     shfmt # Shell script formatter
