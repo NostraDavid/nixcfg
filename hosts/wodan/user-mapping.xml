@@ -1,0 +1,15 @@
+   <user-mapping>
+       <authorize username="david" password="6fc009f400f6fdde74857f9a9f924c23dc6e0c8e8302b1d7fb35d329c873f8ea" encoding="sha256">
+         <connection name="odin_rdp">
+             <protocol>rdp</protocol>
+             <param name="hostname">10.0.1.62</param>
+             <param name="port">3389</param>
+             <param name="ignore-cert">true</param>
+         </connection>
+         <connection name="odin_ssh">
+             <protocol>ssh</protocol>
+             <param name="hostname">10.0.1.62</param>
+             <param name="port">22</param>
+         </connection>
+       </authorize>
+   </user-mapping>
