@@ -90,6 +90,11 @@
     displayManager.sddm = {
       enable = true;
       wayland.enable = false;
+      settings = {
+        Wayland = {
+          SessionDir = "/etc/xdg/wayland-sessions";
+        };
+      };
     };
     displayManager.defaultSession = "plasma";
     desktopManager.plasma6.enable = true;
@@ -237,6 +242,8 @@
       cudaPackages.nccl
       nvtopPackages.full
     ];
+    # Keep Wayland sessions hidden so SDDM only offers X11.
+    etc."xdg/wayland-sessions".source = pkgs.emptyDirectory;
   };
 
   fonts.packages = with pkgs; [
