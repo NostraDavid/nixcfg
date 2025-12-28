@@ -112,6 +112,7 @@ in {
     ripgrep # Search tool (rg)
     rsync
     ruff
+    rustdesk
     spotify
     shellcheck
     shfmt # Shell script formatter
