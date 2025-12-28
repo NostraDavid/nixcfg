@@ -26,7 +26,6 @@ in {
     # Astral project manager
     alejandra # nix formatter
     atuin # shell history manager
-    anydesk
     bat # cat replacement
     btop # Resource monitor
     colordiff # diff viewer
