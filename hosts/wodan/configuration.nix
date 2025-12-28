@@ -59,11 +59,11 @@
   # You can disable this if you're only using the Wayland session.
   services = {
     guacamole-server = {
-       enable = true;
-       host = "127.0.0.1";
-       port = 4822;
-       userMappingXml = ./user-mapping.xml;
-   };
+      enable = true;
+      host = "127.0.0.1";
+      port = 4822;
+      userMappingXml = ./user-mapping.xml;
+    };
 
     xserver = {
       enable = true;
@@ -87,7 +87,10 @@
     displayManager.autoLogin.user = main-user;
 
     # Enable the KDE Plasma Desktop Environment.
-    displayManager.sddm.enable = true;
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = false;
+    };
     desktopManager.plasma6.enable = true;
 
     # Enable CUPS to print documents.
