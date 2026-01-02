@@ -74,6 +74,7 @@ in {
     inxi # system information tool
     ipcalc # it is a calculator for the IPv4/v6 addresses
     jpegoptim # JPEG image optimizer
+    jpeginfo # JPEG image validator
     jq # JSON processor
     just # justcfile
     k3d # k3s in docker
