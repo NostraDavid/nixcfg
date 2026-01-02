@@ -41,6 +41,7 @@ in {
     duckdb
     dust # better du called dust
     exfatprogs # ExFAT FS utilities
+    exiftool # for image metadata manipulation
     eza # modern replacement for `ls`
     fd # sometimes also fdfind or fd-find
     ffmpeg-full
