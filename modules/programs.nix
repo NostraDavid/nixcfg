@@ -198,6 +198,7 @@ in {
     pkgs-local.github-copilot-cli
     pkgs-local.pixieditor
     pkgs-local.nanocoder
+    pkgs-local.photorec
     pkgs-local.opencode
     # pkgs-local.vscode-pinned
     # pkgs-local.synology-drive-client-pinned # kaput in 25.11
