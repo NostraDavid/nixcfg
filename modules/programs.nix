@@ -25,8 +25,8 @@ in {
     ## Terminal apps
     # Astral project manager
     alejandra # nix formatter
-    atuin # shell history manager
     anydesk
+    atuin # shell history manager
     bat # cat replacement
     btop # Resource monitor
     colordiff # diff viewer
@@ -38,8 +38,8 @@ in {
     diffutils # Diff
     direnv # Environment variable manager for dev
     dnsutils # `dig` + `nslookup`
-    dust # better du called dust
     duckdb
+    dust # better du called dust
     exfatprogs # ExFAT FS utilities
     eza # modern replacement for `ls`
     fd # sometimes also fdfind or fd-find
@@ -57,6 +57,9 @@ in {
     glances # htop with temperature information
     gnugrep # GNU grep
     gnused # GNU sed
+    graphicsmagick
+    guacamole-client
+    guacamole-server
     hadolint # Dockerfile linter
     helix # Text editor (hx)
     helm
@@ -65,6 +68,7 @@ in {
     httpie # User-friendly HTTP client
     hyperfine # Command-line benchmarking tool
     image_optim # Image optimization tool
+    imagemagick
     inetutils # telnet
     inotify-tools # Tools to watch for file system events
     inxi # system information tool
@@ -97,6 +101,7 @@ in {
     nnn # Terminal file manager
     nodejs_24 # for npx, for vscode
     nom # RSS reader
+    nomachine-client
     ntfs3g # NTFS driver for work.
     openssl # SSL/TLS toolkit
     optipng # PNG image optimizer
@@ -115,12 +120,9 @@ in {
     ruff
     rustdesk
     rustdesk-server
-    nomachine-client
-    guacamole-client
-    guacamole-server
-    spotify
     shellcheck
     shfmt # Shell script formatter
+    spotify
     sqlfluff # SQL linter and formatter
     sqlite
     # sqruff wrapped to avoid /bin/bench collision with ollama
