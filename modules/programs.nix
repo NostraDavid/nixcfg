@@ -193,17 +193,18 @@ in {
     pkgs-unstable.zed-editor # Zed text editor
     pkgs-unstable.gemini-cli # Gemini protocol command line client
     # pkgs-unstable.openra_2019-release
+    pkgs-unstable.github-copilot-cli
 
     # local
-    pkgs-local.github-copilot-cli
+    # pkgs-local.github-copilot-cli
     pkgs-local.pixieditor
-    pkgs-local.nanocoder
+    # pkgs-local.nanocoder
     pkgs-local.photorec
-    pkgs-local.opencode
+    # pkgs-local.opencode
     # pkgs-local.vscode-pinned
     # pkgs-local.synology-drive-client-pinned # kaput in 25.11
-    pkgs-local.goose
-    pkgs-local.bitnet
+    # pkgs-local.goose
+    # pkgs-local.bitnet
 
     # podman
     podman-desktop # GUI for managing containers
