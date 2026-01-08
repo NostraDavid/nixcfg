@@ -197,6 +197,7 @@ in {
 
     # local
     # pkgs-local.github-copilot-cli
+    pkgs-local.jpegli
     pkgs-local.pixieditor
     # pkgs-local.nanocoder
     pkgs-local.photorec
