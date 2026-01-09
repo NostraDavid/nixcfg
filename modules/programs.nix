@@ -94,6 +94,7 @@ in {
     miller # CSV processor
     mlocate # locate command
     most # terminal pager
+    mozjpeg # JPEG image optimizer
     mtr # A network diagnostic tool
     mutt # Terminal-based email client
     ncdu # Disk usage analyzer with ncurses interface
