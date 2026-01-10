@@ -228,11 +228,12 @@
 
   # Enable OpenGL
   hardware = {
-    cpu = {
-      amd = {
-        updateMicrocode = true;
-      };
-    };
+    # cpu = {
+      # amd = {
+        # check hardware-configuration.nix
+        # updateMicrocode = true;
+      # };
+    # };
     graphics = {
       enable = true;
       enable32Bit = true;
