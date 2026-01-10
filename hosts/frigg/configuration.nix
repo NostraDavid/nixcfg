@@ -62,13 +62,13 @@
   # You can disable this if you're only using the Wayland session.
   services = {
     guacamole-client = {
-       enable = true;
-       enableWebserver = true;
-       settings = {
-           guacd-port = 4822;
-           guacd-hostname = "10.0.1.62";
-       };
-   };
+      enable = true;
+      enableWebserver = true;
+      settings = {
+        guacd-port = 4822;
+        guacd-hostname = "10.0.1.62";
+      };
+    };
 
     xserver = {
       enable = true;
@@ -228,6 +228,11 @@
 
   # Enable OpenGL
   hardware = {
+    cpu = {
+      amd = {
+        updateMicrocode = true;
+      };
+    };
     graphics = {
       enable = true;
       enable32Bit = true;
