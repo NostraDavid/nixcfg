@@ -185,6 +185,9 @@ in {
     fontconfig
     freetype
 
+    # games
+    endless-sky
+
     # unstable
     pkgs-unstable.vscode
     pkgs-unstable.codex # Code autocompletion tool
