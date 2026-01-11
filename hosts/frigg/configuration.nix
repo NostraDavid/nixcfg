@@ -70,19 +70,6 @@
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services = {
-    fwupd = {
-      enable = true;
-    };
-
-    guacamole-client = {
-      enable = true;
-      enableWebserver = true;
-      settings = {
-        guacd-port = 4822;
-        guacd-hostname = "10.0.1.62";
-      };
-    };
-
     xserver = {
       enable = true;
       # Load nvidia driver for Xorg and Wayland
@@ -202,7 +189,9 @@
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
   # Enable common container config files in /etc/containers
   systemd.user.services.podman = {
@@ -244,12 +233,6 @@
 
   # Enable OpenGL
   hardware = {
-    # cpu = {
-      # amd = {
-        # check hardware-configuration.nix
-        # updateMicrocode = true;
-      # };
-    # };
     graphics = {
       enable = true;
       enable32Bit = true;
