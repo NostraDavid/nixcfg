@@ -8,9 +8,10 @@
       enable = true;
       device = "nodev";
       efiSupport = true;
+      efiInstallAsRemovable = true;
       useOSProber = true;
     };
-    loader.efi.canTouchEfiVariables = true;
+    loader.efi.canTouchEfiVariables = false;
 
     # Enable USB automounting for external drives.
     supportedFilesystems = ["exfat" "ntfs"];
