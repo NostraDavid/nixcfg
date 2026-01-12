@@ -301,6 +301,10 @@
     };
   };
 
+  boot.extraModprobeConfig = ''
+    options nvidia NVreg_PreserveVideoMemoryAllocations=1
+  '';
+
   fileSystems."/media/usb" = {
     device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21"; # or …by-label/USBDISK
     fsType = "vfat"; # ext4, exfat, ntfs, …
