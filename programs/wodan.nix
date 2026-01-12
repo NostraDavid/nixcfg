@@ -44,7 +44,6 @@ in {
     xrdp # Remote Desktop Protocol client
     anki # Flashcard app
     dbeaver-bin # Database management tool
-    friture # Real-time audio analyzer
     itch # Game launcher
     libreoffice-qt6 # Office suite
     nuclear # Music player
@@ -66,6 +65,7 @@ in {
     endless-sky
 
     # unstable
+    pkgs-unstable.friture # Real-time audio analyzer
     pkgs-unstable.vllm # High-performance inference server for large language models
     # pkgs-unstable.ollama-cuda # Local LLM server
     (pkgs-unstable.zed-editor.overrideAttrs (_: {
