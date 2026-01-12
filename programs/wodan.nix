@@ -33,10 +33,6 @@ in {
     winetricks
     wineWowPackages.stable # support both 32-bit and 64-bit applications
     dotnet-sdk
-    # pkgs-unstable.ollama-cuda # Local LLM server
-    (pkgs-unstable.zed-editor.overrideAttrs (_: {
-      doCheck = false;
-    })) # Zed text editor
 
     # Wodan-specific GUI packages go here
     anydesk
@@ -71,6 +67,11 @@ in {
 
     # unstable
     pkgs-unstable.vllm # High-performance inference server for large language models
+    # pkgs-unstable.ollama-cuda # Local LLM server
+    (pkgs-unstable.zed-editor.overrideAttrs (_: {
+      doCheck = false;
+    })) # Zed text editor
+    pkgs-unstable.opencode
 
     # local
     # pkgs-local.github-copilot-cli
