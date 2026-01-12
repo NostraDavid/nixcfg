@@ -1,18 +1,22 @@
 {
   main-user,
   inputs,
+  hostname,
   ...
-}: {
+}: let
+  hostPrograms = ../programs + "/${hostname}.nix";
+in {
   home-manager.backupFileExtension = "hm.bak";
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.${main-user} = {
     imports = [
       ./dotfiles.nix
-      ./programs.nix
+      ../programs/shared.nix
+      hostPrograms
     ];
 
-    _module.args = { inherit inputs; };
+    _module.args = {inherit inputs;};
 
     programs.home-manager.enable = true;
     home.username = main-user;
