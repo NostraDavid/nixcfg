@@ -40,23 +40,24 @@ in
       ]
       ++ lib.optional (highway != null) highway;
 
-    cmakeFlags = [
-      "-DBUILD_TESTING=OFF"
-      "-DJPEGXL_ENABLE_BENCHMARK=OFF"
-      "-DJPEGXL_ENABLE_DEVTOOLS=OFF"
-      "-DJPEGXL_ENABLE_DOXYGEN=OFF"
-      "-DJPEGXL_ENABLE_FUZZERS=OFF"
-      "-DJPEGXL_ENABLE_JNI=OFF"
-      "-DJPEGXL_ENABLE_MANPAGES=OFF"
-      "-DJPEGXL_ENABLE_OPENEXR=OFF"
-      "-DJPEGXL_ENABLE_SJPEG=OFF"
-      "-DJPEGXL_ENABLE_SKCMS=OFF"
-      "-DJPEGXL_ENABLE_TCMALLOC=OFF"
-      "-DJPEGXL_FORCE_SYSTEM_LCMS2=ON"
-      "-DJPEGXL_INSTALL_JPEGLI_LIBJPEG=ON"
-    ]
-    ++ lib.optional (highway != null) "-DJPEGXL_FORCE_SYSTEM_HWY=ON"
-    ++ lib.optional (highway == null) "-DJPEGXL_FORCE_SYSTEM_HWY=OFF";
+    cmakeFlags =
+      [
+        "-DBUILD_TESTING=OFF"
+        "-DJPEGXL_ENABLE_BENCHMARK=OFF"
+        "-DJPEGXL_ENABLE_DEVTOOLS=OFF"
+        "-DJPEGXL_ENABLE_DOXYGEN=OFF"
+        "-DJPEGXL_ENABLE_FUZZERS=OFF"
+        "-DJPEGXL_ENABLE_JNI=OFF"
+        "-DJPEGXL_ENABLE_MANPAGES=OFF"
+        "-DJPEGXL_ENABLE_OPENEXR=OFF"
+        "-DJPEGXL_ENABLE_SJPEG=OFF"
+        "-DJPEGXL_ENABLE_SKCMS=OFF"
+        "-DJPEGXL_ENABLE_TCMALLOC=OFF"
+        "-DJPEGXL_FORCE_SYSTEM_LCMS2=ON"
+        "-DJPEGXL_INSTALL_JPEGLI_LIBJPEG=ON"
+      ]
+      ++ lib.optional (highway != null) "-DJPEGXL_FORCE_SYSTEM_HWY=ON"
+      ++ lib.optional (highway == null) "-DJPEGXL_FORCE_SYSTEM_HWY=OFF";
 
     preFixup = ''
       if [ -f "$out/lib/pkgconfig/libhwy.pc" ]; then

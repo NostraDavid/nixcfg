@@ -4,7 +4,6 @@
   fetchzip,
   nix-update-script,
 }:
-
 buildNpmPackage (finalAttrs: {
   pname = "nanocoder";
   version = "1.14.2";
@@ -28,7 +27,7 @@ buildNpmPackage (finalAttrs: {
 
   dontNpmBuild = true;
 
-  passthru.updateScript = nix-update-script { extraArgs = [ "--generate-lockfile" ]; };
+  passthru.updateScript = nix-update-script {extraArgs = ["--generate-lockfile"];};
 
   meta = {
     description = "Local-first CLI coding agent for Nano Collective workflows";

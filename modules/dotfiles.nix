@@ -5,7 +5,7 @@
   # were managed by `stow`, which needs this folder structure to work correctly.
   # I decided to keep it that way, so I could return to stow in the future.
   home.file = let
-  dot = "${config.home.homeDirectory}/dev/NostraDavid/nixcfg/dotfiles";
+    dot = "${config.home.homeDirectory}/dev/NostraDavid/nixcfg/dotfiles";
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
   in {
     ".bash_aliases".source = mk "${dot}/bash-5.2.37/.bash_aliases";

@@ -6,7 +6,6 @@
   fetchzip,
   nix-update-script,
 }:
-
 buildNpmPackage (finalAttrs: {
   pname = "github-copilot-cli";
   version = "0.0.349";
@@ -24,14 +23,13 @@ buildNpmPackage (finalAttrs: {
     "--omit=dev"
   ];
 
-
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
   '';
 
   dontNpmBuild = true;
 
-  passthru.updateScript = nix-update-script { extraArgs = [ "--generate-lockfile" ]; };
+  passthru.updateScript = nix-update-script {extraArgs = ["--generate-lockfile"];};
 
   meta = {
     description = "GitHub Copilot CLI brings the power of Copilot coding agent directly to your terminal";

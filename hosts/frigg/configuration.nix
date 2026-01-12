@@ -5,6 +5,7 @@
 {
   config,
   pkgs,
+  lib,
   hostname,
   main-user,
   inputs,
@@ -19,7 +20,16 @@
     inputs.home-manager.nixosModules.home-manager
     (import ../../modules/home-manager.nix {inherit hostname main-user inputs;})
   ];
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings = {
+    experimental-features = ["nix-command" "flakes"];
+    cores = 10;
+    max-jobs = lib.mkForce 10;
+  };
+
+  # Keep Nix builds from saturating all threads.
+  systemd.services.nix-daemon.serviceConfig = {
+    CPUQuota = "1000%";
+  };
 
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).

@@ -1,4 +1,4 @@
-# Home-manager configuration specific to the 'wodan' host.
+# Home-manager programs shared across hosts.
 {
   pkgs,
   inputs,
@@ -23,9 +23,7 @@
 in {
   home.packages = with pkgs; [
     ## Terminal apps
-    # Astral project manager
     alejandra # nix formatter
-    anydesk
     atuin # shell history manager
     bat # cat replacement
     btop # Resource monitor
@@ -40,13 +38,12 @@ in {
     dnsutils # `dig` + `nslookup`
     duckdb
     dust # better du called dust
-    exfatprogs # ExFAT FS utilities
     exiftool # for image metadata manipulation
     eza # modern replacement for `ls`
     fd # sometimes also fdfind or fd-find
     ffmpeg-full
     file # file type identifier
-    flite # flite -f <file>
+    flite # flite -f <file>; TTS Engine
     freetype
     fzf # Fuzzy finder
     gcc
@@ -59,11 +56,8 @@ in {
     gnugrep # GNU grep
     gnused # GNU sed
     graphicsmagick
-    guacamole-client
-    guacamole-server
     hadolint # Dockerfile linter
     helix # Text editor (hx)
-    helm
     home-manager # Home Manager for managing user configurations
     htop # Resource monitor
     httpie # User-friendly HTTP client
@@ -78,8 +72,6 @@ in {
     jpeginfo # JPEG image validator
     jq # JSON processor
     just # justcfile
-    k3d # k3s in docker
-    k3s # kubes (includes kubectl)
     k9s # Kubernetes CLI tool
     kakoune # Text editor
     kdash # Kubernetes dashboard
@@ -104,44 +96,37 @@ in {
     nnn # Terminal file manager
     nodejs_24 # for npx, for vscode
     nom # RSS reader
-    nomachine-client
     ntfs3g # NTFS driver for work.
     openssl # SSL/TLS toolkit
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
     parallel
     parquet-tools
-    postgresql # for psql
+    pgcli # psql alternative
     powerline # The best Bash Prompt!
     procs
     pv # Pipe viewer, useful for monitoring data through a pipe
-    qalculate-qt
-    redpanda-client # Kafka alternative
     riffdiff # diff viewer
     ripgrep # Search tool (rg)
     rsync
     ruff
-    rustdesk
-    rustdesk-server
     shellcheck
     shfmt # Shell script formatter
-    spotify
     sqlfluff # SQL linter and formatter
     sqlite
     # sqruff wrapped to avoid /bin/bench collision with ollama
     (sqruff.overrideAttrs (old: {
-      postInstall = (old.postInstall or "") + ''
-        rm -f $out/bin/bench
-      '';
+      postInstall =
+        (old.postInstall or "")
+        + ''
+          rm -f $out/bin/bench
+        '';
     }))
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
     strace
-    # tabby # Self-hosted AI coding assistant
-    # tabby-agent # Language server used to communicate with Tabby server
     tmux
     tree # Display directory structure in a tree-like format
-    tts # coqui-tts
     ty # Astral type checker
     unzip
     util-linux # For `chrt` command
@@ -149,11 +134,8 @@ in {
     visidata # Interactive terminal multitool for tabular data
     w3m # Text-based web browser
     wget
-    winetricks
-    wineWowPackages.stable # support both 32-bit and 64-bit applications
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
-    xrdp # Remote Desktop Protocol client
     xq-xml # XML processor
     xz # Compression tool
     yq-go # YAML processor
@@ -172,44 +154,19 @@ in {
     luajit # Lua 5.1 compat
     luajitPackages.luarocks_bootstrap
     jdk17 # openjdk for nvim-lsp-java
-    dotnet-sdk
-
-    # GUI libs for Haemwend
-    xorg.libX11
-    libGL
-    xorg.libXrender
-    xorg.libXext
-    xorg.libXcursor
-    xorg.libXrandr
-    xorg.libXi
-    fontconfig
-    freetype
-
-    # games
-    endless-sky
 
     # unstable
     pkgs-unstable.vscode
     pkgs-unstable.codex # Code autocompletion tool
     pkgs-unstable.uv
     # pkgs-unstable.ollama-cuda # Local LLM server
-    pkgs-unstable.vllm # High-performance inference server for large language models
     pkgs-unstable.zed-editor # Zed text editor
     pkgs-unstable.gemini-cli # Gemini protocol command line client
     # pkgs-unstable.openra_2019-release
     pkgs-unstable.github-copilot-cli
 
     # local
-    # pkgs-local.github-copilot-cli
     pkgs-local.jpegli
-    pkgs-local.pixieditor
-    # pkgs-local.nanocoder
-    pkgs-local.photorec
-    # pkgs-local.opencode
-    # pkgs-local.vscode-pinned
-    # pkgs-local.synology-drive-client-pinned # kaput in 25.11
-    # pkgs-local.goose
-    # pkgs-local.bitnet
 
     # podman
     podman-desktop # GUI for managing containers
@@ -227,40 +184,29 @@ in {
     zopfli # For zopflipng; optimize PNG files
 
     ## GUI apps
-    anki # Flashcard app
     chromium # Web browser
-    dbeaver-bin # Database management tool
     evolution # Email client
-    fluent-reader # RSS reader
     # fooyin # Music player # kaput in 25.11
-    friture # Real-time audio analyzer
     fsearch # Everything replacement
     gimp3 # Image editor
     gparted # Partition editor
     hardinfo2 # Temperature and system information tool
-    itch # Game launcher
-    kdePackages.akregator # RSS reader
     keepassxc # Password manager
     legcord # Discord client
-    libreoffice-qt6 # Office suite
-    liferea # RSS reader
     loupe # Simple image viewer
     mission-center # Task Manager
     mpv # Media player
-    newsflash # RSS reader
     notepad-next # notepad alternative
-    nuclear # Music player
+    spotify
+    # qalculate-qt # use Speedcrunch instead
     qbittorrent-enhanced # Torrent client
-    raven-reader # RSS reader
     remmina # Remote Desktop Protocol client
     rssguard # RSS reader
     signal-desktop # Signal messaging app
-    slack # Slack messaging app
     speedcrunch # Calculator
     synology-drive-client # Synology Drive client
     wezterm # Terminal emulator
     wireguard-tools # WireGuard tools
-    wireguard-ui # WireGuard UI
     qdirstat # Disk usage analyzer with Qt GUI
   ];
 }
