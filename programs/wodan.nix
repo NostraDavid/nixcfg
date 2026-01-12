@@ -71,7 +71,6 @@ in {
     (pkgs-unstable.zed-editor.overrideAttrs (_: {
       doCheck = false;
     })) # Zed text editor
-    pkgs-unstable.opencode
 
     # local
     # pkgs-local.github-copilot-cli
