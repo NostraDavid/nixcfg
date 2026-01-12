@@ -1,5 +1,26 @@
 # Home-manager programs specific to wodan.
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: let
+  pkgs-unstable = import inputs.nixpkgs-unstable {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    config = pkgs.config // {allowUnfree = true;};
+  };
+  inherit (builtins) attrNames filter listToAttrs map readDir;
+  localPackageNames = let
+    entries = readDir ../pkgs;
+  in
+    filter (name: entries.${name} == "directory") (attrNames entries);
+  pkgs-local =
+    listToAttrs
+    (map (name: {
+        inherit name;
+        value = pkgs.${name};
+      })
+      localPackageNames);
+in {
   home.packages = with pkgs; [
     # Wodan-specific Terminal packages go here
     exfatprogs # ExFAT FS utilities
@@ -12,6 +33,10 @@
     winetricks
     wineWowPackages.stable # support both 32-bit and 64-bit applications
     dotnet-sdk
+    # pkgs-unstable.ollama-cuda # Local LLM server
+    (pkgs-unstable.zed-editor.overrideAttrs (_: {
+      doCheck = false;
+    })) # Zed text editor
 
     # Wodan-specific GUI packages go here
     anydesk

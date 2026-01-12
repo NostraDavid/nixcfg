@@ -159,8 +159,7 @@ in {
     pkgs-unstable.vscode
     pkgs-unstable.codex # Code autocompletion tool
     pkgs-unstable.uv
-    # pkgs-unstable.ollama-cuda # Local LLM server
-    pkgs-unstable.zed-editor # Zed text editor
+
     pkgs-unstable.gemini-cli # Gemini protocol command line client
     # pkgs-unstable.openra_2019-release
     pkgs-unstable.github-copilot-cli
