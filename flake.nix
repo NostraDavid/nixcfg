@@ -50,10 +50,11 @@
             argsPath = pkgPath + "/args.nix";
             fileArgs =
               if pathExists argsPath
-              then import argsPath {
-                inherit final prev inputs;
-                system = final.stdenv.system;
-              }
+              then
+                import argsPath {
+                  inherit final prev inputs;
+                  system = final.stdenv.system;
+                }
               else {};
           in
             prev.callPackage pkgPath fileArgs;

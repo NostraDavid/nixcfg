@@ -28,8 +28,8 @@ alejandra .                                 # Format Nix files before commit
 ### Adding Packages
 
 - **System packages**: `environment.systemPackages` in `hosts/<host>/configuration.nix`
-- **User packages**: `home.packages` in `modules/programs.nix`
-- **Unstable packages**: Use `pkgs-unstable.<pkg>` (see `programs.nix` line 7-10)
+- **User packages**: `home.packages` in `programs/shared.nix` and `programs/<host>.nix`
+- **Unstable packages**: Use `pkgs-unstable.<pkg>` (see `programs/shared.nix` line 7-10)
 - **Local packages**: Add directory to `pkgs/`, automatically picked up via `overlay-local`
 
 ### Custom Package Pattern (`pkgs/`)

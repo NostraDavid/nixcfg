@@ -20,5 +20,5 @@ sudo nixos-rebuild switch --flake .#wodan
 - `docs/` contains script files with nifty commands.
 - `hosts/` contains the actual configurations for each host.
 - `modules/` contains reusable `configuration.nix` modules.
-- `dotfiles/` contains dotfiles for various applications - check `modules/programs.nix` to see how they are symlinked.
+- `dotfiles/` contains dotfiles for various applications - check `modules/dotfiles.nix` to see how they are symlinked.
 - `flake.nix` is the entry point for the whole configuration.
