@@ -163,6 +163,7 @@ in {
     pkgs-unstable.gemini-cli # Gemini protocol command line client
     # pkgs-unstable.openra_2019-release
     pkgs-unstable.github-copilot-cli
+    pkgs-unstable.opencode
 
     # local
     pkgs-local.jpegli
