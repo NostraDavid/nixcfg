@@ -156,14 +156,13 @@ in {
     jdk17 # openjdk for nvim-lsp-java
 
     # unstable
-    pkgs-unstable.vscode
-    pkgs-unstable.codex # Code autocompletion tool
-    pkgs-unstable.uv
-
-    pkgs-unstable.gemini-cli # Gemini protocol command line client
     # pkgs-unstable.openra_2019-release
+    pkgs-unstable.codex # Code autocompletion tool
+    pkgs-unstable.gemini-cli
     pkgs-unstable.github-copilot-cli
     pkgs-unstable.opencode
+    pkgs-unstable.uv
+    pkgs-unstable.vscode
 
     # local
     pkgs-local.jpegli
