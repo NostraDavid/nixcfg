@@ -54,3 +54,5 @@
 # "reuse recorded resolution" should help me with an improved rebase
 [rerere]
 	enabled = true
+[credential]
+	helper = store
