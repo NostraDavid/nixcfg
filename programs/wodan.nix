@@ -64,8 +64,12 @@ in {
     # games
     endless-sky
 
+    # for stable-diffusion-webui
+    gperftools
+
     # unstable
     pkgs-unstable.friture # Real-time audio analyzer
+    pkgs-unstable.stable-diffusion-cpp # Stable Diffusion in C++
     pkgs-unstable.vllm # High-performance inference server for large language models
     # pkgs-unstable.ollama-cuda # Local LLM server
     (pkgs-unstable.zed-editor.overrideAttrs (_: {
@@ -73,6 +77,7 @@ in {
     })) # Zed text editor
 
     # local
+    pkgs-local.stable-diffusion-webui
     # pkgs-local.github-copilot-cli
     pkgs-local.pixieditor
     # pkgs-local.nanocoder
