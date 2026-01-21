@@ -71,10 +71,12 @@ in {
     pkgs-unstable.friture # Real-time audio analyzer
     pkgs-unstable.stable-diffusion-cpp # Stable Diffusion in C++
     pkgs-unstable.vllm # High-performance inference server for large language models
+    pkgs-unstable.antigravity # Google IDE
     # pkgs-unstable.ollama-cuda # Local LLM server
-    (pkgs-unstable.zed-editor.overrideAttrs (_: {
-      doCheck = false;
-    })) # Zed text editor
+    # # Zed is slow to build :/
+    # (pkgs-unstable.zed-editor.overrideAttrs (_: {
+    #   doCheck = false;
+    # })) # Zed text editor
 
     # local
     pkgs-local.stable-diffusion-webui
