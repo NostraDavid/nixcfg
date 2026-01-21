@@ -89,5 +89,6 @@ in {
     # pkgs-local.synology-drive-client-pinned # kaput in 25.11
     # pkgs-local.goose
     # pkgs-local.bitnet
+    pkgs-local.voxtype
   ];
 }
