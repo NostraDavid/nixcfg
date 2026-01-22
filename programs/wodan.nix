@@ -21,6 +21,19 @@
       })
       localPackageNames);
 in {
+  systemd.user.services.ydotoold = {
+    Unit = {
+      Description = "ydotool input injection daemon";
+    };
+    Service = {
+      ExecStart = "${pkgs.ydotool}/bin/ydotoold";
+      Restart = "on-failure";
+    };
+    Install = {
+      WantedBy = ["default.target"];
+    };
+  };
+
   home.packages = with pkgs; [
     # Wodan-specific Terminal packages go here
     exfatprogs # ExFAT FS utilities
@@ -33,6 +46,7 @@ in {
     winetricks
     wineWowPackages.stable # support both 32-bit and 64-bit applications
     dotnet-sdk
+    ydotool # for voxtype
 
     # Wodan-specific GUI packages go here
     anydesk
