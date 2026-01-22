@@ -131,6 +131,7 @@
     udisks2.enable = true; # daemon that owns the mount
     gvfs.enable = true; # for GNOME, Thunar, etc.
     devmon.enable = true; # optional: instant automount helpers
+
   };
 
   # Enable sound with pipewire.
@@ -140,6 +141,7 @@
     groups = {
       hidraw = {};
       input = {};
+      uinput = {};
     };
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users.${main-user} = {
@@ -147,7 +149,7 @@
       isNormalUser = true;
       description = "";
       # hidraw and input for Whatpulse and NuPhy Air75HE support (IIRC)
-      extraGroups = ["networkmanager" "wheel" "hidraw" "input"];
+      extraGroups = ["networkmanager" "wheel" "hidraw" "input" "uinput"];
       packages = with pkgs; [
         kdePackages.kate
       ];
@@ -255,6 +257,7 @@
 
   # Enable OpenGL
   hardware = {
+    uinput.enable = true;
     graphics = {
       enable = true;
       enable32Bit = true;
@@ -330,4 +333,5 @@
       ExecStart = "${pkgs.legcord}/bin/legcord";
     };
   };
+
 }
