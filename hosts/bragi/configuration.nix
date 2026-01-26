@@ -1,254 +1,139 @@
-# bragi
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
+
+{ config, pkgs, ... }:
+
 {
-  config,
-  pkgs,
-  lib,
-  hostname,
-  main-user,
-  inputs,
-  ...
-}: {
-  imports = [
-    ./hardware-configuration.nix
-    ../../modules/boot.nix
-    ../../modules/location.nix
-    ../../modules/i18n.nix
-    ../../modules/storage_optimization.nix
-    inputs.home-manager.nixosModules.home-manager
-    (import ../../modules/home-manager.nix {inherit hostname main-user inputs;})
-  ];
-  nix.settings = {
-    experimental-features = ["nix-command" "flakes"];
-    cores = 10;
-    max-jobs = lib.mkForce 10;
-  };
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ];
 
-  # Keep Nix builds from saturating all threads.
-  systemd.services.nix-daemon.serviceConfig = {
-    CPUQuota = "1000%";
-  };
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05";
+  # Use latest kernel.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking = {
-    hostName = hostname;
-    # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "nixos"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-    # Configure network proxy if necessary
-    # proxy = {
-    #   default = "http://user:password@proxy:port/";
-    #   noProxy = "127.0.0.1,localhost,internal.domain";
-    # };
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-    # Enable networking
-    networkmanager.enable = true;
-
-    # Open ports in the firewall.
-    # firewall = {
-    #   # Or disable the firewall altogether.
-    #   enable = false;
-    #   allowedTCPPorts = [ ... ];
-    #   allowedUDPPorts = [ ... ];
-    # };
-
-    hosts = {
-      # related to project ctb
-      "127.0.0.1" = ["mlflow.localhost"];
-    };
-  };
+  # Enable networking
+  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
-  # improve battery life
-  powerManagement = {
-    cpuFreqGovernor = "schedutil";
-    powertop.enable = true;
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "nl_NL.UTF-8";
+    LC_IDENTIFICATION = "nl_NL.UTF-8";
+    LC_MEASUREMENT = "nl_NL.UTF-8";
+    LC_MONETARY = "nl_NL.UTF-8";
+    LC_NAME = "nl_NL.UTF-8";
+    LC_NUMERIC = "nl_NL.UTF-8";
+    LC_PAPER = "nl_NL.UTF-8";
+    LC_TELEPHONE = "nl_NL.UTF-8";
+    LC_TIME = "nl_NL.UTF-8";
   };
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services = {
-    xserver = {
-      enable = true;
-      # TODO: set a specific driver if needed (nvidia/amdgpu/intel)
-      videoDrivers = ["modesetting"];
-      # Configure keymap in X11
-      xkb = {
-        layout = "us";
-        variant = "";
-      };
-    };
+  services.xserver.enable = true;
 
-    # Enable automatic login for the user.
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = main-user;
+  # Enable the KDE Plasma Desktop Environment.
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
-    # Enable the KDE Plasma Desktop Environment.
-    displayManager.sddm.enable = true;
-    desktopManager.plasma6.enable = true;
-
-    # improve battery life
-    power-profiles-daemon.enable = false;
-    tlp = {
-      enable = true;
-      settings = {
-        CPU_BOOST_ON_AC = 1;
-        CPU_BOOST_ON_BAT = 0;
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-        STOP_CHARGE_THRESH_BAT0 = 95;
-      };
-    };
-
-    # Enable CUPS to print documents.
-    printing.enable = false;
-
-    # NuPhy Air75HE, and Whatpulse support
-    udev.extraRules = ''
-      # Chromium Nuphy Air rules
-      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", GROUP="hidraw", MODE="0660"
-
-      # Whatpulse rules
-      KERNEL=="event*", NAME="input/%k", MODE="640", GROUP="input"
-    '';
-
-    # Enable touchpad support (enabled default in most desktopManager).
-    libinput.enable = true;
-
-    # Enable sound with pipewire.
-    pulseaudio.enable = false;
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      #jack.enable = true;
-
-      # use the example session manager (no others are packaged yet so this is enabled by default,
-      # no need to redefine it in your config for now)
-      #media-session.enable = true;
-    };
-
-    # Enable the OpenSSH daemon.
-    openssh.enable = true;
-
-    udisks2.enable = true; # daemon that owns the mount
-    gvfs.enable = true; # for GNOME, Thunar, etc.
-    devmon.enable = true; # optional: instant automount helpers
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
   };
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
 
   # Enable sound with pipewire.
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
 
-  users = {
-    groups = {
-      hidraw = {};
-      input = {};
-    };
-    # Define a user account. Don't forget to set a password with ‘passwd’.
-    users.${main-user} = {
-      # shell = pkgs.
-      isNormalUser = true;
-      description = "";
-      # hidraw and input for Whatpulse and NuPhy Air75HE support (IIRC)
-      extraGroups = ["networkmanager" "wheel" "hidraw" "input"];
-      packages = with pkgs; [
-        kdePackages.kate
-      ];
-    };
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
   };
 
-  programs = {
-    # enable appimage support, for Whatpulse and other AppImages
-    appimage = {
-      enable = true;
-      binfmt = true;
-    };
-    # nix-ld to enable `uv sync`
-    nix-ld = {
-      # https://wiki.nixos.org/wiki/Nix-ld
-      enable = true;
-      libraries = with pkgs; [
-        freetype
-      ];
-    };
-    firefox = {
-      enable = true;
-      # Add a simple Enterprise policy: trust whatever the OS trusts
-      policies.Certificates.ImportEnterpriseRoots = true;
-      languagePacks = [
-        "en-US"
-        "nl"
-      ];
-    };
-    thunderbird.enable = true;
-    starship.enable = false;
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.david = {
+    isNormalUser = true;
+    description = "david";
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+      kdePackages.kate
+    #  thunderbird
+    ];
   };
+
+  # Enable automatic login for the user.
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "david";
+
+  # Install firefox.
+  programs.firefox.enable = true;
 
   # Allow unfree packages
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
-
-  # Enable common container config files in /etc/containers
-  systemd.user.services.podman = {
-    enable = true;
-    wantedBy = ["default.target"];
-  };
-  virtualisation = {
-    containers = {
-      enable = true;
-    };
-    podman = {
-      enable = true;
-
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      dockerCompat = true;
-
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.settings.dns_enabled = true;
-    };
-  };
+  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment = {
-    localBinInPath = true; # Python support
-    sessionVariables = {
-      MOZ_ENABLE_WAYLAND = "1";
-    };
-    systemPackages = with pkgs; [
-      # packages go here
-    ];
-  };
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
+  environment.systemPackages = with pkgs; [
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
   ];
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
 
   # List services that you want to enable:
 
-  # Enable OpenGL
-  hardware = {
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
-  };
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
 
-  fileSystems."/media/usb" = {
-    device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21"; # or …by-label/USBDISK
-    fsType = "vfat"; # ext4, exfat, ntfs, …
-    options = [
-      "nofail" # don’t drop to emergency shell if absent
-      "x-systemd.automount" # mount on first access instead of at boot
-    ];
-  };
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "25.05"; # Did you read the comment?
+
 }
