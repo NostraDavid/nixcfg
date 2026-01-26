@@ -77,6 +77,7 @@ in {
 
     # games
     endless-sky
+    pkgs-unstable.openrct2
 
     # for stable-diffusion-webui
     gperftools
