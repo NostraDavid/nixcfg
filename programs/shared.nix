@@ -137,6 +137,7 @@ in {
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
     xq-xml # XML processor
+    xxd # Hex dump tool
     xz # Compression tool
     yq-go # YAML processor
     yt-dlp
