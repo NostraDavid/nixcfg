@@ -114,6 +114,11 @@
         hostname = "frigg";
         path = ./hosts/frigg/configuration.nix;
       };
+
+      bragi = mkHost {
+        hostname = "bragi";
+        path = ./hosts/bragi/configuration.nix;
+      };
     };
   };
 }
