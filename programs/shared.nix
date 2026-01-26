@@ -161,7 +161,6 @@ in {
     pkgs-unstable.codex # Code autocompletion tool
     pkgs-unstable.gemini-cli
     pkgs-unstable.github-copilot-cli
-    pkgs-unstable.opencode
     pkgs-unstable.uv
     pkgs-unstable.vscode
 
