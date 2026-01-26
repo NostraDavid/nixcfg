@@ -114,14 +114,6 @@ in {
     shfmt # Shell script formatter
     sqlfluff # SQL linter and formatter
     sqlite
-    # sqruff wrapped to avoid /bin/bench collision with ollama
-    (sqruff.overrideAttrs (old: {
-      postInstall =
-        (old.postInstall or "")
-        + ''
-          rm -f $out/bin/bench
-        '';
-    }))
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
     strace
