@@ -47,6 +47,14 @@ in {
     wineWowPackages.stable # support both 32-bit and 64-bit applications
     dotnet-sdk
     ydotool # for voxtype
+    # sqruff wrapped to avoid /bin/bench collision with ollama
+    (sqruff.overrideAttrs (old: {
+      postInstall =
+        (old.postInstall or "")
+        + ''
+          rm -f $out/bin/bench
+        '';
+    }))
 
     # Wodan-specific GUI packages go here
     anydesk
