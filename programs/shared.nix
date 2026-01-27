@@ -122,6 +122,8 @@ in {
     nvme-cli # for nvme
     sysstat # for iostat
     busybox
+    iotop
+    meld
     tmux
     tree # Display directory structure in a tree-like format
     ty # Astral type checker
