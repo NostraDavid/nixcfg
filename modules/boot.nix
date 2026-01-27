@@ -20,12 +20,16 @@
       sysctl = {
         # for project ctb; Traefik needs to bind to low ports
         "net.ipv4.ip_unprivileged_port_start" = 80;
+
+        # Increase hung task timeout for better handling of NVMe drives going to sleep
+        "kernel.hung_task_timeout_secs" = 60;
       };
     };
 
     kernelParams = [
       # This is to fix the sleep breaking KDE Plasma issue
       "mem_sleep_default=s2idle"
+      "nvme_core.default_ps_max_latency_us=0"
     ];
   };
 }

@@ -105,6 +105,9 @@
 
       # Nvidia GPU power management - keep GPU powered on when in use
       ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{power/control}="on"
+
+      # NVMe SSD power management - set to mq-deadline scheduler
+      ACTION=="add|change", KERNEL=="nvme*", ATTR{queue/scheduler}="mq-deadline"
     '';
 
     # Enable touchpad support (enabled default in most desktopManager).
