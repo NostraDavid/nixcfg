@@ -86,6 +86,7 @@ in {
     # games
     endless-sky
     pkgs-unstable.openrct2
+    godot
 
     # for stable-diffusion-webui
     gperftools
