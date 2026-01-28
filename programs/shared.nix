@@ -33,6 +33,7 @@ in {
     colordiff # diff viewer
     csvkit # Python based CSV toolkit (heavier)
     curl
+    cool-retro-term # terminal emulator with retro style
     delta # diff viewer
     diff-so-fancy # diff viewer
     difftastic # diff viewer
