@@ -4,7 +4,7 @@
   inputs,
   ...
 }: let
-  pkgs-unstable = import inputs.nixpkgs-unstable {
+  unstable = import inputs.nixpkgs-unstable {
     inherit (pkgs.stdenv.hostPlatform) system;
     config = pkgs.config // {allowUnfree = true;};
   };
@@ -13,7 +13,7 @@
     entries = readDir ../pkgs;
   in
     filter (name: entries.${name} == "directory") (attrNames entries);
-  pkgs-local =
+  local =
     listToAttrs
     (map (name: {
         inherit name;
@@ -150,7 +150,7 @@ in {
     zstd # Fast compression algorithm with better ratio than lz4; contains zstdcat for decompression
 
     # Neovim related
-    (pkgs-unstable.neovim.overrideAttrs (old: {
+    (unstable.neovim.overrideAttrs (old: {
       nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];
     }))
     xclip # X11 clipboard fallback for Neovim when Wayland not active
@@ -160,15 +160,15 @@ in {
     jdk17 # openjdk for nvim-lsp-java
 
     # unstable
-    # pkgs-unstable.openra_2019-release
-    pkgs-unstable.codex # Code autocompletion tool
-    pkgs-unstable.gemini-cli
-    pkgs-unstable.github-copilot-cli
-    pkgs-unstable.uv
-    pkgs-unstable.vscode
+    # unstable.openra_2019-release
+    unstable.codex # Code autocompletion tool
+    unstable.gemini-cli
+    unstable.github-copilot-cli
+    unstable.uv
+    unstable.vscode
 
     # local
-    pkgs-local.jpegli
+    local.jpegli
 
     # podman
     podman-desktop # GUI for managing containers
