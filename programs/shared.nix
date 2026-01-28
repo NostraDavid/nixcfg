@@ -27,6 +27,7 @@ in {
     atuin # shell history manager
     bat # cat replacement
     btop # Resource monitor
+    busybox
     colordiff # diff viewer
     csvkit # Python based CSV toolkit (heavier)
     curl
@@ -67,15 +68,17 @@ in {
     inetutils # telnet
     inotify-tools # Tools to watch for file system events
     inxi # system information tool
+    iotop
     ipcalc # it is a calculator for the IPv4/v6 addresses
-    jpegoptim # JPEG image optimizer
     jpeginfo # JPEG image validator
+    jpegoptim # JPEG image optimizer
     jq # JSON processor
     just # justcfile
     k9s # Kubernetes CLI tool
     kakoune # Text editor
     kdash # Kubernetes dashboard
     killall # kill processes by name
+    lagrange # Gemini Protocol Client
     lazygit
     less # terminal pager
     lf # Terminal file manager
@@ -83,6 +86,8 @@ in {
     lsd # A modern replacement for 'ls' command
     lsof # List open files
     lynx # Terminal-based web browser
+    lz4 # Fastest compression algorithm
+    meld
     miller # CSV processor
     mlocate # locate command
     most # terminal pager
@@ -97,11 +102,13 @@ in {
     nodejs_24 # for npx, for vscode
     nom # RSS reader
     ntfs3g # NTFS driver for work.
+    nvme-cli # for nvme
     openssl # SSL/TLS toolkit
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
     parallel
     parquet-tools
+    pciutils # for lspci
     pgcli # psql alternative
     powerline # The best Bash Prompt!
     procs
@@ -112,18 +119,13 @@ in {
     ruff
     shellcheck
     shfmt # Shell script formatter
+    smartmontools # for monitoring hard drive health
     sqlfluff # SQL linter and formatter
     sqlite
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
     strace
-    smartmontools # for monitoring hard drive health
-    pciutils # for lspci
-    nvme-cli # for nvme
     sysstat # for iostat
-    busybox
-    iotop
-    meld
     tmux
     tree # Display directory structure in a tree-like format
     ty # Astral type checker
@@ -142,7 +144,6 @@ in {
     yt-dlp
     zopfli # For zopflipng; optimize PNG files
     zoxide
-    lz4 # Fastest compression algorithm
     zstd # Fast compression algorithm with better ratio than lz4; contains zstdcat for decompression
 
     # Neovim related
