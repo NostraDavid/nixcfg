@@ -134,7 +134,6 @@
     udisks2.enable = true; # daemon that owns the mount
     gvfs.enable = true; # for GNOME, Thunar, etc.
     devmon.enable = true; # optional: instant automount helpers
-
   };
 
   # Enable sound with pipewire.
@@ -234,6 +233,9 @@
   environment = {
     localBinInPath = true; # Python support
     systemPackages = with pkgs; [
+      speechd # Firefox Read Aloud support
+      espeak-ng # Firefox Read Aloud support alternative
+      flite # Firefox Read Aloud support alternative
       # CUDA
       cudaPackages.cudatoolkit
       cudaPackages.cudnn
