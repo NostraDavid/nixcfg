@@ -24,8 +24,10 @@ in {
   home.packages = with pkgs; [
     ## Terminal apps
     alejandra # nix formatter
+    amfora # Gemini Protocol Client (TUI)
     atuin # shell history manager
     bat # cat replacement
+    bombadillo # Gemini Protocol Client (TUI)
     btop # Resource monitor
     busybox
     colordiff # diff viewer
