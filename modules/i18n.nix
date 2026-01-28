@@ -2,9 +2,10 @@
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    extraLocales = [
+    supportedLocales = [
       "nl_NL.UTF-8/UTF-8"
       "en_DK.UTF-8/UTF-8"
+      "en_US.UTF-8/UTF-8"
       "en_US/ISO-8859-1"
     ];
     extraLocaleSettings = {

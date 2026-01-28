@@ -21,6 +21,20 @@
       })
       localPackageNames);
 in {
+  systemd.user.services.speech-dispatcher = {
+    Unit = {
+      Description = "Speech Dispatcher";
+    };
+    Service = {
+      Environment = "LOCALE_ARCHIVE=${pkgs.glibcLocales}/lib/locale/locale-archive";
+      ExecStart = "${pkgs.speechd}/bin/speech-dispatcher --run-single";
+      Restart = "on-failure";
+    };
+    Install = {
+      WantedBy = ["default.target"];
+    };
+  };
+
   systemd.user.services.ydotoold = {
     Unit = {
       Description = "ydotool input injection daemon";
