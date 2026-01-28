@@ -78,6 +78,7 @@ in {
     kakoune # Text editor
     kdash # Kubernetes dashboard
     killall # kill processes by name
+    kristall # Gemini Protocol Client
     lagrange # Gemini Protocol Client
     lazygit
     less # terminal pager
