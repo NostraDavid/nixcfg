@@ -178,12 +178,12 @@
         (proc-arg 7 "GParamString" "gchararray" "string" "Text" "Text" 3 "Tiny-Fu rocks!")
         (proc-arg 7 "GParamString" "gchararray" "text" "Multi-line text" "Multi-line text" 3 "Hello,\nWorld!")
         (proc-arg 12 "GimpParamPattern" "GimpPattern" "pattern" "Pattern" "Pattern" 3 0 0 1965)
-        (proc-arg 12 "GimpParamGradient" "GimpGradient" "gradient" "Gradient" "Gradient" 3 0 0 2060)
+        (proc-arg 12 "GimpParamGradient" "GimpGradient" "gradient" "Gradient" "Gradient" 3 0 0 2068)
         (proc-arg 5 "GParamBoolean" "gboolean" "toggle-2" "Gradient reverse" "Gradient reverse" 3 0)
-        (proc-arg 12 "GimpParamFont" "GimpFont" "font" "Font" "Font" 3 0 0 0)
+        (proc-arg 12 "GimpParamFont" "GimpFont" "font" "Font" "Font" 3 0 0 3166)
         (proc-arg 1 "GParamInt" "gint" "adjustment-3" "Font size (pixels)" "Font size (pixels)" 3 1 1000 50)
         (proc-arg 12 "GimpParamPalette" "GimpPalette" "palette" "Palette" "Palette" 3 0 0 2014)
-        (proc-arg 13 "GimpParamFile" "GFile" "filename" "Environment map" "Environment map" 259 0 1 "file:///nix/store/qvb69c1ajk30ic90nsjf6vwhp6c7fw2m-gimp-3.0.4/share/gimp/3.0/scripts/images/beavis.jpg")
+        (proc-arg 13 "GimpParamFile" "GFile" "filename" "Environment map" "Environment map" 259 0 1 "file:///nix/store/sxs18p8i2zjzhhvg4h912r2l0d4nx6w3-gimp-3.0.4/share/gimp/3.0/scripts/images/beavis.jpg")
         (proc-arg 1 "GParamInt" "gint" "option" "Orientation" "Orientation" 3 0 1 0)
         (proc-arg 3 "GParamEnum" "GimpInterpolationType" "enum" "Interpolation" "Interpolation" 3 1)
         (proc-arg 13 "GimpParamFile" "GFile" "dirname" "Output directory" "Output directory" 259 2 1 "file:///var/tmp")
@@ -1169,39 +1169,6 @@
         (proc-arg 6 "GParamDouble" "gdouble" "zoom" "_Zoom" "" 3 -4 4 0)
         (proc-arg 6 "GParamDouble" "gdouble" "x" "_X" "" 3 -2 2 0)
         (proc-arg 6 "GParamDouble" "gdouble" "y" "_Y" "" 3 -2 2 0)))
-(plug-in-def "${gimp_plug_in_dir}/plug-ins/film/film" 1
-    (proc-def "plug-in-film" 1
-         "Combine several images on a film strip"
-         "Compose several images to a roll film"
-         "Peter Kirchgessner"
-         "Peter Kirchgessner (peter@kirchgessner.net)"
-         "1997"
-         "_Filmstrip..."
-         1
-        (menu-path "<Image>/Filters/Combine")
-        (icon icon-name -1 "")
-         "*"
-         13
-         18 1
-        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
-        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "The input image" 3 0)
-        (proc-arg 10 "GimpParamCoreObjectArray" "GimpCoreObjectArray" "drawables" "Drawables" "The input drawables" 259 "GimpDrawable")
-        (proc-arg 1 "GParamInt" "gint" "film-height" "Film _height" "Height of film (0: fit to images)" 3 0 524288 0)
-        (proc-arg 8 "GimpParamColor" "GeglColor" "film-color" "_Film color" "Color of the film" 3 1 16 "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0" "R'G'B'A float" 0)
-        (proc-arg 1 "GParamInt" "gint" "number-start" "Start _index" "Start index for numbering" 3 0 2147483647 1)
-        (proc-arg 12 "GimpParamFont" "GimpFont" "number-font" "Number _font" "Font for drawing numbers" 3 0 1 0)
-        (proc-arg 8 "GimpParamColor" "GeglColor" "number-color" "_Number color" "Color for numbers" 3 1 32 "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0" "R'G'B'A double" 0)
-        (proc-arg 5 "GParamBoolean" "gboolean" "at-top" "At _top" "Draw numbers at top" 3 1)
-        (proc-arg 5 "GParamBoolean" "gboolean" "at-bottom" "At _bottom" "Draw numbers at bottom" 3 1)
-        (proc-arg 10 "GimpParamCoreObjectArray" "GimpCoreObjectArray" "images" "Images" "Images to be used for film" 3 "GimpImage")
-        (proc-arg 6 "GParamDouble" "gdouble" "picture-height" "Image _height" "As fraction of the strip height" 3 0 1 0.69499999999999995)
-        (proc-arg 6 "GParamDouble" "gdouble" "picture-spacing" "Image s_pacing" "The spacing between 2 images, as fraction of the strip height" 3 0 1 0.040000000000000001)
-        (proc-arg 6 "GParamDouble" "gdouble" "hole-offset" "Hole offse_t" "The offset from the edge of film, as fraction of the strip height" 3 0 1 0.058000000000000003)
-        (proc-arg 6 "GParamDouble" "gdouble" "hole-width" "Hole _width" "The width of the holes, as fraction of the strip height" 3 0 1 0.051999999999999998)
-        (proc-arg 6 "GParamDouble" "gdouble" "hole-height" "Hole hei_ght" "The height of the holes, as fraction of the strip height" 3 0 1 0.081000000000000003)
-        (proc-arg 6 "GParamDouble" "gdouble" "hole-spacing" "Hole _distance" "The distance between holes, as fraction of the strip height" 3 0 1 0.081000000000000003)
-        (proc-arg 6 "GParamDouble" "gdouble" "number-height" "_Number height" "The height of drawn numbers, as fraction of the strip height" 3 0 1 0.051999999999999998)
-        (proc-arg 9 "GimpParamImage" "GimpImage" "new-image" "New image" "Output image" 3 0)))
 (plug-in-def "${gimp_plug_in_dir}/plug-ins/file-xwd/file-xwd" 1
     (proc-def "file-xwd-load" 1
          "Loads files in the XWD (X Window Dump) format"
@@ -1242,46 +1209,39 @@
         (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "The image to export" 3 0)
         (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to export to" 3 1 0 "")
         (proc-arg 11 "GimpParamExportOptions" "GimpExportOptions" "options" "Options" "Export options" 3)))
-(plug-in-def "${gimp_plug_in_dir}/plug-ins/file-xpm/file-xpm" 1
-    (proc-def "file-xpm-load" 1
-         "Load files in XPM (X11 Pixmap) format."
-         "Load files in XPM (X11 Pixmap) format. XPM is a portable image format designed to be included in C source code. XLib provides utility functions to read this format. Newer code should however be using gdk-pixbuf-csource instead. XPM supports colored images, unlike the XBM format which XPM was designed to replace."
-         "Spencer Kimball & Peter Mattis & Ray Lehtiniemi"
-         "Spencer Kimball & Peter Mattis"
+(plug-in-def "${gimp_plug_in_dir}/plug-ins/film/film" 1
+    (proc-def "plug-in-film" 1
+         "Combine several images on a film strip"
+         "Compose several images to a roll film"
+         "Peter Kirchgessner"
+         "Peter Kirchgessner (peter@kirchgessner.net)"
          "1997"
-         "X PixMap image"
-         0
+         "_Filmstrip..."
+         1
+        (menu-path "<Image>/Filters/Combine")
         (icon icon-name -1 "")
-        (load-proc
-            (extensions "xpm")
-            (magics "0, string,/*\\040XPM\\040*/")
-            (mime-types "image/x-pixmap"))
-         ""
-         2147483647
-         2 1
-        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
-        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to load" 3 0 0 "")
-        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "Output image" 3 1))
-    (proc-def "file-xpm-export" 1
-         "Export files in XPM (X11 Pixmap) format."
-         "Export files in XPM (X11 Pixmap) format. XPM is a portable image format designed to be included in C source code. XLib provides utility functions to read this format. Newer code should however be using gdk-pixbuf-csource instead. XPM supports colored images, unlike the XBM format which XPM was designed to replace."
-         "Spencer Kimball & Peter Mattis & Ray Lehtiniemi & Nathan Summers"
-         "Spencer Kimball & Peter Mattis"
-         "1997"
-         "X PixMap image"
-         0
-        (icon icon-name -1 "")
-        (save-proc
-            (extensions "xpm")
-            (mime-types "image/x-pixmap"))
          "*"
-         2147483647
-         5 0
+         13
+         18 1
         (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
-        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "The image to export" 3 0)
-        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to export to" 3 1 0 "")
-        (proc-arg 11 "GimpParamExportOptions" "GimpExportOptions" "options" "Options" "Export options" 3)
-        (proc-arg 1 "GParamInt" "gint" "threshold" "_Threshold" "Alpha threshold" 3 0 255 127)))
+        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "The input image" 3 0)
+        (proc-arg 10 "GimpParamCoreObjectArray" "GimpCoreObjectArray" "drawables" "Drawables" "The input drawables" 259 "GimpDrawable")
+        (proc-arg 1 "GParamInt" "gint" "film-height" "Film _height" "Height of film (0: fit to images)" 3 0 524288 0)
+        (proc-arg 8 "GimpParamColor" "GeglColor" "film-color" "_Film color" "Color of the film" 3 1 16 "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0" "R'G'B'A float" 0)
+        (proc-arg 1 "GParamInt" "gint" "number-start" "Start _index" "Start index for numbering" 3 0 2147483647 1)
+        (proc-arg 12 "GimpParamFont" "GimpFont" "number-font" "Number _font" "Font for drawing numbers" 3 0 1 0)
+        (proc-arg 8 "GimpParamColor" "GeglColor" "number-color" "_Number color" "Color for numbers" 3 1 32 "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0" "R'G'B'A double" 0)
+        (proc-arg 5 "GParamBoolean" "gboolean" "at-top" "At _top" "Draw numbers at top" 3 1)
+        (proc-arg 5 "GParamBoolean" "gboolean" "at-bottom" "At _bottom" "Draw numbers at bottom" 3 1)
+        (proc-arg 10 "GimpParamCoreObjectArray" "GimpCoreObjectArray" "images" "Images" "Images to be used for film" 3 "GimpImage")
+        (proc-arg 6 "GParamDouble" "gdouble" "picture-height" "Image _height" "As fraction of the strip height" 3 0 1 0.69499999999999995)
+        (proc-arg 6 "GParamDouble" "gdouble" "picture-spacing" "Image s_pacing" "The spacing between 2 images, as fraction of the strip height" 3 0 1 0.040000000000000001)
+        (proc-arg 6 "GParamDouble" "gdouble" "hole-offset" "Hole offse_t" "The offset from the edge of film, as fraction of the strip height" 3 0 1 0.058000000000000003)
+        (proc-arg 6 "GParamDouble" "gdouble" "hole-width" "Hole _width" "The width of the holes, as fraction of the strip height" 3 0 1 0.051999999999999998)
+        (proc-arg 6 "GParamDouble" "gdouble" "hole-height" "Hole hei_ght" "The height of the holes, as fraction of the strip height" 3 0 1 0.081000000000000003)
+        (proc-arg 6 "GParamDouble" "gdouble" "hole-spacing" "Hole _distance" "The distance between holes, as fraction of the strip height" 3 0 1 0.081000000000000003)
+        (proc-arg 6 "GParamDouble" "gdouble" "number-height" "_Number height" "The height of drawn numbers, as fraction of the strip height" 3 0 1 0.051999999999999998)
+        (proc-arg 9 "GimpParamImage" "GimpImage" "new-image" "New image" "Output image" 3 0)))
 (plug-in-def "${gimp_plug_in_dir}/plug-ins/file-xmc/file-xmc" 1
     (proc-def "file-xmc-load-thumb" 1
          "Loads only first frame of X11 Mouse Cursor's animation sequence which nominal size is the closest of thumb-size to be used as a thumbnail"
@@ -1351,6 +1311,46 @@
         (proc-arg 7 "GParamString" "gchararray" "xmc-copyright" "C_opyright" "Copyright information" 3 "")
         (proc-arg 7 "GParamString" "gchararray" "xmc-license" "Lice_nse" "License information" 3 "")
         (proc-arg 7 "GParamString" "gchararray" "gimp-comment" "Co_mment" "Optional comment" 3 "Created with GIMP")))
+(plug-in-def "${gimp_plug_in_dir}/plug-ins/file-xpm/file-xpm" 1
+    (proc-def "file-xpm-load" 1
+         "Load files in XPM (X11 Pixmap) format."
+         "Load files in XPM (X11 Pixmap) format. XPM is a portable image format designed to be included in C source code. XLib provides utility functions to read this format. Newer code should however be using gdk-pixbuf-csource instead. XPM supports colored images, unlike the XBM format which XPM was designed to replace."
+         "Spencer Kimball & Peter Mattis & Ray Lehtiniemi"
+         "Spencer Kimball & Peter Mattis"
+         "1997"
+         "X PixMap image"
+         0
+        (icon icon-name -1 "")
+        (load-proc
+            (extensions "xpm")
+            (magics "0, string,/*\\040XPM\\040*/")
+            (mime-types "image/x-pixmap"))
+         ""
+         2147483647
+         2 1
+        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
+        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to load" 3 0 0 "")
+        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "Output image" 3 1))
+    (proc-def "file-xpm-export" 1
+         "Export files in XPM (X11 Pixmap) format."
+         "Export files in XPM (X11 Pixmap) format. XPM is a portable image format designed to be included in C source code. XLib provides utility functions to read this format. Newer code should however be using gdk-pixbuf-csource instead. XPM supports colored images, unlike the XBM format which XPM was designed to replace."
+         "Spencer Kimball & Peter Mattis & Ray Lehtiniemi & Nathan Summers"
+         "Spencer Kimball & Peter Mattis"
+         "1997"
+         "X PixMap image"
+         0
+        (icon icon-name -1 "")
+        (save-proc
+            (extensions "xpm")
+            (mime-types "image/x-pixmap"))
+         "*"
+         2147483647
+         5 0
+        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
+        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "The image to export" 3 0)
+        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to export to" 3 1 0 "")
+        (proc-arg 11 "GimpParamExportOptions" "GimpExportOptions" "options" "Options" "Export options" 3)
+        (proc-arg 1 "GParamInt" "gint" "threshold" "_Threshold" "Alpha threshold" 3 0 255 127)))
 (plug-in-def "${gimp_plug_in_dir}/plug-ins/file-xbm/file-xbm" 1
     (proc-def "file-xbm-load" 1
          "Load a file in X10 or X11 bitmap (XBM) file format"
@@ -1636,46 +1636,6 @@
         (proc-arg 5 "GParamBoolean" "gboolean" "prefer-native-dimensions" "_Prefer native dimensions" "Load and use dimensions from source file" 3 0)
         (proc-arg 4 "GimpParamChoice" "gchararray" "paths" "_Paths" "Whether and how to import paths so that they can be used with the path tool" 3 "no-import" 3 "no-import" 0 "Don't import paths" "" "import" 0 "Import paths individually" "" "import-merged" 0 "Merge imported paths" "")
         (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "Output image" 3 1)))
-(plug-in-def "${gimp_plug_in_dir}/plug-ins/file-sunras/file-sunras" 1
-    (proc-def "file-sunras-load" 1
-         "Load file of the SunRaster file format"
-         "Load file of the SunRaster file format"
-         "Peter Kirchgessner"
-         "Peter Kirchgessner"
-         "1996"
-         "SUN Rasterfile image"
-         0
-        (icon icon-name -1 "")
-        (load-proc
-            (extensions "im1,im8,im24,im32,rs,ras,sun")
-            (magics "0,long,0x59a66a95")
-            (mime-types "image/x-sun-raster"))
-         ""
-         2147483647
-         2 1
-        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
-        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to load" 3 0 0 "")
-        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "Output image" 3 1))
-    (proc-def "file-sunras-export" 1
-         "Export file in the SunRaster file format"
-         "SUNRAS exporting handles all image types except those with alpha channels."
-         "Peter Kirchgessner"
-         "Peter Kirchgessner"
-         "1996"
-         "SUN Rasterfile image"
-         0
-        (icon icon-name -1 "")
-        (save-proc
-            (extensions "im1,im8,im24,im32,rs,ras,sun")
-            (mime-types "image/x-sun-raster"))
-         "RGB, GRAY, INDEXED"
-         2147483647
-         5 0
-        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
-        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "The image to export" 3 0)
-        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to export to" 3 1 0 "")
-        (proc-arg 11 "GimpParamExportOptions" "GimpExportOptions" "options" "Options" "Export options" 3)
-        (proc-arg 4 "GimpParamChoice" "gchararray" "rle" "_Data Formatting" "Use standard or Run-Length Encoded output" 3 "rle" 2 "standard" 0 "Standard" "" "rle" 1 "Run-Length Encoding" "")))
 (plug-in-def "${gimp_plug_in_dir}/plug-ins/file-sgi/file-sgi" 1
     (proc-def "file-sgi-load" 1
          "Loads files in SGI image file format"
@@ -1716,6 +1676,46 @@
         (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to export to" 3 1 0 "")
         (proc-arg 11 "GimpParamExportOptions" "GimpExportOptions" "options" "Options" "Export options" 3)
         (proc-arg 4 "GimpParamChoice" "gchararray" "compression" "Compression _type" "Compression level" 3 "rle" 3 "none" 0 "No compression" "" "rle" 1 "RLE compression" "" "arle" 2 "Aggressive RLE (not supported by SGI)" "")))
+(plug-in-def "${gimp_plug_in_dir}/plug-ins/file-sunras/file-sunras" 1
+    (proc-def "file-sunras-load" 1
+         "Load file of the SunRaster file format"
+         "Load file of the SunRaster file format"
+         "Peter Kirchgessner"
+         "Peter Kirchgessner"
+         "1996"
+         "SUN Rasterfile image"
+         0
+        (icon icon-name -1 "")
+        (load-proc
+            (extensions "im1,im8,im24,im32,rs,ras,sun")
+            (magics "0,long,0x59a66a95")
+            (mime-types "image/x-sun-raster"))
+         ""
+         2147483647
+         2 1
+        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
+        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to load" 3 0 0 "")
+        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "Output image" 3 1))
+    (proc-def "file-sunras-export" 1
+         "Export file in the SunRaster file format"
+         "SUNRAS exporting handles all image types except those with alpha channels."
+         "Peter Kirchgessner"
+         "Peter Kirchgessner"
+         "1996"
+         "SUN Rasterfile image"
+         0
+        (icon icon-name -1 "")
+        (save-proc
+            (extensions "im1,im8,im24,im32,rs,ras,sun")
+            (mime-types "image/x-sun-raster"))
+         "RGB, GRAY, INDEXED"
+         2147483647
+         5 0
+        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
+        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "The image to export" 3 0)
+        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to export to" 3 1 0 "")
+        (proc-arg 11 "GimpParamExportOptions" "GimpExportOptions" "options" "Options" "Export options" 3)
+        (proc-arg 4 "GimpParamChoice" "gchararray" "rle" "_Data Formatting" "Use standard or Run-Length Encoded output" 3 "rle" 2 "standard" 0 "Standard" "" "rle" 1 "Run-Length Encoding" "")))
 (plug-in-def "${gimp_plug_in_dir}/plug-ins/file-raw-placeholder/file-raw-placeholder" 1
     (proc-def "file-raw-placeholder-canon-load" 1
          "Load files in the Canon raw formats via placeholder"
@@ -2261,6 +2261,45 @@
         (proc-arg 11 "GimpParamExportOptions" "GimpExportOptions" "options" "Options" "Export options" 3)
         (proc-arg 4 "GimpParamChoice" "gchararray" "planar-configuration" "Planar configuration" "How color pixel data are stored" 3 "contiguous" 2 "contiguous" 0 "Contiguous" "" "planar" 1 "Planar" "")
         (proc-arg 4 "GimpParamChoice" "gchararray" "palette-type" "Palette's la_yout" "The layout for the palette's color channels" 3 "rgb" 2 "rgb" 0 "R, G, B (normal)" "" "bgr" 1 "B, G, R, X (BMP style)" "")))
+(plug-in-def "${gimp_plug_in_dir}/plug-ins/file-qoi/file-qoi" 1
+    (proc-def "file-qoi-load" 1
+         "Load file in the QOI file format"
+         "Load file in the QOI file format (Quite OK Image)"
+         "Alex S."
+         "Alex S."
+         "2023"
+         "Quite OK Image"
+         0
+        (icon icon-name -1 "")
+        (load-proc
+            (extensions "qoi")
+            (magics "0,string,qoif")
+            (mime-types "image/qoi"))
+         ""
+         2147483647
+         2 1
+        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
+        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to load" 3 0 0 "")
+        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "Output image" 3 1))
+    (proc-def "file-qoi-export" 1
+         "Export image in the QOI file format"
+         "Export image in the QOI file format (Quite OK Image)"
+         "Alex S."
+         "Alex S."
+         "2023"
+         "Quite OK Image"
+         0
+        (icon icon-name -1 "")
+        (save-proc
+            (extensions "qoi")
+            (mime-types "image/qoi"))
+         "*"
+         2147483647
+         4 0
+        (proc-arg 3 "GParamEnum" "GimpRunMode" "run-mode" "Run mode" "The run mode" 3 1)
+        (proc-arg 9 "GimpParamImage" "GimpImage" "image" "Image" "The image to export" 3 0)
+        (proc-arg 13 "GimpParamFile" "GFile" "file" "File" "The file to export to" 3 1 0 "")
+        (proc-arg 11 "GimpParamExportOptions" "GimpExportOptions" "options" "Options" "Export options" 3)))
 (plug-in-def "${gimp_plug_in_dir}/plug-ins/file-psp/file-psp" 1
     (proc-def "file-psp-load" 1
          "Loads images from the Paint Shop Pro PSP file format"

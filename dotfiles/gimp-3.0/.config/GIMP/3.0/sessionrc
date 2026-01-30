@@ -95,6 +95,11 @@
     (position 26 23)
     (size 1096 822)
     (monitor 1))
+(session-info "toplevel"
+    (factory-entry "gimp-curves-tool-dialog")
+    (position 1118 695)
+    (size 425 614)
+    (monitor 1))
 
 (hide-docks no)
 (single-window-mode yes)

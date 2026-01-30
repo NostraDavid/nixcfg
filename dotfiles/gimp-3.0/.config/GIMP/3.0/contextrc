@@ -1,6 +1,6 @@
 # GIMP user context
 
-(tool "gimp-text-tool")
+(tool "gimp-move-tool")
 (paint-info "gimp-paintbrush")
 (brush "2. Hardness 100")
 (dynamics "Pressure Size")
@@ -9,6 +9,6 @@
 (gradient "Aneurism")
 (palette "Color History")
 (font "Sans-serif")
-(tool-preset "Core Pointer")
+(tool-preset "Virtual core pointer")
 
 # end of user context
