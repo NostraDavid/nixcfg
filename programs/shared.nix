@@ -2,6 +2,8 @@
 {
   pkgs,
   inputs,
+  lib,
+  config,
   ...
 }: let
   unstable = import inputs.nixpkgs-unstable {
@@ -20,6 +22,7 @@
         value = pkgs.${name};
       })
       localPackageNames);
+  hasDlssUpdater = lib.elem local.dlss-updater config.home.packages;
 in {
   home.packages = with pkgs; [
     ## Terminal apps
@@ -170,6 +173,7 @@ in {
     # local
     local.jpegli
     local.cool-retro-term # terminal emulator with retro style
+    local.dlss-updater
 
     # podman
     podman-desktop # GUI for managing containers
@@ -212,4 +216,16 @@ in {
     wireguard-tools # WireGuard tools
     qdirstat # Disk usage analyzer with Qt GUI
   ];
+
+  home.activation.dlssUpdaterCleanup = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if ! ${lib.getExe pkgs.flatpak} --user info io.github.recol.dlss-updater >/dev/null 2>&1; then
+      exit 0
+    fi
+
+    if ${lib.boolToString hasDlssUpdater}; then
+      exit 0
+    fi
+
+    ${lib.getExe pkgs.flatpak} --user uninstall -y io.github.recol.dlss-updater || true
+  '';
 }

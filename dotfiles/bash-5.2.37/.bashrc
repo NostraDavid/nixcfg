@@ -12,6 +12,9 @@ then
 fi
 export PATH
 
+# Flatpak desktop entries
+export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+
 # make ls output iso8601
 export TIME_STYLE=long-iso
 
