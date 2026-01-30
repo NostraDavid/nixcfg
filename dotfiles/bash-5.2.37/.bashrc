@@ -43,8 +43,8 @@ esac
 HISTCONTROL=ignoreboth
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=100000
+HISTSIZE=10000
+HISTFILESIZE=-1
 # Don't put duplicate lines in the history and do not add lines that start with a space
 HISTCONTROL=erasedups:ignoredups:ignorespace
 # my god this is good! <3 `history`
