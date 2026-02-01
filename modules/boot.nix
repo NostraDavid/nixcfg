@@ -11,6 +11,7 @@
       efiInstallAsRemovable = true;
       useOSProber = true;
     };
+    loader.timeout = 3;
     loader.efi.canTouchEfiVariables = false;
 
     # Enable USB automounting for external drives.
