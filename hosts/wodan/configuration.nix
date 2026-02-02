@@ -15,6 +15,7 @@
     ../../modules/boot.nix
     ../../modules/location.nix
     ../../modules/i18n.nix
+    ../../modules/keyboard.nix
     ../../modules/storage_optimization.nix
     inputs.home-manager.nixosModules.home-manager
     (import ../../modules/home-manager.nix {inherit hostname main-user inputs;})
@@ -66,6 +67,7 @@
       xkb = {
         layout = "us";
         variant = "";
+        options = "compose:rctrl";
       };
     };
 
@@ -233,7 +235,6 @@
   environment = {
     localBinInPath = true; # Python support
     systemPackages = with pkgs; [
-      speechd # Firefox Read Aloud support
       espeak-ng # Firefox Read Aloud support alternative
       flite # Firefox Read Aloud support alternative
       # CUDA

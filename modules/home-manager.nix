@@ -12,6 +12,7 @@ in {
   home-manager.users.${main-user} = {
     imports = [
       ./dotfiles.nix
+      ./keyboard-home.nix
       ../programs/shared.nix
       hostPrograms
     ];
