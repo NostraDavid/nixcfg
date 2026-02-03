@@ -4,6 +4,7 @@
 !.gitignore
 !flake.lock
 !flake.nix
+!.oxfmtrc.json
 !README.md
 !AGENTS.md
 !huisplan.md
