@@ -179,3 +179,16 @@ function create_venv() {
     source .venv/bin/activate
     uv pip install poetry
 }
+
+alias sc-services-all='systemctl list-unit-files --type=service'
+alias sc-services-enabled='systemctl list-unit-files --type=service --state=enabled'
+alias sc-services-running='systemctl list-units --type=service --state=running'
+alias sc-sockets='systemctl list-units --type=socket'
+alias sc-timers='systemctl list-units --type=timer'
+
+alias ss-listen-all='ss --listening --numeric --processes'
+alias ss-listen-v4='ss --listening --numeric --tcp --udp --ipv4 --processes'
+alias ss-listen-v6='ss --listening --numeric --tcp --udp --ipv6 --processes'
+alias ss-listen='ss --listening --numeric --tcp --udp --processes'
+alias ss-summary='ss --summary'
+alias ss-unix-listen='ss --listening --numeric --unix --processes'
