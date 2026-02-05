@@ -17,7 +17,6 @@
     ../../modules/boot.nix
     ../../modules/location.nix
     ../../modules/i18n.nix
-    ../../modules/keyboard.nix
     ../../modules/storage_optimization.nix
     inputs.home-manager.nixosModules.home-manager
     (import ../../modules/home-manager.nix {inherit hostname main-user inputs;})
@@ -56,7 +55,6 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
-    options = "compose:rctrl";
   };
 
   # Enable CUPS to print documents.
