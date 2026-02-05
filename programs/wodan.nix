@@ -46,7 +46,7 @@ in {
     winetricks
     wineWowPackages.stable # support both 32-bit and 64-bit applications
     dotnet-sdk
-    ydotool # for voxtype
+    # ydotool # for voxtype
     # sqruff wrapped to avoid /bin/bench collision with ollama
     (sqruff.overrideAttrs (old: {
       postInstall =
@@ -114,6 +114,6 @@ in {
     # pkgs-local.synology-drive-client-pinned # kaput in 25.11
     # pkgs-local.goose
     # pkgs-local.bitnet
-    pkgs-local.voxtype
+    # pkgs-local.voxtype
   ];
 }

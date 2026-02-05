@@ -15,7 +15,6 @@
     ../../modules/boot.nix
     ../../modules/location.nix
     ../../modules/i18n.nix
-    ../../modules/keyboard.nix
     ../../modules/storage_optimization.nix
     inputs.home-manager.nixosModules.home-manager
     (import ../../modules/home-manager.nix {inherit hostname main-user inputs;})
@@ -67,7 +66,7 @@
       xkb = {
         layout = "us";
         variant = "";
-        options = "compose:rctrl";
+        options = "caps:escape_shifted_compose,lv3:ralt_switch_multikey,compose:ralt,compose:rctrl,mod_led:compose";
       };
     };
 
