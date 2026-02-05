@@ -3,6 +3,6 @@
     [Layout]
     LayoutList=us
     Layout=us
-    Options=compose:rctrl
+    Options=caps:escape_shifted_compose,lv3:ralt_switch_multikey,compose:ralt,compose:rctrl,mod_led:compose
   '';
 }
