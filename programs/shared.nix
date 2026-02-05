@@ -164,13 +164,13 @@ in {
 
     # unstable
     # unstable.openra_2019-release
-    unstable.codex # Code autocompletion tool
     unstable.gemini-cli
     unstable.github-copilot-cli
     unstable.uv
     unstable.vscode
 
     # local
+    local.codex # Code autocompletion tool
     local.jpegli
     local.cool-retro-term # terminal emulator with retro style
     local.dlss-updater
