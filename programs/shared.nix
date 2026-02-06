@@ -168,6 +168,8 @@ in {
     unstable.github-copilot-cli
     unstable.uv
     unstable.vscode
+    unstable.oxfmt # prettier replacement
+    unstable.oxlint # js linter
 
     # local
     local.codex # Code autocompletion tool
