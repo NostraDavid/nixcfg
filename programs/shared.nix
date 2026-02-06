@@ -170,6 +170,8 @@ in {
     unstable.vscode
     unstable.oxfmt # prettier replacement
     unstable.oxlint # js linter
+    unstable.fastfetch # neofetch alternative
+    unstable.zigfetch # neofetch alternative
 
     # local
     local.codex # Code autocompletion tool
