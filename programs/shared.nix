@@ -222,14 +222,12 @@ in {
   ];
 
   home.activation.dlssUpdaterCleanup = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    if ! ${lib.getExe pkgs.flatpak} --user info io.github.recol.dlss-updater >/dev/null 2>&1; then
-      exit 0
+    # Never exit from activation snippets; that would abort later phases
+    # (including linkGeneration) and leave managed files stale.
+    if ${lib.getExe pkgs.flatpak} --user info io.github.recol.dlss-updater >/dev/null 2>&1; then
+      if ! ${lib.boolToString hasDlssUpdater}; then
+        ${lib.getExe pkgs.flatpak} --user uninstall -y io.github.recol.dlss-updater || true
+      fi
     fi
-
-    if ${lib.boolToString hasDlssUpdater}; then
-      exit 0
-    fi
-
-    ${lib.getExe pkgs.flatpak} --user uninstall -y io.github.recol.dlss-updater || true
   '';
 }
