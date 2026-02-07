@@ -1,0 +1,69 @@
+{
+  "modules": [
+    {
+      "type": "os",
+      "key": "OS",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "kernel",
+      "key": "Kernel",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "uptime",
+      "key": "Uptime",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "packages",
+      "key": "Packages",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "shell",
+      "key": "Shell",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "cpu",
+      "key": "Cpu",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "gpu",
+      "key": "Gpu",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "ram",
+      "key": "Ram",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "swap",
+      "key": "Swap",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "disk",
+      "key": "Disk",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "net",
+      "key": "Local IP",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "terminal",
+      "key": "Terminal",
+      "key_color": "#f5c543"
+    },
+    {
+      "type": "locale",
+      "key": "Locale",
+      "key_color": "#f5c543"
+    }
+  ]
+}
