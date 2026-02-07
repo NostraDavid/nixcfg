@@ -1,8 +1,10 @@
 {...}: {
   xdg.configFile."kxkbrc".text = ''
     [Layout]
-    LayoutList=us
+    Use=true
+    LayoutList=us,runic
     Layout=us
-    Options=caps:escape_shifted_compose,lv3:ralt_switch_multikey,compose:ralt,compose:rctrl,mod_led:compose
+    VariantList=,basic
+    Options=caps:escape_shifted_compose,lv3:ralt_switch_multikey,compose:ralt,compose:rctrl,mod_led:compose,grp:win_space_toggle
   '';
 }
