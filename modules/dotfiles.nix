@@ -33,6 +33,7 @@
     ".local/bin/folder_stats".source = mk "${dot}/scripts/folder_stats";
     ".config/GIMP/3.0/".source = mk "${dot}/gimp-3.0/.config/GIMP/3.0";
     ".config/fastfetch/".source = mk "${dot}/fastfetch-2.58.0/.config/fastfetch";
+    ".config/zigfetch/".source = mk "${dot}/zigfetch-0.25.0/.config/zigfetch";
   };
 
   home.sessionVariables = {};
