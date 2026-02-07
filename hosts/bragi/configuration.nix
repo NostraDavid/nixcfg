@@ -17,6 +17,7 @@
     ../../modules/boot.nix
     ../../modules/location.nix
     ../../modules/i18n.nix
+    ../../modules/keyboard.nix
     ../../modules/storage_optimization.nix
     inputs.home-manager.nixosModules.home-manager
     (import ../../modules/home-manager.nix {inherit hostname main-user inputs;})
@@ -53,8 +54,9 @@
 
   # Configure keymap in X11
   services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+    layout = "us,runic";
+    variant = ",basic";
+    options = "grp:win_space_toggle";
   };
 
   # Enable CUPS to print documents.

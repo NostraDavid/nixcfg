@@ -1,8 +1,7 @@
-{...}: {
-  environment.etc."xdg/kxkbrc".text = ''
-    [Layout]
-    LayoutList=us
-    Layout=us
-    Options=caps:escape_shifted_compose,lv3:ralt_switch_multikey,compose:ralt,compose:rctrl,mod_led:compose
-  '';
+{pkgs, ...}: {
+  services.xserver.xkb.extraLayouts.runic = {
+    description = "Custom Runic Keyboard Layout";
+    languages = ["run"];
+    symbolsFile = "${pkgs.runic}/share/X11/xkb/symbols/runic";
+  };
 }
