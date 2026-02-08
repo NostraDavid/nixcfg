@@ -192,3 +192,65 @@ alias ss-listen-v6='ss --listening --numeric --tcp --udp --ipv6 --processes'
 alias ss-listen='ss --listening --numeric --tcp --udp --processes'
 alias ss-summary='ss --summary'
 alias ss-unix-listen='ss --listening --numeric --unix --processes'
+
+
+# == deterministic project folder -> HEX color ==
+# Usage:
+#   project_color            # prints hex color for current folder name
+#   project_color my-folder  # prints hex color for provided name
+#   project_color_preview    # shows a colored sample block for current folder
+# Implementation details:
+# - Uses SHA1 of the folder name; first 6 hex chars become the color.
+# - Adjusts very dark or very light colors toward mid-range for readability.
+function project_color() {
+    local name
+    name="${1:-${PWD##*/}}"
+
+    # Hash the name and take first 6 hex digits
+    local hash color r g b luminance
+    hash=$(printf '%s' "$name" | sha1sum | awk '{print $1}') || return 1
+    color="#${hash:0:6}"
+
+    # Decode RGB
+    r=$((16#${color:1:2}))
+    g=$((16#${color:3:2}))
+    b=$((16#${color:5:2}))
+
+    # Perceived luminance (ITU-R BT.601 approximation)
+    luminance=$(((299 * r + 587 * g + 114 * b) / 1000))
+
+    # Normalize extremes: lighten if too dark, darken if too light
+    if [ "$luminance" -lt 60 ]; then
+        r=$(((r + 0xAA) / 2))
+        g=$(((g + 0xAA) / 2))
+        b=$(((b + 0xAA) / 2))
+        color=$(printf '#%02X%02X%02X' "$r" "$g" "$b")
+    elif [ "$luminance" -gt 200 ]; then
+        r=$(((r + 0x55) / 2))
+        g=$(((g + 0x55) / 2))
+        b=$(((b + 0x55) / 2))
+        color=$(printf '#%02X%02X%02X' "$r" "$g" "$b")
+    fi
+
+    printf '%s\n' "$color"
+}
+
+function project_color_preview() {
+    local color name r g b fg
+    name="${1:-${PWD##*/}}"
+    color=$(project_color "$name") || return 1
+    r=$((16#${color:1:2}))
+    g=$((16#${color:3:2}))
+    b=$((16#${color:5:2}))
+    # Choose white or black text based on luminance threshold 128
+    local luminance=$(((299 * r + 587 * g + 114 * b) / 1000))
+    if [ "$luminance" -gt 128 ]; then
+        fg='0;0;0'
+    else
+        fg='255;255;255'
+    fi
+    printf '\e[48;2;%d;%d;%dm\e[38;2;%s m %s (%s) \e[0m\n' "$r" "$g" "$b" "$fg" "$name" "$color"
+}
+
+# Convenience alias so it feels like an app-style command.
+alias project-color=project_color
