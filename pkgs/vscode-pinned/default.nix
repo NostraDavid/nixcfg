@@ -4,17 +4,30 @@
 {
   vscode,
   fetchurl,
+  curl,
+  openssl,
+  webkitgtk_4_1,
+  libsoup_3,
 }: let
-  version = "1.106.0";
+  version = "1.109.2";
   # to grab the hash, run:
-  # nix store prefetch-file https://update.code.visualstudio.com/1.106.0/linux-x64/stable
-  srcHash = "sha256-C+VAuyK2/4unyQm6h0lJJnAMFpGZYC3v8qPaeHkL8gE=";
+  # nix store prefetch-file https://update.code.visualstudio.com/1.109.2/linux-x64/stable
+  srcHash = "sha256-ST5i8gvNtAaBbmcpcg9GJipr8e5d0A0qbdG1P9QViek=";
   src = fetchurl {
     url = "https://update.code.visualstudio.com/${version}/linux-x64/stable";
     name = "vscode-${version}.tar.gz";
     hash = srcHash;
   };
 in
-  vscode.overrideAttrs (_: {
+  vscode.overrideAttrs (old: {
     inherit version src;
+    # VS Code 1.109+ ships a Linux msal runtime that needs these libs.
+    buildInputs =
+      (old.buildInputs or [])
+      ++ [
+        curl
+        openssl
+        webkitgtk_4_1
+        libsoup_3
+      ];
   })

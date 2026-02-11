@@ -167,7 +167,6 @@ in {
     unstable.gemini-cli
     unstable.github-copilot-cli
     unstable.uv
-    unstable.vscode
     unstable.oxfmt # prettier replacement
     unstable.oxlint # js linter
     unstable.fastfetch # neofetch alternative
@@ -175,9 +174,10 @@ in {
 
     # local
     local.codex # Code autocompletion tool
-    local.jpegli
     local.cool-retro-term # terminal emulator with retro style
     local.dlss-updater
+    local.jpegli
+    local.vscode-pinned
 
     # podman
     podman-desktop # GUI for managing containers
