@@ -98,7 +98,16 @@
     displayManager.autoLogin.user = main-user;
 
     # Enable the KDE Plasma Desktop Environment.
-    displayManager.sddm.enable = true;
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = false;
+      settings = {
+        Wayland = {
+          SessionDir = "/etc/xdg/wayland-sessions";
+        };
+      };
+    };
+    displayManager.defaultSession = "plasma";
     desktopManager.plasma6.enable = true;
 
     # improve battery life
@@ -229,9 +238,6 @@
   # $ nix search wget
   environment = {
     localBinInPath = true; # Python support
-    sessionVariables = {
-      MOZ_ENABLE_WAYLAND = "1";
-    };
     systemPackages = with pkgs; [
       # packages go here
     ];
