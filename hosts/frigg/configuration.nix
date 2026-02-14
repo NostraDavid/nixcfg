@@ -243,8 +243,13 @@
 
   # List services that you want to enable:
 
-  # Enable OpenGL
   hardware = {
+    # Enable Bluetooth support
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+    # Enable OpenGL
     graphics = {
       enable = true;
       enable32Bit = true;
