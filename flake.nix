@@ -77,6 +77,7 @@
           {
             nixpkgs.overlays = [overlay-local];
           }
+          ./modules/cachix.nix
           path
         ];
         specialArgs = {
