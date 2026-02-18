@@ -43,6 +43,7 @@ in {
     postgresql # for psql; there's pgcli for shared
     redpanda-client # Kafka alternative
     tts # coqui-tts
+    vimgolf # Vim golfing
     winetricks
     wineWowPackages.stable # support both 32-bit and 64-bit applications
     dotnet-sdk
