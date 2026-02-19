@@ -8,12 +8,12 @@ vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold", "CursorHol
     group = autoreadGrp,
     pattern = "*",
     callback = function()
-        -- Skip while in command-line mode
-        if vim.fn.mode() == "c" then
+        -- Skip while in command-line mode or command-line window (q:, q/, q?)
+        if vim.fn.mode() == "c" or vim.fn.getcmdwintype() ~= "" then
             return
         end
         -- Run checktime (will prompt only if buffer modified & file changed)
-        vim.cmd("checktime")
+        pcall(vim.cmd, "checktime")
     end
 })
 vim.api.nvim_create_autocmd("FileChangedShellPost", {
