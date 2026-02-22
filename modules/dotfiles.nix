@@ -25,7 +25,6 @@
     ".inputrc".source = mk "${dot}/readline/.inputrc";
     ".tmux.conf".source = mk "${dot}/tmux-3.5a/.tmux.conf";
     ".vim".source = mk "${dot}/vim-9.0/.vim";
-    ".viminfo".source = mk "${dot}/vim-9.0/.viminfo";
     ".vimrc".source = mk "${dot}/vim-9.0/.vimrc";
     "dev/find-uncommitted.sh".source = mk "${dot}/dev/find-uncommitted.sh";
     "dev/grab.sh".source = mk "${dot}/dev/grab.sh";
