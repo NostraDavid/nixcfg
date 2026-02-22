@@ -128,6 +128,7 @@ in {
     shellcheck
     shfmt # Shell script formatter
     smartmontools # for monitoring hard drive health
+    svgo # SVG optimizer
     sqlfluff # SQL linter and formatter
     sqlite
     starship # Shell prompt
