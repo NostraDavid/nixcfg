@@ -117,6 +117,7 @@ in {
     parquet-tools
     pciutils # for lspci
     pgcli # psql alternative
+    pngquant # PNG image optimizer
     powerline # The best Bash Prompt!
     procs
     pv # Pipe viewer, useful for monitoring data through a pipe
