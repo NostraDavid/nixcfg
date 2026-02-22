@@ -121,6 +121,7 @@ in {
     powerline # The best Bash Prompt!
     procs
     pv # Pipe viewer, useful for monitoring data through a pipe
+    renderdoc # Graphics debugger
     riffdiff # diff viewer
     ripgrep # Search tool (rg)
     rsync
