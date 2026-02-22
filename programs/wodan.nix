@@ -59,6 +59,7 @@ in {
 
     # Wodan-specific GUI packages go here
     anydesk
+    blender
     guacamole-client
     guacamole-server
     nomachine-client
