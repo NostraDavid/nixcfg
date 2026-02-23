@@ -152,6 +152,7 @@ in {
     xz # Compression tool
     yq-go # YAML processor
     yt-dlp
+    zellij # tmux alternative
     zopfli # For zopflipng; optimize PNG files
     zoxide
     zstd # Fast compression algorithm with better ratio than lz4; contains zstdcat for decompression
