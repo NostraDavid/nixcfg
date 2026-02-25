@@ -5,7 +5,7 @@
       "https://nix-community.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSzHXK6P9M4RTbtf6WXwDqfSx7rJyYvG3BQY6x8o="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
 }
