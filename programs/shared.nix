@@ -44,6 +44,7 @@ in {
     dnsutils # `dig` + `nslookup`
     duckdb
     dust # better du called dust
+    ed # The standard editor
     msedit # Microsoft Editor
     exiftool # for image metadata manipulation
     eza # modern replacement for `ls`
