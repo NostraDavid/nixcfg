@@ -106,6 +106,7 @@ in {
     # })) # Zed text editor
 
     # local
+    pkgs-local.codemogger
     pkgs-local.stable-diffusion-webui
     # pkgs-local.github-copilot-cli
     pkgs-local.pixieditor
