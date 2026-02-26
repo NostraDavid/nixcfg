@@ -21,6 +21,12 @@
       })
       localPackageNames);
 in {
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    enableBashIntegration = true;
+  };
+
   systemd.user.services.ydotoold = {
     Unit = {
       Description = "ydotool input injection daemon";
