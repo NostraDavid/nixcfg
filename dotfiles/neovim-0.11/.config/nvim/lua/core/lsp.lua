@@ -50,6 +50,30 @@ local servers = {
 			},
 		}
 	end,
+	nixd = function()
+		return {
+			cmd = { "nixd" },
+			root_markers = { "flake.nix", ".git" },
+			settings = {
+				nixd = {
+					nixpkgs = {
+						expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }",
+					},
+					formatting = {
+						command = { "alejandra" },
+					},
+					options = {
+						nixos = {
+							expr = '(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.wodan.options',
+						},
+						["home-manager"] = {
+							expr = '(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.wodan.options."home-manager".users.type.getSubOptions []',
+						},
+					},
+				},
+			},
+		}
+	end,
 	bashls = function()
 		return {}
 	end,
