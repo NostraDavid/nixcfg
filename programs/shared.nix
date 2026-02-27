@@ -37,6 +37,7 @@ in {
     csvkit # Python based CSV toolkit (heavier)
     curl
     delta # diff viewer
+    devenv # Development environment manager
     diff-so-fancy # diff viewer
     difftastic # diff viewer
     diffutils # Diff
