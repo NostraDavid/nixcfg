@@ -198,6 +198,7 @@
     };
     firefox = {
       enable = true;
+      package = pkgs.firefox-esr;
       # Add a simple Enterprise policy: trust whatever the OS trusts
       policies.Certificates.ImportEnterpriseRoots = true;
       languagePacks = [
@@ -207,7 +208,7 @@
     };
     thunderbird.enable = true;
     starship.enable = false;
-        steam = {
+    steam = {
       enable = true;
       remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
       dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server

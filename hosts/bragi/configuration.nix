@@ -105,8 +105,11 @@
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "david";
 
-  # Install firefox.
-  programs.firefox.enable = true;
+  # Install Firefox ESR.
+  programs.firefox = {
+    enable = true;
+    package = pkgs.firefox-esr;
+  };
 
   # Allow unfree packages
   nixpkgs.config = {

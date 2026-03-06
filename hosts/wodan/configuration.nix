@@ -178,6 +178,7 @@
     };
     firefox = {
       enable = true;
+      package = pkgs.firefox-esr;
       # Add a simple Enterprise policy: trust whatever the OS trusts
       policies.Certificates.ImportEnterpriseRoots = true;
       languagePacks = [
