@@ -28,7 +28,7 @@
 
     installer="$HOME/Downloads/Battle.net-Setup.exe"
     launcher="$WINEPREFIX/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe"
-    wine64="${pkgs.wineWowPackages.stagingFull}/bin/wine64"
+    wine="${pkgs.wineWowPackages.stagingFull}/bin/wine"
     wineboot="${pkgs.wineWowPackages.stagingFull}/bin/wineboot"
     winetricks="${pkgs.winetricks}/bin/winetricks"
 
@@ -42,10 +42,10 @@
       mkdir -p "$WINEPREFIX"
       "$wineboot" -u
       "$winetricks" -q dxvk
-      exec "$wine64" "$installer"
+      exec "$wine" "$installer"
     fi
 
-    exec "$wine64" "$launcher"
+    exec "$wine" "$launcher"
   '';
 in {
   programs.direnv = {
