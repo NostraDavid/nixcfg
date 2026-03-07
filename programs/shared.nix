@@ -81,6 +81,7 @@ in {
     ipcalc # it is a calculator for the IPv4/v6 addresses
     jpeginfo # JPEG image validator
     jpegoptim # JPEG image optimizer
+    libjpeg_turbo # JPEG tools including jpegtran
     jq # JSON processor
     just # justcfile
     k9s # Kubernetes CLI tool
