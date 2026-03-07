@@ -153,7 +153,6 @@ in {
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
     xq-xml # XML processor
-    xnviewmp # Image viewer
     xxd # Hex dump tool
     xz # Compression tool
     yq-go # YAML processor
@@ -212,6 +211,7 @@ in {
     fsearch # Everything replacement
     gimp3 # Image editor
     gparted # Partition editor
+    geeqie # Image viewer
     hardinfo2 # Temperature and system information tool
     keepassxc # Password manager
     legcord # Discord client
@@ -225,6 +225,7 @@ in {
     remmina # Remote Desktop Protocol client
     rssguard # RSS reader
     signal-desktop # Signal messaging app
+    xnviewmp # Image viewer
     speedcrunch # Calculator
     synology-drive-client # Synology Drive client
     wezterm # Terminal emulator
