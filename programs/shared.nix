@@ -112,6 +112,7 @@ in {
     nnn # Terminal file manager
     nodejs_24 # for npx, for vscode
     nom # RSS reader
+    nomacs # Image viewer
     ntfs3g # NTFS driver for work.
     nvme-cli # for nvme
     openssl # SSL/TLS toolkit
@@ -152,6 +153,7 @@ in {
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
     xq-xml # XML processor
+    xnviewmp # Image viewer
     xxd # Hex dump tool
     xz # Compression tool
     yq-go # YAML processor
