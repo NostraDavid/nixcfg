@@ -20,6 +20,33 @@
         value = pkgs.${name};
       })
       localPackageNames);
+  battlenet = pkgs.writeShellScriptBin "battlenet" ''
+    set -eu
+
+    export WINEARCH=win64
+    export WINEPREFIX="$HOME/.wine-battlenet"
+
+    installer="$HOME/Downloads/Battle.net-Setup.exe"
+    launcher="$WINEPREFIX/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe"
+    wine64="${pkgs.wineWowPackages.stagingFull}/bin/wine64"
+    wineboot="${pkgs.wineWowPackages.stagingFull}/bin/wineboot"
+    winetricks="${pkgs.winetricks}/bin/winetricks"
+
+    if [ ! -f "$launcher" ]; then
+      if [ ! -f "$installer" ]; then
+        echo "Battle.net installer ontbreekt: $installer" >&2
+        echo "Download Battle.net-Setup.exe van https://www.blizzard.com/apps/battle.net/desktop" >&2
+        exit 1
+      fi
+
+      mkdir -p "$WINEPREFIX"
+      "$wineboot" -u
+      "$winetricks" -q dxvk
+      exec "$wine64" "$installer"
+    fi
+
+    exec "$wine64" "$launcher"
+  '';
 in {
   programs.direnv = {
     enable = true;
@@ -40,6 +67,15 @@ in {
     };
   };
 
+  xdg.desktopEntries.battlenet = {
+    name = "Battle.net";
+    exec = "battlenet";
+    terminal = false;
+    categories = ["Game"];
+    comment = "Launch Blizzard Battle.net via Wine";
+    icon = "wine";
+  };
+
   home.packages = with pkgs; [
     # Wodan-specific Terminal packages go here
     exfatprogs # ExFAT FS utilities
@@ -50,8 +86,9 @@ in {
     redpanda-client # Kafka alternative
     tts # coqui-tts
     vimgolf # Vim golfing
+    battlenet
     winetricks
-    wineWowPackages.stable # support both 32-bit and 64-bit applications
+    wineWowPackages.stagingFull # include the Wine extras Battle.net tends to expect
     dotnet-sdk
     # ydotool # for voxtype
     # sqruff wrapped to avoid /bin/bench collision with ollama
