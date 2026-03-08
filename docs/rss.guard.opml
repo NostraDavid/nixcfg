@@ -2,7 +2,7 @@
 <opml version="2.0" xmlns:rssguard="https://github.com/martinrotter/rssguard">
   <head>
     <title>RSS Guard</title>
-    <dateCreated>Thu, 25 Sep 2025 08:19:22 GMT</dateCreated>
+    <dateCreated>Sun, 08 Mar 2026 10:34:05 GMT</dateCreated>
   </head>
   <body>
     <outline description="" text="Thaumatorium">
@@ -21,13 +21,15 @@
       <outline description="" text="top">
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Rantoni" title="Rantoni" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCREHHX2Lk_BYGS9R0ia7DDQ"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Asmongold Clips" title="Asmongold Clips" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCMwJJL5FJFuTRT55ksbQ4GQ"/>
-        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="bycloud" title="bycloud" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCgfe2ooZD3VJPB6aJAnuQng"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="burialgoods" title="burialgoods" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCogwkoPw8VxevAlm5XGBB2A"/>
       </outline>
       <outline description="" text="AI">
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Fireship" title="Fireship" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="The AI Daily Brief: Artificial Intelligence News" title="The AI Daily Brief: Artificial Intelligence News" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCKelCK4ZaO6HeEI1KQjqzWA"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Matthew Berman" title="Matthew Berman" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCawZsQWqfGSbCI5yjkdVkTA"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="TheAIGRID" title="TheAIGRID" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCbY9xX3_jW5c2fjlZVBI4cg"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="AI Revolution" title="AI Revolution" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC5l7RouTQ60oUjLjt1Nh-UQ"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="bycloud" title="bycloud" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCgfe2ooZD3VJPB6aJAnuQng"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Discover AI" title="Discover AI" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCfOvNb3xj28SNqPQ_JIbumg"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Harrison Painter" title="Harrison Painter" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCdr3ZlCn_dM0AUPEO43WXvw"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="AI Explained" title="AI Explained" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCNJ1Ymd5yFuUPtn21xtRbbw"/>
@@ -41,7 +43,6 @@
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Gorak's Guide" title="Gorak's Guide" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCogrCgPsURaDEZspPnL5Z2g"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Verigan" title="Verigan" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCP52KcsNBYl9qVZ-lBVE8rA"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="MadSeasonShow" title="MadSeasonShow" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCOvz3kkYZtCTeXKdiuMG8eg"/>
-        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Tariq10x" title="Tariq10x" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCXyisNI9ezbv7fvGMoSaFKg"/>
       </outline>
       <outline description="" text="dev">
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Hynek Schlawack" title="Hynek Schlawack" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCvkM2esSMJTZVtPo8NVtP4g"/>
@@ -58,8 +59,8 @@
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Advancing Analytics" title="Advancing Analytics" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCmRI-X6XoeH2dQE4BShRU9Q"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Bread on Penguins" title="Bread on Penguins" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCwHwDuNd9lCdA7chyyquDXw"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Luke Smith" title="Luke Smith" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA"/>
-        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="EuroPython Conference" title="EuroPython Conference" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC98CzaYuFNAA_gOINFB0e4Q"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Deadlock" title="Deadlock" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCsyXL4K687fGa3fOrbX2yPQ"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Tariq10x" title="Tariq10x" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCXyisNI9ezbv7fvGMoSaFKg"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="CMU Database Group" title="CMU Database Group" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCHnBsf2rH-K7pn09rb3qvkA"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="PyCon US" title="PyCon US" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCMjMBMGt0WJQLeluw6qNJuA"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="EuroPython Conference" title="EuroPython Conference" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC98CzaYuFNAA_gOINFB0e4Q"/>
@@ -74,11 +75,23 @@
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="PyCon DE" title="PyCon DE" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCji5VWDkGzuRenyRQZ9OpFQ"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="MotherDuck" title="MotherDuck" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCC0AT6XjO_ebWIifTDp5REg"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="DuckDB" title="DuckDB" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCQli51lMp-oW0gUHrcIj0jA"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Den Delimarsky" title="Den Delimarsky" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCNHIUc6KE64sUe5G0eP70aQ"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Welch Labs" title="Welch Labs" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UConVfxXodg78Tzh5nNu85Ew"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Computerphile" title="Computerphile" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC9-y-6csu5WGm29I7JiwpnA"/>
       </outline>
       <outline description="" text="politiek">
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Akkad Daily" title="Akkad Daily" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCitU2-w3XE8ujvUZjcAnhIg"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="De Nieuwe Wereld" title="De Nieuwe Wereld" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC2LdCiAsuXTM5KxqScV_V8g"/>
         <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Left Laser" title="Left Laser" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCZU-vIoeB1e3by8mVaVLwIg"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Sargon of Akkad" title="Sargon of Akkad" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC-yewGHQbNFpDrGM0diZOLA"/>
+      </outline>
+      <outline description="" text="music">
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Heilung" title="Heilung" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC3Jvz7FpBsY73_wEjFV67wQ"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Occams Laser" title="Occams Laser" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCWGHZyEw5gJB3wlWQYzKQtg"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Aloboi" title="Aloboi" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC5pQc3JjGR_P6l8Qqq63OzA"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="CYBERPRIEST" title="CYBERPRIEST" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCqzbmS0FPK4JiSakPqxP2sg"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="KEYGEN CHURCH" title="KEYGEN CHURCH" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCHgbw5cuDIas28eMvbI8Nqg"/>
+        <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="wardruna" title="wardruna" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCoK2X3nnuG7ug-Kk75r5rJQ"/>
       </outline>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Technology Connections" title="Technology Connections" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCy0tKL1T7wFoYcxCe0xjN6Q"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Primate Economics" title="Primate Economics" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC14Fb2zWTEZklONPXFbLrTQ"/>
@@ -96,11 +109,8 @@
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Grimbeard" title="Grimbeard" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCNmv1Cmjm3Hk8Vc9kIgv0AQ"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Primitive Technology" title="Primitive Technology" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCAL3JXZSzSm8AlZyD3nQdBA"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Hayven Games" title="Hayven Games" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCjVDQloX4cIpGqpM6mdyD2Q"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Google" title="Google" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCK8sQmJBp8GCxrOtXWBpyEA"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Heilung" title="Heilung" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC3Jvz7FpBsY73_wEjFV67wQ"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Quanta Magazine" title="Quanta Magazine" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCTpmmkp1E4nmZqWPS-dl5bg"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Tübingen Machine Learning" title="Tübingen Machine Learning" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCupmCsCA5CFXmm31PkUhEbA"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="wardruna" title="wardruna" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCoK2X3nnuG7ug-Kk75r5rJQ"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Hoog" title="Hoog" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCii9ezsUa_mBiSdw0PtSOaw"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Razbuten" title="Razbuten" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCfHmyqCntYHQ81ZukNu66rg"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="suckerpinch" title="suckerpinch" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC3azLjQuz9s5qk76KEXaTvA"/>
@@ -110,7 +120,6 @@
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Unscripted" title="Unscripted" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCvXJbbvSyL_ENuBmVrQLXFw"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Sheafification of G" title="Sheafification of G" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC6_J0wZdqcoRVs0Mck922SQ"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Never Engine Studios" title="Never Engine Studios" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCy4TTW3dp-JPwEjJ7kSVUGg"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="The AI Daily Brief: Artificial Intelligence News" title="The AI Daily Brief: Artificial Intelligence News" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCKelCK4ZaO6HeEI1KQjqzWA"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="The Moving Average" title="The Moving Average" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCYFQzaZyTUzY-Tiytyv3HhA"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Ryan C. Gordon (icculus)" title="Ryan C. Gordon (icculus)" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCaz4VMH9qIwEya8LozbxzvQ"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="TheBackgroundNPC 🧙‍♂️" title="TheBackgroundNPC 🧙‍♂️" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCuEAyHQajqJrWeVrJKgIS_Q"/>
@@ -121,7 +130,6 @@
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="ThePrimeTime" title="ThePrimeTime" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCUyeluBRhGPCW4rPe_UvBZQ"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="mCoding" title="mCoding" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCaiL2GDNpLYH6Wokkk1VNcg"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Money &amp; Macro" title="Money &amp; Macro" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCCKpicnIwBP3VPxBAZWDeNA"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Occams Laser" title="Occams Laser" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCWGHZyEw5gJB3wlWQYzKQtg"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="MIT OpenCourseWare" title="MIT OpenCourseWare" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCEBb1b_L6zDS3xTUrIALZOw"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Vimjoyer" title="Vimjoyer" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC_zBdZ0_H_jn41FDRG7q4Tw"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Mr. P Solver" title="Mr. P Solver" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCKaYxkHrmsQePZFpzF9b7sQ"/>
@@ -135,7 +143,6 @@
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Rav" title="Rav" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCtyjKSJa-3kMbCSjjOCLq2A"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="ThePrimeagen" title="ThePrimeagen" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC8ENHE5xdFSwx71u3fDH5Xw"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Veritasium" title="Veritasium" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCHnyfMqiRRG1u-2MsSQLbXA"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="TheAIGRID" title="TheAIGRID" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCbY9xX3_jW5c2fjlZVBI4cg"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Microsoft Research" title="Microsoft Research" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCCb9_Kn8F_Opb3UCGm-lILQ"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="MandaloreGaming" title="MandaloreGaming" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UClOGLGPOqlAiLmOvXW5lKbw"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Weet Je Dat Ook Weer" title="Weet Je Dat Ook Weer" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCQfE0o6BrQ3SlujMm87-4xg"/>
@@ -144,10 +151,7 @@
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Marcus" title="Marcus" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCBWYyZ7UP_woeHQ-eY9popA"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Core Dumped" title="Core Dumped" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCGKEMK3s-ZPbjVOIuAV8clQ"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Dreaming Kitty 3D CGI and Ai" title="Dreaming Kitty 3D CGI and Ai" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCZhD6qKgF12fJit9aQ1k80A"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Mark Tilbury" title="Mark Tilbury" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCxgAuX3XZROujMmGphN_scA"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Aloboi" title="Aloboi" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC5pQc3JjGR_P6l8Qqq63OzA"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Ben Syversen" title="Ben Syversen" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCWQ7rdjjB-ujwQl0ErJ01eg"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="CYBERPRIEST" title="CYBERPRIEST" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCqzbmS0FPK4JiSakPqxP2sg"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Daedalus Community" title="Daedalus Community" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCuWLGQB4WRBKvW1C26zA2og"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Data Professor" title="Data Professor" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCV8e2g4IWQqK71bbzGDEI4Q"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Andrea Borman" title="Andrea Borman" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCJsinEiaDqEn8a-GcADVEVA"/>
@@ -177,7 +181,6 @@
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Just Background Noise" title="Just Background Noise" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCU7246c_yibAL5Uv2Z_0hKg"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Frame of Essence" title="Frame of Essence" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCQHsMwcGoH1ygyi-pJs5Z8A"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Kassa" title="Kassa" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UC8Q2dYFPEyTz_a6UyLVjLFQ"/>
-      <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="KEYGEN CHURCH" title="KEYGEN CHURCH" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCHgbw5cuDIas28eMvbI8Nqg"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Artem Kirsanov" title="Artem Kirsanov" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCR2uRTQ53V_egXKFflMMaaw"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="LibrePhoenix" title="LibrePhoenix" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCeZyoDTk0J-UPhd7MUktexw"/>
       <outline description="" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="J1mmy" title="J1mmy" type="rss" version="ATOM" xmlUrl="https://www.youtube.com/feeds/videos.xml?channel_id=UCqCg6nlsQdulY4W1-peSjsQ"/>
@@ -192,6 +195,7 @@
     </outline>
     <outline description="" text="Bitvavo">
       <outline description="The releases changelog to our APIs." encoding="utf-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Bitvavo API releases changelog" title="Bitvavo API releases changelog" type="rss" version="RSS" xmlUrl="https://docs.bitvavo.com/releases/rss.xml"/>
+      <outline description="Bitvavo status page updates" encoding="utf-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Bitvavo status" title="Bitvavo status" type="rss" version="RSS" xmlUrl="https://status.bitvavo.com/feed.rss"/>
     </outline>
     <outline description="" text="Reddit">
       <outline description="Computer Programming" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="programming" title="programming" type="rss" version="ATOM" xmlUrl="https://old.reddit.com/r/programming/top/.rss"/>
@@ -228,6 +232,7 @@
       <outline description="Google News" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="&quot;site:twitter.com/sama when:7d&quot; - Google News" title="&quot;site:twitter.com/sama when:7d&quot; - Google News" type="rss" version="RSS" xmlUrl="https://news.google.com/rss/search?q=site:x.com/sama+when:7d"/>
       <outline description="Google News" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="&quot;site:twitter.com/MatthewBerman when:7d&quot; - Google News" title="&quot;site:twitter.com/MatthewBerman when:7d&quot; - Google News" type="rss" version="RSS" xmlUrl="https://news.google.com/rss/search?q=site:x.com/MatthewBerman+when:7d"/>
       <outline description="Google News" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="&quot;site:x.com/ID_AA_Carmack when:1y&quot; - Google News" title="&quot;site:x.com/ID_AA_Carmack when:1y&quot; - Google News" type="rss" version="RSS" xmlUrl="https://news.google.com/rss/search?q=site:x.com/ID_AA_Carmack+when:7d"/>
+      <outline description="Google News" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="&quot;site:x.com/OpenAIDevs when:7d&quot; - Google News" title="&quot;site:x.com/OpenAIDevs when:7d&quot; - Google News" type="rss" version="RSS" xmlUrl="https://news.google.com/rss/search?q=site:x.com/OpenAIDevs+when:7d&amp;hl=en-US&amp;gl=US&amp;ceid=US:en"/>
     </outline>
     <outline description="" text="Tweakers">
       <outline description="Tweakers: tech-community, nieuws, reviews en de Pricewatch" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Tweakers Nieuws" title="Tweakers Nieuws" type="rss" version="RSS" xmlUrl="https://tweakers.net/feeds/nieuws.xml"/>
@@ -238,9 +243,7 @@
     <outline description="" text="The Register">
       <outline description="Biting the hand that feeds IT — Enterprise Technology News and Analysis" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="The Register - Off-Prem" title="The Register - Off-Prem" type="rss" version="ATOM" xmlUrl="https://www.theregister.com/off_prem/headlines.atom"/>
       <outline description="Biting the hand that feeds IT — Enterprise Technology News and Analysis" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="The Register - On-Prem" title="The Register - On-Prem" type="rss" version="ATOM" xmlUrl="https://www.theregister.com/on_prem/headlines.atom"/>
-      <outline description="Biting the hand that feeds IT — Enterprise Technology News and Analysis" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="The Register - Software" title="The Register - Software" type="rss" version="ATOM" xmlUrl="https://www.theregister.com/software/headlines.atom"/>
       <outline description="Biting the hand that feeds IT — Enterprise Technology News and Analysis" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="The Register - Security" title="The Register - Security" type="rss" version="ATOM" xmlUrl="https://www.theregister.com/security/headlines.atom"/>
-      <outline description="Biting the hand that feeds IT — Enterprise Technology News and Analysis" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="The Register - Offbeat" title="The Register - Offbeat" type="rss" version="ATOM" xmlUrl="https://www.theregister.com/offbeat/headlines.atom"/>
     </outline>
     <outline description="The OpenAI blog" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="OpenAI News" title="OpenAI News" type="rss" version="RSS" xmlUrl="https://openai.com/news/rss.xml"/>
     <outline description="A collection of articles on the usage / internal workings of Polars by the core team." encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Polars DataFrame blog" title="Polars DataFrame blog" type="rss" version="RSS" xmlUrl="https://pola.rs/rss.xml"/>
@@ -249,5 +252,6 @@
     <outline description="Technology Evangelist - Big Data Analytics - Middleware - Apache Kafka" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Confluent Archives - Kai Waehner" title="Confluent Archives - Kai Waehner" type="rss" version="RSS" xmlUrl="https://www.kai-waehner.de/blog/category/confluent/feed/"/>
     <outline description="Hacker News RSS" encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Hacker News: Front Page" title="Hacker News: Front Page" type="rss" version="RSS" xmlUrl="https://hnrss.org/frontpage"/>
     <outline description="Next-generation Python tooling" encoding="utf-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Blog - Astral" title="Blog - Astral" type="rss" version="RSS" xmlUrl="https://astral.sh/blog/rss.xml"/>
+    <outline description="Personal stuff." encoding="UTF-8" rssguard:postProcess="" rssguard:xmlUrlType="0" text="Casey Muratori's Blog" title="Casey Muratori's Blog" type="rss" version="RSS" xmlUrl="https://caseymuratori.com/blog_atom.rss"/>
   </body>
 </opml>
