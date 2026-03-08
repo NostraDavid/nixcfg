@@ -17,6 +17,7 @@
     ".config/pip/pip.conf".source = mk "${dot}/pip-22+/.config/pip/pip.conf";
     ".config/powerline".source = mk "${dot}/powerline-bash/.config/powerline";
     ".config/pypoetry/".source = mk "${dot}/pypoetry-2.1/.config/pypoetry";
+    ".config/RSS Guard 4/config/config.ini".source = mk "${dot}/rssguard-4/.config/RSS Guard 4/config/config.ini";
     ".config/starship.toml".source = mk "${dot}/starship-1.23.0/.config/starship.toml";
     # ".config/voxtype/config.toml".source = mk "${dot}/voxtype/.config/voxtype/config.toml";
     ".config/wezterm/wezterm.lua".source = mk "${dot}/wezterm-0-unstable-2025-05-18/.config/wezterm/wezterm.lua";
