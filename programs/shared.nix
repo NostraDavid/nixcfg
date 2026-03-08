@@ -81,7 +81,7 @@ in {
       ];
       startupNotify = true;
       settings = {
-        StartupWMClass = "code";
+        StartupWMClass = "Code";
         Actions = "new-empty-window";
         Keywords = "vscode";
       };
