@@ -108,7 +108,6 @@ in {
     csvkit # Python based CSV toolkit (heavier)
     curl
     delta # diff viewer
-    devenv # Development environment manager
     diff-so-fancy # diff viewer
     difftastic # diff viewer
     diffutils # Diff
@@ -252,6 +251,7 @@ in {
     unstable.oxlint # js linter
     unstable.fastfetch # neofetch alternative
     unstable.zigfetch # neofetch alternative
+    unstable.devenv # Development environment manager | using unstable for 2.x
 
     # local
     local.codex # Code autocompletion tool
