@@ -346,16 +346,6 @@ in {
     ];
   };
 
-  xdg.desktopEntries.whatpulse = {
-    name = "WhatPulse";
-    genericName = "WhatPulse";
-    comment = "Launch WhatPulse from the local AppImage";
-    exec = "appimage-run /home/david/Desktop/whatpulse-linux-latest_amd64.AppImage";
-    icon = "whatpulse";
-    terminal = false;
-    categories = ["Utility"];
-  };
-
   xdg.configFile."autostart/io.github.martinrotter.rssguard.desktop".text = ''
     [Desktop Entry]
     Type=Application
@@ -483,5 +473,6 @@ in {
     # pkgs-local.goose
     # pkgs-local.bitnet
     # pkgs-local.voxtype
+    pkgs-local.whatpulse
   ];
 }
