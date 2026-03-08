@@ -96,6 +96,26 @@
 
     legacyPackages = forAllSystems pkgsFor;
 
+    # devshell!
+    devShells = forAllSystems (system: let
+      pkgs = pkgsFor system;
+    in {
+      default = pkgs.mkShell {
+        packages = with pkgs; [
+          alejandra
+          git
+          just
+          nil
+          nixd
+        ];
+
+        shellHook = ''
+          export NIX_CONFIG="experimental-features = nix-command flakes
+          ''${NIX_CONFIG:-}"
+        '';
+      };
+    });
+
     packages = forAllSystems (system: let
       inherit (builtins) attrNames filter listToAttrs map readDir;
       pkgs = pkgsFor system;
