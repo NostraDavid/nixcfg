@@ -53,6 +53,9 @@
     };
   };
 
+  # Keep this host on the 6.12 kernel series for NVIDIA stability.
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
