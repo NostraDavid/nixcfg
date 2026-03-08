@@ -48,6 +48,82 @@
     exec "$wine" "$launcher"
   '';
 in {
+  programs.plasma = {
+    enable = true;
+
+    panels = [
+      {
+        screen = 1;
+        location = "top";
+        height = 26;
+        widgets = [
+          "org.kde.plasma.appmenu"
+        ];
+      }
+      {
+        screen = [
+          0
+          1
+        ];
+        location = "bottom";
+        widgets = [
+          "org.kde.plasma.kickoff"
+          "org.kde.plasma.pager"
+          {
+            iconTasks = {
+              launchers = [
+                "preferred://filemanager"
+                "applications:firefox-esr.desktop"
+                "applications:code.desktop"
+                "applications:org.wezfurlong.wezterm.desktop"
+                "applications:io.missioncenter.MissionCenter.desktop"
+                "applications:org.keepassxc.KeePassXC.desktop"
+                "applications:org.gnome.Evolution.desktop"
+                "applications:steam.desktop"
+                "applications:signal.desktop"
+                "applications:whatpulse.desktop"
+                "applications:spotify.desktop"
+              ];
+            };
+          }
+          "org.kde.plasma.marginsseparator"
+          {
+            systemTray = {
+              items.extra = [
+                "org.kde.plasma.cameraindicator"
+                "org.kde.plasma.clipboard"
+                "org.kde.plasma.manage-inputmethod"
+                "org.kde.plasma.keyboardlayout"
+                "org.kde.plasma.devicenotifier"
+                "org.kde.plasma.notifications"
+                "org.kde.plasma.mediacontroller"
+                "org.kde.plasma.brightness"
+                "org.kde.plasma.networkmanagement"
+                "org.kde.kscreen"
+                "org.kde.plasma.keyboardindicator"
+                "org.kde.plasma.battery"
+                "org.kde.plasma.weather"
+                "org.kde.plasma.volume"
+              ];
+            };
+          }
+          "org.kde.plasma.digitalclock"
+          "org.kde.plasma.showdesktop"
+        ];
+      }
+    ];
+  };
+
+  xdg.desktopEntries.whatpulse = {
+    name = "WhatPulse";
+    genericName = "WhatPulse";
+    comment = "Launch WhatPulse from the local AppImage";
+    exec = "appimage-run /home/david/Desktop/whatpulse-linux-latest_amd64.AppImage";
+    icon = "whatpulse";
+    terminal = false;
+    categories = ["Utility"];
+  };
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;

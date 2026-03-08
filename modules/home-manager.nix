@@ -11,6 +11,7 @@ in {
   home-manager.useUserPackages = true;
   home-manager.users.${main-user} = {
     imports = [
+      inputs.plasma-manager.homeModules.plasma-manager
       ./dotfiles.nix
       ./keyboard-home.nix
       ../programs/shared.nix

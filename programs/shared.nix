@@ -24,6 +24,77 @@
       localPackageNames);
   hasDlssUpdater = lib.elem local.dlss-updater config.home.packages;
 in {
+  xdg.desktopEntries = {
+    firefox-esr = {
+      name = "Firefox ESR";
+      genericName = "Web Browser";
+      exec = "firefox-esr %U";
+      icon = "firefox-esr";
+      terminal = false;
+      type = "Application";
+      categories = [
+        "Network"
+        "WebBrowser"
+      ];
+      mimeType = [
+        "text/html"
+        "text/xml"
+        "application/xhtml+xml"
+        "application/vnd.mozilla.xul+xml"
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+      ];
+      startupNotify = true;
+      settings = {
+        StartupWMClass = "firefox";
+        Actions = "new-private-window;new-window;profile-manager-window";
+      };
+      actions = {
+        new-private-window = {
+          name = "New Private Window";
+          exec = "firefox-esr --private-window %U";
+        };
+        new-window = {
+          name = "New Window";
+          exec = "firefox-esr --new-window %U";
+        };
+        profile-manager-window = {
+          name = "Profile Manager";
+          exec = "firefox-esr --ProfileManager";
+        };
+      };
+    };
+
+    code = {
+      name = "Visual Studio Code";
+      genericName = "Text Editor";
+      comment = "Code Editing. Redefined.";
+      exec = "code %F";
+      icon = "vscode";
+      terminal = false;
+      type = "Application";
+      categories = [
+        "Utility"
+        "TextEditor"
+        "Development"
+        "IDE"
+      ];
+      startupNotify = true;
+      settings = {
+        StartupWMClass = "code";
+        Actions = "new-empty-window";
+        Keywords = "vscode";
+      };
+      actions = {
+        new-empty-window = {
+          name = "New Empty Window";
+          icon = "vscode";
+          exec = "code --new-window %F";
+        };
+      };
+    };
+  };
+
   home.packages = with pkgs; [
     ## Terminal apps
     alejandra # nix formatter
