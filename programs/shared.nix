@@ -290,6 +290,7 @@ in {
     mission-center # Task Manager
     mpv # Media player
     notepad-next # notepad alternative
+    pixelorama # Pixel art editor
     spotify
     # qalculate-qt # use Speedcrunch instead
     qbittorrent-enhanced # Torrent client
