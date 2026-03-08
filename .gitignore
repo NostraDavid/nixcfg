@@ -20,3 +20,4 @@
 !pkgs/
 !cmd/
 !programs/
+!Justfile
