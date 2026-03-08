@@ -356,6 +356,20 @@ in {
     categories = ["Utility"];
   };
 
+  xdg.configFile."autostart/io.github.martinrotter.rssguard.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=RSS Guard
+    Comment=Simple, yet powerful news feed reader
+    Icon=io.github.martinrotter.rssguard
+    Exec=${pkgs.rssguard}/bin/rssguard
+    Categories=Feed;News;Network;Qt;
+    StartupWMClass=rssguard
+    X-GNOME-SingleWindow=true
+    X-GNOME-Autostart-Delay=15
+    X-LXQt-Need-Tray=true
+  '';
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
