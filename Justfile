@@ -33,3 +33,41 @@ boot host=default_host:
 # Build a VM for the selected host configuration.
 build-vm host=default_host:
   nixos-rebuild build-vm --flake .#"{{host}}"
+
+# Show filesystem and Nix store usage quickly.
+space:
+  df -h /
+  sudo du -sh /nix/store
+
+# Show current GC roots (trimmed).
+roots:
+  sudo nix-store --gc --print-roots | sed -n '1,120p'
+
+# Show the largest retained system generations.
+system-gen-sizes:
+  for p in /nix/var/nix/profiles/system-*-link; do readlink -f "$p"; done | sort -u | xargs -r nix path-info -Sh | sort -h | tail -n 20
+
+# Delete all non-current generations (system + user), then garbage collect.
+gc:
+  sudo nix-collect-garbage -d
+  nix-collect-garbage -d
+  rm -f ./result
+
+# Keep only recent generations by age, then garbage collect.
+gc-old days="14":
+  sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations "$(printf '%s' '{{days}}' | sed 's/d$//')d"
+  home-manager expire-generations "-$(printf '%s' '{{days}}' | sed 's/d$//') days"
+  sudo nix-collect-garbage
+  nix-collect-garbage
+  rm -f ./result
+
+# Deduplicate identical files in /nix/store.
+optimise-store:
+  sudo nix store optimise
+
+# Safer deploy when disk pressure is high.
+switch-clean host=default_host days="14":
+  just gc-old "{{days}}"
+  just optimise-store
+  sudo nixos-rebuild test --flake .#"{{host}}"
+  sudo nixos-rebuild switch --flake .#"{{host}}"
