@@ -57,8 +57,7 @@ gc:
 gc-old days="14":
   sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations "$(printf '%s' '{{days}}' | sed 's/d$//')d"
   home-manager expire-generations "-$(printf '%s' '{{days}}' | sed 's/d$//') days"
-  sudo nix-collect-garbage
-  nix-collect-garbage
+  nix-collect-garbage -d
   rm -f ./result
 
 # Deduplicate identical files in /nix/store.
