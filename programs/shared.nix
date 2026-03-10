@@ -253,11 +253,11 @@ in {
     unstable.zigfetch # neofetch alternative
     unstable.devenv # Development environment manager | using unstable for 2.x
     unstable.vscode
+    unstable.codex # Code autocompletion tool
 
     # local
     freetype # font-rendering library, for Whatpulse
     libpcap # for Whatpulse
-    local.codex # Code autocompletion tool
     local.jpegli
     local.whatpulse
 
