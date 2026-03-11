@@ -70,3 +70,6 @@ switch-clean host=default_host days="14":
   just optimise-store
   sudo nixos-rebuild test --flake .#"{{host}}"
   sudo nixos-rebuild switch --flake .#"{{host}}"
+
+precommit:
+  @just lint

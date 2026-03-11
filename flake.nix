@@ -103,6 +103,7 @@
       default = pkgs.mkShell {
         packages = with pkgs; [
           alejandra
+          prek
           git
           just
           nil
