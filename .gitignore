@@ -5,6 +5,7 @@
 !.envrc
 !flake.lock
 !flake.nix
+!.pre-commit-config.yaml
 !.oxfmtrc.json
 !README.md
 !AGENTS.md

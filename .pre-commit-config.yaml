@@ -1,0 +1,15 @@
+default_stages: [pre-commit]
+
+repos:
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
+
+  - repo: local
+    hooks:
+      - id: just-precommit
+        name: just precommit
+        entry: just precommit
+        language: system
+        pass_filenames: false
