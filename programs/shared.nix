@@ -99,6 +99,9 @@ in {
     ## Terminal apps
     # mozjpeg # JPEG image optimizer - doesn't work with jpegli
     alejandra # nix formatter
+    statix
+    oxfmt
+    deadnix
     prek
     atuin # shell history manager
     bat # cat replacement
