@@ -7,16 +7,41 @@ default:
   @just --list
 
 # Format all Nix files in the repository.
+format-alejandra:
+   .
+
+format-oxfmt:
+   . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.json' -o -name '*.jsonc' \) -print0 | xargs -0 --no-run-if-empty oxfmt --write
+
+format-shfmt:
+   . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shfmt -w
+
+format-ruff:
+   format .
+
+format:
+   format-alejandra
+   format-oxfmt
+   format-shfmt
+   format-ruff
+
 fmt:
-  alejandra .
+   format
 
 # Update flake inputs in flake.lock.
 update:
   nix flake update
 
 # Inspect the selected NixOS configuration from the flake.
-check host=default_host:
-  nix flake show .#nixosConfigurations."{{host}}"
+nixos-show host=default_host:
+   flake show .#nixosConfigurations."{{host}}"
+
+# Run formatting checks without modifying files.
+check:
+   --check .
+   . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.json' -o -name '*.jsonc' \) -print0 | xargs -0 --no-run-if-empty oxfmt --check
+   . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shfmt -d
+   format --check .
 
 # Test a host configuration temporarily; reverts after reboot.
 test host=default_host:
@@ -73,3 +98,42 @@ switch-clean host=default_host days="14":
 
 precommit:
   @just lint
+
+install-hooks:
+  @prek install
+
+lint-ruff:
+  @ruff check .
+
+lint-shellcheck:
+  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shellcheck --severity=info
+
+lint-markdown:
+  @find . -type d \( -name .git -o -name .direnv -o -name .venv \) -prune -o -type f -name '*.md' -print0 | xargs -0 --no-run-if-empty markdownlint
+
+lint-statix:
+  @statix check .
+
+lint-deadnix:
+  @deadnix .
+
+lint:
+  @just lint-ruff
+  @just lint-shellcheck
+  @just lint-markdown
+  @just lint-statix
+  @just lint-deadnix
+
+precommit:
+  @just lint
+
+versions:
+  @printf '%-14s %s\n' 'ruff:' "$(if command -v ruff >/dev/null 2>&1; then ruff --version | awk '{print $2}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'shellcheck:' "$(if command -v shellcheck >/dev/null 2>&1; then shellcheck --version | awk 'NR==2 {print $2; exit}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'markdownlint:' "$(if command -v markdownlint >/dev/null 2>&1; then markdownlint --version; else echo missing; fi)"
+  @printf '%-14s %s\n' 'statix:' "$(if command -v statix >/dev/null 2>&1; then statix --version | awk '{print $2}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'deadnix:' "$(if command -v deadnix >/dev/null 2>&1; then deadnix --version | awk '{print $2}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'alejandra:' "$(if command -v alejandra >/dev/null 2>&1; then alejandra --version | awk '{print $2}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'oxfmt:' "$(if command -v oxfmt >/dev/null 2>&1; then oxfmt --version | awk '/Version:/ {print $2; exit}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'shfmt:' "$(if command -v shfmt >/dev/null 2>&1; then shfmt --version; else echo missing; fi)"
+  @printf '%-14s %s\n' 'prek:' "$(if command -v prek >/dev/null 2>&1; then prek --version | awk '{print $2}'; else echo missing; fi)"

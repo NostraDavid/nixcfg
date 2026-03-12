@@ -103,6 +103,13 @@
       default = pkgs.mkShell {
         packages = with pkgs; [
           alejandra
+          statix
+          shfmt
+          shellcheck
+          ruff
+          oxfmt
+          markdownlint-cli
+          deadnix
           prek
           git
           just
