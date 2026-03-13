@@ -28,6 +28,7 @@
       ".config/git/attributes" = {source = mk "${dot}/git/.config/git/attributes";};
       ".config/git/commit-template" = {source = mk "${dot}/git/.config/git/commit-template";};
       ".config/git/hooks" = {source = mk "${dot}/git/.config/git/hooks";};
+      ".config/markdownlint/config.yaml" = {source = mk "${dot}/markdownlint-cli-0.46.0/.config/markdownlint/config.yaml";};
       ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv/.config/mpv/mpv.conf";};
       ".config/nvim/" = {source = mk "${dot}/neovim-0.11/.config/nvim";};
       ".config/pip/pip.conf" = {source = mk "${dot}/pip-22+/.config/pip/pip.conf";};

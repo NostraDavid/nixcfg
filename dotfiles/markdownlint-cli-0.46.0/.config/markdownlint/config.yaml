@@ -1,0 +1,32 @@
+default: true
+
+# Do not enforce a specific unordered-list marker style.
+MD004:
+  style: dash
+
+# Keep Markdown linting enabled repo-wide, but allow slightly longer lines for
+# agent definitions, instructions, and frontmatter-heavy documentation.
+MD013:
+  line_length: 88
+
+# Allow shell examples that intentionally include a leading `$` prompt.
+MD014: false
+
+# Do not require a space after hash characters in ATX headings.
+MD018: false
+
+# CHANGELOG-style documents often repeat the same version headings, so allow
+# duplicate headings repo-wide.
+# MD024: false
+
+# Allow selected inline HTML tags in Markdown documents.
+no-inline-html:
+  allowed_elements:
+    - dl
+    - dt
+    - dfn
+    - dd
+    - a
+    - s
+    - em
+    - br
