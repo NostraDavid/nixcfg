@@ -254,3 +254,9 @@ function project_color_preview() {
 
 # Convenience alias so it feels like an app-style command.
 alias project-color=project_color
+
+alias ...=cd ../../
+alias ....=cd ../../../
+alias .....=cd ../../../../
+alias ......=cd ../../../../../
+alias .......=cd ../../../../../../
