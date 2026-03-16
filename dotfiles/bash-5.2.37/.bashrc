@@ -251,6 +251,3 @@ if [ -n "${XDG_DATA_DIRS-}" ]; then
     [ -f "$dir/fzf/key-bindings.bash" ] && source "$dir/fzf/key-bindings.bash"
   done
 fi
-
-# == direnv ==
-eval "$(direnv hook bash)"
