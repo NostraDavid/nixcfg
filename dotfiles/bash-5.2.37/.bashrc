@@ -235,6 +235,9 @@ if [[ -n "$TMUX" ]]; then
     set -o ignoreeof
 fi
 
+# == direnv ==
+eval "$(direnv hook bash)"
+
 # == starship prompt ==
 if [ -n "$use_starship_prompt" ]; then
     eval "$(starship init bash)"
