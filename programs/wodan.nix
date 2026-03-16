@@ -362,7 +362,6 @@ in {
     enable = true;
     config.global.hide_env_diff = true;
     nix-direnv.enable = true;
-    enableBashIntegration = true;
   };
 
   systemd.user.services.ydotoold = {
