@@ -23,7 +23,7 @@ test host=default_host:
   sudo nixos-rebuild test --flake .#"{{host}}"
 
 # Apply a host configuration immediately and persist across reboots.
-switch host=default_host:
+switch host:
   sudo nixos-rebuild switch --flake .#"{{host}}"
 
 # Stage a host configuration for the next boot only.
