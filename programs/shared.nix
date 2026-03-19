@@ -178,10 +178,12 @@ in {
     nomacs # Image viewer
     ntfs3g # NTFS driver for work.
     nvme-cli # for nvme
+    osv-scanner # Open Source Vulnerability Scanner
+    osv-detector # Open Source Vulnerability Detector
     openssl # SSL/TLS toolkit
     optipng # PNG image optimizer
     oxipng # PNG image optimizer
-    parallel
+    parallel # xarg alternative (except it actually runs in parallel)
     parquet-tools
     pciutils # for lspci
     pgcli # psql alternative
@@ -218,6 +220,7 @@ in {
     xq-xml # XML processor
     xxd # Hex dump tool
     xz # Compression tool
+    yank # yank terminal output to clipboard
     yq-go # YAML processor
     yt-dlp
     zellij # tmux alternative
