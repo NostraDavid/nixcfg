@@ -49,7 +49,6 @@
 
     hosts = {
       # related to project ctb
-      "127.0.0.1" = ["mlflow.localhost"];
     };
   };
 
