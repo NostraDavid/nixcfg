@@ -10,6 +10,7 @@
     inherit (pkgs.stdenv.hostPlatform) system;
     config = pkgs.config // {allowUnfree = true;};
   };
+  dpaintJsPort = 18087;
   inherit (builtins) attrNames filter listToAttrs map readDir;
   localPackageNames = let
     entries = readDir ../pkgs;
@@ -283,6 +284,7 @@ in {
     mission-center # Task Manager
     mpv # Media player
     pixelorama # Pixel art editor
+    local.dpaint-js
     qbittorrent-enhanced # Torrent client
     qdirstat # Disk usage analyzer with Qt GUI
     rssguard # RSS reader
@@ -304,4 +306,19 @@ in {
       fi
     fi
   '';
+
+  systemd.user.services.dpaint-js = {
+    Unit = {
+      Description = "DPaint.js local web server";
+      After = ["graphical-session.target"];
+    };
+    Service = {
+      ExecStart = "${lib.getExe pkgs.python3} -m http.server ${toString dpaintJsPort} --bind 127.0.0.1 --directory ${local.dpaint-js}/share/dpaint-js";
+      Restart = "on-failure";
+      RestartSec = 2;
+    };
+    Install = {
+      WantedBy = ["default.target"];
+    };
+  };
 }
