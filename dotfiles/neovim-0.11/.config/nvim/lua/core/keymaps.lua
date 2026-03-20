@@ -22,6 +22,10 @@ map("n", "<leader>e", "<cmd>Neotree filesystem reveal right<CR>", { desc = "Reve
 map("n", "<C-b>", "<cmd>Neotree filesystem toggle right<CR>", { desc = "Toggle explorer" })
 map("n", "<C-Tab>", "<cmd>bnext<CR>", { desc = "Next tab" })
 map("n", "<C-S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous tab" })
+map("n", "<A-]>", "<cmd>bnext<CR>", { desc = "Next tab" })
+map("n", "<A-[>", "<cmd>bprevious<CR>", { desc = "Previous tab" })
+map("n", "<leader><tab>", "<cmd>bnext<CR>", { desc = "Next tab" })
+map("n", "<leader><s-tab>", "<cmd>bprevious<CR>", { desc = "Previous tab" })
 
 -- Clear search highlight
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })

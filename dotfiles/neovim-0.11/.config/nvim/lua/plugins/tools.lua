@@ -30,13 +30,37 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local lint = require("lint")
+			local function linter_available(name)
+				local spec = lint.linters[name]
+				if not spec then
+					return false
+				end
+
+				local cmd = spec.cmd
+				if type(cmd) ~= "string" or cmd == "" then
+					return true
+				end
+
+				return vim.fn.executable(cmd) == 1
+			end
+
+			local function available_linters(names)
+				local enabled = {}
+				for _, name in ipairs(names) do
+					if linter_available(name) then
+						enabled[#enabled + 1] = name
+					end
+				end
+				return enabled
+			end
+
 			lint.linters_by_ft = {
-				bash = { "shellcheck" },
-				dockerfile = { "hadolint" },
-				markdown = { "markdownlint-cli2" },
-				sh = { "shellcheck" },
-				sql = { "sqlfluff" },
-				zsh = { "shellcheck" },
+				bash = available_linters({ "shellcheck" }),
+				dockerfile = available_linters({ "hadolint" }),
+				markdown = available_linters({ "markdownlint-cli2" }),
+				sh = available_linters({ "shellcheck" }),
+				sql = available_linters({ "sqlfluff" }),
+				zsh = available_linters({ "shellcheck" }),
 			}
 
 			local group = vim.api.nvim_create_augroup("NvimLint", { clear = true })
