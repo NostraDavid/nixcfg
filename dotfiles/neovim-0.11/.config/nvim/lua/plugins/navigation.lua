@@ -107,6 +107,25 @@ return {
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
 			"echasnovski/mini.icons",
+			"3rd/image.nvim",
+			{
+				"antosha417/nvim-lsp-file-operations",
+				opts = {},
+			},
+			{
+				"s1n7ax/nvim-window-picker",
+				version = "2.*",
+				opts = {
+					filter_rules = {
+						include_current_win = false,
+						autoselect_one = true,
+						bo = {
+							filetype = { "neo-tree", "neo-tree-popup", "notify" },
+							buftype = { "terminal", "quickfix" },
+						},
+					},
+				},
+			},
 		},
 		opts = {
 			close_if_last_window = false,
