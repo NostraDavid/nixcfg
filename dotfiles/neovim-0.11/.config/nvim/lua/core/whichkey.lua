@@ -28,6 +28,8 @@ wk.add({
 	{ "<leader>gh", desc = "File history" },
 	{ "<leader>t", group = "toggle / test" },
 	{ "<leader>tn", desc = "Relative number" },
+	{ "<leader><tab>", desc = "Next tab" },
+	{ "<leader><S-Tab>", desc = "Previous tab" },
 	{ "<leader>tt", desc = "Nearest test" },
 	{ "<leader>tf", desc = "File tests" },
 	{ "<leader>td", desc = "Debug nearest test" },

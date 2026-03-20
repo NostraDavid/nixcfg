@@ -29,6 +29,10 @@ local function document_symbols()
 	end
 end
 
+local function search_text()
+	require("telescope.builtin").live_grep()
+end
+
 return {
 	{
 		"nvim-telescope/telescope.nvim",
@@ -37,6 +41,20 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {
 			defaults = {
+				vimgrep_arguments = {
+					"rg",
+					"--color=never",
+					"--no-heading",
+					"--with-filename",
+					"--line-number",
+					"--column",
+					"--smart-case",
+					"--hidden",
+					"--glob",
+					"!.git",
+					"--glob",
+					"!.venv",
+				},
 				layout_strategy = "horizontal",
 				layout_config = {
 					prompt_position = "top",
@@ -58,6 +76,8 @@ return {
 						"--hidden",
 						"--exclude",
 						".git",
+						"--exclude",
+						".venv",
 					},
 				},
 			},
@@ -77,13 +97,23 @@ return {
 				desc = "Search workspace symbols",
 			},
 			{
+				"<C-M-p>",
+				search_text,
+				desc = "Search text",
+			},
+			{
+				"<M-p>",
+				search_text,
+				desc = "Search text",
+			},
+			{
 				"<leader>ff",
 				telescope_builtin("find_files"),
 				desc = "Find files",
 			},
 			{
 				"<leader>fg",
-				telescope_builtin("live_grep"),
+				search_text,
 				desc = "Search text",
 			},
 			{
