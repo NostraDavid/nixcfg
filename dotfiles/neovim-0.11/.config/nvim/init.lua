@@ -8,6 +8,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- Core modules
 require("core.options")
+require("core.whitespace")
 require("core.filetypes")
 require("core.keymaps")
 require("core.autocmds")

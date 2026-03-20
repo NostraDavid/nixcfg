@@ -44,7 +44,7 @@ end)
 vim.o.undofile = true -- Persistent undo
 vim.o.ignorecase = true -- Case-insensitive by default
 vim.o.smartcase = true -- Become case-sensitive if capital in search
-vim.o.list = true -- Show invisible characters
+vim.o.list = false -- Hide invisible characters by default; reveal contextually
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.o.inccommand = "split" -- Live preview of :substitute
 vim.o.confirm = true -- Prompt to save before commands that would fail
