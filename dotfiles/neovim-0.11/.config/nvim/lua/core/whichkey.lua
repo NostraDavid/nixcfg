@@ -9,7 +9,6 @@ wk.add({
 	{ "<leader>q", desc = "Quit" },
 	{ "<leader>d", desc = "Diagnostics" },
 	{ "<leader>e", desc = "Reveal in explorer" },
-	{ "<leader>h", desc = "Clear search highlight" },
 	{ "<leader>f", group = "find" },
 	{ "<leader>ff", desc = "Find files" },
 	{ "<leader>fg", desc = "Search text" },
@@ -17,9 +16,10 @@ wk.add({
 	{ "<leader>fS", desc = "Document symbols" },
 	{ "<leader>t", group = "toggle" },
 	{ "<leader>tn", desc = "Relative number" },
-	{ "<leader>l", group = "diagnostics" },
+	{ "<leader>l", group = "language" },
 	{ "<leader>ld", desc = "Line diagnostics" },
 	{ "<leader>lq", desc = "Diagnostics to loclist" },
+	{ "<leader>lf", desc = "Format buffer" },
 	-- Git (gitsigns) group & mappings
 	{ "<leader>h", group = "git (hunks)" },
 	{ "<leader>hs", desc = "Stage hunk" },
@@ -36,9 +36,7 @@ wk.add({
 	{ "<leader>hu", desc = "Undo stage hunk" },
 	{ "<leader>tb", desc = "Toggle line blame" },
 	{ "<leader>tw", desc = "Toggle word diff" },
-	-- Comment plugin operator + line toggle (mini.comment)
-	{ "gc", desc = "Comment operator", mode = { "n", "x" } },
-	{ "gcc", desc = "Toggle line comment", mode = "n" },
+	-- VS Code-like comment toggle
 	{ "<C-_>", desc = "Toggle comment", mode = { "n", "x" } },
 })
 

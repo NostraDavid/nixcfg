@@ -29,11 +29,11 @@ return {
 				"lua_ls", -- Lua
 				"marksman", -- Markdown
 				"pyright", -- Python
-				"sqlls", -- SQL
 				"taplo", -- TOML
 				"terraformls", -- HCL/Terraform
 				"yamlls", -- YAML
 			},
+			automatic_enable = false,
 		},
 		config = function(_, opts)
 			local ok, mlsp = pcall(require, "mason-lspconfig")
