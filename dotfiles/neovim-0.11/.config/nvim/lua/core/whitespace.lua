@@ -1,9 +1,9 @@
--- Core: show whitespace markers only on the current line or active visual selection.
+-- Core: reveal whitespace only when the cursor is directly on top of it.
 local M = {}
 
 local ns = vim.api.nvim_create_namespace("ContextualWhitespace")
 
-vim.api.nvim_set_hl(0, "WhitespaceReveal", { link = "NonText" })
+vim.api.nvim_set_hl(0, "WhitespaceReveal", { link = "DiagnosticError" })
 
 local function clear(bufnr)
 	vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
@@ -18,28 +18,14 @@ local function add_marker(bufnr, row, col, text)
 	})
 end
 
-local function reveal_line(bufnr, line_nr)
+local function reveal_in_range(bufnr, line_nr, start_col, end_col)
 	local line = vim.api.nvim_buf_get_lines(bufnr, line_nr - 1, line_nr, false)[1]
 	if not line or line == "" then
 		return
 	end
 
-	local from = 1
-	while true do
-		local start_col, end_col = line:find("\t", from, true)
-		if not start_col then
-			break
-		end
-		add_marker(bufnr, line_nr - 1, start_col - 1, "»")
-		from = end_col + 1
-	end
-
-	local trail_start = line:find("[ \t]+$")
-	if not trail_start then
-		return
-	end
-
-	for col = trail_start, #line do
+	local last_col = math.min(end_col, #line)
+	for col = math.max(start_col, 1), last_col do
 		local char = line:sub(col, col)
 		if char == " " then
 			add_marker(bufnr, line_nr - 1, col - 1, "·")
@@ -49,16 +35,64 @@ local function reveal_line(bufnr, line_nr)
 	end
 end
 
-local function target_range()
-	local mode = vim.fn.mode(1)
-	if mode:match("[vV\22]") then
-		local start_pos = vim.fn.getpos("v")
-		local end_pos = vim.fn.getpos(".")
-		return math.min(start_pos[2], end_pos[2]), math.max(start_pos[2], end_pos[2])
+local function reveal_at_cursor(bufnr)
+	local pos = vim.api.nvim_win_get_cursor(0)
+	local line_nr = pos[1]
+	local col = pos[2]
+	local line = vim.api.nvim_buf_get_lines(bufnr, line_nr - 1, line_nr, false)[1]
+	if not line or line == "" then
+		return
 	end
 
-	local line = vim.api.nvim_win_get_cursor(0)[1]
-	return line, line
+	local char = line:sub(col + 1, col + 1)
+	if char == " " then
+		add_marker(bufnr, line_nr - 1, col, "·")
+	elseif char == "\t" then
+		add_marker(bufnr, line_nr - 1, col, "»")
+	end
+end
+
+local function reveal_visual_selection(bufnr)
+	local mode = vim.fn.mode(1)
+	if not mode:match("[vV\22]") then
+		return false
+	end
+
+	local start_pos = vim.fn.getpos("v")
+	local end_pos = vim.fn.getpos(".")
+	local start_line = start_pos[2]
+	local end_line = end_pos[2]
+	local start_col = start_pos[3]
+	local end_col = end_pos[3]
+
+	if start_line > end_line or (start_line == end_line and start_col > end_col) then
+		start_line, end_line = end_line, start_line
+		start_col, end_col = end_col, start_col
+	end
+
+	for line_nr = start_line, end_line do
+		local line = vim.api.nvim_buf_get_lines(bufnr, line_nr - 1, line_nr, false)[1] or ""
+		local from_col = 1
+		local to_col = #line
+
+		if mode:match("[v\22]") then
+			if line_nr == start_line then
+				from_col = start_col
+			end
+			if line_nr == end_line then
+				to_col = end_col
+			end
+		end
+
+		if mode:match("\22") then
+			from_col = math.min(start_col, end_col)
+			to_col = math.max(start_col, end_col)
+		end
+
+		reveal_in_range(bufnr, line_nr, from_col, to_col)
+	end
+
+	return true
 end
 
 function M.refresh()
@@ -68,10 +102,8 @@ function M.refresh()
 	end
 
 	clear(bufnr)
-
-	local first_line, last_line = target_range()
-	for line_nr = first_line, last_line do
-		reveal_line(bufnr, line_nr)
+	if not reveal_visual_selection(bufnr) then
+		reveal_at_cursor(bufnr)
 	end
 end
 
