@@ -7,6 +7,14 @@ vim.o.termguicolors = true
 vim.o.signcolumn = "yes"
 vim.o.cursorline = true
 vim.o.showmode = false -- Mode shown in statusline plugin instead
+vim.o.showtabline = 2
+vim.o.mousemodel = "extend"
+vim.opt.colorcolumn = { 80, 120 }
+vim.opt.guicursor = {
+	"n-v-c:block",
+	"i-ci-ve:block",
+	"r-cr-o:block",
+}
 
 -- Indentation
 vim.o.shiftwidth = 2
