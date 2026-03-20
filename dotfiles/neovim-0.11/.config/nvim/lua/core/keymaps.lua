@@ -6,6 +6,12 @@ local opts = { silent = true }
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Remove Neovim 0.11 default comment mappings; we use VS Code-like Ctrl-/ instead.
+pcall(vim.keymap.del, "n", "gc")
+pcall(vim.keymap.del, "n", "gcc")
+pcall(vim.keymap.del, "x", "gc")
+pcall(vim.keymap.del, "o", "gc")
+
 -- Flag indicating if a Nerd Font is available (can be used by other plugins/config)
 vim.g.have_nerd_font = true
 
@@ -19,7 +25,6 @@ map("n", "<C-S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous tab" })
 
 -- Clear search highlight
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
-map("n", "<leader>h", ":nohlsearch<CR>", { desc = "Clear search highlight" })
 
 -- Toggle relative number
 map("n", "<leader>tn", function()
