@@ -24,6 +24,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Collect plugin specs from grouped modules
 local groups = {
 	require("plugins.ui"),
+	require("plugins.navigation"),
 	require("plugins.git"),
 	require("plugins.syntax"),
 	require("plugins.lsp"),
@@ -36,6 +37,10 @@ for _, group in ipairs(groups) do
 	end
 end
 
-require("lazy").setup(specs)
+require("lazy").setup(specs, {
+	rocks = {
+		enabled = false,
+	},
+})
 
 return {}
