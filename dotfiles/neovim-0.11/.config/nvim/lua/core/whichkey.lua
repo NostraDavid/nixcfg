@@ -7,6 +7,7 @@ end
 wk.add({
 	{ "<leader>w", desc = "Write file" },
 	{ "<leader>q", desc = "Quit" },
+	{ "<leader>Q", desc = "Quit all" },
 	{ "<leader>d", group = "debug" },
 	{ "<leader>db", desc = "Toggle breakpoint" },
 	{ "<leader>dB", desc = "Conditional breakpoint" },
