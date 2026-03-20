@@ -16,25 +16,33 @@ local function on_attach(client, bufnr)
 	end
 	-- Navigation & info
 	map("n", "gd", vim.lsp.buf.definition, "Goto definition")
-	map("n", "gr", vim.lsp.buf.references, "References")
 	map("n", "gD", vim.lsp.buf.declaration, "Goto declaration")
 	map("n", "gi", vim.lsp.buf.implementation, "Goto implementation")
 	map("n", "gt", vim.lsp.buf.type_definition, "Goto type")
 	map("n", "K", vim.lsp.buf.hover, "Hover docs")
 	map("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
 	map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
-	map("n", "<leader>fd", function()
+	map("n", "<leader>ld", function()
 		vim.diagnostic.open_float(nil, { focus = false })
 	end, "Line diagnostics")
-	map("n", "[d", vim.diagnostic.goto_prev, "Prev diagnostic")
-	map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
-	map("n", "<leader>f", function()
+	map("n", "<leader>lf", function()
 		vim.lsp.buf.format({ async = true })
 	end, "Format buffer")
+	map("n", "[d", vim.diagnostic.goto_prev, "Prev diagnostic")
+	map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
 end
 
 -- Capabilities (extend later for nvim-cmp if added)
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.general = capabilities.general or {}
+capabilities.general.positionEncodings = { "utf-16" }
+capabilities.offsetEncoding = { "utf-16" }
+
+-- Mason can have extra installed tools that we do not want treated as active LSP configs.
+for _, name in ipairs({ "basedpyright", "ruff", "sqlls", "stylua", "ty" }) do
+	vim.lsp._enabled_configs[name] = nil
+	pcall(vim.lsp.enable, name, false)
+end
 
 -- Servers with default setup
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md

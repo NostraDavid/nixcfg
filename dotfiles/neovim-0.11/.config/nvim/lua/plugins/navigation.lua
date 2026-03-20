@@ -179,15 +179,41 @@ return {
 		"echasnovski/mini.comment",
 		version = "*",
 		event = "VeryLazy",
-		opts = {},
+		opts = {
+			mappings = {
+				comment = "",
+				comment_line = "",
+				comment_visual = "",
+				textobject = "",
+			},
+		},
 		config = function(_, opts)
-			require("mini.comment").setup(opts)
+			local comment = require("mini.comment")
+			comment.setup(opts)
 
-			local map_opts = { remap = true, silent = true, desc = "Toggle comment" }
-			vim.keymap.set("n", "<C-_>", "gcc", map_opts)
-			vim.keymap.set("x", "<C-_>", "gc", map_opts)
-			vim.keymap.set("n", "<C-/>", "gcc", map_opts)
-			vim.keymap.set("x", "<C-/>", "gc", map_opts)
+			local function toggle_current_line()
+				local line = vim.api.nvim_win_get_cursor(0)[1]
+				comment.toggle_lines(line, line)
+			end
+
+			local function toggle_visual_selection()
+				local line_start = vim.fn.line("v")
+				local line_end = vim.fn.line(".")
+				if line_start > line_end then
+					line_start, line_end = line_end, line_start
+				end
+				comment.toggle_lines(line_start, line_end)
+			end
+
+			local map_opts = { silent = true, desc = "Toggle comment" }
+			pcall(vim.keymap.del, "n", "gc")
+			pcall(vim.keymap.del, "n", "gcc")
+			pcall(vim.keymap.del, "x", "gc")
+			pcall(vim.keymap.del, "o", "gc")
+			vim.keymap.set("n", "<C-_>", toggle_current_line, map_opts)
+			vim.keymap.set("x", "<C-_>", toggle_visual_selection, map_opts)
+			vim.keymap.set("n", "<C-/>", toggle_current_line, map_opts)
+			vim.keymap.set("x", "<C-/>", toggle_visual_selection, map_opts)
 		end,
 	},
 }
