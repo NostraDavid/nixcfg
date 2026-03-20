@@ -32,7 +32,7 @@ map("n", "<leader>tn", function()
 end, { desc = "Toggle relative number" })
 
 -- Diagnostics quick access (additional to diagnostics.lua list / float)
-map("n", "<leader>d", vim.diagnostic.setloclist, { desc = "Diagnostics loclist" })
+map("n", "<leader>lq", vim.diagnostic.setloclist, { desc = "Diagnostics loclist" })
 
 -- Window navigation
 map("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus left" })

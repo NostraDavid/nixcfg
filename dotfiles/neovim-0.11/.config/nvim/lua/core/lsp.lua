@@ -26,6 +26,11 @@ local function on_attach(client, bufnr)
 		vim.diagnostic.open_float(nil, { focus = false })
 	end, "Line diagnostics")
 	map("n", "<leader>lf", function()
+		local ok, conform = pcall(require, "conform")
+		if ok then
+			conform.format({ async = true, lsp_format = "fallback" })
+			return
+		end
 		vim.lsp.buf.format({ async = true })
 	end, "Format buffer")
 	map("n", "[d", vim.diagnostic.goto_prev, "Prev diagnostic")

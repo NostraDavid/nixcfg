@@ -29,6 +29,7 @@ return {
 				"lua_ls", -- Lua
 				"marksman", -- Markdown
 				"pyright", -- Python
+				"rust_analyzer", -- Rust
 				"taplo", -- TOML
 				"terraformls", -- HCL/Terraform
 				"yamlls", -- YAML

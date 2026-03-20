@@ -25,7 +25,10 @@ vim.opt.rtp:prepend(lazypath)
 local groups = {
 	require("plugins.ui"),
 	require("plugins.navigation"),
+	require("plugins.ux"),
 	require("plugins.git"),
+	require("plugins.tools"),
+	require("plugins.dev"),
 	require("plugins.syntax"),
 	require("plugins.lsp"),
 	require("plugins.colors"),
