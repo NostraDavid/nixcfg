@@ -137,7 +137,11 @@ end
 
 -- Diagnostics configuration (non-virtual text by default; rely on signs and float)
 vim.diagnostic.config({
-	virtual_text = false,
+	virtual_text = {
+		spacing = 2,
+		source = "if_many",
+		prefix = "●",
+	},
 	signs = true,
 	underline = true,
 	update_in_insert = false,

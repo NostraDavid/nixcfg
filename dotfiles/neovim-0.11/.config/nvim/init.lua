@@ -2,8 +2,13 @@
 -- Path managed via Home Manager (programs.nix -> .config/nvim symlink)
 -- Modules live in lua/core and lua/plugins.
 
+-- Let Neo-tree own directory browsing instead of netrw.
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Core modules
 require("core.options")
+require("core.filetypes")
 require("core.keymaps")
 require("core.autocmds")
 require("core.diagnostics")

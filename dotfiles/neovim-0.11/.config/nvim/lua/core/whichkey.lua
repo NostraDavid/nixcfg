@@ -8,8 +8,13 @@ wk.add({
 	{ "<leader>w", desc = "Write file" },
 	{ "<leader>q", desc = "Quit" },
 	{ "<leader>d", desc = "Diagnostics" },
-	{ "<leader>e", desc = "File explorer" },
+	{ "<leader>e", desc = "Reveal in explorer" },
 	{ "<leader>h", desc = "Clear search highlight" },
+	{ "<leader>f", group = "find" },
+	{ "<leader>ff", desc = "Find files" },
+	{ "<leader>fg", desc = "Search text" },
+	{ "<leader>fs", desc = "Workspace symbols" },
+	{ "<leader>fS", desc = "Document symbols" },
 	{ "<leader>t", group = "toggle" },
 	{ "<leader>tn", desc = "Relative number" },
 	{ "<leader>l", group = "diagnostics" },
@@ -34,6 +39,7 @@ wk.add({
 	-- Comment plugin operator + line toggle (mini.comment)
 	{ "gc", desc = "Comment operator", mode = { "n", "x" } },
 	{ "gcc", desc = "Toggle line comment", mode = "n" },
+	{ "<C-_>", desc = "Toggle comment", mode = { "n", "x" } },
 })
 
 return {}

@@ -12,7 +12,10 @@ vim.g.have_nerd_font = true
 -- Basic file/window actions
 map("n", "<leader>w", ":write<CR>", { desc = "Write file" })
 map("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
-map("n", "<leader>e", ":Ex<CR>", { desc = "File explorer (netrw)" })
+map("n", "<leader>e", "<cmd>Neotree filesystem reveal right<CR>", { desc = "Reveal in explorer" })
+map("n", "<C-b>", "<cmd>Neotree filesystem toggle right<CR>", { desc = "Toggle explorer" })
+map("n", "<C-Tab>", "<cmd>bnext<CR>", { desc = "Next tab" })
+map("n", "<C-S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous tab" })
 
 -- Clear search highlight
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })

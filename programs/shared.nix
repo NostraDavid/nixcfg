@@ -131,6 +131,7 @@ in {
     glances # htop with temperature information
     gnugrep # GNU grep
     gnused # GNU sed
+    go # the language
     graphicsmagick # image processing
     hadolint # Dockerfile linter
     helix # Text editor (hx)
@@ -200,6 +201,7 @@ in {
     smartmontools # for monitoring hard drive health
     sqlfluff # SQL linter and formatter
     sqlite
+    sqls # SQL language server for Neovim
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
     strace
@@ -207,6 +209,7 @@ in {
     sysstat # for iostat
     tmux
     tree # Display directory structure in a tree-like format
+    tree-sitter # used for Neovim
     ty # Astral type checker
     unzip
     util-linux # For `chrt` command

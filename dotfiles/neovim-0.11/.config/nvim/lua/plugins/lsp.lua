@@ -42,6 +42,25 @@ return {
 			end
 		end,
 	},
+	{ -- Mason installer for non-LSP tools we want to keep around
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		version = "*",
+		dependencies = { "mason-org/mason.nvim" },
+		opts = {
+			ensure_installed = {
+				"actionlint",
+			},
+			auto_update = false,
+			run_on_start = true,
+			start_delay = 0,
+		},
+		config = function(_, opts)
+			local ok, mti = pcall(require, "mason-tool-installer")
+			if ok then
+				mti.setup(opts)
+			end
+		end,
+	},
 	{ -- Core LSP configurations
 		"neovim/nvim-lspconfig",
 		version = "v2.5.0",
