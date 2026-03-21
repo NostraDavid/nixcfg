@@ -216,6 +216,7 @@ in {
     unzip
     util-linux # For `chrt` command
     uv # Astral project manager
+    upx # Executable packer (binary compression)
     viddy # Watch alternative with better color support
     visidata # Interactive terminal multitool for tabular data
     w3m # Text-based web browser
