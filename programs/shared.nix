@@ -201,6 +201,7 @@ in {
     ripgrep # Search tool (rg)
     rsync
     ruff
+    sipcalc # Another IP calculator, with more features than ipcalc
     shellcheck
     shfmt # Shell script formatter
     smartmontools # for monitoring hard drive health
