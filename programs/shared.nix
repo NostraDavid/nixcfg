@@ -270,6 +270,7 @@ in {
     libpcap # for Whatpulse
     local.jpegli
     local.whatpulse
+    local.yafc
 
     # podman
     podman-desktop # GUI for managing containers
