@@ -220,6 +220,7 @@ in {
     viddy # Watch alternative with better color support
     visidata # Interactive terminal multitool for tabular data
     w3m # Text-based web browser
+    witr # Why is this running?
     wget
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
