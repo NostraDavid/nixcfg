@@ -271,6 +271,7 @@ in {
     local.jpegli
     local.whatpulse
     local.yafc
+    local.xdgctl
 
     # podman
     podman-desktop # GUI for managing containers
