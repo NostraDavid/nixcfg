@@ -220,7 +220,6 @@ in {
     viddy # Watch alternative with better color support
     visidata # Interactive terminal multitool for tabular data
     w3m # Text-based web browser
-    witr # Why is this running?
     wget
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
@@ -265,6 +264,7 @@ in {
     unstable.devenv # Development environment manager | using unstable for 2.x
     unstable.vscode
     unstable.codex # Code autocompletion tool
+    unstable.witr # Why is this running?
 
     # local
     freetype # font-rendering library, for Whatpulse
