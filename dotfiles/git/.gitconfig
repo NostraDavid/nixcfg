@@ -25,6 +25,9 @@
 	cp = cherry-pick
 	pl = pull --rebase
 	yeet = "!f() { git add -A && git commit -m \"$@\" && git push; }; f"
+	walk = "!f() {\n  b=\"$1\"\n  [ -n \"$b\" ] || { echo \"usage: git walk <branch>\" >&2; exit 1; }\n  git rev-parse --verify \"$b\" >/dev/null 2>&1 || { echo \"unknown branch: $b\" >&2; exit 1; }\n  git config --global walk.branch \"$b\"\n  git switch --detach \"$b\"\n}; f"
+	prev = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    BEGIN { prev=\"\" }\n    $0 == h { if (prev != \"\") print prev; found=1; exit }\n    { prev=$0 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at oldest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
+	next = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    found { print; exit }\n    $0 == h { found=1 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at newest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
 [init]
 	templatedir = ~/.git-templates
 	defaultBranch = master
