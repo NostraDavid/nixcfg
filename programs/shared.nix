@@ -303,7 +303,7 @@ in {
     local.dpaint-js
     qbittorrent-enhanced # Torrent client
     qdirstat # Disk usage analyzer with Qt GUI
-    rssguard # RSS reader
+    rssguard # RSS  reader
     signal-desktop # Signal messaging app
     speedcrunch # Calculator
     spotify
