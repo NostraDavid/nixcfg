@@ -273,6 +273,7 @@ in {
     local.whatpulse
     local.yafc
     local.xdgctl
+    local.jsongrep # JSONPath-inspired query language over JSON documents
 
     # podman
     podman-desktop # GUI for managing containers
