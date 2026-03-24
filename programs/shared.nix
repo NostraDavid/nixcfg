@@ -274,6 +274,8 @@ in {
     freetype # font-rendering library, for Whatpulse
     libpcap # for Whatpulse
     local.jpegli
+    local.fixit
+    local.mdschema
     local.whatpulse
     local.yafc
     local.xdgctl
