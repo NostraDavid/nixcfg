@@ -37,6 +37,7 @@
       ".config/RSS Guard 4/config/config.ini" = {source = mk "${dot}/rssguard-4/.config/RSS Guard 4/config/config.ini";};
       ".config/snip/filters" = {source = mk "${dot}/snip-0.18.0/.config/snip/filters";};
       ".config/starship.toml" = {source = mk "${dot}/starship-1.23.0/.config/starship.toml";};
+      ".config/uv/uv.toml" = {source = mk "${dot}/uv-0.9.0/.config/uv/uv.toml";};
       ".config/wezterm/wezterm.lua" = {source = mk "${dot}/wezterm-0-unstable-2025-05-18/.config/wezterm/wezterm.lua";};
       ".config/zigfetch/" = {source = mk "${dot}/zigfetch-0.25.0/.config/zigfetch";};
       ".git-templates" = {source = mk "${dot}/git-templates/.git-templates";};
