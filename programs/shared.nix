@@ -274,6 +274,7 @@ in {
     local.yafc
     local.xdgctl
     local.jsongrep # JSONPath-inspired query language over JSON documents
+    local.austin # CPython frame stack sampler
 
     # podman
     podman-desktop # GUI for managing containers
