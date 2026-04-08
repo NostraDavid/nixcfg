@@ -475,7 +475,7 @@ in {
     # local.synology-drive-client-pinned # kaput in 25.11
     # local.voxtype
     # local.vscode-pinned
-    # local.codemogger
+    local.codemogger
     local.cool-retro-term # terminal emulator with retro style
     local.dlss-updater
     local.photorec # image recovery
