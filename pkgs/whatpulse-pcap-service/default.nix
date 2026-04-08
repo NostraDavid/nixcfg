@@ -7,11 +7,11 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "whatpulse-pcap-service";
-  version = "1.4.0";
+  version = "1.5.1";
 
   src = fetchurl {
     url = "https://github.com/whatpulse/linux-external-pcap-service/releases/download/v${finalAttrs.version}/whatpulse-pcap-service-${finalAttrs.version}-source.tar.gz";
-    hash = "sha256-yPwvQnvnQtnScsDwKayB+WgIl8rTwljfNJ84Fl9grtM=";
+    hash = "sha256-/0RyS2aaDw7C+ppaY40C6lNKZL65uXcz3wYq8NPWHRY=";
   };
 
   nativeBuildInputs = [pkg-config];
