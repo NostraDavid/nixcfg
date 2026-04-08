@@ -31,7 +31,8 @@ test host=default_host:
   sudo nixos-rebuild test --flake .#"{{host}}"
 
 # Apply a host configuration immediately and persist across reboots.
-switch host:
+switch host="":
+  if [ -z "{{host}}" ]; then echo "Available hosts:"; nix eval --json .#nixosConfigurations --apply 'attrs: builtins.attrNames attrs' | jq -r '.[]' | sed 's/^/  /'; exit 1; fi
   sudo nixos-rebuild switch --flake .#"{{host}}"
 
 # Stage a host configuration for the next boot only.
