@@ -30,6 +30,20 @@ buildNpmPackage (finalAttrs: {
 
   dontNpmBuild = true;
 
+  postInstall = ''
+    substituteInPlace \
+      "$out/lib/node_modules/codemogger/node_modules/@huggingface/transformers/dist/transformers.node.mjs" \
+      --replace-fail \
+        "node_path__WEBPACK_IMPORTED_MODULE_1__[\"default\"].join(dirname__, '/.cache/')" \
+        "(process.env.XDG_CACHE_HOME ? node_path__WEBPACK_IMPORTED_MODULE_1__[\"default\"].join(process.env.XDG_CACHE_HOME, 'codemogger', 'transformers') : process.env.HOME ? node_path__WEBPACK_IMPORTED_MODULE_1__[\"default\"].join(process.env.HOME, '.cache', 'codemogger', 'transformers') : node_path__WEBPACK_IMPORTED_MODULE_1__[\"default\"].join(dirname__, '/.cache/'))"
+
+    substituteInPlace \
+      "$out/lib/node_modules/codemogger/node_modules/@huggingface/transformers/dist/transformers.node.cjs" \
+      --replace-fail \
+        "node_path__WEBPACK_IMPORTED_MODULE_1__.join(dirname__, '/.cache/')" \
+        "(process.env.XDG_CACHE_HOME ? node_path__WEBPACK_IMPORTED_MODULE_1__.join(process.env.XDG_CACHE_HOME, 'codemogger', 'transformers') : process.env.HOME ? node_path__WEBPACK_IMPORTED_MODULE_1__.join(process.env.HOME, '.cache', 'codemogger', 'transformers') : node_path__WEBPACK_IMPORTED_MODULE_1__.join(dirname__, '/.cache/'))"
+  '';
+
   meta = {
     description = "Code indexing library with tree-sitter chunking and vector+FTS search for AI coding agents";
     homepage = "https://github.com/glommer/codemogger";
