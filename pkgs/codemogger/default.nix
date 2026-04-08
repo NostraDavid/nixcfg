@@ -5,14 +5,14 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "codemogger";
-  version = "0.1.2";
+  version = "0.1.4";
 
   src = fetchzip {
     url = "https://registry.npmjs.org/codemogger/-/codemogger-${finalAttrs.version}.tgz";
-    hash = "sha256-5LAIgAP5buvzo27zHh1w2KbgOpgF6SoG2CnA2FQtPr0=";
+    hash = "sha256-81W6YA4lzptJ0luL0tQONKM3lRH87mPOWD2XBXxF1g4=";
   };
 
-  npmDepsHash = "sha256-982gTzips3bAUbcdNU1rubbIZkamB1ExFNegGeBiEds=";
+  npmDepsHash = "sha256-oDqHUfqk5gpdeY3QGYzLdxRhjmNWW9Bvfwr0anOrNOM=";
 
   npmConfigProduction = true;
   npmConfigOptional = false;

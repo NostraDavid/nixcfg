@@ -1,7 +1,8 @@
 {
   "name": "@github/copilot",
   "description": "GitHub Copilot CLI brings the power of Copilot coding agent directly to your terminal.",
-  "version": "0.0.349",
+  "version": "1.0.21",
+  "license": "SEE LICENSE IN LICENSE.md",
   "type": "module",
   "repository": {
     "type": "git",
@@ -13,7 +14,7 @@
   "homepage": "https://github.com/github/copilot-cli/#readme",
   "author": "GitHub",
   "bin": {
-    "copilot": "index.js"
+    "copilot": "npm-loader.js"
   },
   "exports": {
     "./sdk": {
@@ -21,23 +22,54 @@
       "import": "./sdk/index.js"
     }
   },
-  "engines": {
-    "node": ">=22"
-  },
   "files": [
     "index.js",
+    "app.js",
+    "npm-loader.js",
+    "changelog.json",
     "README.md",
     "tree-sitter.wasm",
     "tree-sitter-bash.wasm",
     "tree-sitter-powershell.wasm",
+    "tree-sitter-typescript.wasm",
+    "tree-sitter-tsx.wasm",
+    "tree-sitter-javascript.wasm",
+    "tree-sitter-python.wasm",
+    "tree-sitter-go.wasm",
+    "tree-sitter-rust.wasm",
+    "tree-sitter-ruby.wasm",
+    "tree-sitter-java.wasm",
+    "tree-sitter-c.wasm",
+    "tree-sitter-cpp.wasm",
+    "tree-sitter-c_sharp.wasm",
+    "tree-sitter-json.wasm",
+    "tree-sitter-html.wasm",
+    "tree-sitter-css.wasm",
+    "tree-sitter-php.wasm",
+    "tree-sitter-scala.wasm",
+    "queries/**/*",
     "prebuilds/**/*",
     "sdk/**/*",
-    "worker/**/*"
+    "sharp/**/*",
+    "clipboard/**/*",
+    "worker/**/*",
+    "ripgrep/**/*",
+    "schemas/**/*",
+    "definitions/**/*",
+    "builtin-skills/**/*",
+    "preloads/**/*",
+    "copilot-sdk/**/*",
+    "conpty_console_list_agent.js"
   ],
   "buildMetadata": {
-    "gitCommit": "3469b3e"
+    "gitCommit": "cd563f1"
   },
-  "dependencies": {
-    "sharp": "^0.34.3"
+  "optionalDependencies": {
+    "@github/copilot-linux-x64": "1.0.21",
+    "@github/copilot-linux-arm64": "1.0.21",
+    "@github/copilot-darwin-x64": "1.0.21",
+    "@github/copilot-darwin-arm64": "1.0.21",
+    "@github/copilot-win32-x64": "1.0.21",
+    "@github/copilot-win32-arm64": "1.0.21"
   }
 }

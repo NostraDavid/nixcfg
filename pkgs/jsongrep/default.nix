@@ -7,16 +7,16 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "jsongrep";
-  version = "0.7.0";
+  version = "0.8.1";
 
   src = fetchFromGitHub {
     owner = "micahkepe";
     repo = "jsongrep";
     rev = "v${version}";
-    hash = "sha256-pjPPvYGCIq10tzSu73bOmd06aBD9wKo/FyIFdgLXUC8=";
+    hash = "sha256-A4cBHIRXmjpRSJtUNNPGOfSOFQG4om5QFa9xw4MeYj8=";
   };
 
-  cargoHash = "sha256-zAInnlduZdMEf5SakZahmgjndeZAN2ChPZo7F7mZpkQ=";
+  cargoHash = "sha256-RQLMQ2jEtqh7km4FWhBaWuw9QY4B4O50DbPdBO+hcW4=";
 
   nativeBuildInputs = [
     installShellFiles
