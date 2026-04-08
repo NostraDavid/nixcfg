@@ -14,6 +14,14 @@ fmt:
 update:
   nix flake update
 
+# Update a local flake package via its updater or nix-update fallback.
+pkg-update package:
+  ./cmd/local-package-maint.sh update "{{package}}"
+
+# List local packages with newer versions available.
+pkg-updates *packages:
+  ./cmd/local-package-maint.sh list {{packages}}
+
 # Inspect the selected NixOS configuration from the flake.
 check host=default_host:
   nix flake show .#nixosConfigurations."{{host}}"
