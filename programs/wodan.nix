@@ -481,5 +481,6 @@ in {
     local.photorec # image recovery
     # local.pixieditor
     # local.stable-diffusion-webui
+    local.pyre
   ];
 }
