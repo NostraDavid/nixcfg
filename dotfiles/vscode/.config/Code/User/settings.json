@@ -1,0 +1,421 @@
+{
+    "[css]": {
+        "editor.defaultFormatter": "vscode.css-language-features"
+    },
+    "[dockercompose]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
+    },
+    "[dockerfile]": {
+        "editor.defaultFormatter": "ms-azuretools.vscode-containers"
+    },
+    "[github-actions-workflow]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
+        // "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    },
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.wordBasedSuggestions": "off"
+    },
+    "[shellscript]": {},
+    "[sql]": {
+        "editor.defaultFormatter": "mtxr.sqltools"
+    },
+    "[svg]": {
+        "editor.defaultFormatter": "jock.svg"
+    },
+    "[toml]": {
+        "editor.defaultFormatter": "tamasfe.even-better-toml"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode"
+    },
+    "[xml]": {
+        "editor.defaultFormatter": "redhat.vscode-xml"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "basedpyright.analysis.typeCheckingMode": "standard",
+    "basedpyright.analysis.useTypingExtensions": true,
+    "chat.math.enabled": true,
+    "chat.mcp.autostart": "newAndOutdated",
+    "chat.mcp.serverSampling": {
+        "Global in Code: memory": {
+            "allowedModels": []
+        }
+    },
+    "chat.tools.terminal.autoApprove": {
+        "./utils/profile_parsing-raw.sh": true,
+        "/^python debug_fallback\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^python debug_vector_mult\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^sudo nixos-rebuild switch --flake \\.#wodan$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "alembic": true,
+        "curl": true,
+        "find": true,
+        "git --no-pager diff": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "haemwend": true,
+        "jq": true,
+        "nix": true,
+        "nix-shell": true,
+        "psql": true,
+        "pytest": true,
+        "rpk": true,
+        "ruff": true,
+        "sed": true,
+        "shasum": true,
+        "timeout": true,
+        "uv": true,
+        "}": true
+    },
+    "chat.viewSessions.orientation": "stacked",
+    "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
+    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
+    "continue.enableConsole": true,
+    "coverage-gutters.coverageFileNames": [
+        "coverage-report.xml",
+        "coverage.xml"
+    ],
+    "coverage-gutters.ignoredPathGlobs": "**/{node_modules,venv,.venv,vendor,.git,.tox,.*_cache,__pycache__}/**",
+    "coverage-gutters.showLineCoverage": true,
+    "coverage-gutters.showRulerCoverage": true,
+    "debug.allowBreakpointsEverywhere": true,
+    "debugpy.debugJustMyCode": false,
+    "diffEditor.diffAlgorithm": "advanced",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "docker.extension.enableComposeLanguageServer": false,
+    "editor.aiStats.enabled": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.codeLensFontFamily": "'JetBrainsMono NF', Hack, Consolas, 'Courier New', monospace",
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.cursorStyle": "block",
+    "editor.fontFamily": "'JetBrainsMono NF', Hack, Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "editor.inlineSuggest.enabled": true,
+    "editor.largeFileOptimizations": false,
+    "editor.linkedEditing": true,
+    "editor.maxTokenizationLineLength": 2000000,
+    "editor.minimap.renderCharacters": false,
+    "editor.mouseWheelZoom": true,
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.selectionClipboard": false,
+    "editor.semanticHighlighting.enabled": true,
+    "editor.smoothScrolling": true,
+    "editor.stickyScroll.enabled": true,
+    "editor.suggestSelection": "first",
+    "editor.useTabStops": false,
+    "evenBetterToml.formatter.alignComments": true,
+    "evenBetterToml.formatter.alignEntries": false,
+    "evenBetterToml.formatter.allowedBlankLines": 1,
+    "evenBetterToml.formatter.arrayAutoCollapse": true,
+    "evenBetterToml.formatter.arrayAutoExpand": true,
+    "evenBetterToml.formatter.arrayTrailingComma": true,
+    "evenBetterToml.formatter.columnWidth": 80,
+    "evenBetterToml.semanticTokens": true,
+    "explorer.compactFolders": false,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.fileNesting.patterns": {
+        "*.ts": "${capture}.js",
+        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+        "*.jsx": "${capture}.js",
+        "*.tsx": "${capture}.ts",
+        "tsconfig.json": "tsconfig.*.json",
+        "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+        "flake.nix": "flake.lock",
+        "Cargo.toml": "Cargo.lock",
+        "*.db": "${capture}.${extname}-*",
+        "*.db3": "${capture}.${extname}-*",
+        "*.s3db": "${capture}.${extname}-*",
+        "*.sdb": "${capture}.${extname}-*",
+        "*.sqlite": "${capture}.${extname}-*",
+        "*.sqlite3": "${capture}.${extname}-*"
+    },
+    "explorer.incrementalNaming": "smart",
+    "extensions.ignoreRecommendations": false,
+    "files.associations": {
+        "*.jsonl": "json",
+        ".env": "dotenv",
+        "*.mako": "jinja-py"
+    },
+    "files.autoSaveDelay": 10,
+    "files.exclude": {
+        "**/*.egg-info": true,
+        "**/*.pyc": true,
+        "**/.cache": true,
+        "**/.coverage*": true,
+        "**/.hypothesis": true,
+        "**/.mypy_cache": true,
+        "**/.pytest_cache": true,
+        "**/.tox": true,
+        "**/__pycache__": true,
+        // "**/build": true,
+        "**/coverage.xml": true,
+        "**/dist": true,
+        "**/htmlcov": true
+    },
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.watcherExclude": {
+        "**/.cache/**": true,
+        "**/.egg-info/**": true,
+        "**/.eggs/**": true,
+        "**/.git/**": true,
+        "**/.pytest_cache/**": true,
+        "**/.tox/**": true,
+        "**/.venv/**": true,
+        "**/__pycache__/**": true,
+        "**/backload_history.json": true,
+        "**/bitvavo.db": true,
+        "**/bitvavo.db-journal": true,
+        "**/htmlcov/**": true,
+        "**/logs/ctbi.jsonl": true,
+        "**/venv/**": true
+    },
+    "git.autofetch": true,
+    "git.blame.editorDecoration.enabled": true,
+    "git.blame.editorDecoration.template": "${authorDate} @ ${authorName}: ${subject}, ",
+    "git.blame.statusBarItem.enabled": true,
+    "git.blame.statusBarItem.template": "${authorDate} @ ${authorName}",
+    "git.confirmSync": false,
+    "git.defaultBranchName": "master",
+    "git.enableSmartCommit": true,
+    "git.fetchOnPull": true,
+    "github.copilot.chat.localeOverride": "en",
+    "github.copilot.enable": {
+        "markdown": true
+    },
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "github.copilot.selectedCompletionModel": "",
+    "githubPullRequests.fileListLayout": "flat",
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+    "gitlens.currentLine.dateFormat": "YYYY-MM-DD hh:mm:ss",
+    "gitlens.currentLine.format": "${author, }${date}${' via 'pullRequest}${ • message|50?}",
+    "hediet.vscode-drawio.theme": "atlas",
+    "html.format.wrapLineLength": 0,
+    "inlineChat.notebookAgent": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "json.maxItemsComputed": 500000,
+    "jupyter.askForKernelRestart": false,
+    "jupyter.debugJustMyCode": false,
+    "jupyter.interactiveWindow.creationMode": "perFile",
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "makefile.configureOnOpen": true,
+    "markdown-preview-enhanced.previewTheme": "monokai.css",
+    "nix.enableLanguageServer": true,
+    "nix.formatterPath": "alejandra",
+    "nix.serverPath": "nixd",
+    "nix.serverSettings": {
+        // check https://github.com/oxalica/nil/blob/main/docs/configuration.md for all options available
+        "nil": {
+            // "diagnostics": {
+            //  "ignored": ["unused_binding", "unused_with"],
+            // },
+            "formatting": {
+                "command": [
+                    "alejandra"
+                ]
+            }
+        },
+        // check https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md for all nixd config
+        "nixd": {
+            "formatting": {
+                "command": [
+                    "alejandra"
+                ]
+            },
+            "nixpkgs": {
+                "exprs": "import <nixpkgs> { }"
+            },
+            "options": {
+                "home-manager": {
+                    "expr": "(builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/flake.nix\").homeConfigurations.<name>.options"
+                },
+                // By default, this entry will be read from `import <nixpkgs> { }`.
+                // You can write arbitrary Nix expressions here, to produce valid "options" declaration result.
+                // Tip: for flake-based configuration, utilize `builtins.getFlake`
+                "nixos": {
+                    "expr": "(builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/flake.nix\").nixosConfigurations.<name>.options"
+                }
+            }
+        }
+    },
+    "nixEnvSelector.useFlakes": true,
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "notebook.codeActionsOnSave": {
+        "notebook.source.fixAll": "explicit",
+        "notebook.source.organizeImports": "explicit"
+    },
+    "notebook.defaultFormatter": "charliermarsh.ruff",
+    "notebook.formatOnSave.enabled": true,
+    "notebook.lineNumbers": "on",
+    "oxc.path.oxfmt": "/etc/profiles/per-user/david/bin/oxfmt",
+    "pgsql.connections": [
+        {
+            "applicationName": "vscode-pgsql",
+            "authenticationType": "SqlLogin",
+            "clientEncoding": "utf8",
+            "connectTimeout": 15,
+            "database": "postgres",
+            "expiresOn": 0,
+            "groupId": "BD85EC6B-4085-4E81-BDCA-E7B8CDCD10F6",
+            "id": "CA69A9A8-C913-40A2-B7EC-5063D278E440",
+            "password": "",
+            "profileName": "Postgresql, postgres (david)",
+            "server": "localhost",
+            "sslmode": "prefer",
+            "user": "david"
+        }
+    ],
+    "pgsql.serverGroups": [
+        {
+            "id": "BD85EC6B-4085-4E81-BDCA-E7B8CDCD10F6",
+            "isDefault": true,
+            "name": "Servers"
+        }
+    ],
+    "piper-tts.voice": "en_GB-alan-low",
+    "python.autoComplete.extraPaths": [
+        "src",
+        "tests"
+    ],
+    "python.defaultInterpreterPath": "/home/david/dev/NostraDavid/nixcfg/.venv",
+    "python.languageServer": "None",
+    "python.pixiToolPath": "",
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.terminal.executeInFileDir": true,
+    "python.terminal.shellIntegration.enabled": true,
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    "redhat.telemetry.enabled": false,
+    "remote.autoForwardPortsSource": "hybrid",
+    "ruff.importStrategy": "useBundled",
+    "ruff.nativeServer": "on",
+    "search.exclude": {
+        "**/.tox": true
+    },
+    "security.workspace.trust.untrustedFiles": "open",
+    "shellformat.path": "/etc/profiles/per-user/david/bin/shfmt",
+    "shellformat.useEditorConfig": true,
+    "terminal.external.linuxExec": "wezterm",
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.defaultProfile.linux": "tmux",
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.enableMultiLinePasteWarning": "never",
+    "terminal.integrated.fontFamily": "'JetBrainsMono NF', monospace",
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "args": [
+                "bash"
+            ],
+            "icon": "terminal-bash",
+            "overrideName": true,
+            "path": "host-spawn"
+        },
+        "tmux": {
+            "icon": "terminal-tmux",
+            "path": "tmux"
+        }
+    },
+    "terminal.integrated.rightClickBehavior": "default",
+    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.sendKeybindingsToShell": true,
+    "terminal.integrated.shellIntegration.decorationsEnabled": "never",
+    "terminal.integrated.suggest.enabled": true,
+    "terminal.integrated.tabs.enabled": false,
+    "testing.automaticallyOpenPeekView": "never",
+    "testing.coverageBarThresholds": {
+        "green": 90,
+        "red": 0,
+        "yellow": 60
+    },
+    "update.mode": "none",
+    "vsicons.dontShowNewVersionMessage": true,
+    "window.menuBarVisibility": "visible",
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#f67b3f",
+        "activityBar.background": "#f67b3f",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#067a2c",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "editorRuler.foreground": "#444",
+        "sash.hoverBorder": "#f67b3f",
+        "statusBar.background": "#f45a0e",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#f67b3f",
+        "statusBarItem.remoteBackground": "#f45a0e",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#f45a0e",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#f45a0e99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "workbench.editor.defaultBinaryEditor": "default",
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.editorAssociations": {
+        "*.copilotmd": "vscode.markdown.preview.editor",
+        "*.db": "sqlite-viewer.option",
+        "*.ipynb": "jupyter-notebook",
+        "*.wav": "omni-viewer.audioViewer",
+        "file:/**/*.parquet": "jupyter-data-wrangler",
+        "*.md": "default"
+    },
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.list.smoothScrolling": true,
+    "workbench.secondarySideBar.showLabels": false,
+    "workbench.sideBar.location": "right",
+    "workbench.startupEditor": "none",
+    "yaml.maxItemsComputed": 10000,
+    "zig.zls.enabled": "on",
+    "python.terminal.activateEnvironment": false,
+    "markdown.marp.browser": "firefox",
+    "livePreview.customExternalBrowser": "Firefox",
+    "luahelper.format.tab_width": 2,
+    "editor.tabSize": 2,
+    "explorer.confirmPasteNative": false
+}
