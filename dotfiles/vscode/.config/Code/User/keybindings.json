@@ -1,0 +1,244 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "command": "editor.action.clipboardCopyAction",
+    "key": "ctrl+c",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "editor.action.clipboardCopyAction",
+    "key": "ctrl+c",
+    "when": "webviewFocus && (webviewId == 'chatgpt.sidebarView' || webviewId == 'chatgpt.sidebarSecondaryView' || activeWebviewPanelId == 'chatgpt.conversationEditor' || activeCustomEditorId == 'chatgpt.conversationEditor')"
+  },
+  {
+    "command": "copy",
+    "key": "ctrl+c",
+    "when": "webviewFocus && (webviewId == 'chatgpt.sidebarView' || webviewId == 'chatgpt.sidebarSecondaryView' || activeWebviewPanelId == 'chatgpt.conversationEditor' || activeCustomEditorId == 'chatgpt.conversationEditor')"
+  },
+  {
+    "args": {
+      "text": "\\\r\n"
+    },
+    "command": "workbench.action.terminal.sendSequence",
+    "key": "shift+enter",
+    "when": "terminalFocus"
+  },
+  {
+    "args": {
+      "text": "\\\r\n"
+    },
+    "command": "workbench.action.terminal.sendSequence",
+    "key": "ctrl+enter",
+    "when": "terminalFocus"
+  },
+  {
+    "command": "workbench.action.nextEditor",
+    "key": "ctrl+tab"
+  },
+  {
+    "command": "workbench.action.previousEditor",
+    "key": "ctrl+shift+tab"
+  },
+  {
+    "command": "workbench.action.toggleMaximizedPanel",
+    "key": "ctrl+shift+`"
+  },
+  {
+    "args": {
+      "by": "line",
+      "to": "up",
+      "value": 10
+    },
+    "command": "cursorMove",
+    "key": "ctrl+up",
+    "when": "editorTextFocus"
+  },
+  {
+    "args": {
+      "by": "line",
+      "to": "down",
+      "value": 10
+    },
+    "command": "cursorMove",
+    "key": "ctrl+down",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "-editor.action.clipboardCopyAction",
+    "key": "ctrl+insert"
+  },
+  {
+    "command": "-workbench.action.terminal.openNativeConsole",
+    "key": "ctrl+shift+c",
+    "when": "!terminalFocus"
+  },
+  {
+    "command": "-coverage-gutters.toggleCoverage",
+    "key": "ctrl+shift+5"
+  },
+  {
+    "command": "-jupyter.selectCell",
+    "key": "ctrl+shift+alt+\\",
+    "when": "editorTextFocus && jupyter.hascodecells && !jupyter.webExtension && !notebookEditorFocused"
+  },
+  {
+    "command": "workbench.action.terminal.split",
+    "key": "ctrl+shift+alt+\\",
+    "when": "terminalFocus && terminalProcessSupported || terminalFocus && terminalWebExtensionContributedProfile"
+  },
+  {
+    "command": "-workbench.action.terminal.split",
+    "key": "ctrl+shift+5",
+    "when": "terminalFocus && terminalProcessSupported || terminalFocus && terminalWebExtensionContributedProfile"
+  },
+  {
+    "command": "workbench.action.terminal.splitActiveTab",
+    "key": "ctrl+shift+alt+\\",
+    "when": "terminalProcessSupported && terminalTabsFocus"
+  },
+  {
+    "command": "-workbench.action.terminal.splitActiveTab",
+    "key": "ctrl+shift+5",
+    "when": "terminalProcessSupported && terminalTabsFocus"
+  },
+  {
+    "command": "-editor.action.toggleTabFocusMode",
+    "key": "ctrl+m"
+  },
+  {
+    "command": "workbench.action.quickTextSearch",
+    "key": "ctrl+alt+p"
+  },
+  {
+    "command": "-workbench.action.focusFirstEditorGroup",
+    "key": "ctrl+1"
+  },
+  {
+    "command": "-workbench.action.focusSecondEditorGroup",
+    "key": "ctrl+2"
+  },
+  {
+    "command": "-workbench.action.focusThirdEditorGroup",
+    "key": "ctrl+3"
+  },
+  {
+    "command": "-workbench.action.focusSixthEditorGroup",
+    "key": "ctrl+6"
+  },
+  {
+    "command": "-workbench.action.focusSeventhEditorGroup",
+    "key": "ctrl+7"
+  },
+  {
+    "command": "-workbench.action.focusFourthEditorGroup",
+    "key": "ctrl+4"
+  },
+  {
+    "command": "-workbench.action.focusFifthEditorGroup",
+    "key": "ctrl+5"
+  },
+  {
+    "command": "-workbench.action.focusEighthEditorGroup",
+    "key": "ctrl+8"
+  },
+  {
+    "command": "testing.debugLastRun",
+    "key": "f7"
+  },
+  {
+    "command": "-testing.debugLastRun",
+    "key": "ctrl+; ctrl+l"
+  },
+  {
+    "command": "editor.debug.action.selectionToRepl",
+    "key": "ctrl+shift+d"
+  },
+  {
+    "command": "markdown.extension.editing.toggleItalic",
+    "key": "ctrl+shift+i",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+  },
+  {
+    "command": "-markdown.extension.editing.toggleItalic",
+    "key": "ctrl+i",
+    "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+  },
+  {
+    "command": "extension.jumpy-word",
+    "key": "alt+f"
+  },
+  {
+    "args": {
+      "select": true,
+      "to": "nextBlankLine"
+    },
+    "command": "cursorMove",
+    "key": "ctrl+shift+down",
+    "when": "editorTextFocus"
+  },
+  {
+    "args": {
+      "select": true,
+      "to": "prevBlankLine"
+    },
+    "command": "cursorMove",
+    "key": "ctrl+shift+up",
+    "when": "editorTextFocus"
+  },
+  {
+    "command": "editor.action.formatDocument",
+    "key": "shift+alt+f",
+    "when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly && !inCompositeEditor"
+  },
+  {
+    "command": "-editor.action.formatDocument",
+    "key": "ctrl+shift+i",
+    "when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly && !inCompositeEditor"
+  },
+  {
+    "command": "-workbench.action.quickOpenLeastRecentlyUsedEditorInGroup",
+    "key": "ctrl+shift+tab",
+    "when": "!activeEditorGroupEmpty"
+  },
+  {
+    "command": "-workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
+    "key": "ctrl+tab",
+    "when": "!activeEditorGroupEmpty"
+  },
+  {
+    "command": "-workbench.action.quickOpenNavigateNextInEditorPicker",
+    "key": "ctrl+tab",
+    "when": "inEditorsPicker && inQuickOpen"
+  },
+  {
+    "command": "-workbench.action.quickOpenNavigatePreviousInEditorPicker",
+    "key": "ctrl+shift+tab",
+    "when": "inEditorsPicker && inQuickOpen"
+  },
+  {
+    "command": "github.copilot.generate",
+    "key": "ctrl+enter",
+    "mac": "ctrl+enter",
+    "when": "editorTextFocus && github.copilot.activated && !inInteractiveInput && !interactiveEditorFocused"
+  },
+  {
+    "command": "editor.action.inlineSuggest.trigger",
+    "key": "alt+\\",
+    "when": "editorTextFocus && !editorHasSelection && config.github.copilot.inlineSuggest.enable && !inlineSuggestionsVisible"
+  },
+  {
+    "key": "tab",
+    "command": "editor.action.inlineSuggest.commit",
+    "when": "inlineSuggestionVisible && editorTextFocus"
+  },
+  {
+    "key": "tab",
+    "command": "-tabout",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "tab",
+    "command": "editor.action.inlineSuggest.commit",
+    "when": "editorTextFocus && !editorHasMultipleSelections && !inSnippetMode && !suggestWidgetVisible"
+  }
+]
