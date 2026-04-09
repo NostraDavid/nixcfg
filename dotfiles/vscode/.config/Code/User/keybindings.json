@@ -227,18 +227,18 @@
     "when": "editorTextFocus && !editorHasSelection && config.github.copilot.inlineSuggest.enable && !inlineSuggestionsVisible"
   },
   {
-    "key": "tab",
     "command": "editor.action.inlineSuggest.commit",
+    "key": "tab",
     "when": "inlineSuggestionVisible && editorTextFocus"
   },
   {
-    "key": "tab",
     "command": "-tabout",
+    "key": "tab",
     "when": "editorTextFocus"
   },
   {
-    "key": "tab",
     "command": "editor.action.inlineSuggest.commit",
+    "key": "tab",
     "when": "editorTextFocus && !editorHasMultipleSelections && !inSnippetMode && !suggestWidgetVisible"
   }
 ]

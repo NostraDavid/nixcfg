@@ -140,6 +140,7 @@
     "editor.smoothScrolling": true,
     "editor.stickyScroll.enabled": true,
     "editor.suggestSelection": "first",
+    "editor.tabSize": 2,
     "editor.useTabStops": false,
     "evenBetterToml.formatter.alignComments": true,
     "evenBetterToml.formatter.alignEntries": false,
@@ -152,28 +153,29 @@
     "explorer.compactFolders": false,
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
+    "explorer.confirmPasteNative": false,
     "explorer.fileNesting.patterns": {
-        "*.ts": "${capture}.js",
-        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-        "*.jsx": "${capture}.js",
-        "*.tsx": "${capture}.ts",
-        "tsconfig.json": "tsconfig.*.json",
-        "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
-        "flake.nix": "flake.lock",
-        "Cargo.toml": "Cargo.lock",
         "*.db": "${capture}.${extname}-*",
         "*.db3": "${capture}.${extname}-*",
+        "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+        "*.jsx": "${capture}.js",
         "*.s3db": "${capture}.${extname}-*",
         "*.sdb": "${capture}.${extname}-*",
         "*.sqlite": "${capture}.${extname}-*",
-        "*.sqlite3": "${capture}.${extname}-*"
+        "*.sqlite3": "${capture}.${extname}-*",
+        "*.ts": "${capture}.js",
+        "*.tsx": "${capture}.ts",
+        "Cargo.toml": "Cargo.lock",
+        "flake.nix": "flake.lock",
+        "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+        "tsconfig.json": "tsconfig.*.json"
     },
     "explorer.incrementalNaming": "smart",
     "extensions.ignoreRecommendations": false,
     "files.associations": {
         "*.jsonl": "json",
-        ".env": "dotenv",
-        "*.mako": "jinja-py"
+        "*.mako": "jinja-py",
+        ".env": "dotenv"
     },
     "files.autoSaveDelay": 10,
     "files.exclude": {
@@ -238,8 +240,11 @@
     "jupyter.debugJustMyCode": false,
     "jupyter.interactiveWindow.creationMode": "perFile",
     "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "livePreview.customExternalBrowser": "Firefox",
+    "luahelper.format.tab_width": 2,
     "makefile.configureOnOpen": true,
     "markdown-preview-enhanced.previewTheme": "monokai.css",
+    "markdown.marp.browser": "firefox",
     "nix.enableLanguageServer": true,
     "nix.formatterPath": "alejandra",
     "nix.serverPath": "nixd",
@@ -324,6 +329,7 @@
     "python.languageServer": "None",
     "python.pixiToolPath": "",
     "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.terminal.activateEnvironment": false,
     "python.terminal.executeInFileDir": true,
     "python.terminal.shellIntegration.enabled": true,
     "python.testing.pytestEnabled": true,
@@ -401,9 +407,9 @@
         "*.copilotmd": "vscode.markdown.preview.editor",
         "*.db": "sqlite-viewer.option",
         "*.ipynb": "jupyter-notebook",
+        "*.md": "default",
         "*.wav": "omni-viewer.audioViewer",
-        "file:/**/*.parquet": "jupyter-data-wrangler",
-        "*.md": "default"
+        "file:/**/*.parquet": "jupyter-data-wrangler"
     },
     "workbench.iconTheme": "vscode-icons",
     "workbench.list.smoothScrolling": true,
@@ -411,11 +417,5 @@
     "workbench.sideBar.location": "right",
     "workbench.startupEditor": "none",
     "yaml.maxItemsComputed": 10000,
-    "zig.zls.enabled": "on",
-    "python.terminal.activateEnvironment": false,
-    "markdown.marp.browser": "firefox",
-    "livePreview.customExternalBrowser": "Firefox",
-    "luahelper.format.tab_width": 2,
-    "editor.tabSize": 2,
-    "explorer.confirmPasteNative": false
+    "zig.zls.enabled": "on"
 }
