@@ -35,6 +35,7 @@
     "dev/grab_parallel.sh".source = mk "${dot}/dev/grab_parallel.sh";
     "dev/save_cloned_repos.sh".source = mk "${dot}/dev/save_cloned_repos.sh";
     "dev/repos".source = mk "${dot}/dev/repos";
+    "rsync-bitvavo".source = mk "${dot}/scripts/rsync-bitvavo";
     ".local/bin/folder_stats".source = mk "${dot}/scripts/folder_stats";
     ".config/fastfetch/".source = mk "${dot}/fastfetch-2.58.0/.config/fastfetch";
     ".config/zigfetch/".source = mk "${dot}/zigfetch-0.25.0/.config/zigfetch";
