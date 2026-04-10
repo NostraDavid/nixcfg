@@ -66,18 +66,6 @@
     },
     "chat.tools.terminal.autoApprove": {
         "./utils/profile_parsing-raw.sh": true,
-        "/^python debug_fallback\\.py$/": {
-            "approve": true,
-            "matchCommandLine": true
-        },
-        "/^python debug_vector_mult\\.py$/": {
-            "approve": true,
-            "matchCommandLine": true
-        },
-        "/^sudo nixos-rebuild switch --flake \\.#wodan$/": {
-            "approve": true,
-            "matchCommandLine": true
-        },
         "alembic": true,
         "curl": true,
         "find": true,
@@ -96,8 +84,7 @@
         "sed": true,
         "shasum": true,
         "timeout": true,
-        "uv": true,
-        "}": true
+        "uv": true
     },
     "chat.viewSessions.orientation": "stacked",
     "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
@@ -126,9 +113,8 @@
     "editor.fontLigatures": true,
     "editor.inlayHints.enabled": "offUnlessPressed",
     "editor.inlineSuggest.enabled": true,
-    "editor.largeFileOptimizations": false,
+    "editor.largeFileOptimizations": true,
     "editor.linkedEditing": true,
-    "editor.maxTokenizationLineLength": 2000000,
     "editor.minimap.renderCharacters": false,
     "editor.mouseWheelZoom": true,
     "editor.rulers": [
@@ -177,7 +163,6 @@
         "*.mako": "jinja-py",
         ".env": "dotenv"
     },
-    "files.autoSaveDelay": 10,
     "files.exclude": {
         "**/*.egg-info": true,
         "**/*.pyc": true,
@@ -188,7 +173,7 @@
         "**/.pytest_cache": true,
         "**/.tox": true,
         "**/__pycache__": true,
-        // "**/build": true,
+        "**/build": true,
         "**/coverage.xml": true,
         "**/dist": true,
         "**/htmlcov": true
@@ -325,9 +310,7 @@
         "src",
         "tests"
     ],
-    "python.defaultInterpreterPath": "/home/david/dev/NostraDavid/nixcfg/.venv",
     "python.languageServer": "None",
-    "python.pixiToolPath": "",
     "python.terminal.activateEnvInCurrentTerminal": true,
     "python.terminal.activateEnvironment": false,
     "python.terminal.executeInFileDir": true,
@@ -339,7 +322,8 @@
     "ruff.importStrategy": "useBundled",
     "ruff.nativeServer": "on",
     "search.exclude": {
-        "**/.tox": true
+        "**/.tox": true,
+        "**/.venv": true
     },
     "security.workspace.trust.untrustedFiles": "open",
     "shellformat.path": "/etc/profiles/per-user/david/bin/shfmt",

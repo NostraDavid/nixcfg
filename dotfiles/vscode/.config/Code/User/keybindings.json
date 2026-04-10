@@ -6,11 +6,6 @@
     "when": "editorTextFocus"
   },
   {
-    "command": "editor.action.clipboardCopyAction",
-    "key": "ctrl+c",
-    "when": "webviewFocus && (webviewId == 'chatgpt.sidebarView' || webviewId == 'chatgpt.sidebarSecondaryView' || activeWebviewPanelId == 'chatgpt.conversationEditor' || activeCustomEditorId == 'chatgpt.conversationEditor')"
-  },
-  {
     "command": "copy",
     "key": "ctrl+c",
     "when": "webviewFocus && (webviewId == 'chatgpt.sidebarView' || webviewId == 'chatgpt.sidebarSecondaryView' || activeWebviewPanelId == 'chatgpt.conversationEditor' || activeCustomEditorId == 'chatgpt.conversationEditor')"
@@ -151,7 +146,8 @@
   },
   {
     "command": "editor.debug.action.selectionToRepl",
-    "key": "ctrl+shift+d"
+    "key": "ctrl+shift+d",
+    "when": "editorTextFocus && editorHasSelection"
   },
   {
     "command": "markdown.extension.editing.toggleItalic",
@@ -165,7 +161,8 @@
   },
   {
     "command": "extension.jumpy-word",
-    "key": "alt+f"
+    "key": "alt+f",
+    "when": "editorTextFocus"
   },
   {
     "args": {
@@ -235,10 +232,5 @@
     "command": "-tabout",
     "key": "tab",
     "when": "editorTextFocus"
-  },
-  {
-    "command": "editor.action.inlineSuggest.commit",
-    "key": "tab",
-    "when": "editorTextFocus && !editorHasMultipleSelections && !inSnippetMode && !suggestWidgetVisible"
   }
 ]
