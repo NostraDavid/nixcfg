@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SOURCE_DIR="${HOME}/.bitvavo"
+DEST_ROOT=""
+
+usage() {
+  cat <<'EOF'
+Gebruik:
+  rsync-bitvavo [--dry-run] DEST_ROOT
+
+Synct de inhoud van ~/.bitvavo naar DEST_ROOT
+
+Vind DEST_ROOT via `df` en neem de waarde uit de kolom "Mounted on".
+Voorbeeld:
+  df -h | grep /run/media
+  rsync-bitvavo /run/media/david/6BDE-E8BB
+
+Let op:
+  exfat ondersteunt geen ':' in bestandsnamen. Als ~/.bitvavo zulke namen bevat,
+  gebruik dan een Linux-filesystem zoals ext4/xfs/btrfs voor DEST_ROOT.
+EOF
+}
+
+detect_fs_type() {
+  findmnt -nro FSTYPE -T "$1" 2>/dev/null || true
+}
+
+source_has_exfat_incompatible_names() {
+  find "${SOURCE_DIR}" -type f -name '*:*' -print -quit | grep -q .
+}
+
+DRY_RUN=0
+
+while (($#)); do
+  case "$1" in
+    --dry-run)
+      DRY_RUN=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    -*)
+      usage >&2
+      exit 1
+      ;;
+    *)
+      if [[ -n "${DEST_ROOT}" ]]; then
+        usage >&2
+        exit 1
+      fi
+      DEST_ROOT="$1"
+      shift
+      ;;
+  esac
+done
+
+if [[ -z "${DEST_ROOT}" ]]; then
+  usage >&2
+  exit 1
+fi
+
+if [[ ! -d "${SOURCE_DIR}" ]]; then
+  echo "Bronmap niet gevonden: ${SOURCE_DIR}" >&2
+  exit 1
+fi
+
+if [[ ! -d "${DEST_ROOT}" ]]; then
+  echo "Doelmap niet gevonden: ${DEST_ROOT}" >&2
+  echo "Zoek het mountpoint met: df -h | grep /run/media" >&2
+  exit 1
+fi
+
+DEST_FSTYPE="$(detect_fs_type "${DEST_ROOT}")"
+
+if [[ "${DEST_FSTYPE}" == "exfat" ]] && source_has_exfat_incompatible_names; then
+  echo "Doelfilesystem is exfat, maar ~/.bitvavo bevat bestandsnamen met ':'." >&2
+  echo "exfat kan die namen niet opslaan, dus deze sync zal falen." >&2
+  echo "Kies een doel op ext4/xfs/btrfs of archiveer de data eerst in een tarbestand." >&2
+  exit 1
+fi
+
+mkdir -p "${DEST_ROOT}"
+
+RSYNC_ARGS=(
+  -aHAX
+  --human-readable
+  --info=progress2
+)
+
+if (( DRY_RUN )); then
+  RSYNC_ARGS+=(--dry-run)
+fi
+
+rsync "${RSYNC_ARGS[@]}" "${SOURCE_DIR}/" "${DEST_ROOT}/"
