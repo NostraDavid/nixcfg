@@ -29,6 +29,11 @@
 	prev = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    BEGIN { prev=\"\" }\n    $0 == h { if (prev != \"\") print prev; found=1; exit }\n    { prev=$0 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at oldest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
 	next = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    found { print; exit }\n    $0 == h { found=1 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at newest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
 	undo = reset HEAD~1 --mixed
+  hotspots = "!f() { since=\"${1:-1 year ago}\"; limit=\"${2:-20}\"; git log --format=format: --name-only --since=\"$since\" | sed '/^$/d' | sort | uniq -c | sort -nr | head -n \"$limit\"; }; f"
+  authors = "!f() { if [ -n \"$1\" ]; then git shortlog -sn --no-merges --since=\"$1\"; else git shortlog -sn --no-merges; fi; }; f"
+  bugspots = "!f() { since=\"${1:-}\"; limit=\"${2:-20}\"; if [ -n \"$since\" ]; then git log -i -E --grep='fix|bug|broken' --since=\"$since\" --name-only --format=''; else git log -i -E --grep='fix|bug|broken' --name-only --format=''; fi | sed '/^$/d' | sort | uniq -c | sort -nr | head -n \"$limit\"; }; f"
+  velocity = "!git log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c"
+  firefights = "!f() { since=\"${1:-1 year ago}\"; git log --oneline --since=\"$since\" | grep -iE 'revert|hotfix|emergency|rollback' || true; }; f"
 [init]
 	templatedir = ~/.git-templates
 	defaultBranch = master
