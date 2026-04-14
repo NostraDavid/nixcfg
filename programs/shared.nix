@@ -270,6 +270,7 @@ in {
     unstable.vscode
     unstable.codex # Code autocompletion tool
     unstable.witr # Why is this running?
+    unstable.zsv # CSV viewer and slicer
 
     # local
     freetype # font-rendering library, for Whatpulse
