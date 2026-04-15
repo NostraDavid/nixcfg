@@ -70,6 +70,6 @@
     "@github/copilot-darwin-x64": "1.0.21",
     "@github/copilot-darwin-arm64": "1.0.21",
     "@github/copilot-win32-x64": "1.0.21",
-    "@github/copilot-win32-arm64": "1.0.21"
+    "@github/copilot-win32-arm64": "1.0.27"
   }
 }
