@@ -159,20 +159,20 @@
     "explorer.incrementalNaming": "smart",
     "extensions.ignoreRecommendations": false,
     "files.associations": {
+        ".env": "dotenv",
         "*.jsonl": "json",
-        "*.mako": "jinja-py",
-        ".env": "dotenv"
+        "*.mako": "jinja-py"
     },
     "files.exclude": {
-        "**/*.egg-info": true,
-        "**/*.pyc": true,
+        "**/__pycache__": true,
         "**/.cache": true,
         "**/.coverage*": true,
         "**/.hypothesis": true,
         "**/.mypy_cache": true,
         "**/.pytest_cache": true,
         "**/.tox": true,
-        "**/__pycache__": true,
+        "**/*.egg-info": true,
+        "**/*.pyc": true,
         "**/build": true,
         "**/coverage.xml": true,
         "**/dist": true,
@@ -181,6 +181,7 @@
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.watcherExclude": {
+        "**/__pycache__/**": true,
         "**/.cache/**": true,
         "**/.egg-info/**": true,
         "**/.eggs/**": true,
@@ -188,7 +189,6 @@
         "**/.pytest_cache/**": true,
         "**/.tox/**": true,
         "**/.venv/**": true,
-        "**/__pycache__/**": true,
         "**/backload_history.json": true,
         "**/bitvavo.db": true,
         "**/bitvavo.db-journal": true,
@@ -219,7 +219,6 @@
     "hediet.vscode-drawio.theme": "atlas",
     "html.format.wrapLineLength": 0,
     "inlineChat.notebookAgent": true,
-    "javascript.updateImportsOnFileMove.enabled": "always",
     "json.maxItemsComputed": 500000,
     "jupyter.askForKernelRestart": false,
     "jupyter.debugJustMyCode": false,
@@ -383,6 +382,7 @@
         "titleBar.inactiveBackground": "#f45a0e99",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
+    "workbench.colorTheme": "Dark+",
     "workbench.editor.defaultBinaryEditor": "default",
     "workbench.editor.empty.hint": "hidden",
     "workbench.editor.enablePreview": false,
@@ -393,7 +393,6 @@
         "*.db": "sqlite-viewer.option",
         "*.ipynb": "jupyter-notebook",
         "*.md": "default",
-        "*.wav": "omni-viewer.audioViewer",
         "file:/**/*.parquet": "jupyter-data-wrangler"
     },
     "workbench.iconTheme": "vscode-icons",
