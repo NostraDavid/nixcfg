@@ -387,6 +387,7 @@
     "workbench.editor.empty.hint": "hidden",
     "workbench.editor.enablePreview": false,
     "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.editor.useModal": "off",
     "workbench.editorAssociations": {
         "*.copilotmd": "vscode.markdown.preview.editor",
         "*.db": "sqlite-viewer.option",
