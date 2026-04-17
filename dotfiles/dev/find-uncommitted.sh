@@ -27,7 +27,7 @@ find "$SEARCH_DIR" -type d -name ".git" | while read -r gitdir; do
 		fi
 
 		# Check for unpushed commits
-		if [ -n "$(git log @{u}..)" ]; then
+		if [ -n "$(git log '@{u}'..)" ]; then
 			echo "----------------------------------------"
 			echo "Repo: $repo_path"
 			echo "  - Has unpushed commits."
