@@ -407,7 +407,7 @@ in {
     wineWowPackages.stagingFull # include the Wine extras Battle.net tends to expect
     dotnet-sdk
     # ydotool # for voxtype
-    # sqruff wrapped to avoid /bin/bench collision with ollama
+    # sqruff wrapped to avoid /bin/bench collision with ollama-cuda
     (sqruff.overrideAttrs (old: {
       postInstall =
         (old.postInstall or "")
