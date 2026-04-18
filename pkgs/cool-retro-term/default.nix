@@ -37,7 +37,7 @@ stdenv.mkDerivation rec {
   ];
 
   # Ensure QMLTermWidget installs into $out so wrapping can find it.
-  qmakeFlags = [ "QT_INSTALL_QML=${placeholder "out"}/lib/qt-6/qml" ];
+  qmakeFlags = ["QT_INSTALL_QML=${placeholder "out"}/lib/qt-6/qml"];
 
   installFlags = ["INSTALL_ROOT=$(out)"];
 

@@ -286,6 +286,7 @@ in {
     # notepad-next # notepad alternative
     # fooyin # Music player # kaput in 25.11
     # remmina # Remote Desktop Protocol client
+    brave # Web browser
     chromium # Web browser
     evolution # Email client
     fsearch # Everything replacement

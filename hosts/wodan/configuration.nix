@@ -138,58 +138,6 @@
     udisks2.enable = true; # daemon that owns the mount
     gvfs.enable = true; # for GNOME, Thunar, etc.
     devmon.enable = true; # optional: instant automount helpers
-
-    # Local LLM server (Ollama with CUDA), search, and web UI
-    ollama = {
-      enable = true;
-      package = pkgs.ollama-cuda;
-      host = "127.0.0.1";
-      port = 11434;
-      loadModels = [ "gemma4:e4b-it-q4_K_M" ];
-    };
-
-    searx = {
-      enable = true;
-      redisCreateLocally = true;
-      settings = {
-        server = {
-          bind_address = "127.0.0.1";
-          port = 8888;
-          # NOTE: change this to a strong secret for production
-          secret_key = "replace-with-a-strong-secret-$(date)";
-        };
-        search = {
-          formats = [ "html" "json" ];
-          safe_search = 1;
-        };
-        ui = {
-          default_locale = "en";
-        };
-      };
-    };
-
-    "open-webui" = {
-      enable = true;
-      host = "127.0.0.1";
-      port = 3001;
-      openFirewall = false;
-      environment = {
-        ENABLE_OLLAMA_API = "True";
-        OLLAMA_BASE_URL = "http://127.0.0.1:11434";
-
-        ENABLE_WEB_SEARCH = "True";
-        WEB_SEARCH_ENGINE = "searxng";
-        SEARXNG_QUERY_URL = "http://127.0.0.1:8888/search?q=<query>&format=json";
-        SEARXNG_LANGUAGE = "all";
-
-        WEB_SEARCH_RESULT_COUNT = "5";
-        BYPASS_WEB_SEARCH_WEB_LOADER = "False";
-
-        RAG_OLLAMA_BASE_URL = "http://127.0.0.1:11434";
-        TASK_MODEL = "gemma4:e4b-it-q4_K_M";
-      };
-    };
-
   };
 
   # Enable sound with pipewire.
