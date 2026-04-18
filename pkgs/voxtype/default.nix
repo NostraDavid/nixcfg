@@ -10,7 +10,6 @@
   libxkbcommon,
   udev,
 }:
-
 rustPlatform.buildRustPackage rec {
   pname = "voxtype";
   version = "0.6.5";
