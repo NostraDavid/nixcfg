@@ -39,7 +39,7 @@ rustPlatform.buildRustPackage rec {
   '';
 
   doInstallCheck = true;
-  nativeInstallCheckInputs = [ versionCheckHook ];
+  nativeInstallCheckInputs = [versionCheckHook];
 
   meta = {
     description = "JSONPath-inspired query language over JSON documents";
