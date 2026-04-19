@@ -87,6 +87,8 @@
         "uv": true
     },
     "chat.viewSessions.orientation": "stacked",
+    "chatgpt.localeOverride": "Dutch",
+    "chatgpt.openOnStartup": true,
     "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
     "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
     "continue.enableConsole": true,
@@ -159,20 +161,20 @@
     "explorer.incrementalNaming": "smart",
     "extensions.ignoreRecommendations": false,
     "files.associations": {
-        ".env": "dotenv",
         "*.jsonl": "json",
-        "*.mako": "jinja-py"
+        "*.mako": "jinja-py",
+        ".env": "dotenv"
     },
     "files.exclude": {
-        "**/__pycache__": true,
+        "**/*.egg-info": true,
+        "**/*.pyc": true,
         "**/.cache": true,
         "**/.coverage*": true,
         "**/.hypothesis": true,
         "**/.mypy_cache": true,
         "**/.pytest_cache": true,
         "**/.tox": true,
-        "**/*.egg-info": true,
-        "**/*.pyc": true,
+        "**/__pycache__": true,
         "**/build": true,
         "**/coverage.xml": true,
         "**/dist": true,
@@ -181,7 +183,6 @@
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.watcherExclude": {
-        "**/__pycache__/**": true,
         "**/.cache/**": true,
         "**/.egg-info/**": true,
         "**/.eggs/**": true,
@@ -189,6 +190,7 @@
         "**/.pytest_cache/**": true,
         "**/.tox/**": true,
         "**/.venv/**": true,
+        "**/__pycache__/**": true,
         "**/backload_history.json": true,
         "**/bitvavo.db": true,
         "**/bitvavo.db-journal": true,
@@ -206,11 +208,11 @@
     "git.enableSmartCommit": true,
     "git.fetchOnPull": true,
     "github.copilot.chat.localeOverride": "en",
+    "github.copilot.chat.rateLimitAutoSwitchToAuto": true,
     "github.copilot.enable": {
         "markdown": true
     },
     "github.copilot.nextEditSuggestions.enabled": true,
-    "github.copilot.selectedCompletionModel": "",
     "githubPullRequests.fileListLayout": "flat",
     "gitlens.ai.model": "vscode",
     "gitlens.ai.vscode.model": "copilot:gpt-4.1",
@@ -348,7 +350,6 @@
         }
     },
     "terminal.integrated.rightClickBehavior": "default",
-    "terminal.integrated.scrollback": 10000,
     "terminal.integrated.sendKeybindingsToShell": true,
     "terminal.integrated.shellIntegration.decorationsEnabled": "never",
     "terminal.integrated.suggest.enabled": true,
@@ -401,5 +402,7 @@
     "workbench.sideBar.location": "right",
     "workbench.startupEditor": "none",
     "yaml.maxItemsComputed": 10000,
-    "zig.zls.enabled": "on"
+    "zig.zls.enabled": "on",
+    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.persistentSessionScrollback": 1000
 }
