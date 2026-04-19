@@ -277,6 +277,7 @@ in {
     local.xdgctl
     local.jsongrep # JSONPath-inspired query language over JSON documents
     local.austin # CPython frame stack sampler
+    local.dpaint-js
 
     # podman
     podman-desktop # GUI for managing containers
@@ -295,13 +296,13 @@ in {
     gimp3 # Image editor
     gparted # Partition editor
     hardinfo2 # Temperature and system information tool
+    kdePackages.kclock # KDE clock application
     keepassxc # Password manager
     legcord # Discord client
     loupe # Simple image viewer
     mission-center # Task Manager
     mpv # Media player
     pixelorama # Pixel art editor
-    local.dpaint-js
     qbittorrent-enhanced # Torrent client
     qdirstat # Disk usage analyzer with Qt GUI
     rssguard # RSS  reader
