@@ -1,7 +1,7 @@
 {
   "name": "@github/copilot",
   "description": "GitHub Copilot CLI brings the power of Copilot coding agent directly to your terminal.",
-  "version": "1.0.21",
+  "version": "1.0.34",
   "license": "SEE LICENSE IN LICENSE.md",
   "type": "module",
   "repository": {
@@ -62,14 +62,14 @@
     "conpty_console_list_agent.js"
   ],
   "buildMetadata": {
-    "gitCommit": "cd563f1"
+    "gitCommit": "18e1ba7"
   },
   "optionalDependencies": {
-    "@github/copilot-linux-x64": "1.0.21",
-    "@github/copilot-linux-arm64": "1.0.21",
-    "@github/copilot-darwin-x64": "1.0.21",
-    "@github/copilot-darwin-arm64": "1.0.21",
-    "@github/copilot-win32-x64": "1.0.21",
-    "@github/copilot-win32-arm64": "1.0.21"
+    "@github/copilot-linux-x64": "1.0.34",
+    "@github/copilot-linux-arm64": "1.0.34",
+    "@github/copilot-darwin-x64": "1.0.34",
+    "@github/copilot-darwin-arm64": "1.0.34",
+    "@github/copilot-win32-x64": "1.0.34",
+    "@github/copilot-win32-arm64": "1.0.34"
   }
 }
