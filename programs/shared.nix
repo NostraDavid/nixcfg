@@ -179,6 +179,7 @@ in {
     netcat-gnu # nc
     newsboat # RSS reader
     nixd # nix LSP
+    nix-update # for just pkg-update ...
     nnn # Terminal file manager
     nodejs_24 # for npx, for vscode
     nom # RSS reader
