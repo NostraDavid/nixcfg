@@ -68,6 +68,39 @@ boot host=default_host:
 build-vm host=default_host:
   nixos-rebuild build-vm --flake .#"{{host}}"
 
+# Evaluate an app VM configuration, including untracked local files.
+app-vm-check host:
+  nix eval path:.#nixosConfigurations."{{host}}".config.system.build.toplevel.drvPath
+
+# Evaluate both Proxmox app VM configurations.
+app-vms-check:
+  just app-vm-check homepage
+  just app-vm-check apps
+
+# Deploy an app VM configuration to a remote NixOS guest.
+app-vm-deploy host target:
+  nixos-rebuild switch --flake path:.#"{{host}}" --target-host "{{target}}"
+
+# Deploy the Homepage VM configuration.
+deploy-homepage target="root@homepage":
+  just app-vm-deploy homepage "{{target}}"
+
+# Deploy the shared apps VM configuration.
+deploy-apps target="root@apps":
+  just app-vm-deploy apps "{{target}}"
+
+# Format a Homepage state disk with the expected filesystem label.
+format-homepage-data device:
+  sudo mkfs.ext4 -L homepage-data "{{device}}"
+
+# Format the apps PostgreSQL state disk with the expected filesystem label.
+format-apps-postgres device:
+  sudo mkfs.ext4 -L apps-postgres "{{device}}"
+
+# Format the apps upload/state disk with the expected filesystem label.
+format-apps-data device:
+  sudo mkfs.ext4 -L apps-data "{{device}}"
+
 # Show filesystem and Nix store usage quickly.
 space:
   df -h /
