@@ -153,6 +153,16 @@
         hostname = "bragi";
         path = ./hosts/bragi/configuration.nix;
       };
+
+      homepage = mkHost {
+        hostname = "homepage";
+        path = ./hosts/homepage/configuration.nix;
+      };
+
+      apps = mkHost {
+        hostname = "apps";
+        path = ./hosts/apps/configuration.nix;
+      };
     };
   };
 }
