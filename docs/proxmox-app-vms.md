@@ -13,7 +13,7 @@ die NixOS mount via filesystem labels.
 | Stap                         | Waar                                           | Voorbeeld                                        |
 | ---------------------------- | ---------------------------------------------- | ------------------------------------------------ |
 | Nix-config checken           | laptop/werkstation, in deze repo               | `just app-vms-check`                             |
-| VM en extra disks aanmaken   | Proxmox web UI op `https://192.168.2.100:8006` | maak VM `homepage` en/of `apps`                  |
+| VM en extra disks aanmaken   | laptop/werkstation, in deze repo               | `just tofu-proxmox-apply`                        |
 | Disks formatteren en labelen | in de betreffende NixOS VM                     | `just format-homepage-data /dev/disk/by-id/...`  |
 | NixOS-config deployen        | laptop/werkstation, in deze repo               | `just deploy-homepage root@<vm-ip>`              |
 | App binaries plaatsen        | in de `apps` VM, of via je app deployment      | `/opt/huishoudboekje/current/bin/huishoudboekje` |
@@ -23,10 +23,55 @@ of werkstation. De formatteer-recipes moeten tegen een block device in de VM
 wijzen. Gebruik die niet op je laptop tenzij die disk daar echt bewust is
 aangekoppeld.
 
-## Proxmox UI
+## OpenTofu
 
-Maak in Proxmox eerst normale Linux/NixOS VMs aan. De Nix-config gaat ervan uit
-dat de VM via DHCP netwerk krijgt en dat SSH bereikbaar is.
+OpenTofu beheert de Proxmox VM-shells en disks in `infra/proxmox`.
+
+De Proxmox API is bereikbaar via
+`https://192.168.2.100:8006/api2/json/`. De `bpg/proxmox` provider verwacht
+in `proxmox_endpoint` de root URL, dus `https://192.168.2.100:8006/`; de
+provider voegt het API-pad zelf toe.
+
+Maak eerst een Proxmox API token. Zet de echte token niet in Git. Gebruik een
+lokale `terraform.tfvars` of environment variables:
+
+```bash
+just tofu-proxmox-tfvars
+```
+
+Of:
+
+```bash
+export TF_VAR_proxmox_api_token='user@realm!token-id=secret'
+export TF_VAR_node_name='pve'
+```
+
+Voer daarna lokaal uit, vanuit deze repo:
+
+```bash
+just tofu-proxmox-init
+just tofu-proxmox-check
+just tofu-proxmox-plan
+just tofu-proxmox-apply
+```
+
+Handige beheercommando's:
+
+```bash
+just tofu-proxmox-output
+just tofu-proxmox-state
+just tofu-proxmox-plan-destroy
+just tofu-proxmox-destroy
+```
+
+De OpenTofu config maakt de VMs aan maar start ze nog niet automatisch. Dat is
+bewust: installeer eerst NixOS of koppel een NixOS image/template aan, zodat de
+root disk het label `nixos` krijgt en SSH bereikbaar wordt.
+
+## Proxmox VM layout
+
+De Nix-config gaat ervan uit dat de VM via DHCP netwerk krijgt en dat SSH
+bereikbaar is.
 
 `homepage`:
 

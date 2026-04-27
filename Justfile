@@ -101,6 +101,56 @@ format-apps-postgres device:
 format-apps-data device:
   sudo mkfs.ext4 -L apps-data "{{device}}"
 
+# Initialize OpenTofu for Proxmox VM management.
+tofu-proxmox-init:
+  tofu -chdir=infra/proxmox init
+
+# Create a local Proxmox OpenTofu variables file from the example.
+tofu-proxmox-tfvars:
+  cp -n infra/proxmox/terraform.tfvars.example infra/proxmox/terraform.tfvars
+  ${EDITOR:-nano} infra/proxmox/terraform.tfvars
+
+# Format the Proxmox OpenTofu files.
+tofu-proxmox-fmt:
+  tofu fmt -recursive infra/proxmox
+
+# Check Proxmox OpenTofu formatting.
+tofu-proxmox-fmt-check:
+  tofu fmt -check -recursive infra/proxmox
+
+# Validate the Proxmox OpenTofu configuration.
+tofu-proxmox-validate:
+  tofu -chdir=infra/proxmox validate
+
+# Run non-network OpenTofu checks for the Proxmox stack.
+tofu-proxmox-check:
+  just tofu-proxmox-fmt-check
+  just tofu-proxmox-validate
+
+# Plan Proxmox VM changes.
+tofu-proxmox-plan:
+  tofu -chdir=infra/proxmox plan
+
+# Apply Proxmox VM changes.
+tofu-proxmox-apply:
+  tofu -chdir=infra/proxmox apply
+
+# Show OpenTofu-managed Proxmox VM outputs.
+tofu-proxmox-output:
+  tofu -chdir=infra/proxmox output
+
+# List resources in the Proxmox OpenTofu state.
+tofu-proxmox-state:
+  tofu -chdir=infra/proxmox state list
+
+# Plan destroying OpenTofu-managed Proxmox resources.
+tofu-proxmox-plan-destroy:
+  tofu -chdir=infra/proxmox plan -destroy
+
+# Destroy OpenTofu-managed Proxmox resources.
+tofu-proxmox-destroy:
+  tofu -chdir=infra/proxmox destroy
+
 # Show filesystem and Nix store usage quickly.
 space:
   df -h /
