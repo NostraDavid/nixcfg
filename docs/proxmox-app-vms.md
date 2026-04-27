@@ -43,7 +43,7 @@ Of:
 
 ```bash
 export TF_VAR_proxmox_api_token='user@realm!token-id=secret'
-export TF_VAR_node_name='pve'
+export TF_VAR_node_name='POwerMonolith'
 ```
 
 Voer daarna lokaal uit, vanuit deze repo:
@@ -58,11 +58,36 @@ just tofu-proxmox-apply
 Handige beheercommando's:
 
 ```bash
+just tofu-proxmox-permissions
 just tofu-proxmox-output
 just tofu-proxmox-state
 just tofu-proxmox-plan-destroy
 just tofu-proxmox-destroy
 ```
+
+Als `just tofu-proxmox-apply` faalt met HTTP 403, heeft de API token te weinig
+rechten. Controleer wat Proxmox voor de token teruggeeft:
+
+```bash
+just tofu-proxmox-permissions
+```
+
+Voor deze VM-aanmaak heeft de token rechten nodig op minimaal:
+
+- `/vms`: VM allocatie en configuratie.
+- `/nodes/POwerMonolith`: VM beheer op de node.
+- `/storage/local`: disks aanmaken op de datastore.
+
+Let op: als de token met privilege separation is aangemaakt, moeten zowel de
+user `terraform@pve` als de token `terraform@pve!tf2` voldoende rechten hebben.
+De tokenrechten zijn dan een beperking bovenop de userrechten.
+
+Pragmatische start: geef tijdelijk `PVEAdmin` op `/` met propagate aan beide:
+
+- user: `terraform@pve`
+- API token: `terraform@pve!tf2`
+
+Test daarna `apply` en maak later een beperktere rol voor VM beheer.
 
 De OpenTofu config maakt de VMs aan maar start ze nog niet automatisch. Dat is
 bewust: installeer eerst NixOS of koppel een NixOS image/template aan, zodat de
