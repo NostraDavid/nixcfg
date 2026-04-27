@@ -20,4 +20,15 @@
 !pkgs/
 !cmd/
 !programs/
+!infra/
+!infra/**/*.tf
+!infra/**/*.md
+!infra/**/*.example
+!infra/**/.terraform.lock.hcl
 !Justfile
+
+# OpenTofu/Terraform local state and secrets
+infra/**/.terraform/
+infra/**/*.tfstate
+infra/**/*.tfstate.*
+infra/**/*.tfvars
