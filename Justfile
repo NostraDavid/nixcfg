@@ -97,6 +97,10 @@ tofu-proxmox-fmt-check:
 tofu-proxmox-validate:
   tofu -chdir=infra/proxmox validate
 
+# Show effective Proxmox permissions for the configured API token.
+tofu-proxmox-permissions:
+  ./cmd/proxmox-permissions.sh
+
 # Run non-network OpenTofu checks for the Proxmox stack.
 tofu-proxmox-check:
   just tofu-proxmox-fmt-check

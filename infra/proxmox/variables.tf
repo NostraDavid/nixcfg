@@ -22,9 +22,9 @@ variable "node_name" {
 }
 
 variable "datastore_id" {
-  description = "Proxmox datastore for VM disks, for example local-lvm."
+  description = "Proxmox datastore for VM disks."
   type        = string
-  default     = "local-lvm"
+  default     = "local"
 }
 
 variable "network_bridge" {

@@ -1,9 +1,9 @@
-node_name = "pve"
+node_name = "POwerMonolith"
+datastore_id = "local"
 
 # Keep secrets out of Git. Put the real value in terraform.tfvars or use:
 # export TF_VAR_proxmox_api_token='root@pam!tofu=...'
 proxmox_api_token = "user@realm!token-id=secret"
 
 # Common examples:
-# datastore_id    = "local-lvm"
 # network_bridge  = "vmbr0"
