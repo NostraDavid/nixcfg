@@ -115,6 +115,7 @@
           just
           nil
           nixd
+          opentofu
         ];
 
         shellHook = ''
