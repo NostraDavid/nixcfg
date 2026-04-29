@@ -265,7 +265,7 @@ in {
     unstable.zigfetch # neofetch alternative
     unstable.devenv # Development environment manager | using unstable for 2.x
     unstable.vscode
-    # unstable.codex # Code autocompletion tool
+    unstable.codex # Code autocompletion tool
     unstable.witr # Why is this running?
     unstable.zsv # CSV viewer and slicer
 
@@ -279,7 +279,7 @@ in {
     local.jsongrep # JSONPath-inspired query language over JSON documents
     local.austin # CPython frame stack sampler
     local.dpaint-js
-    local.codex
+    # local.codex
 
     # podman
     podman-desktop # GUI for managing containers
