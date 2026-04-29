@@ -13,6 +13,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/boot.nix
+    ../../modules/cachix-cuda.nix
     ../../modules/location.nix
     ../../modules/i18n.nix
     ../../modules/keyboard.nix

@@ -6,9 +6,8 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/proxmox-vm.nix
-    ../../modules/location.nix
-    ../../modules/i18n.nix
-    ../../modules/storage_optimization.nix
+    ../../modules/server-locale.nix
+    ../../modules/server-nix.nix
     ../../modules/homepage-container.nix
   ];
 

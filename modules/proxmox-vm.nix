@@ -9,7 +9,7 @@
     kernelModules = ["kvm-intel" "kvm-amd"];
     loader.grub = {
       enable = true;
-      device = "/dev/vda";
+      device = "/dev/sda";
     };
     loader.timeout = 1;
   };
