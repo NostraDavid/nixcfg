@@ -149,12 +149,12 @@
 
       homepage = mkHost {
         hostname = "homepage";
-        path = ./hosts/homepage/configuration.nix;
+        path = ./servers/homepage/configuration.nix;
       };
 
       apps = mkHost {
         hostname = "apps";
-        path = ./hosts/apps/configuration.nix;
+        path = ./servers/apps/configuration.nix;
       };
     };
   };
