@@ -16,6 +16,7 @@
 !docs/
 !dotfiles/
 !hosts/
+!servers/
 !users/
 !home/
 !modules/
