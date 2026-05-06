@@ -65,7 +65,7 @@
     "gitCommit": "60323d2"
   },
   "optionalDependencies": {
-    "@github/copilot-linux-x64": "1.0.39",
+    "@github/copilot-linux-x64": "1.0.41",
     "@github/copilot-linux-arm64": "1.0.39",
     "@github/copilot-darwin-x64": "1.0.39",
     "@github/copilot-darwin-arm64": "1.0.39",
