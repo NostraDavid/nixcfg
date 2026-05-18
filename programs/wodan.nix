@@ -425,7 +425,6 @@ in {
     guacamole-server
     itch # Game launcher
     libreoffice-qt6 # Office suite
-    nomachine-client
     nuclear # Music player
     renderdoc # Graphics debugger
     rustdesk
