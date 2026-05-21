@@ -12,6 +12,7 @@ in {
   home-manager.users.${main-user} = {
     imports = [
       inputs.plasma-manager.homeModules.plasma-manager
+      inputs.codex-desktop-linux.homeManagerModules.default
       ./dotfiles.nix
       ./keyboard-home.nix
       ../programs/shared.nix
