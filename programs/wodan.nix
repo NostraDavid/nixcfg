@@ -358,6 +358,10 @@ in {
     X-LXQt-Need-Tray=true
   '';
 
+  programs.codexDesktopLinux = {
+    enable = true;
+  };
+
   programs.direnv = {
     enable = true;
     config.global.hide_env_diff = true;
