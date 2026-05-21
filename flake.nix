@@ -17,6 +17,10 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    codex-desktop-linux = {
+      url = "github:ilysenko/codex-desktop-linux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
