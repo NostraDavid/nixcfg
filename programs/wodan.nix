@@ -47,6 +47,18 @@
 
     exec "$wine" "$launcher"
   '';
+  codexDesktopSafe = let
+    codexDesktop = inputs.codex-desktop-linux.packages.${pkgs.stdenv.hostPlatform.system}.codex-desktop;
+  in
+    pkgs.symlinkJoin {
+      name = "codex-desktop-safe-${codexDesktop.version}";
+      paths = [codexDesktop];
+      nativeBuildInputs = [pkgs.makeWrapper];
+      postBuild = ''
+        wrapProgram "$out/bin/codex-desktop" \
+          --set-default CODEX_ELECTRON_DISABLE_GPU_COMPOSITING 1
+      '';
+    };
   taskbarLaunchers = [
     "preferred://filemanager"
     "applications:firefox-esr.desktop"
@@ -360,8 +372,15 @@ in {
     X-LXQt-Need-Tray=true
   '';
 
+  xdg.configFile."codex-desktop/settings.json".text = builtins.toJSON {
+    codex-linux-prompt-window-enabled = false;
+    codex-linux-system-tray-enabled = false;
+    codex-linux-warm-start-enabled = true;
+  };
+
   programs.codexDesktopLinux = {
     enable = true;
+    package = codexDesktopSafe;
   };
 
   programs.direnv = {
