@@ -230,6 +230,7 @@ in {
     wget
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
+    libxml2 # xmllint
     xq-xml # XML processor
     xxd # Hex dump tool
     xz # Compression tool
