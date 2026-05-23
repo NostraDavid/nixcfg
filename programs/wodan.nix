@@ -210,6 +210,8 @@ in {
         ];
       };
 
+      "org.kde.systemsettings.desktop"._launch = "none";
+
       plasmashell = {
         "activate application launcher" = [
           "Meta"
@@ -421,21 +423,21 @@ in {
     }))
 
     # Wodan-specific GUI packages go here
-    anki # Flashcard app
-    anydesk
-    blender
-    dbeaver-bin # Database management tool
-    guacamole-client
-    guacamole-server
+    # anki # Flashcard app
+    # anydesk
+    unstable.blender
+    # dbeaver-bin # Database management tool
+    # guacamole-client
+    # guacamole-server
     itch # Game launcher
     libreoffice-qt6 # Office suite
     nuclear # Music player
     renderdoc # Graphics debugger
-    rustdesk
-    rustdesk-server
+    # rustdesk
+    # rustdesk-server
     slack # Slack messaging app
     wireguard-ui # WireGuard UI
-    xrdp # Remote Desktop Protocol client
+    # xrdp # Remote Desktop Protocol client
 
     # GUI libs for Haemwend
     fontconfig
