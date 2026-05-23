@@ -160,6 +160,7 @@ in {
     less # terminal pager
     lf # Terminal file manager
     libjpeg_turbo # JPEG tools including jpegtran
+    llama-cpp # for Blender MCP
     lsd # A modern replacement for 'ls' command
     lsof # List open files
     lynx # Terminal-based web browser
