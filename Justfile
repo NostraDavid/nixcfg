@@ -233,3 +233,40 @@ versions:
   @printf '%-14s %s\n' 'oxfmt:' "$(if command -v oxfmt >/dev/null 2>&1; then oxfmt --version | awk '/Version:/ {print $2; exit}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'shfmt:' "$(if command -v shfmt >/dev/null 2>&1; then shfmt --version; else echo missing; fi)"
   @printf '%-14s %s\n' 'prek:' "$(if command -v prek >/dev/null 2>&1; then prek --version | awk '{print $2}'; else echo missing; fi)"
+
+security-target system="x86_64-linux":
+  @target="$(nix build --no-link --print-out-paths .#nixosConfigurations.wodan.config.system.build.toplevel)"; \
+  if [ -z "$target" ]; then echo "Failed to resolve NixOS system path" >&2; exit 1; fi; \
+  printf '%s\n' "$target"
+
+security-vulnix system="x86_64-linux" strict="false":
+  @target="$(just security-target "{{system}}")"; \
+  echo "Scanning $target with vulnix"; \
+  rc=0; vulnix "$target" || rc=$?; \
+  if [ "$rc" -eq 2 ] && [ "{{strict}}" != "true" ]; then echo "vulnix reported vulnerabilities; continuing because strict=false"; exit 0; fi; \
+  exit "$rc"
+
+security-sbom system="x86_64-linux" out_dir="reports/security":
+  @report_dir="{{out_dir}}/{{system}}"; \
+  target="$(just security-target "{{system}}")"; \
+  mkdir -p "$report_dir"; \
+  echo "Generating SBOM artifacts for $target in $report_dir"; \
+  sbomnix "$target" --csv "$report_dir/sbom.csv" --cdx "$report_dir/sbom.cdx.json" --spdx "$report_dir/sbom.spdx.json"
+
+security-osv system="x86_64-linux" out_dir="reports/security" format="table":
+  @report_dir="{{out_dir}}/{{system}}"; \
+  sbom="$report_dir/sbom.cdx.json"; \
+  if [ ! -f "$sbom" ]; then echo "CycloneDX SBOM ontbreekt, genereer die eerst in $report_dir" >&2; exit 1; fi; \
+  echo "Scanning $sbom with osv-scanner"; \
+  osv-scanner scan source -L "$sbom" --format "{{format}}"
+
+security-grype system="x86_64-linux" out_dir="reports/security" fail_on="":
+  @report_dir="{{out_dir}}/{{system}}"; \
+  sbom="$report_dir/sbom.cdx.json"; \
+  if [ ! -f "$sbom" ]; then echo "CycloneDX SBOM ontbreekt, genereer die eerst in $report_dir" >&2; exit 1; fi; \
+  if [ -n "{{fail_on}}" ]; then grype "sbom:$sbom" --fail-on "{{fail_on}}"; else grype "sbom:$sbom"; fi
+
+security-smoke system="x86_64-linux":
+  @just security-sbom "{{system}}" reports/security-smoke
+  @just security-osv "{{system}}" reports/security-smoke
+  @just security-grype "{{system}}" reports/security-smoke critical

@@ -107,6 +107,10 @@
       default = pkgs.mkShell {
         packages = with pkgs; [
           alejandra
+          vulnix
+          syft
+          sbomnix
+          grype
           statix
           shfmt
           shellcheck
