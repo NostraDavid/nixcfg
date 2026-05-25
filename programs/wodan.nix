@@ -428,8 +428,8 @@ in {
     tts # coqui-tts
     vimgolf # Vim golfing
     battlenet
-    winetricks
-    wineWowPackages.stagingFull # include the Wine extras Battle.net tends to expect
+    unstable.winetricks # unstable, so we can use 2026 version
+    wineWowPackages.stagingFull_11 # include the Wine extras Battle.net tends to expect
     dotnet-sdk
     # ydotool # for voxtype
     # sqruff wrapped to avoid /bin/bench collision with ollama-cuda
