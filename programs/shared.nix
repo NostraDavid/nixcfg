@@ -188,6 +188,10 @@ in {
     ntfs3g # NTFS driver for work.
     nvme-cli # for nvme
     osv-scanner # Open Source Vulnerability Scanner
+    vulnix
+    syft
+    sbomnix
+    grype
     osv-detector # Open Source Vulnerability Detector
     openssl # SSL/TLS toolkit
     optipng # PNG image optimizer
