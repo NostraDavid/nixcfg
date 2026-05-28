@@ -104,10 +104,10 @@ in {
     bat # cat replacement
     btop # Resource monitor
     busybox
+    cloc # Count lines of code
     colordiff # diff viewer
     csvkit # Python based CSV toolkit (heavier)
     curl
-    cloc # Count lines of code
     delta # diff viewer
     diff-so-fancy # diff viewer
     difftastic # diff viewer
@@ -127,13 +127,14 @@ in {
     gcc-unwrapped # to fix `ImportError: libstdc++.so.6: cannot open shared object file: No such file or directory` for numpy
     gdu # Disk usage analyzer with Go
     gh # GitHub CLI
-    gramps # Genealogy software
+    gifsicle # GIF image optimizer
     git # This will now use your pinned version (2.45.0)
     git-lfs # Git Large File Storage
     glances # htop with temperature information
     gnugrep # GNU grep
     gnused # GNU sed
     go # the language
+    gramps # Genealogy software
     graphicsmagick # image processing
     hadolint # Dockerfile linter
     helix # Text editor (hx)
@@ -159,7 +160,13 @@ in {
     lazygit
     less # terminal pager
     lf # Terminal file manager
+    libavif # for avifdec; AVIF image tools
     libjpeg_turbo # JPEG tools including jpegtran
+    libjxl # for djxl; JPEG XL image tools
+    librsvg # for rsvg-convert; SVG image tools
+    libtiff # for tiffinfo, tiffcp, etc; TIFF image tools
+    libwebp # for dwebp; webp image tools
+    libxml2 # xmllint
     llama-cpp # for Blender MCP
     lsd # A modern replacement for 'ls' command
     lsof # List open files
@@ -175,23 +182,24 @@ in {
     ncdu # Disk usage analyzer with ncurses interface
     netcat-gnu # nc
     newsboat # RSS reader
-    nixd # nix LSP
     nix-update # for just pkg-update ...
+    nixd # nix LSP
     nnn # Terminal file manager
     nodejs_24 # for npx, for vscode
     nom # RSS reader
     nomacs # Image viewer
     ntfs3g # NTFS driver for work.
     nvme-cli # for nvme
-    osv-scanner # Open Source Vulnerability Scanner
-    osv-detector # Open Source Vulnerability Detector
     openssl # SSL/TLS toolkit
     optipng # PNG image optimizer
+    osv-detector # Open Source Vulnerability Detector
+    osv-scanner # Open Source Vulnerability Scanner
     oxipng # PNG image optimizer
     parallel # xarg alternative (except it actually runs in parallel)
     parquet-tools
     pciutils # for lspci
     pgcli # psql alternative
+    pngcheck # PNG image validator
     pngquant # PNG image optimizer
     powerline # The best Bash Prompt!
     procs
@@ -200,9 +208,9 @@ in {
     ripgrep # Search tool (rg)
     rsync
     ruff
-    sipcalc # Another IP calculator, with more features than ipcalc
     shellcheck
     shfmt # Shell script formatter
+    sipcalc # Another IP calculator, with more features than ipcalc
     smartmontools # for monitoring hard drive health
     sqlfluff # SQL linter and formatter
     sqlite
@@ -217,16 +225,15 @@ in {
     tree-sitter # used for Neovim
     ty # Astral type checker
     unzip
+    upx # Executable packer (binary compression)
     util-linux # For `chrt` command
     uv # Astral project manager
-    upx # Executable packer (binary compression)
     viddy # Watch alternative with better color support
     visidata # Interactive terminal multitool for tabular data
     w3m # Text-based web browser
     wget
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
-    libxml2 # xmllint
     xq-xml # XML processor
     xxd # Hex dump tool
     xz # Compression tool
