@@ -242,6 +242,7 @@
     containers = {
       enable = true;
     };
+    waydroid.enable = true;
     podman = {
       enable = true;
 
@@ -267,6 +268,7 @@
   environment = {
     localBinInPath = true; # Python support
     systemPackages = with pkgs; [
+      android-tools
       espeak-ng # Firefox Read Aloud support alternative
       flite # Firefox Read Aloud support alternative
       # CUDA
