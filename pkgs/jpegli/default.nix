@@ -3,6 +3,7 @@
   stdenv,
   cmake,
   ninja,
+  patchelf,
   pkg-config,
   highway ? null,
   lcms2,
@@ -29,6 +30,7 @@ in
     nativeBuildInputs = [
       cmake
       ninja
+      patchelf
       pkg-config
     ];
 
@@ -64,6 +66,19 @@ in
         # Remove bundled highway .pc that contains broken paths under Nix.
         rm -f "$out/lib/pkgconfig/libhwy.pc"
       fi
+    '';
+
+    postInstall = ''
+      mkdir -p "$out/lib/jpegli-private"
+      mv "$out"/lib/libjxl_cms.so* "$out"/lib/libjxl_threads.so* "$out/lib/jpegli-private/"
+
+      for bin in "$out"/bin/*; do
+        patchelf --set-rpath "$out/lib/jpegli-private:$(patchelf --print-rpath "$bin")" "$bin"
+      done
+
+      rm -f "$out"/lib/libjxl_extras_codec.a
+      rm -f "$out"/lib/pkgconfig/libjxl_*.pc
+      rm -rf "$out"/include/jxl
     '';
 
     meta = {
