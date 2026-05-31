@@ -21,6 +21,7 @@
     ".config/starship.toml".source = mk "${dot}/starship-1.23.0/.config/starship.toml";
     ".config/Code/User/keybindings.json".source = mk "${dot}/vscode/.config/Code/User/keybindings.json";
     ".config/Code/User/settings.json".source = mk "${dot}/vscode/.config/Code/User/settings.json";
+    ".config/mpv/mpv.conf".source = mk "${dot}/mpv/.config/mpv/mpv.conf";
     # ".config/voxtype/config.toml".source = mk "${dot}/voxtype/.config/voxtype/config.toml";
     ".config/wezterm/wezterm.lua".source = mk "${dot}/wezterm-0-unstable-2025-05-18/.config/wezterm/wezterm.lua";
     ".git-templates".source = mk "${dot}/git-templates/.git-templates";
