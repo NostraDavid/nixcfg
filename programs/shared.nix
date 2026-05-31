@@ -310,7 +310,13 @@ in {
     # fooyin # Music player # kaput in 25.11
     # remmina # Remote Desktop Protocol client
     brave # Web browser
-    chromium # Web browser
+    (chromium.override {
+      commandLineArgs = [
+        "--enable-features=AcceleratedVideoEncoder"
+        "--ignore-gpu-blocklist"
+        "--enable-zero-copy"
+      ];
+    }) # Web browser
     evolution # Email client
     fsearch # Everything replacement
     geeqie # Image viewer
