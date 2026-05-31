@@ -182,6 +182,10 @@
     firefox = {
       enable = true;
       package = pkgs.firefox-esr;
+      preferences = {
+        "media.ffmpeg.vaapi.enabled" = true;
+        "media.hardware-video-decoding.force-enabled" = true;
+      };
       # Add a simple Enterprise policy: trust whatever the OS trusts
       policies.Certificates.ImportEnterpriseRoots = true;
       languagePacks = [
@@ -267,10 +271,15 @@
   # $ nix search wget
   environment = {
     localBinInPath = true; # Python support
+    sessionVariables = {
+      LIBVA_DRIVER_NAME = "radeonsi";
+      MOZ_DRM_DEVICE = "/dev/dri/by-path/pci-0000:79:00.0-render";
+    };
     systemPackages = with pkgs; [
       android-tools
       espeak-ng # Firefox Read Aloud support alternative
       flite # Firefox Read Aloud support alternative
+      libva-utils
       # CUDA
       cudaPackages.cudatoolkit
       cudaPackages.cudnn
