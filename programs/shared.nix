@@ -297,6 +297,7 @@ in {
     local.xdgctl
     local.jsongrep # JSONPath-inspired query language over JSON documents
     local.austin # CPython frame stack sampler
+    local.semble # Fast code search for agents
     local.dpaint-js
     # local.codex
 
