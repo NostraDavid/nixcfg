@@ -2,10 +2,10 @@
   description = "NostraDavid's NixOS Configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     plasma-manager = {
@@ -69,11 +69,22 @@
             prev.callPackage pkgPath fileArgs;
         })
         packageNames);
+    overlay-fixes = final: prev: {
+      kdash = prev.kdash.overrideAttrs (old: {
+        doCheck = false;
+        src = prev.fetchFromGitHub {
+          owner = "kdash-rs";
+          repo = "kdash";
+          rev = "v${old.version}";
+          hash = "sha256-CFGZIRZgOUiB/evCDUQFB+w5PJCJNtrWqYzx2yRQKpE=";
+        };
+      });
+    };
     pkgsFor = system:
       import nixpkgs {
         inherit system;
         config = {allowUnfree = true;};
-        overlays = [overlay-local];
+        overlays = [overlay-fixes overlay-local];
       };
     main-user = "david";
     mkHost = {
@@ -84,7 +95,7 @@
         system = "x86_64-linux";
         modules = [
           {
-            nixpkgs.overlays = [overlay-local];
+            nixpkgs.overlays = [overlay-fixes overlay-local];
           }
           ./modules/cachix.nix
           path
