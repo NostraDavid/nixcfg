@@ -45,6 +45,8 @@ stdenv.mkDerivation rec {
       --replace-fail '#if defined(HAVE_LIBEDIT) || (defined(HAVE_LIBREADLINE) && RL_READLINE_VERSION < 0x0602)' '#if defined(HAVE_LIBEDIT)'
   '';
 
+  passthru.updateScript = ../../cmd/update-yafc.sh;
+
   meta = with lib; {
     description = "Command-line FTP client with readline, bookmarks, and SFTP support";
     homepage = "https://github.com/sebastinas/yafc";
