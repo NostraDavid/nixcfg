@@ -50,6 +50,8 @@ llvmPackages_20.stdenv.mkDerivation (finalAttrs: {
     "-DBITNET_X86_TL2=ON"
   ];
 
+  passthru.updateScript = ../../cmd/update-bitnet.sh;
+
   meta = {
     description = "bitnet.cpp - inference framework for 1-bit LLMs";
     homepage = "https://github.com/microsoft/BitNet";

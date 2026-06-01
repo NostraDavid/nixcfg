@@ -18,6 +18,20 @@ update:
 pkg-update package:
   ./cmd/local-package-maint.sh update "{{package}}"
 
+# Update every local flake package via its updater or nix-update fallback.
+pkg-update-all:
+  failures=(); \
+  for package in $(nix eval --json .#packages.$(nix eval --impure --raw --expr 'builtins.currentSystem') --apply 'pkgs: builtins.attrNames pkgs' | jq -r '.[]'); do \
+    if ! just pkg-update "$package"; then \
+      failures+=("$package"); \
+    fi; \
+  done; \
+  if [ ${#failures[@]} -gt 0 ]; then \
+    printf 'Packages with failed updates:\n' >&2; \
+    printf '  %s\n' "${failures[@]}" >&2; \
+    exit 1; \
+  fi
+
 # List local packages with newer versions available.
 pkg-updates *packages:
   ./cmd/local-package-maint.sh list {{packages}}

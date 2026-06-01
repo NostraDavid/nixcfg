@@ -7,10 +7,10 @@
   flatpak,
   gnugrep,
 }: let
-  version = "3.6.1";
+  version = "4.1.7";
   src = fetchurl {
     url = "https://github.com/Recol/DLSS-Updater/releases/download/V${version}/DLSS_Updater-${version}.flatpak";
-    hash = "sha256-3Wi0eZ9ngCFWgoclEsz4baNi+MvBabmOWgdlJrm9qy4=";
+    hash = "sha256-ThaJNMj4IVU9L/VhsVtrBwp2FpYerxioLXsgfz/UFm0=";
   };
 in
   stdenvNoCC.mkDerivation {
@@ -21,6 +21,8 @@ in
 
     nativeBuildInputs = [makeWrapper];
     buildInputs = [flatpak];
+
+    passthru.updateScript = ../../cmd/update-dlss-updater.sh;
 
     installPhase = ''
       runHook preInstall
