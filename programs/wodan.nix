@@ -463,12 +463,12 @@ in {
     fontconfig
     freetype
     libGL
-    xorg.libX11
-    xorg.libXcursor
-    xorg.libXext
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libXrender
+    libx11
+    libxcursor
+    libxext
+    libxi
+    libxrandr
+    libxrender
 
     # games
     # unstable.openra_2019-release
