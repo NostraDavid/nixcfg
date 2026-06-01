@@ -92,6 +92,7 @@
     src = fetchPypi {
       pname = "tree_sitter_language_pack";
       inherit version format;
+      dist = "cp310";
       python = "cp310";
       abi = "abi3";
       platform = "manylinux_2_34_x86_64";
