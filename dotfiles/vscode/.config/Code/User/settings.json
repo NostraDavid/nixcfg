@@ -404,5 +404,10 @@
     "yaml.maxItemsComputed": 10000,
     "zig.zls.enabled": "on",
     "terminal.integrated.scrollback": 10000,
-    "terminal.integrated.persistentSessionScrollback": 1000
+    "terminal.integrated.persistentSessionScrollback": 1000,
+    "chat.tools.urls.autoApprove": {
+        "https://code.visualstudio.com": true,
+        "https://github.com/microsoft/vscode/wiki/*": true,
+        "https://*.cbs.nl": true
+    }
 }
