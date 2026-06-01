@@ -386,6 +386,8 @@ in {
   programs.direnv = {
     enable = true;
     config.global.hide_env_diff = true;
+    config.global.disable_stdin = true;
+    config.global.warn_timeout = "15s";
     nix-direnv.enable = true;
   };
 
