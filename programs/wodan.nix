@@ -491,21 +491,13 @@ in {
     #   doCheck = false;
     # })) # Zed text editor
 
-    # local
-    # local.bitnet
     # local.github-copilot-cli
-    # local.goose
-    # local.nanocoder
-    # local.opencode
     # local.synology-drive-client-pinned # kaput in 25.11
-    # local.voxtype
     # local.vscode-pinned
-    local.codemogger
     local.cool-retro-term # terminal emulator with retro style
     local.dlss-updater
     local.photorec # image recovery
     # local.pixieditor
-    # local.stable-diffusion-webui
     local.pyre
   ];
 }

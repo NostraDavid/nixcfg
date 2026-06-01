@@ -6,7 +6,7 @@
   nixosTests,
 }:
 stdenv.mkDerivation rec {
-  version = "2.0.0-beta1";
+  version = "2.0.0-beta2";
   pname = "cool-retro-term";
 
   src = fetchFromGitHub {
@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
     tag = version;
     # 2.0.0-beta1 uses git submodules (qmltermwidget, KDSingleApplication).
     fetchSubmodules = true;
-    hash = "sha256-zr/10rBRJ40EmX1wTB9QZuQAljPHoWCDPiS2/6GVfVs=";
+    hash = "sha256-WCiQ+WTZVE3Cf6RWwD7BknkPTsXHordxcdq+HppQZ2Y=";
   };
 
   buildInputs = [
@@ -66,6 +66,8 @@ stdenv.mkDerivation rec {
     + lib.optionalString stdenv.hostPlatform.isDarwin ''
       ln -s $out/bin/cool-retro-term.app/Contents/MacOS/cool-retro-term $out/bin/cool-retro-term
     '';
+
+  passthru.updateScript = ../../cmd/update-cool-retro-term.sh;
 
   passthru.tests.test = nixosTests.terminal-emulators.cool-retro-term;
 

@@ -343,6 +343,10 @@ main() {
         exit 1
       fi
       ensure_package "${repo_root}" "$1"
+      if skip_reason="$(probe_skip_reason "${repo_root}" "$1")"; then
+        printf 'Skipping update for %s: %s\n' "$1" "${skip_reason}"
+        exit 0
+      fi
       run_update "${repo_root}" "$1"
       ;;
     list)

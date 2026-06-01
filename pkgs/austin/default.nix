@@ -19,6 +19,8 @@ stdenv.mkDerivation (finalAttrs: {
     autoreconfHook
   ];
 
+  passthru.updateScript = ../../cmd/update-austin.sh;
+
   meta = {
     description = "Frame stack sampler for CPython";
     homepage = "https://github.com/P403n1x87/austin";
