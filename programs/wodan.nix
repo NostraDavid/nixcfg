@@ -28,8 +28,8 @@
 
     installer="$HOME/Downloads/Battle.net-Setup.exe"
     launcher="$WINEPREFIX/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe"
-    wine="${pkgs.wineWowPackages.stagingFull_11}/bin/wine"
-    wineboot="${pkgs.wineWowPackages.stagingFull_11}/bin/wineboot"
+    wine="${pkgs.wineWow64Packages.stagingFull}/bin/wine"
+    wineboot="${pkgs.wineWow64Packages.stagingFull}/bin/wineboot"
     winetricks="${unstable.winetricks}/bin/winetricks"
 
     if [ ! -f "$launcher" ]; then
@@ -429,7 +429,7 @@ in {
     vimgolf # Vim golfing
     battlenet
     unstable.winetricks # unstable, so we can use 2026 version
-    wineWowPackages.stagingFull_11 # include the Wine extras Battle.net tends to expect
+    wineWow64Packages.stagingFull # include the Wine extras Battle.net tends to expect
     pulseaudio # provides pactl for PipeWire/PulseAudio debugging
     dotnet-sdk
     # ydotool # for voxtype
