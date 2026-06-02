@@ -6,15 +6,18 @@ This timeline focuses on the structural evolution of the repository.
 
 ### June 27, 2025: from a loose NixOS config to a first repository
 
-The repository started simply: first a `README.md`, then one central
-`configuration.nix`, followed by a few documentation scripts for
-`nixos-rebuild` and channels.
+The repository started simply: first a
+[README.md](https://github.com/NostraDavid/nixcfg/blob/34b0978/README.md), then
+one central
+[configuration.nix](https://github.com/NostraDavid/nixcfg/blob/6d2c79b/configuration.nix),
+followed by a few documentation scripts for `nixos-rebuild` and channels.
 
 At this point, the repo was mainly a place to capture the current machine
 configuration. Everything still lived in one file: applications, Nvidia setup,
 automounting, hostname, aliases, and early flakes-related experiments.
 
-The operational workflow was direct and command-oriented. `docs/nixos-rebuild.sh`
+The operational workflow was direct and command-oriented.
+[docs/nixos-rebuild.sh](https://github.com/NostraDavid/nixcfg/blob/ebf366b/docs/nixos-rebuild.sh)
 acted as a command note for applying the local `configuration.nix`, rebuilding
 the system configuration, updating channels, testing changes, staging a boot
 configuration, opening the rebuild REPL, building a VM, and inspecting
@@ -29,28 +32,35 @@ garbage-collection roots. The important commands were still raw NixOS commands:
 
 ### July 19-23, 2025: flakes become the foundation
 
-Around commit `2467bb4`, `flake.nix` and `flake.lock` were added. Shortly after
-that, the configuration started moving toward named host configurations. The
-real turning point was commit `6806d31`: "move my whole nix config to here, so I
-can access it anywhere".
+Around commit [2467bb4](https://github.com/NostraDavid/nixcfg/commit/2467bb4),
+[flake.nix](https://github.com/NostraDavid/nixcfg/blob/2467bb4/flake.nix) and
+[flake.lock](https://github.com/NostraDavid/nixcfg/blob/2467bb4/flake.lock) were
+added. Shortly after that, the configuration started moving toward named host
+configurations. The real turning point was commit
+[6806d31](https://github.com/NostraDavid/nixcfg/commit/6806d31): "move my whole
+nix config to here, so I can access it anywhere".
 
 That is the first major shift. From this point, the repository was no longer
 just "a NixOS configuration file". It became a real configuration repository
 with:
 
-- `hosts/frigg` and `hosts/wodan`
-- shared `modules/`
-- `dotfiles/`
+- [hosts/frigg](https://github.com/NostraDavid/nixcfg/tree/6806d31/hosts/frigg)
+  and
+  [hosts/wodan](https://github.com/NostraDavid/nixcfg/tree/6806d31/hosts/wodan)
+- shared [modules/](https://github.com/NostraDavid/nixcfg/tree/6806d31/modules)
+- [dotfiles/](https://github.com/NostraDavid/nixcfg/tree/6806d31/dotfiles)
 - Home Manager integration
 - certificates per host
 - docs and scripts
 
-The repo became portable: the same source tree could now be used across
-multiple machines.
+The repo became portable: the same source tree could now be used across multiple
+machines.
 
-The command workflow moved with it. `docs/nixos-rebuild.sh` gained the flake
-variant `sudo nixos-rebuild switch --flake .#wodan`, and later
-`docs/flake.sh` collected flake-specific notes such as:
+The command workflow moved with it.
+[docs/nixos-rebuild.sh](https://github.com/NostraDavid/nixcfg/blob/6806d31/docs/nixos-rebuild.sh)
+gained the flake variant `sudo nixos-rebuild switch --flake .#wodan`, and later
+[docs/flake.sh](https://github.com/NostraDavid/nixcfg/blob/024e62c/docs/flake.sh)
+collected flake-specific notes such as:
 
 - `sudo nixos-rebuild switch --flake .#wodan`
 - `sudo nix flake update`
@@ -69,26 +79,31 @@ The important change was not each individual tool. The important change was that
 configuration that would normally drift around in `$HOME` became part of the
 repo and was linked through `modules/dotfiles.nix`. On August 19, a basic Neovim
 configuration was added, bringing the editor setup into the same declarative
-system.
+system. See commit
+[e44c67c](https://github.com/NostraDavid/nixcfg/commit/e44c67c) for that first
+Neovim import.
 
 ### Late August - September 2025: shared and host-specific config become clearer
 
 The distinction between shared configuration and host-specific configuration
-became more deliberate. Commit `74ea42e` says this directly: "cleanup
-configurations of software that's actually shared".
+became more deliberate. Commit
+[74ea42e](https://github.com/NostraDavid/nixcfg/commit/74ea42e) says this
+directly: "cleanup configurations of software that's actually shared".
 
-After that, `modules/storage_optimization.nix` appeared, and features such as
-unstable packages, Podman, Redis, `nix-ld`, and host-specific services were
-introduced. This was the phase where the repository grew from a desktop package
-list into a system-management layer covering storage, services, containers,
-binary compatibility, and host behavior.
+After that,
+[modules/storage_optimization.nix](https://github.com/NostraDavid/nixcfg/blob/c736f86/modules/storage_optimization.nix)
+appeared, and features such as unstable packages, Podman, Redis, `nix-ld`, and
+host-specific services were introduced. This was the phase where the repository
+grew from a desktop package list into a system-management layer covering
+storage, services, containers, binary compatibility, and host behavior.
 
 ### September 8, 2025: unstable input becomes structural
 
-Commit `63eb4da` added `nixpkgs-unstable` and started the deliberate use of
-stable and unstable packages side by side. This was an important structural
-step: from here onward, the repo was no longer just following NixOS stable. It
-used a hybrid model where selected tools could come from unstable.
+Commit [63eb4da](https://github.com/NostraDavid/nixcfg/commit/63eb4da) added
+`nixpkgs-unstable` and started the deliberate use of stable and unstable
+packages side by side. This was an important structural step: from here onward,
+the repo was no longer just following NixOS stable. It used a hybrid model where
+selected tools could come from unstable.
 
 That pattern continued later with tools such as Codex, VS Code, Blender,
 Friture, and `devenv`, which moved between stable, unstable, and local packages
@@ -96,33 +111,42 @@ depending on freshness and buildability.
 
 ### October - November 2025: local packages become their own subsystem
 
-Starting with commit `d527fff`, `pkgs/` became serious with the addition of
-`github-copilot-cli`. After that came PixiEditor, nanocoder, bitnet, goose,
-opencode, `vscode-pinned`, Synology Drive, and other custom derivations.
+Starting with commit
+[d527fff](https://github.com/NostraDavid/nixcfg/commit/d527fff),
+[pkgs/](https://github.com/NostraDavid/nixcfg/tree/d527fff/pkgs) became serious
+with the addition of
+[github-copilot-cli](https://github.com/NostraDavid/nixcfg/tree/d527fff/pkgs/github-copilot-cli).
+After that came PixiEditor, nanocoder, bitnet, goose, opencode, `vscode-pinned`,
+Synology Drive, and other custom derivations.
 
-The important structural step was commit `2944b84`: "generalized the local pgs
-import". That made `pkgs/` less of a collection of one-off hacks and more of an
-automatically imported local package layer. The current `flake.nix` still shows
-this pattern: directories under `pkgs/` are automatically exposed as packages
-and through the local overlay.
+The important structural step was commit
+[2944b84](https://github.com/NostraDavid/nixcfg/commit/2944b84): "generalized
+the local pgs import". That made `pkgs/` less of a collection of one-off hacks
+and more of an automatically imported local package layer. The current
+[flake.nix](https://github.com/NostraDavid/nixcfg/blob/master/flake.nix) still
+shows this pattern: directories under `pkgs/` are automatically exposed as
+packages and through the local overlay.
 
 ### December 2025: first major release upgrade
 
-Commit `c7381d0` moved the repository to NixOS/Home Manager `25.11`. This was
-the first real release migration in the history. It required package-name
-adjustments and changes to storage optimization settings.
+Commit [c7381d0](https://github.com/NostraDavid/nixcfg/commit/c7381d0) moved the
+repository to NixOS/Home Manager `25.11`. This was the first real release
+migration in the history. It required package-name adjustments and changes to
+storage optimization settings.
 
 This marked that the repository had become mature enough to be upgraded as a
 whole across a NixOS release boundary.
 
 ### January 2026: programs get their own top-level structure
 
-Commit `457f8c7` is the second major turning point:
-`modules/programs.nix` was split into:
+Commit [457f8c7](https://github.com/NostraDavid/nixcfg/commit/457f8c7) is the
+second major turning point:
+[modules/programs.nix](https://github.com/NostraDavid/nixcfg/blob/6806d31/modules/programs.nix)
+was split into:
 
-- `programs/shared.nix`
-- `programs/wodan.nix`
-- `programs/frigg.nix`
+- [programs/shared.nix](https://github.com/NostraDavid/nixcfg/blob/457f8c7/programs/shared.nix)
+- [programs/wodan.nix](https://github.com/NostraDavid/nixcfg/blob/457f8c7/programs/wodan.nix)
+- [programs/frigg.nix](https://github.com/NostraDavid/nixcfg/blob/457f8c7/programs/frigg.nix)
 
 Later, `programs/bragi.nix` was added as well.
 
@@ -133,9 +157,12 @@ differently without pushing everything into the host configuration files.
 
 ### January 26, 2026: a third host is added
 
-Commit `e5d60ad` added `bragi`. The configuration was then quickly refined:
-boot-specific pieces were removed, i18n was removed, and a dedicated
-`programs/bragi.nix` was added.
+Commit [e5d60ad](https://github.com/NostraDavid/nixcfg/commit/e5d60ad) added
+[bragi](https://github.com/NostraDavid/nixcfg/tree/e5d60ad/hosts/bragi). The
+configuration was then quickly refined: boot-specific pieces were removed, i18n
+was removed, and a dedicated
+[programs/bragi.nix](https://github.com/NostraDavid/nixcfg/blob/1f75a79/programs/bragi.nix)
+was added.
 
 This shows that the multi-host model was working. Adding a new host no longer
 meant starting over. It meant connecting the host to the existing structure and
@@ -146,7 +173,8 @@ then specializing it.
 In February, the repository gained more focus on reproducibility and developer
 ergonomics:
 
-- `modules/cachix.nix` for faster builds
+- [modules/cachix.nix](https://github.com/NostraDavid/nixcfg/blob/7a53266/modules/cachix.nix)
+  for faster builds
 - additional Cachix tuning
 - `direnv` and `devenv`
 - Nix language-server configuration
@@ -157,10 +185,12 @@ also the working environment used to maintain that configuration.
 
 ### March 8, 2026: desktop configuration becomes more declarative
 
-March 8 was unusually busy and structurally important. `plasma-manager` was
+March 8 was unusually busy and structurally important.
+[plasma-manager](https://github.com/NostraDavid/nixcfg/commit/98b13fe) was
 added, KDE/System Settings and desktop entries started becoming declarative, RSS
-Guard became declarative, a `Justfile` was introduced, `direnv` was integrated,
-and the kernel was pinned.
+Guard became declarative, a
+[Justfile](https://github.com/NostraDavid/nixcfg/blob/6ab9686/Justfile) was
+introduced, `direnv` was integrated, and the kernel was pinned.
 
 This is the third major turning point. The repo was no longer only managing the
 system and installed packages. It was increasingly managing desktop behavior and
@@ -182,27 +212,37 @@ finally a proper task runner.
 
 ### March - April 2026: maintenance automation and local package lifecycle
 
-Dependabot was added in commit `77ba5d2`, and `cmd/local-package-maint.sh`
-followed in commit `7b87e8c`. Local packages now had tooling to check and manage
-updates.
+Dependabot was added in commit
+[77ba5d2](https://github.com/NostraDavid/nixcfg/commit/77ba5d2), and
+[cmd/local-package-maint.sh](https://github.com/NostraDavid/nixcfg/blob/7b87e8c/cmd/local-package-maint.sh)
+followed in commit
+[7b87e8c](https://github.com/NostraDavid/nixcfg/commit/7b87e8c). Local packages
+now had tooling to check and manage updates.
 
 This mattered because `pkgs/` became a maintainable subsystem, not just a folder
 full of custom Nix files.
 
-The `Justfile` grew with that maintenance model. It added recipes for formatting,
-flake inspection, listing package updates, updating one local package, and
-updating all local packages. Package maintenance moved from separate update
-scripts alone toward a repo-level command surface.
+The `Justfile` grew with that maintenance model. It added recipes for
+formatting, flake inspection, listing package updates, updating one local
+package, and updating all local packages. Package maintenance moved from
+separate update scripts alone toward a repo-level command surface.
 
 ### April 26-29, 2026: self-hosting and infrastructure enter the repo
 
-Commit `61bcace` added VM infrastructure: `hosts/apps`, `hosts/homepage`,
-Proxmox VM modules, self-hosted app modules, and documentation. OpenTofu support
-then followed under `infra/proxmox`.
+Commit [61bcace](https://github.com/NostraDavid/nixcfg/commit/61bcace) added VM
+infrastructure:
+[hosts/apps](https://github.com/NostraDavid/nixcfg/tree/61bcace/hosts/apps),
+[hosts/homepage](https://github.com/NostraDavid/nixcfg/tree/61bcace/hosts/homepage),
+Proxmox VM modules, self-hosted app modules, and
+[docs/proxmox-app-vms.md](https://github.com/NostraDavid/nixcfg/blob/61bcace/docs/proxmox-app-vms.md).
+OpenTofu support then followed under
+[infra/proxmox](https://github.com/NostraDavid/nixcfg/tree/c71fa1e/infra/proxmox).
 
-Commit `46b0a96` made an important architectural decision: Proxmox/server hosts
-moved from `hosts/` to `servers/`, because they did not share the same desktop
-and program structure. That produced a cleaner separation:
+Commit [46b0a96](https://github.com/NostraDavid/nixcfg/commit/46b0a96) made an
+important architectural decision: Proxmox/server hosts moved from `hosts/` to
+[servers/](https://github.com/NostraDavid/nixcfg/tree/46b0a96/servers), because
+they did not share the same desktop and program structure. That produced a
+cleaner separation:
 
 - `hosts/`: personal machines such as Wodan, Frigg, and Bragi
 - `servers/`: app and homepage VMs
@@ -229,9 +269,11 @@ integration point for external projects, unstable tools, and local derivations.
 
 ### June 1, 2026: upgrade to 26.05 and cleanup of `pkgs/`
 
-Commit `94ab0c1` moved the repository from `25.11` to `26.05`. Immediately
-afterward, commit `64decd5` cleaned up `pkgs/` heavily: unused local packages
-were removed, update scripts were added, and package maintenance was tightened.
+Commit [94ab0c1](https://github.com/NostraDavid/nixcfg/commit/94ab0c1) moved the
+repository from `25.11` to `26.05`. Immediately afterward, commit
+[64decd5](https://github.com/NostraDavid/nixcfg/commit/64decd5) cleaned up
+`pkgs/` heavily: unused local packages were removed, update scripts were added,
+and package maintenance was tightened.
 
 This feels like the current phase of the repository. It is mature enough that
 the work is no longer only about adding things. It also involves maintaining,
