@@ -1,4 +1,5 @@
 default_host := "wodan"
+nix_clean_env := "env -u LD_LIBRARY_PATH -u NIX_LD_LIBRARY_PATH -u LD_PRELOAD"
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
@@ -31,6 +32,10 @@ fmt:
 # Update flake inputs in flake.lock.
 update:
   nix flake update
+
+# Update nixpkgs and home-manager flake inputs in flake.lock.
+update-nix:
+  {{nix_clean_env}} nix flake update nixpkgs home-manager
 
 # Update a local flake package via its updater or nix-update fallback.
 pkg-update package:
@@ -198,6 +203,25 @@ gc-old days="14":
 # Deduplicate identical files in /nix/store.
 optimise-store:
   sudo nix store optimise
+
+# Expire old Home Manager generations.
+cleanup-home-manager older_than="30 days":
+  {{nix_clean_env}} home-manager expire-generations "{{older_than}}"
+
+# Delete old Nix generations and run garbage collection.
+cleanup-nix older_than="14d":
+  {{nix_clean_env}} nix-collect-garbage --delete-older-than {{older_than}}
+
+# Garbage collect and optimise the Nix store.
+cleanup-store:
+  {{nix_clean_env}} nix store gc
+  {{nix_clean_env}} nix store optimise
+
+# Clean Home Manager generations, old Nix generations, and the store.
+cleanup older_than_hm="30 days" older_than_nix="14d":
+  just cleanup-home-manager "{{older_than_hm}}"
+  just cleanup-nix {{older_than_nix}}
+  just cleanup-store
 
 # Safer deploy when disk pressure is high.
 switch-clean host=default_host days="14":
