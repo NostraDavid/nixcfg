@@ -42,7 +42,7 @@ Packages are auto-discovered. Create `pkgs/<name>/default.nix`:
 in vscode.overrideAttrs (_: { inherit version src; })
 ```
 
-Optional `args.nix` for custom callPackage arguments (see `pkgs/vscode-pinned/`).
+Optional `args.nix` for custom callPackage arguments (see `pkgs/vscode/`).
 
 ### Dotfiles Convention
 
