@@ -86,6 +86,11 @@
         "timeout": true,
         "uv": true
     },
+    "chat.tools.urls.autoApprove": {
+        "https://*.cbs.nl": true,
+        "https://code.visualstudio.com": true,
+        "https://github.com/microsoft/vscode/wiki/*": true
+    },
     "chat.viewSessions.orientation": "stacked",
     "chatgpt.localeOverride": "Dutch",
     "chatgpt.openOnStartup": true,
@@ -207,12 +212,14 @@
     "git.defaultBranchName": "master",
     "git.enableSmartCommit": true,
     "git.fetchOnPull": true,
+    "git.ignoreRebaseWarning": true,
     "github.copilot.chat.localeOverride": "en",
     "github.copilot.chat.rateLimitAutoSwitchToAuto": true,
     "github.copilot.enable": {
         "markdown": true
     },
     "github.copilot.nextEditSuggestions.enabled": true,
+    "githubPullRequests.createOnPublishBranch": "never",
     "githubPullRequests.fileListLayout": "flat",
     "gitlens.ai.model": "vscode",
     "gitlens.ai.vscode.model": "copilot:gpt-4.1",
@@ -335,6 +342,7 @@
     "terminal.integrated.defaultProfile.windows": "Git Bash",
     "terminal.integrated.enableMultiLinePasteWarning": "never",
     "terminal.integrated.fontFamily": "'JetBrainsMono NF', monospace",
+    "terminal.integrated.persistentSessionScrollback": 1000,
     "terminal.integrated.profiles.linux": {
         "bash": {
             "args": [
@@ -350,6 +358,7 @@
         }
     },
     "terminal.integrated.rightClickBehavior": "default",
+    "terminal.integrated.scrollback": 10000,
     "terminal.integrated.sendKeybindingsToShell": true,
     "terminal.integrated.shellIntegration.decorationsEnabled": "never",
     "terminal.integrated.suggest.enabled": true,
@@ -402,12 +411,5 @@
     "workbench.sideBar.location": "right",
     "workbench.startupEditor": "none",
     "yaml.maxItemsComputed": 10000,
-    "zig.zls.enabled": "on",
-    "terminal.integrated.scrollback": 10000,
-    "terminal.integrated.persistentSessionScrollback": 1000,
-    "chat.tools.urls.autoApprove": {
-        "https://code.visualstudio.com": true,
-        "https://github.com/microsoft/vscode/wiki/*": true,
-        "https://*.cbs.nl": true
-    }
+    "zig.zls.enabled": "on"
 }
