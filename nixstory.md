@@ -116,7 +116,7 @@ Starting with commit
 [pkgs/](https://github.com/NostraDavid/nixcfg/tree/d527fff/pkgs) became serious
 with the addition of
 [github-copilot-cli](https://github.com/NostraDavid/nixcfg/tree/d527fff/pkgs/github-copilot-cli).
-After that came PixiEditor, nanocoder, bitnet, goose, opencode, `vscode-pinned`,
+After that came PixiEditor, nanocoder, bitnet, goose, opencode, `vscode`,
 Synology Drive, and other custom derivations.
 
 The important structural step was commit
