@@ -70,7 +70,7 @@ in {
       name = "Visual Studio Code";
       genericName = "Text Editor";
       comment = "Code Editing. Redefined.";
-      exec = "code %F";
+      exec = "${lib.getExe local.vscode} %F";
       icon = "vscode";
       terminal = false;
       type = "Application";
@@ -90,7 +90,7 @@ in {
         new-empty-window = {
           name = "New Empty Window";
           icon = "vscode";
-          exec = "code --new-window %F";
+          exec = "${lib.getExe local.vscode} --new-window %F";
         };
       };
     };
