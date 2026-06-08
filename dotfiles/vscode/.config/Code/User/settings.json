@@ -64,6 +64,7 @@
             "allowedModels": []
         }
     },
+    "chat.sessionSync.enabled": false,
     "chat.tools.terminal.autoApprove": {
         "./utils/profile_parsing-raw.sh": true,
         "alembic": true,
@@ -397,6 +398,7 @@
     "workbench.editor.empty.hint": "hidden",
     "workbench.editor.enablePreview": false,
     "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.editor.pinnedTabsOnSeparateRow": true,
     "workbench.editor.useModal": "off",
     "workbench.editorAssociations": {
         "*.copilotmd": "vscode.markdown.preview.editor",
