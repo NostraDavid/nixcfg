@@ -55,17 +55,34 @@ function ff() {
 # usage: code [search_term]
 # requires: fzf, fd, code
 function code_f() {
-    local dir
+    local code_bin dir
     if [ -n "$*" ]; then
         dir=$(fd . "$HOME/dev" --no-ignore-vcs --max-depth 2 --type d | fzf --query="$*" -1)
     else
-        dir=$(fd . $HOME/dev --no-ignore-vcs --max-depth 2 --type d | fzf --prompt="Select directory: ")
+        dir=$(fd . "$HOME/dev" --no-ignore-vcs --max-depth 2 --type d | fzf --prompt="Select directory: ")
     fi
 
     # Check if a directory was selected
     if [ -n "$dir" ]; then
         echo "The directory is '$dir'"
-        \code "$dir"
+        code_bin=$(type -P code)
+        if [ -z "$code_bin" ]; then
+            echo "code executable not found."
+            return 1
+        fi
+        env \
+            -u VSCODE_IPC_HOOK_CLI \
+            -u ELECTRON_RUN_AS_NODE \
+            -u NIX_CONFIG \
+            -u IN_NIX_SHELL \
+            -u shellHook \
+            -u stdenv \
+            -u out \
+            -u buildInputs \
+            -u nativeBuildInputs \
+            -u builder \
+            -u phases \
+            "$code_bin" --new-window "$dir"
     else
         echo "No directory selected."
     fi
