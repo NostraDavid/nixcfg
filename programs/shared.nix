@@ -207,7 +207,7 @@ in {
     riffdiff # diff viewer
     ripgrep # Search tool (rg)
     rsync
-    rtk # Rust Token Killer; reduces tokens
+    rtk # CLI Proxy; Rust Token Killer; reduces tokens
     ruff
     shellcheck
     shfmt # Shell script formatter
@@ -215,6 +215,7 @@ in {
     smartmontools # for monitoring hard drive health
     sqlfluff # SQL linter and formatter
     sqlite
+    snip # CLI proxy, to reduce token usage for LLMs
     sqls # SQL language server for Neovim
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
