@@ -215,6 +215,7 @@ in {
     riffdiff # diff viewer
     ripgrep # Search tool (rg)
     rsync
+    rtk # Rust Token Killer; reduces tokens
     ruff
     shellcheck
     shfmt # Shell script formatter
