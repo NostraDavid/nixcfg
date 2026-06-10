@@ -22,11 +22,9 @@
     ".config/Code/User/keybindings.json".source = mk "${dot}/vscode/.config/Code/User/keybindings.json";
     ".config/Code/User/settings.json".source = mk "${dot}/vscode/.config/Code/User/settings.json";
     ".github/copilot-instructions.md".source = mk "${dot}/github/.github/copilot-instructions.md";
-    ".codex/AGENTS.md".source = mk "${dot}/rtk/.codex/AGENTS.md";
-    ".codex/RTK.md".source = mk "${dot}/rtk/.codex/RTK.md";
-    ".codex/snip.md".source = mk "${dot}/rtk/.codex/snip.md";
-    ".config/rtk/filters.toml".source = mk "${dot}/rtk/.config/rtk/filters.toml";
-    ".config/snip/filters".source = mk "${dot}/snip/.config/snip/filters";
+    ".codex/AGENTS.md".source = mk "${dot}/snip-0.15.0/.codex/AGENTS.md";
+    ".codex/snip.md".source = mk "${dot}/snip-0.15.0/.codex/snip.md";
+    ".config/snip/filters".source = mk "${dot}/snip-0.15.0/.config/snip/filters";
     ".config/mpv/mpv.conf".source = mk "${dot}/mpv/.config/mpv/mpv.conf";
     # ".config/voxtype/config.toml".source = mk "${dot}/voxtype/.config/voxtype/config.toml";
     ".config/wezterm/wezterm.lua".source = mk "${dot}/wezterm-0-unstable-2025-05-18/.config/wezterm/wezterm.lua";

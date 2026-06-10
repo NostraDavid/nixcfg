@@ -14,8 +14,8 @@ go test ./...
 Prefix with snip:
 
 ```bash
-/nix/store/lkrx10askyykllg57dqll37kx2k8nga6-snip-0.15.0/bin/snip -- git status
-/nix/store/lkrx10askyykllg57dqll37kx2k8nga6-snip-0.15.0/bin/snip -- go test ./...
+snip git status
+snip go test ./...
 ```
 
 This applies to all shell commands. Snip filters verbose output while preserving errors and essential information.
