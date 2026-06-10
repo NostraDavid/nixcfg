@@ -1,0 +1,60 @@
+name: "dig"
+version: 1
+description: "Condensed dig output: DNS status, records, server, and timing"
+
+match:
+  command: "dig"
+  exclude_flags: ["-h", "--help", "-v", "-V"]
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "remove_lines"
+    pattern: "^\\s*$"
+  - action: "keep_lines"
+    pattern: "(^;; ->>HEADER<<-.*status:|^;; flags:|QUESTION SECTION:|ANSWER SECTION:|AUTHORITY SECTION:|ADDITIONAL SECTION:|^[^;[:space:]][^[:space:]]*\\.[[:space:]]+[0-9]+[[:space:]]+IN[[:space:]]+(A|AAAA|CNAME|MX|NS|SOA|TXT|SRV|CAA|PTR)[[:space:]]|^;[^;].*\\sIN\\s|^;; (Query time|SERVER|WHEN):|^;; MSG SIZE|connection timed out|no servers could be reached|communications error|SERVFAIL|NXDOMAIN|NOERROR|REFUSED)"
+  - action: "truncate_lines"
+    max: 160
+  - action: "head"
+    n: 80
+    overflow_msg: "... more dig output"
+  - action: "on_empty"
+    message: "dig: no DNS answer"
+
+on_error: "passthrough"
+
+tests:
+  - name: "keeps DNS answer and timing"
+    input: |
+      ; <<>> DiG 9.20.23 <<>> example.com
+      ;; global options: +cmd
+      ;; Got answer:
+      ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 61510
+      ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+      ;; QUESTION SECTION:
+      ;example.com.			IN	A
+      ;; ANSWER SECTION:
+      example.com.		81	IN	A	104.20.23.154
+      example.com.		81	IN	A	172.66.147.243
+      ;; Query time: 13 msec
+      ;; SERVER: 10.0.1.1#53(10.0.1.1) (UDP)
+      ;; WHEN: Wed Jun 10 22:22:02 CEST 2026
+      ;; MSG SIZE  rcvd: 72
+    expected: |
+      ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 61510
+      ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+      ;; QUESTION SECTION:
+      ;example.com.			IN	A
+      ;; ANSWER SECTION:
+      example.com.		81	IN	A	104.20.23.154
+      example.com.		81	IN	A	172.66.147.243
+      ;; Query time: 13 msec
+      ;; SERVER: 10.0.1.1#53(10.0.1.1) (UDP)
+      ;; WHEN: Wed Jun 10 22:22:02 CEST 2026
+      ;; MSG SIZE  rcvd: 72
+  - name: "keeps timeout"
+    input: |
+      ;; communications error to 192.0.2.1#53: timed out
+      ;; no servers could be reached
+    expected: |
+      ;; communications error to 192.0.2.1#53: timed out
+      ;; no servers could be reached

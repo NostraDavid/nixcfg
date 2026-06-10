@@ -1,0 +1,53 @@
+name: "local-package-maint"
+version: 1
+description: "Condensed local package maintenance output: package update summaries and failures"
+
+match:
+  command: "cmd/local-package-maint.sh"
+
+streams:
+  - stdout
+  - stderr
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "remove_lines"
+    pattern: "^\\s*$"
+  - action: "keep_lines"
+    pattern: "(Usage:|Unknown local package:|Available packages:|No newer versions found|newer versions|Updating|Updated|Verifying nix build|nix build unexpectedly succeeded|Failed to extract|requested URL returned error|package-specific update script|Unsupported updater|upstream|current version|version|hash|sha256-|error:|warning:|failed|Failed|succeeded|success|No version matched|Found an unstable version|Please specify the version|Packages with failed updates:|^[[:space:]]+[A-Za-z0-9_.+-]+$)"
+  - action: "truncate_lines"
+    max: 180
+  - action: "head"
+    n: 80
+    overflow_msg: "... more package maintenance output"
+  - action: "on_empty"
+    message: "local-package-maint: no notable output"
+
+on_error: "passthrough"
+
+tests:
+  - name: "keeps no updates summary"
+    input: |
+      checking snip
+      No newer versions found.
+    expected: |
+      No newer versions found.
+  - name: "keeps unknown package and available list"
+    input: |
+      Unknown local package: nope
+      Available packages:
+        snip
+        vscode
+    expected: |
+      Unknown local package: nope
+      Available packages:
+        snip
+        vscode
+  - name: "keeps updater failure summary"
+    input: |
+      lots of update output
+      Failed to extract source hash from nix build output.
+      error: Build failed due to failed dependency
+    expected: |
+      Failed to extract source hash from nix build output.
+      error: Build failed due to failed dependency

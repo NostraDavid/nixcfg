@@ -1,0 +1,54 @@
+name: "nix"
+version: 1
+description: "Condensed Nix output: build/eval/update summaries and diagnostics"
+
+match:
+  command: "nix"
+  exclude_flags: ["--version", "-V"]
+
+streams:
+  - stdout
+  - stderr
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "remove_lines"
+    pattern: "^\\s*$"
+  - action: "keep_lines"
+    pattern: "(error:|warning:|trace:|Git tree|dirty|these [0-9]+ derivations? will be built|this derivation will be built|will be fetched|will be downloaded|will be copied|building '/nix/store/|copying path '/nix/store/|fetching path '/nix/store/|checking outputs|running tests|installing|patching|configuring|building|fixupPhase|shrinking|stripping|updating lock file|updated input|Added input|Removed input|warning: updating lock file|/nix/store/[^[:space:]]+\\.drv|/nix/store/[[:alnum:]][^[:space:]]+-(nixos-system|home-manager|snip)|hash mismatch|specified:|got:|cannot build|dependency failed|Build failed|failed|No such file|attribute .* missing|does not provide attribute|Did you mean|evaluating|realising|substituter|cache|download|unpacked source)"
+  - action: "truncate_lines"
+    max: 180
+  - action: "head"
+    n: 80
+    overflow_msg: "... more nix output"
+  - action: "on_empty"
+    message: "nix: no notable output"
+
+on_error: "passthrough"
+
+tests:
+  - name: "keeps nix build and dirty tree summary"
+    input: |
+      warning: Git tree '/repo' is dirty
+      these 2 derivations will be built:
+        /nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-foo.drv
+        /nix/store/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-bar.drv
+      building '/nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-foo.drv'...
+      random progress spinner
+    expected: |
+      warning: Git tree '/repo' is dirty
+      these 2 derivations will be built:
+        /nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-foo.drv
+        /nix/store/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb-bar.drv
+      building '/nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-foo.drv'...
+  - name: "keeps hash mismatch diagnostics"
+    input: |
+      error: hash mismatch in fixed-output derivation '/nix/store/hash.drv':
+               specified: sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+                    got:    sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=
+      error: Cannot build '/nix/store/pkg.drv'.
+    expected: |
+      error: hash mismatch in fixed-output derivation '/nix/store/hash.drv':
+               specified: sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+                    got:    sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=
+      error: Cannot build '/nix/store/pkg.drv'.
