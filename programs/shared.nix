@@ -222,7 +222,6 @@ in {
     smartmontools # for monitoring hard drive health
     sqlfluff # SQL linter and formatter
     sqlite
-    snip # CLI proxy, to reduce token usage for LLMs
     sqls # SQL language server for Neovim
     starship # Shell prompt
     stow # GNU Stow for managing dotfiles
@@ -301,6 +300,7 @@ in {
     local.semble # Fast code search for agents
     local.dpaint-js
     # local.codex
+    local.snip # CLI proxy, to reduce token usage for LLMs
 
     # podman
     podman-desktop # GUI for managing containers
