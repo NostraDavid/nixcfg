@@ -431,6 +431,7 @@ in {
     unstable.winetricks # unstable, so we can use 2026 version
     wineWow64Packages.stagingFull # include the Wine extras Battle.net tends to expect
     pulseaudio # provides pactl for PipeWire/PulseAudio debugging
+    pavucontrol # Route PipeWire/PulseAudio app streams, e.g. Friture input from output monitor
     dotnet-sdk
     # ydotool # for voxtype
     # sqruff wrapped to avoid /bin/bench collision with ollama-cuda
