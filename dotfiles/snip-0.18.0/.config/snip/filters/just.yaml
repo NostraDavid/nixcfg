@@ -1,0 +1,54 @@
+name: "just"
+version: 1
+description: "Condensed just output: Nix, rebuild, package update, and task summaries"
+
+match:
+  command: "just"
+
+streams:
+  - stdout
+  - stderr
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "remove_lines"
+    pattern: "^\\s*$"
+  - action: "keep_lines"
+    pattern: "(Available recipes:|^[[:space:]]+[A-Za-z0-9_.-]+([[:space:]].*)?#|^[[:space:]]+[A-Za-z0-9_.+-]+$|error:|warning:|trace:|Git tree|dirty|these [0-9]+ derivations? will be built|this derivation will be built|will be fetched|will be downloaded|building '/nix/store/|copying path '/nix/store/|/nix/store/[^[:space:]]+\\.drv|/nix/store/[[:alnum:]][^[:space:]]+-(nixos-system|home-manager|snip)|activating the configuration|setting up /etc|reloading user units|restarting|starting|stopping|Build failed|failed|Failed|dependency failed|hash mismatch|specified:|got:|No newer versions found|Packages with failed updates:|Unknown local package:|Available packages:|Updating|Updated|Verifying nix build|Failed to extract|Unsupported updater|upstream|version|sha256-|Plan:|Apply|Destroy|No changes|will be|must be|created|changed|destroyed|fmt|formatted|All done|error\\[|warning\\[)"
+  - action: "truncate_lines"
+    max: 180
+  - action: "head"
+    n: 90
+    overflow_msg: "... more just output"
+  - action: "on_empty"
+    message: "just: no notable output"
+
+on_error: "passthrough"
+
+tests:
+  - name: "keeps just list recipes"
+    input: |
+      Available recipes:
+          switch host=""                            # Apply a host configuration immediately and persist across reboots.
+          pkg-update package                        # Update a local flake package via its updater or nix-update fallback.
+      unimportant footer
+    expected: |
+      Available recipes:
+          switch host=""                            # Apply a host configuration immediately and persist across reboots.
+          pkg-update package                        # Update a local flake package via its updater or nix-update fallback.
+  - name: "keeps rebuild and package failure lines"
+    input: |
+      noisy progress
+      warning: Git tree '/repo' is dirty
+      these 1 derivations will be built:
+        /nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-nixos-system-wodan.drv
+      Failed to extract source hash from nix build output.
+      Packages with failed updates:
+        snip
+    expected: |
+      warning: Git tree '/repo' is dirty
+      these 1 derivations will be built:
+        /nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-nixos-system-wodan.drv
+      Failed to extract source hash from nix build output.
+      Packages with failed updates:
+        snip

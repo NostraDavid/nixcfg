@@ -1,0 +1,54 @@
+name: "nixos-rebuild"
+version: 1
+description: "Condensed nixos-rebuild output: phases, derivations, activation, and failures"
+
+match:
+  command: "nixos-rebuild"
+  exclude_flags: ["--version", "-V"]
+
+streams:
+  - stdout
+  - stderr
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "remove_lines"
+    pattern: "^\\s*$"
+  - action: "keep_lines"
+    pattern: "(building Nix|building the system configuration|these [0-9]+ derivations? will be built|this derivation will be built|will be fetched|will be downloaded|building '/nix/store/|copying path '/nix/store/|/nix/store/[^[:space:]]+\\.drv|/nix/store/[[:alnum:]][^[:space:]]+-nixos-system|activating the configuration|setting up /etc|reloading user units|restarting|starting|stopping|the following new units were started|warning:|error:|failed|Failed|cannot build|dependency failed|Build failed|switching to|test mode|boot|reboot|activation|trace:|dirty|Git tree)"
+  - action: "truncate_lines"
+    max: 180
+  - action: "head"
+    n: 80
+    overflow_msg: "... more nixos-rebuild output"
+  - action: "on_empty"
+    message: "nixos-rebuild: no notable output"
+
+on_error: "passthrough"
+
+tests:
+  - name: "keeps rebuild phases and activation"
+    input: |
+      building Nix...
+      building the system configuration...
+      these 1 derivations will be built:
+        /nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-nixos-system-wodan.drv
+      activating the configuration...
+      setting up /etc...
+      reloading user units for david...
+    expected: |
+      building Nix...
+      building the system configuration...
+      these 1 derivations will be built:
+        /nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-nixos-system-wodan.drv
+      activating the configuration...
+      setting up /etc...
+      reloading user units for david...
+  - name: "keeps rebuild failure"
+    input: |
+      some verbose compiler output
+      error: Cannot build '/nix/store/pkg.drv'.
+      error: Build failed due to failed dependency
+    expected: |
+      error: Cannot build '/nix/store/pkg.drv'.
+      error: Build failed due to failed dependency
