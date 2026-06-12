@@ -13,3 +13,9 @@ repos:
         entry: just precommit
         language: system
         pass_filenames: false
+
+      - id: scoped-commit-msg
+        name: scoped commit message check
+        entry: scripts/validate_scoped_commit_msg.py
+        language: system
+        stages: [commit-msg]
