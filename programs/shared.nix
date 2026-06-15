@@ -24,6 +24,7 @@
       })
       localPackageNames);
   hasDlssUpdater = lib.elem local.dlss-updater config.home.packages;
+  photogimpConfig = "${local.photogimp}/share/photogimp/GIMP/3.0";
 in {
   xdg.desktopEntries = {
     firefox-esr = {
@@ -299,6 +300,7 @@ in {
     local.austin # CPython frame stack sampler
     local.semble # Fast code search for agents
     local.dpaint-js
+    local.photogimp # Photoshop-like defaults for GIMP
     # local.codex
     local.snip # CLI proxy, to reduce token usage for LLMs
 
@@ -352,6 +354,12 @@ in {
         ${lib.getExe pkgs.flatpak} --user uninstall -y io.github.recol.dlss-updater || true
       fi
     fi
+  '';
+
+  home.activation.photogimpConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    target="$HOME/.config/GIMP/3.0"
+    $DRY_RUN_CMD mkdir -p "$target"
+    $DRY_RUN_CMD ${lib.getExe pkgs.rsync} -a --chmod=u+rwX ${photogimpConfig}/ "$target/"
   '';
 
   systemd.user.services.dpaint-js = {
