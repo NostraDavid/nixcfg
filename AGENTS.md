@@ -16,11 +16,11 @@ nixos-rebuild build-vm --flake .#wodan    # Build VM for risky changes
 
 ## Commit Messages
 
-Short, imperative, lowercase:
+Use scoped commits globally:
 
-- `add k3s manifest`
-- `update flake.lock`
-- `fix nvidia driver config`
+- `hosts/wodan: add k3s manifest`
+- `flake: update lock file`
+- `nvidia: fix driver config`
 
 ## Pull Requests
 
