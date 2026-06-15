@@ -1,19 +1,96 @@
 [user]
-	email = 55331731+NostraDavid@users.noreply.github.com
 	name = NostraDavid
-[push]
-	default = simple
-	autoSetupRemote = true
+	email = 55331731+NostraDavid@users.noreply.github.com
+
+[init]
+	defaultBranch = master
+	templatedir = ~/.git-templates
+
+[core]
+	excludesfile = ~/.gitignore
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	fsmonitor = true
+	untrackedCache = true
+	# autocrlf = true
+	# pager = delta
+
+[column]
+	ui = auto
+
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = version:refname
+
+[help]
+	autocorrect = prompt
+
+[pager]
+	branch = false
+	# diff = delta
+	# show = delta
+	# log = delta
+
+[delta]
+	navigate = true
+	light = false
+	line-numbers = true
+	side-by-side = true
+
+#[interactive]
+#	diffFilter = delta --color-only
+
+[credential]
+	helper = store
+
+[fetch]
+	all = true
+	prune = true
+	pruneTags = true
+
 [pull]
 	# run this, if you want to skip rebase: `git pull origin master --no-rebase`
 	rebase = true
+
+[push]
+	default = simple
+	autoSetupRemote = true
+	followTags = true
+
+[commit]
+	verbose = true
+
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+
+[merge]
+	ff = true
+	conflictstyle = zdiff3
+	tool = vimdiff
+
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+	tool = vimdiff
+
+# "reuse recorded resolution" should help me with an improved rebase
+[rerere]
+	enabled = true
+	autoupdate = true
+
 [filter "lfs"]
+	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-	clean = git-lfs clean -- %f
+
 [alias]
-	lg = log --color --graph --abbrev-commit --pretty=format:'%Cred%h %C(bold blue)%an%Creset %Cgreen%ad -%C(yellow)%d%Creset %s' --date=format:'%Y-%m-%d %H:%M'
+	# Basic commands
 	st = status
 	co = "!f() { git checkout $(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf --query=\"$1\" --select-1); }; f"
 	br = branch
@@ -23,45 +100,25 @@
 	sa = stash
 	mt = mergetool
 	cp = cherry-pick
+
+	# Pull, push, and commit workflow
 	pl = pull --rebase
 	yeet = "!f() { git add -A && git commit -m \"$@\" && git push; }; f"
-	walk = "!f() {\n  b=\"$1\"\n  [ -n \"$b\" ] || { echo \"usage: git walk <branch>\" >&2; exit 1; }\n  git rev-parse --verify \"$b\" >/dev/null 2>&1 || { echo \"unknown branch: $b\" >&2; exit 1; }\n  git config --global walk.branch \"$b\"\n  git switch --detach \"$b\"\n}; f"
-	prev = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    BEGIN { prev=\"\" }\n    $0 == h { if (prev != \"\") print prev; found=1; exit }\n    { prev=$0 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at oldest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
-	next = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    found { print; exit }\n    $0 == h { found=1 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at newest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
 	undo = reset HEAD~1 --mixed
-  hotspots = "!f() { since=\"${1:-1 year ago}\"; limit=\"${2:-20}\"; git log --format=format: --name-only --since=\"$since\" | sed '/^$/d' | sort | uniq -c | sort -nr | head -n \"$limit\"; }; f"
-  authors = "!f() { if [ -n \"$1\" ]; then git shortlog -sn --no-merges --since=\"$1\"; else git shortlog -sn --no-merges; fi; }; f"
-  bugspots = "!f() { since=\"${1:-}\"; limit=\"${2:-20}\"; if [ -n \"$since\" ]; then git log -i -E --grep='fix|bug|broken' --since=\"$since\" --name-only --format=''; else git log -i -E --grep='fix|bug|broken' --name-only --format=''; fi | sed '/^$/d' | sort | uniq -c | sort -nr | head -n \"$limit\"; }; f"
-  velocity = "!git log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c"
-  firefights = "!f() { since=\"${1:-1 year ago}\"; git log --oneline --since=\"$since\" | grep -iE 'revert|hotfix|emergency|rollback' || true; }; f"
-[init]
-	templatedir = ~/.git-templates
-	defaultBranch = master
-[pager]
-	branch = false
-    #diff = delta
-	#show = delta
-	#log = delta
-[core]
-	# autocrlf = true
-	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-    #pager = delta
-#[interactive]
-    #diffFilter = delta --color-only
-[delta]
-	navigate = true    # use n and N to move between diff sections
-	light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
-	line-numbers = true
-	side-by-side = true
-[merge]
-	conflictstyle = diff3
-	ff = true
-	tool = vimdiff
-[diff]
-	colorMoved = default
-	tool = vimdiff
-# "reuse recorded resolution" should help me with an improved rebase
-[rerere]
-	enabled = true
-[credential]
-	helper = store
+
+	# Log views
+	lg = log --color --graph --abbrev-commit --pretty=format:'%Cred%h %C(bold blue)%an%Creset %Cgreen%ad -%C(yellow)%d%Creset %s' --date=format:'%Y-%m-%d %H:%M'
+
+	# Repository analytics
+	hotspots = "!f() { since=\"${1:-1 year ago}\"; limit=\"${2:-20}\"; git log --format=format: --name-only --since=\"$since\" | sed '/^$/d' | sort | uniq -c | sort -nr | head -n \"$limit\"; }; f"
+	authors = "!f() { if [ -n \"$1\" ]; then git shortlog -sn --no-merges --since=\"$1\"; else git shortlog -sn --no-merges; fi; }; f"
+	bugspots = "!f() { since=\"${1:-}\"; limit=\"${2:-20}\"; if [ -n \"$since\" ]; then git log -i -E --grep='fix|bug|broken' --since=\"$since\" --name-only --format=''; else git log -i -E --grep='fix|bug|broken' --name-only --format=''; fi | sed '/^$/d' | sort | uniq -c | sort -nr | head -n \"$limit\"; }; f"
+	velocity = "!git log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c"
+	firefights = "!f() { since=\"${1:-1 year ago}\"; git log --oneline --since=\"$since\" | grep -iE 'revert|hotfix|emergency|rollback' || true; }; f"
+
+	# First-parent commit walking
+	walk = "!f() {\n  b=\"$1\"\n  [ -n \"$b\" ] || { echo \"usage: git walk <branch>\" >&2; exit 1; }\n  git rev-parse --verify \"$b\" >/dev/null 2>&1 || { echo \"unknown branch: $b\" >&2; exit 1; }\n  git config --global walk.branch \"$b\"\n  git switch --detach \"$b\"\n}; f"
+
+	prev = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    BEGIN { prev=\"\" }\n    $0 == h { if (prev != \"\") print prev; found=1; exit }\n    { prev=$0 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at oldest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
+
+	next = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    found { print; exit }\n    $0 == h { found=1 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at newest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
