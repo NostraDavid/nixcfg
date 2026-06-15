@@ -1,0 +1,51 @@
+name: "node"
+version: 1
+description: "Condensed node output: preserve script output, warnings, and stack traces with caps"
+
+match:
+  command: "node"
+  exclude_flags: ["--version", "-v", "--help", "-h"]
+
+streams:
+  - stdout
+  - stderr
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "remove_lines"
+    pattern: "^\\s*$"
+  - action: "truncate_lines"
+    max: 180
+  - action: "head"
+    n: 80
+    overflow_msg: "... more node output"
+  - action: "on_empty"
+    message: "node: no output"
+
+on_error: "passthrough"
+
+tests:
+  - name: "keeps normal script output"
+    input: |
+      result: ok
+
+      rows: 42
+    expected: |
+      result: ok
+      rows: 42
+  - name: "keeps node stack trace"
+    input: |
+      Error: boom
+          at main (/repo/script.js:10:3)
+          at Object.<anonymous> (/repo/script.js:14:1)
+      Node.js v24.0.0
+    expected: |
+      Error: boom
+          at main (/repo/script.js:10:3)
+          at Object.<anonymous> (/repo/script.js:14:1)
+      Node.js v24.0.0
+  - name: "truncates long lines"
+    input: |
+      payload: abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
+    expected: |
+      payload: abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkl...
