@@ -303,6 +303,7 @@ in {
     local.photogimp # Photoshop-like defaults for GIMP
     # local.codex
     local.snip # CLI proxy, to reduce token usage for LLMs
+    local.rtk
 
     # podman
     podman-desktop # GUI for managing containers
