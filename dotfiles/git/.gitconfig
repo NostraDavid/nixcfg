@@ -38,6 +38,7 @@
 	diff = delta
 	show = delta
 	log = delta
+  difftool = true
 
 [delta]
 	navigate = true
@@ -102,7 +103,7 @@
 	prompt = false
 
 [difftool "difftastic"]
-	cmd = difft "$LOCAL" "$REMOTE"
+  cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
