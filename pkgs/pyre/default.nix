@@ -2,6 +2,7 @@
   lib,
   rustPlatform,
   fetchFromGitHub,
+  mold,
 }:
 rustPlatform.buildRustPackage {
   pname = "pyre";
@@ -29,6 +30,12 @@ rustPlatform.buildRustPackage {
   prePatch = ''
     cp ${./Cargo.lock} Cargo.lock
   '';
+
+  nativeBuildInputs = [
+    mold
+  ];
+
+  env.RUSTFLAGS = "-C link-arg=-fuse-ld=mold";
 
   doCheck = false;
 
