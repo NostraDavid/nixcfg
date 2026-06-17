@@ -3,6 +3,7 @@
   rustPlatform,
   fetchFromGitHub,
   installShellFiles,
+  mold,
   versionCheckHook,
 }:
 rustPlatform.buildRustPackage rec {
@@ -20,7 +21,10 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [
     installShellFiles
+    mold
   ];
+
+  env.RUSTFLAGS = "-C link-arg=-fuse-ld=mold";
 
   postInstall = ''
     local tmpdir

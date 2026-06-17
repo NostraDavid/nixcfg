@@ -6,6 +6,7 @@
   llvmPackages,
   cmake,
   git,
+  mold,
   alsa-lib,
   libxkbcommon,
   udev,
@@ -28,6 +29,7 @@ rustPlatform.buildRustPackage rec {
     llvmPackages.clang
     cmake
     git
+    mold
   ];
 
   buildInputs = [
@@ -38,6 +40,7 @@ rustPlatform.buildRustPackage rec {
 
   env = {
     LIBCLANG_PATH = "${llvmPackages.libclang.lib}/lib";
+    RUSTFLAGS = "-C link-arg=-fuse-ld=mold";
   };
 
   postInstall = ''

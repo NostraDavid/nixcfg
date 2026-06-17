@@ -56,6 +56,12 @@
           inherit name;
           value = let
             pkgPath = pkgsDir + "/${name}";
+            pkg = import pkgPath;
+            pkgArgs = builtins.functionArgs pkg;
+            moldArgs =
+              if pkgArgs ? stdenv
+              then {stdenv = final.moldStdenv;}
+              else {};
             argsPath = pkgPath + "/args.nix";
             fileArgs =
               if pathExists argsPath
@@ -66,7 +72,7 @@
                 }
               else {};
           in
-            prev.callPackage pkgPath fileArgs;
+            prev.callPackage pkgPath (moldArgs // fileArgs);
         })
         packageNames);
     overlay-fixes = final: prev: {
@@ -80,11 +86,14 @@
         };
       });
     };
+    overlay-build-tools = final: prev: {
+      moldStdenv = prev.useMoldLinker prev.stdenv;
+    };
     pkgsFor = system:
       import nixpkgs {
         inherit system;
         config = {allowUnfree = true;};
-        overlays = [overlay-fixes overlay-local];
+        overlays = [overlay-fixes overlay-build-tools overlay-local];
       };
     main-user = "david";
     mkHost = {
@@ -95,7 +104,7 @@
         system = "x86_64-linux";
         modules = [
           {
-            nixpkgs.overlays = [overlay-fixes overlay-local];
+            nixpkgs.overlays = [overlay-fixes overlay-build-tools overlay-local];
           }
           ./modules/cachix.nix
           path
@@ -120,12 +129,15 @@
           alejandra
           git
           just
+          mold
           nil
           nixd
           opentofu
         ];
 
         shellHook = ''
+          export RUSTFLAGS="-C link-arg=-fuse-ld=mold ''${RUSTFLAGS:-}"
+          export NIX_CFLAGS_LINK="-fuse-ld=mold ''${NIX_CFLAGS_LINK:-}"
           export NIX_CONFIG="experimental-features = nix-command flakes
           ''${NIX_CONFIG:-}"
         '';

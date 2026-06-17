@@ -178,6 +178,7 @@ in {
     miller # CSV processor
     mlocate # locate command
     most # terminal pager
+    mold # a modern linker, for faster Rust compilation
     msedit # Microsoft Editor
     mtr # A network diagnostic tool
     mutt # Terminal-based email client
