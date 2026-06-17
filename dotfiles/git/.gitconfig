@@ -8,11 +8,9 @@
 
 [core]
 	excludesfile = ~/.gitignore
-	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	whitespace = -indent-with-non-tab,trailing-space,cr-at-eol,space-before-tab
 	fsmonitor = true
 	untrackedCache = true
-	# autocrlf = true
-	# pager = delta
 
 [column]
 	ui = auto
@@ -26,11 +24,20 @@
 [help]
 	autocorrect = prompt
 
+[credential]
+	helper = store
+
+[gpg]
+	format = ssh
+
+[log]
+	date = iso
+
 [pager]
 	branch = false
-	# diff = delta
-	# show = delta
-	# log = delta
+	diff = delta
+	show = delta
+	log = delta
 
 [delta]
 	navigate = true
@@ -38,19 +45,14 @@
 	line-numbers = true
 	side-by-side = true
 
-#[interactive]
-#	diffFilter = delta --color-only
-
-[credential]
-	helper = store
-
 [fetch]
 	all = true
 	prune = true
 	pruneTags = true
+	fsckObjects = true
 
 [pull]
-	# run this, if you want to skip rebase: `git pull origin master --no-rebase`
+	# run this, if you want to skip rebase: `git pull --no-rebase`
 	rebase = true
 
 [push]
@@ -66,23 +68,41 @@
 	autoStash = true
 	updateRefs = true
 
+[checkout]
+	defaultRemote = origin
+	guess = true
+
 [merge]
 	ff = true
-	conflictstyle = zdiff3
-	tool = vimdiff
+	conflictStyle = zdiff3
+	tool = nvimdiff
+
+[merge "mergiraf"]
+	name = mergiraf
+	driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
+
+[rerere]
+	# "reuse recorded resolution" should help me with an improved rebase
+	enabled = true
+	autoupdate = true
+	gc = 30
+
+[apply]
+	whitespace = fix
 
 [diff]
 	algorithm = histogram
 	colorMoved = plain
-  external = difft
+	external = difft
 	mnemonicPrefix = true
 	renames = true
-	tool = vimdiff
+	tool = difftastic
 
-# "reuse recorded resolution" should help me with an improved rebase
-[rerere]
-	enabled = true
-	autoupdate = true
+[difftool]
+	prompt = false
+
+[difftool "difftastic"]
+	cmd = difft "$LOCAL" "$REMOTE"
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -90,25 +110,49 @@
 	process = git-lfs filter-process
 	required = true
 
+[transfer]
+	fsckObjects = true
+
+[receive]
+	fsckObjects = true
+
 [alias]
 	# Basic commands
 	st = status
-	co = "!f() { git checkout $(git for-each-ref refs/heads/ --format='%(refname:short)' | fzf --query=\"$1\" --select-1); }; f"
 	br = branch
+	co = "!f() { \
+	  branch=$(git for-each-ref 'refs/heads/' 'refs/remotes/origin/' --format='%(refname:short)' \
+	    | sed 's#^origin/##' \
+	    | grep -v '^HEAD$' \
+	    | sort -u \
+	    | fzf --query=\"$1\" --select-1); \
+	  [ -n \"$branch\" ] || exit 0; \
+	  git switch \"$branch\" 2>/dev/null || git switch -c \"$branch\" --track origin/\"$branch\"; \
+	}; f"
 	ci = commit -v
 	cam = commit -am
 	df = diff
 	sa = stash
 	mt = mergetool
 	cp = cherry-pick
-
-	# Pull, push, and commit workflow
-	pl = pull --rebase
-	yeet = "!f() { git add -A && git commit -m \"$@\" && git push; }; f"
 	undo = reset HEAD~1 --mixed
 
-	# Log views
+	# Pull, push, and fetch workflow
+	fe = fetch --all --prune
+	pl = pull --rebase
+	pulltags = fetch origin +refs/tags/*:refs/tags/*
+	tagsync = "!f(){ git fetch \"${1:-origin}\" +refs/tags/*:refs/tags/*; }; f"
+	fpush = "!f() { \
+	branch=$(git rev-parse --abbrev-ref HEAD); \
+	git push --force-with-lease origin \"$branch\"; \
+	}; f"
+	yeet = "!f() { git add -A && git commit -m \"$*\" && git push; }; f"
+
+	# Log and diff views
 	lg = log --color --graph --abbrev-commit --pretty=format:'%Cred%h %C(bold blue)%an%Creset %Cgreen%ad -%C(yellow)%d%Creset %s' --date=format:'%Y-%m-%d %H:%M'
+	ddiff = -c diff.external=difft diff
+	dlog = -c diff.external=difft log --ext-diff
+	dshow = -c diff.external=difft show --ext-diff
 
 	# Repository analytics
 	hotspots = "!f() { since=\"${1:-1 year ago}\"; limit=\"${2:-20}\"; git log --format=format: --name-only --since=\"$since\" | sed '/^$/d' | sort | uniq -c | sort -nr | head -n \"$limit\"; }; f"
@@ -118,11 +162,6 @@
 	firefights = "!f() { since=\"${1:-1 year ago}\"; git log --oneline --since=\"$since\" | grep -iE 'revert|hotfix|emergency|rollback' || true; }; f"
 
 	# First-parent commit walking
-	walk = "!f() {\n  b=\"$1\"\n  [ -n \"$b\" ] || { echo \"usage: git walk <branch>\" >&2; exit 1; }\n  git rev-parse --verify \"$b\" >/dev/null 2>&1 || { echo \"unknown branch: $b\" >&2; exit 1; }\n  git config --global walk.branch \"$b\"\n  git switch --detach \"$b\"\n}; f"
-
-	prev = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    BEGIN { prev=\"\" }\n    $0 == h { if (prev != \"\") print prev; found=1; exit }\n    { prev=$0 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at oldest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
-
-	next = "!f() {\n  b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }\n  h=\"$(git rev-parse HEAD)\"\n  t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" '\n    found { print; exit }\n    $0 == h { found=1 }\n    END { if (!found) exit 2 }\n  ')\"\n  rc=$?\n  [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }\n  [ -n \"$t\" ] || { echo \"already at newest commit on $b\" >&2; exit 1; }\n  git switch --detach \"$t\"\n}; f"
-[merge "mergiraf"]
-	name = mergiraf
-	driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
+	walk = "!f() { b=\"$1\"; [ -n \"$b\" ] || { echo \"usage: git walk <branch>\" >&2; exit 1; }; git rev-parse --verify \"$b\" >/dev/null 2>&1 || { echo \"unknown branch: $b\" >&2; exit 1; }; git config --global walk.branch \"$b\"; git switch --detach \"$b\"; }; f"
+	prev = "!f() { b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }; h=\"$(git rev-parse HEAD)\"; t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" 'BEGIN { prev=\"\" } $0 == h { if (prev != \"\") print prev; found=1; exit } { prev=$0 } END { if (!found) exit 2 }')\"; rc=$?; [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }; [ -n \"$t\" ] || { echo \"already at oldest commit on $b\" >&2; exit 1; }; git switch --detach \"$t\"; }; f"
+	next = "!f() { b=\"$(git config --global --get walk.branch)\" || { echo \"no walk.branch set; use: git walk <branch>\" >&2; exit 1; }; h=\"$(git rev-parse HEAD)\"; t=\"$(git rev-list --first-parent --reverse \"$b\" | awk -v h=\"$h\" 'found { print; exit } $0 == h { found=1 } END { if (!found) exit 2 }')\"; rc=$?; [ $rc -ne 2 ] || { echo \"HEAD is not on the first-parent line of $b\" >&2; exit 1; }; [ -n \"$t\" ] || { echo \"already at newest commit on $b\" >&2; exit 1; }; git switch --detach \"$t\"; }; f"
