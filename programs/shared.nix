@@ -212,7 +212,8 @@ in {
     pngcheck # PNG image validator
     pngquant # PNG image optimizer
     powerline # The best Bash Prompt!
-    procs
+    procps # for `ps` command
+    procs # moddern replacement for `ps`, written in Rust; might be troublesome
     pv # Pipe viewer, useful for monitoring data through a pipe
     riffdiff # diff viewer
     ripgrep # Search tool (rg)
