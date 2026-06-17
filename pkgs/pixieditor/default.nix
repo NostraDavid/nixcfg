@@ -43,11 +43,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "pixieditor";
-  version = "2.1.1.4";
+  version = "2.1.1.5";
 
   src = fetchzip {
     url = "https://github.com/PixiEditor/PixiEditor/releases/download/${version}/PixiEditor-${version}-amd64-linux.tar.gz";
-    hash = "sha256-EmSezSnwugnOdgoCaywsoPdgiUEGAV26TWnd3FlRaP0=";
+    hash = "sha256-zglZUpCcMe3ocpjgDhXZpUOJGY9M81c38VzNMbKYakg=";
     stripRoot = false;
   };
 

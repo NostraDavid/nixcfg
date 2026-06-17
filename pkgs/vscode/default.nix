@@ -2,18 +2,23 @@
 # To change versions, replace `version` and `srcHash` with the release you need
 # (including ones not yet packaged in nixpkgs).
 {
+  lib,
   vscode,
   fetchurl,
   curl,
+  libei,
+  libjpeg8,
+  libxtst,
   openssl,
+  pipewire,
   ripgrep,
   webkitgtk_4_1,
   libsoup_3,
 }: let
-  version = "1.123.0";
+  version = "1.125.0";
   # to grab the hash, run:
   # nix store prefetch-file https://update.code.visualstudio.com/<version>/linux-x64/stable
-  srcHash = "sha256-L975R3F779LgaFTL4B6ZtImPd1LyXhImnDgCPmO5PI8=";
+  srcHash = "sha256-TTulHpCiT2eay2tb7e1ub164rgttBnB36Cc4JVoxf08=";
   src = fetchurl {
     url = "https://update.code.visualstudio.com/${version}/linux-x64/stable";
     name = "vscode-${version}.tar.gz";
@@ -42,7 +47,11 @@ in
       (old.buildInputs or [])
       ++ [
         curl
+        libei
+        (lib.getOutput "out" libjpeg8)
+        libxtst
         openssl
+        pipewire
         webkitgtk_4_1
         libsoup_3
       ];
