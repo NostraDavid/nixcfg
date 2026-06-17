@@ -1,0 +1,13 @@
+# Scoped Commits:
+#   <scope>: <description>
+#
+# Examples:
+#   codex: update install wrapper
+#   dotfiles: add git hook
+#   pkgs/codex: fix package build
+#
+# Do not use Conventional Commits:
+#   feat: ...
+#   fix: ...
+#   chore: ...
+
