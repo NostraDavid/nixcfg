@@ -143,6 +143,13 @@ in
       "semble"
     ];
 
+    # An empty _PYTHON_SYSCONFIGDATA_NAME breaks Python's sysconfig import path.
+    # This can leak in from interactive shells and causes semble to crash at startup.
+    postFixup = ''
+      wrapProgram $out/bin/semble \
+        --unset _PYTHON_SYSCONFIGDATA_NAME
+    '';
+
     meta = {
       description = "Fast and accurate code search for agents";
       homepage = "https://github.com/MinishLab/semble";
