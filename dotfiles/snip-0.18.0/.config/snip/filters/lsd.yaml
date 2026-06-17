@@ -1,0 +1,14 @@
+name: "lsd"
+version: 1
+description: "Normalize lsd output by stripping ANSI color codes"
+
+match:
+  command: "lsd"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "head"
+    n: 240
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"
