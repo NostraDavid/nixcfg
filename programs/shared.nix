@@ -174,6 +174,7 @@ in {
     lynx # Terminal-based web browser
     lz4 # Fastest compression algorithm
     meld # folder/file compare
+    mergiraf # Git merge tool
     miller # CSV processor
     mlocate # locate command
     most # terminal pager
