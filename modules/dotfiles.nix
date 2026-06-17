@@ -32,6 +32,8 @@
     ".config/wezterm/wezterm.lua" = {source = mk "${dot}/wezterm-0-unstable-2025-05-18/.config/wezterm/wezterm.lua";};
     ".git-templates" = {source = mk "${dot}/git-templates/.git-templates";};
     ".config/git/attributes" = {source = mk "${dot}/git/.config/git/attributes";};
+    ".config/git/commit-template" = {source = mk "${dot}/git/.config/git/commit-template";};
+    ".config/git/hooks" = {source = mk "${dot}/git/.config/git/hooks";};
     ".gitconfig" = {source = mk "${dot}/git/.gitconfig";};
     ".groovylintrc.json" = {source = mk "${dot}/groovy-lint/.groovylintrc.json";};
     ".inputrc" = {source = mk "${dot}/readline/.inputrc";};

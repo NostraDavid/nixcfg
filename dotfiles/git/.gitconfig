@@ -8,6 +8,7 @@
 
 [core]
 	excludesfile = ~/.gitignore
+	hooksPath = ~/.config/git/hooks
 	whitespace = -indent-with-non-tab,trailing-space,cr-at-eol,space-before-tab
 	fsmonitor = true
 	untrackedCache = true
@@ -62,6 +63,7 @@
 	followTags = true
 
 [commit]
+	template = ~/.config/git/commit-template
 	verbose = true
 
 [rebase]
