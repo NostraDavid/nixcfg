@@ -207,6 +207,7 @@ in {
     procps # for `ps` command
     procs # moddern replacement for `ps`, written in Rust; might be troublesome
     pv # Pipe viewer, useful for monitoring data through a pipe
+    pyrefly # Python type checker
     riffdiff # diff viewer
     ripgrep # Search tool (rg)
     rsync
