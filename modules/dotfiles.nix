@@ -24,6 +24,7 @@
     ".github/copilot-instructions.md" = {source = mk "${dot}/github/.github/copilot-instructions.md";};
     ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
     ".codex/semble.md" = {source = mk "${dot}/codex-0.140.0/.codex/semble.md";};
+    ".codex/skills/.system" = {source = mk "${dot}/codex-0.140.0/.codex/skills/.system";};
     ".codex/snip.md" = {source = mk "${dot}/codex-0.140.0/.codex/snip.md";};
     ".config/snip/filters" = {source = mk "${dot}/snip-0.18.0/.config/snip/filters";};
     ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv/.config/mpv/mpv.conf";};
