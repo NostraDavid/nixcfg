@@ -2,6 +2,7 @@
   lib,
   stdenv,
   rustPlatform,
+  fetchurl,
   fetchFromGitHub,
   installShellFiles,
   clang,
@@ -16,7 +17,12 @@
   ripgrep,
   versionCheckHook,
   installShellCompletions ? stdenv.buildPlatform.canExecute stdenv.hostPlatform,
-}:
+}: let
+  rustyV8Archive = fetchurl {
+    url = "https://github.com/denoland/rusty_v8/releases/download/v149.2.0/librusty_v8_release_x86_64-unknown-linux-gnu.a.gz";
+    hash = "sha256-iu2YY323533Iv7i7R1nsW95HLQv3lD9Y4OYqNQlFxVk=";
+  };
+in
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "codex";
   version = "0.140.0";
@@ -64,6 +70,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   # character-conversion warning-as-error disabled.
   env = {
     LIBCLANG_PATH = "${lib.getLib libclang}/lib";
+    RUSTY_V8_ARCHIVE = rustyV8Archive;
     NIX_CFLAGS_COMPILE = toString (
       lib.optionals stdenv.cc.isGNU [
         "-Wno-error=stringop-overflow"
