@@ -22,8 +22,9 @@
     ".config/Code/User/keybindings.json".source = mk "${dot}/vscode/.config/Code/User/keybindings.json";
     ".config/Code/User/settings.json".source = mk "${dot}/vscode/.config/Code/User/settings.json";
     ".github/copilot-instructions.md".source = mk "${dot}/github/.github/copilot-instructions.md";
-    ".codex/AGENTS.md".source = mk "${dot}/snip-0.18.0/.codex/AGENTS.md";
-    ".codex/snip.md".source = mk "${dot}/snip-0.18.0/.codex/snip.md";
+    ".codex/AGENTS.md".source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";
+    ".codex/semble.md".source = mk "${dot}/codex-0.140.0/.codex/semble.md";
+    ".codex/snip.md".source = mk "${dot}/codex-0.140.0/.codex/snip.md";
     ".config/snip/filters".source = mk "${dot}/snip-0.18.0/.config/snip/filters";
     ".config/mpv/mpv.conf".source = mk "${dot}/mpv/.config/mpv/mpv.conf";
     # ".config/voxtype/config.toml".source = mk "${dot}/voxtype/.config/voxtype/config.toml";
