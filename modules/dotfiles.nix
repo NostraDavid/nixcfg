@@ -13,7 +13,10 @@
     ".bashrc" = {source = mk "${dot}/bash-5.2.37/.bashrc";};
     ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
     ".codex/semble.md" = {source = mk "${dot}/codex-0.140.0/.codex/semble.md";};
-    ".codex/skills/.system" = {source = mk "${dot}/codex-0.140.0/.codex/skills/.system";};
+    ".codex/skills/.system" = {
+      source = mk "${dot}/codex-0.140.0/.codex/skills/.system";
+      force = true;
+    };
     ".codex/snip.md" = {source = mk "${dot}/codex-0.140.0/.codex/snip.md";};
     ".config/baloofilerc" = {source = mk "${dot}/baloo-6.20.0/.config/baloofilerc";};
     ".config/bat/config" = {source = mk "${dot}/bat-0.25.0/.config/bat/config";};
