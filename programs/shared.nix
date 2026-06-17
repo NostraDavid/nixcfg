@@ -284,7 +284,7 @@ in {
     unstable.fastfetch # neofetch alternative
     unstable.zigfetch # neofetch alternative
     unstable.devenv # Development environment manager | using unstable for 2.x
-    unstable.codex # Code autocompletion tool
+    # unstable.codex # Code autocompletion tool
     unstable.witr # Why is this running?
     unstable.zsv # CSV viewer and slicer
 
@@ -303,7 +303,7 @@ in {
     local.semble # Fast code search for agents
     local.dpaint-js
     local.photogimp # Photoshop-like defaults for GIMP
-    # local.codex
+    local.codex
     local.snip # CLI proxy, to reduce token usage for LLMs
     local.rtk
 
