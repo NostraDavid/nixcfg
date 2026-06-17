@@ -74,6 +74,7 @@
 [diff]
 	algorithm = histogram
 	colorMoved = plain
+  external = difft
 	mnemonicPrefix = true
 	renames = true
 	tool = vimdiff
