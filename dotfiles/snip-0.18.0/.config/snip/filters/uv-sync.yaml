@@ -1,0 +1,19 @@
+name: "uv-sync"
+version: 1
+description: "Summarize uv sync output with focus on dependency actions and lock/install errors"
+
+match:
+  command: "uv"
+  subcommand: "sync"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "keep_lines"
+    pattern: '^(Using Python|Resolved|Installed|Updated|Removed|Prepared|warning:|error:|Caused by:|\s*×|\s*╰─>|\s*$)'
+  - action: "remove_lines"
+    pattern: '^\s*$'
+  - action: "head"
+    n: 140
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"
