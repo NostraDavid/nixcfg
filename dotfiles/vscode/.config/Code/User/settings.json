@@ -123,6 +123,7 @@
     "editor.inlineSuggest.enabled": true,
     "editor.largeFileOptimizations": true,
     "editor.linkedEditing": true,
+    "editor.maxTokenizationLineLength": 25000,
     "editor.minimap.renderCharacters": false,
     "editor.mouseWheelZoom": true,
     "editor.rulers": [
@@ -372,6 +373,7 @@
         "red": 0,
         "yellow": 60
     },
+    "todo-tree.ripgrep.ripgrep": "/etc/profiles/per-user/david/bin/rg",
     "update.mode": "none",
     "vsicons.dontShowNewVersionMessage": true,
     "window.menuBarVisibility": "visible",
