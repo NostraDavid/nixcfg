@@ -41,7 +41,19 @@ in
           fi
         ''
       ]
-      old.postPatch;
+      old.postPatch
+      + ''
+        for rg in \
+          resources/app/node_modules/@vscode/ripgrep/bin/rg \
+          resources/app/node_modules/@vscode/ripgrep-universal/bin/linux-x64/rg \
+          resources/app/extensions/copilot/node_modules/@github/copilot/sdk/ripgrep/bin/linux-x64/rg
+        do
+          if [[ -e "$rg" ]]; then
+            rm -f "$rg"
+            ln -s ${ripgrep}/bin/rg "$rg"
+          fi
+        done
+      '';
     # VS Code 1.109+ ships a Linux msal runtime that needs these libs.
     buildInputs =
       (old.buildInputs or [])
