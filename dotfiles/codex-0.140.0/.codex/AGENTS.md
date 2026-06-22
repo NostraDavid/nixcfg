@@ -1,1 +1,4 @@
-@/home/david/.codex/snip.md
+# AGENTS.md
+
+@~/.codex/RTK.md
+@~/.codex/snip.md
