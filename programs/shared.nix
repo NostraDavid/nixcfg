@@ -305,6 +305,7 @@ in {
     local.austin # CPython frame stack sampler
     local.semble # Fast code search for agents
     local.dpaint-js
+    local.doctok
     local.photogimp # Photoshop-like defaults for GIMP
     local.codex
     local.snip # CLI proxy, to reduce token usage for LLMs
