@@ -1,6 +1,7 @@
 {
   lib,
   fetchurl,
+  git,
   symlinkJoin,
   unstable,
   writeShellScriptBin,
@@ -48,6 +49,7 @@
   };
   wrapper = writeShellScriptBin "tiktoken" ''
     export PYTHONPATH=${pythonPackage}/${py.python.sitePackages}
+    export TIKTOKEN_GIT=${git}/bin/git
     exec ${py.python}/bin/python ${./tiktoken.py} "$@"
   '';
 in
