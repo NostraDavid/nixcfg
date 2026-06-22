@@ -14,9 +14,11 @@
       ".bash_profile" = {source = mk "${dot}/bash-5.2.37/.bash_profile";};
       ".bashrc" = {source = mk "${dot}/bash-5.2.37/.bashrc";};
       ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
-      ".codex/semble.md" = {source = mk "${dot}/codex-0.140.0/.codex/semble.md";};
+      ".codex/RTK.md" = {source = mk "${dot}/rtk-0.41.0/.codex/RTK.md";};
+      ".codex/semble.md" = {source = mk "${dot}/semble-0.3.4/.codex/semble.md";};
       ".codex/skills/.system" = {source = mk "${dot}/codex-0.140.0/.codex/skills/.system";};
-      ".codex/snip.md" = {source = mk "${dot}/codex-0.140.0/.codex/snip.md";};
+      ".codex/snip.md" = {source = mk "${dot}/snip-0.18.0/.codex/snip.md";};
+      ".config/clip-proxy/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/.config/clip-proxy/proxy-cli-policy.md";};
       ".config/baloofilerc" = {source = mk "${dot}/baloo-6.20.0/.config/baloofilerc";};
       ".config/bat/config" = {source = mk "${dot}/bat-0.25.0/.config/bat/config";};
       ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode/.config/Code/User/keybindings.json";};
@@ -37,7 +39,7 @@
       ".config/zigfetch/" = {source = mk "${dot}/zigfetch-0.25.0/.config/zigfetch";};
       ".git-templates" = {source = mk "${dot}/git-templates/.git-templates";};
       ".gitconfig" = {source = mk "${dot}/git/.gitconfig";};
-      ".github/copilot-instructions.md" = {source = mk "${dot}/github/.github/copilot-instructions.md";};
+      ".github/copilot-instructions.md" = {source = mk "${dot}/clip-proxy/.config/clip-proxy/proxy-cli-policy.md";};
       ".groovylintrc.json" = {source = mk "${dot}/groovy-lint/.groovylintrc.json";};
       ".inputrc" = {source = mk "${dot}/readline/.inputrc";};
       ".local/bin/folder_stats" = {source = mk "${dot}/scripts/folder_stats";};

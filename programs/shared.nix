@@ -289,6 +289,7 @@ in {
     # unstable.codex # Code autocompletion tool
     unstable.witr # Why is this running?
     unstable.zsv # CSV viewer and slicer
+    local.rtk
 
     # local
     freetype # font-rendering library, for Whatpulse
