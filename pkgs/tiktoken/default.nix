@@ -54,6 +54,8 @@
   '';
 in
   symlinkJoin {
+    pname = "tiktoken";
+    version = pythonPackage.version;
     name = "tiktoken-${pythonPackage.version}";
     paths = [
       pythonPackage

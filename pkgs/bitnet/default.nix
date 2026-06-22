@@ -6,14 +6,14 @@
 }:
 llvmPackages_20.stdenv.mkDerivation (finalAttrs: {
   pname = "bitnet";
-  version = "unstable-2025-06-03";
+  version = "unstable-2026-03-10";
 
   src = fetchFromGitHub {
     owner = "microsoft";
     repo = "BitNet";
-    rev = "404980eecae38affa4871c3e419eae3f44536a95";
+    rev = "01eb415772c342d9f20dc42772f1583ae1e5b102";
     fetchSubmodules = true;
-    hash = "sha256-bRnrjsE+WdZXAAtDISDu8qICLI70q2TFDSZyI5mzvEY=";
+    hash = "sha256-piKVvE0m6b9N9UNIMp8gHibEwmTT08RCbu4YWoqqaIQ=";
   };
 
   nativeBuildInputs = [
@@ -21,6 +21,16 @@ llvmPackages_20.stdenv.mkDerivation (finalAttrs: {
     llvmPackages_20.clang
     llvmPackages_20.lld
   ];
+
+  postPatch = ''
+    substituteInPlace src/ggml-bitnet-lut.cpp \
+      --replace-fail '#include "bitnet-lut-kernels.h"' $'#include <immintrin.h>\n#include "bitnet-lut-kernels.h"'
+
+    if grep -qF 'int8_t * y_col = y + col * by;' src/ggml-bitnet-mad.cpp; then
+      substituteInPlace src/ggml-bitnet-mad.cpp \
+        --replace-fail 'int8_t * y_col = y + col * by;' 'const int8_t * y_col = y + col * by;'
+    fi
+  '';
 
   preConfigure = ''
     rm -f include/bitnet-lut-kernels.h
@@ -47,6 +57,7 @@ llvmPackages_20.stdenv.mkDerivation (finalAttrs: {
     "-DLLAMA_BUILD_COMMON=ON"
     "-DLLAMA_BUILD_EXAMPLES=ON"
     "-DLLAMA_BUILD_TESTS=OFF"
+    "-DGGML_NATIVE=OFF"
     "-DBITNET_X86_TL2=ON"
   ];
 

@@ -7,10 +7,10 @@
   flatpak,
   gnugrep,
 }: let
-  version = "4.1.9";
+  version = "4.2.0";
   src = fetchurl {
     url = "https://github.com/Recol/DLSS-Updater/releases/download/V${version}/DLSS_Updater-${version}.flatpak";
-    hash = "sha256-K2iNkhrL7CvGYAxGAuleNkyzE4E8bPE2jGjmzzxr8kA=";
+    hash = "sha256-sooNbBgrHjeaKrpgJZRfr2hLxBIVabeq0xwK+zjLBb0=";
   };
 in
   stdenvNoCC.mkDerivation {
