@@ -16,7 +16,6 @@
       ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
       ".codex/RTK.md" = {source = mk "${dot}/rtk-0.41.0/.codex/RTK.md";};
       ".codex/semble.md" = {source = mk "${dot}/semble-0.3.4/.codex/semble.md";};
-      ".codex/skills/.system" = {source = mk "${dot}/codex-0.140.0/.codex/skills/.system";};
       ".codex/snip.md" = {source = mk "${dot}/snip-0.18.0/.codex/snip.md";};
       ".config/clip-proxy/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/.config/clip-proxy/proxy-cli-policy.md";};
       ".config/baloofilerc" = {source = mk "${dot}/baloo-6.20.0/.config/baloofilerc";};
