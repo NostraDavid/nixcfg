@@ -307,6 +307,7 @@ in {
     local.dpaint-js
     local.doctok
     local.tiktoken
+    local.ptk
     local.photogimp # Photoshop-like defaults for GIMP
     local.codex
     local.snip # CLI proxy, to reduce token usage for LLMs
