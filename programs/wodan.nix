@@ -452,6 +452,13 @@ in {
     # dbeaver-bin # Database management tool
     # guacamole-client
     # guacamole-server
+    (google-chrome.override {
+      commandLineArgs = [
+        "--enable-features=AcceleratedVideoEncoder"
+        "--ignore-gpu-blocklist"
+        "--enable-zero-copy"
+      ];
+    })
     itch # Game launcher
     libreoffice-qt6 # Office suite
     nuclear # Music player
