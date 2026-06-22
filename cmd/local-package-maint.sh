@@ -90,7 +90,7 @@ local_update_script() {
 version_supported_for_generic_probe() {
   local version="$1"
 
-  if [[ "${version}" =~ ^unstable- ]]; then
+  if [[ "${version}" =~ (^|-)unstable- ]]; then
     return 1
   fi
 
