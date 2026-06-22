@@ -50,7 +50,9 @@
       ".tmux.conf" = {source = mk "${dot}/tmux-3.5a/.tmux.conf";};
       ".vim" = {source = mk "${dot}/vim-9.0/.vim";};
       ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
+      "dev/.env.example" = {source = mk "${dot}/dev/.env.example";};
       "dev/find-uncommitted.py" = {source = mk "${dot}/dev/find-uncommitted.py";};
+      "dev/get_azure_repos.py" = {source = mk "${dot}/dev/get_azure_repos.py";};
       "dev/grab.py" = {source = mk "${dot}/dev/grab.py";};
       "dev/repos.dat" = {source = mk "${dot}/dev/repos.dat";};
       "dev/save_cloned_repos.py" = {source = mk "${dot}/dev/save_cloned_repos.py";};
