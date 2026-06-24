@@ -18,5 +18,8 @@
         "titleBar.inactiveBackground": "#88000099",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#800"
+    "peacock.color": "#800",
+    "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
+    "nixEnvSelector.useFlakes": true,
+    "nixEnvSelector.flakeShell": "default"
 }
