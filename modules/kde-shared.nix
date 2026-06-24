@@ -49,6 +49,7 @@
         Overview = "Meta+W";
         "Show Desktop" = "Meta+D";
         "Suspend Compositing" = "Alt+Shift+F12";
+        "Toggle Night Color" = "none";
         "Switch One Desktop Down" = "Meta+Ctrl+Down";
         "Switch One Desktop Up" = "Meta+Ctrl+Up";
         "Switch One Desktop to the Left" = "Meta+Ctrl+Left";
@@ -61,10 +62,22 @@
         "Switch to Desktop 2" = "Ctrl+F2";
         "Switch to Desktop 3" = "Ctrl+F3";
         "Switch to Desktop 4" = "Ctrl+F4";
-        "Walk Through Windows" = "Alt+Tab";
-        "Walk Through Windows (Reverse)" = "Alt+Shift+Tab";
-        "Walk Through Windows of Current Application" = "Alt+`";
-        "Walk Through Windows of Current Application (Reverse)" = "Alt+~";
+        "Walk Through Windows" = [
+          "Meta+Tab"
+          "Alt+Tab"
+        ];
+        "Walk Through Windows (Reverse)" = [
+          "Meta+Shift+Tab"
+          "Alt+Shift+Tab"
+        ];
+        "Walk Through Windows of Current Application" = [
+          "Meta+`"
+          "Alt+`"
+        ];
+        "Walk Through Windows of Current Application (Reverse)" = [
+          "Meta+~"
+          "Alt+~"
+        ];
         "Window Close" = "Alt+F4";
         "Window Maximize" = "Meta+PgUp";
         "Window Minimize" = "Meta+PgDown";
@@ -89,10 +102,17 @@
       };
 
       mediacontrol = {
+        mediavolumedown = "none";
+        mediavolumeup = "none";
         nextmedia = "Media Next";
         pausemedia = "Media Pause";
+        playmedia = "none";
         playpausemedia = "Media Play";
         previousmedia = "Media Previous";
+        seekbackwardmedia = "Media Rewind";
+        seekbackwardmedialong = "none";
+        seekforwardmedia = "Media Fast Forward";
+        seekforwardmedialong = "none";
         stopmedia = "Media Stop";
       };
 
@@ -152,9 +172,26 @@
         };
       };
 
+      dolphinrc = {
+        MenuBar = "Disabled";
+        General = {
+          Version = 202;
+        };
+        "KFileDialog Settings" = {
+          "Places Icons Auto-resize" = false;
+          "Places Icons Static Size" = 22;
+        };
+        MainWindow.MenuBar = "Disabled";
+      };
+
       kded5rc = {
         Module-browserintegrationreminder.autoload = false;
         Module-device_automounter.autoload = false;
+      };
+
+      konsolerc = {
+        General.ConfigVersion = 1;
+        UiSettings.ColorScheme = "";
       };
 
       kdeglobals = {
