@@ -13,6 +13,7 @@ in {
     imports = [
       inputs.plasma-manager.homeModules.plasma-manager
       inputs.codex-desktop-linux.homeManagerModules.default
+      ./kde-shared.nix
       ./dotfiles.nix
       ./keyboard-home.nix
       ../programs/shared.nix
