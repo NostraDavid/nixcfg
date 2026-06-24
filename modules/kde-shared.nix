@@ -173,7 +173,7 @@
       };
 
       dolphinrc = {
-        MenuBar = "Disabled";
+        MenuBar.MenuBar = "Disabled";
         General = {
           Version = 202;
         };
