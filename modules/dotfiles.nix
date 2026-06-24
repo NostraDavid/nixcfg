@@ -47,11 +47,10 @@
       ".tmux.conf" = {source = mk "${dot}/tmux-3.5a/.tmux.conf";};
       ".vim" = {source = mk "${dot}/vim-9.0/.vim";};
       ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
-      "dev/find-uncommitted.sh" = {source = mk "${dot}/dev/find-uncommitted.sh";};
-      "dev/grab_parallel.sh" = {source = mk "${dot}/dev/grab_parallel.sh";};
-      "dev/grab.sh" = {source = mk "${dot}/dev/grab.sh";};
-      "dev/repos" = {source = mk "${dot}/dev/repos";};
-      "dev/save_cloned_repos.sh" = {source = mk "${dot}/dev/save_cloned_repos.sh";};
+      "dev/find-uncommitted.py" = {source = mk "${dot}/dev/find-uncommitted.py";};
+      "dev/grab.py" = {source = mk "${dot}/dev/grab.py";};
+      "dev/repos.dat" = {source = mk "${dot}/dev/repos.dat";};
+      "dev/save_cloned_repos.py" = {source = mk "${dot}/dev/save_cloned_repos.py";};
       "rsync-bitvavo" = {source = mk "${dot}/scripts/rsync-bitvavo";};
       # ".config/voxtype/config.toml" = {source = mk "${dot}/voxtype/.config/voxtype/config.toml";};
     };
