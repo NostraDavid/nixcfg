@@ -5,12 +5,12 @@ set -euo pipefail
 
 version="${1:-}"
 if [[ -z "${version}" ]]; then
-  version="$(curl -fsSL https://update.code.visualstudio.com/api/releases/stable | jq -r '.[0] // empty')"
+	version="$(curl -fsSL https://update.code.visualstudio.com/api/releases/stable | jq -r '.[0] // empty')"
 fi
 
 if [[ -z "${version}" || "${version}" == "null" ]]; then
-  echo 'Failed to determine latest VS Code stable release.' >&2
-  exit 1
+	echo 'Failed to determine latest VS Code stable release.' >&2
+	exit 1
 fi
 
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"

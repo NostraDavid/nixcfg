@@ -11,8 +11,8 @@ version="$(printf '%s' "${release_json}" | jq -r '.[0].tag_name')"
 version="${version#v}"
 
 if [[ -z "${version}" || "${version}" == "null" ]]; then
-  echo 'Failed to determine latest DPaint.js release metadata.' >&2
-  exit 1
+	echo 'Failed to determine latest DPaint.js release metadata.' >&2
+	exit 1
 fi
 
 printf 'Updating dpaint-js to version %s\n' "${version}"

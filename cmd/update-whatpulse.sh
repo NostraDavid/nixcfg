@@ -5,17 +5,17 @@ set -euo pipefail
 
 version="${1:-}"
 if [[ -z "${version}" ]]; then
-  version="$(
-    curl -fsSL https://whatpulse.org/releasenotes |
-      grep -oE 'https://releases-dev\.whatpulse\.org/[0-9]+\.[0-9]+\.[0-9]+/linux/whatpulse-linux-[0-9]+\.[0-9]+\.[0-9]+_amd64\.AppImage' |
-      sed -E 's#^https://releases-dev\.whatpulse\.org/([^/]+)/.*$#\1#' |
-      head -n1
-  )"
+	version="$(
+		curl -fsSL https://whatpulse.org/releasenotes |
+			grep -oE 'https://releases-dev\.whatpulse\.org/[0-9]+\.[0-9]+\.[0-9]+/linux/whatpulse-linux-[0-9]+\.[0-9]+\.[0-9]+_amd64\.AppImage' |
+			sed -E 's#^https://releases-dev\.whatpulse\.org/([^/]+)/.*$#\1#' |
+			head -n1
+	)"
 fi
 
 if [[ -z "${version}" ]]; then
-  echo 'Unable to determine latest WhatPulse version from releasenotes.' >&2
-  exit 1
+	echo 'Unable to determine latest WhatPulse version from releasenotes.' >&2
+	exit 1
 fi
 
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"

@@ -2,7 +2,6 @@
 
 # for all channels, check out https://channels.nixos.org/
 
-
 # == list channels ==
 sudo nix-channel --list
 

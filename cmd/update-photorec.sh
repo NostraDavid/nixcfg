@@ -5,17 +5,17 @@ set -euo pipefail
 
 version="${1:-}"
 if [[ -z "${version}" ]]; then
-  version="$(
-    curl -fsSL https://www.cgsecurity.org/wiki/TestDisk_Download |
-      grep -oE 'TestDisk &amp; PhotoRec [0-9]+([.][0-9]+)+ [(]' |
-      head -n1 |
-      grep -oE '[0-9]+([.][0-9]+)+'
-  )"
+	version="$(
+		curl -fsSL https://www.cgsecurity.org/wiki/TestDisk_Download |
+			grep -oE 'TestDisk &amp; PhotoRec [0-9]+([.][0-9]+)+ [(]' |
+			head -n1 |
+			grep -oE '[0-9]+([.][0-9]+)+'
+	)"
 fi
 
 if [[ -z "${version}" ]]; then
-  echo 'Failed to determine latest stable TestDisk/PhotoRec release.' >&2
-  exit 1
+	echo 'Failed to determine latest stable TestDisk/PhotoRec release.' >&2
+	exit 1
 fi
 
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
@@ -24,8 +24,8 @@ current_version="$(nix eval --raw .#photorec.version)"
 asset_url="https://www.cgsecurity.org/testdisk-${version}.linux26-x86_64.tar.bz2"
 
 if [[ "${version}" == "${current_version}" ]]; then
-  printf 'photorec is already at latest stable version %s\n' "${version}"
-  exit 0
+	printf 'photorec is already at latest stable version %s\n' "${version}"
+	exit 0
 fi
 
 printf 'Updating photorec to version %s\n' "${version}"

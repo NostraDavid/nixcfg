@@ -13,7 +13,9 @@ from tiktoken.model import MODEL_PREFIX_TO_ENCODING, MODEL_TO_ENCODING
 
 def add_tokenizer_options(parser):
     tokenizer = parser.add_mutually_exclusive_group()
-    tokenizer.add_argument("--model", "-m", default="gpt-5", help="select an OpenAI model")
+    tokenizer.add_argument(
+        "--model", "-m", default="gpt-5", help="select an OpenAI model"
+    )
     tokenizer.add_argument("--encoding", help="select an encoding directly")
 
 
@@ -26,7 +28,9 @@ def parse_args():
     parser.add_argument("--version", action="version", version="%(prog)s 0.13.0")
     commands = parser.add_subparsers(dest="command", required=True)
 
-    count = commands.add_parser("count", help="count tokens in files, directories, or stdin")
+    count = commands.add_parser(
+        "count", help="count tokens in files, directories, or stdin"
+    )
     add_tokenizer_options(count)
     count.add_argument("paths", nargs="*", help="files or directories; use - for stdin")
     count.add_argument("--file", "-f", action="append", default=[], dest="files")
@@ -35,7 +39,11 @@ def parse_args():
         "--no-gitignore", action="store_true", help="include files ignored by Git"
     )
     count.add_argument(
-        "--verbose", "-v", "--list", action="store_true", help="list each file and the total"
+        "--verbose",
+        "-v",
+        "--list",
+        action="store_true",
+        help="list each file and the total",
     )
     sorting = count.add_mutually_exclusive_group()
     sorting.add_argument(

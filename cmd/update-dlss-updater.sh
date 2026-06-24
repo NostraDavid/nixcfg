@@ -11,8 +11,8 @@ tag_name="$(printf '%s' "${release_json}" | jq -r '.tag_name')"
 asset_url="$(printf '%s' "${release_json}" | jq -r '.assets[] | select(.browser_download_url | endswith(".flatpak")) | .browser_download_url' | head -n1)"
 
 if [[ -z "${tag_name}" || "${tag_name}" == "null" || -z "${asset_url}" ]]; then
-  echo 'Failed to determine latest DLSS Updater release metadata.' >&2
-  exit 1
+	echo 'Failed to determine latest DLSS Updater release metadata.' >&2
+	exit 1
 fi
 
 version="${tag_name#V}"
