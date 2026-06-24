@@ -1,0 +1,50 @@
+model = "gpt-5.5"
+model_reasoning_effort = "low"
+personality = "pragmatic"
+[projects."/home/david/dev/NostraDavid/nixcfg"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ctb"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/debian-server"]
+trust_level = "trusted"
+
+[projects."/home/david/.codex"]
+trust_level = "trusted"
+
+[projects."/home/david/.codex/config.toml"]
+trust_level = "trusted"
+
+[projects."/home/david"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/entsoe-ingestion-python"]
+trust_level = "trusted"
+
+[projects."/home/david/Desktop"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/Thaumatorium/thaumatorium.com"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/homelab"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/t-Bataafsche-Broederschap/website-src"]
+trust_level = "trusted"
+
+[projects."/"]
+trust_level = "trusted"
+
+[plugins."github@openai-curated"]
+enabled = false
+
+[plugins."linear@openai-curated"]
+enabled = false
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+
+[features]
+apps = false
