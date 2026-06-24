@@ -2,13 +2,12 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
+	. /etc/bashrc
 fi
 
 # User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
-then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+	PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
 export PATH
 
@@ -81,7 +80,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
@@ -91,7 +90,7 @@ esac
 
 use_starship_prompt=
 if command -v starship >/dev/null 2>&1; then
-    use_starship_prompt=1
+	use_starship_prompt=1
 fi
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -100,38 +99,38 @@ fi
 force_color_prompt=yes
 
 if [ -z "$use_starship_prompt" ]; then
-    if [ -n "$force_color_prompt" ]; then
-        if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-            # We have color support; assume it's compliant with Ecma-48
-            # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-            # a case would tend to support setf rather than setaf.)
-            color_prompt=yes
-        else
-            color_prompt=
-        fi
-    fi
+	if [ -n "$force_color_prompt" ]; then
+		if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+			# We have color support; assume it's compliant with Ecma-48
+			# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+			# a case would tend to support setf rather than setaf.)
+			color_prompt=yes
+		else
+			color_prompt=
+		fi
+	fi
 
-    if [ "$color_prompt" = yes ]; then
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    else
-        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    fi
-    unset color_prompt force_color_prompt
+	if [ "$color_prompt" = yes ]; then
+		PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+	else
+		PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+	fi
+	unset color_prompt force_color_prompt
 
-    # If this is an xterm set the title to user@host:dir
-    case "$TERM" in
-    xterm* | rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-        ;;
-    *) ;;
-    esac
+	# If this is an xterm set the title to user@host:dir
+	case "$TERM" in
+	xterm* | rxvt*)
+		PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+		;;
+	*) ;;
+	esac
 else
-    unset color_prompt force_color_prompt
+	unset color_prompt force_color_prompt
 fi
 
 # enable color support of ls
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
 # colored GCC warnings and errors
@@ -143,18 +142,18 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f "$HOME/.bash_aliases" ]; then
-    source "$HOME/.bash_aliases"
+	source "$HOME/.bash_aliases"
 fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		. /etc/bash_completion
+	fi
 fi
 
 # Disable the bell
@@ -205,13 +204,13 @@ export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring
 
 # Auto-activate Python virtual environment when opening a shell
 function check_and_activate_venv() {
-    if [[ -z "$VIRTUAL_ENV" ]]; then
-        # If env folder is found then activate the virtualenv
-        if [[ -d ./.venv ]]; then
-            # shellcheck source=/dev/null
-            source .venv/bin/activate
-        fi
-    fi
+	if [[ -z "$VIRTUAL_ENV" ]]; then
+		# If env folder is found then activate the virtualenv
+		if [[ -d ./.venv ]]; then
+			# shellcheck source=/dev/null
+			source .venv/bin/activate
+		fi
+	fi
 }
 
 # Run the check when shell starts
@@ -219,9 +218,9 @@ check_and_activate_venv
 
 # pip bash completion start
 function _pip_completion() {
-    mapfile -t COMPREPLY < <(COMP_WORDS="${COMP_WORDS[*]}" \
-        COMP_CWORD=$COMP_CWORD \
-        PIP_AUTO_COMPLETE=1 $1 2>/dev/null)
+	mapfile -t COMPREPLY < <(COMP_WORDS="${COMP_WORDS[*]}" \
+		COMP_CWORD=$COMP_CWORD \
+		PIP_AUTO_COMPLETE=1 $1 2>/dev/null)
 }
 complete -o default -F _pip_completion pip
 # pip bash completion end
@@ -231,8 +230,8 @@ tmux-git-autofetch() { ("$HOME/.tmux/plugins/tmux-git-autofetch/git-autofetch.tm
 
 # == ensure ctrl-d doesn't fuck up tmux ==
 if [[ -n "$TMUX" ]]; then
-    # Ignore EOF (Ctrl+D) in tmux sessions
-    set -o ignoreeof
+	# Ignore EOF (Ctrl+D) in tmux sessions
+	set -o ignoreeof
 fi
 
 # == direnv ==
@@ -240,13 +239,13 @@ eval "$(direnv hook bash)"
 
 # == starship prompt ==
 if [ -n "$use_starship_prompt" ]; then
-    eval "$(starship init bash)"
+	eval "$(starship init bash)"
 fi
 
 # == fzf-bash integration via ctrl-r ==
 if [ -n "${XDG_DATA_DIRS-}" ]; then
-  for dir in ${XDG_DATA_DIRS//:/ }; do
-    [ -f "$dir/fzf/completion.bash" ] && source "$dir/fzf/completion.bash"
-    [ -f "$dir/fzf/key-bindings.bash" ] && source "$dir/fzf/key-bindings.bash"
-  done
+	for dir in ${XDG_DATA_DIRS//:/ }; do
+		[ -f "$dir/fzf/completion.bash" ] && source "$dir/fzf/completion.bash"
+		[ -f "$dir/fzf/key-bindings.bash" ] && source "$dir/fzf/key-bindings.bash"
+	done
 fi

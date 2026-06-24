@@ -5,15 +5,15 @@ set -euo pipefail
 
 version="${1:-}"
 if [[ -z "${version}" ]]; then
-  release_json="$(curl -fsSL 'https://sources.debian.org/api/src/yafc/')"
-  version="$(printf '%s' "${release_json}" | jq -r '.versions[0].version // empty')"
+	release_json="$(curl -fsSL 'https://sources.debian.org/api/src/yafc/')"
+	version="$(printf '%s' "${release_json}" | jq -r '.versions[0].version // empty')"
 fi
 
 version="${version%%-*}"
 
 if [[ -z "${version}" ]]; then
-  echo 'Failed to determine latest yafc source version.' >&2
-  exit 1
+	echo 'Failed to determine latest yafc source version.' >&2
+	exit 1
 fi
 
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"

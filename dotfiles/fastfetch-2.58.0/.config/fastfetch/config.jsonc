@@ -4,36 +4,36 @@
     "type": "builtin",
     "source": "NixOS",
     "padding": {
-      "right": 2
-    }
+      "right": 2,
+    },
   },
   "general": {
     "thread": true,
-    "detectVersion": true
+    "detectVersion": true,
   },
   "display": {
     "separator": "  ",
     "brightColor": true,
     "key": {
       "type": "both-1",
-      "width": 16
+      "width": 16,
     },
     "color": {
       "keys": "light_green",
       "title": "light_yellow",
       "output": "white",
-      "separator": "blue"
+      "separator": "blue",
     },
     "bar": {
       "width": 14,
       "border": {
         "left": "[",
-        "right": "]"
+        "right": "]",
       },
       "char": {
         "elapsed": "■",
-        "total": "·"
-      }
+        "total": "·",
+      },
     },
     "percent": {
       "type": ["num", "bar", "hide-others"],
@@ -41,38 +41,38 @@
       "color": {
         "green": "green",
         "yellow": "yellow",
-        "red": "red"
-      }
+        "red": "red",
+      },
     },
     "size": {
       "binaryPrefix": "iec",
       "ndigits": 2,
-      "spaceBeforeUnit": "always"
+      "spaceBeforeUnit": "always",
     },
     "freq": {
       "ndigits": 2,
-      "spaceBeforeUnit": "always"
+      "spaceBeforeUnit": "always",
     },
     "temp": {
       "unit": "C",
       "ndigits": 1,
-      "spaceBeforeUnit": "always"
+      "spaceBeforeUnit": "always",
     },
     "duration": {
       "abbreviation": true,
-      "spaceBeforeUnit": "always"
-    }
+      "spaceBeforeUnit": "always",
+    },
   },
   "modules": [
     {
       "type": "custom",
       "key": " ",
-      "format": "\u001b[38;5;39m nixcfg\u001b[0m \u001b[38;5;214m● declarative\u001b[0m \u001b[38;5;82m✚ reproducible\u001b[0m"
+      "format": "\u001b[38;5;39m nixcfg\u001b[0m \u001b[38;5;214m● declarative\u001b[0m \u001b[38;5;82m✚ reproducible\u001b[0m",
     },
     {
       "type": "custom",
       "key": " ",
-      "format": "\u001b[38;5;208mSorry, I declare NixOS, actually.\u001b[0m"
+      "format": "\u001b[38;5;208mSorry, I declare NixOS, actually.\u001b[0m",
     },
     "separator",
     {
@@ -80,48 +80,48 @@
       "color": {
         "user": "light_yellow",
         "at": "light_red",
-        "host": "light_cyan"
+        "host": "light_cyan",
       },
-      "format": "{user-name-colored}{at-symbol-colored}{host-name-colored}"
+      "format": "{user-name-colored}{at-symbol-colored}{host-name-colored}",
     },
     {
       "type": "os",
-      "key": "OS"
+      "key": "OS",
     },
     {
       "type": "host",
-      "key": "Host"
+      "key": "Host",
     },
     {
       "type": "kernel",
       "key": "Kernel",
-      "format": "\u001b[91m{release}\u001b[97m ({arch})"
+      "format": "\u001b[91m{release}\u001b[97m ({arch})",
     },
     {
       "type": "uptime",
       "key": "Uptime",
-      "format": "\u001b[91m{days}\u001b[97md \u001b[91m{hours}\u001b[97mh \u001b[91m{minutes}\u001b[97mm"
+      "format": "\u001b[91m{days}\u001b[97md \u001b[91m{hours}\u001b[97mh \u001b[91m{minutes}\u001b[97mm",
     },
     {
       "type": "packages",
       "key": "Packages",
       "combined": true,
-      "format": "\u001b[91m{all}\u001b[97m total (\u001b[91m{nix-all}\u001b[97m nix, \u001b[91m{flatpak-all}\u001b[97m flatpak, \u001b[91m{brew-all}\u001b[97m brew)"
+      "format": "\u001b[91m{all}\u001b[97m total (\u001b[91m{nix-all}\u001b[97m nix, \u001b[91m{flatpak-all}\u001b[97m flatpak, \u001b[91m{brew-all}\u001b[97m brew)",
     },
     {
       "type": "shell",
       "key": "Shell",
-      "format": "{pretty-name} \u001b[91m{version}\u001b[97m"
+      "format": "{pretty-name} \u001b[91m{version}\u001b[97m",
     },
     {
       "type": "terminal",
       "key": "Terminal",
-      "format": "{pretty-name}"
+      "format": "{pretty-name}",
     },
     {
       "type": "terminalfont",
       "key": "Font",
-      "format": "{name} (\u001b[91m{size}\u001b[97m)"
+      "format": "{name} (\u001b[91m{size}\u001b[97m)",
     },
     // "separator",
     // {
@@ -150,67 +150,67 @@
       "key": "CPU",
       "temp": true,
       "showPeCoreCount": true,
-      "format": "{name} (\u001b[91m{cores-logical}\u001b[97m) @ \u001b[91m{freq-max}\u001b[97m"
+      "format": "{name} (\u001b[91m{cores-logical}\u001b[97m) @ \u001b[91m{freq-max}\u001b[97m",
     },
     {
       "type": "gpu",
       "key": "GPU",
       "temp": true,
-      "format": "{name} ({driver})"
+      "format": "{name} ({driver})",
     },
     {
       "type": "memory",
       "key": "Memory",
       "percent": {
         "green": 50,
-        "yellow": 80
+        "yellow": 80,
       },
-      "format": "\u001b[91m{used}\u001b[97m / \u001b[91m{total}\u001b[97m (\u001b[91m{percentage}\u001b[97m)"
+      "format": "\u001b[91m{used}\u001b[97m / \u001b[91m{total}\u001b[97m (\u001b[91m{percentage}\u001b[97m)",
     },
     {
       "type": "swap",
       "key": "Swap",
-      "format": "\u001b[91m{used}\u001b[97m / \u001b[91m{total}\u001b[97m (\u001b[91m{percentage}\u001b[97m)"
+      "format": "\u001b[91m{used}\u001b[97m / \u001b[91m{total}\u001b[97m (\u001b[91m{percentage}\u001b[97m)",
     },
     {
       "type": "disk",
       "key": "Disk",
       "folders": ["/"],
-      "format": "{mountpoint}: \u001b[91m{size-used}\u001b[97m / \u001b[91m{size-total}\u001b[97m (\u001b[91m{size-percentage}\u001b[97m)"
+      "format": "{mountpoint}: \u001b[91m{size-used}\u001b[97m / \u001b[91m{size-total}\u001b[97m (\u001b[91m{size-percentage}\u001b[97m)",
     },
     {
       "type": "display",
       "key": "Display",
       "compactType": "scaled-with-refresh-rate",
-      "format": "\u001b[91m{width}\u001b[97mx\u001b[91m{height}\u001b[97m @ \u001b[91m{refresh-rate}\u001b[97m Hz"
+      "format": "\u001b[91m{width}\u001b[97mx\u001b[91m{height}\u001b[97m @ \u001b[91m{refresh-rate}\u001b[97m Hz",
     },
     {
       "type": "localip",
       "key": "Network",
       "showMac": false,
       "showIpv6": false,
-      "format": "{ifname}: \u001b[91m{ipv4}\u001b[97m"
+      "format": "{ifname}: \u001b[91m{ipv4}\u001b[97m",
     },
     {
       "type": "battery",
       "key": "Battery",
       "percent": {
         "green": 50,
-        "yellow": 20
+        "yellow": 20,
       },
-      "format": "\u001b[91m{capacity}\u001b[97m ({status})"
+      "format": "\u001b[91m{capacity}\u001b[97m ({status})",
     },
     {
       "type": "poweradapter",
       "key": "Adapter",
       "condition": {
-        "succeeded": true
+        "succeeded": true,
       },
-      "format": "\u001b[91m{watts}\u001b[97mW"
+      "format": "\u001b[91m{watts}\u001b[97mW",
     },
     // {
     //   "type": "locale",
     //   "key": "Locale"
     // }
-  ]
+  ],
 }

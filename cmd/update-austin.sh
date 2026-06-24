@@ -5,7 +5,7 @@ set -euo pipefail
 
 version="${1:-}"
 if [[ -z "${version}" ]]; then
-  version="$(curl -fsSL https://api.github.com/repos/P403n1x87/austin/releases/latest | jq -r '.tag_name')"
+	version="$(curl -fsSL https://api.github.com/repos/P403n1x87/austin/releases/latest | jq -r '.tag_name')"
 fi
 
 version="${version#v}"
