@@ -102,9 +102,7 @@ in {
     # mozjpeg # JPEG image optimizer - doesn't work with jpegli
     alejandra # nix formatter
     statix
-    oxfmt
     deadnix
-    prek
     atuin # shell history manager
     bat # cat replacement
     btop # Resource monitor
@@ -290,7 +288,6 @@ in {
     # unstable.codex # Code autocompletion tool
     unstable.witr # Why is this running?
     unstable.zsv # CSV viewer and slicer
-    local.rtk
 
     # local
     freetype # font-rendering library, for Whatpulse
