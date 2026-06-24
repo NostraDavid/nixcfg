@@ -14,6 +14,8 @@
       ".bash_profile" = {source = mk "${dot}/bash-5.2.37/.bash_profile";};
       ".bashrc" = {source = mk "${dot}/bash-5.2.37/.bashrc";};
       ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
+      ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
+      ".codex/rules/default.rules" = {source = mk "${dot}/codex-0.140.0/.codex/rules/default.rules";};
       ".codex/RTK.md" = {source = mk "${dot}/rtk-0.41.0/.codex/RTK.md";};
       ".codex/semble.md" = {source = mk "${dot}/semble-0.3.4/.codex/semble.md";};
       ".codex/snip.md" = {source = mk "${dot}/snip-0.18.0/.codex/snip.md";};
