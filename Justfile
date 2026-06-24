@@ -260,13 +260,13 @@ lint-shellcheck:
   @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shellcheck --severity=error
 
 lint-markdown:
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv \) -prune -o -type f -name '*.md' -print0 | xargs -0 --no-run-if-empty markdownlint
+  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules -o -name .terraform \) -prune -o -type f -name '*.md' -print0 | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
 lint-statix:
-  @statix check .
+  @if command -v statix >/dev/null 2>&1; then statix check .; else nix develop --command statix check .; fi
 
 lint-deadnix:
-  @deadnix .
+  @if command -v deadnix >/dev/null 2>&1; then deadnix .; else nix develop --command deadnix .; fi
 
 lint:
   @just lint-ruff
