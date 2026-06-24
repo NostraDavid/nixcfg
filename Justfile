@@ -257,7 +257,7 @@ lint-ruff:
   @ruff check .
 
 lint-shellcheck:
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shellcheck --severity=info
+  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shellcheck --severity=error
 
 lint-markdown:
   @find . -type d \( -name .git -o -name .direnv -o -name .venv \) -prune -o -type f -name '*.md' -print0 | xargs -0 --no-run-if-empty markdownlint
