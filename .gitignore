@@ -30,6 +30,7 @@
 !infra/**/*.example
 !infra/**/.terraform.lock.hcl
 !Justfile
+!.vscode/settings.json
 
 # OpenTofu/Terraform local state and secrets
 infra/**/.terraform/
