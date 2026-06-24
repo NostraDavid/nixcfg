@@ -72,7 +72,7 @@
     "os-theme": "^0.0.8"
   },
   "optionalDependencies": {
-    "@github/copilot-darwin-arm64": "1.0.63",
+    "@github/copilot-darwin-arm64": "1.0.64",
     "@github/copilot-darwin-x64": "1.0.63",
     "@github/copilot-linux-arm64": "1.0.63",
     "@github/copilot-linux-x64": "1.0.63",
