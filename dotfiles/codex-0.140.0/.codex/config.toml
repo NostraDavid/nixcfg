@@ -1,13 +1,94 @@
 model = "gpt-5.5"
 model_reasoning_effort = "low"
 personality = "pragmatic"
-[projects."/home/david/dev/NostraDavid/nixcfg"]
+service_tier = "default"
+
+[desktop]
+ambient-suggestions-enabled = true
+conversationDetailMode = "STEPS_COMMANDS"
+
+[features]
+apps = false
+js_repl = false
+terminal_resize_reflow = true
+
+[marketplaces]
+
+[marketplaces.openai-bundled]
+last_updated = "2026-05-23T17:28:03Z"
+source = "/home/david/.codex/.tmp/bundled-marketplaces/openai-bundled"
+source_type = "local"
+
+[marketplaces.openai-primary-runtime]
+last_updated = "2026-06-23T02:34:17Z"
+source = "/home/david/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+source_type = "local"
+
+[mcp_servers]
+
+[mcp_servers.blender]
+enabled = false
+url = "http://127.0.0.1:9191/"
+
+[mcp_servers.blender_mcp]
+url = "http://blender.localhost:9876/"
+
+[mcp_servers.node_repl]
+args = []
+command = "/nix/store/7knlmlm3dlx9n61gf1nbpwga0lk1shd6-codex-desktop-26.616.51431/opt/codex-desktop/resources/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.616.51431"
+CODEX_HOME = "/home/david/.codex"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = ""
+NODE_REPL_NODE_PATH = "/nix/store/7knlmlm3dlx9n61gf1nbpwga0lk1shd6-codex-desktop-26.616.51431/opt/codex-desktop/resources/node-runtime/bin/node"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "2c20141b13bec5a64cd2874d8e2df011430d5b1a70e4f5425aa10d01743311a8,f839476bb0190a7c727a2002f8870b48716a142bb3bf58d2a5f1b0c0f4aa37a4,68e07cdd981425ba6ccfab9dd0f1511ff7ec311d1ea20a68220fcda559539ed5"
+NODE_REPL_TRUSTED_CODE_PATHS = "/home/david/.codex"
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+
+[plugins]
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."linear@openai-curated"]
+enabled = false
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[projects]
+
+[projects."/"]
 trust_level = "trusted"
 
-[projects."/home/david/dev/NostraDavid/ctb"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/debian-server"]
+[projects."/home/david"]
 trust_level = "trusted"
 
 [projects."/home/david/.codex"]
@@ -16,35 +97,73 @@ trust_level = "trusted"
 [projects."/home/david/.codex/config.toml"]
 trust_level = "trusted"
 
-[projects."/home/david"]
+[projects."/home/david/.codex/skills"]
 trust_level = "trusted"
 
-[projects."/home/david/dev/NostraDavid/entsoe-ingestion-python"]
+[projects."/home/david/.local/share/Steam/steamapps/common/Fatekeeper"]
 trust_level = "trusted"
 
 [projects."/home/david/Desktop"]
 trust_level = "trusted"
 
-[projects."/home/david/dev/Thaumatorium/thaumatorium.com"]
+[projects."/home/david/Documents/Codex/2026-05-25/maak-een-box-in-blender"]
+trust_level = "trusted"
+
+[projects."/home/david/Downloads"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/BattleCraft"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ctb"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/debian-server"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/entsoe-ingestion-python"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/entsoe-ingestion-rust"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/haemwend"]
 trust_level = "trusted"
 
 [projects."/home/david/dev/NostraDavid/homelab"]
 trust_level = "trusted"
 
+[projects."/home/david/dev/NostraDavid/nixcfg"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/normalize-images"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/Thaumatorium/thaumatorium.com"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/bedirt/LLM-Token-Counter-VSCode"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/family-tree"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/t-Bataafsche-Broederschap/tbb"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/t-Bataafsche-Broederschap/website-host"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/t-Bataafsche-Broederschap/website-source"]
+trust_level = "trusted"
+
 [projects."/home/david/dev/t-Bataafsche-Broederschap/website-src"]
 trust_level = "trusted"
 
-[projects."/"]
+[projects."/home/david/wow_3.3.5a"]
 trust_level = "trusted"
 
-[plugins."github@openai-curated"]
-enabled = false
-
-[plugins."linear@openai-curated"]
-enabled = false
+[tui]
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
-
-[features]
-apps = false
