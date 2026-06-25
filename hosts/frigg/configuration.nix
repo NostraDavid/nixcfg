@@ -23,13 +23,14 @@
   ];
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
-    cores = 10;
-    max-jobs = lib.mkForce 10;
+    # Keep laptop rebuilds from running enough parallel compiler jobs to OOM.
+    cores = lib.mkForce 4;
+    max-jobs = lib.mkForce 2;
   };
 
   # Keep Nix builds from saturating all threads.
   systemd.services.nix-daemon.serviceConfig = {
-    CPUQuota = "1000%";
+    CPUQuota = "400%";
   };
 
   # Before changing this value read the documentation for this option

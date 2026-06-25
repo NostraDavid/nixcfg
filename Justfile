@@ -73,16 +73,22 @@ check:
 
 # Test a host configuration temporarily; reverts after reboot.
 test host=default_host:
-  @sudo nixos-rebuild test --flake .#"{{host}}"
+  @opts=(); \
+  if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
+  sudo nixos-rebuild test "${opts[@]}" --flake .#"{{host}}"
 
 # Apply a host configuration immediately and persist across reboots.
 switch host="":
   @if [ -z "{{host}}" ]; then echo "Available hosts:"; nix eval --json .#nixosConfigurations --apply 'attrs: builtins.attrNames attrs' | jq -r '.[]' | sed 's/^/  /'; exit 1; fi
-  @sudo nixos-rebuild switch --flake .#"{{host}}"
+  @opts=(); \
+  if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
+  sudo nixos-rebuild switch "${opts[@]}" --flake .#"{{host}}"
 
 # Stage a host configuration for the next boot only.
 boot host=default_host:
-  @sudo nixos-rebuild boot --flake .#"{{host}}"
+  @opts=(); \
+  if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
+  sudo nixos-rebuild boot "${opts[@]}" --flake .#"{{host}}"
 
 # Build a VM for the selected host configuration.
 build-vm host=default_host:
