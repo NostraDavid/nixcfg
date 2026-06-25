@@ -51,47 +51,6 @@ function ff() {
 	fi
 }
 
-# == open folder in vscode ==
-# usage: code [search_term]
-# requires: fzf, fd, code
-function code_f() {
-	local code_bin dir
-	if [ -n "$*" ]; then
-		dir=$(fd . "$HOME/dev" --no-ignore-vcs --max-depth 2 --type d | fzf --query="$*" -1)
-	else
-		dir=$(fd . "$HOME/dev" --no-ignore-vcs --max-depth 2 --type d | fzf --prompt="Select directory: ")
-	fi
-
-	# Check if a directory was selected
-	if [ -n "$dir" ]; then
-		echo "The directory is '$dir'"
-		code_bin=$(type -P code)
-		if [ -z "$code_bin" ]; then
-			echo "code executable not found."
-			return 1
-		fi
-		env \
-			-u VSCODE_IPC_HOOK_CLI \
-			-u ELECTRON_RUN_AS_NODE \
-			-u NIX_CONFIG \
-			-u IN_NIX_SHELL \
-			-u shellHook \
-			-u stdenv \
-			-u out \
-			-u buildInputs \
-			-u nativeBuildInputs \
-			-u builder \
-			-u phases \
-			"$code_bin" --new-window "$dir"
-	else
-		echo "No directory selected."
-	fi
-}
-
-# we need an alias here, because I need to be able to escape the alias to run the binary
-# e.g. \code .
-alias code=code_f
-
 function rfc3339() {
 	# date | rfc3339
 	date --date="$1" --rfc-3339='seconds'
@@ -193,6 +152,7 @@ function venv() {
 function create_venv() {
 	local python_version="${1:-3.11}"
 	uv venv --python "$python_version"
+	# shellcheck source=/dev/null
 	source .venv/bin/activate
 	uv pip install poetry
 }

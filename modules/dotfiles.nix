@@ -45,6 +45,7 @@
       ".github/copilot-instructions.md" = {source = mk "${dot}/clip-proxy/.config/clip-proxy/proxy-cli-policy.md";};
       ".groovylintrc.json" = {source = mk "${dot}/groovy-lint/.groovylintrc.json";};
       ".inputrc" = {source = mk "${dot}/readline/.inputrc";};
+      ".local/bin/code" = {source = mk "${dot}/scripts/code";};
       ".local/bin/folder_stats" = {source = mk "${dot}/scripts/folder_stats";};
       ".tmux.conf" = {source = mk "${dot}/tmux-3.5a/.tmux.conf";};
       ".vim" = {source = mk "${dot}/vim-9.0/.vim";};

@@ -2,13 +2,17 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
+	# shellcheck source=/dev/null
 	. /etc/bashrc
 fi
 
 # User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+case ":$PATH:" in
+*":$HOME/.local/bin:$HOME/bin:"*) ;;
+*)
 	PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-fi
+	;;
+esac
 export PATH
 
 # Flatpak desktop entries
@@ -29,7 +33,27 @@ export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 
 # $- is the shell options, so we're grabbing the index of 'i' within $-
-iatest=$(expr index "$-" i)
+iatest=0
+case $- in
+*i*) iatest=1 ;;
+esac
+
+has_builtin() {
+	type -t "$1" 2>/dev/null | grep -qx builtin
+}
+
+safe_bind() {
+	has_builtin bind && bind "$@"
+}
+
+safe_shopt() {
+	local mode="$1"
+	local option="$2"
+
+	if has_builtin shopt && shopt "$option" >/dev/null 2>&1; then
+		shopt "$mode" "$option"
+	fi
+}
 
 # If not running interactively, don't do anything
 case $- in
@@ -53,14 +77,16 @@ HISTTIMEFORMAT="%F %T "
 PROMPT_COMMAND='history -a; history -n'
 
 # Allow ctrl-S for history navigation (with ctrl-R)
-stty -ixon
+if [ -t 0 ]; then
+	stty -ixon
+fi
 
 # Ignore case on auto-completion
 # Note: bind used instead of sticking these in .inputrc
-if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
+if [[ $iatest -gt 0 ]]; then safe_bind "set completion-ignore-case on"; fi
 
 # Show auto-completion list automatically, without double tab
-if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
+if [[ $iatest -gt 0 ]]; then safe_bind "set show-all-if-ambiguous On"; fi
 
 # set the default editor
 export EDITOR=vi
@@ -130,7 +156,11 @@ fi
 
 # enable color support of ls
 if [ -x /usr/bin/dircolors ]; then
-	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	if [ -r ~/.dircolors ]; then
+		eval "$(dircolors -b ~/.dircolors)"
+	else
+		eval "$(dircolors -b)"
+	fi
 fi
 
 # colored GCC warnings and errors
@@ -142,38 +172,41 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f "$HOME/.bash_aliases" ]; then
+	# shellcheck source=/dev/null
 	source "$HOME/.bash_aliases"
 fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
+if has_builtin shopt && has_builtin complete && ! shopt -oq posix; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		# shellcheck source=/dev/null
 		. /usr/share/bash-completion/bash_completion
 	elif [ -f /etc/bash_completion ]; then
+		# shellcheck source=/dev/null
 		. /etc/bash_completion
 	fi
 fi
 
 # Disable the bell
-if [[ $iatest -gt 0 ]]; then bind "set bell-style visible"; fi
+if [[ $iatest -gt 0 ]]; then safe_bind "set bell-style visible"; fi
 
 # == shopts ==
 # https://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
-shopt -s autocd         # cd into folder without cd, so 'dotfiles' will cd into the folder
-shopt -s cdspell        # attempt spelling correcting on folders
-shopt -s direxpand      # expand a partial dir name
-shopt -s checkjobs      # stop shell from exit when there's jobs running
-shopt -s dirspell       # attempt spelling correcting on folders
-shopt -s expand_aliases # aliases are expanded
-shopt -s histappend     # append to the history file, don't overwrite it
-shopt -s histreedit     # lets your re-edit old executed command
-shopt -s histverify     # I'm confused.
-shopt -s hostcomplete   # performs completion when a word contains an '@'
-shopt -s cmdhist        # save multiple-line command in single history entry
-shopt -u lithist        # multi-lines are saved with embedded newlines rather than semicolons; explictly unset
-shopt -s checkwinsize   # update LINES and COLUMNS to fit output
+safe_shopt -s autocd         # cd into folder without cd, so 'dotfiles' will cd into the folder
+safe_shopt -s cdspell        # attempt spelling correcting on folders
+safe_shopt -s direxpand      # expand a partial dir name
+safe_shopt -s checkjobs      # stop shell from exit when there's jobs running
+safe_shopt -s dirspell       # attempt spelling correcting on folders
+safe_shopt -s expand_aliases # aliases are expanded
+safe_shopt -s histappend     # append to the history file, don't overwrite it
+safe_shopt -s histreedit     # lets your re-edit old executed command
+safe_shopt -s histverify     # I'm confused.
+safe_shopt -s hostcomplete   # performs completion when a word contains an '@'
+safe_shopt -s cmdhist        # save multiple-line command in single history entry
+safe_shopt -u lithist        # multi-lines are saved with embedded newlines rather than semicolons; explictly unset
+safe_shopt -s checkwinsize   # update LINES and COLUMNS to fit output
 
 # == other ==
 #export PAGER="most" # better color support than `less`
@@ -222,7 +255,9 @@ function _pip_completion() {
 		COMP_CWORD=$COMP_CWORD \
 		PIP_AUTO_COMPLETE=1 $1 2>/dev/null)
 }
-complete -o default -F _pip_completion pip
+if has_builtin complete; then
+	complete -o default -F _pip_completion pip
+fi
 # pip bash completion end
 
 # == tmux addon ==
@@ -245,7 +280,13 @@ fi
 # == fzf-bash integration via ctrl-r ==
 if [ -n "${XDG_DATA_DIRS-}" ]; then
 	for dir in ${XDG_DATA_DIRS//:/ }; do
-		[ -f "$dir/fzf/completion.bash" ] && source "$dir/fzf/completion.bash"
-		[ -f "$dir/fzf/key-bindings.bash" ] && source "$dir/fzf/key-bindings.bash"
+		if has_builtin complete && [ -f "$dir/fzf/completion.bash" ]; then
+			# shellcheck source=/dev/null
+			source "$dir/fzf/completion.bash"
+		fi
+		if has_builtin bind && [ -f "$dir/fzf/key-bindings.bash" ]; then
+			# shellcheck source=/dev/null
+			source "$dir/fzf/key-bindings.bash"
+		fi
 	done
 fi
