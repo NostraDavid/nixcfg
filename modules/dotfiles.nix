@@ -55,6 +55,7 @@
       "dev/get_azure_repos.py" = {source = mk "${dot}/dev/get_azure_repos.py";};
       "dev/grab.py" = {source = mk "${dot}/dev/grab.py";};
       "dev/repos.dat" = {source = mk "${dot}/dev/repos.dat";};
+      "dev/restore_repos.py" = {source = mk "${dot}/dev/restore_repos.py";};
       "dev/save_cloned_repos.py" = {source = mk "${dot}/dev/save_cloned_repos.py";};
       "dev/update_all_local_repos.py" = {source = mk "${dot}/dev/update_all_local_repos.py";};
       "rsync-bitvavo" = {source = mk "${dot}/scripts/rsync-bitvavo";};
