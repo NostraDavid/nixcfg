@@ -5,7 +5,7 @@
   # were managed by `stow`, which needs this folder structure to work correctly.
   # I decided to keep it that way, so I could return to stow in the future.
   home.file = let
-    dot = "${config.home.homeDirectory}/dev/NostraDavid/nixcfg/dotfiles";
+    dot = "${config.home.homeDirectory}/dev/NostraDavid/nixcfg/branches/master/dotfiles";
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
   in
@@ -20,7 +20,6 @@
       ".codex/semble.md" = {source = mk "${dot}/semble-0.3.4/.codex/semble.md";};
       ".codex/snip.md" = {source = mk "${dot}/snip-0.18.0/.codex/snip.md";};
       ".config/clip-proxy/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/.config/clip-proxy/proxy-cli-policy.md";};
-      ".config/baloofilerc" = {source = mk "${dot}/baloo-6.20.0/.config/baloofilerc";};
       ".config/bat/config" = {source = mk "${dot}/bat-0.25.0/.config/bat/config";};
       ".config/btop/btop.conf" = {source = mk "${dot}/btop/btop.conf";};
       ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode/.config/Code/User/keybindings.json";};

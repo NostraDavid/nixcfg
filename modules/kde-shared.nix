@@ -1,4 +1,12 @@
-{
+{lib, ...}: {
+  home.activation.preparePlasmaBaloofile = lib.hm.dag.entryBetween ["configure-plasma"] ["writeBoundary"] ''
+    target="$HOME/.config/baloofilerc"
+    $DRY_RUN_CMD mkdir -p "$HOME/.config"
+    if [ -L "$target" ]; then
+      $DRY_RUN_CMD rm "$target"
+    fi
+  '';
+
   programs.plasma = {
     enable = true;
 
