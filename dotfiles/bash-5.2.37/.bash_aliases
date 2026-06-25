@@ -115,46 +115,9 @@ alias cd=cd_f
 # == go to folder and activate venv ==
 # Usage: venv [search_term]
 function venv() {
-	local query="$*"
-
-	# Use fzf to select a directory within ~/dev with a depth of 2, optionally filtered by the query
-	local dir
-	if [[ -n "$query" ]]; then
-		dir=$(find ~/dev -maxdepth 2 -type d | fzf --query="$query" -1 -0)
-	else
-		dir=$(find ~/dev -maxdepth 2 -type d | fzf --prompt="Select directory: " -1 -0)
-	fi
-
-	# If a directory is selected
-	if [[ -n "$dir" ]]; then
-		cd "$dir" || return
-
-		# Try to activate the virtual environment
-		if [[ -f ".venv/bin/activate" ]]; then
-			# shellcheck source=/dev/null
-			source .venv/bin/activate
-		else
-			# If activation fails, create a new virtual environment
-			uv venv --python 3.11
-			if [[ -f ".venv/bin/activate" ]]; then
-				# shellcheck source=/dev/null
-				source .venv/bin/activate
-				uv pip install poetry==2.1.2
-			else
-				echo "Failed to create or activate virtual environment."
-			fi
-		fi
-	else
-		echo "No directory selected."
-	fi
-}
-
-function create_venv() {
-	local python_version="${1:-3.11}"
-	uv venv --python "$python_version"
-	# shellcheck source=/dev/null
-	source .venv/bin/activate
-	uv pip install poetry
+	local commands
+	commands=$("$HOME/.local/bin/venv" "$@") || return
+	eval "$commands"
 }
 
 alias sc-services-all='systemctl list-unit-files --type=service'

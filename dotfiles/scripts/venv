@@ -1,0 +1,193 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.14"
+# ///
+
+from __future__ import annotations
+
+import argparse
+import shlex
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+
+DEV_ROOT = Path.home() / "dev"
+DEFAULT_PYTHON = "3.11"
+POETRY_VERSION = "2.1.2"
+
+
+def sanitize_worktree_name(ref_name: str) -> str:
+    return ref_name.strip().replace("/", "-")
+
+
+def run(
+    args: list[str],
+    *,
+    input_text: str | None = None,
+) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        args,
+        input=input_text,
+        check=False,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+
+
+def require(command: str) -> None:
+    if shutil.which(command) is None:
+        print(f"{command} executable not found.", file=sys.stderr)
+        raise SystemExit(1)
+
+
+def discover_repos(dev_root: Path) -> list[tuple[str, Path]]:
+    if not dev_root.exists():
+        print(f"Development directory not found: {dev_root}", file=sys.stderr)
+        raise SystemExit(1)
+
+    repos: list[tuple[str, Path]] = []
+    for bare_dir in sorted(dev_root.glob("*/*/bare.git")):
+        repo_root = bare_dir.parent
+        if not repo_root.is_dir():
+            continue
+
+        label = str(repo_root.relative_to(dev_root))
+        repos.append((label, repo_root))
+
+    return repos
+
+
+def choose_with_fzf(
+    labels: list[str],
+    *,
+    prompt: str,
+    query: str = "",
+) -> str | None:
+    if not labels:
+        return None
+
+    args = ["fzf", "--prompt", prompt]
+    if query:
+        args += ["--query", query]
+
+    proc = run(args, input_text="\n".join(labels) + "\n")
+    if proc.returncode != 0:
+        return None
+
+    selected = proc.stdout.strip()
+    return selected or None
+
+
+def list_git_refs(bare_dir: Path) -> list[str]:
+    proc = run(
+        [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "for-each-ref",
+            "--format=%(refname:strip=3)",
+            "refs/remotes/origin",
+        ],
+    )
+    if proc.returncode != 0:
+        return []
+
+    return sorted(
+        branch for branch in proc.stdout.splitlines() if branch and branch != "HEAD"
+    )
+
+
+def list_branches(repo_root: Path) -> list[tuple[str, Path]]:
+    branches_root = repo_root / "branches"
+    branches: list[tuple[str, Path]] = []
+
+    if branches_root.exists():
+        for path in sorted(branches_root.iterdir()):
+            if path.is_dir():
+                branches.append((path.name, path))
+
+    bare_dir = repo_root / "bare.git"
+    if bare_dir.exists():
+        existing_labels = {label for label, _ in branches}
+        for branch in list_git_refs(bare_dir):
+            label = sanitize_worktree_name(branch)
+            if label in existing_labels:
+                continue
+            branches.append((label, branches_root / label))
+
+    return branches
+
+
+def shell_join(args: list[str]) -> str:
+    return " ".join(shlex.quote(arg) for arg in args)
+
+
+def emit_activation(target: Path, python: str) -> None:
+    quoted_target = shlex.quote(str(target))
+    print(f"cd {quoted_target} || return")
+    print("if [ -f .venv/bin/activate ]; then")
+    print("  . .venv/bin/activate")
+    print("else")
+    print(f"  {shell_join(['uv', 'venv', '--python', python])} || return")
+    print("  if [ -f .venv/bin/activate ]; then")
+    print("    . .venv/bin/activate")
+    print(f"    {shell_join(['uv', 'pip', 'install', f'poetry=={POETRY_VERSION}'])}")
+    print("  else")
+    print("    printf '%s\\n' 'Failed to create or activate virtual environment.' >&2")
+    print("    return 1")
+    print("  fi")
+    print("fi")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Select a repo branch worktree and emit shell commands to activate its venv."
+    )
+    parser.add_argument("query", nargs="*", help="Initial fzf query for the repo.")
+    parser.add_argument(
+        "--python",
+        default=DEFAULT_PYTHON,
+        help=f"Python version for new virtual environments. Defaults to {DEFAULT_PYTHON}.",
+    )
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    require("fzf")
+    require("git")
+    require("uv")
+
+    repos = discover_repos(DEV_ROOT)
+    repo_by_label = dict(repos)
+    repo_label = choose_with_fzf(
+        list(repo_by_label),
+        prompt="Select repo: ",
+        query=" ".join(args.query),
+    )
+    if repo_label is None:
+        print("No repository selected.", file=sys.stderr)
+        return 1
+
+    repo_root = repo_by_label[repo_label]
+    branches = list_branches(repo_root)
+    branch_by_label = dict(branches)
+    branch_label = choose_with_fzf(list(branch_by_label), prompt="Select branch: ")
+    if branch_label is None:
+        print("No branch selected.", file=sys.stderr)
+        return 1
+
+    target = branch_by_label[branch_label]
+    if not target.exists():
+        print(f"Branch worktree does not exist: {target}", file=sys.stderr)
+        return 1
+
+    emit_activation(target, args.python)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
