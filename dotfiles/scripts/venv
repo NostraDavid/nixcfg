@@ -51,13 +51,13 @@ def shell_join(args: list[str]) -> str:
     return " ".join(shlex.quote(arg) for arg in args)
 
 
-def emit_activation(target: Path, python: str) -> None:
+def emit_activation(target: Path, python: str, uv_args: list[str]) -> None:
     quoted_target = shlex.quote(str(target))
     print(f"cd {quoted_target} || return")
     print("if [ -f .venv/bin/activate ]; then")
     print("  . .venv/bin/activate")
     print("else")
-    print(f"  {shell_join(['uv', 'venv', '--python', python])} || return")
+    print(f"  {shell_join(build_uv_venv_command(python, uv_args))} || return")
     print("  if [ -f .venv/bin/activate ]; then")
     print("    . .venv/bin/activate")
     print(f"    {shell_join(['uv', 'pip', 'install', f'poetry=={POETRY_VERSION}'])}")
@@ -68,7 +68,11 @@ def emit_activation(target: Path, python: str) -> None:
     print("fi")
 
 
-def parse_args() -> argparse.Namespace:
+def build_uv_venv_command(python: str, extra_args: list[str]) -> list[str]:
+    return ["uv", "venv", "--python", python, *extra_args]
+
+
+def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Select a repo branch worktree and emit shell commands to activate its venv."
     )
@@ -78,11 +82,22 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_PYTHON,
         help=f"Python version for new virtual environments. Defaults to {DEFAULT_PYTHON}.",
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--uv-arg",
+        action="append",
+        default=[],
+        metavar="ARG",
+        help="Pass an extra argument to `uv venv` without affecting branch selection. Repeat as needed.",
+    )
+    parser.epilog = (
+        "Use `--uv-arg` for arguments that should only go to `uv venv`, "
+        "for example: venv feature/foo --python 3.12 --uv-arg=--seed"
+    )
+    return parser.parse_args(argv)
 
 
 def main() -> int:
-    args = parse_args()
+    args = parse_args(sys.argv[1:])
     require("uv")
 
     picker = find_project_picker()
@@ -93,7 +108,7 @@ def main() -> int:
 
     target = Path(proc.stdout.strip())
 
-    emit_activation(target, args.python)
+    emit_activation(target, args.python, args.uv_arg)
     return 0
 
 

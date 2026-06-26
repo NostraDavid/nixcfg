@@ -78,6 +78,15 @@ def clean_vscode_env() -> dict[str, str]:
     return env
 
 
+def supports_new_window(code_bin: str) -> bool:
+    proc = run([code_bin, "--help"])
+    if proc.returncode != 0:
+        return False
+
+    help_text = f"{proc.stdout}\n{proc.stderr}"
+    return "--new-window" in help_text
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Open a repo branch worktree in VS Code."
@@ -88,18 +97,26 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    picker = find_project_picker()
-    proc = run([picker, *args.query])
-    if proc.returncode != 0:
-        print(proc.stderr, end="", file=sys.stderr)
-        return proc.returncode
-
-    target = Path(proc.stdout.strip())
-
     code_bin = find_code_binary()
+    env = clean_vscode_env()
+    command = [code_bin]
+
+    if args.query:
+        picker = find_project_picker()
+        proc = run([picker, *args.query])
+        if proc.returncode != 0:
+            print(proc.stderr, end="", file=sys.stderr)
+            return proc.returncode
+
+        target = Path(proc.stdout.strip())
+        command.append(str(target))
+
+    if supports_new_window(code_bin):
+        command.insert(1, "--new-window")
+
     return subprocess.run(
-        [code_bin, "--new-window", str(target)],
-        env=clean_vscode_env(),
+        command,
+        env=env,
         check=False,
     ).returncode
 

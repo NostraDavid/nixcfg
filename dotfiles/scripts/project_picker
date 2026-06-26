@@ -57,6 +57,17 @@ def discover_repos(dev_root: Path) -> list[tuple[str, Path]]:
     return repos
 
 
+def find_current_repo_root(
+    repos: list[tuple[str, Path]],
+    cwd: Path,
+) -> Path | None:
+    for _, repo_root in repos:
+        if cwd == repo_root or cwd.is_relative_to(repo_root):
+            return repo_root
+
+    return None
+
+
 def choose_with_fzf(
     labels: list[str],
     *,
@@ -102,9 +113,10 @@ def list_branches(repo_root: Path) -> list[tuple[str, Path]]:
     branches: list[tuple[str, Path]] = []
 
     if branches_root.exists():
-        for path in sorted(branches_root.iterdir()):
-            if path.is_dir():
-                branches.append((path.name, path))
+        for path in sorted(branches_root.rglob("*")):
+            if path.is_dir() and (path / ".git").exists():
+                label = str(path.relative_to(branches_root))
+                branches.append((label, path))
 
     bare_dir = repo_root / "bare.git"
     if bare_dir.exists():
@@ -116,6 +128,48 @@ def list_branches(repo_root: Path) -> list[tuple[str, Path]]:
             branches.append((label, branches_root / label))
 
     return branches
+
+
+def resolve_branch_query(
+    repos: list[tuple[str, Path]],
+    query: str,
+    cwd: Path,
+) -> Path | None:
+    branch_query = query.strip().strip("/")
+    if not branch_query:
+        return None
+
+    def repo_matches(repo_root: Path) -> list[Path]:
+        matches: list[Path] = []
+        for label, path in list_branches(repo_root):
+            aliases = {
+                label.strip("/"),
+                Path(label).name,
+                sanitize_worktree_name(label),
+            }
+            if branch_query in aliases and path.exists():
+                matches.append(path)
+        return matches
+
+    preferred_repo = find_current_repo_root(repos, cwd)
+    if preferred_repo is not None:
+        matches = repo_matches(preferred_repo)
+        if len(matches) == 1:
+            return matches[0]
+
+    matches: list[Path] = []
+    seen: set[Path] = set()
+    for _, repo_root in repos:
+        for path in repo_matches(repo_root):
+            if path in seen:
+                continue
+            seen.add(path)
+            matches.append(path)
+
+    if len(matches) == 1:
+        return matches[0]
+
+    return None
 
 
 def parse_args() -> argparse.Namespace:
@@ -132,6 +186,11 @@ def main() -> int:
     require("git")
 
     repos = discover_repos(DEV_ROOT)
+    direct_match = resolve_branch_query(repos, " ".join(args.query), Path.cwd())
+    if direct_match is not None:
+        print(direct_match)
+        return 0
+
     repo_by_label = dict(repos)
     repo_label = choose_with_fzf(
         list(repo_by_label),
@@ -145,7 +204,10 @@ def main() -> int:
     repo_root = repo_by_label[repo_label]
     branches = list_branches(repo_root)
     branch_by_label = dict(branches)
-    branch_label = choose_with_fzf(list(branch_by_label), prompt="Select branch: ")
+    branch_label = choose_with_fzf(
+        list(branch_by_label),
+        prompt="Select branch: ",
+    )
     if branch_label is None:
         print("No branch selected.", file=sys.stderr)
         return 1
