@@ -13,23 +13,9 @@ import sys
 from pathlib import Path
 
 
-DEV_ROOT = Path.home() / "dev"
-
-
-def sanitize_worktree_name(ref_name: str) -> str:
-    return ref_name.strip().replace("/", "-")
-
-
-def run(
-    args: list[str],
-    *,
-    cwd: Path | None = None,
-    input_text: str | None = None,
-) -> subprocess.CompletedProcess[str]:
+def run(args: list[str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         args,
-        cwd=cwd,
-        input=input_text,
         check=False,
         text=True,
         stdout=subprocess.PIPE,
@@ -41,84 +27,6 @@ def require(command: str) -> None:
     if shutil.which(command) is None:
         print(f"{command} executable not found.", file=sys.stderr)
         raise SystemExit(1)
-
-
-def discover_repos(dev_root: Path) -> list[tuple[str, Path]]:
-    if not dev_root.exists():
-        print(f"Development directory not found: {dev_root}", file=sys.stderr)
-        raise SystemExit(1)
-
-    repos: list[tuple[str, Path]] = []
-    for bare_dir in sorted(dev_root.glob("*/*/bare.git")):
-        repo_root = bare_dir.parent
-        if not repo_root.is_dir():
-            continue
-
-        label = str(repo_root.relative_to(dev_root))
-        repos.append((label, repo_root))
-
-    return repos
-
-
-def choose_with_fzf(
-    labels: list[str],
-    *,
-    prompt: str,
-    query: str = "",
-) -> str | None:
-    if not labels:
-        return None
-
-    args = ["fzf", "--prompt", prompt]
-    if query:
-        args += ["--query", query]
-
-    proc = run(args, input_text="\n".join(labels) + "\n")
-    if proc.returncode != 0:
-        return None
-
-    selected = proc.stdout.strip()
-    return selected or None
-
-
-def list_git_refs(bare_dir: Path) -> list[str]:
-    proc = run(
-        [
-            "git",
-            "--git-dir",
-            str(bare_dir),
-            "for-each-ref",
-            "--format=%(refname:strip=3)",
-            "refs/remotes/origin",
-        ],
-    )
-    if proc.returncode != 0:
-        return []
-
-    return sorted(
-        branch for branch in proc.stdout.splitlines() if branch and branch != "HEAD"
-    )
-
-
-def list_branches(repo_root: Path) -> list[tuple[str, Path]]:
-    branches_root = repo_root / "branches"
-    branches: list[tuple[str, Path]] = []
-
-    if branches_root.exists():
-        for path in sorted(branches_root.iterdir()):
-            if path.is_dir():
-                branches.append((path.name, path))
-
-    bare_dir = repo_root / "bare.git"
-    if bare_dir.exists():
-        existing_labels = {label for label, _ in branches}
-        for branch in list_git_refs(bare_dir):
-            label = sanitize_worktree_name(branch)
-            if label in existing_labels:
-                continue
-            branches.append((label, branches_root / label))
-
-    return branches
 
 
 def find_code_binary() -> str:
@@ -135,6 +43,19 @@ def find_code_binary() -> str:
         return str(candidate)
 
     print("VS Code code executable not found.", file=sys.stderr)
+    raise SystemExit(1)
+
+
+def find_project_picker() -> str:
+    adjacent = Path(__file__).resolve().with_name("project_picker")
+    if adjacent.exists() and os.access(adjacent, os.X_OK):
+        return str(adjacent)
+
+    picker = shutil.which("project_picker")
+    if picker is not None:
+        return picker
+
+    print("project_picker executable not found.", file=sys.stderr)
     raise SystemExit(1)
 
 
@@ -167,32 +88,13 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    require("fzf")
-    require("git")
+    picker = find_project_picker()
+    proc = run([picker, *args.query])
+    if proc.returncode != 0:
+        print(proc.stderr, end="", file=sys.stderr)
+        return proc.returncode
 
-    repos = discover_repos(DEV_ROOT)
-    repo_by_label = dict(repos)
-    repo_label = choose_with_fzf(
-        list(repo_by_label),
-        prompt="Select repo: ",
-        query=" ".join(args.query),
-    )
-    if repo_label is None:
-        print("No repository selected.", file=sys.stderr)
-        return 1
-
-    repo_root = repo_by_label[repo_label]
-    branches = list_branches(repo_root)
-    branch_by_label = dict(branches)
-    branch_label = choose_with_fzf(list(branch_by_label), prompt="Select branch: ")
-    if branch_label is None:
-        print("No branch selected.", file=sys.stderr)
-        return 1
-
-    target = branch_by_label[branch_label]
-    if not target.exists():
-        print(f"Branch worktree does not exist: {target}", file=sys.stderr)
-        return 1
+    target = Path(proc.stdout.strip())
 
     code_bin = find_code_binary()
     return subprocess.run(

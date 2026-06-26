@@ -48,6 +48,7 @@
       ".local/bin/code" = {source = mk "${dot}/scripts/code";};
       ".local/bin/folder_stats" = {source = mk "${dot}/scripts/folder_stats";};
       ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color";};
+      ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker";};
       ".local/bin/venv" = {source = mk "${dot}/scripts/venv";};
       ".tmux.conf" = {source = mk "${dot}/tmux-3.5a/.tmux.conf";};
       ".vim" = {source = mk "${dot}/vim-9.0/.vim";};
