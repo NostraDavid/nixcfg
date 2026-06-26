@@ -44,14 +44,14 @@ pkg-update package:
 
 # Update every local flake package via its updater or nix-update fallback.
 pkg-update-all:
-  @failures=(); \
+  @red="$$(printf '\033[31m')"; reset="$$(printf '\033[0m')"; bold="$$(printf '\033[1m')"; failures=(); \
   for package in $(nix eval --json .#packages.$(nix eval --impure --raw --expr 'builtins.currentSystem') --apply 'pkgs: builtins.attrNames pkgs' | jq -r '.[]'); do \
     if ! just pkg-update "$package"; then \
       failures+=("$package"); \
     fi; \
   done; \
   if [ ${#failures[@]} -gt 0 ]; then \
-    printf 'Packages with failed updates:\n' >&2; \
+    printf '%s%sPackages with failed updates:%s\n' "$$bold" "$$red" "$$reset" >&2; \
     printf '  %s\n' "${failures[@]}" >&2; \
     exit 1; \
   fi

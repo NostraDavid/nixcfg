@@ -9,6 +9,83 @@ system="${NIX_SYSTEM:-$(nix eval --impure --raw --expr 'builtins.currentSystem')
 flake_packages=".#packages.${system}"
 export NIX_CONFIG=$'warn-dirty = false\n'"${NIX_CONFIG:-}"
 
+if [[ -t 1 || -t 2 ]]; then
+	C_RESET=$'\033[0m'
+	C_RED=$'\033[31m'
+	C_GREEN=$'\033[32m'
+	C_YELLOW=$'\033[33m'
+	C_BLUE=$'\033[34m'
+	C_BOLD=$'\033[1m'
+else
+	C_RESET=''
+	C_RED=''
+	C_GREEN=''
+	C_YELLOW=''
+	C_BLUE=''
+	C_BOLD=''
+fi
+
+print_info() {
+	printf '%s%s%s\n' "${C_BLUE}" "$1" "${C_RESET}"
+}
+
+print_success() {
+	printf '%s%s%s\n' "${C_GREEN}" "$1" "${C_RESET}"
+}
+
+print_warning() {
+	printf '%s%s%s\n' "${C_YELLOW}" "$1" "${C_RESET}"
+}
+
+print_error() {
+	printf '%s%s%s\n' "${C_RED}" "$1" "${C_RESET}" >&2
+}
+
+print_log_line() {
+	local line="$1"
+	local stream="${2:-stdout}"
+	local prefix='' suffix=''
+
+	case "${line}" in
+		Updating\ *to\ version*|Updating\ *to\ unstable-*)
+			prefix="${C_BOLD}${C_BLUE}"
+			suffix="${C_RESET}"
+			;;
+		Verifying\ nix\ build...|Determining\ source\ hash...|No\ changes\ detected,*)
+			prefix="${C_BLUE}"
+			suffix="${C_RESET}"
+			;;
+		*update\ complete.)
+			prefix="${C_GREEN}"
+			suffix="${C_RESET}"
+			;;
+		Skipping\ update\ for*)
+			prefix="${C_YELLOW}"
+			suffix="${C_RESET}"
+			;;
+		*error:*|error:*|*Error:*|Traceback*|*failed*|*Failed*)
+			prefix="${C_RED}"
+			suffix="${C_RESET}"
+			;;
+	esac
+
+	if [[ "${stream}" == "stderr" ]]; then
+		printf '%s%s%s\n' "${prefix}" "${line}" "${suffix}" >&2
+	else
+		printf '%s%s%s\n' "${prefix}" "${line}" "${suffix}"
+	fi
+}
+
+emit_log_file() {
+	local log_file="$1"
+	local stream="${2:-stdout}"
+	local line
+
+	while IFS= read -r line || [[ -n "${line}" ]]; do
+		print_log_line "${line}" "${stream}"
+	done <"${log_file}"
+}
+
 usage() {
 	cat <<'EOF'
 Usage:
@@ -111,7 +188,7 @@ run_embedded_nix_update() {
 	local dir="$1"
 	local pkg="$2"
 	local update_script
-	local -a cmd
+	local -a cmd extra_args
 
 	update_script="$(package_update_script "${dir}" "${pkg}")"
 	read -r -a cmd <<<"${update_script}"
@@ -126,7 +203,8 @@ run_embedded_nix_update() {
 
 	(
 		cd "${dir}"
-		"${cmd[@]}" -F "${pkg}"
+		extra_args=("${cmd[@]:1}")
+		nix run nixpkgs#nix-update -- "${extra_args[@]}" -F "${pkg}"
 	)
 }
 
@@ -183,11 +261,11 @@ run_update() {
 		)
 		;;
 	unsupported-external-script)
-		printf 'Unsupported updater for %s\n' "${pkg}" >&2
+		print_error "Unsupported updater for ${pkg}"
 		return 2
 		;;
 	*)
-		printf 'Unknown updater mode for %s: %s\n' "${pkg}" "${mode}" >&2
+		print_error "Unknown updater mode for ${pkg}: ${mode}"
 		return 1
 		;;
 	esac
@@ -270,8 +348,8 @@ ensure_package() {
 		return 0
 	fi
 
-	printf 'Unknown local package: %s\n' "${pkg}" >&2
-	printf 'Available packages:\n' >&2
+	print_error "Unknown local package: ${pkg}"
+	printf '%sAvailable packages:%s\n' "${C_BOLD}" "${C_RESET}" >&2
 	list_packages | sed 's/^/  /' >&2
 	exit 1
 }
@@ -306,7 +384,7 @@ list_updates() {
 		if run_update "${tmpdir}/repo" "${pkg}" >"${update_log}" 2>&1; then
 			after="$(package_version "${tmpdir}/repo" "${pkg}")"
 			if [[ "${before}" != "${after}" ]] && looks_like_real_version "${after}"; then
-				printf '%s %s -> %s\n' "${pkg}" "${before}" "${after}"
+				print_success "${pkg} ${before} -> ${after}"
 				found=1
 			fi
 		else
@@ -318,11 +396,11 @@ list_updates() {
 	done
 
 	if [[ "${found}" -eq 0 ]]; then
-		echo "No newer versions found."
+		print_info "No newer versions found."
 	fi
 
 	if [[ ${#skipped[@]} -gt 0 ]]; then
-		printf 'Skipped probes:\n' >&2
+		printf '%sSkipped probes:%s\n' "${C_BOLD}${C_YELLOW}" "${C_RESET}" >&2
 		printf '  %s\n' "${skipped[@]}" >&2
 	fi
 }
@@ -338,16 +416,31 @@ main() {
 
 	case "${command}" in
 	update)
+		local tmpdir update_log skip_reason
 		if [[ $# -ne 1 ]]; then
 			usage >&2
 			exit 1
 		fi
 		ensure_package "${repo_root}" "$1"
 		if skip_reason="$(probe_skip_reason "${repo_root}" "$1")"; then
-			printf 'Skipping update for %s: %s\n' "$1" "${skip_reason}"
+			print_warning "Skipping update for $1: ${skip_reason}"
 			exit 0
 		fi
-		run_update "${repo_root}" "$1"
+		tmpdir="$(mktemp -d)"
+		update_log="${tmpdir}/update.log"
+		if run_update "${repo_root}" "$1" >"${update_log}" 2>&1; then
+			emit_log_file "${update_log}"
+			rm -rf "${tmpdir}"
+			exit 0
+		fi
+		if skip_reason="$(summarize_failure "${update_log}")"; then
+			print_warning "Skipping update for $1: ${skip_reason}"
+			rm -rf "${tmpdir}"
+			exit 0
+		fi
+		emit_log_file "${update_log}" stderr
+		rm -rf "${tmpdir}"
+		exit 1
 		;;
 	list)
 		list_updates "$@"
