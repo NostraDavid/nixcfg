@@ -2,6 +2,8 @@
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
+#     "opentelemetry-api>=1.36.0",
+#     "opentelemetry-sdk>=1.36.0",
 #     "structlog>=26.1.0",
 # ]
 # ///
@@ -15,20 +17,130 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from datetime import datetime
+from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import urlparse
 
+from opentelemetry import trace
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace import ReadableSpan, TracerProvider
+from opentelemetry.sdk.trace.export import (
+    SimpleSpanProcessor,
+    SpanExportResult,
+    SpanExporter,
+)
+from opentelemetry.trace import Span, Status, StatusCode
 import structlog as sl
 from structlog.stdlib import get_logger
 
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
 DEFAULT_BRANCHES = ("main", "master", "dev")
-FETCH_TIMEOUT = 60
+DEFAULT_FETCH_TIMEOUT = 300
 TIMEOUT = 30
 
 logger = get_logger()
+tracer = trace.get_tracer(__name__)
+
+
+@dataclass
+class RepoTrace:
+    span: Span
+    repo_url: str
+    repo: str
+    started_monotonic: float = field(default_factory=time.monotonic)
+    actions: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    branches_selected: list[str] = field(default_factory=list)
+    tags_selected: list[str] = field(default_factory=list)
+    worktrees_enabled: bool = True
+    prune_worktrees: bool = False
+    fetch_timeout_seconds: int = DEFAULT_FETCH_TIMEOUT
+
+    def add_action(self, message: str) -> None:
+        self.actions.append(message)
+
+    def add_warning(self, message: str) -> None:
+        self.warnings.append(message)
+
+    def finish(self, ok: bool, reason: str) -> None:
+        self.span.set_attribute("grab.repo", self.repo)
+        self.span.set_attribute("grab.repo_url", self.repo_url)
+        self.span.set_attribute("grab.ok", ok)
+        self.span.set_attribute("grab.reason", reason)
+        self.span.set_attribute(
+            "grab.elapsed_ms",
+            round((time.monotonic() - self.started_monotonic) * 1000),
+        )
+        self.span.set_attribute("grab.worktrees_enabled", self.worktrees_enabled)
+        self.span.set_attribute("grab.prune_worktrees", self.prune_worktrees)
+        self.span.set_attribute("grab.fetch_timeout_seconds", self.fetch_timeout_seconds)
+        self.span.set_attribute("grab.branches", self.branches_selected)
+        self.span.set_attribute("grab.tags", self.tags_selected)
+        self.span.set_attribute("grab.actions", self.actions)
+        self.span.set_attribute("grab.warnings", self.warnings)
+        if ok:
+            self.span.set_status(Status(StatusCode.OK))
+        else:
+            self.span.set_status(Status(StatusCode.ERROR, reason))
+
+
+class RepoSummarySpanExporter(SpanExporter):
+    def export(self, spans: list[ReadableSpan]) -> SpanExportResult:
+        for span in spans:
+            if span.name != "repo.sync":
+                continue
+
+            attrs = span.attributes
+            status_ok = attrs.get("grab.ok", False)
+            log = logger.info if status_ok else logger.error
+            context = span.context
+            log(
+                "repo_sync",
+                trace_id=f"{context.trace_id:032x}",
+                span_id=f"{context.span_id:016x}",
+                repo=attrs.get("grab.repo"),
+                repo_url=attrs.get("grab.repo_url"),
+                ok=status_ok,
+                reason=attrs.get("grab.reason"),
+                elapsed_ms=attrs.get("grab.elapsed_ms"),
+                worktrees_enabled=attrs.get("grab.worktrees_enabled"),
+                prune_worktrees=attrs.get("grab.prune_worktrees"),
+                fetch_timeout_seconds=attrs.get("grab.fetch_timeout_seconds"),
+                branches=list(attrs.get("grab.branches", ())),
+                tags=list(attrs.get("grab.tags", ())),
+                actions=list(attrs.get("grab.actions", ())),
+                warnings=list(attrs.get("grab.warnings", ())),
+            )
+        return SpanExportResult.SUCCESS
+
+    def shutdown(self) -> None:
+        return None
+
+
+def configure_tracing() -> None:
+    provider = TracerProvider(
+        resource=Resource.create({"service.name": "grab.py"})
+    )
+    provider.add_span_processor(SimpleSpanProcessor(RepoSummarySpanExporter()))
+    trace.set_tracer_provider(provider)
+    global tracer
+    tracer = trace.get_tracer("grab.py")
+
+
+def finish_repo_trace(trace_ctx: RepoTrace, ok: bool, reason: str) -> tuple[str, bool, str]:
+    trace_ctx.finish(ok, reason)
+    return trace_ctx.repo_url, ok, reason
+
+
+def fail_repo_trace(trace_ctx: RepoTrace, reason: str) -> tuple[str, bool, str]:
+    return finish_repo_trace(trace_ctx, False, reason)
+
+
+def succeed_repo_trace(trace_ctx: RepoTrace, reason: str) -> tuple[str, bool, str]:
+    return finish_repo_trace(trace_ctx, True, reason)
 
 
 def configure_logging() -> None:
@@ -155,7 +267,7 @@ def repo_is_bare_repo(repo_path: Path) -> bool:
     return proc.returncode == 0 and proc.stdout.strip() == "true"
 
 
-def cleanup_partial(repo_path: Path) -> None:
+def cleanup_partial(repo_path: Path, trace: RepoTrace | None = None) -> None:
     if not repo_path.exists():
         return
     try:
@@ -166,7 +278,11 @@ def cleanup_partial(repo_path: Path) -> None:
                 (Path(root) / name).rmdir()
         repo_path.rmdir()
     except Exception as exc:  # noqa: BLE001
-        logger.warning("cleanup_failed", repo_path=str(repo_path), error=str(exc))
+        message = f"cleanup failed for {repo_path}: {exc}"
+        if trace is None:
+            logger.warning("cleanup_failed", repo_path=str(repo_path), error=str(exc))
+        else:
+            trace.add_warning(message)
 
 
 def branch_fetch_refspec(branch: str) -> str:
@@ -292,6 +408,85 @@ def local_branch_exists(bare_dir: Path, branch: str) -> bool:
     return proc.returncode == 0
 
 
+def remote_branch_exists(bare_dir: Path, branch: str) -> bool:
+    proc = run_git_with_git_dir(
+        ["show-ref", "--verify", "--quiet", f"refs/remotes/origin/{branch}"],
+        bare_dir,
+    )
+    return proc.returncode == 0
+
+
+def ensure_local_branch_from_origin(
+    bare_dir: Path, branch: str, trace: RepoTrace
+) -> tuple[bool, str]:
+    if local_branch_exists(bare_dir, branch):
+        return True, "branch exists"
+
+    if not remote_branch_exists(bare_dir, branch):
+        return False, f"origin/{branch} does not exist"
+
+    create_proc = run_git_with_git_dir(
+        [
+            "update-ref",
+            f"refs/heads/{branch}",
+            f"refs/remotes/origin/{branch}",
+        ],
+        bare_dir,
+        capture=True,
+    )
+    if create_proc.returncode != 0:
+        reason = (
+            create_proc.stderr or create_proc.stdout or "failed to create local branch"
+        ).strip()
+        return False, reason
+
+    trace.add_action(f"local branch created from origin: {branch}")
+    return True, "branch created"
+
+
+def bare_head_target(bare_dir: Path) -> str | None:
+    proc = run_git_with_git_dir(["symbolic-ref", "-q", "HEAD"], bare_dir, capture=True)
+    if proc.returncode != 0:
+        return None
+    return proc.stdout.strip()
+
+
+def ensure_bare_head(
+    bare_dir: Path, preferred_branch: str | None, trace: RepoTrace
+) -> tuple[bool, str]:
+    current_head = bare_head_target(bare_dir)
+    if current_head:
+        head_branch = current_head.removeprefix("refs/heads/")
+        if local_branch_exists(bare_dir, head_branch):
+            return True, "head already valid"
+
+    candidates: list[str] = []
+    if preferred_branch:
+        candidates.append(preferred_branch)
+    for fallback in DEFAULT_BRANCHES:
+        if fallback not in candidates:
+            candidates.append(fallback)
+
+    for branch in candidates:
+        ok, reason = ensure_local_branch_from_origin(bare_dir, branch, trace)
+        if not ok:
+            continue
+        set_head_proc = run_git_with_git_dir(
+            ["symbolic-ref", "HEAD", f"refs/heads/{branch}"],
+            bare_dir,
+            capture=True,
+        )
+        if set_head_proc.returncode != 0:
+            reason = (
+                set_head_proc.stderr or set_head_proc.stdout or "failed to set bare HEAD"
+            ).strip()
+            return False, reason
+        trace.add_action(f"bare HEAD repaired: {branch}")
+        return True, "head repaired"
+
+    return False, "unable to repair bare HEAD from fetched origin branches"
+
+
 def worktree_is_dirty(repo_path: Path) -> bool:
     proc = run_git(["status", "--porcelain"], repo_path=repo_path, capture=True)
     if proc.returncode != 0:
@@ -303,6 +498,7 @@ def ensure_branch_worktrees(
     bare_dir: Path,
     branches_root: Path,
     branches: list[str],
+    trace: RepoTrace,
 ) -> tuple[bool, str, set[Path]]:
     branches_root.mkdir(parents=True, exist_ok=True)
     expected: set[Path] = set()
@@ -313,17 +509,11 @@ def ensure_branch_worktrees(
         target.parent.mkdir(parents=True, exist_ok=True)
 
         if not target.exists():
-            if local_branch_exists(bare_dir, branch):
-                add_args = ["worktree", "add", str(target), branch]
-            else:
-                add_args = [
-                    "worktree",
-                    "add",
-                    "-b",
-                    branch,
-                    str(target),
-                    f"origin/{branch}",
-                ]
+            ok, reason = ensure_local_branch_from_origin(bare_dir, branch, trace)
+            if not ok:
+                return False, f"branch setup {branch}: {reason}", expected
+
+            add_args = ["worktree", "add", str(target), branch]
 
             add_proc = run_git_with_git_dir(add_args, bare_dir, capture=True)
             if add_proc.returncode != 0:
@@ -331,7 +521,7 @@ def ensure_branch_worktrees(
                     add_proc.stderr or add_proc.stdout or "git worktree add failed"
                 ).strip()
                 return False, f"branch worktree add {branch}: {reason}", expected
-            logger.info("worktree_branch_add", target=str(target), branch=branch)
+            trace.add_action(f"branch worktree added: {branch}")
 
         set_upstream = run_git(
             ["branch", "--set-upstream-to", f"origin/{branch}", branch],
@@ -339,19 +529,14 @@ def ensure_branch_worktrees(
             capture=True,
         )
         if set_upstream.returncode != 0:
-            logger.warning(
-                "worktree_branch_set_upstream_failed",
-                target=str(target),
-                branch=branch,
-                error=(set_upstream.stderr or set_upstream.stdout).strip(),
+            trace.add_warning(
+                f"branch upstream set failed: {branch}: "
+                f"{(set_upstream.stderr or set_upstream.stdout).strip()}"
             )
 
         if worktree_is_dirty(target):
-            logger.warning(
-                "worktree_branch_dirty_skip",
-                target=str(target),
-                branch=branch,
-                reason="local changes detected; skipping update to avoid data loss",
+            trace.add_warning(
+                f"branch update skipped (dirty worktree): {branch}"
             )
             continue
 
@@ -361,18 +546,12 @@ def ensure_branch_worktrees(
             capture=True,
         )
         if ff_only_proc.returncode != 0:
-            logger.warning(
-                "worktree_branch_update_skipped",
-                target=str(target),
-                branch=branch,
-                reason=(
-                    ff_only_proc.stderr
-                    or ff_only_proc.stdout
-                    or "non-fast-forward; leaving local branch unchanged"
-                ).strip(),
+            trace.add_warning(
+                f"branch update skipped: {branch}: "
+                f"{(ff_only_proc.stderr or ff_only_proc.stdout or 'non-fast-forward').strip()}"
             )
             continue
-        logger.info("worktree_branch_update", target=str(target), branch=branch)
+        trace.add_action(f"branch worktree updated: {branch}")
 
     return True, "branch worktrees synced", expected
 
@@ -381,6 +560,7 @@ def ensure_tag_worktrees(
     bare_dir: Path,
     tags_root: Path,
     tags: list[str],
+    trace: RepoTrace,
 ) -> tuple[bool, str, set[Path]]:
     tags_root.mkdir(parents=True, exist_ok=True)
     expected: set[Path] = set()
@@ -401,14 +581,11 @@ def ensure_tag_worktrees(
                     add_proc.stderr or add_proc.stdout or "git worktree add failed"
                 ).strip()
                 return False, f"tag worktree add {tag}: {reason}", expected
-            logger.info("worktree_tag_add", target=str(target), tag=tag)
+            trace.add_action(f"tag worktree added: {tag}")
 
         if worktree_is_dirty(target):
-            logger.warning(
-                "worktree_tag_dirty_skip",
-                target=str(target),
-                tag=tag,
-                reason="local changes detected; skipping update to avoid data loss",
+            trace.add_warning(
+                f"tag update skipped (dirty worktree): {tag}"
             )
             continue
 
@@ -420,7 +597,7 @@ def ensure_tag_worktrees(
                 checkout_proc.stderr or checkout_proc.stdout or "git checkout failed"
             ).strip()
             return False, f"tag worktree update {tag}: {reason}", expected
-        logger.info("worktree_tag_update", target=str(target), tag=tag)
+        trace.add_action(f"tag worktree updated: {tag}")
 
     return True, "tag worktrees synced", expected
 
@@ -430,6 +607,7 @@ def prune_stale_worktrees(
     branches_root: Path,
     tags_root: Path,
     expected_paths: set[Path],
+    trace: RepoTrace,
 ) -> None:
     existing = list_worktree_paths(bare_dir)
     for worktree_path in sorted(existing):
@@ -442,10 +620,8 @@ def prune_stale_worktrees(
             continue
 
         if worktree_is_dirty(worktree_path):
-            logger.warning(
-                "worktree_prune_dirty_skip",
-                worktree_path=str(worktree_path),
-                reason="local changes detected; skipping prune to avoid data loss",
+            trace.add_warning(
+                f"worktree prune skipped (dirty): {worktree_path}"
             )
             continue
 
@@ -455,12 +631,14 @@ def prune_stale_worktrees(
             capture=True,
         )
         if remove_proc.returncode == 0:
-            logger.info("worktree_pruned", worktree_path=str(worktree_path))
+            trace.add_action(f"worktree pruned: {worktree_path}")
 
     run_git_with_git_dir(["worktree", "prune"], bare_dir)
 
 
-def maybe_migrate_legacy_bare_repo(repo_root: Path) -> tuple[bool, str]:
+def maybe_migrate_legacy_bare_repo(
+    repo_root: Path, trace: RepoTrace | None = None
+) -> tuple[bool, str]:
     bare_dir = repo_root / "bare.git"
     if bare_dir.exists() or not repo_root.exists():
         return True, "no migration needed"
@@ -485,7 +663,8 @@ def maybe_migrate_legacy_bare_repo(repo_root: Path) -> tuple[bool, str]:
         (repo_root / "branches").mkdir(parents=True, exist_ok=True)
         (repo_root / "tags").mkdir(parents=True, exist_ok=True)
         (repo_root / "checkouts").mkdir(parents=True, exist_ok=True)
-        logger.info("legacy_bare_repo_migrated", bare_dir=str(bare_dir))
+        if trace is not None:
+            trace.add_action("legacy bare repo migrated")
         return True, "migrated"
     except Exception as exc:  # noqa: BLE001
         return False, str(exc)
@@ -503,106 +682,136 @@ def clone_or_update_repo(
     all_tags: bool,
     sync_worktrees: bool,
     prune_worktrees_flag: bool,
+    fetch_timeout: int,
 ) -> tuple[str, bool, str]:
     org_and_repo = repo_path_part(repo_url)
-    repo_root = target_dir / org_and_repo
-    ok, reason = maybe_migrate_legacy_bare_repo(repo_root)
-    if not ok:
-        return repo_url, False, reason
+    with tracer.start_as_current_span("repo.sync") as span:
+        trace_ctx = RepoTrace(
+            span=span,
+            repo_url=repo_url,
+            repo=org_and_repo,
+            worktrees_enabled=sync_worktrees,
+            prune_worktrees=prune_worktrees_flag,
+            fetch_timeout_seconds=fetch_timeout,
+        )
+        repo_root = target_dir / org_and_repo
+        ok, reason = maybe_migrate_legacy_bare_repo(repo_root, trace_ctx)
+        if not ok:
+            return fail_repo_trace(trace_ctx, reason)
 
-    bare_dir = repo_root / "bare.git"
-    branches_root = repo_root / "branches"
-    tags_root = repo_root / "tags"
-    checkouts_root = repo_root / "checkouts"
+        bare_dir = repo_root / "bare.git"
+        branches_root = repo_root / "branches"
+        tags_root = repo_root / "tags"
+        checkouts_root = repo_root / "checkouts"
 
-    if bare_dir.exists():
-        if not repo_is_bare_repo(bare_dir):
-            return repo_url, False, f"{bare_dir} exists but is not a bare git repo"
+        if bare_dir.exists():
+            if not repo_is_bare_repo(bare_dir):
+                reason = f"{bare_dir} exists but is not a bare git repo"
+                return fail_repo_trace(trace_ctx, reason)
 
-        origin_proc = run_git(["remote", "get-url", "origin"], bare_dir, capture=True)
-        origin_url = origin_proc.stdout.strip() if origin_proc.returncode == 0 else ""
-        if origin_url and not urls_equivalent(origin_url, repo_url):
-            return repo_url, False, f"origin url mismatch ({origin_url} != {repo_url})"
-    else:
-        bare_dir.parent.mkdir(parents=True, exist_ok=True)
-        clone_proc = run_git(["clone", "--bare", repo_url, str(bare_dir)], capture=True)
-        if clone_proc.returncode != 0:
+            origin_proc = run_git(["remote", "get-url", "origin"], bare_dir, capture=True)
+            origin_url = origin_proc.stdout.strip() if origin_proc.returncode == 0 else ""
+            if origin_url and not urls_equivalent(origin_url, repo_url):
+                reason = f"origin url mismatch ({origin_url} != {repo_url})"
+                return fail_repo_trace(trace_ctx, reason)
+        else:
+            bare_dir.parent.mkdir(parents=True, exist_ok=True)
+            clone_proc = run_git(["clone", "--bare", repo_url, str(bare_dir)], capture=True)
+            if clone_proc.returncode != 0:
+                reason = (
+                    clone_proc.stderr or clone_proc.stdout or "git clone failed"
+                ).strip()
+                if bare_dir.exists():
+                    cleanup_partial(bare_dir, trace_ctx)
+                return fail_repo_trace(trace_ctx, reason)
+            trace_ctx.add_action("bare repo cloned")
+
+        branches_root.mkdir(parents=True, exist_ok=True)
+        tags_root.mkdir(parents=True, exist_ok=True)
+        checkouts_root.mkdir(parents=True, exist_ok=True)
+
+        selected_branches = resolve_selected_branches(repo_url, requested_branches)
+        selected_tags = resolve_selected_tags(repo_url, requested_tags, all_tags)
+        trace_ctx.branches_selected = selected_branches
+        trace_ctx.tags_selected = selected_tags
+
+        branch_refspecs = [
+            ALL_BRANCH_REFSPEC
+            if requested_branches is None
+            else branch_fetch_refspec(branch)
+            for branch in selected_branches
+        ]
+        if requested_branches is None:
+            branch_refspecs = [ALL_BRANCH_REFSPEC]
+
+        tag_refspecs = [tag_fetch_refspec(tag) for tag in selected_tags]
+        ensure_fetch_refspecs(
+            bare_dir,
+            branch_refspecs,
+            include_all_tags=all_tags,
+            tag_refspecs=tag_refspecs,
+        )
+
+        fetch_args = ["fetch", "--prune", "--prune-tags", "origin", *branch_refspecs]
+        if all_tags:
+            fetch_args.append(ALL_TAG_REFSPEC)
+        else:
+            fetch_args.extend(tag_refspecs)
+
+        try:
+            fetch_proc = run_git(
+                fetch_args, bare_dir, capture=True, timeout=fetch_timeout
+            )
+        except subprocess.TimeoutExpired:
+            reason = f"timeout during fetch (>{fetch_timeout}s)"
+            return fail_repo_trace(trace_ctx, reason)
+
+        if fetch_proc.returncode != 0:
             reason = (
-                clone_proc.stderr or clone_proc.stdout or "git clone failed"
+                fetch_proc.stderr or fetch_proc.stdout or "git fetch failed"
             ).strip()
-            if bare_dir.exists():
-                cleanup_partial(bare_dir)
-            return repo_url, False, reason
-        logger.info("repo_cloned", repo=org_and_repo, bare_dir=str(bare_dir))
+            return fail_repo_trace(trace_ctx, reason)
 
-    branches_root.mkdir(parents=True, exist_ok=True)
-    tags_root.mkdir(parents=True, exist_ok=True)
-    checkouts_root.mkdir(parents=True, exist_ok=True)
+        trace_ctx.add_action("bare repo fetched")
 
-    selected_branches = resolve_selected_branches(repo_url, requested_branches)
-    selected_tags = resolve_selected_tags(repo_url, requested_tags, all_tags)
+        preferred_head_branch = selected_branches[0] if selected_branches else None
+        head_ok, head_reason = ensure_bare_head(
+            bare_dir, preferred_head_branch, trace_ctx
+        )
+        if not head_ok:
+            return fail_repo_trace(trace_ctx, head_reason)
 
-    branch_refspecs = [
-        ALL_BRANCH_REFSPEC
-        if requested_branches is None
-        else branch_fetch_refspec(branch)
-        for branch in selected_branches
-    ]
-    if requested_branches is None:
-        branch_refspecs = [ALL_BRANCH_REFSPEC]
+        if not sync_worktrees:
+            return succeed_repo_trace(trace_ctx, "bare repo updated")
 
-    tag_refspecs = [tag_fetch_refspec(tag) for tag in selected_tags]
-    ensure_fetch_refspecs(
-        bare_dir,
-        branch_refspecs,
-        include_all_tags=all_tags,
-        tag_refspecs=tag_refspecs,
-    )
+        expected_paths: set[Path] = set()
 
-    fetch_args = ["fetch", "--prune", "--prune-tags", "origin", *branch_refspecs]
-    if all_tags:
-        fetch_args.append(ALL_TAG_REFSPEC)
-    else:
-        fetch_args.extend(tag_refspecs)
+        branches_ok, branches_reason, branch_paths = ensure_branch_worktrees(
+            bare_dir,
+            branches_root,
+            selected_branches,
+            trace_ctx,
+        )
+        expected_paths.update(branch_paths)
+        if not branches_ok:
+            return fail_repo_trace(trace_ctx, branches_reason)
 
-    try:
-        fetch_proc = run_git(fetch_args, bare_dir, capture=True, timeout=FETCH_TIMEOUT)
-    except subprocess.TimeoutExpired:
-        return repo_url, False, f"timeout during fetch (>{FETCH_TIMEOUT}s)"
+        tags_ok, tags_reason, tag_paths = ensure_tag_worktrees(
+            bare_dir,
+            tags_root,
+            selected_tags,
+            trace_ctx,
+        )
+        expected_paths.update(tag_paths)
+        if not tags_ok:
+            return fail_repo_trace(trace_ctx, tags_reason)
 
-    if fetch_proc.returncode != 0:
-        reason = (fetch_proc.stderr or fetch_proc.stdout or "git fetch failed").strip()
-        return repo_url, False, reason
+        if prune_worktrees_flag:
+            prune_stale_worktrees(
+                bare_dir, branches_root, tags_root, expected_paths, trace_ctx
+            )
 
-    logger.info("repo_updated", repo=org_and_repo, bare_dir=str(bare_dir))
-
-    if not sync_worktrees:
-        return repo_url, True, "bare repo updated"
-
-    expected_paths: set[Path] = set()
-
-    branches_ok, branches_reason, branch_paths = ensure_branch_worktrees(
-        bare_dir,
-        branches_root,
-        selected_branches,
-    )
-    expected_paths.update(branch_paths)
-    if not branches_ok:
-        return repo_url, False, branches_reason
-
-    tags_ok, tags_reason, tag_paths = ensure_tag_worktrees(
-        bare_dir,
-        tags_root,
-        selected_tags,
-    )
-    expected_paths.update(tag_paths)
-    if not tags_ok:
-        return repo_url, False, tags_reason
-
-    if prune_worktrees_flag:
-        prune_stale_worktrees(bare_dir, branches_root, tags_root, expected_paths)
-
-    return repo_url, True, "updated"
+        return succeed_repo_trace(trace_ctx, "updated")
 
 
 def repo_urls(owner: str) -> list[str]:
@@ -694,11 +903,21 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Remove stale entries under branches/ and tags/ not in target set.",
     )
+    parser.add_argument(
+        "--fetch-timeout",
+        type=int,
+        default=DEFAULT_FETCH_TIMEOUT,
+        help=(
+            "Timeout in seconds for 'git fetch' per repository. "
+            f"Default: {DEFAULT_FETCH_TIMEOUT}."
+        ),
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     configure_logging()
+    configure_tracing()
     args = parse_args()
     if not require("gh"):
         return 1
@@ -744,6 +963,7 @@ def main() -> int:
                 args.all_tags,
                 args.worktrees,
                 args.prune_worktrees,
+                args.fetch_timeout,
             )
             for repo_url in all_repos
         ]
@@ -755,9 +975,6 @@ def main() -> int:
                 return 1
             if not ok:
                 failed[repo_url] = reason
-
-    for repo_url, reason in sorted(failed.items()):
-        logger.error("repo_failed", repo_url=repo_url, reason=reason)
 
     logger.info(
         "sync_complete",
