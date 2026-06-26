@@ -33,6 +33,10 @@ local function search_text()
 	require("telescope.builtin").live_grep()
 end
 
+local function command_palette()
+	require("telescope.builtin").commands()
+end
+
 return {
 	{
 		"nvim-telescope/telescope.nvim",
@@ -92,12 +96,27 @@ return {
 				desc = "Find files",
 			},
 			{
+				"<C-S-p>",
+				command_palette,
+				desc = "Command palette",
+			},
+			{
 				"<C-t>",
 				workspace_symbols,
 				desc = "Search workspace symbols",
 			},
 			{
+				"<C-S-o>",
+				document_symbols,
+				desc = "Search document symbols",
+			},
+			{
 				"<C-M-p>",
+				search_text,
+				desc = "Search text",
+			},
+			{
+				"<C-S-f>",
 				search_text,
 				desc = "Search text",
 			},
@@ -189,6 +208,9 @@ return {
 				once = true,
 				callback = function()
 					if next(vim.api.nvim_list_uis()) == nil then
+						return
+					end
+					if vim.g.nostra_open_explorer_on_startup == false then
 						return
 					end
 					vim.cmd("Neotree filesystem show right")

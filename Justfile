@@ -18,6 +18,9 @@ format-oxfmt:
 format-shfmt:
   @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shfmt -w
 
+format-stylua:
+  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f -name '*.lua' -print0 | xargs -0 --no-run-if-empty stylua
+
 format-ruff:
   @ruff format .
 
@@ -25,6 +28,7 @@ format:
   @just format-alejandra
   @just format-oxfmt
   @just format-shfmt
+  @just format-stylua
   @just format-ruff
 
 fmt:
@@ -69,6 +73,7 @@ check:
   @alejandra --check .
   @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.json' -o -name '*.jsonc' \) -print0 | xargs -0 --no-run-if-empty oxfmt --check
   @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shfmt -d
+  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f -name '*.lua' -print0 | xargs -0 --no-run-if-empty stylua --check
   @ruff format --check .
 
 # Test a host configuration temporarily; reverts after reboot.
@@ -268,6 +273,9 @@ lint-shellcheck:
 lint-markdown:
   @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules -o -name .terraform \) -prune -o -type f -name '*.md' -print0 | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
+lint-selene:
+  @selene dotfiles/neovim-0.11/.config/nvim dotfiles/wezterm-0-unstable-2025-05-18/.config/wezterm
+
 lint-statix:
   @if command -v statix >/dev/null 2>&1; then statix check .; else nix develop --command statix check .; fi
 
@@ -278,6 +286,7 @@ lint:
   @just lint-ruff
   @just lint-shellcheck
   @just lint-markdown
+  @just lint-selene
   @just lint-statix
   @just lint-deadnix
 
@@ -288,6 +297,9 @@ versions:
   @printf '%-14s %s\n' 'ruff:' "$(if command -v ruff >/dev/null 2>&1; then ruff --version | awk '{print $2}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'shellcheck:' "$(if command -v shellcheck >/dev/null 2>&1; then shellcheck --version | awk 'NR==2 {print $2; exit}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'markdownlint:' "$(if command -v markdownlint >/dev/null 2>&1; then markdownlint --version; else echo missing; fi)"
+  @printf '%-14s %s\n' 'stylua:' "$(if command -v stylua >/dev/null 2>&1; then stylua --version | awk '{print $2}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'selene:' "$(if command -v selene >/dev/null 2>&1; then selene --version | awk '{print $2}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'lua-ls:' "$(if command -v lua-language-server >/dev/null 2>&1; then lua-language-server --version 2>&1 | awk 'NR==1 {print $NF; exit}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'statix:' "$(if command -v statix >/dev/null 2>&1; then statix --version | awk '{print $2}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'deadnix:' "$(if command -v deadnix >/dev/null 2>&1; then deadnix --version | awk '{print $2}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'alejandra:' "$(if command -v alejandra >/dev/null 2>&1; then alejandra --version | awk '{print $2}'; else echo missing; fi)"

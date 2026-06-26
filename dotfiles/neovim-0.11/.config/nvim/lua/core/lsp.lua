@@ -8,34 +8,12 @@ if not vim.lsp or not vim.lsp.config or not vim.lsp.enable then
 	return
 end
 
--- Helper: common on_attach to set keymaps only after server attaches
-local function on_attach(client, bufnr)
-	local map = function(mode, lhs, rhs, desc)
-		local opts = { buffer = bufnr, desc = desc }
-		vim.keymap.set(mode, lhs, rhs, opts)
-	end
-	-- Navigation & info
-	map("n", "gd", vim.lsp.buf.definition, "Goto definition")
-	map("n", "gD", vim.lsp.buf.declaration, "Goto declaration")
-	map("n", "gi", vim.lsp.buf.implementation, "Goto implementation")
-	map("n", "gt", vim.lsp.buf.type_definition, "Goto type")
-	map("n", "K", vim.lsp.buf.hover, "Hover docs")
-	map("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
-	map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
-	map("n", "<leader>ld", function()
-		vim.diagnostic.open_float(nil, { focus = false })
-	end, "Line diagnostics")
-	map("n", "<leader>lf", function()
-		local ok, conform = pcall(require, "conform")
-		if ok then
-			conform.format({ async = true, lsp_format = "fallback" })
-			return
-		end
-		vim.lsp.buf.format({ async = true })
-	end, "Format buffer")
-	map("n", "[d", vim.diagnostic.goto_prev, "Prev diagnostic")
-	map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+if vim.g.nostra_lsp_configured then
+	return {}
 end
+vim.g.nostra_lsp_configured = true
+
+local lsp_keymaps = require("core.lsp_keymaps")
 
 -- Capabilities (extend later for nvim-cmp if added)
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -45,7 +23,6 @@ capabilities.offsetEncoding = { "utf-16" }
 
 -- Mason can have extra installed tools that we do not want treated as active LSP configs.
 for _, name in ipairs({ "basedpyright", "ruff", "sqlls", "stylua", "ty" }) do
-	vim.lsp._enabled_configs[name] = nil
 	pcall(vim.lsp.enable, name, false)
 end
 
@@ -130,7 +107,7 @@ local servers = {
 
 for name, cfg_fn in pairs(servers) do
 	local cfg = cfg_fn() or {}
-	cfg.on_attach = on_attach
+	cfg.on_attach = lsp_keymaps.on_attach
 	cfg.capabilities = capabilities
 
 	local ok_cfg, err_cfg = pcall(vim.lsp.config, name, cfg)

@@ -134,8 +134,11 @@
           statix
           shfmt
           shellcheck
+          selene
           ruff
           oxfmt
+          stylua
+          lua-language-server
           markdownlint-cli
           deadnix
           prek

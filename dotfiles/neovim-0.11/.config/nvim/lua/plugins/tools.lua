@@ -6,6 +6,12 @@ return {
 		opts = {
 			notify_on_error = true,
 			notify_no_formatters = false,
+			format_on_save = function(bufnr)
+				if vim.bo[bufnr].filetype == "python" then
+					return { timeout_ms = 2000, lsp_format = "fallback" }
+				end
+				return nil
+			end,
 			formatters_by_ft = {
 				bash = { "shfmt" },
 				css = { "prettierd", "prettier" },
@@ -57,6 +63,7 @@ return {
 			lint.linters_by_ft = {
 				bash = available_linters({ "shellcheck" }),
 				dockerfile = available_linters({ "hadolint" }),
+				lua = available_linters({ "selene" }),
 				markdown = available_linters({ "markdownlint-cli2" }),
 				sh = available_linters({ "shellcheck" }),
 				sql = available_linters({ "sqlfluff" }),

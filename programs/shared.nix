@@ -274,7 +274,10 @@ in {
     jdk17 # openjdk for nvim-lsp-java
     luajit # Lua 5.1 compat
     luajitPackages.luarocks_bootstrap
+    lua-language-server # Lua LSP for Neovim and Lua dotfiles
     markdownlint-cli
+    selene # Fast Lua linter/static analyzer
+    stylua # Lua formatter used by conform.nvim
     xclip # X11 clipboard fallback for Neovim when Wayland not active
 
     # unstable

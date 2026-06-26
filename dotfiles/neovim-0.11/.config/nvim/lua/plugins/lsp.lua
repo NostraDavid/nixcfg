@@ -1,5 +1,37 @@
 -- plugins/lsp.lua - LSP related plugins (Mason + lspconfig)
+-- Mason is the runtime installer for this profile. Keep these lists explicit so
+-- lazy-lock.json plus this file describe the mutable tooling surface.
+local mason_lsp_servers = {
+	"bashls", -- Shell
+	"cssls", -- CSS
+	"dockerls", -- Dockerfile
+	"groovyls", -- Groovy
+	"html", -- HTML
+	"jsonls", -- JSON
+	"lemminx", -- XML
+	"lua_ls", -- Lua
+	"marksman", -- Markdown
+	"pyright", -- Python
+	"rust_analyzer", -- Rust
+	"taplo", -- TOML
+	"terraformls", -- HCL/Terraform
+	"yamlls", -- YAML
+}
+
+local mason_tools = {
+	"actionlint",
+}
+
 return {
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
+	},
 	{ -- LSP server manager (Mason)
 		"mason-org/mason.nvim",
 		version = "v2.1.0",
@@ -18,22 +50,7 @@ return {
 		dependencies = { "mason-org/mason.nvim" },
 		opts = {
 			-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
-			ensure_installed = {
-				"bashls", -- Shell
-				"cssls", -- CSS
-				"dockerls", -- Dockerfile
-				"groovyls", -- Groovy
-				"html", -- HTML
-				"jsonls", -- JSON
-				"lemminx", -- XML
-				"lua_ls", -- Lua
-				"marksman", -- Markdown
-				"pyright", -- Python
-				"rust_analyzer", -- Rust
-				"taplo", -- TOML
-				"terraformls", -- HCL/Terraform
-				"yamlls", -- YAML
-			},
+			ensure_installed = mason_lsp_servers,
 			automatic_enable = false,
 		},
 		config = function(_, opts)
@@ -48,9 +65,7 @@ return {
 		version = "*",
 		dependencies = { "mason-org/mason.nvim" },
 		opts = {
-			ensure_installed = {
-				"actionlint",
-			},
+			ensure_installed = mason_tools,
 			auto_update = false,
 			run_on_start = true,
 			start_delay = 0,
