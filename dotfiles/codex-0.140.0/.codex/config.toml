@@ -31,6 +31,7 @@ enabled = false
 url = "http://127.0.0.1:9191/"
 
 [mcp_servers.blender_mcp]
+enabled = false
 url = "http://blender.localhost:9876/"
 
 [mcp_servers.node_repl]
@@ -137,3 +138,6 @@ trust_level = "trusted"
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
+
+[notice.model_migrations]
+"gpt-5.4" = "gpt-5.5"
