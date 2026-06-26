@@ -375,7 +375,6 @@
   systemd.user.services.legcord = {
     enable = true;
     after = ["network.target"];
-    wantedBy = ["default.target"];
     description = "Legcord Discord Client";
     serviceConfig = {
       Type = "simple";
