@@ -100,7 +100,9 @@ in
     '';
 
     postFixup = ''
-      wrapProgram $out/bin/codex --prefix PATH : ${lib.makeBinPath [ripgrep]}
+      wrapProgram $out/bin/codex \
+        --run 'volatile_dir="/tmp/$USER-codex"; mkdir -p "$volatile_dir"; chmod 700 "$volatile_dir"' \
+        --prefix PATH : ${lib.makeBinPath [ripgrep]}
     '';
 
     doInstallCheck = true;

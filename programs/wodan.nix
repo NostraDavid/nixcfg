@@ -2,6 +2,7 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }: let
   unstable = import inputs.nixpkgs-unstable {
@@ -56,6 +57,7 @@
       nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''
         wrapProgram "$out/bin/codex-desktop" \
+          --run 'volatile_dir="/tmp/$USER-codex"; mkdir -p "$volatile_dir"; chmod 700 "$volatile_dir"' \
           --set-default CODEX_ELECTRON_DISABLE_GPU_COMPOSITING 1
       '';
     };
@@ -183,6 +185,31 @@ in {
     enable = true;
     package = codexDesktopSafe;
   };
+
+  home.activation.codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    codex_dir="$HOME/.codex"
+    volatile_dir="/tmp/$USER-codex"
+
+    $DRY_RUN_CMD mkdir -p "$codex_dir" "$volatile_dir"
+    $DRY_RUN_CMD chmod 700 "$volatile_dir"
+
+    for name in logs_2.sqlite logs_2.sqlite-shm logs_2.sqlite-wal; do
+      link="$codex_dir/$name"
+      target="$volatile_dir/$name"
+
+      if [ -L "$link" ] && [ "$(${pkgs.coreutils}/bin/readlink "$link")" != "$target" ]; then
+        $DRY_RUN_CMD rm -f "$link"
+      fi
+
+      if [ -e "$link" ] && [ ! -L "$link" ]; then
+        $DRY_RUN_CMD rm -f "$link"
+      fi
+
+      if [ ! -L "$link" ]; then
+        $DRY_RUN_CMD ln -s "$target" "$link"
+      fi
+    done
+  '';
 
   programs.direnv = {
     enable = true;
