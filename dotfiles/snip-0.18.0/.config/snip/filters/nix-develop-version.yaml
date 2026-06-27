@@ -1,0 +1,48 @@
+name: "nix-develop-version"
+version: 1
+description: "Condensed nix develop --command <tool> --version output"
+
+match:
+  command: "nix"
+  subcommand: "develop"
+  require_flags: ["--command", "--version"]
+
+streams:
+  - stdout
+  - stderr
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "remove_lines"
+    pattern: "^\\s*$"
+  - action: "keep_lines"
+    pattern: "(^[A-Za-z0-9_.+-]+( [A-Za-z0-9_.+-]+)? [0-9]+\\.[0-9][A-Za-z0-9_.+-]*$|^selene [0-9]+\\.[0-9][A-Za-z0-9_.+-]*$|error:|warning:|trace:|Git tree|dirty|these [0-9]+ derivations? will be built|this derivation will be built|will be fetched|will be downloaded|will be copied|building '/nix/store/|copying path '/nix/store/|fetching path '/nix/store/|/nix/store/[^[:space:]]+\\.drv|hash mismatch|specified:|got:|cannot build|dependency failed|Build failed|failed|No such file|attribute .* missing|does not provide attribute|Did you mean|evaluating|realising|substituter|cache|download|unpacked source)"
+  - action: "truncate_lines"
+    max: 180
+  - action: "head"
+    n: 80
+    overflow_msg: "... more nix develop output"
+  - action: "on_empty"
+    message: "nix develop: no version output"
+
+on_error: "passthrough"
+
+tests:
+  - name: "keeps selene version"
+    input: |
+      these 1 derivations will be built:
+        /nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-selene.drv
+      noisy progress
+      selene 0.28.0
+    expected: |
+      these 1 derivations will be built:
+        /nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-selene.drv
+      selene 0.28.0
+  - name: "keeps nix develop failure"
+    input: |
+      verbose build output
+      error: Cannot build '/nix/store/pkg.drv'.
+      error: Build failed due to failed dependency
+    expected: |
+      error: Cannot build '/nix/store/pkg.drv'.
+      error: Build failed due to failed dependency
