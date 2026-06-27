@@ -125,34 +125,18 @@
       pkgs = pkgsFor system;
     in {
       default = pkgs.mkShell {
+        # Bootstrap shell for a clean NixOS install: keep this list small and focused
+        # on validating/applying the flake before the full user profile is available.
+        # Day-to-day editor/language tooling belongs in programs/shared.nix.
         packages = with pkgs; [
-          alejandra
-          vulnix
-          syft
-          sbomnix
-          grype
-          statix
-          shfmt
-          shellcheck
-          selene
-          ruff
-          oxfmt
-          stylua
-          lua-language-server
-          markdownlint-cli
-          deadnix
-          prek
-          git
-          just
-          mold
-          nil
-          nixd
-          opentofu
+          alejandra # Format Nix files before first rebuild
+          statix # Catch common Nix antipatterns early
+          deadnix # Detect unused Nix bindings while editing the flake
+          git # Clone/update this repo and inspect local changes
+          just # Run the repo's bootstrap/check/rebuild recipes
         ];
 
         shellHook = ''
-          export RUSTFLAGS="-C link-arg=-fuse-ld=mold ''${RUSTFLAGS:-}"
-          export NIX_CFLAGS_LINK="-fuse-ld=mold ''${NIX_CFLAGS_LINK:-}"
           export NIX_CONFIG="experimental-features = nix-command flakes
           ''${NIX_CONFIG:-}"
         '';
