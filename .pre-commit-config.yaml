@@ -8,14 +8,50 @@ repos:
 
   - repo: local
     hooks:
-      - id: just-precommit
-        name: just precommit
-        entry: just precommit
+      - id: lint-ruff
+        name: lint Python (ruff, local)
+        entry: just lint-ruff
         language: system
         pass_filenames: false
+        files: "(\\.py$|^dotfiles/git/\\.config/git/hooks/commit-msg$)"
+
+      - id: lint-shellcheck
+        name: lint shell (shellcheck, local)
+        entry: just lint-shellcheck
+        language: system
+        pass_filenames: false
+        files: "(\\.sh$|\\.bashrc$|\\.bash_aliases$)"
+
+      - id: lint-markdown
+        name: lint Markdown (markdownlint, local)
+        entry: just lint-markdown
+        language: system
+        pass_filenames: false
+        files: "\\.md$"
+
+      - id: lint-selene
+        name: lint Lua (selene, local)
+        entry: just lint-selene
+        language: system
+        pass_filenames: false
+        files: "\\.lua$"
+
+      - id: lint-statix
+        name: lint Nix (statix, local)
+        entry: just lint-statix
+        language: system
+        pass_filenames: false
+        files: "\\.nix$"
+
+      - id: lint-deadnix
+        name: lint Nix dead code (deadnix, local)
+        entry: just lint-deadnix
+        language: system
+        pass_filenames: false
+        files: "\\.nix$"
 
       - id: scoped-commit-msg
         name: scoped commit message check
-        entry: scripts/validate_scoped_commit_msg.py
+        entry: dotfiles/git/.config/git/hooks/commit-msg
         language: system
         stages: [commit-msg]
