@@ -7,10 +7,11 @@
   installShellFiles,
   clang,
   cmake,
+  coreutils,
   gitMinimal,
   libclang,
   libcap,
-  makeBinaryWrapper,
+  makeWrapper,
   mold,
   nix-update-script,
   pkg-config,
@@ -55,7 +56,7 @@ in
       cmake
       gitMinimal
       installShellFiles
-      makeBinaryWrapper
+      makeWrapper
       mold
       pkg-config
     ];
@@ -101,7 +102,7 @@ in
 
     postFixup = ''
       wrapProgram $out/bin/codex \
-        --run 'volatile_dir="/tmp/$USER-codex"; mkdir -p "$volatile_dir"; chmod 700 "$volatile_dir"' \
+        --run 'volatile_dir="/tmp/$USER-codex"; ${coreutils}/bin/install -d -m 700 "$volatile_dir"' \
         --prefix PATH : ${lib.makeBinPath [ripgrep]}
     '';
 

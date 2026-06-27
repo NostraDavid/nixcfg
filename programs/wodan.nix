@@ -57,7 +57,7 @@
       nativeBuildInputs = [pkgs.makeWrapper];
       postBuild = ''
         wrapProgram "$out/bin/codex-desktop" \
-          --run 'volatile_dir="/tmp/$USER-codex"; mkdir -p "$volatile_dir"; chmod 700 "$volatile_dir"' \
+          --run 'volatile_dir="/tmp/$USER-codex"; ${pkgs.coreutils}/bin/install -d -m 700 "$volatile_dir"' \
           --set-default CODEX_ELECTRON_DISABLE_GPU_COMPOSITING 1
       '';
     };
