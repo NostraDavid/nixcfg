@@ -2,6 +2,7 @@
 # /// script
 # requires-python = ">=3.14"
 # ///
+
 from __future__ import annotations
 
 import re
@@ -12,7 +13,6 @@ from textwrap import dedent
 SPECIAL_PREFIXES = (
     "Merge ",
     "Revert ",
-    "revert: ",
     "fixup! ",
     "squash! ",
     "amend! ",
@@ -23,7 +23,9 @@ CONVENTIONAL_PREFIXES = re.compile(
     r"(\([^)]+\))?!?: "
 )
 
-SCOPED_COMMIT = re.compile(r"^[a-z0-9][a-z0-9._/-]*( \([A-Z][A-Z0-9]+-[0-9]+\))?: \S.*")
+SCOPED_COMMIT = re.compile(
+    r"^[a-z0-9*][a-z0-9._/-]*( \([A-Z][A-Z0-9]+-[0-9]+\))?: \S.*"
+)
 
 
 def subject_from(message_file: Path) -> str:
@@ -45,7 +47,10 @@ def main(argv: list[str]) -> int:
         return reject("usage: commit-msg <message-file>")
 
     subject = subject_from(Path(argv[1]))
-    if not subject or subject.startswith(SPECIAL_PREFIXES):
+    if not subject:
+        return reject("empty commit message")
+
+    if subject.startswith(SPECIAL_PREFIXES):
         return 0
 
     if CONVENTIONAL_PREFIXES.match(subject):
@@ -78,9 +83,10 @@ def main(argv: list[str]) -> int:
                 Examples:
                   git: add scoped commit hook
                   pkgs/codex: update wrapper
+                  *.nix: normalize attrsets
 
                 Rules:
-                  - scope must be lowercase
+                  - scope may start with *; other letters must be lowercase
                   - description must not be empty
                   - Conventional Commits such as "feat:" and "fix:" are rejected"""
             )
