@@ -55,7 +55,7 @@
 in
   symlinkJoin {
     pname = "tiktoken";
-    version = pythonPackage.version;
+    inherit (pythonPackage) version;
     name = "tiktoken-${pythonPackage.version}";
     paths = [
       pythonPackage

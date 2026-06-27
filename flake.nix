@@ -23,19 +23,12 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    nixpkgs-unstable,
-    home-manager-unstable,
-    ...
-  } @ inputs: let
-    lib = nixpkgs.lib;
+  outputs = {nixpkgs, ...} @ inputs: let
+    inherit (nixpkgs) lib;
     systems = [
       "x86_64-linux"
     ];
-    forAllSystems = f: lib.genAttrs systems (system: f system);
+    forAllSystems = f: lib.genAttrs systems f;
     overlay-local = final: prev: let
       inherit
         (builtins)
@@ -75,7 +68,7 @@
             prev.callPackage pkgPath (moldArgs // fileArgs);
         })
         packageNames);
-    overlay-fixes = final: prev: {
+    overlay-fixes = _final: prev: {
       kdash = prev.kdash.overrideAttrs (old: {
         doCheck = false;
         src = prev.fetchFromGitHub {
@@ -86,7 +79,7 @@
         };
       });
     };
-    overlay-build-tools = final: prev: {
+    overlay-build-tools = _final: prev: {
       moldStdenv = prev.useMoldLinker prev.stdenv;
     };
     pkgsFor = system:
@@ -110,9 +103,7 @@
           path
         ];
         specialArgs = {
-          inherit inputs;
-          hostname = hostname;
-          main-user = main-user;
+          inherit inputs hostname main-user;
         };
       };
   in {

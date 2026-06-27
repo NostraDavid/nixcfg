@@ -277,10 +277,12 @@ lint-selene:
   @selene dotfiles/neovim-0.11/.config/nvim dotfiles/wezterm-0-unstable-2025-05-18/.config/wezterm
 
 lint-statix:
-  @if command -v statix >/dev/null 2>&1; then statix check .; else nix develop --command statix check .; fi
+  @cmd=(statix check); \
+  if ! command -v statix >/dev/null 2>&1; then cmd=(nix develop --command statix check); fi; \
+  git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty -n1 "${cmd[@]}"
 
 lint-deadnix:
-  @if command -v deadnix >/dev/null 2>&1; then deadnix .; else nix develop --command deadnix .; fi
+  @if command -v deadnix >/dev/null 2>&1; then deadnix --fail .; else nix develop --command deadnix --fail .; fi
 
 lint:
   @just lint-ruff

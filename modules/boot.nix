@@ -1,18 +1,20 @@
-{...}: {
+_: {
   # Bootloader.
   boot = {
     # Temporarily using GRUB due to systemd 257 EFI variables bug
     # See: https://github.com/systemd/systemd/issues/35858
-    loader.systemd-boot.enable = false;
-    loader.grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-      useOSProber = true;
+    loader = {
+      systemd-boot.enable = false;
+      grub = {
+        enable = true;
+        device = "nodev";
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+        useOSProber = true;
+      };
+      timeout = 3;
+      efi.canTouchEfiVariables = false;
     };
-    loader.timeout = 3;
-    loader.efi.canTouchEfiVariables = false;
 
     # Enable USB automounting for external drives.
     supportedFilesystems = ["exfat" "ntfs"];

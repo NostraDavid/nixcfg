@@ -3,7 +3,7 @@
   stdenvNoCC,
   fetchFromGitHub,
 }:
-stdenvNoCC.mkDerivation (finalAttrs: {
+stdenvNoCC.mkDerivation {
   pname = "runic";
   version = "unstable-2025-08-08";
 
@@ -27,4 +27,4 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     license = lib.licenses.unfreeRedistributable;
     platforms = lib.platforms.linux;
   };
-})
+}

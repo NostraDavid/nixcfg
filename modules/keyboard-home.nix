@@ -1,4 +1,4 @@
-{...}: {
+_: {
   xdg.configFile."kxkbrc".text = ''
     [Layout]
     Use=true

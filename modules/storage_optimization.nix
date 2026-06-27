@@ -1,4 +1,4 @@
-{...}: {
+_: {
   nix = {
     settings = {
       max-jobs = 24;

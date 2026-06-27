@@ -1,4 +1,4 @@
-{...}: {
+_: {
   # Pull from commonly used Cachix binary cache to reduce local builds.
   nix.settings = {
     extra-substituters = [

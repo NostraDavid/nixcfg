@@ -80,21 +80,25 @@
       openFirewall = true;
     };
 
-    # Enable automatic login for the user.
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = main-user;
+    displayManager = {
+      # Enable automatic login for the user.
+      autoLogin = {
+        enable = true;
+        user = main-user;
+      };
 
-    # Enable the KDE Plasma Desktop Environment.
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = false;
-      settings = {
-        Wayland = {
-          SessionDir = "/etc/xdg/wayland-sessions";
+      # Enable the KDE Plasma Desktop Environment.
+      sddm = {
+        enable = true;
+        wayland.enable = false;
+        settings = {
+          Wayland = {
+            SessionDir = "/etc/xdg/wayland-sessions";
+          };
         };
       };
+      defaultSession = "plasma";
     };
-    displayManager.defaultSession = "plasma";
     desktopManager.plasma6.enable = true;
 
     # Enable CUPS to print documents.
@@ -209,37 +213,52 @@
     nvidia.acceptLicense = true;
   };
 
-  # Enable common container config files in /etc/containers
-  systemd.user.services.podman = {
-    enable = true;
-    wantedBy = ["default.target"];
-  };
-  systemd.services.whatpulse-pcap-service = {
-    description = "WhatPulse PCap Service";
-    documentation = ["https://whatpulse.org/"];
-    after = ["network.target"];
-    wants = ["network.target"];
-    wantedBy = ["multi-user.target"];
-    serviceConfig = {
-      Type = "simple";
-      User = "root";
-      Group = "root";
-      ExecStart = "${pkgs."whatpulse-pcap-service"}/bin/whatpulse-pcap-service";
-      Restart = "always";
-      RestartSec = 5;
-      NoNewPrivileges = true;
-      ProtectSystem = "strict";
-      ProtectHome = true;
-      PrivateTmp = true;
-      ProtectKernelTunables = true;
-      ProtectKernelModules = true;
-      ProtectControlGroups = true;
-      RestrictRealtime = true;
-      RestrictNamespaces = true;
-      CapabilityBoundingSet = ["CAP_NET_RAW" "CAP_NET_ADMIN"];
-      AmbientCapabilities = ["CAP_NET_RAW" "CAP_NET_ADMIN"];
-      StandardOutput = "journal";
-      StandardError = "journal";
+  systemd = {
+    user.services = {
+      # Enable common container config files in /etc/containers
+      podman = {
+        enable = true;
+        wantedBy = ["default.target"];
+      };
+
+      legcord = {
+        enable = true;
+        after = ["network.target"];
+        description = "Legcord Discord Client";
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.legcord}/bin/legcord";
+        };
+      };
+    };
+
+    services.whatpulse-pcap-service = {
+      description = "WhatPulse PCap Service";
+      documentation = ["https://whatpulse.org/"];
+      after = ["network.target"];
+      wants = ["network.target"];
+      wantedBy = ["multi-user.target"];
+      serviceConfig = {
+        Type = "simple";
+        User = "root";
+        Group = "root";
+        ExecStart = "${pkgs."whatpulse-pcap-service"}/bin/whatpulse-pcap-service";
+        Restart = "always";
+        RestartSec = 5;
+        NoNewPrivileges = true;
+        ProtectSystem = "strict";
+        ProtectHome = true;
+        PrivateTmp = true;
+        ProtectKernelTunables = true;
+        ProtectKernelModules = true;
+        ProtectControlGroups = true;
+        RestrictRealtime = true;
+        RestrictNamespaces = true;
+        CapabilityBoundingSet = ["CAP_NET_RAW" "CAP_NET_ADMIN"];
+        AmbientCapabilities = ["CAP_NET_RAW" "CAP_NET_ADMIN"];
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
     };
   };
   virtualisation = {
@@ -371,14 +390,4 @@
     ./certs/pihole.crt
     ./certs/proxmox.crt
   ];
-
-  systemd.user.services.legcord = {
-    enable = true;
-    after = ["network.target"];
-    description = "Legcord Discord Client";
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.legcord}/bin/legcord";
-    };
-  };
 }

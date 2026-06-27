@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+{config, ...}: let
   homepageHosts = "homepage,homepage.local,homepage.home.arpa,192.168.2.101";
 in {
   fileSystems."/var/lib/homepage" = {

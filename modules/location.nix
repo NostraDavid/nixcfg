@@ -1,4 +1,4 @@
-{...}: {
+_: {
   location = {
     provider = "manual";
     latitude = 52.101033410168235;

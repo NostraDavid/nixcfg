@@ -3,7 +3,6 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
-  config,
   pkgs,
   lib,
   hostname,
@@ -93,21 +92,25 @@
       };
     };
 
-    # Enable automatic login for the user.
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = main-user;
+    displayManager = {
+      # Enable automatic login for the user.
+      autoLogin = {
+        enable = true;
+        user = main-user;
+      };
 
-    # Enable the KDE Plasma Desktop Environment.
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = false;
-      settings = {
-        Wayland = {
-          SessionDir = "/etc/xdg/wayland-sessions";
+      # Enable the KDE Plasma Desktop Environment.
+      sddm = {
+        enable = true;
+        wayland.enable = false;
+        settings = {
+          Wayland = {
+            SessionDir = "/etc/xdg/wayland-sessions";
+          };
         };
       };
+      defaultSession = "plasma";
     };
-    displayManager.defaultSession = "plasma";
     desktopManager.plasma6.enable = true;
 
     # improve battery life

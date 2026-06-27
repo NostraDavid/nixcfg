@@ -23,7 +23,7 @@
     hash = "sha256-8th+QHLOoAIbSJwFyaBxUXoCXwj7K7rgg/cCK7LgOb0=";
   };
 in
-  stdenv.mkDerivation (finalAttrs: {
+  stdenv.mkDerivation {
     pname = "jpegli";
     inherit version src;
 
@@ -91,4 +91,4 @@ in
       platforms = lib.platforms.linux;
       mainProgram = "cjpegli";
     };
-  })
+  }

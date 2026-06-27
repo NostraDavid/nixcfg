@@ -4,7 +4,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }: {
@@ -12,45 +11,51 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "thunderbolt" "usbhid"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-amd"];
-  boot.extraModulePackages = [];
-
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/189c26d4-2052-4e14-a4b5-dd370952c897";
-    fsType = "ext4";
+  boot = {
+    initrd = {
+      availableKernelModules = ["nvme" "xhci_pci" "ahci" "thunderbolt" "usbhid"];
+      kernelModules = [];
+    };
+    kernelModules = ["kvm-amd"];
+    extraModulePackages = [];
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/DC53-CBF6";
-    fsType = "vfat";
-    options = ["fmask=0077" "dmask=0077"];
-  };
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/189c26d4-2052-4e14-a4b5-dd370952c897";
+      fsType = "ext4";
+    };
 
-  fileSystems."/var/lib/kubelet/pods/7086795b-dcbb-46a9-a71d-a685f851fe1f/volumes/kubernetes.io~projected/kube-api-access-hjc64" = {
-    device = "tmpfs";
-    fsType = "tmpfs";
-  };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/DC53-CBF6";
+      fsType = "vfat";
+      options = ["fmask=0077" "dmask=0077"];
+    };
 
-  fileSystems."/var/lib/kubelet/pods/ae6a2a42-9fd1-425d-a4eb-becbab80f9b0/volumes/kubernetes.io~projected/kube-api-access-fgwtf" = {
-    device = "tmpfs";
-    fsType = "tmpfs";
-  };
+    "/var/lib/kubelet/pods/7086795b-dcbb-46a9-a71d-a685f851fe1f/volumes/kubernetes.io~projected/kube-api-access-hjc64" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+    };
 
-  fileSystems."/var/lib/kubelet/pods/a37eef63-f312-41c6-9497-2b1dbab7c0a4/volumes/kubernetes.io~projected/kube-api-access-8x9sk" = {
-    device = "tmpfs";
-    fsType = "tmpfs";
-  };
+    "/var/lib/kubelet/pods/ae6a2a42-9fd1-425d-a4eb-becbab80f9b0/volumes/kubernetes.io~projected/kube-api-access-fgwtf" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+    };
 
-  fileSystems."/var/lib/kubelet/pods/9b75ace7-6fa9-4e72-aba2-acd46d6bf1f1/volumes/kubernetes.io~projected/kube-api-access-zm9sv" = {
-    device = "tmpfs";
-    fsType = "tmpfs";
-  };
+    "/var/lib/kubelet/pods/a37eef63-f312-41c6-9497-2b1dbab7c0a4/volumes/kubernetes.io~projected/kube-api-access-8x9sk" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+    };
 
-  fileSystems."/home/david/data" = {
-    device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21";
-    fsType = "ext4";
+    "/var/lib/kubelet/pods/9b75ace7-6fa9-4e72-aba2-acd46d6bf1f1/volumes/kubernetes.io~projected/kube-api-access-zm9sv" = {
+      device = "tmpfs";
+      fsType = "tmpfs";
+    };
+
+    "/home/david/data" = {
+      device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21";
+      fsType = "ext4";
+    };
   };
 
   swapDevices = [

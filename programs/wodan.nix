@@ -109,81 +109,106 @@
     ];
   };
 in {
-  programs.plasma = {
+  programs = {
+    plasma = {
+      configFile = {
+        kcminputrc = {
+          "Libinput/1133/49970/Logitech Gaming Mouse G502".PointerAccelerationProfile = 1;
+          Mouse = {
+            X11LibInputXAccelProfileFlat = true;
+            cursorSize = 36;
+            cursorTheme = "breeze_cursors";
+          };
+        };
+
+        ktrashrc."\\/home\\/david\\/.local\\/share\\/Trash" = {
+          Days = 7;
+          LimitReachedAction = 0;
+          Percent = 10;
+          UseSizeLimit = true;
+          UseTimeLimit = false;
+        };
+
+        kwinrc = {
+          Desktops = {
+            Number = 1;
+            Rows = 1;
+          };
+          NightColor.Active = true;
+          TabBox = {
+            ActivitiesMode = 0;
+            DesktopMode = 0;
+            HighlightWindows = false;
+            MultiScreenMode = 1;
+            OrderMinimizedMode = 1;
+          };
+          Tiling.padding = 4;
+          Xwayland.Scale = 1.25;
+          "org.kde.kdecoration2".theme = "__aurorae__svg__WillowDarkBlur";
+        };
+      };
+
+      panels = [
+        {
+          screen = 1;
+          location = "top";
+          height = 26;
+          widgets = [
+            "org.kde.plasma.appmenu"
+          ];
+        }
+        (mkBottomPanel 0)
+        (mkBottomPanel 1)
+      ];
+    };
+
+    codexDesktopLinux = {
+      enable = true;
+      package = codexDesktopSafe;
+    };
+
+    direnv = {
+      enable = true;
+      config.global = {
+        hide_env_diff = true;
+        disable_stdin = true;
+        warn_timeout = "15s";
+      };
+      nix-direnv.enable = true;
+    };
+  };
+
+  xdg = {
     configFile = {
-      kcminputrc = {
-        "Libinput/1133/49970/Logitech Gaming Mouse G502".PointerAccelerationProfile = 1;
-        Mouse = {
-          X11LibInputXAccelProfileFlat = true;
-          cursorSize = 36;
-          cursorTheme = "breeze_cursors";
-        };
-      };
+      "autostart/io.github.martinrotter.rssguard.desktop".text = ''
+        [Desktop Entry]
+        Type=Application
+        Name=RSS Guard
+        Comment=Simple, yet powerful news feed reader
+        Icon=io.github.martinrotter.rssguard
+        Exec=${pkgs.rssguard}/bin/rssguard
+        Categories=Feed;News;Network;Qt;
+        StartupWMClass=rssguard
+        X-GNOME-SingleWindow=true
+        X-GNOME-Autostart-Delay=15
+        X-LXQt-Need-Tray=true
+      '';
 
-      ktrashrc."\\/home\\/david\\/.local\\/share\\/Trash" = {
-        Days = 7;
-        LimitReachedAction = 0;
-        Percent = 10;
-        UseSizeLimit = true;
-        UseTimeLimit = false;
-      };
-
-      kwinrc = {
-        Desktops = {
-          Number = 1;
-          Rows = 1;
-        };
-        NightColor.Active = true;
-        TabBox = {
-          ActivitiesMode = 0;
-          DesktopMode = 0;
-          HighlightWindows = false;
-          MultiScreenMode = 1;
-          OrderMinimizedMode = 1;
-        };
-        Tiling.padding = 4;
-        Xwayland.Scale = 1.25;
-        "org.kde.kdecoration2".theme = "__aurorae__svg__WillowDarkBlur";
+      "codex-desktop/settings.json".text = builtins.toJSON {
+        codex-linux-prompt-window-enabled = false;
+        codex-linux-system-tray-enabled = false;
+        codex-linux-warm-start-enabled = true;
       };
     };
 
-    panels = [
-      {
-        screen = 1;
-        location = "top";
-        height = 26;
-        widgets = [
-          "org.kde.plasma.appmenu"
-        ];
-      }
-      (mkBottomPanel 0)
-      (mkBottomPanel 1)
-    ];
-  };
-
-  xdg.configFile."autostart/io.github.martinrotter.rssguard.desktop".text = ''
-    [Desktop Entry]
-    Type=Application
-    Name=RSS Guard
-    Comment=Simple, yet powerful news feed reader
-    Icon=io.github.martinrotter.rssguard
-    Exec=${pkgs.rssguard}/bin/rssguard
-    Categories=Feed;News;Network;Qt;
-    StartupWMClass=rssguard
-    X-GNOME-SingleWindow=true
-    X-GNOME-Autostart-Delay=15
-    X-LXQt-Need-Tray=true
-  '';
-
-  xdg.configFile."codex-desktop/settings.json".text = builtins.toJSON {
-    codex-linux-prompt-window-enabled = false;
-    codex-linux-system-tray-enabled = false;
-    codex-linux-warm-start-enabled = true;
-  };
-
-  programs.codexDesktopLinux = {
-    enable = true;
-    package = codexDesktopSafe;
+    desktopEntries.battlenet = {
+      name = "Battle.net";
+      exec = "battlenet";
+      terminal = false;
+      categories = ["Game"];
+      comment = "Launch Blizzard Battle.net via Wine";
+      icon = "wine";
+    };
   };
 
   home.activation.codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -211,14 +236,6 @@ in {
     done
   '';
 
-  programs.direnv = {
-    enable = true;
-    config.global.hide_env_diff = true;
-    config.global.disable_stdin = true;
-    config.global.warn_timeout = "15s";
-    nix-direnv.enable = true;
-  };
-
   systemd.user.services.ydotoold = {
     Unit = {
       Description = "ydotool input injection daemon";
@@ -230,15 +247,6 @@ in {
     Install = {
       WantedBy = ["default.target"];
     };
-  };
-
-  xdg.desktopEntries.battlenet = {
-    name = "Battle.net";
-    exec = "battlenet";
-    terminal = false;
-    categories = ["Game"];
-    comment = "Launch Blizzard Battle.net via Wine";
-    icon = "wine";
   };
 
   home.packages = with pkgs; [

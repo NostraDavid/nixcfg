@@ -1,3 +1,3 @@
 {prev, ...}: {
-  vscode = prev.vscode;
+  inherit (prev) vscode;
 }

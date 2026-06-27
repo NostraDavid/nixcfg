@@ -8,5 +8,5 @@
     config.allowUnfree = true;
   };
 in {
-  rustPlatform = unstable.rustPlatform;
+  inherit (unstable) rustPlatform;
 }

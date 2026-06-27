@@ -4,7 +4,7 @@
   cmake,
   fetchFromGitHub,
 }:
-llvmPackages_20.stdenv.mkDerivation (finalAttrs: {
+llvmPackages_20.stdenv.mkDerivation {
   pname = "bitnet";
   version = "unstable-2026-03-10";
 
@@ -73,4 +73,4 @@ llvmPackages_20.stdenv.mkDerivation (finalAttrs: {
     platforms = lib.platforms.linux;
     mainProgram = "llama-cli";
   };
-})
+}
