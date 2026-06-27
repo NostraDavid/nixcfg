@@ -6,6 +6,7 @@ service_tier = "default"
 [desktop]
 ambient-suggestions-enabled = true
 conversationDetailMode = "STEPS_COMMANDS"
+followUpQueueMode = "queue"
 
 [features]
 apps = false
@@ -36,21 +37,26 @@ url = "http://blender.localhost:9876/"
 
 [mcp_servers.node_repl]
 args = []
-command = "/nix/store/7knlmlm3dlx9n61gf1nbpwga0lk1shd6-codex-desktop-26.616.51431/opt/codex-desktop/resources/node_repl"
+command = "/nix/store/bzmcb0q8y5sfy5xy7fd6qcwdh7yaich8-codex-desktop-26.623.31921/opt/codex-desktop/resources/node_repl"
 startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.616.51431"
-CODEX_HOME = "/home/david/.codex"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
 NODE_REPL_NODE_MODULE_DIRS = ""
-NODE_REPL_NODE_PATH = "/nix/store/7knlmlm3dlx9n61gf1nbpwga0lk1shd6-codex-desktop-26.616.51431/opt/codex-desktop/resources/node-runtime/bin/node"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "2c20141b13bec5a64cd2874d8e2df011430d5b1a70e4f5425aa10d01743311a8,f839476bb0190a7c727a2002f8870b48716a142bb3bf58d2a5f1b0c0f4aa37a4,68e07cdd981425ba6ccfab9dd0f1511ff7ec311d1ea20a68220fcda559539ed5"
+NODE_REPL_NODE_PATH = "/nix/store/bzmcb0q8y5sfy5xy7fd6qcwdh7yaich8-codex-desktop-26.623.31921/opt/codex-desktop/resources/node-runtime/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/home/david/.codex"
+CODEX_HOME = "/home/david/.codex"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "d1a8040310e3ed270b3d17f6f3d41f4cdbad9096fa1a4f7c425fbb37afe949d3"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.623.31921"
+
+[mcp_servers.node_repl.tools]
+
+[mcp_servers.node_repl.tools.js]
+approval_mode = "approve"
 
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
