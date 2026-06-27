@@ -23,9 +23,11 @@ local groups = {
 			{ cmd = "shellcheck", purpose = "Shell linting" },
 			{ cmd = "sqlfluff", purpose = "SQL linting" },
 			{ one_of = { "prettierd", "prettier" }, purpose = "Web, JSON, Markdown, and YAML formatting" },
+			{ cmd = "pg_format", purpose = "PostgreSQL formatting" },
 			{ cmd = "selene", purpose = "Lua linting and static analysis" },
 			{ cmd = "stylua", purpose = "Lua formatting" },
 			{ cmd = "xmlformat", purpose = "XML formatting" },
+			{ cmd = "glow", purpose = "Terminal Markdown preview" },
 		},
 	},
 	{
@@ -34,14 +36,38 @@ local groups = {
 		tools = {
 			{ cmd = "nixd", purpose = "Nix LSP" },
 			{ cmd = "lua-language-server", purpose = "Lua LSP" },
-			{ cmd = "pyright-langserver", purpose = "Python LSP" },
+			{ cmd = "basedpyright-langserver", purpose = "Python type checking LSP" },
+			{ cmd = "ruff", purpose = "Python linting LSP and formatter" },
 			{ cmd = "rust-analyzer", purpose = "Rust LSP" },
 			{ cmd = "bash-language-server", purpose = "Shell LSP" },
 			{ cmd = "yaml-language-server", purpose = "YAML LSP" },
 			{ cmd = "vscode-json-language-server", purpose = "JSON LSP" },
+			{ cmd = "docker-compose-langserver", purpose = "Docker Compose LSP" },
+			{ cmd = "jinja-lsp", purpose = "Jinja LSP" },
 			{ cmd = "taplo", purpose = "TOML LSP and formatter" },
 			{ cmd = "terraform-ls", purpose = "Terraform LSP" },
+			{ cmd = "zls", purpose = "Zig LSP" },
 			{ cmd = "codelldb", purpose = "Rust/C/C++ debugging" },
+		},
+	},
+	{
+		name = "Shortcut-backed external tools",
+		required = false,
+		tools = {
+			{ cmd = "jq", purpose = "JSON shortcut tasks" },
+			{ cmd = "yq", purpose = "YAML shortcut tasks" },
+			{ cmd = "xmllint", purpose = "XML shortcut tasks" },
+			{ cmd = "duckdb", purpose = "Data previews for CSV and Parquet" },
+			{ cmd = "visidata", purpose = "Terminal data exploration" },
+			{ cmd = "parquet-tools", purpose = "Parquet schema inspection" },
+			{ cmd = "jj", purpose = "Jujutsu shortcuts" },
+			{ cmd = "gh", purpose = "GitHub shortcuts" },
+			{ cmd = "jupytext", purpose = "Jupyter notebook text conversion" },
+			{ cmd = "plantuml", purpose = "PlantUML rendering" },
+			{ cmd = "austin", purpose = "Python frame stack sampling" },
+			{ cmd = "scalene", purpose = "Python profiling" },
+			{ cmd = "ty", purpose = "Astral Python type checking" },
+			{ one_of = { "gemini", "github-copilot-cli", "codex" }, purpose = "AI CLI-first workflow" },
 		},
 	},
 }
@@ -94,11 +120,13 @@ end
 function M.check()
 	local h = health_api()
 	h.start("Nostra Neovim profile")
-	h.info(("Neovim %d.%d.%d; config targets Neovim 0.11+ APIs"):format(
-		vim.version().major,
-		vim.version().minor,
-		vim.version().patch
-	))
+	h.info(
+		("Neovim %d.%d.%d; config targets Neovim 0.11+ APIs"):format(
+			vim.version().major,
+			vim.version().minor,
+			vim.version().patch
+		)
+	)
 	h.info("Plugin policy: lazy.nvim and Mason are primary; lazy-lock.json must be committed after plugin updates")
 
 	for _, group in ipairs(groups) do
@@ -112,7 +140,11 @@ function M.check()
 			elseif group.required then
 				h.warn(("%s is missing"):format(msg))
 			else
-				h.info(("%s is not currently available; install via Mason, project devshell, or Nix when needed"):format(msg))
+				h.info(
+					("%s is not currently available; install via Mason, project devshell, or Nix when needed"):format(
+						msg
+					)
+				)
 			end
 		end
 	end

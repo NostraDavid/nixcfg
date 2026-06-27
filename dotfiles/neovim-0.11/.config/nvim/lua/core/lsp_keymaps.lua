@@ -32,7 +32,12 @@ function M.on_attach(client, bufnr)
 	map("n", "[d", vim.diagnostic.goto_prev, "Prev diagnostic")
 	map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
 
-	if client and client.server_capabilities and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+	if
+		client
+		and client.server_capabilities
+		and client.server_capabilities.inlayHintProvider
+		and vim.lsp.inlay_hint
+	then
 		map("n", "<leader>th", function()
 			local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
 			vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })

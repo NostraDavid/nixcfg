@@ -2,27 +2,47 @@
 -- Mason is the runtime installer for this profile. Keep these lists explicit so
 -- lazy-lock.json plus this file describe the mutable tooling surface.
 local mason_lsp_servers = {
+	"basedpyright", -- Python type checking
 	"bashls", -- Shell
 	"cssls", -- CSS
+	"docker_compose_language_service", -- Docker Compose
 	"dockerls", -- Dockerfile
 	"groovyls", -- Groovy
 	"html", -- HTML
+	"jinja_lsp", -- Jinja templates
 	"jsonls", -- JSON
 	"lemminx", -- XML
 	"lua_ls", -- Lua
 	"marksman", -- Markdown
-	"pyright", -- Python
+	"ruff", -- Python linting and import actions
 	"rust_analyzer", -- Rust
 	"taplo", -- TOML
 	"terraformls", -- HCL/Terraform
 	"yamlls", -- YAML
+	"zls", -- Zig
 }
 
 local mason_tools = {
 	"actionlint",
+	"hadolint",
+	"markdownlint-cli2",
+	"prettier",
+	"prettierd",
+	"ruff",
+	"selene",
+	"shellcheck",
+	"shfmt",
+	"sqlfluff",
+	"stylua",
+	"taplo",
 }
 
 return {
+	{
+		"b0o/SchemaStore.nvim",
+		version = "*",
+		lazy = true,
+	},
 	{
 		"folke/lazydev.nvim",
 		ft = "lua",

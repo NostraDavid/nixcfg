@@ -1,4 +1,6 @@
 -- plugins/tools.lua - Formatting, linting and richer git UX
+-- Alternative deferred: none-ls.nvim. This profile keeps formatters in
+-- conform.nvim and diagnostics in nvim-lint/LSP to avoid a second injection layer.
 return {
 	{
 		"stevearc/conform.nvim",

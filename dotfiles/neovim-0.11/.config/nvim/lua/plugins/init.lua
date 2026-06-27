@@ -74,6 +74,7 @@ local group_modules = {
 	"plugins.ux",
 	"plugins.git",
 	"plugins.tools",
+	"plugins.tasks",
 	"plugins.dev",
 	"plugins.database",
 	"plugins.debug",

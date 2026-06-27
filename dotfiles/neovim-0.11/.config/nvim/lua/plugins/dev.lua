@@ -27,4 +27,10 @@ return {
 			}
 		end,
 	},
+	{
+		"Saecki/crates.nvim",
+		version = "*",
+		ft = { "toml" },
+		opts = {},
+	},
 }

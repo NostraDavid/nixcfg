@@ -22,8 +22,24 @@ capabilities.general.positionEncodings = { "utf-16" }
 capabilities.offsetEncoding = { "utf-16" }
 
 -- Mason can have extra installed tools that we do not want treated as active LSP configs.
-for _, name in ipairs({ "basedpyright", "ruff", "sqlls", "stylua", "ty" }) do
+for _, name in ipairs({ "pyright", "sqlls", "stylua", "ty" }) do
 	pcall(vim.lsp.enable, name, false)
+end
+
+local function schemastore_json()
+	local ok, schemastore = pcall(require, "schemastore")
+	if not ok then
+		return nil
+	end
+	return schemastore.json.schemas()
+end
+
+local function schemastore_yaml()
+	local ok, schemastore = pcall(require, "schemastore")
+	if not ok then
+		return nil
+	end
+	return schemastore.yaml.schemas()
 end
 
 -- Servers with default setup
@@ -54,7 +70,7 @@ local servers = {
 					},
 					options = {
 						nixos = {
-							expr = '(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.wodan.options',
+							expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.wodan.options",
 						},
 						["home-manager"] = {
 							expr = '(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.wodan.options."home-manager".users.type.getSubOptions []',
@@ -68,21 +84,44 @@ local servers = {
 		return {}
 	end,
 	jsonls = function()
-		return {}
+		return {
+			settings = {
+				json = {
+					schemas = schemastore_json(),
+					validate = { enable = true },
+				},
+			},
+		}
 	end,
 	yamlls = function()
-		return {}
+		return {
+			settings = {
+				yaml = {
+					schemaStore = { enable = false, url = "" },
+					schemas = schemastore_yaml(),
+					validate = true,
+					hover = true,
+					completion = true,
+				},
+			},
+		}
 	end,
 	marksman = function()
 		return {}
 	end,
-	pyright = function()
+	basedpyright = function()
+		return {}
+	end,
+	ruff = function()
 		return {}
 	end,
 	cssls = function()
 		return {}
 	end,
 	dockerls = function()
+		return {}
+	end,
+	docker_compose_language_service = function()
 		return {}
 	end,
 	groovyls = function()
@@ -101,6 +140,12 @@ local servers = {
 		return {}
 	end,
 	lemminx = function()
+		return {}
+	end,
+	jinja_lsp = function()
+		return {}
+	end,
+	zls = function()
 		return {}
 	end,
 }

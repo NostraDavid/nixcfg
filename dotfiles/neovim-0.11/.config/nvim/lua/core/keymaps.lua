@@ -24,7 +24,12 @@ map("n", "<leader>Q", ":qa<CR>", { desc = "Quit all" })
 map("n", "<leader>e", "<cmd>Neotree filesystem reveal right<CR>", { desc = "Reveal in explorer" })
 map("n", "<C-b>", "<cmd>Neotree filesystem toggle right<CR>", { desc = "Toggle explorer" })
 map("n", "<C-`>", vscode.toggle_terminal, { desc = "Toggle terminal", silent = true })
-map("t", "<C-`>", [[<C-\><C-n><cmd>lua require("core.vscode").toggle_terminal()<CR>]], { desc = "Toggle terminal", silent = true })
+map(
+	"t",
+	"<C-`>",
+	[[<C-\><C-n><cmd>lua require("core.vscode").toggle_terminal()<CR>]],
+	{ desc = "Toggle terminal", silent = true }
+)
 map("n", "<C-Tab>", "<cmd>bnext<CR>", { desc = "Next tab" })
 map("n", "<C-S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous tab" })
 map("n", "<A-]>", "<cmd>bnext<CR>", { desc = "Next tab" })

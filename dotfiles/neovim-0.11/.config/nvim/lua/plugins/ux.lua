@@ -90,6 +90,16 @@ return {
 		},
 	},
 	{
+		"rachartier/tiny-inline-diagnostic.nvim",
+		event = "LspAttach",
+		priority = 1000,
+		opts = {},
+		config = function(_, opts)
+			require("tiny-inline-diagnostic").setup(opts)
+			vim.diagnostic.config({ virtual_text = false })
+		end,
+	},
+	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		opts = {},
@@ -108,6 +118,97 @@ return {
 				end,
 				desc = "Treesitter jump",
 			},
+		},
+	},
+	{
+		"monaqa/dial.nvim",
+		keys = {
+			{
+				"<C-a>",
+				function()
+					require("dial.map").manipulate("increment", "normal")
+				end,
+				desc = "Increment",
+			},
+			{
+				"<C-x>",
+				function()
+					require("dial.map").manipulate("decrement", "normal")
+				end,
+				desc = "Decrement",
+			},
+			{
+				"g<C-a>",
+				function()
+					require("dial.map").manipulate("increment", "gnormal")
+				end,
+				desc = "Increment sequence",
+			},
+			{
+				"g<C-x>",
+				function()
+					require("dial.map").manipulate("decrement", "gnormal")
+				end,
+				desc = "Decrement sequence",
+			},
+			{
+				"<C-a>",
+				function()
+					require("dial.map").manipulate("increment", "visual")
+				end,
+				mode = "v",
+				desc = "Increment",
+			},
+			{
+				"<C-x>",
+				function()
+					require("dial.map").manipulate("decrement", "visual")
+				end,
+				mode = "v",
+				desc = "Decrement",
+			},
+		},
+	},
+	{
+		"gbprod/substitute.nvim",
+		keys = {
+			{
+				"<leader>rsub",
+				function()
+					require("substitute").operator()
+				end,
+				desc = "Substitute operator",
+			},
+			{
+				"<leader>rsu",
+				function()
+					require("substitute").line()
+				end,
+				desc = "Substitute line",
+			},
+			{
+				"<leader>rsu",
+				function()
+					require("substitute").visual()
+				end,
+				mode = "x",
+				desc = "Substitute selection",
+			},
+		},
+		opts = {},
+	},
+	{
+		"abecodes/tabout.nvim",
+		event = "InsertEnter",
+		opts = {
+			tabout = {
+				enable = true,
+			},
+			tabkey = "<A-l>",
+			backwards_tabkey = "<A-h>",
+			act_as_tab = true,
+			act_as_shift_tab = false,
+			enable_backwards = true,
 		},
 	},
 	{
@@ -149,6 +250,8 @@ return {
 		},
 	},
 	{
+		-- Alternatives deferred: markdown-preview.nvim, peek.nvim, and
+		-- live-preview.nvim. Phase 1 keeps preview terminal-only via glow.nvim.
 		"MeanderingProgrammer/render-markdown.nvim",
 		ft = { "markdown", "quarto" },
 		dependencies = {

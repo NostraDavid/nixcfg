@@ -148,6 +148,8 @@ return {
 		},
 	},
 	{
+		-- Alternatives deferred: oil.nvim and nvim-tree.lua. Neo-tree already owns
+		-- the VS Code-like explorer workflow in this profile.
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
 		lazy = false,

@@ -21,7 +21,7 @@ runtime and are pinned by `lazy-lock.json`.
 
 Rules for adding plugins:
 
-- Check https://dotfyle.com/neovim/plugins and the upstream repository before
+- Check [dotfyle.com](https://dotfyle.com/neovim/plugins) and the upstream repository before
   adding a plugin.
 - Prefer maintained plugins with recent releases, clear licenses, and small
   dependency surfaces.

@@ -1,7 +1,9 @@
 vim.filetype.add({
 	extension = {
+		csv = "csv",
 		templ = "templ",
 		tfvars = "terraform-vars",
+		tsv = "tsv",
 		xsl = "xsl",
 		xslt = "xsl",
 	},
@@ -20,6 +22,7 @@ vim.filetype.add({
 vim.treesitter.language.register("html", "templ")
 vim.treesitter.language.register("hcl", "terraform-vars")
 vim.treesitter.language.register("xml", "xsl")
+vim.treesitter.language.register("csv", "tsv")
 vim.treesitter.language.register("yaml", "yaml.docker-compose")
 vim.treesitter.language.register("yaml", "yaml.gitlab")
 vim.treesitter.language.register("yaml", "yaml.helm-values")

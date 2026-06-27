@@ -135,6 +135,7 @@ in {
       git # This will now use your pinned version (2.45.0)
       git-lfs # Git Large File Storage
       glances # htop with temperature information
+      glow # Terminal Markdown preview
       gnugrep # GNU grep
       gnused # GNU sed
       go # the language
@@ -157,6 +158,8 @@ in {
       jpegoptim # JPEG image optimizer
       jq # JSON processor
       just # justcfile
+      jujutsu # jj version control
+      python3Packages.jupytext # Jupyter notebooks as text
       k9s # Kubernetes CLI tool
       kakoune # Text editor
       kdash # Kubernetes dashboard
@@ -209,14 +212,19 @@ in {
       parquet-tools
       pciutils # for lspci
       pgcli # psql alternative
+      pgformatter # pg_format SQL formatter
       pngcheck # PNG image validator
       pngquant # PNG image optimizer
+      plantuml # UML diagram renderer
       powerline # The best Bash Prompt!
+      prettier # Web/JSON/YAML/Markdown formatter
+      prettierd # Prettier daemon
       prek # pre-commit alternative
       procps # for `ps` command
       procs # moddern replacement for `ps`, written in Rust; might be troublesome
       pv # Pipe viewer, useful for monitoring data through a pipe
       pyrefly # Python type checker
+      python3Packages.scalene # Python profiler
       riffdiff # diff viewer
       ripgrep # Search tool (rg)
       rsync
