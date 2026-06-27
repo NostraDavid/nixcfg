@@ -20,3 +20,4 @@ prefix_rule(pattern=["snip", "bash", "-c", "devenv shell just check-projects && 
 prefix_rule(pattern=["snip", "cp", "/tmp/check_project_normalized.py", "/home/david/dev/t-Bataafsche-Broederschap/website-src/scripts/check_project_normalized.py"], decision="allow")
 prefix_rule(pattern=["snip", "busybox", "httpd", "-f", "-p", "127.0.0.1:1315"], decision="allow")
 prefix_rule(pattern=["snip", "chromium", "--headless", "--disable-gpu", "--no-sandbox", "--window-size=1440,1000", "--screenshot=/tmp/footer-desktop.png", "http://127.0.0.1:1315/"], decision="allow")
+prefix_rule(pattern=["prek", "run"], decision="allow")
