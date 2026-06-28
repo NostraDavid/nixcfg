@@ -1,0 +1,33 @@
+# Keep Ghostty aligned with the existing terminal setup.
+command = tmux
+
+font-family = JetBrainsMono Nerd Font
+font-size = 9
+
+background = #000000
+foreground = #ffffff
+cursor-color = #ffffff
+cursor-text = #ff00ff
+selection-background = #ffffff
+selection-foreground = #000000
+
+palette = 0=#000000
+palette = 1=#fe0100
+palette = 2=#33ff00
+palette = 3=#feff00
+palette = 4=#0066ff
+palette = 5=#cc00ff
+palette = 6=#00ffff
+palette = 7=#d0d0d0
+palette = 8=#808080
+palette = 9=#fe0100
+palette = 10=#33ff00
+palette = 11=#feff00
+palette = 12=#0066ff
+palette = 13=#cc00ff
+palette = 14=#00ffff
+palette = 15=#ffffff
+
+background-opacity = 0.95
+window-padding-x = 0
+window-padding-y = 0
