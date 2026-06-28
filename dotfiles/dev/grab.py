@@ -17,6 +17,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from datetime import datetime
 from dataclasses import dataclass, field
@@ -38,6 +39,7 @@ from structlog.stdlib import get_logger
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
 DEFAULT_BRANCHES = ("main", "master", "dev")
+DEFAULT_INITIAL_BRANCH = "master"
 DEFAULT_FETCH_TIMEOUT = 300
 TIMEOUT = 30
 
@@ -293,10 +295,10 @@ def tag_fetch_refspec(tag: str) -> str:
     return f"+refs/tags/{tag}:refs/tags/{tag}"
 
 
-def list_remote_heads(repo_url: str) -> set[str]:
+def list_remote_heads(repo_url: str) -> set[str] | None:
     proc = run_git(["ls-remote", "--heads", repo_url], capture=True)
     if proc.returncode != 0:
-        return set()
+        return None
 
     heads: set[str] = set()
     for line in proc.stdout.splitlines():
@@ -345,6 +347,9 @@ def get_remote_default_branch(repo_url: str) -> str | None:
 
 def resolve_selected_branches(repo_url: str, branches: list[str] | None) -> list[str]:
     remote_heads = list_remote_heads(repo_url)
+    if remote_heads is None:
+        return []
+
     if branches is None:
         return sorted(remote_heads)
 
@@ -359,6 +364,58 @@ def resolve_selected_branches(repo_url: str, branches: list[str] | None) -> list
     if remote_heads:
         return [sorted(remote_heads)[0]]
     return []
+
+
+def initialize_empty_remote_repo(repo_url: str, trace: RepoTrace) -> tuple[bool, str]:
+    repo_name = Path(repo_path_part(repo_url)).name
+    with tempfile.TemporaryDirectory(prefix=f"grab-{repo_name}-") as tmp:
+        tmp_path = Path(tmp)
+        init_proc = run_git(
+            ["init", "--initial-branch", DEFAULT_INITIAL_BRANCH],
+            tmp_path,
+            capture=True,
+        )
+        if init_proc.returncode != 0:
+            reason = (init_proc.stderr or init_proc.stdout or "git init failed").strip()
+            return False, reason
+
+        (tmp_path / ".gitignore").write_text("")
+        add_proc = run_git(["add", ".gitignore"], tmp_path, capture=True)
+        if add_proc.returncode != 0:
+            reason = (add_proc.stderr or add_proc.stdout or "git add failed").strip()
+            return False, reason
+
+        commit_message = f"{repo_name}: initialize repository"
+        commit_proc = run_git(["commit", "-m", commit_message], tmp_path, capture=True)
+        if commit_proc.returncode != 0:
+            reason = (
+                commit_proc.stderr or commit_proc.stdout or "git commit failed"
+            ).strip()
+            return False, reason
+
+        remote_proc = run_git(
+            ["remote", "add", "origin", repo_url],
+            tmp_path,
+            capture=True,
+        )
+        if remote_proc.returncode != 0:
+            reason = (
+                remote_proc.stderr or remote_proc.stdout or "git remote add failed"
+            ).strip()
+            return False, reason
+
+        push_proc = run_git(
+            ["push", "-u", "origin", DEFAULT_INITIAL_BRANCH],
+            tmp_path,
+            capture=True,
+            timeout=DEFAULT_FETCH_TIMEOUT,
+        )
+        if push_proc.returncode != 0:
+            reason = (push_proc.stderr or push_proc.stdout or "git push failed").strip()
+            return False, reason
+
+    trace.add_action(f"empty remote initialized: {DEFAULT_INITIAL_BRANCH}")
+    return True, "empty remote initialized"
 
 
 def resolve_selected_tags(repo_url: str, tags: list[str], all_tags: bool) -> list[str]:
@@ -729,6 +786,14 @@ def clone_or_update_repo(
         branches_root.mkdir(parents=True, exist_ok=True)
         tags_root.mkdir(parents=True, exist_ok=True)
         checkouts_root.mkdir(parents=True, exist_ok=True)
+
+        remote_heads = list_remote_heads(repo_url)
+        if remote_heads is None:
+            return fail_repo_trace(trace_ctx, "unable to list remote branches")
+        if not remote_heads:
+            init_ok, init_reason = initialize_empty_remote_repo(repo_url, trace_ctx)
+            if not init_ok:
+                return fail_repo_trace(trace_ctx, init_reason)
 
         selected_branches = resolve_selected_branches(repo_url, requested_branches)
         selected_tags = resolve_selected_tags(repo_url, requested_tags, all_tags)
