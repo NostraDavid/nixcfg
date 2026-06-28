@@ -291,3 +291,9 @@ if [ -n "${XDG_DATA_DIRS-}" ]; then
 		fi
 	done
 fi
+
+# load a non-tracked local file (if it exists)
+if [ -f "$HOME/.bashrc.local" ]; then
+	# shellcheck source=/dev/null
+	source "$HOME/.bashrc.local"
+fi
