@@ -1,5 +1,5 @@
 model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model_reasoning_effort = "medium"
 personality = "pragmatic"
 service_tier = "default"
 
@@ -138,6 +138,12 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/david/wow_3.3.5a"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/fitdays"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ndol"]
 trust_level = "trusted"
 
 [tui]
