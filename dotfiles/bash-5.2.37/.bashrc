@@ -79,6 +79,8 @@ if [ -t 0 ]; then
 	stty -ixon
 fi
 
+set -o emacs
+
 # Ignore case on auto-completion
 # Note: bind used instead of sticking these in .inputrc
 if [[ $iatest -gt 0 ]]; then safe_bind "set completion-ignore-case on"; fi
@@ -202,6 +204,7 @@ safe_shopt -s histappend     # append to the history file, don't overwrite it
 safe_shopt -s histreedit     # lets your re-edit old executed command
 safe_shopt -s histverify     # I'm confused.
 safe_shopt -s hostcomplete   # performs completion when a word contains an '@'
+safe_shopt -s globstar       # allow ** to recurse through directories
 safe_shopt -s cmdhist        # save multiple-line command in single history entry
 safe_shopt -u lithist        # multi-lines are saved with embedded newlines rather than semicolons; explictly unset
 safe_shopt -s checkwinsize   # update LINES and COLUMNS to fit output

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-alias egrep='egrep --color=auto'
+alias egrep='grep -E --color=auto'
 alias fgrep='fgrep --color=auto'
 alias getsizes='du -h . | sort -rh | head -5'
 alias gitbulk='git verify-pack -v .git/objects/pack/pack-*.idx | sort -k 3 -n | tail -3'
@@ -8,7 +8,11 @@ alias gitfilebranch='git log --oneline --branches --' # pass the filename from g
 alias gitrev='git rev-list --objects --all | grep'    # pass a hash from gitbulk
 alias gitsize='git count-objects -v'                  # gitsize: size-pack is the repo size in KB
 alias gitundo="git reset --soft HEAD~1"
-alias grep='grep --color=auto'
+alias grep='grep -E --color=auto'
+alias sed='sed -E'
+alias rg='rg -S'
+alias diff='diff --color=auto'
+alias ip='ip -c'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='lsd -lha --group-dirs first --header --blocks permission,user,group,size,date,name --icon=never --color=auto --classify'
