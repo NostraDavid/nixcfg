@@ -50,9 +50,7 @@ safe_shopt() {
 	local mode="$1"
 	local option="$2"
 
-	if has_builtin shopt && shopt "$option" >/dev/null 2>&1; then
-		shopt "$mode" "$option"
-	fi
+	has_builtin shopt && shopt "$mode" "$option" 2>/dev/null
 }
 
 # If not running interactively, don't do anything
