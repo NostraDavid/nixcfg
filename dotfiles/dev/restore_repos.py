@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
-from datetime import datetime
+import datetime as dt
 from pathlib import Path
 
 import grab
@@ -149,7 +149,7 @@ def main() -> int:
         return 0
 
     jobs = grab.detect_jobs(args.jobs)
-    started_at = datetime.now()
+    started_at = dt.datetime.now()
     grab.logger.info(
         "restore_started",
         repos_file=str(repos_file),
@@ -189,7 +189,7 @@ def main() -> int:
         "restore_complete",
         total=len(all_repos),
         failed=len(failed),
-        elapsed=str(datetime.now() - started_at),
+        elapsed=str(dt.datetime.now() - started_at),
     )
     return 1 if failed else 0
 

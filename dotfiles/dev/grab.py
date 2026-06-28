@@ -19,7 +19,7 @@ import subprocess
 import sys
 import tempfile
 import time
-from datetime import datetime
+import datetime as dt
 from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import urlparse
@@ -993,7 +993,7 @@ def main() -> int:
     requested_tags = parse_csv(args.tags)
 
     jobs = detect_jobs(args.jobs)
-    started_at = datetime.now()
+    started_at = dt.datetime.now()
     logger.info("sync_started", target_dir=str(target_dir), jobs=jobs)
 
     user = gh_text(["api", "user", "--jq", ".login"])
@@ -1045,7 +1045,7 @@ def main() -> int:
         "sync_complete",
         total=len(all_repos),
         failed=len(failed),
-        elapsed=str(datetime.now() - started_at),
+        elapsed=str(dt.datetime.now() - started_at),
     )
     return 1 if failed else 0
 

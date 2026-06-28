@@ -11,11 +11,11 @@
 
 import argparse
 import base64
+import datetime as dt
 import os
 import subprocess
 import sys
 from concurrent.futures import Future, ThreadPoolExecutor, as_completed
-from datetime import datetime
 from pathlib import Path
 from urllib.parse import quote
 
@@ -784,9 +784,9 @@ def summarize(
     total: int,
     successes: int,
     failures: list[tuple[str, str]],
-    started_at: datetime,
+    started_at: dt.datetime,
 ):
-    elapsed = datetime.now() - started_at
+    elapsed = dt.datetime.now() - started_at
     logger.info(
         "summary",
         total=total,
@@ -807,7 +807,7 @@ def main() -> int:
     requested_branches = None if args.all_branches else parse_csv(args.branches)
     requested_tags = parse_csv(args.tags)
 
-    started_at = datetime.now()
+    started_at = dt.datetime.now()
     try:
         projects = get_projects()
     except Exception as e:  # noqa: BLE001
