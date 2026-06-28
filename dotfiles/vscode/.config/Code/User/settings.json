@@ -259,13 +259,13 @@
       },
       "options": {
         "home-manager": {
-          "expr": "(builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/flake.nix\").homeConfigurations.<name>.options"
+          "expr": "let opts = (builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/branches/master\").nixosConfigurations.wodan.options; in opts.home-manager.users.type.getSubOptions []"
         },
         // By default, this entry will be read from `import <nixpkgs> { }`.
         // You can write arbitrary Nix expressions here, to produce valid "options" declaration result.
         // Tip: for flake-based configuration, utilize `builtins.getFlake`
         "nixos": {
-          "expr": "(builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/flake.nix\").nixosConfigurations.<name>.options"
+          "expr": "(builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/branches/master\").nixosConfigurations.wodan.options"
         }
       }
     }
