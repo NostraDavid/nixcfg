@@ -13,6 +13,7 @@ from pathlib import Path
 
 
 DEV_ROOT = Path.home() / "dev"
+ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 
 
 def sanitize_worktree_name(ref_name: str) -> str:
@@ -108,7 +109,22 @@ def list_git_refs(bare_dir: Path) -> list[str]:
     )
 
 
-def list_branches(repo_root: Path) -> list[tuple[str, Path]]:
+def fetch_remote_refs(bare_dir: Path) -> bool:
+    proc = run(
+        [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "fetch",
+            "--prune",
+            "origin",
+            ALL_BRANCH_REFSPEC,
+        ],
+    )
+    return proc.returncode == 0
+
+
+def list_branches(repo_root: Path, *, refresh_empty: bool = False) -> list[tuple[str, Path]]:
     branches_root = repo_root / "branches"
     branches: list[tuple[str, Path]] = []
 
@@ -120,14 +136,111 @@ def list_branches(repo_root: Path) -> list[tuple[str, Path]]:
 
     bare_dir = repo_root / "bare.git"
     if bare_dir.exists():
+        remote_branches = list_git_refs(bare_dir)
+        if not remote_branches and refresh_empty:
+            fetch_remote_refs(bare_dir)
+            remote_branches = list_git_refs(bare_dir)
+
         existing_labels = {label for label, _ in branches}
-        for branch in list_git_refs(bare_dir):
+        for branch in remote_branches:
             label = sanitize_worktree_name(branch)
             if label in existing_labels:
                 continue
             branches.append((label, branches_root / label))
 
     return branches
+
+
+def local_branch_exists(bare_dir: Path, branch: str) -> bool:
+    proc = run(
+        [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "show-ref",
+            "--verify",
+            "--quiet",
+            f"refs/heads/{branch}",
+        ],
+    )
+    return proc.returncode == 0
+
+
+def remote_branch_exists(bare_dir: Path, branch: str) -> bool:
+    proc = run(
+        [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "show-ref",
+            "--verify",
+            "--quiet",
+            f"refs/remotes/origin/{branch}",
+        ],
+    )
+    return proc.returncode == 0
+
+
+def resolve_branch_name(bare_dir: Path, branch_label: str) -> str | None:
+    candidates = [branch_label]
+    slash_candidate = branch_label.replace("-", "/")
+    if slash_candidate != branch_label:
+        candidates.append(slash_candidate)
+
+    for branch in candidates:
+        if local_branch_exists(bare_dir, branch) or remote_branch_exists(bare_dir, branch):
+            return branch
+    return None
+
+
+def ensure_branch_worktree(repo_root: Path, branch_label: str, target: Path) -> bool:
+    if (target / ".git").exists():
+        return True
+    if target.exists():
+        return False
+
+    bare_dir = repo_root / "bare.git"
+    if not bare_dir.exists():
+        return False
+
+    branch = resolve_branch_name(bare_dir, branch_label)
+    if branch is None:
+        return False
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    add_args = [
+        "git",
+        "--git-dir",
+        str(bare_dir),
+        "worktree",
+        "add",
+        str(target),
+    ]
+    if local_branch_exists(bare_dir, branch):
+        add_args.append(branch)
+    else:
+        add_args += ["-b", branch, f"origin/{branch}"]
+
+    add_proc = run(add_args)
+    if add_proc.returncode != 0:
+        print(add_proc.stderr or add_proc.stdout, end="", file=sys.stderr)
+        return False
+
+    upstream_proc = run(
+        [
+            "git",
+            "-C",
+            str(target),
+            "branch",
+            "--set-upstream-to",
+            f"origin/{branch}",
+            branch,
+        ],
+    )
+    if upstream_proc.returncode != 0:
+        print(upstream_proc.stderr or upstream_proc.stdout, end="", file=sys.stderr)
+
+    return True
 
 
 def resolve_branch_query(
@@ -202,7 +315,11 @@ def main() -> int:
         return 1
 
     repo_root = repo_by_label[repo_label]
-    branches = list_branches(repo_root)
+    branches = list_branches(repo_root, refresh_empty=True)
+    if not branches:
+        print(f"No branches found for {repo_label}.", file=sys.stderr)
+        return 1
+
     branch_by_label = dict(branches)
     branch_label = choose_with_fzf(
         list(branch_by_label),
@@ -213,7 +330,7 @@ def main() -> int:
         return 1
 
     target = branch_by_label[branch_label]
-    if not target.exists():
+    if not ensure_branch_worktree(repo_root, branch_label, target):
         print(f"Branch worktree does not exist: {target}", file=sys.stderr)
         return 1
 
