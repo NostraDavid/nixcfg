@@ -102,8 +102,6 @@ in {
       ## Terminal apps
       # mozjpeg # JPEG image optimizer - doesn't work with jpegli
       alejandra # nix formatter
-      statix
-      deadnix
       atuin # shell history manager
       bat # cat replacement
       btop # Resource monitor
@@ -112,6 +110,7 @@ in {
       colordiff # diff viewer
       csvkit # Python based CSV toolkit (heavier)
       curl
+      deadnix # scan nix files for dead code
       delta # diff viewer
       diff-so-fancy # diff viewer
       difftastic # diff viewer
@@ -141,6 +140,7 @@ in {
       go # the language
       gramps # Genealogy software
       graphicsmagick # image processing
+      grype # Vulnerability scanner for SBOMs and container images
       hadolint # Dockerfile linter
       helix # Text editor (hx)
       home-manager # Home Manager for managing user configurations
@@ -157,9 +157,8 @@ in {
       jpeginfo # JPEG image validator
       jpegoptim # JPEG image optimizer
       jq # JSON processor
-      just # justcfile
       jujutsu # jj version control
-      python3Packages.jupytext # Jupyter notebooks as text
+      just # justfile
       k9s # Kubernetes CLI tool
       kakoune # Text editor
       kdash # Kubernetes dashboard
@@ -183,8 +182,8 @@ in {
       mergiraf # Git merge tool
       miller # CSV processor
       mlocate # locate command
-      most # terminal pager
       mold # a modern linker, for faster Rust compilation
+      most # terminal pager
       msedit # Microsoft Editor
       mtr # A network diagnostic tool
       mutt # Terminal-based email client
@@ -201,10 +200,6 @@ in {
       nvme-cli # for nvme
       openssl # SSL/TLS toolkit
       optipng # PNG image optimizer
-      grype # Vulnerability scanner for SBOMs and container images
-      sbomnix # SBOM generator for Nix closures
-      syft # SBOM generator and converter
-      vulnix # CVE scanner for Nix
       osv-detector # Open Source Vulnerability Detector
       osv-scanner # Open Source Vulnerability Scanner
       oxipng # PNG image optimizer
@@ -213,22 +208,24 @@ in {
       pciutils # for lspci
       pgcli # psql alternative
       pgformatter # pg_format SQL formatter
+      plantuml # UML diagram renderer
       pngcheck # PNG image validator
       pngquant # PNG image optimizer
-      plantuml # UML diagram renderer
       powerline # The best Bash Prompt!
+      prek # pre-commit alternative
       prettier # Web/JSON/YAML/Markdown formatter
       prettierd # Prettier daemon
-      prek # pre-commit alternative
       procps # for `ps` command
       procs # moddern replacement for `ps`, written in Rust; might be troublesome
       pv # Pipe viewer, useful for monitoring data through a pipe
       pyrefly # Python type checker
+      python3Packages.jupytext # Jupyter notebooks as text
       python3Packages.scalene # Python profiler
       riffdiff # diff viewer
       ripgrep # Search tool (rg)
       rsync
       ruff
+      sbomnix # SBOM generator for Nix closures
       shellcheck
       shfmt # Shell script formatter
       sipcalc # Another IP calculator, with more features than ipcalc
@@ -237,9 +234,11 @@ in {
       sqlite
       sqls # SQL language server for Neovim
       starship # Shell prompt
+      statix # nix static code analyzer
       stow # GNU Stow for managing dotfiles
       strace
       svgo # SVG optimizer
+      syft # SBOM generator and converter
       sysstat # for iostat
       tmux
       tree # Display directory structure in a tree-like format
@@ -251,6 +250,7 @@ in {
       uv # Astral project manager
       viddy # Watch alternative with better color support
       visidata # Interactive terminal multitool for tabular data
+      vulnix # CVE scanner for Nix
       w3m # Text-based web browser
       wget
       wl-clipboard # Clipboard management for Wayland
