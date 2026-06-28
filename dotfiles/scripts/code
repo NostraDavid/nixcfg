@@ -78,13 +78,13 @@ def clean_vscode_env() -> dict[str, str]:
     return env
 
 
-def supports_new_window(code_bin: str) -> bool:
+def supports_flag(code_bin: str, flag: str) -> bool:
     proc = run([code_bin, "--help"])
     if proc.returncode != 0:
         return False
 
     help_text = f"{proc.stdout}\n{proc.stderr}"
-    return "--new-window" in help_text
+    return flag in help_text
 
 
 def parse_args() -> argparse.Namespace:
@@ -111,8 +111,10 @@ def main() -> int:
         target = Path(proc.stdout.strip())
         command.append(str(target))
 
-    if supports_new_window(code_bin):
+    if args.query and supports_flag(code_bin, "--new-window"):
         command.insert(1, "--new-window")
+    elif not args.query and supports_flag(code_bin, "--reuse-window"):
+        command.insert(1, "--reuse-window")
 
     return subprocess.run(
         command,

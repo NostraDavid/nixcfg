@@ -71,7 +71,7 @@ in {
       name = "Visual Studio Code";
       genericName = "Text Editor";
       comment = "Code Editing. Redefined.";
-      exec = "${lib.getExe local.vscode} %F";
+      exec = "${config.home.homeDirectory}/.local/bin/code %F";
       icon = "vscode";
       terminal = false;
       type = "Application";
