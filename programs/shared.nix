@@ -199,6 +199,7 @@ in {
       ntfs3g # NTFS driver for work.
       nvme-cli # for nvme
       openssl # SSL/TLS toolkit
+      opencode # codex-cli alternative
       optipng # PNG image optimizer
       osv-detector # Open Source Vulnerability Detector
       osv-scanner # Open Source Vulnerability Scanner
