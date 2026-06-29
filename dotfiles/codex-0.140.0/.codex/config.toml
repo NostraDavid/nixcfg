@@ -1,158 +1,153 @@
-model = "gpt-5.4"
-model_reasoning_effort = "low"
-personality = "pragmatic"
-service_tier = "default"
+model = 'gpt-5.4'
+model_reasoning_effort = 'low'
+personality = 'pragmatic'
+service_tier = 'default'
 
 [desktop]
 ambient-suggestions-enabled = true
-conversationDetailMode = "STEPS_COMMANDS"
-followUpQueueMode = "queue"
+conversationDetailMode = 'STEPS_COMMANDS'
+followUpQueueMode = 'queue'
 
 [features]
 apps = false
+hooks = true
 js_repl = false
 terminal_resize_reflow = true
 
 [marketplaces]
-
 [marketplaces.openai-bundled]
-last_updated = "2026-05-23T17:28:03Z"
-source = "/home/david/.codex/.tmp/bundled-marketplaces/openai-bundled"
-source_type = "local"
+last_updated = '2026-05-23T17:28:03Z'
+source = '/home/david/.codex/.tmp/bundled-marketplaces/openai-bundled'
+source_type = 'local'
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-06-23T02:34:17Z"
-source = "/home/david/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
-source_type = "local"
+last_updated = '2026-06-23T02:34:17Z'
+source = '/home/david/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime'
+source_type = 'local'
 
 [mcp_servers]
-
 [mcp_servers.blender]
 enabled = false
-url = "http://127.0.0.1:9191/"
+url = 'http://127.0.0.1:9191/'
 
 [mcp_servers.blender_mcp]
 enabled = false
-url = "http://blender.localhost:9876/"
+url = 'http://blender.localhost:9876/'
 
 [mcp_servers.node_repl]
 args = []
-command = "/nix/store/bzmcb0q8y5sfy5xy7fd6qcwdh7yaich8-codex-desktop-26.623.31921/opt/codex-desktop/resources/node_repl"
+command = '/nix/store/bzmcb0q8y5sfy5xy7fd6qcwdh7yaich8-codex-desktop-26.623.31921/opt/codex-desktop/resources/node_repl'
 startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
-NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = ""
-NODE_REPL_NODE_PATH = "/nix/store/bzmcb0q8y5sfy5xy7fd6qcwdh7yaich8-codex-desktop-26.623.31921/opt/codex-desktop/resources/node-runtime/bin/node"
-NODE_REPL_TRUSTED_CODE_PATHS = "/home/david/.codex"
-CODEX_HOME = "/home/david/.codex"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "d1a8040310e3ed270b3d17f6f3d41f4cdbad9096fa1a4f7c425fbb37afe949d3"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.623.31921"
+BROWSER_USE_AVAILABLE_BACKENDS = 'chrome,iab'
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = 'prod'
+BROWSER_USE_CODEX_APP_VERSION = '26.623.31921'
+CODEX_HOME = '/home/david/.codex'
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = 'Control the in-app browser in conjunction with the Browser Plugin.'
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = 'Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative.'
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = '1000'
+NODE_REPL_NODE_MODULE_DIRS = ''
+NODE_REPL_NODE_PATH = '/nix/store/bzmcb0q8y5sfy5xy7fd6qcwdh7yaich8-codex-desktop-26.623.31921/opt/codex-desktop/resources/node-runtime/bin/node'
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = 'd1a8040310e3ed270b3d17f6f3d41f4cdbad9096fa1a4f7c425fbb37afe949d3'
+NODE_REPL_TRUSTED_CODE_PATHS = '/home/david/.codex'
 
 [mcp_servers.node_repl.tools]
-
 [mcp_servers.node_repl.tools.js]
-approval_mode = "approve"
+approval_mode = 'approve'
 
 [mcp_servers.openaiDeveloperDocs]
-url = "https://developers.openai.com/mcp"
-
-[plugins]
-
-[plugins."browser@openai-bundled"]
-enabled = true
-
-[plugins."chrome@openai-bundled"]
-enabled = true
-
-[plugins."documents@openai-primary-runtime"]
-enabled = true
-
-[plugins."github@openai-curated"]
-enabled = true
-
-[plugins."linear@openai-curated"]
-enabled = false
-
-[plugins."pdf@openai-primary-runtime"]
-enabled = true
-
-[plugins."presentations@openai-primary-runtime"]
-enabled = true
-
-[plugins."spreadsheets@openai-primary-runtime"]
-enabled = true
-
-[plugins."template-creator@openai-primary-runtime"]
-enabled = true
-
-[projects]
-
-[projects."/home/david/Desktop"]
-trust_level = "trusted"
-
-[projects."/home/david/Documents/Codex/2026-05-25/maak-een-box-in-blender"]
-trust_level = "trusted"
-
-[projects."/home/david/Downloads"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/BattleCraft"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/ctb"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/debian-server"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/entsoe-ingestion-python"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/entsoe-ingestion-rust"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/haemwend"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/homelab"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/nixcfg"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/normalize-images"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/Thaumatorium/thaumatorium.com"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/family-tree"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/t-Bataafsche-Broederschap/tbb"]
-trust_level = "trusted"
-
-[projects."/home/david/wow_3.3.5a"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/fitdays"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/ndol"]
-trust_level = "trusted"
-
-[tui]
-
-[tui.model_availability_nux]
-"gpt-5.5" = 4
+url = 'https://developers.openai.com/mcp'
 
 [notice]
 hide_rate_limit_model_nudge = true
 
 [notice.model_migrations]
-"gpt-5.4" = "gpt-5.5"
+'gpt-5.4' = 'gpt-5.5'
+
+[plugins]
+[plugins.'browser@openai-bundled']
+enabled = true
+
+[plugins.'chrome@openai-bundled']
+enabled = true
+
+[plugins.'documents@openai-primary-runtime']
+enabled = true
+
+[plugins.'github@openai-curated']
+enabled = true
+
+[plugins.'linear@openai-curated']
+enabled = false
+
+[plugins.'pdf@openai-primary-runtime']
+enabled = true
+
+[plugins.'presentations@openai-primary-runtime']
+enabled = true
+
+[plugins.'spreadsheets@openai-primary-runtime']
+enabled = true
+
+[plugins.'template-creator@openai-primary-runtime']
+enabled = true
+
+[projects]
+[projects.'/home/david/Desktop']
+trust_level = 'trusted'
+
+[projects.'/home/david/Documents/Codex/2026-05-25/maak-een-box-in-blender']
+trust_level = 'trusted'
+
+[projects.'/home/david/Downloads']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/BattleCraft']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/ctb']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/debian-server']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/entsoe-ingestion-python']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/entsoe-ingestion-rust']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/fitdays']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/haemwend']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/homelab']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/ndol']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/nixcfg']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/NostraDavid/normalize-images']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/Thaumatorium/thaumatorium.com']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/family-tree']
+trust_level = 'trusted'
+
+[projects.'/home/david/dev/t-Bataafsche-Broederschap/tbb']
+trust_level = 'trusted'
+
+[projects.'/home/david/wow_3.3.5a']
+trust_level = 'trusted'
+
+[tui]
+[tui.model_availability_nux]
+'gpt-5.5' = 4

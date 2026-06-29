@@ -1,6 +1,6 @@
 # Snip - CLI token optimizer
 
-@~/.config/clip-proxy/proxy-cli-policy.md
+@proxy-cli-policy.md
 
 Invoke snip with the original command and arguments unchanged:
 

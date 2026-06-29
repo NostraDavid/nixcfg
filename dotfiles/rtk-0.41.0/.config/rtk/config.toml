@@ -1,0 +1,6 @@
+[hooks]
+# exclude_commands = ["curl", "playwright"]  # skip rewrite for these
+
+[tee]
+# enabled = true          # save raw output on failure (default: true)
+# mode = "failures"       # "failures", "always", or "never"

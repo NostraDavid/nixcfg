@@ -1,6 +1,6 @@
 # RTK - Rust Token Killer
 
-@~/.config/clip-proxy/proxy-cli-policy.md
+@proxy-cli-policy.md
 
 Use RTK's dedicated wrappers for supported commands, for example:
 

@@ -1,0 +1,49 @@
+# Config merge strategy when both user config and .snip/config.toml exist:
+# "user" = your personal config wins conflicts, "project" = project filter config wins
+mode = "user"
+
+[tracking]
+db_path = "~/.local/share/snip/tracking.db"
+
+[display]
+color = true
+emoji = true
+# suppress "no filter" stderr messages
+quiet_no_filter = false
+
+[filters]
+dir = [
+  "~/.config/snip/filters",
+  # "${env.PWD}/.snip", # optional project-local filters (later entries win)
+]
+
+[filters.global]
+# safe defaults (0 = unlimited)
+max_lines = 0
+max_line_length = 0
+max_output_bytes = 0
+stream_mode = "filter" # "filter" | "full"
+
+[filters.bypass]
+# Commands that should always skip filtering.
+# Examples: ["cat", "less", "tail -f"]
+commands = []
+
+[filters.enable]
+# git-diff = false       # disable a specific built-in filter
+
+# Per-filter pipeline overrides (v0.18.0+).
+# Example:
+# [filters.override.git-log]
+# head = 40
+# tail = 0
+# truncate_lines = 120
+# keep_lines = "\\S"
+# remove_lines = "^$"
+# stream_mode = "filter" # or "full" to bypass this filter pipeline
+
+[tee]
+enabled = true
+max_file_size = 1048576
+max_files = 20
+mode = "failures" # "failures" | "always" | "never"

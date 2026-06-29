@@ -10,16 +10,43 @@
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
   in
     forceAll {
-      ".bash_aliases" = {source = mk "${dot}/bash-5.2.37/.bash_aliases";};
-      ".bash_profile" = {source = mk "${dot}/bash-5.2.37/.bash_profile";};
-      ".bashrc" = {source = mk "${dot}/bash-5.2.37/.bashrc";};
+      # cli-proxies
+
+      ## Codex
+      "AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
       ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
       ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
       ".codex/rules/default.rules" = {source = mk "${dot}/codex-0.140.0/.codex/rules/default.rules";};
-      ".codex/RTK.md" = {source = mk "${dot}/rtk-0.41.0/.codex/RTK.md";};
-      ".codex/semble.md" = {source = mk "${dot}/semble-0.3.4/.codex/semble.md";};
-      ".codex/snip.md" = {source = mk "${dot}/snip-0.18.0/.codex/snip.md";};
-      ".config/clip-proxy/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/.config/clip-proxy/proxy-cli-policy.md";};
+      ".codex/RTK.md" = {source = mk "${dot}/rtk-0.41.0/RTK.md";};
+      ".codex/semble.md" = {source = mk "${dot}/semble-0.3.4/semble.md";};
+      ".codex/snip.md" = {source = mk "${dot}/snip-0.18.0/snip.md";};
+      ".codex/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/proxy-cli-policy.md";};
+
+      ## Claude
+      ".claude/CLAUDE.md" = {source = mk "${dot}/claude-1.0/.claude/CLAUDE.md";};
+      ".claude/RTK.md" = {source = mk "${dot}/rtk-0.41.0/RTK.md";};
+      ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
+      ".claude/snip.md" = {source = mk "${dot}/snip-0.18.0/snip.md";};
+      ".claude/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/proxy-cli-policy.md";};
+
+      ## Copilot
+      ".copilot/copilot-instructions.md" = {source = mk "${dot}/copilot-1.0/.copilot/copilot-instructions.md";};
+      ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
+      ".copilot/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/proxy-cli-policy.md";};
+      ".copilot/RTK.md" = {source = mk "${dot}/rtk-0.41.0/RTK.md";};
+      ".copilot/snip.md" = {source = mk "${dot}/snip-0.18.0/snip.md";};
+
+      ## RTK
+      ".config/rtk/config.toml" = {source = mk "${dot}/rtk-0.41.0/.config/rtk/config.toml";};
+
+      ## snip
+      ".config/snip/config.toml" = {source = mk "${dot}/snip-0.18.0/.config/snip/config.toml";};
+      ".config/snip/filters" = {source = mk "${dot}/snip-0.18.0/.config/snip/filters";};
+
+      # The rest
+      ".bash_aliases" = {source = mk "${dot}/bash-5.2.37/.bash_aliases";};
+      ".bash_profile" = {source = mk "${dot}/bash-5.2.37/.bash_profile";};
+      ".bashrc" = {source = mk "${dot}/bash-5.2.37/.bashrc";};
       ".config/bat/config" = {source = mk "${dot}/bat-0.25.0/.config/bat/config";};
       ".config/btop/btop.conf" = {source = mk "${dot}/btop/btop.conf";};
       ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode/.config/Code/User/keybindings.json";};
@@ -36,14 +63,12 @@
       ".config/powerline" = {source = mk "${dot}/powerline-bash/.config/powerline";};
       ".config/pypoetry/" = {source = mk "${dot}/pypoetry-2.1/.config/pypoetry";};
       ".config/RSS Guard 4/config/config.ini" = {source = mk "${dot}/rssguard-4/.config/RSS Guard 4/config/config.ini";};
-      ".config/snip/filters" = {source = mk "${dot}/snip-0.18.0/.config/snip/filters";};
       ".config/starship.toml" = {source = mk "${dot}/starship-1.23.0/.config/starship.toml";};
       ".config/uv/uv.toml" = {source = mk "${dot}/uv-0.9.0/.config/uv/uv.toml";};
       ".config/wezterm/wezterm.lua" = {source = mk "${dot}/wezterm-0-unstable-2025-05-18/.config/wezterm/wezterm.lua";};
       ".config/zigfetch/" = {source = mk "${dot}/zigfetch-0.25.0/.config/zigfetch";};
       ".git-templates" = {source = mk "${dot}/git-templates/.git-templates";};
       ".gitconfig" = {source = mk "${dot}/git/.gitconfig";};
-      ".github/copilot-instructions.md" = {source = mk "${dot}/clip-proxy/.config/clip-proxy/proxy-cli-policy.md";};
       ".groovylintrc.json" = {source = mk "${dot}/groovy-lint/.groovylintrc.json";};
       ".inputrc" = {source = mk "${dot}/readline/.inputrc";};
       ".local/bin/code" = {source = mk "${dot}/scripts/code";};
