@@ -24,7 +24,7 @@ CONVENTIONAL_PREFIXES = re.compile(
 )
 
 SCOPED_COMMIT = re.compile(
-    r"^[a-zA-Z0-9*][a-zA-Z0-9._/-]*( \([A-Z][A-Z0-9]+-[0-9]+\))?: \S.*"
+    r"^[a-zA-Z0-9.*][a-zA-Z0-9._/-]*( \([^)]+\))?: \S.*"
 )
 
 
@@ -64,7 +64,8 @@ def main(argv: list[str]) -> int:
 
                 Examples:
                   git: add scoped commit hook
-                  pkgs/codex: update wrapper"""
+                  pkgs/codex: update wrapper
+                  flake (PROJ-123): update inputs"""
             )
         )
 
@@ -83,10 +84,13 @@ def main(argv: list[str]) -> int:
                 Examples:
                   git: add scoped commit hook
                   pkgs/codex: update wrapper
+                  .gitignore: ignore direnv cache
+                  flake (PROJ-123): update inputs
                   *.nix: normalize attrsets
 
                 Rules:
-                  - scope may start with *; other letters must be lowercase
+                  - scope may start with *, ., a letter, or a digit
+                  - optional ticket suffix uses literal parentheses: <scope> (<ticket>): <description>
                   - description must not be empty
                   - Conventional Commits such as "feat:" and "fix:" are rejected"""
             )
