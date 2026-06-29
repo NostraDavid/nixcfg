@@ -325,8 +325,8 @@ in {
       local.rtk
 
       # podman
-      podman-desktop # GUI for managing containers
-      podman-compose # docker-compose alternative
+      unstable.podman-desktop # GUI for managing containers
+      unstable.podman-compose # docker-compose alternative
 
       ## GUI apps
       # notepad-next # notepad alternative

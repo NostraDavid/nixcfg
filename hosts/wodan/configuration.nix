@@ -211,6 +211,10 @@
   nixpkgs.config = {
     allowUnfree = true;
     nvidia.acceptLicense = true;
+    # Temporary: several selected desktop packages still pin pnpm_10_29_2 in nixpkgs.
+    permittedInsecurePackages = [
+      "pnpm-10.29.2"
+    ];
   };
 
   systemd = {
