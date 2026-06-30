@@ -1,4 +1,5 @@
 default_host := "wodan"
+default_cachix_cache := "thaumatorium"
 nix_clean_env := "env -u LD_LIBRARY_PATH -u NIX_LD_LIBRARY_PATH -u LD_PRELOAD"
 audient_mic_source := "alsa_input.usb-Audient_Audient_iD4-00.HiFi__Mic__source"
 
@@ -63,6 +64,16 @@ pkg-update-all:
 # List local packages with newer versions available.
 pkg-updates *packages:
   @./cmd/local-package-maint.sh list {{packages}}
+
+# Build a local flake package and push its output to Cachix.
+cachix-push package cache=default_cachix_cache:
+  @path="$$(nix build --print-out-paths .#"{{package}}")"; \
+  cachix push "{{cache}}" "$$path"
+
+# Build all local flake packages and push their outputs to Cachix.
+cachix-push-all cache=default_cachix_cache:
+  @system="$$(nix eval --impure --raw --expr 'builtins.currentSystem')"; \
+  nix path-info "$$(nix eval --json .#packages.$$system --apply 'pkgs: builtins.attrNames pkgs' | jq -r '.[] | ".#\(.)"')" | cachix push "{{cache}}"
 
 # Inspect the selected NixOS configuration from the flake.
 nixos-show host=default_host:
