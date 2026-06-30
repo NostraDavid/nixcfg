@@ -2,10 +2,12 @@ _: {
   # Pull from commonly used Cachix binary cache to reduce local builds.
   nix.settings = {
     extra-substituters = [
+      "https://thaumatorium.cachix.org"
       "https://nix-community.cachix.org"
       "https://numtide.cachix.org"
     ];
     extra-trusted-public-keys = [
+      "thaumatorium.cachix.org-1:KbOXBN34Tv0AeoRRhvBKoZHUfgmOALmfyQWeRE6MITo="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
     ];
