@@ -1,6 +1,7 @@
 {
   lib,
   stdenv,
+  stdenvAdapters,
   rustPlatform,
   fetchurl,
   fetchFromGitHub,
@@ -8,11 +9,11 @@
   clang,
   cmake,
   coreutils,
+  curl,
   gitMinimal,
   libclang,
   libcap,
   makeWrapper,
-  mold,
   nix-update-script,
   pkg-config,
   openssl,
@@ -20,12 +21,26 @@
   versionCheckHook,
   installShellCompletions ? stdenv.buildPlatform.canExecute stdenv.hostPlatform,
 }: let
-  rustyV8Archive = fetchurl {
-    url = "https://github.com/denoland/rusty_v8/releases/download/v149.2.0/librusty_v8_release_x86_64-unknown-linux-gnu.a.gz";
-    hash = "sha256-iu2YY323533Iv7i7R1nsW95HLQv3lD9Y4OYqNQlFxVk=";
-  };
+  effectiveStdenv =
+    if stdenv.hostPlatform.isLinux
+    then stdenvAdapters.useMoldLinker stdenv
+    else stdenv;
+  rustyV8Archive =
+    if stdenv.hostPlatform.system == "x86_64-linux"
+    then
+      fetchurl {
+        url = "https://github.com/denoland/rusty_v8/releases/download/v149.2.0/librusty_v8_release_x86_64-unknown-linux-gnu.a.gz";
+        hash = "sha256-iu2YY323533Iv7i7R1nsW95HLQv3lD9Y4OYqNQlFxVk=";
+      }
+    else if stdenv.hostPlatform.system == "aarch64-darwin"
+    then
+      fetchurl {
+        url = "https://github.com/denoland/rusty_v8/releases/download/v149.2.0/librusty_v8_release_aarch64-apple-darwin.a.gz";
+        hash = "sha256-hQ2J1b0Z9AOfa4x4g8Rv+dG8fV7fW24Qv2jq3u5M5o4=";
+      }
+    else throw "Unsupported system for codex rusty_v8 archive: ${stdenv.hostPlatform.system}";
 in
-  rustPlatform.buildRustPackage (finalAttrs: {
+  (rustPlatform.buildRustPackage.override {stdenv = effectiveStdenv;}) (finalAttrs: {
     pname = "codex";
     version = "0.142.4";
 
@@ -54,10 +69,10 @@ in
     nativeBuildInputs = [
       clang
       cmake
+      curl
       gitMinimal
       installShellFiles
       makeWrapper
-      mold
       pkg-config
     ];
 
@@ -74,7 +89,6 @@ in
     env = {
       LIBCLANG_PATH = "${lib.getLib libclang}/lib";
       RUSTY_V8_ARCHIVE = rustyV8Archive;
-      RUSTFLAGS = "-C link-arg=-fuse-ld=mold";
       NIX_CFLAGS_COMPILE = toString (
         lib.optionals stdenv.cc.isGNU [
           "-Wno-error=stringop-overflow"
@@ -112,7 +126,9 @@ in
     passthru = {
       updateScript = nix-update-script {
         extraArgs = [
-          "--use-github-releases"
+          "--flake"
+          "--version"
+          "unstable"
           "--version-regex"
           "^rust-v(\\d+\\.\\d+\\.\\d+)$"
         ];

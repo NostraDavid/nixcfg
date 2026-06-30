@@ -1,0 +1,3 @@
+{prev, ...}: {
+  upstreamSqlline = prev.sqlline;
+}
