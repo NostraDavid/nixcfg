@@ -106,6 +106,7 @@ in {
       bat # cat replacement
       btop # Resource monitor
       busybox
+      cachix # Cachix CLI
       cloc # Count lines of code
       colordiff # diff viewer
       csvkit # Python based CSV toolkit (heavier)
