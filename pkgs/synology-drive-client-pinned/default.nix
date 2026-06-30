@@ -2,7 +2,6 @@
   lib,
   fetchurl,
   synology-drive-client,
-  qt5,
   nautilus,
 }: let
   version = "4.0.1-17885";
@@ -27,7 +26,6 @@ in
     buildInputs =
       (old.buildInputs or [])
       ++ [
-        qt5.qtwebengine
         nautilus
       ];
 
