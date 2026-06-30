@@ -67,13 +67,14 @@ pkg-updates *packages:
 
 # Build a local flake package and push its output to Cachix.
 cachix-push package cache=default_cachix_cache:
-  @path="$$(nix build --print-out-paths .#"{{package}}")"; \
-  cachix push "{{cache}}" "$$path"
+  @path="$(nix build --print-out-paths .#"{{package}}")"; \
+  cachix push "{{cache}}" "$path"
 
 # Build all local flake packages and push their outputs to Cachix.
 cachix-push-all cache=default_cachix_cache:
-  @system="$$(nix eval --impure --raw --expr 'builtins.currentSystem')"; \
-  nix path-info "$$(nix eval --json .#packages.$$system --apply 'pkgs: builtins.attrNames pkgs' | jq -r '.[] | ".#\(.)"')" | cachix push "{{cache}}"
+  @system="$(nix eval --impure --raw --expr 'builtins.currentSystem')"; \
+  mapfile -t refs < <(nix eval --json .#packages.$system --apply 'pkgs: builtins.attrNames pkgs' | jq -r '.[] | ".#\(.)"'); \
+  nix build --no-link --print-out-paths "${refs[@]}" | cachix push "{{cache}}"
 
 # Inspect the selected NixOS configuration from the flake.
 nixos-show host=default_host:
