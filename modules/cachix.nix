@@ -1,6 +1,10 @@
 _: {
   # Pull from commonly used Cachix binary cache to reduce local builds.
   nix.settings = {
+    trusted-users = [
+      "root"
+      "david"
+    ];
     extra-substituters = [
       "https://thaumatorium.cachix.org"
       "https://cuda-maintainers.cachix.org"
