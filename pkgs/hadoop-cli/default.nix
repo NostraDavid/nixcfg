@@ -4,7 +4,7 @@
   fetchurl,
   jdk,
   nix-update,
-  openssl_1_1,
+  openssl,
   zstd,
   makeBinaryWrapper,
   writeShellApplication,
@@ -30,7 +30,7 @@ stdenv.mkDerivation rec {
   # Hadoop is a prebuilt distribution in the tarball. No compilation is
   # required; we only need Java available at runtime.
   nativeBuildInputs = [makeBinaryWrapper];
-  buildInputs = [jdk (lib.getLib openssl_1_1) (lib.getLib zstd)];
+  buildInputs = [jdk (lib.getLib openssl) (lib.getLib zstd)];
 
   installPhase = ''
     runHook preInstall
@@ -80,7 +80,7 @@ stdenv.mkDerivation rec {
 
     # Hadoop's native loader already searches $HADOOP_HOME/lib/native. Expose
     # native compression/crypto libraries there for `hadoop checknative -a`.
-    ln -sf "${lib.getLib openssl_1_1}/lib/libcrypto.so" "$out/lib/native/libcrypto.so"
+    ln -sf "${lib.getLib openssl}/lib/libcrypto.so" "$out/lib/native/libcrypto.so"
     ln -sf "${lib.getLib zstd}/lib/libzstd.so.1" "$out/lib/native/libzstd.so.1"
 
     runHook postInstall
@@ -91,7 +91,7 @@ stdenv.mkDerivation rec {
   postFixup = ''
     export HADOOP_HOME="$out"
     export JAVA_HOME="${jdk}"
-    export HADOOP_LD_LIBRARY_PATH="${lib.makeLibraryPath [(lib.getLib openssl_1_1) (lib.getLib zstd)]}"
+    export HADOOP_LD_LIBRARY_PATH="${lib.makeLibraryPath [(lib.getLib openssl) (lib.getLib zstd)]}"
 
     for f in "$out/bin"/*; do
       if [ -f "$f" ] && [ -x "$f" ]; then
