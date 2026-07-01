@@ -5,13 +5,14 @@ _: {
       "root"
       "david"
     ];
+    # https://bmcgee.ie/posts/2023/12/til-how-to-optimise-substitutions-in-nix/
     extra-substituters = [
-      "https://thaumatorium.cachix.org"
-      "https://cuda-maintainers.cachix.org"
-      "https://devenv.cachix.org"
-      "https://nix-community.cachix.org"
-      "https://numtide.cachix.org"
-      "https://cache.nixos.org"
+      "https://thaumatorium.cachix.org?priority=1"
+      "https://cuda-maintainers.cachix.org?priority=2"
+      "https://devenv.cachix.org?priority=3"
+      "https://nix-community.cachix.org?priority=4"
+      "https://numtide.cachix.org?priority=5"
+      "https://cache.nixos.org?priority=6"
     ];
     extra-trusted-public-keys = [
       "thaumatorium.cachix.org-1:KbOXBN34Tv0AeoRRhvBKoZHUfgmOALmfyQWeRE6MITo="
