@@ -1,4 +1,9 @@
 {
+  "nixEnvSelector.flakeShell": "default",
+  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
+  "nixEnvSelector.useFlakes": true,
+  "peacock.color": "#800",
+  "python.defaultInterpreterPath": ".venv/bin/python3",
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#bb0000",
     "activityBar.background": "#bb0000",
@@ -17,9 +22,5 @@
     "titleBar.activeForeground": "#e7e7e7",
     "titleBar.inactiveBackground": "#88000099",
     "titleBar.inactiveForeground": "#e7e7e799"
-  },
-  "peacock.color": "#800",
-  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
-  "nixEnvSelector.useFlakes": true,
-  "nixEnvSelector.flakeShell": "default"
+  }
 }
