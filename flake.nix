@@ -52,7 +52,7 @@
             pkg = import pkgPath;
             pkgArgs = builtins.functionArgs pkg;
             moldArgs =
-              if pkgArgs ? stdenv
+              if pkgArgs ? stdenv && !(pkgArgs ? stdenvAdapters)
               then {stdenv = final.moldStdenv;}
               else {};
             argsPath = pkgPath + "/args.nix";
