@@ -27,7 +27,7 @@
     "gitCommit": "372738a55f"
   },
   "optionalDependencies": {
-    "@github/copilot-linux-x64": "1.0.65",
+    "@github/copilot-linux-x64": "1.0.67",
     "@github/copilot-linux-arm64": "1.0.65",
     "@github/copilot-linuxmusl-x64": "1.0.65",
     "@github/copilot-linuxmusl-arm64": "1.0.65",
