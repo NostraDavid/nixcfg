@@ -42,13 +42,13 @@
 in
   (rustPlatform.buildRustPackage.override {stdenv = effectiveStdenv;}) (finalAttrs: {
     pname = "codex";
-    version = "0.142.4";
+    version = "0.142.5";
 
     src = fetchFromGitHub {
       owner = "openai";
       repo = "codex";
       tag = "rust-v${finalAttrs.version}";
-      hash = "sha256-cYkdLy0+KMjcx0k7IDACsiTK3ZZks6cmwbeDMheN6WY=";
+      hash = "sha256-Ua1UVArTvjHcg3bPK1FYyShYiIUH3AOxtoUTvA4UZwU=";
     };
 
     sourceRoot = "${finalAttrs.src.name}/codex-rs";
