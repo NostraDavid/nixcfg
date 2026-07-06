@@ -1,6 +1,4 @@
-# Snip - CLI token optimizer
-
-@proxy-cli-policy.md
+# Snip - CLI proxy
 
 Invoke snip with the original command and arguments unchanged:
 

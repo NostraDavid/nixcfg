@@ -1,6 +1,4 @@
-# RTK - Rust Token Killer
-
-@proxy-cli-policy.md
+# RTK - CLI proxy
 
 Use RTK's dedicated wrappers for supported commands, for example:
 

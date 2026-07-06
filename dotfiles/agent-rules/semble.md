@@ -1,4 +1,4 @@
-# Semble - Agent Code Search
+# Semble
 
 Use `semble` for focused code search when plain text search is too broad.
 

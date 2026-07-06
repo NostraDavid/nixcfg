@@ -1,4 +1,6 @@
 # Copilot Instructions
 
-@RTK.md
-@snip.md
+* @~/agent-rules/proxy-cli-policy.md
+* @~/agent-rules/RTK.md
+* @~/agent-rules/snip.md
+* @~/agent-rules/semble.md

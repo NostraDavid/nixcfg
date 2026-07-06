@@ -12,29 +12,22 @@
     forceAll {
       # cli-proxies
 
-      ## Codex
+      ## Generic
       "AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
+      "agent-rules" = {source = mk "${dot}/agent-rules";};
+
+      ## Codex
       ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
       ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
       ".codex/rules/default.rules" = {source = mk "${dot}/codex-0.140.0/.codex/rules/default.rules";};
-      ".codex/RTK.md" = {source = mk "${dot}/rtk-0.41.0/RTK.md";};
-      ".codex/semble.md" = {source = mk "${dot}/semble-0.3.4/semble.md";};
-      ".codex/snip.md" = {source = mk "${dot}/snip-0.18.0/snip.md";};
-      ".codex/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/proxy-cli-policy.md";};
 
       ## Claude
       ".claude/CLAUDE.md" = {source = mk "${dot}/claude-1.0/.claude/CLAUDE.md";};
-      ".claude/RTK.md" = {source = mk "${dot}/rtk-0.41.0/RTK.md";};
       ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
-      ".claude/snip.md" = {source = mk "${dot}/snip-0.18.0/snip.md";};
-      ".claude/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/proxy-cli-policy.md";};
 
       ## Copilot
       ".copilot/copilot-instructions.md" = {source = mk "${dot}/copilot-1.0/.copilot/copilot-instructions.md";};
       ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
-      ".copilot/proxy-cli-policy.md" = {source = mk "${dot}/clip-proxy/proxy-cli-policy.md";};
-      ".copilot/RTK.md" = {source = mk "${dot}/rtk-0.41.0/RTK.md";};
-      ".copilot/snip.md" = {source = mk "${dot}/snip-0.18.0/snip.md";};
 
       ## RTK
       ".config/rtk/config.toml" = {source = mk "${dot}/rtk-0.41.0/.config/rtk/config.toml";};
