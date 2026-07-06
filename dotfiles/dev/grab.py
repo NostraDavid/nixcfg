@@ -38,7 +38,7 @@ from structlog.stdlib import get_logger
 
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
-DEFAULT_BRANCHES = ("main", "master", "dev")
+DEFAULT_BRANCHES = ("master",)
 DEFAULT_INITIAL_BRANCH = "master"
 DEFAULT_FETCH_TIMEOUT = 300
 TIMEOUT = 30
@@ -937,14 +937,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--all-branches",
         action="store_true",
-        default=True,
-        help="Track all remote branches as flat worktrees (default: enabled).",
+        default=False,
+        help="Track all remote branches as flat worktrees (default: disabled).",
     )
     parser.add_argument(
         "--no-all-branches",
         action="store_false",
         dest="all_branches",
-        help="Only track branches listed in --branches.",
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         "--tags",
