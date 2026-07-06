@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shutil
 import subprocess
@@ -87,6 +88,33 @@ def supports_flag(code_bin: str, flag: str) -> bool:
     return flag in help_text
 
 
+def ensure_vscode_settings(target: Path) -> None:
+    """Ensure .vscode/settings.json exists with window.title set to the project name.
+
+    The project name is the parent folder name (e.g. for ~/dev/org/repo/trunk,
+    the project name is "repo").
+    """
+    vscode_dir = target / ".vscode"
+    settings_file = vscode_dir / "settings.json"
+    project_name = target.parent.name
+
+    if not settings_file.exists():
+        vscode_dir.mkdir(parents=True, exist_ok=True)
+        settings_file.write_text(
+            json.dumps({"window.title": project_name}, indent=4) + "\n"
+        )
+        return
+
+    try:
+        settings = json.loads(settings_file.read_text())
+    except (json.JSONDecodeError, OSError):
+        return
+
+    if settings.get("window.title") != project_name:
+        settings["window.title"] = project_name
+        settings_file.write_text(json.dumps(settings, indent=4) + "\n")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Open a repo worktree in VS Code."
@@ -106,6 +134,7 @@ def main() -> int:
         return proc.returncode
 
     target = Path(proc.stdout.strip())
+    ensure_vscode_settings(target)
     command = [code_bin, str(target)]
 
     if supports_flag(code_bin, "--new-window"):
