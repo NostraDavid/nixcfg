@@ -4,6 +4,7 @@
   "nixEnvSelector.useFlakes": true,
   "peacock.color": "#800",
   "python.defaultInterpreterPath": ".venv/bin/python3",
+  "window.title": "nixcfg",
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#bb0000",
     "activityBar.background": "#bb0000",
