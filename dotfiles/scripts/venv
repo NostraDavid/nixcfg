@@ -74,7 +74,7 @@ def build_uv_venv_command(python: str, extra_args: list[str]) -> list[str]:
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Select a repo branch worktree and emit shell commands to activate its venv."
+        description="Select a repo worktree and emit shell commands to activate its venv."
     )
     parser.add_argument("query", nargs="*", help="Initial fzf query for the repo.")
     parser.add_argument(

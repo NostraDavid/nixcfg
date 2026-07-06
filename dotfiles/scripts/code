@@ -89,7 +89,7 @@ def supports_flag(code_bin: str, flag: str) -> bool:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Open a repo branch worktree in VS Code."
+        description="Open a repo worktree in VS Code."
     )
     parser.add_argument("query", nargs="*", help="Initial fzf query for the repo.")
     return parser.parse_args()

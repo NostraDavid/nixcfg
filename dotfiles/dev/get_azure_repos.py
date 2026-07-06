@@ -41,6 +41,15 @@ FETCH_TIMEOUT = 30
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
 DEFAULT_BRANCHES = ("main", "master", "dev")
+BARE_REPO_DIR = "worktree.git"
+LEGACY_BARE_REPO_DIR = "bare.git"
+RESERVED_WORKTREE_NAMES = {
+    BARE_REPO_DIR,
+    LEGACY_BARE_REPO_DIR,
+    "branches",
+    "tags",
+    "checkouts",
+}
 
 logger = get_logger()
 
@@ -132,7 +141,10 @@ def get_repos(project_id: str, project_name: str):
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Clone/update Azure DevOps bare repos and sync worktrees.",
+        description=(
+            f"Clone/update Azure DevOps repos using {BARE_REPO_DIR} plus flat "
+            "branch and tag worktrees."
+        ),
     )
     parser.add_argument(
         "--protocol",
@@ -163,7 +175,7 @@ def parse_args() -> argparse.Namespace:
         "--branches",
         default=",".join(DEFAULT_BRANCHES),
         help=(
-            "Comma-separated branch names for branches/ worktrees "
+            "Comma-separated branch names for flat worktrees "
             "(used only when --no-all-branches is set)."
         ),
     )
@@ -171,7 +183,7 @@ def parse_args() -> argparse.Namespace:
         "--all-branches",
         action="store_true",
         default=True,
-        help="Track all remote branches under branches/ (default: enabled).",
+        help="Track all remote branches as flat worktrees (default: enabled).",
     )
     parser.add_argument(
         "--no-all-branches",
@@ -182,13 +194,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--tags",
         default="",
-        help="Comma-separated tag names for detached worktrees under tags/.",
+        help="Comma-separated tag names for detached flat worktrees.",
     )
     parser.add_argument(
         "--all-tags",
         action="store_true",
         default=True,
-        help="Track all remote tags under tags/ as detached worktrees (default: enabled).",
+        help="Track all remote tags as detached flat worktrees (default: enabled).",
     )
     parser.add_argument(
         "--no-all-tags",
@@ -200,18 +212,18 @@ def parse_args() -> argparse.Namespace:
         "--worktrees",
         action="store_true",
         default=True,
-        help="Sync branches/ and tags/ worktrees (default: enabled).",
+        help="Sync flat branch and tag worktrees (default: enabled).",
     )
     parser.add_argument(
         "--no-worktrees",
         action="store_false",
         dest="worktrees",
-        help="Disable worktree sync and only update bare repositories.",
+        help="Disable worktree sync and only update worktree.git repositories.",
     )
     parser.add_argument(
         "--prune-worktrees",
         action="store_true",
-        help="Remove stale entries under branches/ and tags/ not in target set.",
+        help="Remove stale flat worktrees not in target set.",
     )
     return parser.parse_args()
 
@@ -245,6 +257,23 @@ def parse_csv(raw: str) -> list[str]:
 
 def sanitize_worktree_name(ref_name: str) -> str:
     return ref_name.strip().replace("/", "-")
+
+
+def unique_worktree_name(name: str, occupied: set[str], prefix: str) -> str:
+    candidate = name
+    while candidate in occupied or candidate in RESERVED_WORKTREE_NAMES:
+        candidate = f"{prefix}-{candidate}"
+    return candidate
+
+
+def branch_worktree_name(branch: str) -> str:
+    name = "trunk" if branch == "master" else sanitize_worktree_name(branch)
+    return unique_worktree_name(name, set(), "branch")
+
+
+def tag_worktree_name(tag: str, branches: list[str]) -> str:
+    branch_names = {branch_worktree_name(branch) for branch in branches}
+    return unique_worktree_name(sanitize_worktree_name(tag), branch_names, "tag")
 
 
 def branch_fetch_refspec(branch: str) -> str:
@@ -410,17 +439,19 @@ def worktree_is_dirty(repo_path: Path, git_configs: list[str]) -> bool:
 
 def ensure_branch_worktrees(
     bare_dir: Path,
-    branches_root: Path,
+    repo_root: Path,
     branches: list[str],
     git_configs: list[str],
 ) -> tuple[bool, str, set[Path]]:
-    branches_root.mkdir(parents=True, exist_ok=True)
     expected: set[Path] = set()
 
     for branch in branches:
-        target = branches_root / sanitize_worktree_name(branch)
+        target = repo_root / branch_worktree_name(branch)
         expected.add(target)
         target.parent.mkdir(parents=True, exist_ok=True)
+
+        if target.exists() and not (target / ".git").exists():
+            return False, f"branch worktree target exists but is not a git worktree: {target}", expected
 
         if not target.exists():
             if local_branch_exists(bare_dir, branch, git_configs):
@@ -504,17 +535,20 @@ def ensure_branch_worktrees(
 
 def ensure_tag_worktrees(
     bare_dir: Path,
-    tags_root: Path,
+    repo_root: Path,
     tags: list[str],
+    branches: list[str],
     git_configs: list[str],
 ) -> tuple[bool, str, set[Path]]:
-    tags_root.mkdir(parents=True, exist_ok=True)
     expected: set[Path] = set()
 
     for tag in tags:
-        target = tags_root / sanitize_worktree_name(tag)
+        target = repo_root / tag_worktree_name(tag, branches)
         expected.add(target)
         target.parent.mkdir(parents=True, exist_ok=True)
+
+        if target.exists() and not (target / ".git").exists():
+            return False, f"tag worktree target exists but is not a git worktree: {target}", expected
 
         if not target.exists():
             add_proc = run_git_with_git_dir(
@@ -566,18 +600,14 @@ def ensure_tag_worktrees(
 def prune_stale_worktrees(
     bare_dir: Path,
     git_configs: list[str],
-    branches_root: Path,
-    tags_root: Path,
+    repo_root: Path,
     expected_paths: set[Path],
 ):
     existing = list_worktree_paths(bare_dir, git_configs)
     for worktree_path in sorted(existing):
         if worktree_path in expected_paths:
             continue
-        if not (
-            worktree_path.is_relative_to(branches_root)
-            or worktree_path.is_relative_to(tags_root)
-        ):
+        if worktree_path.parent != repo_root or worktree_path.name in RESERVED_WORKTREE_NAMES:
             continue
 
         if worktree_is_dirty(worktree_path, git_configs):
@@ -601,28 +631,18 @@ def prune_stale_worktrees(
 
 
 def maybe_migrate_legacy_repo(repo_root: Path) -> tuple[bool, str]:
-    bare_dir = repo_root / "bare.git"
+    bare_dir = repo_root / BARE_REPO_DIR
     if bare_dir.exists() or not repo_root.exists():
         return True, "no migration needed"
 
     if not repo_is_bare_repo(repo_root):
         return True, "no migration needed"
 
-    migrating = repo_root.parent / f"{repo_root.name}.bare.git.migrating"
-    if migrating.exists():
-        return False, f"migration temp already exists: {migrating}"
-
-    try:
-        repo_root.rename(migrating)
-        repo_root.mkdir(parents=True, exist_ok=True)
-        migrating.rename(bare_dir)
-        (repo_root / "branches").mkdir(parents=True, exist_ok=True)
-        (repo_root / "tags").mkdir(parents=True, exist_ok=True)
-        (repo_root / "checkouts").mkdir(parents=True, exist_ok=True)
-        logger.info("legacy_repo_migrated", bare_dir=str(bare_dir))
-        return True, "migrated"
-    except Exception as e:  # noqa: BLE001
-        return False, str(e)
+    return (
+        False,
+        f"{repo_root} is a legacy bare repository. Move it aside before syncing "
+        f"this repo into {BARE_REPO_DIR} plus flat worktree layout.",
+    )
 
 
 def clone_or_update_repo(
@@ -655,10 +675,7 @@ def clone_or_update_repo(
     if not ok:
         return False, f"legacy migration failed: {reason}"
 
-    bare_dir = repo_root / "bare.git"
-    branches_root = repo_root / "branches"
-    tags_root = repo_root / "tags"
-    checkouts_root = repo_root / "checkouts"
+    bare_dir = repo_root / BARE_REPO_DIR
 
     auth_configs = git_auth_configs(repo_url)
 
@@ -689,11 +706,7 @@ def clone_or_update_repo(
             if bare_dir.exists():
                 cleanup_partial(bare_dir)
             return False, reason
-        logger.info("repo_cloned", repo_url=repo_url, bare_dir=str(bare_dir))
-
-    branches_root.mkdir(parents=True, exist_ok=True)
-    tags_root.mkdir(parents=True, exist_ok=True)
-    checkouts_root.mkdir(parents=True, exist_ok=True)
+        logger.info("repo_cloned", repo_url=repo_url, git_dir=str(bare_dir))
 
     selected_branches = resolve_selected_branches(
         repo_url, auth_configs, requested_branches
@@ -741,16 +754,16 @@ def clone_or_update_repo(
         reason = (fetch_proc.stderr or fetch_proc.stdout or "git fetch failed").strip()
         return False, reason
 
-    logger.info("repo_updated", bare_dir=str(bare_dir))
+    logger.info("repo_updated", git_dir=str(bare_dir))
 
     if not sync_worktrees:
-        return True, "bare repo updated"
+        return True, f"{BARE_REPO_DIR} updated"
 
     expected_paths: set[Path] = set()
 
     branches_ok, branches_reason, branch_paths = ensure_branch_worktrees(
         bare_dir,
-        branches_root,
+        repo_root,
         selected_branches,
         auth_configs,
     )
@@ -760,8 +773,9 @@ def clone_or_update_repo(
 
     tags_ok, tags_reason, tag_paths = ensure_tag_worktrees(
         bare_dir,
-        tags_root,
+        repo_root,
         selected_tags,
+        selected_branches,
         auth_configs,
     )
     expected_paths.update(tag_paths)
@@ -772,8 +786,7 @@ def clone_or_update_repo(
         prune_stale_worktrees(
             bare_dir,
             auth_configs,
-            branches_root,
-            tags_root,
+            repo_root,
             expected_paths,
         )
 

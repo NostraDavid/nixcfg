@@ -5,7 +5,7 @@
   # were managed by `stow`, which needs this folder structure to work correctly.
   # I decided to keep it that way, so I could return to stow in the future.
   home.file = let
-    dot = "${config.home.homeDirectory}/dev/NostraDavid/nixcfg/branches/master/dotfiles";
+    dot = "${config.home.homeDirectory}/dev/NostraDavid/nixcfg/trunk/dotfiles";
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
   in

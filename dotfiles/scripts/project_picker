@@ -9,15 +9,52 @@ import argparse
 import shutil
 import subprocess
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 
 DEV_ROOT = Path.home() / "dev"
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
+ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
+BARE_REPO_DIR = "worktree.git"
+LEGACY_BARE_REPO_DIR = "bare.git"
+RESERVED_WORKTREE_NAMES = {
+    BARE_REPO_DIR,
+    LEGACY_BARE_REPO_DIR,
+    "branches",
+    "tags",
+    "checkouts",
+}
+
+
+@dataclass(frozen=True)
+class WorktreeChoice:
+    label: str
+    path: Path
+    kind: str
+    ref: str
+    can_create: bool
 
 
 def sanitize_worktree_name(ref_name: str) -> str:
     return ref_name.strip().replace("/", "-")
+
+
+def unique_worktree_name(name: str, occupied: set[str], prefix: str) -> str:
+    candidate = name
+    while candidate in occupied or candidate in RESERVED_WORKTREE_NAMES:
+        candidate = f"{prefix}-{candidate}"
+    return candidate
+
+
+def branch_worktree_name(branch: str) -> str:
+    name = "trunk" if branch == "master" else sanitize_worktree_name(branch)
+    return unique_worktree_name(name, set(), "branch")
+
+
+def tag_worktree_name(tag: str, branches: list[str]) -> str:
+    branch_names = {branch_worktree_name(branch) for branch in branches}
+    return unique_worktree_name(sanitize_worktree_name(tag), branch_names, "tag")
 
 
 def run(
@@ -47,15 +84,30 @@ def discover_repos(dev_root: Path) -> list[tuple[str, Path]]:
         raise SystemExit(1)
 
     repos: list[tuple[str, Path]] = []
-    for bare_dir in sorted(dev_root.glob("*/*/bare.git")):
-        repo_root = bare_dir.parent
-        if not repo_root.is_dir():
-            continue
+    seen: set[Path] = set()
+    for dirname in (BARE_REPO_DIR, LEGACY_BARE_REPO_DIR):
+        for bare_dir in sorted(dev_root.glob(f"*/*/{dirname}")):
+            repo_root = bare_dir.parent
+            if not repo_root.is_dir() or repo_root in seen:
+                continue
 
-        label = str(repo_root.relative_to(dev_root))
-        repos.append((label, repo_root))
+            label = str(repo_root.relative_to(dev_root))
+            repos.append((label, repo_root))
+            seen.add(repo_root)
 
     return repos
+
+
+def git_dir_for_repo(repo_root: Path) -> tuple[Path | None, bool]:
+    bare_dir = repo_root / BARE_REPO_DIR
+    if bare_dir.exists():
+        return bare_dir, False
+
+    legacy_bare_dir = repo_root / LEGACY_BARE_REPO_DIR
+    if legacy_bare_dir.exists():
+        return legacy_bare_dir, True
+
+    return None, False
 
 
 def find_current_repo_root(
@@ -90,7 +142,7 @@ def choose_with_fzf(
     return selected or None
 
 
-def list_git_refs(bare_dir: Path) -> list[str]:
+def list_branch_refs(bare_dir: Path) -> list[str]:
     proc = run(
         [
             "git",
@@ -109,6 +161,23 @@ def list_git_refs(bare_dir: Path) -> list[str]:
     )
 
 
+def list_tag_refs(bare_dir: Path) -> list[str]:
+    proc = run(
+        [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "for-each-ref",
+            "--format=%(refname:strip=2)",
+            "refs/tags",
+        ],
+    )
+    if proc.returncode != 0:
+        return []
+
+    return sorted(tag for tag in proc.stdout.splitlines() if tag)
+
+
 def fetch_remote_refs(bare_dir: Path) -> bool:
     proc = run(
         [
@@ -117,38 +186,86 @@ def fetch_remote_refs(bare_dir: Path) -> bool:
             str(bare_dir),
             "fetch",
             "--prune",
+            "--prune-tags",
             "origin",
             ALL_BRANCH_REFSPEC,
+            ALL_TAG_REFSPEC,
         ],
     )
     return proc.returncode == 0
 
 
-def list_branches(repo_root: Path, *, refresh_empty: bool = False) -> list[tuple[str, Path]]:
-    branches_root = repo_root / "branches"
-    branches: list[tuple[str, Path]] = []
+def append_choice(
+    choices: list[WorktreeChoice],
+    seen_labels: set[str],
+    choice: WorktreeChoice,
+) -> None:
+    if choice.label in seen_labels:
+        return
+    choices.append(choice)
+    seen_labels.add(choice.label)
 
+
+def list_worktrees(repo_root: Path, *, refresh_empty: bool = False) -> list[WorktreeChoice]:
+    choices: list[WorktreeChoice] = []
+    seen_labels: set[str] = set()
+
+    bare_dir, legacy = git_dir_for_repo(repo_root)
+    if bare_dir is None:
+        return choices
+
+    branch_refs = list_branch_refs(bare_dir)
+    tag_refs = list_tag_refs(bare_dir)
+    if not legacy and not branch_refs and not tag_refs and refresh_empty:
+        fetch_remote_refs(bare_dir)
+        branch_refs = list_branch_refs(bare_dir)
+        tag_refs = list_tag_refs(bare_dir)
+
+    for branch in branch_refs:
+        label = branch_worktree_name(branch)
+        path = repo_root / label
+        if not legacy:
+            append_choice(
+                choices,
+                seen_labels,
+                WorktreeChoice(label, path, "branch", branch, True),
+            )
+
+    for tag in tag_refs:
+        label = tag_worktree_name(tag, branch_refs)
+        path = repo_root / label
+        if not legacy:
+            append_choice(
+                choices,
+                seen_labels,
+                WorktreeChoice(label, path, "tag", tag, True),
+            )
+
+    branches_root = repo_root / "branches"
     if branches_root.exists():
         for path in sorted(branches_root.rglob("*")):
             if path.is_dir() and (path / ".git").exists():
-                label = str(path.relative_to(branches_root))
-                branches.append((label, path))
+                raw_label = str(path.relative_to(branches_root))
+                label = "trunk" if raw_label == "master" else raw_label
+                append_choice(
+                    choices,
+                    seen_labels,
+                    WorktreeChoice(label, path, "branch", raw_label, False),
+                )
 
-    bare_dir = repo_root / "bare.git"
-    if bare_dir.exists():
-        remote_branches = list_git_refs(bare_dir)
-        if not remote_branches and refresh_empty:
-            fetch_remote_refs(bare_dir)
-            remote_branches = list_git_refs(bare_dir)
+    tags_root = repo_root / "tags"
+    if tags_root.exists():
+        for path in sorted(tags_root.rglob("*")):
+            if path.is_dir() and (path / ".git").exists():
+                raw_label = str(path.relative_to(tags_root))
+                label = tag_worktree_name(raw_label, branch_refs)
+                append_choice(
+                    choices,
+                    seen_labels,
+                    WorktreeChoice(label, path, "tag", raw_label, False),
+                )
 
-        existing_labels = {label for label, _ in branches}
-        for branch in remote_branches:
-            label = sanitize_worktree_name(branch)
-            if label in existing_labels:
-                continue
-            branches.append((label, branches_root / label))
-
-    return branches
+    return choices
 
 
 def local_branch_exists(bare_dir: Path, branch: str) -> bool:
@@ -183,6 +300,8 @@ def remote_branch_exists(bare_dir: Path, branch: str) -> bool:
 
 def resolve_branch_name(bare_dir: Path, branch_label: str) -> str | None:
     candidates = [branch_label]
+    if branch_label == "trunk":
+        candidates.append("master")
     slash_candidate = branch_label.replace("-", "/")
     if slash_candidate != branch_label:
         candidates.append(slash_candidate)
@@ -193,39 +312,55 @@ def resolve_branch_name(bare_dir: Path, branch_label: str) -> str | None:
     return None
 
 
-def ensure_branch_worktree(repo_root: Path, branch_label: str, target: Path) -> bool:
+def ensure_worktree(repo_root: Path, choice: WorktreeChoice) -> bool:
+    target = choice.path
     if (target / ".git").exists():
         return True
     if target.exists():
         return False
+    if not choice.can_create:
+        return False
 
-    bare_dir = repo_root / "bare.git"
+    bare_dir = repo_root / BARE_REPO_DIR
     if not bare_dir.exists():
         return False
 
-    branch = resolve_branch_name(bare_dir, branch_label)
-    if branch is None:
-        return False
-
     target.parent.mkdir(parents=True, exist_ok=True)
-    add_args = [
-        "git",
-        "--git-dir",
-        str(bare_dir),
-        "worktree",
-        "add",
-        str(target),
-    ]
-    if local_branch_exists(bare_dir, branch):
-        add_args.append(branch)
+    if choice.kind == "branch":
+        branch = choice.ref
+        add_args = [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "worktree",
+            "add",
+            str(target),
+        ]
+        if local_branch_exists(bare_dir, branch):
+            add_args.append(branch)
+        else:
+            add_args += ["-b", branch, f"origin/{branch}"]
     else:
-        add_args += ["-b", branch, f"origin/{branch}"]
+        add_args = [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "worktree",
+            "add",
+            "--detach",
+            str(target),
+            choice.ref,
+        ]
 
     add_proc = run(add_args)
     if add_proc.returncode != 0:
         print(add_proc.stderr or add_proc.stdout, end="", file=sys.stderr)
         return False
 
+    if choice.kind != "branch":
+        return True
+
+    branch = choice.ref
     upstream_proc = run(
         [
             "git",
@@ -243,25 +378,28 @@ def ensure_branch_worktree(repo_root: Path, branch_label: str, target: Path) -> 
     return True
 
 
-def resolve_branch_query(
+def resolve_worktree_query(
     repos: list[tuple[str, Path]],
     query: str,
     cwd: Path,
 ) -> Path | None:
-    branch_query = query.strip().strip("/")
-    if not branch_query:
+    worktree_query = query.strip().strip("/")
+    if not worktree_query:
         return None
 
     def repo_matches(repo_root: Path) -> list[Path]:
         matches: list[Path] = []
-        for label, path in list_branches(repo_root):
+        for choice in list_worktrees(repo_root):
+            label = choice.label
             aliases = {
                 label.strip("/"),
                 Path(label).name,
                 sanitize_worktree_name(label),
+                choice.ref.strip("/"),
+                sanitize_worktree_name(choice.ref),
             }
-            if branch_query in aliases and path.exists():
-                matches.append(path)
+            if worktree_query in aliases and choice.path.exists():
+                matches.append(choice.path)
         return matches
 
     preferred_repo = find_current_repo_root(repos, cwd)
@@ -287,7 +425,7 @@ def resolve_branch_query(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Select a repo branch worktree and print its path."
+        description="Select a repo worktree and print its path."
     )
     parser.add_argument("query", nargs="*", help="Initial fzf query for the repo.")
     return parser.parse_args()
@@ -299,7 +437,7 @@ def main() -> int:
     require("git")
 
     repos = discover_repos(DEV_ROOT)
-    direct_match = resolve_branch_query(repos, " ".join(args.query), Path.cwd())
+    direct_match = resolve_worktree_query(repos, " ".join(args.query), Path.cwd())
     if direct_match is not None:
         print(direct_match)
         return 0
@@ -315,26 +453,26 @@ def main() -> int:
         return 1
 
     repo_root = repo_by_label[repo_label]
-    branches = list_branches(repo_root, refresh_empty=True)
-    if not branches:
-        print(f"No branches found for {repo_label}.", file=sys.stderr)
+    worktrees = list_worktrees(repo_root, refresh_empty=True)
+    if not worktrees:
+        print(f"No worktrees found for {repo_label}.", file=sys.stderr)
         return 1
 
-    branch_by_label = dict(branches)
-    branch_label = choose_with_fzf(
-        list(branch_by_label),
-        prompt="Select branch: ",
+    worktree_by_label = {choice.label: choice for choice in worktrees}
+    worktree_label = choose_with_fzf(
+        list(worktree_by_label),
+        prompt="Select worktree: ",
     )
-    if branch_label is None:
-        print("No branch selected.", file=sys.stderr)
+    if worktree_label is None:
+        print("No worktree selected.", file=sys.stderr)
         return 1
 
-    target = branch_by_label[branch_label]
-    if not ensure_branch_worktree(repo_root, branch_label, target):
-        print(f"Branch worktree does not exist: {target}", file=sys.stderr)
+    choice = worktree_by_label[worktree_label]
+    if not ensure_worktree(repo_root, choice):
+        print(f"Worktree does not exist: {choice.path}", file=sys.stderr)
         return 1
 
-    print(target)
+    print(choice.path)
     return 0
 
 

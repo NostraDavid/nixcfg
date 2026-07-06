@@ -2,6 +2,8 @@
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
+#     "opentelemetry-api>=1.36.0",
+#     "opentelemetry-sdk>=1.36.0",
 #     "structlog>=26.1.0",
 # ]
 # ///
@@ -46,7 +48,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Restore the explicit repository list from repos.dat using the same "
-            "bare.git plus branches/ and tags/ worktree layout as grab.py. "
+            f"{grab.BARE_REPO_DIR} plus flat branch/tag worktree layout as grab.py. "
             "grab.py discovers GitHub personal and org repositories through gh; "
             "restore_repos.py restores the fixed list, including non-GitHub remotes."
         ),
@@ -74,7 +76,7 @@ def parse_args() -> argparse.Namespace:
         "--branches",
         default=",".join(grab.DEFAULT_BRANCHES),
         help=(
-            "Comma-separated branch names for branches/ worktrees "
+            "Comma-separated branch names for flat worktrees "
             "(used only when --no-all-branches is set)."
         ),
     )
@@ -82,7 +84,7 @@ def parse_args() -> argparse.Namespace:
         "--all-branches",
         action="store_true",
         default=True,
-        help="Track all remote branches under branches/ (default: enabled).",
+        help="Track all remote branches as flat worktrees (default: enabled).",
     )
     parser.add_argument(
         "--no-all-branches",
@@ -93,13 +95,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--tags",
         default="",
-        help="Comma-separated tag names for detached worktrees under tags/.",
+        help="Comma-separated tag names for detached flat worktrees.",
     )
     parser.add_argument(
         "--all-tags",
         action="store_true",
         default=True,
-        help="Track all remote tags under tags/ as detached worktrees (default: enabled).",
+        help="Track all remote tags as detached flat worktrees (default: enabled).",
     )
     parser.add_argument(
         "--no-all-tags",
@@ -111,18 +113,27 @@ def parse_args() -> argparse.Namespace:
         "--worktrees",
         action="store_true",
         default=True,
-        help="Sync branches/ and tags/ worktrees (default: enabled).",
+        help="Sync flat branch and tag worktrees (default: enabled).",
     )
     parser.add_argument(
         "--no-worktrees",
         action="store_false",
         dest="worktrees",
-        help="Disable worktree sync and only update bare repositories.",
+        help="Disable worktree sync and only update worktree.git repositories.",
     )
     parser.add_argument(
         "--prune-worktrees",
         action="store_true",
-        help="Remove stale entries under branches/ and tags/ not in target set.",
+        help="Remove stale flat worktrees not in target set.",
+    )
+    parser.add_argument(
+        "--fetch-timeout",
+        type=int,
+        default=grab.DEFAULT_FETCH_TIMEOUT,
+        help=(
+            "Timeout in seconds for 'git fetch' per repository. "
+            f"Default: {grab.DEFAULT_FETCH_TIMEOUT}."
+        ),
     )
     return parser.parse_args()
 
@@ -170,6 +181,7 @@ def main() -> int:
                 args.all_tags,
                 args.worktrees,
                 args.prune_worktrees,
+                args.fetch_timeout,
             )
             for repo_url in all_repos
         ]
