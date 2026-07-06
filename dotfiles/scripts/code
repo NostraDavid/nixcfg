@@ -101,7 +101,7 @@ def ensure_vscode_settings(target: Path) -> None:
     if not settings_file.exists():
         vscode_dir.mkdir(parents=True, exist_ok=True)
         settings_file.write_text(
-            json.dumps({"window.title": project_name}, indent=4) + "\n"
+            json.dumps({"window.title": project_name}, indent=2, sort_keys=True) + "\n"
         )
         return
 
@@ -112,13 +112,11 @@ def ensure_vscode_settings(target: Path) -> None:
 
     if settings.get("window.title") != project_name:
         settings["window.title"] = project_name
-        settings_file.write_text(json.dumps(settings, indent=4) + "\n")
+        settings_file.write_text(json.dumps(settings, indent=2, sort_keys=True) + "\n")
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Open a repo worktree in VS Code."
-    )
+    parser = argparse.ArgumentParser(description="Open a repo worktree in VS Code.")
     parser.add_argument("query", nargs="*", help="Initial fzf query for the repo.")
     return parser.parse_args()
 
