@@ -114,24 +114,24 @@ check:
 test host=default_host:
   @opts=(); \
   if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
-  sudo nixos-rebuild test "${opts[@]}" --flake .#"{{host}}"
+  sudo nixos-rebuild test "${opts[@]}" --flake path:.#"{{host}}"
 
 # Apply a host configuration immediately and persist across reboots.
 switch host="":
-  @if [ -z "{{host}}" ]; then echo "Available hosts:"; nix eval --json .#nixosConfigurations --apply 'attrs: builtins.attrNames attrs' | jq -r '.[]' | sed 's/^/  /'; exit 1; fi
+  @if [ -z "{{host}}" ]; then echo "Available hosts:"; nix eval --json path:.#nixosConfigurations --apply 'attrs: builtins.attrNames attrs' | jq -r '.[]' | sed 's/^/  /'; exit 1; fi
   @opts=(); \
   if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
-  sudo nixos-rebuild switch "${opts[@]}" --flake .#"{{host}}"
+  sudo nixos-rebuild switch "${opts[@]}" --flake path:.#"{{host}}"
 
 # Stage a host configuration for the next boot only.
 boot host=default_host:
   @opts=(); \
   if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
-  sudo nixos-rebuild boot "${opts[@]}" --flake .#"{{host}}"
+  sudo nixos-rebuild boot "${opts[@]}" --flake path:.#"{{host}}"
 
 # Build a VM for the selected host configuration.
 build-vm host=default_host:
-  @nixos-rebuild build-vm --flake .#"{{host}}"
+  @nixos-rebuild build-vm --flake path:.#"{{host}}"
 
 # Switch input to the default audio output monitor.
 audio-output:
