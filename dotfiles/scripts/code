@@ -99,22 +99,17 @@ def main() -> int:
     args = parse_args()
     code_bin = find_code_binary()
     env = clean_vscode_env()
-    command = [code_bin]
+    picker = find_project_picker()
+    proc = run([picker, *args.query])
+    if proc.returncode != 0:
+        print(proc.stderr, end="", file=sys.stderr)
+        return proc.returncode
 
-    if args.query:
-        picker = find_project_picker()
-        proc = run([picker, *args.query])
-        if proc.returncode != 0:
-            print(proc.stderr, end="", file=sys.stderr)
-            return proc.returncode
+    target = Path(proc.stdout.strip())
+    command = [code_bin, str(target)]
 
-        target = Path(proc.stdout.strip())
-        command.append(str(target))
-
-    if args.query and supports_flag(code_bin, "--new-window"):
+    if supports_flag(code_bin, "--new-window"):
         command.insert(1, "--new-window")
-    elif not args.query and supports_flag(code_bin, "--reuse-window"):
-        command.insert(1, "--reuse-window")
 
     return subprocess.run(
         command,
