@@ -17,17 +17,21 @@
       "agent-rules" = {source = mk "${dot}/agent-rules";};
 
       ## Codex
-      ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
       ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
+      ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
       ".codex/rules/default.rules" = {source = mk "${dot}/codex-0.140.0/.codex/rules/default.rules";};
 
+      ## pi
+      ".pi/agent/settings.json" = {source = mk "${dot}/pi/.pi/agent/settings.json";};
+      ".pi/agent/AGENTS.md" = {source = mk "${dot}/pi/.pi/agent/AGENTS.md";};
+
       ## Claude
-      ".claude/CLAUDE.md" = {source = mk "${dot}/claude-1.0/.claude/CLAUDE.md";};
       ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
+      ".claude/CLAUDE.md" = {source = mk "${dot}/claude-1.0/.claude/CLAUDE.md";};
 
       ## Copilot
-      ".copilot/copilot-instructions.md" = {source = mk "${dot}/copilot-1.0/.copilot/copilot-instructions.md";};
       ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
+      ".copilot/copilot-instructions.md" = {source = mk "${dot}/copilot-1.0/.copilot/copilot-instructions.md";};
 
       ## RTK
       ".config/rtk/config.toml" = {source = mk "${dot}/rtk-0.41.0/.config/rtk/config.toml";};
@@ -69,7 +73,6 @@
       ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color";};
       ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker";};
       ".local/bin/venv" = {source = mk "${dot}/scripts/venv";};
-      ".pi/agent/settings.json" = {source = mk "${dot}/pi/.pi/agent/settings.json";};
       ".tmux.conf" = {source = mk "${dot}/tmux-3.5a/.tmux.conf";};
       ".vim" = {source = mk "${dot}/vim-9.0/.vim";};
       ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
