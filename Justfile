@@ -117,8 +117,7 @@ test host=default_host:
   sudo nixos-rebuild test "${opts[@]}" --flake path:.#"{{host}}"
 
 # Apply a host configuration immediately and persist across reboots.
-switch host="":
-  @if [ -z "{{host}}" ]; then echo "Available hosts:"; nix eval --json path:.#nixosConfigurations --apply 'attrs: builtins.attrNames attrs' | jq -r '.[]' | sed 's/^/  /'; exit 1; fi
+switch host=`hostname --short`:
   @opts=(); \
   if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
   sudo nixos-rebuild switch "${opts[@]}" --flake path:.#"{{host}}"
