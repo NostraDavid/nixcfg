@@ -12,6 +12,7 @@ in {
     useUserPackages = true;
     users.${main-user} = {
       imports = [
+        inputs.pi.homeModules.default
         inputs.plasma-manager.homeModules.plasma-manager
         inputs.codex-desktop-linux.homeManagerModules.default
         ./kde-shared.nix

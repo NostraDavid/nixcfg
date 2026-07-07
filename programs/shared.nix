@@ -26,6 +26,8 @@
   hasDlssUpdater = lib.elem local.dlss-updater config.home.packages;
   photogimpConfig = "${local.photogimp}/share/photogimp/GIMP/3.0";
 in {
+  programs.pi.coding-agent.enable = true;
+
   xdg.desktopEntries = {
     firefox-esr = {
       name = "Firefox ESR";
