@@ -25,6 +25,7 @@
       localPackageNames);
   hasDlssUpdater = lib.elem local.dlss-updater config.home.packages;
   photogimpConfig = "${local.photogimp}/share/photogimp/GIMP/3.0";
+  piExe = lib.getExe config.programs.pi.coding-agent.finalPackage;
 in {
   programs.pi.coding-agent.enable = true;
 
@@ -376,6 +377,15 @@ in {
         if ${lib.getExe pkgs.flatpak} --user info io.github.recol.dlss-updater >/dev/null 2>&1; then
           if ! ${lib.boolToString hasDlssUpdater}; then
             ${lib.getExe pkgs.flatpak} --user uninstall -y io.github.recol.dlss-updater || true
+          fi
+        fi
+      '';
+
+      piTensorx = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        if ! $DRY_RUN_CMD ${piExe} list 2>/dev/null \
+          | ${lib.getExe pkgs.gnugrep} -F '@czottmann/pi-tensorx' >/dev/null 2>&1; then
+          if ! $DRY_RUN_CMD ${piExe} install npm:@czottmann/pi-tensorx; then
+            echo "warning: failed to install Pi extension @czottmann/pi-tensorx" >&2
           fi
         fi
       '';

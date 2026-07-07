@@ -69,6 +69,7 @@
       ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color";};
       ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker";};
       ".local/bin/venv" = {source = mk "${dot}/scripts/venv";};
+      ".pi/agent/settings.json" = {source = mk "${dot}/pi/.pi/agent/settings.json";};
       ".tmux.conf" = {source = mk "${dot}/tmux-3.5a/.tmux.conf";};
       ".vim" = {source = mk "${dot}/vim-9.0/.vim";};
       ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};

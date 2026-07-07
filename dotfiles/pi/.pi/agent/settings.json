@@ -1,0 +1,9 @@
+{
+  "lastChangelogVersion": "0.80.3",
+  "theme": "dark",
+  "packages": [
+    "npm:@czottmann/pi-tensorx"
+  ],
+  "defaultProvider": "tensorx",
+  "defaultModel": "deepseek/deepseek-v4-flash"
+}
