@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage ADRs"
+  short_description: "Create and maintain architecture decision records"
+  default_prompt: "Use $manage-adrs to create or update architecture decision records for this project."
