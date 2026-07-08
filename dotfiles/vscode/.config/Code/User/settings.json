@@ -23,6 +23,9 @@
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "[lua]": {
+    "editor.defaultFormatter": "yinfei.luahelper"
+  },
   "[markdown]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
     // "editor.defaultFormatter": "yzhang.markdown-all-in-one"
