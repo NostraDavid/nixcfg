@@ -36,6 +36,7 @@
 !Justfile
 !.vscode/settings.json
 !scripts/
+!codd/
 
 # OpenTofu/Terraform local state and secrets
 infra/**/.terraform/
