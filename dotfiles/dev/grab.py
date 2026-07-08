@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import datetime as dt
 import json
 import os
 import shutil
@@ -19,29 +20,27 @@ import subprocess
 import sys
 import tempfile
 import time
-import datetime as dt
 from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import urlparse
 
+import structlog as logging
 from opentelemetry import trace
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import ReadableSpan, TracerProvider
 from opentelemetry.sdk.trace.export import (
     SimpleSpanProcessor,
-    SpanExportResult,
     SpanExporter,
+    SpanExportResult,
 )
 from opentelemetry.trace import Span, Status, StatusCode
-import structlog as sl
-from structlog.stdlib import get_logger
 
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
 DEFAULT_BRANCHES = ("master",)
 DEFAULT_INITIAL_BRANCH = "master"
 DEFAULT_FETCH_TIMEOUT = 300
-TIMEOUT = 30
+TIMEOUT = 300
 BARE_REPO_DIR = "worktree.git"
 LEGACY_BARE_REPO_DIR = "bare.git"
 RESERVED_WORKTREE_NAMES = {
@@ -52,7 +51,7 @@ RESERVED_WORKTREE_NAMES = {
     "checkouts",
 }
 
-logger = get_logger()
+logger = logging.stdlib.get_logger(__name__)
 tracer = trace.get_tracer(__name__)
 
 
@@ -87,7 +86,9 @@ class RepoTrace:
         )
         self.span.set_attribute("grab.worktrees_enabled", self.worktrees_enabled)
         self.span.set_attribute("grab.prune_worktrees", self.prune_worktrees)
-        self.span.set_attribute("grab.fetch_timeout_seconds", self.fetch_timeout_seconds)
+        self.span.set_attribute(
+            "grab.fetch_timeout_seconds", self.fetch_timeout_seconds
+        )
         self.span.set_attribute("grab.branches", self.branches_selected)
         self.span.set_attribute("grab.tags", self.tags_selected)
         self.span.set_attribute("grab.actions", self.actions)
@@ -132,16 +133,16 @@ class RepoSummarySpanExporter(SpanExporter):
 
 
 def configure_tracing() -> None:
-    provider = TracerProvider(
-        resource=Resource.create({"service.name": "grab.py"})
-    )
+    provider = TracerProvider(resource=Resource.create({"service.name": "grab.py"}))
     provider.add_span_processor(SimpleSpanProcessor(RepoSummarySpanExporter()))
     trace.set_tracer_provider(provider)
     global tracer
     tracer = trace.get_tracer("grab.py")
 
 
-def finish_repo_trace(trace_ctx: RepoTrace, ok: bool, reason: str) -> tuple[str, bool, str]:
+def finish_repo_trace(
+    trace_ctx: RepoTrace, ok: bool, reason: str
+) -> tuple[str, bool, str]:
     trace_ctx.finish(ok, reason)
     return trace_ctx.repo_url, ok, reason
 
@@ -155,11 +156,11 @@ def succeed_repo_trace(trace_ctx: RepoTrace, reason: str) -> tuple[str, bool, st
 
 
 def configure_logging() -> None:
-    sl.configure(
+    logging.configure(
         processors=[
-            sl.processors.TimeStamper(fmt="iso"),
-            sl.processors.add_log_level,
-            sl.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
+            logging.processors.TimeStamper(fmt="iso"),
+            logging.processors.add_log_level,
+            logging.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
         ],
     )
 
@@ -226,6 +227,13 @@ def gh_text(args: list[str]) -> str:
 def gh_json(args: list[str]) -> object:
     output = gh_text(args)
     return json.loads(output) if output else None
+
+
+def gh_api_paginated(endpoint: str, params: dict[str, str]) -> object:
+    args = ["api", "--method", "GET", "--paginate", "--slurp", endpoint]
+    for key, value in params.items():
+        args.extend(["-f", f"{key}={value}"])
+    return gh_json(args)
 
 
 def detect_jobs(jobs: int | None = None) -> int:
@@ -561,7 +569,9 @@ def ensure_bare_head(
         )
         if set_head_proc.returncode != 0:
             reason = (
-                set_head_proc.stderr or set_head_proc.stdout or "failed to set bare HEAD"
+                set_head_proc.stderr
+                or set_head_proc.stdout
+                or "failed to set bare HEAD"
             ).strip()
             return False, reason
         trace.add_action(f"bare HEAD repaired: {branch}")
@@ -591,7 +601,11 @@ def ensure_branch_worktrees(
         target.parent.mkdir(parents=True, exist_ok=True)
 
         if target.exists() and not (target / ".git").exists():
-            return False, f"branch worktree target exists but is not a git worktree: {target}", expected
+            return (
+                False,
+                f"branch worktree target exists but is not a git worktree: {target}",
+                expected,
+            )
 
         if not target.exists():
             ok, reason = ensure_local_branch_from_origin(bare_dir, branch, trace)
@@ -620,9 +634,7 @@ def ensure_branch_worktrees(
             )
 
         if worktree_is_dirty(target):
-            trace.add_warning(
-                f"branch update skipped (dirty worktree): {branch}"
-            )
+            trace.add_warning(f"branch update skipped (dirty worktree): {branch}")
             continue
 
         ff_only_proc = run_git(
@@ -656,7 +668,11 @@ def ensure_tag_worktrees(
         target.parent.mkdir(parents=True, exist_ok=True)
 
         if target.exists() and not (target / ".git").exists():
-            return False, f"tag worktree target exists but is not a git worktree: {target}", expected
+            return (
+                False,
+                f"tag worktree target exists but is not a git worktree: {target}",
+                expected,
+            )
 
         if not target.exists():
             add_proc = run_git_with_git_dir(
@@ -672,9 +688,7 @@ def ensure_tag_worktrees(
             trace.add_action(f"tag worktree added: {tag}")
 
         if worktree_is_dirty(target):
-            trace.add_warning(
-                f"tag update skipped (dirty worktree): {tag}"
-            )
+            trace.add_warning(f"tag update skipped (dirty worktree): {tag}")
             continue
 
         checkout_proc = run_git(
@@ -700,13 +714,14 @@ def prune_stale_worktrees(
     for worktree_path in sorted(existing):
         if worktree_path in expected_paths:
             continue
-        if worktree_path.parent != repo_root or worktree_path.name in RESERVED_WORKTREE_NAMES:
+        if (
+            worktree_path.parent != repo_root
+            or worktree_path.name in RESERVED_WORKTREE_NAMES
+        ):
             continue
 
         if worktree_is_dirty(worktree_path):
-            trace.add_warning(
-                f"worktree prune skipped (dirty): {worktree_path}"
-            )
+            trace.add_warning(f"worktree prune skipped (dirty): {worktree_path}")
             continue
 
         remove_proc = run_git_with_git_dir(
@@ -781,14 +796,20 @@ def clone_or_update_repo(
                 reason = f"{bare_dir} exists but is not a bare git repo"
                 return fail_repo_trace(trace_ctx, reason)
 
-            origin_proc = run_git(["remote", "get-url", "origin"], bare_dir, capture=True)
-            origin_url = origin_proc.stdout.strip() if origin_proc.returncode == 0 else ""
+            origin_proc = run_git(
+                ["remote", "get-url", "origin"], bare_dir, capture=True
+            )
+            origin_url = (
+                origin_proc.stdout.strip() if origin_proc.returncode == 0 else ""
+            )
             if origin_url and not urls_equivalent(origin_url, repo_url):
                 reason = f"origin url mismatch ({origin_url} != {repo_url})"
                 return fail_repo_trace(trace_ctx, reason)
         else:
             bare_dir.parent.mkdir(parents=True, exist_ok=True)
-            clone_proc = run_git(["clone", "--bare", repo_url, str(bare_dir)], capture=True)
+            clone_proc = run_git(
+                ["clone", "--bare", repo_url, str(bare_dir)], capture=True
+            )
             if clone_proc.returncode != 0:
                 reason = (
                     clone_proc.stderr or clone_proc.stdout or "git clone failed"
@@ -884,29 +905,56 @@ def clone_or_update_repo(
             return fail_repo_trace(trace_ctx, tags_reason)
 
         if prune_worktrees_flag:
-            prune_stale_worktrees(
-                bare_dir, repo_root, expected_paths, trace_ctx
-            )
+            prune_stale_worktrees(bare_dir, repo_root, expected_paths, trace_ctx)
 
         return succeed_repo_trace(trace_ctx, "updated")
 
 
-def repo_urls(owner: str) -> list[str]:
-    repos = gh_json(["repo", "list", owner, "--limit", "1000", "--json", "sshUrl"])
-    if not isinstance(repos, list):
+def iter_repo_records(pages: object) -> list[dict[str, object]]:
+    if not isinstance(pages, list):
         return []
 
+    records: list[dict[str, object]] = []
+    for page in pages:
+        if isinstance(page, list):
+            records.extend(repo for repo in page if isinstance(repo, dict))
+        elif isinstance(page, dict):
+            records.append(page)
+    return records
+
+
+def repo_urls_from_api(endpoint: str, params: dict[str, str]) -> list[str]:
+    repos = iter_repo_records(gh_api_paginated(endpoint, params))
     urls: list[str] = []
     for repo in repos:
-        if not isinstance(repo, dict):
-            continue
-        url = repo.get("sshUrl")
+        url = repo.get("ssh_url")
         if isinstance(url, str):
             urls.append(url)
     return urls
 
 
-def parse_args() -> argparse.Namespace:
+def personal_repo_urls() -> list[str]:
+    return repo_urls_from_api(
+        "/user/repos",
+        {
+            "affiliation": "owner",
+            "per_page": "100",
+            "visibility": "all",
+        },
+    )
+
+
+def org_repo_urls(org: str) -> list[str]:
+    return repo_urls_from_api(
+        f"/orgs/{org}/repos",
+        {
+            "per_page": "100",
+            "type": "all",
+        },
+    )
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Clone/update all personal and organization GitHub repositories "
@@ -989,13 +1037,150 @@ def parse_args() -> argparse.Namespace:
             f"Default: {DEFAULT_FETCH_TIMEOUT}."
         ),
     )
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
-def main() -> int:
+def run_tests(argv: list[str]) -> int:
+    import unittest
+    from unittest import mock
+
+    parser = argparse.ArgumentParser(
+        prog=f"{Path(sys.argv[0]).name} tests",
+        description="Run grab.py self-tests.",
+    )
+    parser.add_argument("-v", "--verbose", action="store_true")
+    args = parser.parse_args(argv)
+
+    class GrabTests(unittest.TestCase):
+        def test_gh_api_paginated_uses_get_paginate_and_slurp(self) -> None:
+            with mock.patch(
+                f"{__name__}.gh_json",
+                return_value=[[]],
+            ) as gh_json_mock:
+                result = gh_api_paginated(
+                    "/user/repos",
+                    {"affiliation": "owner", "per_page": "100"},
+                )
+
+            self.assertEqual(result, [[]])
+            gh_json_mock.assert_called_once_with(
+                [
+                    "api",
+                    "--method",
+                    "GET",
+                    "--paginate",
+                    "--slurp",
+                    "/user/repos",
+                    "-f",
+                    "affiliation=owner",
+                    "-f",
+                    "per_page=100",
+                ]
+            )
+
+        def test_iter_repo_records_flattens_paginated_api_pages(self) -> None:
+            records = iter_repo_records(
+                [
+                    [{"ssh_url": "git@github.com:NostraDavid/nixcfg.git"}, "noise"],
+                    {"ssh_url": "git@github.com:NostraDavid/ndat.git"},
+                    None,
+                ]
+            )
+
+            self.assertEqual(
+                records,
+                [
+                    {"ssh_url": "git@github.com:NostraDavid/nixcfg.git"},
+                    {"ssh_url": "git@github.com:NostraDavid/ndat.git"},
+                ],
+            )
+
+        def test_repo_urls_from_api_keeps_only_ssh_urls(self) -> None:
+            pages = [
+                [
+                    {"ssh_url": "git@github.com:NostraDavid/ndat.git"},
+                    {"ssh_url": None},
+                    {"html_url": "https://github.com/NostraDavid/nixcfg"},
+                ],
+                [{"ssh_url": "git@github.com:NostraDavid/nixcfg.git"}],
+            ]
+            with mock.patch(
+                f"{__name__}.gh_api_paginated",
+                return_value=pages,
+            ) as api_mock:
+                urls = repo_urls_from_api("/user/repos", {"per_page": "100"})
+
+            self.assertEqual(
+                urls,
+                [
+                    "git@github.com:NostraDavid/ndat.git",
+                    "git@github.com:NostraDavid/nixcfg.git",
+                ],
+            )
+            api_mock.assert_called_once_with("/user/repos", {"per_page": "100"})
+
+        def test_personal_repo_urls_uses_authenticated_owner_endpoint(self) -> None:
+            with mock.patch(
+                f"{__name__}.repo_urls_from_api",
+                return_value=[],
+            ) as urls_mock:
+                personal_repo_urls()
+
+            urls_mock.assert_called_once_with(
+                "/user/repos",
+                {
+                    "affiliation": "owner",
+                    "per_page": "100",
+                    "visibility": "all",
+                },
+            )
+
+        def test_org_repo_urls_uses_org_endpoint(self) -> None:
+            with mock.patch(
+                f"{__name__}.repo_urls_from_api",
+                return_value=[],
+            ) as urls_mock:
+                org_repo_urls("Thaumatorium")
+
+            urls_mock.assert_called_once_with(
+                "/orgs/Thaumatorium/repos",
+                {
+                    "per_page": "100",
+                    "type": "all",
+                },
+            )
+
+        def test_repo_path_part_handles_github_urls(self) -> None:
+            cases = {
+                "git@github.com:NostraDavid/ndat.git": "NostraDavid/ndat",
+                "https://github.com/NostraDavid/ndat.git": "NostraDavid/ndat",
+                "ssh://git@example.test/repo.git": "repo",
+                "/home/david/dev/repo": "repo",
+            }
+            for raw_url, expected in cases.items():
+                with self.subTest(raw_url=raw_url):
+                    self.assertEqual(repo_path_part(raw_url), expected)
+
+        def test_parse_csv_deduplicates_and_ignores_blanks(self) -> None:
+            self.assertEqual(
+                parse_csv(" master,main,,master, release "),
+                ["master", "main", "release"],
+            )
+
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(GrabTests)
+    runner = unittest.TextTestRunner(verbosity=2 if args.verbose else 1)
+    result = runner.run(suite)
+    return 0 if result.wasSuccessful() else 1
+
+
+def main(argv: list[str] | None = None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    if argv and argv[0] == "tests":
+        return run_tests(argv[1:])
+
     configure_logging()
     configure_tracing()
-    args = parse_args()
+    args = parse_args(argv)
     if not require("gh"):
         return 1
 
@@ -1011,14 +1196,14 @@ def main() -> int:
     user = gh_text(["api", "user", "--jq", ".login"])
 
     logger.info("gathering_personal_repos", user=user)
-    personal_repos = repo_urls(user)
+    personal_repos = personal_repo_urls()
 
     logger.info("gathering_organization_repos")
     org_repos: list[str] = []
     orgs = gh_text(["api", "user/orgs", "--jq", ".[].login"]).splitlines()
     for org in orgs:
         logger.info("gathering_org_repos", org=org)
-        org_repos.extend(repo_urls(org))
+        org_repos.extend(org_repo_urls(org))
 
     all_repos = sorted(set(personal_repos + org_repos), key=str.casefold)
 
