@@ -296,7 +296,7 @@ in {
 
       # unstable
       unstable.gemini-cli
-      unstable.github-copilot-cli
+      # unstable.github-copilot-cli
       unstable.oxfmt # prettier replacement
       unstable.oxlint # js linter
       unstable.fastfetch # neofetch alternative
@@ -327,6 +327,7 @@ in {
       local.ptk
       local.photogimp # Photoshop-like defaults for GIMP
       local.codex
+      local.github-copilot-cli
       local.snip # CLI proxy, to reduce token usage for LLMs
       local.rtk
       local.codealmanac # Local codebase wiki for AI coding agents
