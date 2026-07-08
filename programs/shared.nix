@@ -218,6 +218,7 @@ in {
       powerline # The best Bash Prompt!
       prek # pre-commit alternative
       prettier # Web/JSON/YAML/Markdown formatter
+      poppler-utils # PDF rendering library
       prettierd # Prettier daemon
       procps # for `ps` command
       procs # moddern replacement for `ps`, written in Rust; might be troublesome
