@@ -20,6 +20,7 @@
       ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
       ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
       ".codex/rules/default.rules" = {source = mk "${dot}/codex-0.140.0/.codex/rules/default.rules";};
+      ".codex/skills/database-design" = {source = mk "${dot}/codex-0.140.0/.codex/skills/database-design";};
 
       ## pi
       ".pi/agent/settings.json" = {source = mk "${dot}/pi/.pi/agent/settings.json";};
