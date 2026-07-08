@@ -328,6 +328,7 @@ in {
       local.snip # CLI proxy, to reduce token usage for LLMs
       local.rtk
       local.codealmanac # Local codebase wiki for AI coding agents
+      local.skillkit # Local codebase wiki for AI coding agents
 
       # podman
       unstable.podman-desktop # GUI for managing containers
