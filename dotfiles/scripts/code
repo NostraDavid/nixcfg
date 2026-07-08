@@ -13,6 +13,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+WINDOW_FLAGS = {"--new-window", "--reuse-window", "--add", "-r"}
+
 
 def run(args: list[str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
@@ -88,6 +90,53 @@ def supports_flag(code_bin: str, flag: str) -> bool:
     return flag in help_text
 
 
+def is_path_argument(arg: str) -> bool:
+    if not arg or arg.startswith("-"):
+        return False
+
+    path = Path(arg).expanduser()
+    return (
+        path.exists()
+        or arg in {".", "..", "~"}
+        or arg.startswith(("./", "../", "~/", "/"))
+        or "/" in arg
+    )
+
+
+def normalize_code_arg(arg: str) -> str:
+    if not is_path_argument(arg):
+        return arg
+
+    return str(Path(arg).expanduser().resolve(strict=False))
+
+
+def resolve_direct_code_args(args: list[str]) -> list[str] | None:
+    if not args:
+        return None
+
+    if any(arg.startswith("-") or is_path_argument(arg) for arg in args):
+        return [normalize_code_arg(arg) for arg in args]
+
+    return None
+
+
+def add_new_window_flag(
+    code_bin: str,
+    command: list[str],
+    *,
+    skip_when_flags_present: bool = False,
+) -> list[str]:
+    if skip_when_flags_present and any(arg.startswith("-") for arg in command[1:]):
+        return command
+
+    if not supports_flag(code_bin, "--new-window"):
+        return command
+
+    if any(arg in WINDOW_FLAGS for arg in command[1:]):
+        return command
+
+    return [command[0], "--new-window", *command[1:]]
+
 def ensure_vscode_settings(target: Path) -> None:
     """Ensure .vscode/settings.json exists with window.title set to the project name.
 
@@ -125,6 +174,20 @@ def main() -> int:
     args = parse_args()
     code_bin = find_code_binary()
     env = clean_vscode_env()
+
+    direct_args = resolve_direct_code_args(args.query)
+    if direct_args is not None:
+        command = add_new_window_flag(
+            code_bin,
+            [code_bin, *direct_args],
+            skip_when_flags_present=True,
+        )
+        return subprocess.run(
+            command,
+            env=env,
+            check=False,
+        ).returncode
+
     picker = find_project_picker()
     proc = run([picker, *args.query])
     if proc.returncode != 0:
@@ -133,10 +196,7 @@ def main() -> int:
 
     target = Path(proc.stdout.strip())
     ensure_vscode_settings(target)
-    command = [code_bin, str(target)]
-
-    if supports_flag(code_bin, "--new-window"):
-        command.insert(1, "--new-window")
+    command = add_new_window_flag(code_bin, [code_bin, str(target)])
 
     return subprocess.run(
         command,
