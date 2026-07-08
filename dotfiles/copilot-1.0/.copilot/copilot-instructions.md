@@ -4,3 +4,4 @@
 * @~/agent-rules/RTK.md
 * @~/agent-rules/snip.md
 * @~/agent-rules/semble.md
+* @~/agent-rules/context7.md
