@@ -305,6 +305,7 @@ in {
       unstable.witr # Why is this running?
       unstable.zsv # CSV viewer and slicer
       unstable.opencode # codex-cli alternative
+      unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
 
       # local
       freetype # font-rendering library, for Whatpulse
