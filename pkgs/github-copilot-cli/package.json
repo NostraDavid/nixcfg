@@ -32,7 +32,7 @@
     "@github/copilot-linuxmusl-x64": "1.0.68",
     "@github/copilot-linuxmusl-arm64": "1.0.68",
     "@github/copilot-darwin-x64": "1.0.68",
-    "@github/copilot-darwin-arm64": "1.0.68",
+    "@github/copilot-darwin-arm64": "1.0.69",
     "@github/copilot-win32-x64": "1.0.68",
     "@github/copilot-win32-arm64": "1.0.68"
   }
