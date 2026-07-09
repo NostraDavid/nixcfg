@@ -11,9 +11,9 @@ variable "proxmox_api_token" {
 }
 
 variable "proxmox_insecure" {
-  description = "Allow the provider to connect to Proxmox with a self-signed TLS certificate."
+  description = "Allow an unverified Proxmox TLS certificate. Keep false after installing the internal CA on the operator host."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "node_name" {

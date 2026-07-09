@@ -451,7 +451,11 @@ def ensure_branch_worktrees(
         target.parent.mkdir(parents=True, exist_ok=True)
 
         if target.exists() and not (target / ".git").exists():
-            return False, f"branch worktree target exists but is not a git worktree: {target}", expected
+            return (
+                False,
+                f"branch worktree target exists but is not a git worktree: {target}",
+                expected,
+            )
 
         if not target.exists():
             if local_branch_exists(bare_dir, branch, git_configs):
@@ -548,7 +552,11 @@ def ensure_tag_worktrees(
         target.parent.mkdir(parents=True, exist_ok=True)
 
         if target.exists() and not (target / ".git").exists():
-            return False, f"tag worktree target exists but is not a git worktree: {target}", expected
+            return (
+                False,
+                f"tag worktree target exists but is not a git worktree: {target}",
+                expected,
+            )
 
         if not target.exists():
             add_proc = run_git_with_git_dir(
@@ -607,7 +615,10 @@ def prune_stale_worktrees(
     for worktree_path in sorted(existing):
         if worktree_path in expected_paths:
             continue
-        if worktree_path.parent != repo_root or worktree_path.name in RESERVED_WORKTREE_NAMES:
+        if (
+            worktree_path.parent != repo_root
+            or worktree_path.name in RESERVED_WORKTREE_NAMES
+        ):
             continue
 
         if worktree_is_dirty(worktree_path, git_configs):

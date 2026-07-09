@@ -172,13 +172,12 @@
   "explorer.incrementalNaming": "smart",
   "extensions.ignoreRecommendations": false,
   "files.associations": {
+    ".env": "dotenv",
     "*.jsonl": "json",
-    "*.mako": "jinja-py",
-    ".env": "dotenv"
+    "*.mako": "jinja-py"
   },
   "files.exclude": {
-    "**/*.egg-info": true,
-    "**/*.pyc": true,
+    "**/__pycache__": true,
     "**/.cache": true,
     "**/.coverage*": true,
     "**/.direnv": true,
@@ -187,7 +186,8 @@
     "**/.pytest_cache": true,
     "**/.tox": true,
     "**/.venv": true,
-    "**/__pycache__": true,
+    "**/*.egg-info": true,
+    "**/*.pyc": true,
     "**/build": true,
     "**/coverage.xml": true,
     "**/dist": true,
@@ -196,6 +196,7 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.watcherExclude": {
+    "**/__pycache__/**": true,
     "**/.cache/**": true,
     "**/.egg-info/**": true,
     "**/.eggs/**": true,
@@ -203,7 +204,6 @@
     "**/.pytest_cache/**": true,
     "**/.tox/**": true,
     "**/.venv/**": true,
-    "**/__pycache__/**": true,
     "**/backload_history.json": true,
     "**/bitvavo.db": true,
     "**/bitvavo.db-journal": true,

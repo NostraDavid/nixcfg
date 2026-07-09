@@ -3,6 +3,6 @@
   system,
   ...
 }: {
-  pi = inputs.pi;
+  inherit (inputs) pi;
   inherit system;
 }

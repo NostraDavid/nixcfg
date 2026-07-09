@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+config="${repo_root}/.pre-commit-config.yaml"
+
+[[ -f "${config}" ]] || exit 0
+
+if ! command -v prek >/dev/null 2>&1; then
+  printf '%s\n' "prek is required for ${repo_root}; enter the repository dev shell or install prek." >&2
+  exit 1
+fi
+
+exec prek -C "${repo_root}" --config "${config}" run --stage pre-commit

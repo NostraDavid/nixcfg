@@ -1,5 +1,6 @@
 {
   lib,
+  main-user,
   pkgs,
   ...
 }: {
@@ -23,16 +24,23 @@
   networking = {
     useDHCP = lib.mkDefault true;
     networkmanager.enable = false;
-    firewall.enable = true;
+    firewall = {
+      enable = true;
+      extraInputRules = ''
+        ip saddr 192.168.2.0/24 tcp dport { 22, 80, 443 } accept
+      '';
+    };
   };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   services.openssh = {
     enable = true;
-    openFirewall = true;
+    openFirewall = false;
     settings = {
+      AllowUsers = [main-user];
+      KbdInteractiveAuthentication = false;
       PasswordAuthentication = false;
-      PermitRootLogin = "prohibit-password";
+      PermitRootLogin = "no";
     };
   };
 

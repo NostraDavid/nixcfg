@@ -10,48 +10,37 @@ repos:
     hooks:
       - id: lint-ruff
         name: lint Python (ruff, local)
-        entry: just lint-ruff
+        entry: just lint-ruff-files
         language: system
-        pass_filenames: false
         files: "(\\.py$|^dotfiles/git/\\.config/git/hooks/commit-msg$)"
 
       - id: lint-shellcheck
         name: lint shell (shellcheck, local)
-        entry: just lint-shellcheck
+        entry: just lint-shellcheck-files
         language: system
-        pass_filenames: false
         files: "(\\.sh$|\\.bashrc$|\\.bash_aliases$)"
 
       - id: lint-markdown
         name: lint Markdown (markdownlint, local)
-        entry: just lint-markdown
+        entry: just lint-markdown-files
         language: system
-        pass_filenames: false
         files: "\\.md$"
+        exclude: "^docs/agentskills\\.io/"
 
       - id: lint-selene
         name: lint Lua (selene, local)
-        entry: just lint-selene
+        entry: just lint-selene-files
         language: system
-        pass_filenames: false
         files: "\\.lua$"
 
       - id: lint-statix
         name: lint Nix (statix, local)
-        entry: just lint-statix
+        entry: just lint-statix-files
         language: system
-        pass_filenames: false
         files: "\\.nix$"
 
       - id: lint-deadnix
         name: lint Nix dead code (deadnix, local)
-        entry: just lint-deadnix
+        entry: just lint-deadnix-files
         language: system
-        pass_filenames: false
         files: "\\.nix$"
-
-      - id: scoped-commit-msg
-        name: scoped commit message check
-        entry: dotfiles/git/.config/git/hooks/commit-msg
-        language: system
-        stages: [commit-msg]

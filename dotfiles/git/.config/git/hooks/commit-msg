@@ -23,9 +23,7 @@ CONVENTIONAL_PREFIXES = re.compile(
     r"(\([^)]+\))?!?: "
 )
 
-SCOPED_COMMIT = re.compile(
-    r"^[a-zA-Z0-9.*][a-zA-Z0-9._/-]*( \([^)]+\))?: \S.*"
-)
+SCOPED_COMMIT = re.compile(r"^[a-zA-Z0-9.*][a-zA-Z0-9._/-]*( \([^)]+\))?: \S.*")
 
 
 def subject_from(message_file: Path) -> str:

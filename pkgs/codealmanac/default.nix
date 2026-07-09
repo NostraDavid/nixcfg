@@ -4,7 +4,7 @@
   nix-update-script,
   unstable,
 }: let
-  python3Packages = unstable.python3Packages;
+  inherit (unstable) python3Packages;
   beautifulsoup4 = python3Packages.beautifulsoup4.overridePythonAttrs (_old: rec {
     version = "4.15.0";
     src = fetchPypi {

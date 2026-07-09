@@ -1,0 +1,56 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  schedule:
+    - cron: "23 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v20
+      - name: Run project hooks
+        run: nix develop --command just hooks-run
+      - name: Check formatting and lint
+        run: |
+          nix develop --command just check
+          nix develop --command just lint
+      - name: Evaluate the flake
+        run: nix flake check --no-build
+      - name: Reject insecure package exceptions
+        run: |
+          if grep -R --include='*.nix' -n 'permittedInsecurePackages' .; then
+            exit 1
+          fi
+      - name: Validate OpenTofu
+        run: |
+          nix develop --command tofu -chdir=infra/proxmox init -backend=false
+          nix develop --command just tofu-proxmox-check
+
+  security:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v20
+      - name: Generate and scan Wodan SBOM
+        run: |
+          nix develop --command just security-sbom wodan reports/security
+          nix develop --command just security-osv wodan reports/security
+          nix develop --command just security-grype wodan reports/security critical
+          nix develop --command just security-vulnix wodan true
+      - name: Upload security reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: reports/security
+          if-no-files-found: warn

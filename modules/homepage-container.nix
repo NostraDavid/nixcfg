@@ -26,7 +26,7 @@ in {
     oci-containers = {
       backend = "podman";
       containers.homepage = {
-        image = "ghcr.io/gethomepage/homepage:latest";
+        image = "ghcr.io/gethomepage/homepage@sha256:c881120b024d6a8e2f3c9664efc568984e4352e47df459d6b32e225374c71955";
         ports = ["127.0.0.1:3000:3000"];
         volumes = [
           "/var/lib/homepage/config:/app/config"
@@ -53,6 +53,4 @@ in {
       };
     };
   };
-
-  networking.firewall.allowedTCPPorts = [80];
 }
