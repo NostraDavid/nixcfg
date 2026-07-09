@@ -381,6 +381,7 @@
   "update.mode": "none",
   "vsicons.dontShowNewVersionMessage": true,
   "window.menuBarVisibility": "visible",
+  "window.restoreWindows": "all",
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#f67b3f",
     "activityBar.background": "#f67b3f",

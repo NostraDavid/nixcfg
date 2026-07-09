@@ -175,6 +175,13 @@ def main() -> int:
     code_bin = find_code_binary()
     env = clean_vscode_env()
 
+    if not args.query:
+        return subprocess.run(
+            [code_bin],
+            env=env,
+            check=False,
+        ).returncode
+
     direct_args = resolve_direct_code_args(args.query)
     if direct_args is not None:
         command = add_new_window_flag(
