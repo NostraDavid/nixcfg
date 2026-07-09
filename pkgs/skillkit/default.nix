@@ -13,7 +13,8 @@ buildNpmPackage (finalAttrs: {
     hash = "sha256-+3fwPiHc2JVS3IXYg87ynNCu6ivgLzLXvf12ra2qepY=";
   };
 
-  npmDepsHash = "sha256-RxvVMT23meXGCH8VToH8DcfofYPwb3g6aJmcZdEdn4Y=";
+  npmDepsHash = "sha256-rSXjyjMOTuddJ5zRlCgWcKWFrsXkiYrLIgvO5AtuwQQ=";
+  npmDepsFetcherVersion = 2;
 
   npmConfigProduction = true;
   npmFlags = [
@@ -21,6 +22,7 @@ buildNpmPackage (finalAttrs: {
   ];
 
   postPatch = ''
+    cp ${./package.json} package.json
     cp ${./package-lock.json} package-lock.json
   '';
 
