@@ -420,6 +420,14 @@
   "workbench.secondarySideBar.showLabels": false,
   "workbench.sideBar.location": "right",
   "workbench.startupEditor": "none",
+  "yaml.disableSchemaDetection": [
+    "**/.github/workflows/*.yml",
+    "**/.github/workflows/*.yaml",
+    "**/.gitea/workflows/*.yml",
+    "**/.gitea/workflows/*.yaml",
+    "**/.forgejo/workflows/*.yml",
+    "**/.forgejo/workflows/*.yaml"
+  ],
   "yaml.maxItemsComputed": 10000,
   "zig.zls.enabled": "on"
 }
