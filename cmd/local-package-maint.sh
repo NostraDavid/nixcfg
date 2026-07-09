@@ -47,26 +47,26 @@ print_log_line() {
 	local prefix='' suffix=''
 
 	case "${line}" in
-		Updating\ *to\ version*|Updating\ *to\ unstable-*)
-			prefix="${C_BOLD}${C_BLUE}"
-			suffix="${C_RESET}"
-			;;
-		Verifying\ nix\ build...|Determining\ source\ hash...|No\ changes\ detected,*)
-			prefix="${C_BLUE}"
-			suffix="${C_RESET}"
-			;;
-		*update\ complete.)
-			prefix="${C_GREEN}"
-			suffix="${C_RESET}"
-			;;
-		Skipping\ update\ for*)
-			prefix="${C_YELLOW}"
-			suffix="${C_RESET}"
-			;;
-		*error:*|error:*|*Error:*|Traceback*|*failed*|*Failed*)
-			prefix="${C_RED}"
-			suffix="${C_RESET}"
-			;;
+	Updating\ *to\ version* | Updating\ *to\ unstable-*)
+		prefix="${C_BOLD}${C_BLUE}"
+		suffix="${C_RESET}"
+		;;
+	Verifying\ nix\ build... | Determining\ source\ hash... | No\ changes\ detected,*)
+		prefix="${C_BLUE}"
+		suffix="${C_RESET}"
+		;;
+	*update\ complete.)
+		prefix="${C_GREEN}"
+		suffix="${C_RESET}"
+		;;
+	Skipping\ update\ for*)
+		prefix="${C_YELLOW}"
+		suffix="${C_RESET}"
+		;;
+	*error:* | error:* | *Error:* | Traceback* | *failed* | *Failed*)
+		prefix="${C_RED}"
+		suffix="${C_RESET}"
+		;;
 	esac
 
 	if [[ "${stream}" == "stderr" ]]; then

@@ -23,11 +23,11 @@ sudo nixos-rebuild switch --flake .#wodan
 direnv allow
 ```
 
-The repository exposes a small default flake dev shell for bootstrapping a clean
-NixOS install. It includes only basic flake/repo tooling such as `alejandra`,
-`statix`, `deadnix`, `git`, and `just`. Day-to-day editor and language tools are
-installed through the normal user profile. Optional local environment variables
-can live in `.envrc.local`.
+The repository exposes a default flake dev shell for bootstrapping a clean NixOS
+install and running its validation gates. It includes the Nix formatters,
+linters, Prek, OpenTofu, and SBOM/vulnerability tooling used by `just` and CI.
+Day-to-day editor and language tools are installed through the normal user
+profile. Optional local environment variables can live in `.envrc.local`.
 
 ## Notes
 

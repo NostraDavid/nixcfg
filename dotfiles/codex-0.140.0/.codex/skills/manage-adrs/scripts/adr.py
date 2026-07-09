@@ -8,9 +8,11 @@ import datetime as dt
 import re
 from pathlib import Path
 
-
 ADR_RE = re.compile(r"^(?P<num>\d{3,6})-(?P<slug>.+)\.md$")
-TITLE_RE = re.compile(r"^#\s+(?:ADR\s+)?(?:(?P<num>\d{3,6}):\s*)?(?P<title>.+?)\s*$", re.I)
+TITLE_RE = re.compile(
+    r"^#\s+(?:ADR\s+)?(?:(?P<num>\d{3,6}):\s*)?(?P<title>.+?)\s*$",
+    re.I,
+)
 STATUS_RE = re.compile(r"^\s*[-*]?\s*Status\s*:\s*(?P<status>.+?)\s*$", re.I)
 DATE_RE = re.compile(r"^\s*[-*]?\s*Date\s*:\s*(?P<date>\d{4}-\d{2}-\d{2})\s*$", re.I)
 
@@ -46,7 +48,11 @@ def candidate_dirs(project: Path) -> list[Path]:
     return sorted(dirs)
 
 
-def detect_dir(project: Path, explicit: str | None = None, create: bool = False) -> Path:
+def detect_dir(
+    project: Path,
+    explicit: str | None = None,
+    create: bool = False,
+) -> Path:
     if explicit:
         adr_dir = (project / explicit).resolve()
         if create:
@@ -178,7 +184,9 @@ def index_text(project: Path, adr_dir: Path) -> str:
     for path in adr_files(adr_dir):
         adr = parse_adr(path)
         rel = path.name
-        rows.append(f"| [{adr['number']}]({rel}) | {adr['title']} | {adr['status']} | {adr['date']} |")
+        rows.append(
+            f"| [{adr['number']}]({rel}) | {adr['title']} | {adr['status']} | {adr['date']} |"
+        )
     body = "\n".join(rows)
     if body:
         body += "\n"
@@ -249,7 +257,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     status = sub.add_parser("status", help="Update ADR status line")
     status.add_argument("--project", default=".")
-    status.add_argument("--adr", required=True, help="ADR path relative to project root")
+    status.add_argument(
+        "--adr",
+        required=True,
+        help="ADR path relative to project root",
+    )
     status.add_argument("--status", required=True)
     status.add_argument("--superseded-by")
     status.set_defaults(func=cmd_status)

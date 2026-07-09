@@ -8,11 +8,3 @@ updates:
       prefix: deps
     labels:
       - dependencies
-  - package-ecosystem: npm
-    directory: /pkgs/github-copilot-cli
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: deps
-    labels:
-      - dependencies

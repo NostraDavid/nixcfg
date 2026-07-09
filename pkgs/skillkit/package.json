@@ -2,11 +2,39 @@
   "name": "skillkit",
   "version": "1.24.0",
   "description": "Supercharge AI coding agents with portable skills. Install, translate, and share skills across Claude Code, Cursor, Codex, Copilot & 41 more",
-  "type": "module",
-  "bin": {
-    "skillkit": "./dist/cli.js",
-    "sk": "./dist/cli.js"
+  "keywords": [
+    "agent",
+    "ai",
+    "antigravity",
+    "claude",
+    "cli",
+    "codex",
+    "coding-assistant",
+    "cursor",
+    "gemini",
+    "opencode",
+    "skill-loader",
+    "skills"
+  ],
+  "homepage": "https://github.com/rohitg00/skillkit#readme",
+  "bugs": {
+    "url": "https://github.com/rohitg00/skillkit/issues"
   },
+  "license": "Apache-2.0",
+  "author": "Rohit Ghumare",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohitg00/skillkit.git"
+  },
+  "bin": {
+    "sk": "./dist/cli.js",
+    "skillkit": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "schemas"
+  ],
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -15,36 +43,11 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "dist",
-    "schemas"
-  ],
-  "keywords": [
-    "ai",
-    "skills",
-    "claude",
-    "codex",
-    "cursor",
-    "gemini",
-    "opencode",
-    "antigravity",
-    "agent",
-    "coding-assistant",
-    "skill-loader",
-    "cli"
-  ],
-  "author": "Rohit Ghumare",
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rohitg00/skillkit.git"
-  },
-  "bugs": {
-    "url": "https://github.com/rohitg00/skillkit/issues"
-  },
-  "homepage": "https://github.com/rohitg00/skillkit#readme",
-  "engines": {
-    "node": ">=18.0.0"
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@skillkit/agents": "1.24.0",
@@ -52,22 +55,19 @@
     "@skillkit/core": "1.24.0",
     "clipanion": "^4.0.0-rc.4"
   },
-  "optionalDependencies": {
-    "@skillkit/api": "1.24.0",
-    "@skillkit/mesh": "1.24.0",
-    "@skillkit/messaging": "1.24.0",
-    "@skillkit/tui": "1.24.0"
-  },
   "devDependencies": {
     "@types/node": "^22.10.5",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^4.1.10"
   },
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+  "optionalDependencies": {
+    "@skillkit/api": "1.24.0",
+    "@skillkit/mesh": "1.24.0",
+    "@skillkit/messaging": "1.24.0",
+    "@skillkit/tui": "1.24.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

@@ -1,4 +1,4 @@
-default_host := "wodan"
+default_host := `hostname --short`
 default_cachix_cache := "thaumatorium"
 nix_clean_env := "env -u LD_LIBRARY_PATH -u NIX_LD_LIBRARY_PATH -u LD_PRELOAD"
 audient_mic_source := "alsa_input.usb-Audient_Audient_iD4-00.HiFi__Mic__source"
@@ -11,19 +11,19 @@ default:
 
 # Format all Nix files in the repository.
 format-alejandra:
-  @alejandra .
+  @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra
 
 format-oxfmt:
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.json' -o -name '*.jsonc' \) -print0 | xargs -0 --no-run-if-empty oxfmt --write
+  @git ls-files -z -- '*.json' '*.jsonc' | xargs -0 --no-run-if-empty oxfmt --write
 
 format-shfmt:
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shfmt -w
+  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | xargs -0 --no-run-if-empty shfmt -w
 
 format-stylua:
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f -name '*.lua' -print0 | xargs -0 --no-run-if-empty stylua
+  @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua
 
 format-ruff:
-  @ruff format .
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | xargs -0 --no-run-if-empty ruff format
 
 format:
   @just format-alejandra
@@ -104,11 +104,11 @@ nixos-show host=default_host:
 
 # Run formatting checks without modifying files.
 check:
-  @alejandra --check .
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.json' -o -name '*.jsonc' \) -print0 | xargs -0 --no-run-if-empty oxfmt --check
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shfmt -d
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f -name '*.lua' -print0 | xargs -0 --no-run-if-empty stylua --check
-  @ruff format --check .
+  @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra --check
+  @git ls-files -z -- '*.json' '*.jsonc' | xargs -0 --no-run-if-empty oxfmt --check
+  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | xargs -0 --no-run-if-empty shfmt -d
+  @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua --check
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | xargs -0 --no-run-if-empty ruff format --check
 
 # Test a host configuration temporarily; reverts after reboot.
 test host=default_host:
@@ -162,14 +162,14 @@ app-vms-check:
 
 # Deploy an app VM configuration to a remote NixOS guest.
 app-vm-deploy host target:
-  @nixos-rebuild switch --flake path:.#"{{host}}" --target-host "{{target}}"
+  @nixos-rebuild switch --flake path:.#"{{host}}" --target-host "{{target}}" --use-remote-sudo
 
 # Deploy the Homepage VM configuration.
-deploy-homepage target="root@homepage":
+deploy-homepage target="david@homepage":
   @just app-vm-deploy homepage "{{target}}"
 
 # Deploy the shared apps VM configuration.
-deploy-apps target="root@apps":
+deploy-apps target="david@apps":
   @just app-vm-deploy apps "{{target}}"
 
 # Format a Homepage state disk with the expected filesystem label.
@@ -294,28 +294,52 @@ switch-clean host=default_host days="14":
   @sudo nixos-rebuild test --flake .#"{{host}}"
   @sudo nixos-rebuild switch --flake .#"{{host}}"
 
-install-hooks:
-  @prek install
+hooks-run:
+  @prek --config .pre-commit-config.yaml run --all-files
 
 lint-ruff:
-  @ruff check .
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | xargs -0 --no-run-if-empty ruff check
+
+lint-ruff-files *files:
+  @ruff check {{files}}
 
 lint-shellcheck:
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules \) -prune -o -type f \( -name '*.sh' -o -name '.bashrc' -o -name '.bash_aliases' \) -print0 | xargs -0 --no-run-if-empty shellcheck --severity=error
+  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | xargs -0 --no-run-if-empty shellcheck --severity=error
+
+lint-shellcheck-files *files:
+  @shellcheck --severity=error {{files}}
 
 lint-markdown:
-  @find . -type d \( -name .git -o -name .direnv -o -name .venv -o -name node_modules -o -name .terraform \) -prune -o -type f -name '*.md' -print0 | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
+  @git ls-files -z -- '*.md' | grep -zv '^docs/agentskills\.io/' | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
+
+lint-markdown-files *files:
+  @markdownlint --disable MD013 MD040 MD041 -- {{files}}
 
 lint-selene:
-  @selene dotfiles/neovim-0.11/.config/nvim dotfiles/wezterm-0-unstable-2025-05-18/.config/wezterm
+  @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty selene
+
+lint-selene-files *files:
+  @selene {{files}}
 
 lint-statix:
   @cmd=(statix check); \
   if ! command -v statix >/dev/null 2>&1; then cmd=(nix develop --command statix check); fi; \
   git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty -n1 "${cmd[@]}"
 
+lint-statix-files *files:
+  @cmd=(statix check); \
+  if ! command -v statix >/dev/null 2>&1; then cmd=(nix develop --command statix check); fi; \
+  for file in {{files}}; do "${cmd[@]}" "$file"; done
+
 lint-deadnix:
-  @if command -v deadnix >/dev/null 2>&1; then deadnix --fail .; else nix develop --command deadnix --fail .; fi
+  @cmd=(deadnix --fail); \
+  if ! command -v deadnix >/dev/null 2>&1; then cmd=(nix develop --command deadnix --fail); fi; \
+  git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty "${cmd[@]}"
+
+lint-deadnix-files *files:
+  @cmd=(deadnix --fail); \
+  if ! command -v deadnix >/dev/null 2>&1; then cmd=(nix develop --command deadnix --fail); fi; \
+  "${cmd[@]}" {{files}}
 
 lint:
   @just lint-ruff
@@ -326,7 +350,7 @@ lint:
   @just lint-deadnix
 
 precommit:
-  @just lint
+  @just hooks-run
 
 versions:
   @printf '%-14s %s\n' 'ruff:' "$(if command -v ruff >/dev/null 2>&1; then ruff --version | awk '{print $2}'; else echo missing; fi)"
@@ -335,46 +359,46 @@ versions:
   @printf '%-14s %s\n' 'stylua:' "$(if command -v stylua >/dev/null 2>&1; then stylua --version | awk '{print $2}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'selene:' "$(if command -v selene >/dev/null 2>&1; then selene --version | awk '{print $2}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'lua-ls:' "$(if command -v lua-language-server >/dev/null 2>&1; then lua-language-server --version 2>&1 | awk 'NR==1 {print $NF; exit}'; else echo missing; fi)"
-  @printf '%-14s %s\n' 'statix:' "$(if command -v statix >/dev/null 2>&1; then statix --version | awk '{print $2}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'statix:' "$(if command -v statix >/dev/null 2>&1; then echo installed; else echo missing; fi)"
   @printf '%-14s %s\n' 'deadnix:' "$(if command -v deadnix >/dev/null 2>&1; then deadnix --version | awk '{print $2}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'alejandra:' "$(if command -v alejandra >/dev/null 2>&1; then alejandra --version | awk '{print $2}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'oxfmt:' "$(if command -v oxfmt >/dev/null 2>&1; then oxfmt --version | awk '/Version:/ {print $2; exit}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'shfmt:' "$(if command -v shfmt >/dev/null 2>&1; then shfmt --version; else echo missing; fi)"
-  @printf '%-14s %s\n' 'prek:' "$(if command -v prek >/dev/null 2>&1; then prek --version | awk '{print $2}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'prek:' "$(if command -v prek >/dev/null 2>&1; then prek -V | awk '{print $2}'; else echo missing; fi)"
 
-security-target system="x86_64-linux":
-  @target="$(nix build --no-link --print-out-paths .#nixosConfigurations.wodan.config.system.build.toplevel)"; \
+security-target host=default_host:
+  @target="$(nix build --no-link --print-out-paths .#nixosConfigurations.\"{{host}}\".config.system.build.toplevel)"; \
   if [ -z "$target" ]; then echo "Failed to resolve NixOS system path" >&2; exit 1; fi; \
   printf '%s\n' "$target"
 
-security-vulnix system="x86_64-linux" strict="false":
-  @target="$(just security-target "{{system}}")"; \
+security-vulnix host=default_host strict="false":
+  @target="$(just security-target "{{host}}")"; \
   echo "Scanning $target with vulnix"; \
   rc=0; vulnix "$target" || rc=$?; \
   if [ "$rc" -eq 2 ] && [ "{{strict}}" != "true" ]; then echo "vulnix reported vulnerabilities; continuing because strict=false"; exit 0; fi; \
   exit "$rc"
 
-security-sbom system="x86_64-linux" out_dir="reports/security":
-  @report_dir="{{out_dir}}/{{system}}"; \
-  target="$(just security-target "{{system}}")"; \
+security-sbom host=default_host out_dir="reports/security":
+  @report_dir="{{out_dir}}/{{host}}"; \
+  target="$(just security-target "{{host}}")"; \
   mkdir -p "$report_dir"; \
   echo "Generating SBOM artifacts for $target in $report_dir"; \
   sbomnix "$target" --csv "$report_dir/sbom.csv" --cdx "$report_dir/sbom.cdx.json" --spdx "$report_dir/sbom.spdx.json"
 
-security-osv system="x86_64-linux" out_dir="reports/security" format="table":
-  @report_dir="{{out_dir}}/{{system}}"; \
+security-osv host=default_host out_dir="reports/security" format="table":
+  @report_dir="{{out_dir}}/{{host}}"; \
   sbom="$report_dir/sbom.cdx.json"; \
   if [ ! -f "$sbom" ]; then echo "CycloneDX SBOM ontbreekt, genereer die eerst in $report_dir" >&2; exit 1; fi; \
   echo "Scanning $sbom with osv-scanner"; \
   osv-scanner scan source -L "$sbom" --format "{{format}}"
 
-security-grype system="x86_64-linux" out_dir="reports/security" fail_on="":
-  @report_dir="{{out_dir}}/{{system}}"; \
+security-grype host=default_host out_dir="reports/security" fail_on="":
+  @report_dir="{{out_dir}}/{{host}}"; \
   sbom="$report_dir/sbom.cdx.json"; \
   if [ ! -f "$sbom" ]; then echo "CycloneDX SBOM ontbreekt, genereer die eerst in $report_dir" >&2; exit 1; fi; \
   if [ -n "{{fail_on}}" ]; then grype "sbom:$sbom" --fail-on "{{fail_on}}"; else grype "sbom:$sbom"; fi
 
-security-smoke system="x86_64-linux":
-  @just security-sbom "{{system}}" reports/security-smoke
-  @just security-osv "{{system}}" reports/security-smoke
-  @just security-grype "{{system}}" reports/security-smoke critical
+security-smoke host=default_host:
+  @just security-sbom "{{host}}" reports/security-smoke
+  @just security-osv "{{host}}" reports/security-smoke
+  @just security-grype "{{host}}" reports/security-smoke critical

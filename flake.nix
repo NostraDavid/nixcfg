@@ -128,7 +128,22 @@
           statix # Catch common Nix antipatterns early
           deadnix # Detect unused Nix bindings while editing the flake
           git # Clone/update this repo and inspect local changes
+          git-lfs # Run the globally managed LFS hooks
           just # Run the repo's bootstrap/check/rebuild recipes
+          prek # Run project hooks from the global dispatcher
+          ruff
+          shellcheck
+          markdownlint-cli
+          stylua
+          selene
+          oxfmt
+          shfmt
+          uv # Run the globally managed scoped commit-message hook
+          opentofu
+          vulnix
+          sbomnix
+          osv-scanner
+          grype
         ];
 
         shellHook = ''

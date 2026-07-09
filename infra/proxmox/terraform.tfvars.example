@@ -7,3 +7,4 @@ proxmox_api_token = "user@realm!token-id=secret"
 
 # Common examples:
 # network_bridge  = "vmbr0"
+# proxmox_insecure = false # Install the internal CA in the operator trust store.
