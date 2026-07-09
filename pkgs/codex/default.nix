@@ -6,6 +6,7 @@
   fetchurl,
   fetchFromGitHub,
   installShellFiles,
+  bubblewrap,
   clang,
   cmake,
   coreutils,
@@ -66,6 +67,17 @@ in
       };
     };
 
+    # Match upstream and nixpkgs: the CLI release is the `codex-cli` package.
+    # Building the full workspace installs many internal/test/sample binaries.
+    cargoBuildFlags = [
+      "--package"
+      "codex-cli"
+    ];
+    cargoCheckFlags = [
+      "--package"
+      "codex-cli"
+    ];
+
     nativeBuildInputs = [
       clang
       cmake
@@ -117,7 +129,7 @@ in
     postFixup = ''
       wrapProgram $out/bin/codex \
         --run 'volatile_dir="/tmp/$USER-codex"; ${coreutils}/bin/install -d -m 700 "$volatile_dir"' \
-        --prefix PATH : ${lib.makeBinPath [ripgrep]}
+        --prefix PATH : ${lib.makeBinPath ([ripgrep] ++ lib.optionals stdenv.hostPlatform.isLinux [bubblewrap])}
     '';
 
     doInstallCheck = true;
