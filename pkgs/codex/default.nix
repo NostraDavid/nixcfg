@@ -43,13 +43,13 @@
 in
   (rustPlatform.buildRustPackage.override {stdenv = effectiveStdenv;}) (finalAttrs: {
     pname = "codex";
-    version = "0.144.0";
+    version = "0.144.1";
 
     src = fetchFromGitHub {
       owner = "openai";
       repo = "codex";
       tag = "rust-v${finalAttrs.version}";
-      hash = "sha256-GbLeECsju5jifeVah1xN4HFFHxOKtCj55gl/0ZULj+g=";
+      hash = "sha256-KHgrqIZyAmLhTZSRYbb7huBO8neOib/B1Vx/oPW2nEU=";
     };
 
     sourceRoot = "${finalAttrs.src.name}/codex-rs";
@@ -67,15 +67,19 @@ in
       };
     };
 
-    # Match upstream and nixpkgs: the CLI release is the `codex-cli` package.
+    # Match the upstream release: install the CLI and its code-mode helper.
     # Building the full workspace installs many internal/test/sample binaries.
     cargoBuildFlags = [
       "--package"
       "codex-cli"
+      "--package"
+      "codex-code-mode-host"
     ];
     cargoCheckFlags = [
       "--package"
       "codex-cli"
+      "--package"
+      "codex-code-mode-host"
     ];
 
     nativeBuildInputs = [
@@ -134,6 +138,9 @@ in
 
     doInstallCheck = true;
     nativeInstallCheckInputs = [versionCheckHook];
+    preInstallCheck = ''
+      test -x "$out/bin/codex-code-mode-host"
+    '';
 
     passthru = {
       updateScript = nix-update-script {
