@@ -16,17 +16,17 @@ package_lock="${repo_root}/pkgs/github-copilot-cli/package-lock.json"
 force_empty_cache=0
 
 case "$(uname -s)" in
-# normalize platform for npm
-Linux) npm_platform="linux" ;;
-Darwin) npm_platform="darwin" ;;
-*) npm_platform="$(uname -s | tr '[:upper:]' '[:lower:]')" ;;
+# Normalize the operating system for npm's supported --os option.
+Linux) npm_os="linux" ;;
+Darwin) npm_os="darwin" ;;
+*) npm_os="$(uname -s | tr '[:upper:]' '[:lower:]')" ;;
 esac
 
 case "$(uname -m)" in
-# normalize architecture for npm
-x86_64) npm_arch="x64" ;;
-aarch64 | arm64) npm_arch="arm64" ;;
-*) npm_arch="$(uname -m)" ;;
+# Normalize the CPU architecture for npm's supported --cpu option.
+x86_64) npm_cpu="x64" ;;
+aarch64 | arm64) npm_cpu="arm64" ;;
+*) npm_cpu="$(uname -m)" ;;
 esac
 
 tmp_dir="$(mktemp -d)"
@@ -78,13 +78,11 @@ else
 	mkdir -p "${work_dir}"
 	cp -R "${package_src_dir}"/. "${work_dir}"/
 	chmod -R u+w "${work_dir}"
-	(
-		cd "${work_dir}" &&
-			npm_config_platform="${npm_platform}" \
-				npm_config_arch="${npm_arch}" \
-				npm_config_force=true \
-				npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-	)
+		(
+			cd "${work_dir}" &&
+				npm install --package-lock-only --ignore-scripts --no-audit --no-fund \
+					--force --os "${npm_os}" --cpu "${npm_cpu}"
+		)
 	cp "${work_dir}/package-lock.json" "${package_lock}"
 fi
 
