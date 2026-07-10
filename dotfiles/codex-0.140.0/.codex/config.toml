@@ -1,11 +1,11 @@
-model = "gpt-5.5"
-model_reasoning_effort = "medium"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "low"
 personality = "pragmatic"
 service_tier = "default"
 
 [desktop]
 ambient-suggestions-enabled = true
-conversationDetailMode = "STEPS_COMMANDS"
+conversationDetailMode = "STEPS_PROSE"
 followUpQueueMode = "queue"
 
 [features]
@@ -21,7 +21,7 @@ source = "/home/david/.codex/.tmp/bundled-marketplaces/openai-bundled"
 source_type = "local"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-07-02T18:34:29Z"
+last_updated = "2026-07-10T08:34:13Z"
 source_type = "local"
 source = "/home/david/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
@@ -36,21 +36,21 @@ url = "http://blender.localhost:9876/"
 
 [mcp_servers.node_repl]
 args = []
-command = "/nix/store/nd0xysxn7p9y8ybaawcgcbkyf8kpsc87-codex-desktop-26.623.70822/opt/codex-desktop/resources/node_repl"
+command = "/nix/store/w8qrhl2ns661j5yn59czv8ykcdrikjyv-codex-desktop-26.707.30751/opt/codex-desktop/resources/node_repl"
 startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
 NODE_REPL_NODE_MODULE_DIRS = ""
-NODE_REPL_NODE_PATH = "/nix/store/nd0xysxn7p9y8ybaawcgcbkyf8kpsc87-codex-desktop-26.623.70822/opt/codex-desktop/resources/node-runtime/bin/node"
+NODE_REPL_NODE_PATH = "/nix/store/w8qrhl2ns661j5yn59czv8ykcdrikjyv-codex-desktop-26.707.30751/opt/codex-desktop/resources/node-runtime/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/home/david/.codex"
 CODEX_HOME = "/home/david/.codex"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "d5cbb8ec1ee520cba7943b1e1accb6b25acd9941ea4e2e9e4dbcf25ff9983a2d"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "2b020a2faded171bf620563ce51864b7c3ff320f1834f0044b73fcbeabb29a76,6d25aa7656feac858f3a3bdaea5bcbab0dbfd426c9de8e6931ce90c399ee8e4f,a425e96ebae03b73c0974ebe83a8aa8e1971a0dd0b8ec9343d6ee884036075d5,7402ec018759e30b51c7e769f8b79370eab9eda5a0fdeabfb419cb423d2fb13a"
 BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.623.70822"
+BROWSER_USE_CODEX_APP_VERSION = "26.707.30751"
 
 [mcp_servers.node_repl.tools]
 [mcp_servers.node_repl.tools.js]
@@ -66,8 +66,6 @@ hide_rate_limit_model_nudge = true
 "gpt-5.4" = "gpt-5.5"
 
 [plugins]
-[plugins."browser@openai-bundled"]
-enabled = true
 
 [plugins."chrome@openai-bundled"]
 enabled = true
@@ -148,6 +146,11 @@ trust_level = "trusted"
 [projects."/home/david/wow_3.3.5a"]
 trust_level = "trusted"
 
+[projects."/home/david"]
+trust_level = "trusted"
+
 [tui]
+
 [tui.model_availability_nux]
 "gpt-5.5" = 4
+"gpt-5.6-sol" = 2
