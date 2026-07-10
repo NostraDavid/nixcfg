@@ -3,12 +3,14 @@ changelog:
   2025-06-27: "initial file"
   2025-07-23: "stabilized on nix flakes"
   2026-03-08: "add repo direnv basics"
+  2026-07-10: "move host composition to flake-parts modules"
 ---
 
 # NostraDavid's nixconfig & dotfiles
 
-I got a `flake.nix` with multiple configurations, which link to a folder in
-`hosts/`
+The repository uses flake-parts modules to compose multiple NixOS
+configurations. Host composition lives in `modules/hosts/`; generated hardware
+configuration remains in `hosts/` and `servers/`.
 
 ## Usage
 
@@ -32,7 +34,11 @@ profile. Optional local environment variables can live in `.envrc.local`.
 ## Notes
 
 - `docs/` contains script files with nifty commands.
-- `hosts/` contains the actual configurations for each host.
-- `modules/` contains reusable `configuration.nix` modules.
+- `modules/hosts/` contains the flake output and NixOS composition for each
+  host.
+- `hosts/` and `servers/` contain machine-specific hardware configuration and
+  supporting files.
+- `modules/` contains the flake-parts entry modules and reusable NixOS and Home
+  Manager modules.
 - `dotfiles/` contains dotfiles for various applications - check `modules/dotfiles.nix` to see how they are symlinked.
-- `flake.nix` is the entry point for the whole configuration.
+- `flake.nix` is the thin entry point for the whole configuration.
