@@ -13,27 +13,27 @@
       # cli-proxies
 
       ## Generic
-      "AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
+      "AGENTS.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
       "agent-rules" = {source = mk "${dot}/agent-rules";};
 
       ## Codex
       ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
-      ".codex/AGENTS.md" = {source = mk "${dot}/codex-0.140.0/.codex/AGENTS.md";};
+      ".codex/AGENTS.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
       ".codex/rules/default.rules" = {source = mk "${dot}/codex-0.140.0/.codex/rules/default.rules";};
       ".codex/skills/database-design" = {source = mk "${dot}/codex-0.140.0/.codex/skills/database-design";};
       ".codex/skills/manage-adrs" = {source = mk "${dot}/codex-0.140.0/.codex/skills/manage-adrs";};
 
       ## pi
       ".pi/agent/settings.json" = {source = mk "${dot}/pi/.pi/agent/settings.json";};
-      ".pi/agent/AGENTS.md" = {source = mk "${dot}/pi/.pi/agent/AGENTS.md";};
+      ".pi/agent/AGENTS.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
 
       ## Claude
       ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
-      ".claude/CLAUDE.md" = {source = mk "${dot}/claude-1.0/.claude/CLAUDE.md";};
+      ".claude/CLAUDE.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
 
       ## Copilot
       ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
-      ".copilot/copilot-instructions.md" = {source = mk "${dot}/copilot-1.0/.copilot/copilot-instructions.md";};
+      ".copilot/copilot-instructions.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
 
       ## RTK
       ".config/rtk/config.toml" = {source = mk "${dot}/rtk-0.41.0/.config/rtk/config.toml";};
