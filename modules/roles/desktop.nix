@@ -1,0 +1,81 @@
+{
+  flake.modules.nixos.desktop = {
+    inputs,
+    hostname,
+    main-user,
+    pkgs,
+    ...
+  }: {
+    imports = [
+      ../boot.nix
+      ../location.nix
+      ../i18n.nix
+      ../keyboard.nix
+      ../storage_optimization.nix
+      inputs.home-manager.nixosModules.home-manager
+      (import ../home-manager.nix {inherit hostname main-user inputs;})
+    ];
+
+    nix.settings.experimental-features = ["nix-command" "flakes"];
+
+    networking = {
+      hostName = hostname;
+      networkmanager.enable = true;
+      hosts = {};
+    };
+
+    time.timeZone = "Europe/Amsterdam";
+
+    services = {
+      xserver = {
+        enable = true;
+        xkb = {
+          layout = "us,runic";
+          variant = ",basic";
+        };
+      };
+      displayManager = {
+        autoLogin = {
+          enable = true;
+          user = main-user;
+        };
+        sddm.enable = true;
+      };
+      desktopManager.plasma6.enable = true;
+      pulseaudio.enable = false;
+      pipewire = {
+        enable = true;
+        alsa.enable = true;
+        alsa.support32Bit = true;
+        pulse.enable = true;
+      };
+    };
+
+    security.rtkit.enable = true;
+
+    users = {
+      groups = {
+        hidraw = {};
+        input = {};
+      };
+      users.${main-user} = {
+        isNormalUser = true;
+        description = "";
+        extraGroups = ["networkmanager" "wheel" "hidraw" "input"];
+      };
+    };
+
+    nixpkgs.config.allowUnfree = true;
+
+    environment.localBinInPath = true;
+
+    fonts.packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+    ];
+
+    hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+  };
+}
