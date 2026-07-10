@@ -327,6 +327,7 @@ in {
       local.ptk
       local.photogimp # Photoshop-like defaults for GIMP
       local.codex
+      local.hermes-agent
       local.github-copilot-cli
       local.snip # CLI proxy, to reduce token usage for LLMs
       local.rtk
