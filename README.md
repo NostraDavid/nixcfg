@@ -34,8 +34,12 @@ profile. Optional local environment variables can live in `.envrc.local`.
 ## Notes
 
 - `docs/` contains script files with nifty commands.
-- `modules/hosts/` contains the flake output and NixOS composition for each
-  host.
+- `modules/hosts/` contains short host compositions that select hardware,
+  roles, features, and host-specific exceptions.
+- `modules/roles/` composes reusable machine profiles such as desktops,
+  workstations, and Proxmox guests.
+- `modules/features/` registers optional capabilities such as laptop power
+  management, NVIDIA support, gaming, and self-hosted applications.
 - `hosts/` and `servers/` contain machine-specific hardware configuration and
   supporting files.
 - `modules/` contains the flake-parts entry modules and reusable NixOS and Home
