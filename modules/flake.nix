@@ -102,7 +102,7 @@ in {
     devShells.default = pkgs.mkShell {
       # Bootstrap shell for a clean NixOS install: keep this list small and focused
       # on validating/applying the flake before the full user profile is available.
-      # Day-to-day editor/language tooling belongs in modules/home/shared.nix.
+      # Day-to-day tooling is grouped by capability under modules/home/.
       packages = with pkgs; [
         alejandra # Format Nix files before first rebuild
         statix # Catch common Nix antipatterns early

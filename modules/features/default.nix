@@ -1,11 +1,16 @@
 {
   imports = [
+    ./browsers.nix
+    ./communication.nix
+    ./containers.nix
+    ./desktop-apps.nix
+    ./development.nix
     ./dotfiles.nix
     ./gaming.nix
-    ./home-shared.nix
     ./homepage.nix
     ./keyboard.nix
     ./laptop.nix
+    ./media.nix
     ./nvidia.nix
     ./plasma.nix
     ./selfhosted-apps.nix

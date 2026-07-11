@@ -11,9 +11,14 @@
       ../location.nix
       ../i18n.nix
       ../storage_optimization.nix
+      config.flake.modules.nixos.browsers
+      config.flake.modules.nixos.communication
+      config.flake.modules.nixos.containers
+      config.flake.modules.nixos.desktop-apps
+      config.flake.modules.nixos.development
       config.flake.modules.nixos.dotfiles
-      config.flake.modules.nixos.home-shared
       config.flake.modules.nixos.keyboard
+      config.flake.modules.nixos.media
       config.flake.modules.nixos.plasma
       config.flake.modules.nixos.terminal
       inputs.home-manager.nixosModules.home-manager
