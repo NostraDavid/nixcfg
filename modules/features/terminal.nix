@@ -4,5 +4,10 @@
       config.flake.modules.homeManager.terminal
     ];
   };
-  flake.modules.homeManager.terminal = ../home/terminal.nix;
+  flake.modules.homeManager.terminal = {
+    imports = [
+      ../home/terminal.nix
+      ../home/terminal-packages.nix
+    ];
+  };
 }

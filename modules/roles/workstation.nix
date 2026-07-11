@@ -17,7 +17,7 @@
         defaultSession = "plasma";
       };
       printing.enable = false;
-      udev.extraRules = lib.mkBefore ''
+      udev.extraRules = ''
         # Chromium Nuphy Air rules
         KERNEL=="hidraw*", SUBSYSTEM=="hidraw", GROUP="hidraw", MODE="0660"
 
@@ -41,7 +41,7 @@
       };
       nix-ld = {
         enable = true;
-        libraries = lib.mkBefore (with pkgs; [freetype]);
+        libraries = with pkgs; [freetype];
       };
       firefox = {
         enable = true;

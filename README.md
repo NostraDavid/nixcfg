@@ -39,10 +39,10 @@ profile. Optional local environment variables can live in `.envrc.local`.
 - `modules/roles/` composes reusable machine profiles such as desktops,
   workstations, and Proxmox guests.
 - `modules/features/` registers optional capabilities such as laptop power
-  management, NVIDIA support, gaming, terminal configuration, and self-hosted
-  applications.
+  management, NVIDIA support, terminal tooling, development, browsers,
+  communication, media, gaming, containers, and self-hosted applications.
 - `modules/home/` contains the Home Manager implementations registered by those
-  features, including the remaining shared and host-specific package sets.
+  features. Wodan-specific extensions use the same capability boundaries.
 - `hosts/` and `servers/` contain machine-specific hardware configuration and
   supporting files.
 - `modules/` contains the flake-parts entry modules and reusable NixOS and Home
