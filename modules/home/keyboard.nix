@@ -1,3 +1,4 @@
+# Home Manager keyboard configuration.
 _: {
   xdg.configFile."kxkbrc".text = ''
     [Layout]

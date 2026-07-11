@@ -1,4 +1,3 @@
-# home/common.nix
 # Shared home-manager configuration for all hosts.
 {config, ...}: {
   # This list may look a little weird, but that's because the original dotfiles
@@ -43,39 +42,26 @@
       ".config/snip/filters" = {source = mk "${dot}/snip-0.18.0/.config/snip/filters";};
 
       # The rest
-      ".bash_aliases" = {source = mk "${dot}/bash-5.2.37/.bash_aliases";};
-      ".bash_profile" = {source = mk "${dot}/bash-5.2.37/.bash_profile";};
-      ".bashrc" = {source = mk "${dot}/bash-5.2.37/.bashrc";};
-      ".config/bat/config" = {source = mk "${dot}/bat-0.25.0/.config/bat/config";};
-      ".config/btop/btop.conf" = {source = mk "${dot}/btop/btop.conf";};
       ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode/.config/Code/User/keybindings.json";};
       ".config/Code/User/settings.json" = {source = mk "${dot}/vscode/.config/Code/User/settings.json";};
-      ".config/fastfetch/" = {source = mk "${dot}/fastfetch-2.58.0/.config/fastfetch";};
       ".config/git/attributes" = {source = mk "${dot}/git/.config/git/attributes";};
       ".config/git/commit-template" = {source = mk "${dot}/git/.config/git/commit-template";};
       ".config/git/hooks" = {source = mk "${dot}/git/.config/git/hooks";};
-      ".config/ghostty/config.ghostty" = {source = mk "${dot}/ghostty-1.3.1/.config/ghostty/config.ghostty";};
       ".config/markdownlint/config.yaml" = {source = mk "${dot}/markdownlint-cli-0.46.0/.config/markdownlint/config.yaml";};
       ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv/.config/mpv/mpv.conf";};
       ".config/nvim/" = {source = mk "${dot}/neovim-0.11/.config/nvim";};
       ".config/pip/pip.conf" = {source = mk "${dot}/pip-22+/.config/pip/pip.conf";};
-      ".config/powerline" = {source = mk "${dot}/powerline-bash/.config/powerline";};
       ".config/pypoetry/" = {source = mk "${dot}/pypoetry-2.1/.config/pypoetry";};
       ".config/RSS Guard 4/config/config.ini" = {source = mk "${dot}/rssguard-4/.config/RSS Guard 4/config/config.ini";};
-      ".config/starship.toml" = {source = mk "${dot}/starship-1.23.0/.config/starship.toml";};
       ".config/uv/uv.toml" = {source = mk "${dot}/uv-0.9.0/.config/uv/uv.toml";};
-      ".config/wezterm/wezterm.lua" = {source = mk "${dot}/wezterm-0-unstable-2025-05-18/.config/wezterm/wezterm.lua";};
-      ".config/zigfetch/" = {source = mk "${dot}/zigfetch-0.25.0/.config/zigfetch";};
       ".git-templates" = {source = mk "${dot}/git-templates/.git-templates";};
       ".gitconfig" = {source = mk "${dot}/git/.gitconfig";};
       ".groovylintrc.json" = {source = mk "${dot}/groovy-lint/.groovylintrc.json";};
-      ".inputrc" = {source = mk "${dot}/readline/.inputrc";};
       ".local/bin/code" = {source = mk "${dot}/scripts/code";};
       ".local/bin/folder_stats" = {source = mk "${dot}/scripts/folder_stats";};
       ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color";};
       ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker";};
       ".local/bin/venv" = {source = mk "${dot}/scripts/venv";};
-      ".tmux.conf" = {source = mk "${dot}/tmux-3.5a/.tmux.conf";};
       ".vim" = {source = mk "${dot}/vim-9.0/.vim";};
       ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
       "dev/.env.example" = {source = mk "${dot}/dev/.env.example";};

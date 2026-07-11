@@ -1,4 +1,4 @@
-{
+{config, ...}: {
   flake.modules.nixos.desktop = {
     inputs,
     hostname,
@@ -10,8 +10,12 @@
       ../boot.nix
       ../location.nix
       ../i18n.nix
-      ../keyboard.nix
       ../storage_optimization.nix
+      config.flake.modules.nixos.dotfiles
+      config.flake.modules.nixos.home-shared
+      config.flake.modules.nixos.keyboard
+      config.flake.modules.nixos.plasma
+      config.flake.modules.nixos.terminal
       inputs.home-manager.nixosModules.home-manager
       (import ../home-manager.nix {inherit hostname main-user inputs;})
     ];
@@ -34,14 +38,6 @@
           variant = ",basic";
         };
       };
-      displayManager = {
-        autoLogin = {
-          enable = true;
-          user = main-user;
-        };
-        sddm.enable = true;
-      };
-      desktopManager.plasma6.enable = true;
       pulseaudio.enable = false;
       pipewire = {
         enable = true;

@@ -11,7 +11,7 @@
   };
   inherit (builtins) attrNames filter listToAttrs map readDir;
   localPackageNames = let
-    entries = readDir ../pkgs;
+    entries = readDir ../../pkgs;
   in
     filter (name: entries.${name} == "directory") (attrNames entries);
   local =

@@ -12,6 +12,7 @@
         nvidia-workstation
         gaming
         whatpulse
+        wodan-home
       ];
 
       system.stateVersion = "25.05";
