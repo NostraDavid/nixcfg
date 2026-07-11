@@ -1,3 +1,4 @@
+# Shared Plasma configuration.
 {lib, ...}: {
   home.activation.preparePlasmaBaloofile = lib.hm.dag.entryBetween ["configure-plasma"] ["writeBoundary"] ''
     target="$HOME/.config/baloofilerc"
