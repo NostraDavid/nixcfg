@@ -195,6 +195,73 @@ def fetch_remote_refs(bare_dir: Path) -> bool:
     return proc.returncode == 0
 
 
+def worktree_label(path: Path, kind: str, ref: str) -> str:
+    if kind == "branch":
+        return f"{path.name}  [branch: {ref}]"
+    if kind == "tag":
+        return f"{path.name}  [tag: {ref}]"
+    return f"{path.name}  [detached: {ref[:12]}]"
+
+
+def list_registered_worktrees(bare_dir: Path) -> list[WorktreeChoice]:
+    proc = run(
+        [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "worktree",
+            "list",
+            "--porcelain",
+        ],
+    )
+    if proc.returncode != 0:
+        return []
+
+    choices: list[WorktreeChoice] = []
+    entry: dict[str, str] = {}
+
+    def append_entry() -> None:
+        if "worktree" not in entry:
+            return
+
+        path = Path(entry["worktree"])
+        if path.name in RESERVED_WORKTREE_NAMES:
+            return
+        if "branch" in entry:
+            branch = entry["branch"].removeprefix("refs/heads/")
+            choices.append(
+                WorktreeChoice(
+                    worktree_label(path, "branch", branch),
+                    path,
+                    "branch",
+                    branch,
+                    False,
+                )
+            )
+            return
+
+        head = entry.get("HEAD", "unknown")
+        choices.append(
+            WorktreeChoice(
+                worktree_label(path, "detached", head),
+                path,
+                "detached",
+                head,
+                False,
+            )
+        )
+
+    for line in [*proc.stdout.splitlines(), ""]:
+        if not line:
+            append_entry()
+            entry = {}
+            continue
+        key, _, value = line.partition(" ")
+        entry[key] = value
+
+    return choices
+
+
 def append_choice(
     choices: list[WorktreeChoice],
     seen_labels: set[str],
@@ -214,6 +281,13 @@ def list_worktrees(repo_root: Path, *, refresh_empty: bool = False) -> list[Work
     if bare_dir is None:
         return choices
 
+    for dirname in (BARE_REPO_DIR, LEGACY_BARE_REPO_DIR):
+        registered_git_dir = repo_root / dirname
+        if not registered_git_dir.exists():
+            continue
+        for choice in list_registered_worktrees(registered_git_dir):
+            append_choice(choices, seen_labels, choice)
+
     branch_refs = list_branch_refs(bare_dir)
     tag_refs = list_tag_refs(bare_dir)
     if not legacy and not branch_refs and not tag_refs and refresh_empty:
@@ -222,8 +296,8 @@ def list_worktrees(repo_root: Path, *, refresh_empty: bool = False) -> list[Work
         tag_refs = list_tag_refs(bare_dir)
 
     for branch in branch_refs:
-        label = branch_worktree_name(branch)
-        path = repo_root / label
+        path = repo_root / branch_worktree_name(branch)
+        label = worktree_label(path, "branch", branch)
         if not legacy:
             append_choice(
                 choices,
@@ -232,8 +306,8 @@ def list_worktrees(repo_root: Path, *, refresh_empty: bool = False) -> list[Work
             )
 
     for tag in tag_refs:
-        label = tag_worktree_name(tag, branch_refs)
-        path = repo_root / label
+        path = repo_root / tag_worktree_name(tag, branch_refs)
+        label = worktree_label(path, "tag", tag)
         if not legacy:
             append_choice(
                 choices,
@@ -246,11 +320,12 @@ def list_worktrees(repo_root: Path, *, refresh_empty: bool = False) -> list[Work
         for path in sorted(branches_root.rglob("*")):
             if path.is_dir() and (path / ".git").exists():
                 raw_label = str(path.relative_to(branches_root))
-                label = "trunk" if raw_label == "master" else raw_label
+                branch = "master" if raw_label == "master" else raw_label
+                label = worktree_label(path, "branch", branch)
                 append_choice(
                     choices,
                     seen_labels,
-                    WorktreeChoice(label, path, "branch", raw_label, False),
+                    WorktreeChoice(label, path, "branch", branch, False),
                 )
 
     tags_root = repo_root / "tags"
@@ -258,7 +333,7 @@ def list_worktrees(repo_root: Path, *, refresh_empty: bool = False) -> list[Work
         for path in sorted(tags_root.rglob("*")):
             if path.is_dir() and (path / ".git").exists():
                 raw_label = str(path.relative_to(tags_root))
-                label = tag_worktree_name(raw_label, branch_refs)
+                label = worktree_label(path, "tag", raw_label)
                 append_choice(
                     choices,
                     seen_labels,
@@ -395,6 +470,7 @@ def resolve_worktree_query(
                 label.strip("/"),
                 Path(label).name,
                 sanitize_worktree_name(label),
+                choice.path.name,
                 choice.ref.strip("/"),
                 sanitize_worktree_name(choice.ref),
             }
