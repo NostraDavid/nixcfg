@@ -48,18 +48,8 @@ in {
   };
 
   home.packages = with pkgs; [
-    # Neovim related
-    (unstable.neovim.overrideAttrs (old: {
-      nativeBuildInputs = old.nativeBuildInputs ++ [wl-clipboard];
-    }))
+    # Language runtimes and additional development applications.
     jdk17 # openjdk for nvim-lsp-java
-    luajit # Lua 5.1 compat
-    luajitPackages.luarocks_bootstrap
-    lua-language-server # Lua LSP for Neovim and Lua dotfiles
-    markdownlint-cli
-    selene # Fast Lua linter/static analyzer
-    stylua # Lua formatter used by conform.nvim
-    xclip # X11 clipboard fallback for Neovim when Wayland not active
     zed-editor # vscode alternative
 
     # unstable
@@ -94,7 +84,6 @@ in {
     local.tiktoken
     local.ptk
     local.photogimp # Photoshop-like defaults for GIMP
-    local.codex
     local.hermes-agent
     local.github-copilot-cli
     local.snip # CLI proxy, to reduce token usage for LLMs
