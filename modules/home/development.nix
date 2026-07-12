@@ -60,6 +60,7 @@ in {
     selene # Fast Lua linter/static analyzer
     stylua # Lua formatter used by conform.nvim
     xclip # X11 clipboard fallback for Neovim when Wayland not active
+    zed-editor # vscode alternative
 
     # unstable
     unstable.gemini-cli
