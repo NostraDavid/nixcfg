@@ -12,7 +12,7 @@
     }: {
       imports = with config.flake.modules.nixos; [
         ../../hosts/bragi/hardware-configuration.nix
-        desktop
+        i3-desktop
       ];
 
       nix.settings = {

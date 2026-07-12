@@ -8,6 +8,7 @@
     ./dotfiles.nix
     ./gaming.nix
     ./homepage.nix
+    ./i3.nix
     ./keyboard.nix
     ./laptop.nix
     ./media.nix
