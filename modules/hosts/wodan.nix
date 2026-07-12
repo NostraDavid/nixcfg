@@ -9,8 +9,13 @@
       imports = with config.flake.modules.nixos; [
         ../../hosts/wodan/hardware-configuration.nix
         workstation
+        browsers-extra
+        communication-extra
+        desktop-apps-extra
+        development-extra
         nvidia-workstation
         gaming
+        media-extra
         whatpulse
         wodan-home
       ];

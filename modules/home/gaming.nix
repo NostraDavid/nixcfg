@@ -36,35 +36,23 @@
   '';
 in {
   home.packages = with pkgs; [
-    # Wodan-specific Terminal packages go here
-    amfora # Gemini Protocol Client (TUI)
-    bombadillo # Gemini Protocol Client (TUI)
-    kristall # Gemini Protocol Client
-    lagrange # Gemini Protocol Client
-
-    exfatprogs # ExFAT FS utilities
-    helm
-    k3d # k3s in docker
-    flite # flite -f <file>; TTS Engine
-    k3s # kubes (includes kubectl)
-    postgresql # for psql; there's pgcli for shared
-    redpanda-client # Kafka alternative
-    tts # coqui-tts
-    vimgolf # Vim golfing
+    itch
+    # Games
+    # unstable.openra_2019-release
+    endless-sky
+    godot
+    unstable.openrct2
     battlenet
     unstable.winetricks # unstable, so we can use 2026 version
     wineWow64Packages.stagingFull # include the Wine extras Battle.net tends to expect
-    pulseaudio # provides pactl for PipeWire/PulseAudio debugging
-    pavucontrol # Route PipeWire/PulseAudio app streams, e.g. Friture input from output monitor
-    dotnet-sdk
-    # ydotool # for voxtype
-    # sqruff wrapped to avoid /bin/bench collision with ollama-cuda
-    (sqruff.overrideAttrs (old: {
-      postInstall =
-        (old.postInstall or "")
-        + ''
-          rm -f $out/bin/bench
-        '';
-    }))
   ];
+
+  xdg.desktopEntries.battlenet = {
+    name = "Battle.net";
+    exec = "battlenet";
+    terminal = false;
+    categories = ["Game"];
+    comment = "Launch Blizzard Battle.net via Wine";
+    icon = "wine";
+  };
 }
