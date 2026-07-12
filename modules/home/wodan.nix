@@ -157,15 +157,6 @@ in {
         codex-linux-warm-start-enabled = true;
       };
     };
-
-    desktopEntries.battlenet = {
-      name = "Battle.net";
-      exec = "battlenet";
-      terminal = false;
-      categories = ["Game"];
-      comment = "Launch Blizzard Battle.net via Wine";
-      icon = "wine";
-    };
   };
 
   home.activation.codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''

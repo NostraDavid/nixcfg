@@ -26,8 +26,12 @@ in {
     renderdoc
     # for stable-diffusion-webui
     gperftools
+    flite # flite -f <file>; TTS Engine
+    tts # coqui-tts
+    pulseaudio # provides pactl for PipeWire/PulseAudio debugging
+    pavucontrol # Route PipeWire/PulseAudio app streams, e.g. Friture input from output monitor
 
-    # unstable
+    # Unstable
     unstable.friture # Real-time audio analyzer
     unstable.stable-diffusion-cpp # Stable Diffusion in C++
     # unstable.vllm # High-performance inference server for large language models

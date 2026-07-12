@@ -13,5 +13,5 @@
       config.flake.modules.homeManager.gaming
     ];
   };
-  flake.modules.homeManager.gaming = ../home/wodan-gaming.nix;
+  flake.modules.homeManager.gaming = ../home/gaming.nix;
 }
