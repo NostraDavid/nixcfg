@@ -155,6 +155,6 @@ in
       homepage = "https://github.com/MinishLab/semble";
       license = lib.licenses.mit;
       mainProgram = "semble";
-      platforms = lib.platforms.linux;
+      platforms = ["x86_64-linux"];
     };
   }
