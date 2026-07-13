@@ -36,7 +36,9 @@
 
       ## Copilot
       ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
-      ".copilot/copilot-instructions.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
+      ".copilot/copilot-instructions.md" = {source = mk "${dot}/copilot-1.0/.copilot/copilot-instructions.md";};
+      ".copilot/prompts" = {source = mk "${dot}/copilot-1.0/.copilot/prompts";};
+      ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0/.copilot/settings.json";};
 
       ## RTK
       ".config/rtk/config.toml" = {source = mk "${dot}/rtk-0.41.0/.config/rtk/config.toml";};
@@ -51,6 +53,7 @@
       ".config/git/attributes" = {source = mk "${dot}/git/.config/git/attributes";};
       ".config/git/commit-template" = {source = mk "${dot}/git/.config/git/commit-template";};
       ".config/git/hooks" = {source = mk "${dot}/git/.config/git/hooks";};
+      ".config/git/ignore" = {source = mk "${dot}/git/.config/git/ignore";};
       ".config/markdownlint/config.yaml" = {source = mk "${dot}/markdownlint-cli-0.46.0/.config/markdownlint/config.yaml";};
       ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv/.config/mpv/mpv.conf";};
       ".config/nvim/" = {source = mk "${dot}/neovim-0.11/.config/nvim";};
@@ -67,7 +70,6 @@
       ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker";};
       ".local/bin/tmux-login-session" = {source = mk "${dot}/scripts/tmux-login-session";};
       ".local/bin/venv" = {source = mk "${dot}/scripts/venv";};
-      ".vim" = {source = mk "${dot}/vim-9.0/.vim";};
       ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
       "dev/.env.example" = {source = mk "${dot}/dev/.env.example";};
       "dev/find-uncommitted.py" = {source = mk "${dot}/dev/find-uncommitted.py";};

@@ -1,69 +1,65 @@
-" Fix Ruby dot-indent bug
-autocmd FileType ruby setlocal indentkeys-=.
+" Use Vim settings, rather than Vi settings (much better!)
+" This must be first, because it changes other options as a side effect.
+set nocompatible
 
-" General VimGolf sanity settings
-set noautoindent    " Turn off if you want ZERO automatic shifts
-set nosmartindent  " Disable extra 'smart' logic
-set nocindent      " Disable C-style indenting
+" This vimrc stays intentionally small and portable.
+" It now assumes a regular Vim build (not Debian's `vim-tiny`) so we can use
+" `:let` for `<Leader>`, while still avoiding heavier runtime/plugin features.
 
-"" Vim 9.1 full configuration
-"set nocompatible
-"set noswapfile
-"set nobackup
-"set novisualbell
-"
-"" Core editing behavior
-"set number
-"set expandtab
-"set tabstop=4
-"set shiftwidth=4
-"set softtabstop=4
-"set autoindent
-"set wrap
-"set laststatus=2
-"set ignorecase
-"set incsearch
-"set autoread
-"
-"" UI and interaction
-"set encoding=utf-8
-"set mouse=a
-"set cursorline
-"set clipboard=unnamedplus
-"
-"" Syntax and fallback colorscheme
-"syntax enable
-"colorscheme desert
-"
-"" Cursor shape
-"let &t_SI = "\<Esc>[5 q"
-"let &t_EI = "\<Esc>[1 q"
-"
-"" Plugin management with vim-plug (only when installed)
-"if exists('*plug#begin')
-"  call plug#begin('~/.vim/plugged')
-"
-"  Plug 'airblade/vim-gitgutter'
-"  Plug 'Chiel92/vim-autoformat'
-"  Plug 'dense-analysis/ale'
-"  Plug 'junegunn/fzf.vim'
-"  Plug 'junegunn/fzf', { 'do': ':call fzf#install()' }
-"  Plug 'LnL7/vim-nix'
-"  Plug 'mbbill/undotree'
-"  Plug 'mhinz/vim-startify'
-"  Plug 'preservim/nerdcommenter'
-"  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-"  Plug 'tomasiser/vim-code-dark'
-"  Plug 'tpope/vim-fugitive'
-"  Plug 'tpope/vim-sensible'
-"  Plug 'tpope/vim-surround'
-"  Plug 'vim-airline/vim-airline'
-"  Plug 'vim-python/python-syntax'
-"
-"  call plug#end()
-"
-"  let g:python_highlight_all = 1
-"  if globpath(&runtimepath, 'colors/codedark.vim') != ''
-"    colorscheme codedark
-"  endif
-"endif
+" Set leader early so mappings can rely on it.
+let mapleader = " "
+
+" Keep the audible bell off; a visual bell is fine.
+set noswapfile
+set nobackup
+set visualbell
+
+" Enable line numbers
+set number
+
+" Make backspace behave like most editors.
+set backspace=indent,eol,start
+
+" Set tab width to 4 spaces
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" Set the encoding to UTF-8
+set encoding=utf-8
+
+" Search UX
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+
+" Avoid wrapping by default; this config is mainly used for code/config files.
+set nowrap
+
+" Enable autoindent
+set autoindent
+" `smartindent` is geared toward C-like syntax and can do the wrong thing for
+" YAML, Python, Markdown, and shell files, so keep plain `autoindent` instead.
+" set smartindent
+
+" Command-line completion.
+set wildmenu
+set wildmode=longest:full,full
+
+" Auto reload file when changes are made externally
+set autoread
+
+" Mouse support is available (+mouse) in this build.
+set mouse=a
+
+" Small quality-of-life settings.
+set showcmd
+set ruler
+set history=1000
+
+" Minimal mappings.
+" Reserve <Space> for <Leader> mappings instead of normal-mode right-movement.
+nnoremap <Space> <Nop>
+" Clear search highlight
+nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
