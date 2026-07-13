@@ -1,7 +1,7 @@
 # Git-worktrees
 
 Repositories zijn ingedeeld met een aparte checkout voor de gebruiker genaamd
-`trunk`, met daarnaast worktrees voor agents:
+`trunk`, eventueel met daarnaast worktrees voor agents:
 
 ```text
 <repo>/
@@ -10,20 +10,27 @@ Repositories zijn ingedeeld met een aparte checkout voor de gebruiker genaamd
 └── codex-<andere-taak>/   # worktree van een andere agent
 ```
 
-## Bescherm `trunk`
+## Werk standaard in `trunk`
 
-Behandel `trunk` als de persoonlijke werkcheckout van de gebruiker. Wijzig er
-geen bestanden en voer er geen staging, branchwissels, commits, rebases, merges,
-pulls of opschoonacties uit. Alleen-lezeninspectie is toegestaan.
+Gebruik de huidige checkout als werkplek. Als dat `trunk` is, voer de taak daar
+dan standaard uit. Bestandswijzigingen, builds, tests, formattering, staging en
+commits mogen in `trunk` worden uitgevoerd voor zover de taak daarom vraagt.
+Behoud niet-gerelateerde en reeds bestaande wijzigingen van de gebruiker.
 
 De map die `trunk` bevat is een container voor worktrees, niet een checkout
 waarin bronbestanden mogen worden gewijzigd.
 
-## Werk in een sibling-worktree
+## Optionele sibling-worktree
 
-Voor een taak waarvoor wijzigingen aan de repository nodig zijn:
+Een agent mag zelfstandig een sibling-worktree maken wanneer isolatie een
+concreet voordeel heeft, bijvoorbeeld bij parallel werk, een langdurige of
+risicovolle wijziging, conflicterende lokale wijzigingen of wanneer de gebruiker
+erom vraagt. Een nieuwe worktree is niet vereist en heeft niet de voorkeur voor
+regulier werk dat veilig in `trunk` kan worden uitgevoerd.
 
-1. Gebruik de huidige worktree als die al een aparte sibling-worktree is.
+Als een sibling-worktree wordt gebruikt:
+
+1. Gebruik de huidige worktree als die al bij dezelfde taak hoort.
 2. Maak anders een sibling-worktree genaamd `codex-<korte-taaknaam>` met een
    nieuwe branch genaamd `codex/<korte-taaknaam>`.
 3. Baseer de nieuwe branch op de gecommitte `HEAD` van `trunk`. Wijzig `trunk`
@@ -35,13 +42,13 @@ Voor een taak waarvoor wijzigingen aan de repository nodig zijn:
    hem alleen opnieuw als hij duidelijk bij dezelfde taak hoort; kies anders een
    unieke suffix.
 
-Voor alleen-lezenvragen en inspectie van de repository hoeft geen worktree te
-worden aangemaakt.
+Maak voor alleen-lezenvragen en gewone inspectie geen worktree aan.
 
 ## Overdracht en opruimen
 
-Houd alle taakwijzigingen beperkt tot de branch en worktree van de agent. Meld
-bij de overdracht aan de gebruiker de bijbehorende paden en branchnaam.
+Als een agent-worktree is gebruikt, houd dan alle taakwijzigingen beperkt tot de
+bijbehorende branch en worktree. Meld bij de overdracht aan de gebruiker de
+bijbehorende paden en branchnaam.
 
 Merge niet naar en rebase niet op de branch van de gebruiker. Push niet,
 verwijder geen branches of worktrees en prune geen worktrees, tenzij de
