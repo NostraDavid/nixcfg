@@ -1,0 +1,19 @@
+name: "docker-build"
+version: 1
+description: "Summarize docker build output with emphasis on stage progress and build errors"
+
+match:
+  command: "docker"
+  subcommand: "build"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "keep_lines"
+    pattern: '^(#\d+|=>|\[.*\]|error:|ERROR:|failed to solve|naming to|exporting to image|writing image|warning:|Successfully built|Successfully tagged|\s*$)'
+  - action: "remove_lines"
+    pattern: '^\s*$'
+  - action: "head"
+    n: 140
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"

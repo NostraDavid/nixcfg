@@ -1,0 +1,19 @@
+name: "just-check"
+version: 1
+description: "Summarize formatter/check failures from just check"
+
+match:
+  command: "just"
+  subcommand: "check"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "keep_lines"
+    pattern: '^(error:|warning:|---|\+\+\+|@@|diff|would reformat|All checks passed|recipe .* failed|\./|[^:]+:[0-9]+:|\s*$)'
+  - action: "remove_lines"
+    pattern: '^\s*$'
+  - action: "head"
+    n: 160
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"

@@ -1,0 +1,19 @@
+name: "just-switch"
+version: 1
+description: "Summarize just switch output and highlight activation/build failures"
+
+match:
+  command: "just"
+  subcommand: "switch"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "keep_lines"
+    pattern: '^(warning:|error:|Activating|Starting Home Manager activation|installing|building|Creating home file links|ln:|cmp:|recipe .* failed|For full logs, run:|\s*$|\/nix\/store\/.*)$'
+  - action: "remove_lines"
+    pattern: '^\s*$'
+  - action: "head"
+    n: 120
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"

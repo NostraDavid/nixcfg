@@ -1,0 +1,28 @@
+name: "nix-eval"
+version: 1
+description: "Summarize nix eval output with focus on final value and errors"
+
+match:
+  command: "nix"
+  subcommand: "eval"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "keep_lines"
+    pattern: '^(warning:|error:|trace:|\{|\[|\"|[A-Za-z0-9_./:+-]+$|\/nix\/store\/.*|\s*$)'
+  - action: "remove_lines"
+    pattern: '^\s*$'
+  - action: "head"
+    n: 120
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"
+
+tests:
+  - name: "keeps eval result and warnings"
+    input: |
+      warning: Git tree '/tmp/x' is dirty
+      /nix/store/abc123-example
+    expected: |
+      warning: Git tree '/tmp/x' is dirty
+      /nix/store/abc123-example

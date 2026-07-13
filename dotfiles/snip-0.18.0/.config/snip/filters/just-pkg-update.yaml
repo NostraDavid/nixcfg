@@ -1,0 +1,19 @@
+name: "just-pkg-update"
+version: 1
+description: "Summarize package update output from just pkg-update* targets"
+
+match:
+  command: "just"
+  subcommand: "pkg-update"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "keep_lines"
+    pattern: '^(Updating|warning:|error:|building|installing|copying path|recipe .* failed|sqlline wraps upstream|\s*$|\/nix\/store\/.*)$'
+  - action: "remove_lines"
+    pattern: '^\s*$'
+  - action: "head"
+    n: 140
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"
