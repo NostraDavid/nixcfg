@@ -148,6 +148,35 @@
 	cp = cherry-pick
 	undo = reset HEAD~1 --mixed
 
+	# Worktree workflow
+	wt = worktree
+	wtl = worktree list
+	wta = "!f() { \
+	b=\"$1\"; \
+	[ -n \"$b\" ] || { echo \"usage: git wta <branch> [path]\" >&2; exit 1; }; \
+	p=\"${2:-../.worktrees/$b}\"; \
+	git worktree add \"$p\" \"$b\"; \
+	}; f"
+	wtr = worktree remove
+	wtrf = worktree remove --force
+	wtp = worktree prune
+	wtinit = "!f() { \
+	url=\"$1\"; \
+	dir=\"$2\"; \
+	main_branch=\"${3:-master}\"; \
+	[ -n \"$url\" ] || { echo \"usage: git wtinit <repo-url> [target-dir] [main-branch]\" >&2; exit 1; }; \
+	if [ -z \"$dir\" ]; then dir=\"$(basename \"${url%.git}\")\"; fi; \
+	mkdir -p \"$dir\" && cd \"$dir\" || exit 1; \
+	[ ! -e worktree.git ] || { echo \"worktree.git already exists in $PWD\" >&2; exit 1; }; \
+	git clone --bare \"$url\" worktree.git || exit 1; \
+	git -C worktree.git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'; \
+	git -C worktree.git config --add remote.origin.fetch '+refs/tags/*:refs/tags/*'; \
+	git -C worktree.git fetch origin '+refs/heads/*:refs/remotes/origin/*' '+refs/tags/*:refs/tags/*' || exit 1; \
+	git --git-dir worktree.git worktree add -b \"$main_branch\" trunk \"origin/$main_branch\" 2>/dev/null || git --git-dir worktree.git worktree add trunk \"$main_branch\" || exit 1; \
+	git -C trunk branch --set-upstream-to \"origin/$main_branch\" \"$main_branch\" 2>/dev/null || true; \
+	echo \"Initialized worktree repo at $PWD (trunk: $main_branch)\"; \
+	}; f"
+
 	# Pull, push, and fetch workflow
 	fe = fetch --all --prune
 	pl = pull --rebase
