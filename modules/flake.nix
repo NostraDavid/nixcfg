@@ -62,7 +62,10 @@
   mkHost = {
     hostname,
     module,
-  }:
+    repoSubdir ? "nixcfg",
+  }: let
+    repoRoot = "/home/${main-user}/${repoSubdir}";
+  in
     inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -71,7 +74,7 @@
         module
       ];
       specialArgs = {
-        inherit inputs hostname main-user;
+        inherit inputs hostname main-user repoRoot;
       };
     };
 in {

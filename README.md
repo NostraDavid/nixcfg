@@ -49,4 +49,7 @@ profile. Optional local environment variables can live in `.envrc.local`.
   Manager modules.
 - `dotfiles/` contains dotfiles for various applications; the Home Manager
   mappings live in `modules/home/dotfiles.nix` and `modules/home/terminal.nix`.
+- `mkHost` derives the editable checkout path from `repoSubdir` (default:
+  `~/nixcfg`) and passes it to Home Manager as `repoRoot`; a host composition
+  can override `repoSubdir` when its checkout lives elsewhere.
 - `flake.nix` is the thin entry point for the whole configuration.
