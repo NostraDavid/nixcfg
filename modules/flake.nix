@@ -62,7 +62,7 @@
   mkHost = {
     hostname,
     module,
-    repoSubdir ? "nixcfg",
+    repoSubdir ? "dev/NostraDavid/nixcfg/trunk",
   }: let
     repoRoot = "/home/${main-user}/${repoSubdir}";
   in
