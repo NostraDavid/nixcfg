@@ -10,6 +10,9 @@ semble search "vscode package definition"
 Prefer it for semantic questions about code location or behavior. Use `rg` for
 exact strings, symbols, paths, and fast mechanical checks.
 
+The declarative profile installs `semble` on x86_64 Linux. On other platforms,
+where its tree-sitter language-pack wheel is unavailable, fall back to `rg`.
+
 ## semble -h
 
 ```docs
