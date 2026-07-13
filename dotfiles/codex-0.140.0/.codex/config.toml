@@ -92,20 +92,6 @@ enabled = true
 enabled = true
 
 [projects]
-[projects."/home/david/Desktop"]
-trust_level = "trusted"
-
-[projects."/home/david/Documents/Codex/2026-05-25/maak-een-box-in-blender"]
-trust_level = "trusted"
-
-[projects."/home/david/Downloads"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/BattleCraft"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/ctb"]
-trust_level = "trusted"
 
 [projects."/home/david/dev/NostraDavid/debian-server"]
 trust_level = "trusted"
@@ -137,20 +123,8 @@ trust_level = "trusted"
 [projects."/home/david/dev/Thaumatorium/thaumatorium.com"]
 trust_level = "trusted"
 
-[projects."/home/david/dev/family-tree"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/t-Bataafsche-Broederschap/tbb"]
-trust_level = "trusted"
-
-[projects."/home/david/wow_3.3.5a"]
-trust_level = "trusted"
-
-[projects."/home/david"]
-trust_level = "trusted"
-
 [tui]
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
-"gpt-5.6-sol" = 2
+"gpt-5.6-sol" = 3
