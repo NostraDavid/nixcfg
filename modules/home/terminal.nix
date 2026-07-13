@@ -1,7 +1,11 @@
 # Shell, prompt, TUI, and terminal-emulator configuration.
-{config, ...}: {
+{
+  config,
+  repoRoot,
+  ...
+}: {
   home.file = let
-    dot = "${config.home.homeDirectory}/dev/NostraDavid/nixcfg/trunk/dotfiles";
+    dot = "${repoRoot}/dotfiles";
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
   in
@@ -13,7 +17,6 @@
       ".config/btop/btop.conf" = {source = mk "${dot}/btop/btop.conf";};
       ".config/fastfetch/" = {source = mk "${dot}/fastfetch-2.58.0/.config/fastfetch";};
       ".config/ghostty/config.ghostty" = {source = mk "${dot}/ghostty-1.3.1/.config/ghostty/config.ghostty";};
-      ".config/powerline" = {source = mk "${dot}/powerline-bash/.config/powerline";};
       ".config/starship.toml" = {source = mk "${dot}/starship-1.23.0/.config/starship.toml";};
       ".config/wezterm/wezterm.lua" = {source = mk "${dot}/wezterm-0-unstable-2025-05-18/.config/wezterm/wezterm.lua";};
       ".config/zigfetch/" = {source = mk "${dot}/zigfetch-0.25.0/.config/zigfetch";};

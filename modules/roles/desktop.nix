@@ -4,6 +4,7 @@
     hostname,
     main-user,
     pkgs,
+    repoRoot,
     ...
   }: {
     imports = [
@@ -12,7 +13,7 @@
       ../i18n.nix
       ../storage_optimization.nix
       inputs.home-manager.nixosModules.home-manager
-      (import ../home-manager.nix {inherit hostname main-user inputs;})
+      (import ../home-manager.nix {inherit hostname main-user inputs repoRoot;})
     ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
