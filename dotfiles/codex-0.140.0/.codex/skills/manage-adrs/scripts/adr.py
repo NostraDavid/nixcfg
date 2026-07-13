@@ -11,10 +11,12 @@ from pathlib import Path
 ADR_RE = re.compile(r"^(?P<num>\d{3,6})-(?P<slug>.+)\.md$")
 TITLE_RE = re.compile(
     r"^#\s+(?:ADR\s+)?(?:(?P<num>\d{3,6}):\s*)?(?P<title>.+?)\s*$",
-    re.I,
+    re.IGNORECASE,
 )
-STATUS_RE = re.compile(r"^\s*[-*]?\s*Status\s*:\s*(?P<status>.+?)\s*$", re.I)
-DATE_RE = re.compile(r"^\s*[-*]?\s*Date\s*:\s*(?P<date>\d{4}-\d{2}-\d{2})\s*$", re.I)
+STATUS_RE = re.compile(r"^\s*[-*]?\s*Status\s*:\s*(?P<status>.+?)\s*$", re.IGNORECASE)
+DATE_RE = re.compile(
+    r"^\s*[-*]?\s*Date\s*:\s*(?P<date>\d{4}-\d{2}-\d{2})\s*$", re.IGNORECASE
+)
 
 DEFAULT_DIRS = (
     "docs/adr",
@@ -165,7 +167,7 @@ def cmd_new(args: argparse.Namespace) -> None:
     path = adr_dir / filename
     if path.exists() and not args.force:
         raise SystemExit(f"ADR already exists: {path}")
-    date = args.date or dt.date.today().isoformat()
+    date = args.date or dt.datetime.now(dt.UTC).date().isoformat()
     path.write_text(render_adr(number, args.title, args.status, date), encoding="utf-8")
     print(path)
 
