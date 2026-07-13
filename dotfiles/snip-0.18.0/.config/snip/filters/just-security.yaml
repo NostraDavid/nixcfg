@@ -1,0 +1,19 @@
+name: "just-security"
+version: 1
+description: "Summarize security scan output from just security-* targets"
+
+match:
+  command: "just"
+  subcommand: "security"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "keep_lines"
+    pattern: '^(Scanning|Generating SBOM|Converting|vulnix|osv-scanner|grype|error:|warning:|recipe .* failed|CVE-|GHSA-|\s*$)'
+  - action: "remove_lines"
+    pattern: '^\s*$'
+  - action: "head"
+    n: 160
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"

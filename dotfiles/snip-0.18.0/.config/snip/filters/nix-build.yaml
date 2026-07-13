@@ -1,0 +1,30 @@
+name: "nix-build"
+version: 1
+description: "Summarize nix build output with focus on result and errors"
+
+match:
+  command: "nix"
+  subcommand: "build"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "keep_lines"
+    pattern: '^(warning:|error:|building|copying path|these .* will be built|this path will be fetched|\/[a-zA-Z0-9._\/+\-]+\.drv|\/nix\/store\/|\s*$)'
+  - action: "remove_lines"
+    pattern: '^\s*$'
+  - action: "head"
+    n: 80
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"
+
+tests:
+  - name: "keeps key lines"
+    input: |
+      unpacking sources
+      building '/nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-jpegli-0.1.drv'...
+      warning: Git tree '/tmp/x' is dirty
+      finished build
+    expected: |
+      building '/nix/store/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-jpegli-0.1.drv'...
+      warning: Git tree '/tmp/x' is dirty

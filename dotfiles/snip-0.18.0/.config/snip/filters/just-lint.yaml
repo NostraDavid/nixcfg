@@ -1,0 +1,19 @@
+name: "just-lint"
+version: 1
+description: "Summarize lint output from just lint targets"
+
+match:
+  command: "just"
+  subcommand: "lint"
+
+pipeline:
+  - action: "strip_ansi"
+  - action: "keep_lines"
+    pattern: '^(error:|warning:|\./|[^:]+:[0-9]+:|ruff|shellcheck|markdownlint|statix|deadnix|recipe .* failed|\s*$)'
+  - action: "remove_lines"
+    pattern: '^\s*$'
+  - action: "head"
+    n: 140
+    overflow_msg: "+ output truncated"
+
+on_error: "passthrough"
