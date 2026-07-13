@@ -3,7 +3,6 @@
   git,
   fetchurl,
   symlinkJoin,
-  nix-update-script,
   unstable,
   writeShellScriptBin,
 }: let
@@ -64,9 +63,7 @@ in
       wrapper
     ];
 
-    passthru.updateScript = nix-update-script {
-      extraArgs = ["--flake"];
-    };
+    passthru.updateScript = ../../cmd/update-tiktoken.sh;
 
     meta =
       pythonPackage.meta

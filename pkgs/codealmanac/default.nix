@@ -86,15 +86,37 @@
   claudeAgentSdk = python3Packages.claude-agent-sdk.overridePythonAttrs (old: {
     dependencies = replacePythonDep "mcp" mcp (old.dependencies or []);
   });
+  almanacYoke = python3Packages.buildPythonPackage rec {
+    pname = "almanac-yoke";
+    version = "0.1.7";
+    pyproject = true;
+
+    src = fetchPypi {
+      pname = "almanac_yoke";
+      inherit version;
+      hash = "sha256-aHbkHb71gNmffC4vHk0dJEpiDB2Nq3byqlCXrwmgRBA=";
+    };
+
+    build-system = [python3Packages.hatchling];
+
+    dependencies = with python3Packages; [
+      claudeAgentSdk
+      jsonschema
+      pydantic
+      pyyaml
+    ];
+
+    pythonImportsCheck = ["yoke"];
+  };
 in
   python3Packages.buildPythonApplication rec {
     pname = "codealmanac";
-    version = "0.3.5";
+    version = "0.4.4";
     pyproject = true;
 
     src = fetchPypi {
       inherit pname version;
-      hash = "sha256-1RN+W8XpUxTrHuceWVLNstQWkLHNavIKdIpS4aT0Pb8=";
+      hash = "sha256-GL8VDorwp5KzNWoatQ+g6YfkzDhyHDoBY5LZeE5pXnM=";
     };
 
     build-system = with python3Packages; [
@@ -102,6 +124,7 @@ in
     ];
 
     dependencies = [
+      almanacYoke
       beautifulsoup4
       python3Packages.charset-normalizer
       claudeAgentSdk
@@ -111,6 +134,7 @@ in
       python3Packages.jsonlines
       markdownItPy
       pathspec
+      python3Packages.psutil
       python3Packages.pydantic
       python3Packages.pydantic-settings
       pythonFrontmatter

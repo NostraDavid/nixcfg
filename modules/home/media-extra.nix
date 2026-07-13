@@ -47,9 +47,8 @@ in {
     # local.synology-drive-client-pinned # kaput in 25.11
     # local.vscode
     local.cool-retro-term # terminal emulator with retro style
-    local.dlss-updater
+    # local.dlss-updater # disabled: its Flatpak dependency currently pulls insecure pnpm 9
     local.photorec # image recovery
     # local.pixieditor
-    local.pyre
   ];
 }

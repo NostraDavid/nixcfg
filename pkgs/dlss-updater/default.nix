@@ -6,11 +6,12 @@
   makeWrapper,
   flatpak,
   gnugrep,
+  nix-update-script,
 }: let
-  version = "4.2.0";
+  version = "4.3.1";
   src = fetchurl {
     url = "https://github.com/Recol/DLSS-Updater/releases/download/V${version}/DLSS_Updater-${version}.flatpak";
-    hash = "sha256-sooNbBgrHjeaKrpgJZRfr2hLxBIVabeq0xwK+zjLBb0=";
+    hash = "sha256-o4SVCfrGAaMim1jRS668E4hv0EDHZzAkXGqiCRrJ9aQ=";
   };
 in
   stdenvNoCC.mkDerivation {
@@ -22,7 +23,13 @@ in
     nativeBuildInputs = [makeWrapper];
     buildInputs = [flatpak];
 
-    passthru.updateScript = ../../cmd/update-dlss-updater.sh;
+    passthru.updateScript = nix-update-script {
+      extraArgs = [
+        "--flake"
+        "--use-github-releases"
+        "--version-regex=V(.*)"
+      ];
+    };
 
     installPhase = ''
       runHook preInstall

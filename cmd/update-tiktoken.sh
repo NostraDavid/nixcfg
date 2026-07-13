@@ -26,24 +26,20 @@ darwin_hash="$(nix hash convert --hash-algo sha256 --to sri "${darwin_digest}")"
 original_pkg="$(cat "${pkg_file}")"
 original_cli="$(cat "${cli_file}")"
 
-current_field() {
-	local system="$1"
-	local field="$2"
-	awk -v target_system="${system}" -v field="${field}" '
-    index($0, target_system) { in_system = 1 }
-    in_system && $1 == field { gsub(/[";]/, "", $3); print $3; exit }
-  ' "${pkg_file}"
-}
-
 replace_system() {
 	local system="$1"
 	local new_url="$2"
 	local new_hash="$3"
-	local old_url old_hash
-	old_url="$(current_field "${system}" url)"
-	old_hash="$(current_field "${system}" hash)"
-	sed -i "s|url = \"${old_url}\";|url = \"${new_url}\";|" "${pkg_file}"
-	sed -i "s#hash = \"${old_hash}\";#hash = \"${new_hash}\";#" "${pkg_file}"
+	local updated_pkg
+	new_url="$(sed "s/tiktoken-${version}-/tiktoken-\\\${version}-/" <<<"${new_url}")"
+	updated_pkg="$(mktemp)"
+	awk -v target_system="${system}" -v url="${new_url}" -v hash="${new_hash}" '
+    index($0, "\"" target_system "\"") { in_system = 1 }
+    in_system && $1 == "url" { $0 = "      url = \"" url "\";" }
+    in_system && $1 == "hash" { $0 = "      hash = \"" hash "\";"; in_system = 0 }
+    { print }
+  ' "${pkg_file}" >"${updated_pkg}"
+	mv "${updated_pkg}" "${pkg_file}"
 }
 
 sed -i "0,/version = \"[^\"]*\";/s//version = \"${version}\";/" "${pkg_file}"

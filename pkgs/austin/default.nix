@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  nix-update-script,
   autoreconfHook,
 }:
 stdenv.mkDerivation (finalAttrs: {
@@ -19,7 +20,7 @@ stdenv.mkDerivation (finalAttrs: {
     autoreconfHook
   ];
 
-  passthru.updateScript = ../../cmd/update-austin.sh;
+  passthru.updateScript = nix-update-script {extraArgs = ["--flake"];};
 
   meta = {
     description = "Frame stack sampler for CPython";
