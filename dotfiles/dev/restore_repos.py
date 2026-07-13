@@ -160,7 +160,7 @@ def main() -> int:
         return 0
 
     jobs = grab.detect_jobs(args.jobs)
-    started_at = dt.datetime.now()
+    started_at = dt.datetime.now(dt.UTC)
     grab.logger.info(
         "restore_started",
         repos_file=str(repos_file),
@@ -201,7 +201,7 @@ def main() -> int:
         "restore_complete",
         total=len(all_repos),
         failed=len(failed),
-        elapsed=str(dt.datetime.now() - started_at),
+        elapsed=str(dt.datetime.now(dt.UTC) - started_at),
     )
     return 1 if failed else 0
 
