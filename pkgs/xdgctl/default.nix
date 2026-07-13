@@ -7,13 +7,13 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "xdgctl";
-  version = "1.0";
+  version = "1.1";
 
   src = fetchFromGitHub {
     owner = "mitjafelicijan";
     repo = "xdgctl";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-/Wm6uk7qWm1HzDLCn4LM9OKbaYNPopQ78o+UCFIOGF4=";
+    hash = "sha256-V12soGlHi1poh1sracskpFF61+3FrNbYCUgcCQ4UEPI=";
   };
 
   nativeBuildInputs = [pkg-config];

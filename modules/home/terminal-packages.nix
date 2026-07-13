@@ -115,9 +115,9 @@
     pngquant # PNG image optimizer
     powerline # The best Bash Prompt!
     prek # pre-commit alternative
-    prettier # Web/JSON/YAML/Markdown formatter
+    # prettier # disabled: 3.8.3 pulls insecure pnpm 9.15.9 via binding-wasm32-wasi
     poppler-utils # PDF rendering library
-    prettierd # Prettier daemon
+    # prettierd # disabled with prettier; oxfmt is configured as its replacement
     procps # for `ps` command
     procs # moddern replacement for `ps`, written in Rust; might be troublesome
     pv # Pipe viewer, useful for monitoring data through a pipe
