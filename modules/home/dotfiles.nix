@@ -30,6 +30,9 @@
       ".pi/agent/settings.json" = {source = mk "${dot}/pi/.pi/agent/settings.json";};
       ".pi/agent/AGENTS.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
 
+      ## Gemini
+      ".gemini/GEMINI.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
+
       ## Claude
       ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
       ".claude/CLAUDE.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
@@ -37,8 +40,22 @@
       ## Copilot
       ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
       ".copilot/copilot-instructions.md" = {source = mk "${dot}/copilot-1.0/.copilot/copilot-instructions.md";};
+      ".copilot/instructions/eu-ai-act.instructions.md" = {source = mk "${dot}/agent-rules/eu-ai-act.md";};
       ".copilot/prompts" = {source = mk "${dot}/copilot-1.0/.copilot/prompts";};
       ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0/.copilot/settings.json";};
+
+      ## OpenCode
+      ".config/opencode/opencode.json".text = builtins.toJSON {
+        "$schema" = "https://opencode.ai/config.json";
+        instructions = ["${config.home.homeDirectory}/agent-rules/eu-ai-act.md"];
+      };
+
+      ## Hermes
+      ".hermes/SOUL.md".text = ''
+        You are Hermes Agent, an intelligent AI assistant created by Nous Research. You are helpful, knowledgeable, and direct. You assist users with a wide range of tasks including answering questions, writing and editing code, analyzing information, creative work, and executing actions via your tools. You communicate clearly, admit uncertainty when appropriate, and prioritize being genuinely useful over being verbose unless otherwise directed below. Be targeted and efficient in your exploration and investigations.
+
+        ${builtins.readFile ../../dotfiles/agent-rules/eu-ai-act.md}
+      '';
 
       ## RTK
       ".config/rtk/config.toml" = {source = mk "${dot}/rtk-0.41.0/.config/rtk/config.toml";};

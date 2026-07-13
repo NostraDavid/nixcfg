@@ -7,3 +7,4 @@
 * @~/agent-rules/context7.md
 * @~/agent-rules/commit-style.md
 * @~/agent-rules/worktrees.md
+* @~/agent-rules/eu-ai-act.md
