@@ -1,6 +1,7 @@
 # ADR Format Reference
 
-Use this reference when a project has no existing ADR convention or when local convention is incomplete.
+Use this reference when a project has no existing ADR convention or when the
+local convention is incomplete.
 
 ## Default Location
 
@@ -23,7 +24,8 @@ Use the project's existing vocabulary when present. Otherwise use:
 - `Deprecated`: The decision should no longer be followed, with no direct replacement.
 - `Rejected`: The option was considered but not chosen.
 
-Avoid status churn. Historical ADRs should usually move forward by status notes and supersession links, not by rewriting their decision.
+Avoid status churn. Historical ADRs should usually move forward through status
+notes and supersession links, not by rewriting their decision.
 
 ## Default Template
 
@@ -50,7 +52,8 @@ List serious alternatives and the practical reason each was not chosen.
 
 ## Consequences
 
-Describe expected benefits, tradeoffs, operational impact, migration work, risks, and follow-up decisions.
+Describe expected benefits, tradeoffs, operational impact, migration work,
+risks, and follow-up decisions.
 
 ## Notes
 

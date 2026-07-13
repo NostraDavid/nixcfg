@@ -109,7 +109,7 @@ COMMIT;
 
 ### Zero-Downtime Migrations
 
-```
+```text
 1. Add new column (nullable)
 2. Deploy code that writes to both columns
 3. Backfill old data
@@ -176,7 +176,8 @@ ALTER TABLE reservations ADD CONSTRAINT excl_no_overlap
 
 ## Best Practices
 
-- Use UUIDs (preferrably UUIDv8, otherwise UUIDv4 unless differently specified) for public-facing IDs, SERIAL/BIGSERIAL for internal
+- Use UUIDs (preferably UUIDv8, otherwise UUIDv4 unless specified differently)
+  for public-facing IDs, and SERIAL/BIGSERIAL for internal IDs
 - Always add `created_at` and `updated_at` timestamps
 - Use soft deletes (`deleted_at`) for important data
 - Design for eventual consistency in distributed systems

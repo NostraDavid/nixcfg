@@ -65,6 +65,7 @@ in {
     unstable.zsv # CSV viewer and slicer
     unstable.opencode # codex-cli alternative
     unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
+    unstable.python313 # Runtime for executable agent skill helpers
 
     # local
     freetype # font-rendering library, for Whatpulse
