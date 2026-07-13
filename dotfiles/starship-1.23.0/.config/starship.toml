@@ -27,7 +27,8 @@ $character\
 # == prompt settings ==
 # https://starship.rs/config/#prompt
 add_newline = false
-command_timeout = 500
+command_timeout = 2000
+scan_timeout = 60
 palette = 'powerline_status'
 
 [palettes.powerline_status]
@@ -68,7 +69,8 @@ detect_folders = []
 
 [custom.py_git_sep]
 command = "printf ''"
-when = 'test -n "$VIRTUAL_ENV" && git rev-parse --is-inside-work-tree >/dev/null 2>&1'
+when = 'test -n "$VIRTUAL_ENV"'
+require_repo = true
 format = "[](fg:prev_bg bg:gray2)"
 shell = ["bash", "--noprofile", "--norc"]
 
@@ -87,13 +89,15 @@ disabled = true # replaced by custom.git_branch_clean / custom.git_branch_dirty 
 # We split into two modules with mutually exclusive 'when' conditions for clarity & minimal logic.
 [custom.git_branch_clean]
 command = "b=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
-when = 'git rev-parse --is-inside-work-tree >/dev/null 2>&1 && test -z "$(git status --porcelain 2>/dev/null)"'
+when = 'test -z "$(git status --porcelain 2>/dev/null)"'
+require_repo = true
 format = "[ $output](fg:mediumgreen bg:gray2)"
 shell = ["bash", "--noprofile", "--norc"]
 
 [custom.git_branch_dirty]
 command = "b=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
-when = 'git rev-parse --is-inside-work-tree >/dev/null 2>&1 && test -n "$(git status --porcelain 2>/dev/null)"'
+when = 'test -n "$(git status --porcelain 2>/dev/null)"'
+require_repo = true
 format = "[ $output](fg:gray9 bg:gray2)"
 shell = ["bash", "--noprofile", "--norc"]
 
@@ -128,9 +132,7 @@ shell = ["bash", "--noprofile", "--norc"]
 [git_status]
 style = 'fg:gray8 bg:prev_bg'
 format = """[ \
-$behind_count\
 $ahead_behind\
-$ahead_count\
 $staged\
 $conflicted\
 $modified\
@@ -157,7 +159,8 @@ typechanged = '[ ${count}](fg:orange bg:prev_bg) '
 [custom.git_dir_sep]
 # Separator between git block and directory (only inside a git repo)
 command = "printf ''"
-when = 'git rev-parse --is-inside-work-tree >/dev/null 2>&1'
+when = true
+require_repo = true
 format = "[](fg:prev_bg bg:gray4)"
 shell = ["bash", "--noprofile", "--norc"]
 
@@ -184,7 +187,7 @@ format = """
 """
 style = 'fg:brightyellow bg:mediumorange'
 symbol = '⚙ '
-threshold = 1
+symbol_threshold = 1
 number_threshold = 1
 
 [status]
@@ -198,214 +201,3 @@ disabled = false
 [character]
 success_symbol = '[](fg:prev_bg)'
 error_symbol = '[](fg:stat)'
-
-# == other settings ==
-[time]
-disabled = false
-time_format = '%R' # Hour:Minute Format
-style = 'bg:term_bg'
-format = '[$time]($style) '
-
-[os]
-style = 'bg:#9A348E'
-disabled = true # Disabled by default
-
-[battery]
-full_symbol = ':battery:'
-charging_symbol = ':zap: '
-discharging_symbol = ':skull: '
-empty_symbol = ':low_battery: '
-
-
-[c]
-symbol = ' '
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[docker_context]
-symbol = ' '
-style = 'bg:#06969A'
-format = '[ $symbol $context ]($style)'
-
-[elixir]
-symbol = ' '
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[elm]
-symbol = ' '
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[golang]
-symbol = ' '
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[gradle]
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-symbol = ' '
-
-[haskell]
-symbol = ' '
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[java]
-symbol = ' '
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[julia]
-symbol = ' '
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[nodejs]
-symbol = ''
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[nim]
-symbol = '󰆥 '
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[rust]
-symbol = ''
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-[scala]
-symbol = ' '
-style = 'bg:#86BBD8'
-format = '[ $symbol ($version) ]($style)'
-
-# == symbols ==
-[aws]
-symbol = '  '
-
-[buf]
-symbol = ' '
-
-[cmake]
-symbol = ' '
-
-[conda]
-symbol = ' '
-
-[crystal]
-symbol = ' '
-
-[dart]
-symbol = ' '
-
-[fennel]
-symbol = ' '
-
-[fossil_branch]
-symbol = ' '
-
-[guix_shell]
-symbol = ' '
-
-[haxe]
-symbol = ' '
-
-[hg_branch]
-symbol = ' '
-
-[hostname]
-ssh_symbol = ' '
-
-[kotlin]
-symbol = ' '
-
-[lua]
-symbol = ' '
-
-[memory_usage]
-symbol = '󰍛 '
-
-[meson]
-symbol = '󰔷 '
-
-[nix_shell]
-symbol = ' '
-
-[ocaml]
-symbol = ' '
-
-[os.symbols]
-Alpaquita = ' '
-Alpine = ' '
-AlmaLinux = ' '
-Amazon = ' '
-Android = ' '
-Arch = ' '
-Artix = ' '
-CachyOS = ' '
-CentOS = ' '
-Debian = ' '
-DragonFly = ' '
-Emscripten = ' '
-EndeavourOS = ' '
-Fedora = ' '
-FreeBSD = ' '
-Garuda = '󰛓 '
-Gentoo = ' '
-HardenedBSD = '󰞌 '
-Illumos = '󰈸 '
-Kali = ' '
-Linux = ' '
-Mabox = ' '
-Macos = ' '
-Manjaro = ' '
-Mariner = ' '
-MidnightBSD = ' '
-Mint = ' '
-NetBSD = ' '
-NixOS = ' '
-Nobara = ' '
-OpenBSD = '󰈺 '
-openSUSE = ' '
-OracleLinux = '󰌷 '
-Pop = ' '
-Raspbian = ' '
-Redhat = ' '
-RedHatEnterprise = ' '
-RockyLinux = ' '
-Redox = '󰀘 '
-Solus = '󰠳 '
-SUSE = ' '
-Ubuntu = ' '
-Unknown = ' '
-Void = ' '
-Windows = '󰍲 '
-
-# Disable the package module, hiding it from the prompt completely
-[package]
-disabled = true
-symbol = '󰏗 '
-
-[perl]
-symbol = ' '
-
-[php]
-symbol = ' '
-
-[pijul_channel]
-symbol = ' '
-
-[rlang]
-symbol = '󰟔 '
-
-[ruby]
-symbol = ' '
-
-[swift]
-symbol = ' '
-
-[zig]
-symbol = ' '

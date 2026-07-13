@@ -47,6 +47,25 @@ path_remove() {
 	done
 }
 
+append_prompt_command() {
+	local cmd existing
+	for cmd in "$@"; do
+		[[ -n "$cmd" ]] || continue
+
+		if declare -p PROMPT_COMMAND >/dev/null 2>&1 && [[ $(declare -p PROMPT_COMMAND 2>/dev/null) == "declare -a"* ]]; then
+			for existing in "${PROMPT_COMMAND[@]}"; do
+				[[ "$existing" == "$cmd" ]] && continue 2
+			done
+			PROMPT_COMMAND+=("$cmd")
+		elif [[ -n "${PROMPT_COMMAND:-}" ]]; then
+			[[ "$PROMPT_COMMAND" == *"$cmd"* ]] && continue
+			PROMPT_COMMAND="${PROMPT_COMMAND%;}; $cmd"
+		else
+			PROMPT_COMMAND="$cmd"
+		fi
+	done
+}
+
 # User specific environment. Remove inherited copies before establishing a
 # deterministic order with ~/.local/bin ahead of ~/bin.
 path_remove "$HOME/.local/bin" "$HOME/bin"
@@ -108,9 +127,6 @@ HISTFILESIZE=-1
 HISTCONTROL=erasedups:ignoredups:ignorespace
 # my god this is good! <3 `history`
 HISTTIMEFORMAT="%F %T "
-
-# enables bash to write a command immediately after execution
-PROMPT_COMMAND='history -a; history -n'
 
 # Allow ctrl-S for history navigation (with ctrl-R)
 if [ -t 0 ]; then
@@ -334,3 +350,7 @@ if [ -f "$HOME/.bashrc.local" ]; then
 	# shellcheck source=/dev/null
 	source "$HOME/.bashrc.local"
 fi
+
+# Keep history syncing last so prompt integrations can safely extend
+# PROMPT_COMMAND without clobbering each other.
+append_prompt_command 'history -a' 'history -n'
