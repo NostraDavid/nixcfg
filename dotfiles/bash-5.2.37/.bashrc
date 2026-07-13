@@ -6,13 +6,51 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-# User specific environment
-case ":$PATH:" in
-*":$HOME/.local/bin:$HOME/bin:"*) ;;
-*)
-	PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-	;;
-esac
+# PATH helpers (avoid duplicates when shells inherit an existing PATH).
+path_prepend() {
+	local dir
+	for dir in "$@"; do
+		[[ -n "$dir" ]] || continue
+		[[ -d "$dir" ]] || continue
+		case ":$PATH:" in
+		*":$dir:"*) ;;
+		*) PATH="$dir${PATH:+:$PATH}" ;;
+		esac
+	done
+}
+
+path_append() {
+	local dir
+	for dir in "$@"; do
+		[[ -n "$dir" ]] || continue
+		[[ -d "$dir" ]] || continue
+		case ":$PATH:" in
+		*":$dir:"*) ;;
+		*) PATH="${PATH:+$PATH:}$dir" ;;
+		esac
+	done
+}
+
+path_remove() {
+	local remove_dir current_dir new_path
+	local -a path_parts
+	for remove_dir in "$@"; do
+		[[ -n "$remove_dir" ]] || continue
+		new_path=""
+		IFS=: read -r -a path_parts <<<"$PATH"
+		for current_dir in "${path_parts[@]}"; do
+			[[ -n "$current_dir" ]] || continue
+			[[ "$current_dir" == "$remove_dir" ]] && continue
+			new_path="${new_path:+$new_path:}$current_dir"
+		done
+		PATH="$new_path"
+	done
+}
+
+# User specific environment. Remove inherited copies before establishing a
+# deterministic order with ~/.local/bin ahead of ~/bin.
+path_remove "$HOME/.local/bin" "$HOME/bin"
+path_prepend "$HOME/bin" "$HOME/.local/bin"
 export PATH
 
 # Flatpak desktop entries
@@ -211,7 +249,6 @@ safe_shopt -s checkwinsize   # update LINES and COLUMNS to fit output
 
 # == other ==
 #export PAGER="most" # better color support than `less`
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 # == Powerline prompt ==
 # `sudo apt install powerline powerline-gitstatus`
