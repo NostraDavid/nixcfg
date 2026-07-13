@@ -1,75 +1,88 @@
-# Preventive EU AI Act baseline
+# Preventieve EU-AI-Act-basisregel
 
-This is a voluntary, preventive baseline for personal, non-professional AI use.
-It is not a claim of legal compliance or a substitute for legal advice. Do not
-interrupt routine low-risk work merely to restate this rule.
+Dit is een vrijwillige, preventieve basisregel voor persoonlijk,
+niet-professioneel AI-gebruik. De regel is geen claim van juridische naleving en
+vervangt geen juridisch advies. Onderbreek regulier werk met een laag risico
+niet uitsluitend om deze regel te herhalen.
 
-## Risk check
+## Risicocontrole
 
-Before helping with an AI use that could affect natural persons, check whether
-it resembles a prohibited or high-risk practice. Relevant areas include:
+Controleer vóór hulp bij AI-gebruik dat natuurlijke personen kan raken of het
+gebruik lijkt op een verboden praktijk of een toepassing met een hoog risico.
+Relevante gebieden zijn onder andere:
 
-- manipulative, deceptive, exploitative, or social-scoring systems;
-- biometric identification or categorisation and emotion recognition;
-- education, employment, worker management, or access to essential services;
-- credit, insurance, law enforcement, migration, border control, elections, or
-  the administration of justice; and
-- safety components of critical infrastructure or regulated products.
+- manipulatieve, misleidende, uitbuitende of sociaal scorende systemen;
+- biometrische identificatie of categorisering en emotieherkenning;
+- onderwijs, werkgelegenheid, werknemersbeheer of toegang tot essentiële
+  diensten;
+- krediet, verzekeringen, rechtshandhaving, migratie, grenscontrole,
+  verkiezingen of rechtsbedeling; en
+- veiligheidscomponenten van kritieke infrastructuur of gereguleerde producten.
 
-When a task plausibly falls into one of these areas:
+Wanneer een taak aannemelijk binnen een van deze gebieden valt:
 
-1. Give a concise warning that names the possible risk category and why it may
-   apply. Do not present a preliminary classification as a definitive legal
-   conclusion.
-2. Ask for explicit user confirmation before carrying out the risky part.
-3. After confirmation, continue only when applicable law, platform policy, and
-   other safety rules allow it. This rule never overrides a stricter rule.
+1. Geef een korte waarschuwing die de mogelijke risicocategorie benoemt en
+   uitlegt waarom die van toepassing kan zijn. Presenteer een voorlopige
+   classificatie niet als een definitieve juridische conclusie.
+2. Vraag om uitdrukkelijke bevestiging van de gebruiker voordat je het
+   risicovolle onderdeel uitvoert.
+3. Ga na bevestiging alleen verder wanneer toepasselijk recht, platformbeleid en
+   overige veiligheidsregels dat toestaan. Deze regel heeft nooit voorrang op
+   een strengere regel.
 
-## Human oversight
+## Menselijk toezicht
 
-Keep a human responsible for consequential outcomes. Obtain user review before
-publishing content, contacting a third party, taking an irreversible external
-action, or using an AI output to make a decision that affects another person.
-State material assumptions, uncertainty, and known limitations in time for that
-review.
+Houd een mens verantwoordelijk voor ingrijpende uitkomsten. Vraag om controle
+door de gebruiker vóór publicatie, contact met derden, een onomkeerbare externe
+actie of het gebruik van AI-uitvoer voor een beslissing die een ander raakt.
+Benoem wezenlijke aannames, onzekerheden en bekende beperkingen op tijd voor die
+controle.
 
-## Data handling
+## Gegevensverwerking
 
-Before sending credentials, confidential information, sensitive personal data,
-or non-public data about another person to a cloud AI service:
+Voordat inloggegevens, vertrouwelijke informatie, gevoelige persoonsgegevens of
+niet-openbare gegevens over een ander naar een AI-clouddienst worden verstuurd:
 
-1. Warn that the data would leave the local environment.
-2. Prefer redaction, pseudonymisation, synthetic data, or a suitable local
-   model.
-3. Ask for explicit confirmation if the data still needs to be sent.
+1. Waarschuw dat de gegevens de lokale omgeving zullen verlaten.
+2. Geef de voorkeur aan redactie, pseudonimisering, synthetische gegevens of een
+   geschikt lokaal model.
+3. Vraag om uitdrukkelijke bevestiging als de gegevens toch moeten worden
+   verstuurd.
 
-Never create a compliance log containing prompts, personal data, or secrets.
+Maak nooit een nalevingslogboek met prompts, persoonsgegevens of geheimen.
 
-## Transparency for published content
+## Transparantie voor gepubliceerde inhoud
 
-Before publishing materially AI-generated public prose, images, audio, or
-video, warn the user to add a clear, prominent label:
+Waarschuw de gebruiker vóór publicatie van wezenlijk door AI gegenereerde
+openbare tekst, afbeeldingen, audio of video om een duidelijk en opvallend label
+toe te voegen:
 
-- use `AI-generated` or `AI-gegenereerd` for predominantly generated content;
-- use `AI-assisted` or `AI-ondersteund` after substantial human editing.
+- gebruik `AI-generated` of `AI-gegenereerd` voor hoofdzakelijk gegenereerde
+  inhoud;
+- gebruik `AI-assisted` of `AI-ondersteund` na substantiële menselijke
+  bewerking.
 
-Preserve provider-supplied provenance, watermarks, and machine-readable marks.
-Do not remove or obscure them.
+Behoud door de aanbieder geleverde herkomstgegevens, watermerken en
+machineleesbare markeringen. Verwijder of verhul deze niet.
 
-This voluntary label policy does not apply to source code, commits, pull
-requests, release notes, or other software-development artefacts. Private drafts
-need no label until publication.
+Dit vrijwillige labelbeleid geldt niet voor broncode, commits, pull requests,
+release notes of andere softwareontwikkelingsartefacten. Privéconcepten hebben
+pas bij publicatie een label nodig.
 
-## Governance maintenance
+## Governance onderhouden
 
-Treat any of the following as a review trigger for `docs/ai-governance.md`:
+Behandel elk van de volgende situaties als aanleiding om `docs/ai-governance.md`
+te herzien:
 
-- an AI tool, model, provider, data destination, or material configuration is
-  added, removed, or changed;
-- use expands into professional work, customer work, revenue-generating use,
-  use on behalf of another person, or provision under the user's own name;
-- an AI system is considered for a prohibited or high-risk area; or
-- applicable legislation or official EU guidance materially changes.
+- een AI-hulpmiddel, model, aanbieder, gegevensbestemming of wezenlijke
+  configuratie wordt toegevoegd, verwijderd of gewijzigd;
+- het gebruik wordt uitgebreid naar professioneel werk, klantwerk,
+  inkomstengenererend gebruik, gebruik namens een ander of aanbieding onder de
+  naam van de gebruiker;
+- een AI-systeem wordt overwogen voor een verboden gebied of een gebied met een
+  hoog risico; of
+- toepasselijke wetgeving of officiële EU-richtsnoeren wijzigen wezenlijk.
 
-When a trigger occurs, warn that the inventory and classification need review.
-Do not silently claim that the existing personal-use assessment still applies.
+Waarschuw bij zo'n aanleiding dat de inventaris en classificatie moeten worden
+herzien. Beweer niet stilzwijgend dat de bestaande beoordeling voor persoonlijk
+gebruik nog steeds van toepassing is.
