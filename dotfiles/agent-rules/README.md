@@ -1,22 +1,23 @@
 # agent-rules
 
-A bit of a curious setup: I link `AGENTS.md` to `~/AGENTS.md`, but also make it
-available to Codex, Claude, Pi, and Gemini. This provides one source of truth
-while keeping the rules available to each agent.
+Een enigszins merkwaardige configuratie: ik koppel `AGENTS.md` aan
+`~/AGENTS.md`, maar maak het bestand ook beschikbaar voor Codex, Claude, Pi en
+Gemini. Zo is er één informatiebron, terwijl elke agent toegang tot de regels
+houdt.
 
-I also link the whole `agent-rules/` directory to `~/agent-rules/` for easy
-access to the rules and related files.
+Ik koppel ook de volledige map `agent-rules/` aan `~/agent-rules/`, zodat de
+regels en bijbehorende bestanden gemakkelijk bereikbaar zijn.
 
-The references in `AGENTS.md` start from the home directory. Without `$HOME`,
-new threads would search locally and fail to find the referenced `@file`.
+De verwijzingen in `AGENTS.md` beginnen vanuit de thuismap. Zonder `$HOME`
+zouden nieuwe gesprekken lokaal zoeken en het genoemde `@file` niet vinden.
 
-The preventive EU AI Act rule is also loaded directly by clients that do not
-follow the `@file` references in `AGENTS.md`:
+Clients die de `@file`-verwijzingen in `AGENTS.md` niet volgen, laden de
+preventieve EU-AI-Act-regel ook rechtstreeks:
 
-- Copilot receives it as a personal instruction file.
-- OpenCode loads it through the global `instructions` setting.
-- Hermes receives it as build-time content appended to its declaratively
-  managed `SOUL.md`; the existing Hermes persona remains the first paragraph.
+- Copilot ontvangt de regel als een persoonlijk instructiebestand.
+- OpenCode laadt de regel via de globale instelling `instructions`.
+- Hermes ontvangt de regel tijdens het bouwen als aanvulling op het declaratief
+  beheerde `SOUL.md`; de bestaande Hermes-persona blijft de eerste alinea.
 
-The matching inventory, scope assessment, and review log live in
-`docs/ai-governance.md` in this repository.
+De bijbehorende inventaris, beoordeling van de reikwijdte en het
+herzieningslogboek staan in `docs/ai-governance.md` in deze repository.

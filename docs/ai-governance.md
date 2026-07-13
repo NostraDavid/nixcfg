@@ -1,98 +1,108 @@
-# Personal AI governance baseline
+# Persoonlijke AI-governancebasis
 
-| Field | Value |
+| Veld | Waarde |
 | --- | --- |
-| Owner | David |
-| Scope | Purely personal, non-professional AI use |
-| Status | Voluntary preventive baseline; not a compliance claim |
-| Last reviewed | 2026-07-13 |
-| Review due | `on-change` |
+| Eigenaar | David |
+| Reikwijdte | Uitsluitend persoonlijk, niet-professioneel AI-gebruik |
+| Status | Vrijwillige preventieve basis; geen claim van naleving |
+| Laatst herzien | 2026-07-13 |
+| Herziening vereist | `bij-wijziging` |
 
-## Scope assessment
+## Beoordeling van de reikwijdte
 
-Article 2(10) of the EU AI Act excludes deployer obligations for a natural
-person using AI in a purely personal, non-professional activity. This assessment
-therefore assumes no professional work, customer work, revenue-generating use,
-operation on behalf of another person, or provision of an AI system under the
-owner's name.
+Artikel 2, lid 10, van de EU AI Act sluit de verplichtingen voor
+gebruiksverantwoordelijken uit wanneer een natuurlijke persoon AI gebruikt in
+het kader van een louter persoonlijke, niet-professionele activiteit. Deze
+beoordeling veronderstelt daarom dat er geen sprake is van professioneel werk,
+klantwerk, inkomstengenererend gebruik, activiteiten namens een ander of het
+aanbieden van een AI-systeem onder de naam van de eigenaar.
 
-The current intended uses are coding assistance, research, documentation, and
-personal system administration. No high-risk use, public-facing AI service, or
-provider role is intended. A scope change invalidates this assessment and
-requires review before relying on it.
+De huidige beoogde toepassingen zijn programmeerondersteuning, onderzoek,
+documentatie en persoonlijk systeembeheer. Er is geen gebruik met een hoog
+risico, openbaar AI-dienstaanbod of aanbiedersrol beoogd. Een wijziging van de
+reikwijdte maakt deze beoordeling ongeldig en vereist een herziening voordat er
+opnieuw op wordt vertrouwd.
 
-AI literacy obligations have applied to professional providers and deployers
-since 2 February 2025. Article 50 transparency obligations apply from 2 August
-2026. The personal publication policy in this repository is voluntary and
-deliberately broader than Article 50.
+Verplichtingen voor AI-geletterdheid gelden sinds 2 februari 2025 voor
+professionele aanbieders en gebruiksverantwoordelijken. De
+transparantieverplichtingen uit artikel 50 gelden vanaf 2 augustus 2026. Het
+persoonlijke publicatiebeleid in deze repository is vrijwillig en bewust ruimer
+dan artikel 50.
 
-## AI system inventory
+## Inventaris van AI-systemen
 
-`Unknown` means that the provider, model, or destination is selected at runtime
-and cannot be established from the tracked configuration. It is not an
-assumption that processing is local.
+`Onbekend` betekent dat de aanbieder, het model of de bestemming tijdens de
+uitvoering wordt gekozen en niet uit de bijgehouden configuratie kan worden
+vastgesteld. Het betekent niet dat de verwerking lokaal plaatsvindt.
 
-| System | Status and purpose | Provider/model | Data flow | Role and intended risk |
+| Systeem | Status en doel | Aanbieder/model | Gegevensstroom | Rol en beoogd risico |
 | --- | --- | --- | --- | --- |
-| Codex and Codex Desktop | Installed and configured coding agents | OpenAI; `gpt-5.6-sol` | Prompts, code, and tool results to an external service | Personal user; no intended high-risk use |
-| Claude | Global client configuration present; coding and general assistance | Anthropic; model unknown | Potential external processing; runtime details unknown | Personal user; no intended high-risk use |
-| GitHub Copilot CLI | Installed coding agent | GitHub; model unknown | Prompts, code, and tool results to an external service | Personal user; no intended high-risk use |
-| Pi | Enabled coding agent | TensorX; `deepseek/deepseek-v4-flash` | Prompts, code, and tool results to an external endpoint | Personal user; no intended high-risk use |
-| Gemini CLI | Installed general and coding agent using personal OAuth | Google; model unknown | Prompts, code, and tool results to an external service | Personal user; no intended high-risk use |
-| OpenCode | Installed provider-agnostic coding agent | Provider and model unknown | Local or external destination selected at runtime | Personal user; no intended high-risk use |
-| Hermes Agent and Desktop | Installed provider-agnostic autonomous agent and desktop client | Provider and model unknown | Local tools; inference destination selected at runtime | Personal user; no intended high-risk use |
-| CodeAlmanac | Installed AI-maintained local codebase wiki | Claude Agent SDK; model unknown | Local repository data may be sent to the configured inference service | Personal user; no intended high-risk use |
-| Semble | Installed semantic code-search support | Local Model2Vec embeddings | Repository content is embedded and searched locally after model retrieval | Supporting component; no consequential decisions |
-| Stable Diffusion CPP | Installed local image-generation runtime | Local runtime; model unknown | Prompts and generated images remain local unless separately published | Personal user; no intended high-risk use; publication labels apply |
+| Codex en Codex Desktop | Geïnstalleerde en geconfigureerde programmeeragents | OpenAI; `gpt-5.6-sol` | Prompts, code en hulpmiddelresultaten naar een externe dienst | Persoonlijke gebruiker; geen beoogd gebruik met een hoog risico |
+| Claude | Globale clientconfiguratie aanwezig; programmeer- en algemene hulp | Anthropic; model onbekend | Mogelijke externe verwerking; uitvoeringsdetails onbekend | Persoonlijke gebruiker; geen beoogd gebruik met een hoog risico |
+| GitHub Copilot CLI | Geïnstalleerde programmeeragent | GitHub; model onbekend | Prompts, code en hulpmiddelresultaten naar een externe dienst | Persoonlijke gebruiker; geen beoogd gebruik met een hoog risico |
+| Pi | Ingeschakelde programmeeragent | TensorX; `deepseek/deepseek-v4-flash` | Prompts, code en hulpmiddelresultaten naar een extern eindpunt | Persoonlijke gebruiker; geen beoogd gebruik met een hoog risico |
+| Gemini CLI | Geïnstalleerde algemene en programmeeragent met persoonlijke OAuth | Google; model onbekend | Prompts, code en hulpmiddelresultaten naar een externe dienst | Persoonlijke gebruiker; geen beoogd gebruik met een hoog risico |
+| OpenCode | Geïnstalleerde aanbieder-onafhankelijke programmeeragent | Aanbieder en model onbekend | Lokale of externe bestemming wordt tijdens uitvoering gekozen | Persoonlijke gebruiker; geen beoogd gebruik met een hoog risico |
+| Hermes Agent en Desktop | Geïnstalleerde aanbieder-onafhankelijke autonome agent en desktopclient | Aanbieder en model onbekend | Lokale hulpmiddelen; inferentiebestemming wordt tijdens uitvoering gekozen | Persoonlijke gebruiker; geen beoogd gebruik met een hoog risico |
+| CodeAlmanac | Geïnstalleerde, door AI onderhouden lokale codebasewiki | Claude Agent SDK; model onbekend | Lokale repositorygegevens kunnen naar de geconfigureerde inferentiedienst gaan | Persoonlijke gebruiker; geen beoogd gebruik met een hoog risico |
+| Semble | Geïnstalleerde ondersteuning voor semantisch zoeken in code | Lokale Model2Vec-embeddings | Repositoryinhoud wordt na modeldownload lokaal ingebed en doorzocht | Ondersteunende component; geen ingrijpende beslissingen |
+| Stable Diffusion CPP | Geïnstalleerde lokale runtime voor beeldgeneratie | Lokale runtime; model onbekend | Prompts en gegenereerde beelden blijven lokaal tenzij afzonderlijk gepubliceerd | Persoonlijke gebruiker; geen hoog risico beoogd; labels gelden |
 
-Skillkit, Context7, RTK, and Snip support agent workflows but are not recorded
-as independent inference systems in this inventory. Reclassify them if their
-behaviour changes materially.
+Skillkit, Context7, RTK en Snip ondersteunen agentwerkstromen, maar zijn niet
+als zelfstandige inferentiesystemen in deze inventaris opgenomen. Classificeer
+ze opnieuw als hun gedrag wezenlijk verandert.
 
-## Controls
+## Beheersmaatregelen
 
-| Risk | Preventive control | Evidence |
+| Risico | Preventieve beheersmaatregel | Bewijs |
 | --- | --- | --- |
-| Potential prohibited or high-risk use | Name the possible category, explain the trigger, and require explicit confirmation before the risky part | Shared `eu-ai-act.md` rule and client mappings |
-| Consequential or external action | Human review before publication, third-party contact, irreversible action, or a decision affecting another person | Shared rule and normal approval flow |
-| Sensitive or non-public input | Warn before cloud transfer; prefer redaction, pseudonymisation, synthetic data, or local processing; require confirmation if transfer remains necessary | Shared rule; no prompt logging |
-| Public AI-generated prose or media | Use a prominent `AI-generated`/`AI-gegenereerd` or `AI-assisted`/`AI-ondersteund` label and preserve provenance marks | Shared rule and publication review |
-| Software-development artefacts | Source code, commits, pull requests, and releases are excluded from the voluntary publication label | Explicit rule exception |
-| Governance drift | Review on tool, model, provider, destination, purpose, role, or relevant legal change | Inventory and append-only review log |
+| Mogelijk verboden gebruik of hoog risico | Benoem de mogelijke categorie, leg de aanleiding uit en vereis uitdrukkelijke bevestiging vóór het risicovolle onderdeel | Gedeelde `eu-ai-act.md`-regel en clientkoppelingen |
+| Ingrijpende of externe actie | Menselijke controle vóór publicatie, contact met derden, een onomkeerbare actie of een beslissing die een ander raakt | Gedeelde regel en normale goedkeuringsstroom |
+| Gevoelige of niet-openbare invoer | Waarschuw vóór cloudoverdracht; geef de voorkeur aan redactie, pseudonimisering, synthetische gegevens of lokale verwerking; vereis zo nodig bevestiging | Gedeelde regel; geen registratie van prompts |
+| Openbare, door AI gegenereerde tekst/media | Gebruik een opvallend label `AI-generated`/`AI-gegenereerd` of `AI-assisted`/`AI-ondersteund` en behoud herkomstmarkeringen | Gedeelde regel en publicatiecontrole |
+| Softwareontwikkelingsartefacten | Broncode, commits, pull requests en releases zijn uitgezonderd van het vrijwillige publicatielabel | Uitdrukkelijke uitzondering in de regel |
+| Verouderde governance | Herzie bij wijzigingen in hulpmiddel, model, aanbieder, bestemming, doel, rol of relevante wetgeving | Inventaris en alleen-aanvulbaar herzieningslogboek |
 
-The controls do not authorise conduct prohibited by other law or platform
-policy. No prompts, secrets, personal data, or per-use activity logs are kept as
-compliance evidence.
+De beheersmaatregelen staan geen gedrag toe dat door andere wetgeving of
+platformbeleid wordt verboden. Prompts, geheimen, persoonsgegevens en
+gebruikslogboeken per handeling worden niet als bewijs van naleving bewaard.
 
-## Review triggers
+## Aanleidingen voor herziening
 
-Review this document and the shared rule when:
+Herzie dit document en de gedeelde regel wanneer:
 
-- an AI tool, model, provider, data destination, or material configuration is
-  added, removed, or changed;
-- use becomes professional, customer-facing, revenue-generating, or is carried
-  out on behalf of another person;
-- an AI system is offered under the owner's name or is considered for a
-  prohibited or high-risk area;
-- final Article 50 guidelines are published; or
-- the Digital Omnibus on AI or another relevant legal instrument enters into
-  force.
+- een AI-hulpmiddel, model, aanbieder, gegevensbestemming of wezenlijke
+  configuratie wordt toegevoegd, verwijderd of gewijzigd;
+- het gebruik professioneel, klantgericht of inkomstengenererend wordt, of
+  namens een ander plaatsvindt;
+- een AI-systeem onder de naam van de eigenaar wordt aangeboden of voor een
+  verboden gebied of gebied met een hoog risico wordt overwogen;
+- definitieve richtsnoeren voor artikel 50 worden gepubliceerd; of
+- de Digital Omnibus on AI of een ander relevant rechtsinstrument in werking
+  treedt.
 
-## Review log
+## Herzieningslogboek
 
-Append new entries; do not rewrite previous assessments.
+Voeg nieuwe vermeldingen toe; herschrijf eerdere beoordelingen niet.
 
-| Date | Trigger | Outcome |
+| Datum | Aanleiding | Uitkomst |
 | --- | --- | --- |
-| 2026-07-13 | Initial preventive implementation before 2 August 2026 | Personal-use exclusion recorded; inventory and controls established. The final transparency code and its adequacy assessment are included. Final Article 50 guidelines and a final Digital Omnibus amending regulation were not found and remain review triggers. |
+| 2026-07-13 | Eerste preventieve implementatie vóór 2 augustus 2026 | Uitzondering voor persoonlijk gebruik vastgelegd; inventaris en beheersmaatregelen ingericht. De definitieve transparantiecode en de adequaatheidsbeoordeling zijn opgenomen. Definitieve Artikel 50-richtsnoeren en een definitieve wijzigingsverordening voor de Digital Omnibus zijn niet gevonden en blijven aanleidingen voor herziening. |
 
-## Official sources
+## Officiële bronnen
 
-- [Regulation (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)
-- [Article 2: scope and personal-use exclusion](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-2)
-- [AI literacy questions and answers](https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers)
-- [Article 50: transparency obligations](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50)
-- [Final Code of Practice on Transparency of AI-Generated Content](https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content)
-- [Commission opinion on the code's adequacy](https://digital-strategy.ec.europa.eu/en/library/commission-opinion-assessment-code-practice-transparency-ai-generated-content)
-- [Draft Article 50 guidelines](https://digital-strategy.ec.europa.eu/en/library/draft-guidelines-implementation-transparency-obligations-certain-ai-systems-under-article-50-ai-act)
-- [Digital Omnibus on AI proposal](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52025PC0836)
+- [Verordening (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)
+- [Artikel 2: reikwijdte en uitzondering voor persoonlijk
+  gebruik](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-2)
+- [Vragen en antwoorden over
+  AI-geletterdheid](https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers)
+- [Artikel 50:
+  transparantieverplichtingen](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50)
+- [Definitieve praktijkcode voor transparantie van door AI gegenereerde
+  inhoud](https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content)
+- [Commissieadvies over de adequaatheid van de
+  praktijkcode](https://digital-strategy.ec.europa.eu/en/library/commission-opinion-assessment-code-practice-transparency-ai-generated-content)
+- [Ontwerprichtsnoeren voor artikel
+  50](https://digital-strategy.ec.europa.eu/en/library/draft-guidelines-implementation-transparency-obligations-certain-ai-systems-under-article-50-ai-act)
+- [Voorstel voor de Digital Omnibus on
+  AI](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52025PC0836)
