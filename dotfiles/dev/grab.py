@@ -179,7 +179,7 @@ def run(
     capture: bool = False,
     timeout: int = TIMEOUT,
 ) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
+    return subprocess.run(  # noqa: S603 - callers construct the command arguments
         args,
         cwd=cwd,
         check=False,
@@ -1062,7 +1062,7 @@ def run_tests(argv: list[str]) -> int:
                     {"affiliation": "owner", "per_page": "100"},
                 )
 
-            self.assertEqual(result, [[]])
+            assert result == [[]]
             gh_json_mock.assert_called_once_with(
                 [
                     "api",
@@ -1087,13 +1087,10 @@ def run_tests(argv: list[str]) -> int:
                 ]
             )
 
-            self.assertEqual(
-                records,
-                [
-                    {"ssh_url": "git@github.com:NostraDavid/nixcfg.git"},
-                    {"ssh_url": "git@github.com:NostraDavid/ndat.git"},
-                ],
-            )
+            assert records == [
+                {"ssh_url": "git@github.com:NostraDavid/nixcfg.git"},
+                {"ssh_url": "git@github.com:NostraDavid/ndat.git"},
+            ]
 
         def test_repo_urls_from_api_keeps_only_ssh_urls(self) -> None:
             pages = [
@@ -1110,13 +1107,10 @@ def run_tests(argv: list[str]) -> int:
             ) as api_mock:
                 urls = repo_urls_from_api("/user/repos", {"per_page": "100"})
 
-            self.assertEqual(
-                urls,
-                [
-                    "git@github.com:NostraDavid/ndat.git",
-                    "git@github.com:NostraDavid/nixcfg.git",
-                ],
-            )
+            assert urls == [
+                "git@github.com:NostraDavid/ndat.git",
+                "git@github.com:NostraDavid/nixcfg.git",
+            ]
             api_mock.assert_called_once_with("/user/repos", {"per_page": "100"})
 
         def test_personal_repo_urls_uses_authenticated_owner_endpoint(self) -> None:
@@ -1159,13 +1153,14 @@ def run_tests(argv: list[str]) -> int:
             }
             for raw_url, expected in cases.items():
                 with self.subTest(raw_url=raw_url):
-                    self.assertEqual(repo_path_part(raw_url), expected)
+                    assert repo_path_part(raw_url) == expected
 
         def test_parse_csv_deduplicates_and_ignores_blanks(self) -> None:
-            self.assertEqual(
-                parse_csv(" master,main,,master, release "),
-                ["master", "main", "release"],
-            )
+            assert parse_csv(" master,main,,master, release ") == [
+                "master",
+                "main",
+                "release",
+            ]
 
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(GrabTests)
     runner = unittest.TextTestRunner(verbosity=2 if args.verbose else 1)
@@ -1190,7 +1185,7 @@ def main(argv: list[str] | None = None) -> int:
     requested_tags = parse_csv(args.tags)
 
     jobs = detect_jobs(args.jobs)
-    started_at = dt.datetime.now()
+    started_at = dt.datetime.now(dt.UTC)
     logger.info("sync_started", target_dir=str(target_dir), jobs=jobs)
 
     user = gh_text(["api", "user", "--jq", ".login"])
@@ -1242,7 +1237,7 @@ def main(argv: list[str] | None = None) -> int:
         "sync_complete",
         total=len(all_repos),
         failed=len(failed),
-        elapsed=str(dt.datetime.now() - started_at),
+        elapsed=str(dt.datetime.now(dt.UTC) - started_at),
     )
     return 1 if failed else 0
 

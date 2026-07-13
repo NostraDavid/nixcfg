@@ -42,8 +42,15 @@ def git_markers(search_dir: Path) -> list[Path]:
 
 
 def origin_url(repo_path: Path) -> str:
-    result = subprocess.run(
-        ["git", "-C", str(repo_path), "remote", "get-url", "origin"],
+    result = subprocess.run(  # noqa: S603 - arguments are constructed by this tool
+        [  # noqa: S607 - Git is intentionally resolved from PATH
+            "git",
+            "-C",
+            str(repo_path),
+            "remote",
+            "get-url",
+            "origin",
+        ],
         check=False,
         text=True,
         stdout=subprocess.PIPE,

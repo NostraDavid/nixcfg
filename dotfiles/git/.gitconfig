@@ -7,7 +7,7 @@
 	templatedir = ~/.git-templates
 
 [core]
-	excludesfile = ~/.gitignore
+	excludesfile = ~/.config/git/ignore
 	hooksPath = ~/.config/git/hooks
 	whitespace = -indent-with-non-tab,trailing-space,cr-at-eol,space-before-tab
 	fsmonitor = true
@@ -190,6 +190,8 @@
 
 	# Log and diff views
 	lg = log --color --graph --abbrev-commit --pretty=format:'%Cred%h %C(bold blue)%an%Creset %Cgreen%ad -%C(yellow)%d%Creset %s' --date=format:'%Y-%m-%d %H:%M'
+	cached = diff --cached --no-ext-diff
+	rawdiff = !git --no-pager -c diff.external= -c pager.diff=false diff --no-ext-diff --no-color
 	ddiff = -c diff.external=difft diff
 	dlog = -c diff.external=difft log --ext-diff
 	dshow = -c diff.external=difft show --ext-diff

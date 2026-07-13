@@ -31,8 +31,8 @@ def configure_logging() -> None:
 def run_git(
     repo_path: Path, args: list[str], *, capture: bool = False
 ) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        ["git", *args],
+    return subprocess.run(  # noqa: S603 - arguments are constructed by this tool
+        ["git", *args],  # noqa: S607 - Git is intentionally resolved from PATH
         cwd=repo_path,
         check=False,
         text=True,
