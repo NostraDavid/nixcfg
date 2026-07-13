@@ -17,6 +17,11 @@
 	ui = auto
 
 [branch]
+	# Also set upstream when a new local branch is created from another local
+	# branch. Some tools do that instead of branching directly from
+	# origin/<name>, which otherwise leaves `git pull` and `git push` without
+	# tracking info.
+	autoSetupMerge = always
 	sort = -committerdate
 
 [tag]
@@ -52,6 +57,9 @@
 	prune = true
 	pruneTags = true
 	fsckObjects = true
+
+[worktree]
+	guessRemote = true
 
 [pull]
 	# run this, if you want to skip rebase: `git pull --no-rebase`
