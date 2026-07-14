@@ -1,4 +1,5 @@
 {
+  hostname,
   main-user,
   inputs,
   repoRoot,
@@ -15,7 +16,7 @@
         inputs.codex-desktop-linux.homeManagerModules.default
       ];
 
-      _module.args = {inherit inputs repoRoot;};
+      _module.args = {inherit hostname inputs repoRoot;};
 
       programs.home-manager.enable = true;
       home = {
