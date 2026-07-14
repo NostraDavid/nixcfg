@@ -66,6 +66,7 @@ in {
     unstable.opencode # codex-cli alternative
     unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
     unstable.python313 # Runtime for executable agent skill helpers
+    unstable.vscode
 
     # local
     freetype # font-rendering library, for Whatpulse
@@ -76,7 +77,7 @@ in {
     local.whatpulse
     local.yafc
     local.xdgctl
-    local.vscode
+    # local.vscode
     local.jsongrep # JSONPath-inspired query language over JSON documents
     local.austin # CPython frame stack sampler
     local.semble # Fast code search for agents
