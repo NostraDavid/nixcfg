@@ -1,6 +1,6 @@
 # Updating Existing Local Plugins
 
-Use this reference when a plugin already exists and the request is about updating the plugin during 
+Use this reference when a plugin already exists and the request is about updating the plugin during
 local development.
 
 All scripts here are specified relative to the skill root. Update the path for running the scripts
@@ -21,70 +21,70 @@ flow first and only then switch to this reinstall flow.
 
 1. Update the plugin manifest to a single Codex cachebuster suffix:
 
-```bash
-python3 scripts/update_plugin_cachebuster.py \
-  <plugin-path>
-```
+   ```bash
+   python3 scripts/update_plugin_cachebuster.py \
+     <plugin-path>
+   ```
 
-Prefer the default helper behavior here. If you omit `--cachebuster`, the helper uses a UTC
-timestamp down to seconds, which is the recommended path for routine local iteration.
+   Prefer the default helper behavior here. If you omit `--cachebuster`, the helper uses a UTC
+   timestamp down to seconds, which is the recommended path for routine local iteration.
 
-Only use a manual cachebuster override when the user explicitly asks for one or when a workflow
-outside Codex depends on a specific token:
+   Only use a manual cachebuster override when the user explicitly asks for one or when a workflow
+   outside Codex depends on a specific token:
 
-```bash
-python3 scripts/update_plugin_cachebuster.py \
-  <plugin-path> \
-  --cachebuster local-20260519-184516
-```
+   ```bash
+   python3 scripts/update_plugin_cachebuster.py \
+     <plugin-path> \
+     --cachebuster local-20260519-184516
+   ```
 
 2. For the default scaffolded flow, read the marketplace name from the personal marketplace file:
 
-```bash
-python3 scripts/read_marketplace_name.py
-```
+   ```bash
+   python3 scripts/read_marketplace_name.py
+   ```
 
-Here, "personal marketplace" means the marketplace whose file is at
-`~/.agents/plugins/marketplace.json`. On Windows, use the equivalent path under the user profile.
-The helper uses Python's home-directory resolution and prints the marketplace name to use when
-constructing the install command.
+   Here, "personal marketplace" means the marketplace whose file is at
+   `~/.agents/plugins/marketplace.json`. On Windows, use the equivalent path under the user profile.
+   The helper uses Python's home-directory resolution and prints the marketplace name to use when
+   constructing the install command.
 
-To read the name from a different marketplace file, pass the path directly:
+   To read the name from a different marketplace file, pass the path directly:
 
-```bash
-python3 scripts/read_marketplace_name.py --marketplace-path <path-to-marketplace.json>
-```
+   ```bash
+   python3 scripts/read_marketplace_name.py --marketplace-path <path-to-marketplace.json>
+   ```
 
 3. Reinstall from that marketplace name:
 
-```bash
-codex plugin add <plugin-name>@<marketplace-name-from-marketplace-json>
-```
+   ```bash
+   codex plugin add <plugin-name>@<marketplace-name-from-marketplace-json>
+   ```
 
-The default personal marketplace is discovered implicitly from
-`~/.agents/plugins/marketplace.json`. You do not need `codex plugin marketplace add` for that
-path, and `codex plugin marketplace list` is not the right check for whether that default
-marketplace exists.
+   The default personal marketplace is discovered implicitly from
+   `~/.agents/plugins/marketplace.json`. You do not need `codex plugin marketplace add` for that
+   path, and `codex plugin marketplace list` is not the right check for whether that default
+   marketplace exists.
 
 4. If the plugin is not using the personal marketplace file, check which configured local
    marketplace is actually surfacing that plugin:
 
-```bash
-codex plugin list
-```
+   ```bash
+   codex plugin list
+   ```
 
-If the plugin is not in the personal marketplace file, confirm which marketplace entry points at
-the plugin source you are editing and make sure that marketplace is still local. If it is a
-different local marketplace, reinstall from that marketplace name instead of forcing the personal
-marketplace flow. If it is not local, stop and help the user resolve the mismatch before
-continuing.
+   If the plugin is not in the personal marketplace file, confirm which marketplace entry points at
+   the plugin source you are editing and make sure that marketplace is still local. If it is a
+   different local marketplace, reinstall from that marketplace name instead of forcing the personal
+   marketplace flow. If it is not local, stop and help the user resolve the mismatch before
+   continuing.
 
 5. If the plugin lives in a different confirmed local marketplace, substitute that marketplace
    name:
 
-```bash
-codex plugin add <plugin-name>@<local-marketplace>
-```
+   ```bash
+   codex plugin add <plugin-name>@<local-marketplace>
+   ```
 
 6. Prompt the user to use a new thread to try the updated plugin, so that Codex picks up new skills
    and tools.

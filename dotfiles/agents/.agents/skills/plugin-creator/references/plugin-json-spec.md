@@ -118,7 +118,7 @@ Or as an object directly in `plugin.json`:
 - Custom path values must follow the plugin root convention and naming/namespacing rules.
 - This repo’s scaffold writes `.codex-plugin/plugin.json`; treat that as the manifest location this skill generates.
 
-# Marketplace JSON sample spec
+## Marketplace JSON sample spec
 
 `marketplace.json` depends on where the plugin should live. New plugin creation defaults to the
 personal marketplace unless the caller explicitly requests a repo-local destination:
