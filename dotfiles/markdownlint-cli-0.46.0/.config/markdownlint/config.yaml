@@ -17,7 +17,7 @@ MD018: false
 
 # CHANGELOG-style documents often repeat the same version headings, so allow
 # duplicate headings repo-wide.
-# MD024: false
+MD024: false
 
 # Allow selected inline HTML tags in Markdown documents.
 no-inline-html:
