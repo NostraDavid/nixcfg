@@ -9,74 +9,74 @@ description: Create and scaffold plugin directories for Codex with a required `.
 
 1. Run the scaffold script:
 
-```bash
-# Plugin names are normalized to lower-case hyphen-case and must be <= 64 chars.
-# The generated folder and plugin.json name are always the same.
-# Run from the skill root (the directory containing this `SKILL.md`).
-# By default creates in `~/plugins/<plugin-name>`.
-python3 scripts/create_basic_plugin.py <plugin-name>
-```
+   ```bash
+   # Plugin names are normalized to lower-case hyphen-case and must be <= 64 chars.
+   # The generated folder and plugin.json name are always the same.
+   # Run from the skill root (the directory containing this `SKILL.md`).
+   # By default creates in `~/plugins/<plugin-name>`.
+   python3 scripts/create_basic_plugin.py <plugin-name>
+   ```
 
 2. Edit `<plugin-path>/.codex-plugin/plugin.json` when the request gives specific metadata.
    The scaffold starts with valid defaults and must not contain `[TODO: ...]` placeholders.
 
 3. Generate or update the personal marketplace entry when the plugin should appear in Codex UI ordering:
 
-```bash
-# Personal marketplace entries default to `~/.agents/plugins/marketplace.json`.
-python3 scripts/create_basic_plugin.py my-plugin --with-marketplace
-```
+   ```bash
+   # Personal marketplace entries default to `~/.agents/plugins/marketplace.json`.
+   python3 scripts/create_basic_plugin.py my-plugin --with-marketplace
+   ```
 
-Only specify `--marketplace-name <name>` when the default `personal` marketplace name is already
-taken or installed and you need to seed a different new marketplace file:
+   Only specify `--marketplace-name <name>` when the default `personal` marketplace name is already
+   taken or installed and you need to seed a different new marketplace file:
 
-```bash
-python3 scripts/create_basic_plugin.py my-plugin \
-  --with-marketplace \
-  --marketplace-name team-local
-```
+   ```bash
+   python3 scripts/create_basic_plugin.py my-plugin \
+     --with-marketplace \
+     --marketplace-name team-local
+   ```
 
-Only use a repo/team marketplace when the user specifically asks for that destination:
+   Only use a repo/team marketplace when the user specifically asks for that destination:
 
-```bash
-python3 scripts/create_basic_plugin.py my-plugin \
-  --path <repo-root>/plugins \
-  --marketplace-path <repo-root>/.agents/plugins/marketplace.json \
-  --with-marketplace
-```
+   ```bash
+   python3 scripts/create_basic_plugin.py my-plugin \
+     --path <repo-root>/plugins \
+     --marketplace-path <repo-root>/.agents/plugins/marketplace.json \
+     --with-marketplace
+   ```
 
-When the user specifies a marketplace path, make sure that marketplace is actually installed before
-telling the user to reinstall from it. The default personal marketplace file at
-`~/.agents/plugins/marketplace.json` is discovered implicitly, but other marketplace paths are not.
-On Windows, use the equivalent path under the user profile.
+   When the user specifies a marketplace path, make sure that marketplace is actually installed before
+   telling the user to reinstall from it. The default personal marketplace file at
+   `~/.agents/plugins/marketplace.json` is discovered implicitly, but other marketplace paths are not.
+   On Windows, use the equivalent path under the user profile.
 
 4. Generate/adjust optional companion folders as needed:
 
-```bash
-python3 scripts/create_basic_plugin.py my-plugin \
-  --path <parent-plugin-directory> \
-  --marketplace-path <marketplace-json-path> \
-  --with-skills --with-hooks --with-scripts --with-assets --with-mcp --with-apps --with-marketplace
-```
+   ```bash
+   python3 scripts/create_basic_plugin.py my-plugin \
+     --path <parent-plugin-directory> \
+     --marketplace-path <marketplace-json-path> \
+     --with-skills --with-hooks --with-scripts --with-assets --with-mcp --with-apps --with-marketplace
+   ```
 
-`<parent-plugin-directory>` is the directory where the plugin folder `<plugin-name>` will be
-created (for example `~/plugins`).
+   `<parent-plugin-directory>` is the directory where the plugin folder `<plugin-name>` will be
+   created (for example `~/plugins`).
 
 5. Before handing back a generated plugin, run:
 
-```bash
-python3 scripts/validate_plugin.py <plugin-path>
-```
+   ```bash
+   python3 scripts/validate_plugin.py <plugin-path>
+   ```
 
-For updates to an existing local plugin during development, keep the scaffold flow as-is and use the
-reference instead of hand-editing marketplace files:
+   For updates to an existing local plugin during development, keep the scaffold flow as-is and use the
+   reference instead of hand-editing marketplace files:
 
-```bash
-python3 scripts/update_plugin_cachebuster.py <plugin-path>
-```
+   ```bash
+   python3 scripts/update_plugin_cachebuster.py <plugin-path>
+   ```
 
-Prefer the helper default cachebuster unless the user explicitly asks for a specific override.
-See `references/installing-and-updating.md` for the expected cachebuster and reinstall flow while iterating on an existing local plugin.
+   Prefer the helper default cachebuster unless the user explicitly asks for a specific override.
+   See `references/installing-and-updating.md` for the expected cachebuster and reinstall flow while iterating on an existing local plugin.
 
 ## What this skill creates
 
