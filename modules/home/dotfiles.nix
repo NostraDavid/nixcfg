@@ -16,29 +16,29 @@
       # cli-proxies
 
       ## Generic
-      "AGENTS.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
-      "agent-rules" = {source = mk "${dot}/agent-rules";};
+      "AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
+      ".agents/instructions" = {source = mk "${dot}/agents/instructions";};
 
       ## Codex
-      ".codex/AGENTS.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
+      ".codex/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
       ".codex/skills/database-design" = {source = mk "${dot}/codex-0.140.0/.codex/skills/database-design";};
       ".codex/skills/manage-adrs" = {source = mk "${dot}/codex-0.140.0/.codex/skills/manage-adrs";};
 
       ## pi
       ".pi/agent/settings.json" = {source = mk "${dot}/pi/.pi/agent/settings.json";};
-      ".pi/agent/AGENTS.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
+      ".pi/agent/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
       ## Gemini
-      ".gemini/GEMINI.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
+      ".gemini/GEMINI.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
       ## Claude
       ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
-      ".claude/CLAUDE.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
+      ".claude/CLAUDE.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
       ## Copilot
       ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
       ".copilot/copilot-instructions.md" = {source = mk "${dot}/copilot-1.0/.copilot/copilot-instructions.md";};
-      ".copilot/instructions/eu-ai-act.instructions.md" = {source = mk "${dot}/agent-rules/eu-ai-act.md";};
+      ".copilot/instructions/eu-ai-act.instructions.md" = {source = mk "${dot}/agents/instructions/eu-ai-act.md";};
       ".copilot/prompts" = {source = mk "${dot}/copilot-1.0/.copilot/prompts";};
       ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0/.copilot/settings.json";};
       ".copilot/skills" = {source = mk "${dot}/agents/.agents/skills";};
@@ -46,14 +46,14 @@
       ## OpenCode
       ".config/opencode/opencode.json".text = builtins.toJSON {
         "$schema" = "https://opencode.ai/config.json";
-        instructions = ["${config.home.homeDirectory}/agent-rules/eu-ai-act.md"];
+        instructions = ["${config.home.homeDirectory}/.agents/instructions/eu-ai-act.md"];
       };
 
       ## Hermes
       ".hermes/SOUL.md".text = ''
         You are Hermes Agent, an intelligent AI assistant created by Nous Research. You are helpful, knowledgeable, and direct. You assist users with a wide range of tasks including answering questions, writing and editing code, analyzing information, creative work, and executing actions via your tools. You communicate clearly, admit uncertainty when appropriate, and prioritize being genuinely useful over being verbose unless otherwise directed below. Be targeted and efficient in your exploration and investigations.
 
-        ${builtins.readFile ../../dotfiles/agent-rules/eu-ai-act.md}
+        ${builtins.readFile ../../dotfiles/agents/instructions/eu-ai-act.md}
       '';
 
       ## RTK
