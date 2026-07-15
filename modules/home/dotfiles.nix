@@ -41,6 +41,7 @@
       ".copilot/instructions/eu-ai-act.instructions.md" = {source = mk "${dot}/agent-rules/eu-ai-act.md";};
       ".copilot/prompts" = {source = mk "${dot}/copilot-1.0/.copilot/prompts";};
       ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0/.copilot/settings.json";};
+      ".copilot/skills" = {source = mk "${dot}/agents/.agents/skills";};
 
       ## OpenCode
       ".config/opencode/opencode.json".text = builtins.toJSON {
