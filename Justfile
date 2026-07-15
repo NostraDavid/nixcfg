@@ -298,10 +298,10 @@ hooks-run:
   @prek --config .pre-commit-config.yaml run --all-files
 
 lint-ruff:
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | xargs -0 --no-run-if-empty ruff check
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zv '^dotfiles/agents/\.agents/skills/' | xargs -0 --no-run-if-empty ruff check
 
 lint-ruff-files *files:
-  @ruff check {{files}}
+  @printf '%s\0' {{files}} | { grep -zv '^dotfiles/agents/\.agents/skills/' || true; } | xargs -0 --no-run-if-empty ruff check
 
 lint-shellcheck:
   @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | xargs -0 --no-run-if-empty shellcheck --severity=error
@@ -310,10 +310,10 @@ lint-shellcheck-files *files:
   @shellcheck --severity=error {{files}}
 
 lint-markdown:
-  @git ls-files -z -- '*.md' | grep -zv '^docs/agentskills\.io/' | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
+  @git ls-files -z -- '*.md' | grep -zEv '^(docs/agentskills\.io/|dotfiles/agents/\.agents/skills/)' | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
 lint-markdown-files *files:
-  @markdownlint --disable MD013 MD040 MD041 -- {{files}}
+  @printf '%s\0' {{files}} | { grep -zv '^dotfiles/agents/\.agents/skills/' || true; } | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
 lint-selene:
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty selene
