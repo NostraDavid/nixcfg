@@ -20,9 +20,7 @@
       "agent-rules" = {source = mk "${dot}/agent-rules";};
 
       ## Codex
-      ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
       ".codex/AGENTS.md" = {source = mk "${dot}/agent-rules/AGENTS.md";};
-      ".codex/rules/default.rules" = {source = mk "${dot}/codex-0.140.0/.codex/rules/default.rules";};
       ".codex/skills/database-design" = {source = mk "${dot}/codex-0.140.0/.codex/skills/database-design";};
       ".codex/skills/manage-adrs" = {source = mk "${dot}/codex-0.140.0/.codex/skills/manage-adrs";};
 
