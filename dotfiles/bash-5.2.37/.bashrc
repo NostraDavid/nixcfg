@@ -290,6 +290,16 @@ export PYTHONPYCACHEPREFIX="$HOME/.cache/cpython/"
 export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring
 
 # Auto-activate Python virtual environment when opening a shell
+function clear_inherited_uv_build_venv() {
+	case "${VIRTUAL_ENV:-}" in
+	"$HOME"/.cache/uv/builds-v*/.tmp*)
+		path_remove "$VIRTUAL_ENV/bin"
+		unset VIRTUAL_ENV VIRTUAL_ENV_PROMPT
+		export PATH
+		;;
+	esac
+}
+
 function check_and_activate_venv() {
 	if [[ -z "$VIRTUAL_ENV" ]]; then
 		# If env folder is found then activate the virtualenv
@@ -301,6 +311,7 @@ function check_and_activate_venv() {
 }
 
 # Run the check when shell starts
+clear_inherited_uv_build_venv
 check_and_activate_venv
 
 # pip bash completion start
