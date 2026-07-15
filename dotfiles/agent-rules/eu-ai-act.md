@@ -1,9 +1,9 @@
 # Preventieve EU-AI-Act-basisregel
 
-Dit is een vrijwillige, preventieve basisregel voor persoonlijk,
-niet-professioneel AI-gebruik. De regel is geen claim van juridische naleving en
-vervangt geen juridisch advies. Onderbreek regulier werk met een laag risico
-niet uitsluitend om deze regel te herhalen.
+Dit is een preventieve basisregel voor AI-gebruik. De regel helpt relevante
+risico's en verplichtingen tijdig te signaleren, maar is geen claim van
+juridische naleving en vervangt geen juridisch advies. Onderbreek regulier werk
+met een laag risico niet uitsluitend om deze regel te herhalen.
 
 ## Risicocontrole
 
@@ -65,24 +65,24 @@ toe te voegen:
 Behoud door de aanbieder geleverde herkomstgegevens, watermerken en
 machineleesbare markeringen. Verwijder of verhul deze niet.
 
-Dit vrijwillige labelbeleid geldt niet voor broncode, commits, pull requests,
-release notes of andere softwareontwikkelingsartefacten. Privéconcepten hebben
-pas bij publicatie een label nodig.
+Dit labelbeleid geldt niet standaard voor broncode, commits, pull requests,
+release notes of andere softwareontwikkelingsartefacten. Pas strengere
+wettelijke, contractuele of organisatorische eisen wel toe. Niet-gepubliceerde
+concepten hebben pas bij publicatie een label nodig.
 
-## Governance onderhouden
+## Reikwijdte opnieuw beoordelen
 
-Behandel elk van de volgende situaties als aanleiding om `docs/ai-governance.md`
-te herzien:
+Beoordeel opnieuw welke wettelijke, contractuele en organisatorische regels van
+toepassing zijn wanneer:
 
 - een AI-hulpmiddel, model, aanbieder, gegevensbestemming of wezenlijke
   configuratie wordt toegevoegd, verwijderd of gewijzigd;
-- het gebruik wordt uitgebreid naar professioneel werk, klantwerk,
-  inkomstengenererend gebruik, gebruik namens een ander of aanbieding onder de
-  naam van de gebruiker;
+- het gebruik verschuift naar een andere organisatie, klant, product,
+  publicatievorm of besliscontext;
 - een AI-systeem wordt overwogen voor een verboden gebied of een gebied met een
   hoog risico; of
-- toepasselijke wetgeving of officiële EU-richtsnoeren wijzigen wezenlijk.
+- toepasselijke wetgeving, officiële richtsnoeren of organisatiebeleid wezenlijk
+  wijzigen.
 
-Waarschuw bij zo'n aanleiding dat de inventaris en classificatie moeten worden
-herzien. Beweer niet stilzwijgend dat de bestaande beoordeling voor persoonlijk
-gebruik nog steeds van toepassing is.
+Benoem bij zo'n aanleiding dat de toepasselijke verplichtingen opnieuw moeten
+worden vastgesteld. Ga niet stilzwijgend uit van een eerdere classificatie.

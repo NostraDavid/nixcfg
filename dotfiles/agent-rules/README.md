@@ -14,10 +14,7 @@ zouden nieuwe gesprekken lokaal zoeken en het genoemde `@file` niet vinden.
 Clients die de `@file`-verwijzingen in `AGENTS.md` niet volgen, laden de
 preventieve EU-AI-Act-regel ook rechtstreeks:
 
-- Copilot ontvangt de regel als een persoonlijk instructiebestand.
+- Copilot ontvangt de regel als een afzonderlijk instructiebestand.
 - OpenCode laadt de regel via de globale instelling `instructions`.
 - Hermes ontvangt de regel tijdens het bouwen als aanvulling op het declaratief
   beheerde `SOUL.md`; de bestaande Hermes-persona blijft de eerste alinea.
-
-De bijbehorende inventaris, beoordeling van de reikwijdte en het
-herzieningslogboek staan in `docs/ai-governance.md` in deze repository.
