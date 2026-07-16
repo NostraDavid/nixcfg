@@ -21,7 +21,8 @@ referenties en licentiebestanden zijn meegenomen; lokale bytecodecaches niet.
 Daarnaast bevat de verzameling beoordeelde, draagbaar gemaakte workflows voor:
 
 - SQL- en PostgreSQL-review en -optimalisatie;
-- requirementsgedreven databaseontwerp en veilige evolutionaire databasemigraties;
+- requirementsgedreven databaseontwerp en veilige evolutionaire
+  databasemigraties;
 - security-review, OWASP ASI en GDPR-engineering;
 - refactoranalyse, -planning en complexity reduction;
 - evidencegedreven software-debugging en risicogestuurd testontwerp;
