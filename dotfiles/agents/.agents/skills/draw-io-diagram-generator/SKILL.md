@@ -187,7 +187,7 @@ edgeStyle=entityRelationEdgeStyle;html=1;endArrow=ERmany;startArrow=ERone;
 2. **Run the validator** (optional but recommended):
 
    ```bash
-   python .github/skills/draw-io-diagram-generator/scripts/validate-drawio.py <path-to-file.drawio>
+   .github/skills/draw-io-diagram-generator/scripts/validate-drawio.py validate <path-to-file.drawio>
    ```
 
 3. **Tell the user** how to open the file:
@@ -374,7 +374,7 @@ When modifying an existing `.drawio` file:
 Use `scripts/add-shape.py` to safely add a single shape without editing raw XML:
 
 ```bash
-python .github/skills/draw-io-diagram-generator/scripts/add-shape.py docs/arch.drawio "New Service" 700 380
+.github/skills/draw-io-diagram-generator/scripts/add-shape.py add docs/arch.drawio "New Service" 700 380 --yes
 ```
 
 ---
@@ -440,7 +440,7 @@ Before delivering any generated `.drawio` file, verify:
 Run the automated validator:
 
 ```bash
-python .github/skills/draw-io-diagram-generator/scripts/validate-drawio.py <file.drawio>
+.github/skills/draw-io-diagram-generator/scripts/validate-drawio.py validate <file.drawio>
 ```
 
 ---

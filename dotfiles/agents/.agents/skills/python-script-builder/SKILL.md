@@ -30,13 +30,15 @@ Build one-file Python CLIs that are predictable, self-testing, and pleasant to u
    ```
 
    Use `--with-pydantic` for non-trivial structured input or external data.
+   The scaffold marks the generated script executable; invoke it directly
+   through its uv shebang instead of wrapping it in `uv run`.
    Replace the example behavior and tests rather than layering the requested
    feature around them.
 
 7. For existing scripts, apply the same structure directly. Refresh all runtime
    pins during a full redesign with
    `uv add --script SCRIPT --bounds exact ...`. Do not create or retain a script
-   lockfile.
+   lockfile. Ensure the executable bit is set with `chmod +x SCRIPT`.
 8. Verify the completed script with:
 
    ```bash
@@ -55,6 +57,8 @@ Build one-file Python CLIs that are predictable, self-testing, and pleasant to u
 - Keep secrets out of source, logs, command previews, and test fixtures.
 - Preserve unrelated working-tree changes and avoid generated files outside the
   requested script.
+- Keep every standalone script executable and document direct invocation as
+  `./script.py ...` or an equivalent path, never `uv run script.py ...`.
 - Add dry-run behavior and confirmation for meaningful or destructive
   mutations. Keep automation possible through an explicit non-interactive
   override.

@@ -14,7 +14,7 @@ description: Create and scaffold plugin directories for Codex with a required `.
    # The generated folder and plugin.json name are always the same.
    # Run from the skill root (the directory containing this `SKILL.md`).
    # By default creates in `~/plugins/<plugin-name>`.
-   python3 scripts/create_basic_plugin.py <plugin-name>
+   scripts/create_basic_plugin.py create <plugin-name>
    ```
 
 2. Edit `<plugin-path>/.codex-plugin/plugin.json` when the request gives specific metadata.
@@ -24,25 +24,27 @@ description: Create and scaffold plugin directories for Codex with a required `.
 
    ```bash
    # Personal marketplace entries default to `~/.agents/plugins/marketplace.json`.
-   python3 scripts/create_basic_plugin.py my-plugin --with-marketplace
+   scripts/create_basic_plugin.py create my-plugin --with-marketplace --yes
    ```
 
    Only specify `--marketplace-name <name>` when the default `personal` marketplace name is already
    taken or installed and you need to seed a different new marketplace file:
 
    ```bash
-   python3 scripts/create_basic_plugin.py my-plugin \
+   scripts/create_basic_plugin.py create my-plugin \
      --with-marketplace \
-     --marketplace-name team-local
+     --marketplace-name team-local \
+     --yes
    ```
 
    Only use a repo/team marketplace when the user specifically asks for that destination:
 
    ```bash
-   python3 scripts/create_basic_plugin.py my-plugin \
+   scripts/create_basic_plugin.py create my-plugin \
      --path <repo-root>/plugins \
      --marketplace-path <repo-root>/.agents/plugins/marketplace.json \
-     --with-marketplace
+     --with-marketplace \
+     --yes
    ```
 
    When the user specifies a marketplace path, make sure that marketplace is actually installed before
@@ -53,10 +55,11 @@ description: Create and scaffold plugin directories for Codex with a required `.
 4. Generate/adjust optional companion folders as needed:
 
    ```bash
-   python3 scripts/create_basic_plugin.py my-plugin \
+   scripts/create_basic_plugin.py create my-plugin \
      --path <parent-plugin-directory> \
      --marketplace-path <marketplace-json-path> \
-     --with-skills --with-hooks --with-scripts --with-assets --with-mcp --with-apps --with-marketplace
+     --with-skills --with-hooks --with-scripts --with-assets --with-mcp --with-apps --with-marketplace \
+     --yes
    ```
 
    `<parent-plugin-directory>` is the directory where the plugin folder `<plugin-name>` will be
@@ -65,14 +68,14 @@ description: Create and scaffold plugin directories for Codex with a required `.
 5. Before handing back a generated plugin, run:
 
    ```bash
-   python3 scripts/validate_plugin.py <plugin-path>
+   scripts/validate_plugin.py validate <plugin-path>
    ```
 
    For updates to an existing local plugin during development, keep the scaffold flow as-is and use the
    reference instead of hand-editing marketplace files:
 
    ```bash
-   python3 scripts/update_plugin_cachebuster.py <plugin-path>
+   scripts/update_plugin_cachebuster.py update <plugin-path> --yes
    ```
 
    Prefer the helper default cachebuster unless the user explicitly asks for a specific override.
@@ -233,11 +236,11 @@ For the exact canonical sample JSON for both plugin manifests and marketplace en
 After editing `SKILL.md`, run:
 
 ```bash
-python3 ../skill-creator/scripts/quick_validate.py .
+../skill-creator/scripts/quick_validate.py validate .
 ```
 
 Before handing back a generated plugin, run:
 
 ```bash
-python3 scripts/validate_plugin.py <plugin-path>
+scripts/validate_plugin.py validate <plugin-path>
 ```

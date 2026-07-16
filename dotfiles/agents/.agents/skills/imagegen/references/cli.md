@@ -22,14 +22,14 @@ export CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 export IMAGE_GEN="$CODEX_HOME/skills/.system/imagegen/scripts/image_gen.py"
 ```
 
-Install dependencies into that environment with its package manager. In uv-managed environments, `uv pip install ...` remains the preferred path.
+Dependencies are exact-pinned in the script's PEP 723 metadata and resolved automatically by `uv run`.
 
 ## Quick start
 
 Dry-run (no API call; no network required; does not require the `openai` package):
 
 ```bash
-python "$IMAGE_GEN" generate \
+"$IMAGE_GEN" generate \
   --prompt "Test" \
   --out output/imagegen/test.png \
   --dry-run
@@ -43,24 +43,26 @@ Notes:
 Generate (requires `OPENAI_API_KEY` + network):
 
 ```bash
-python "$IMAGE_GEN" generate \
+"$IMAGE_GEN" generate \
   --prompt "A cozy alpine cabin at dawn" \
   --size 1024x1024 \
-  --out output/imagegen/alpine-cabin.png
+  --out output/imagegen/alpine-cabin.png \
+  --yes
 ```
 
 Edit:
 
 ```bash
-python "$IMAGE_GEN" edit \
+"$IMAGE_GEN" edit \
   --image input.png \
   --prompt "Replace only the background with a warm sunset" \
-  --out output/imagegen/sunset-edit.png
+  --out output/imagegen/sunset-edit.png \
+  --yes
 ```
 
 ## Guardrails
 
-- Use the bundled CLI directly (`python "$IMAGE_GEN" ...`) after activating the correct environment.
+- Use the bundled CLI directly with `"$IMAGE_GEN" ...`; PEP 723 metadata supplies its environment.
 - Do **not** create one-off runners (for example `gen_images.py`) unless the user explicitly asks for a custom wrapper.
 - **Never modify** `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
 - Do not silently downgrade from CLI `gpt-image-2` or built-in `image_gen` to CLI `gpt-image-1.5`; ask first unless the user already explicitly requested `gpt-image-1.5`, `scripts/image_gen.py`, or CLI fallback.
@@ -108,31 +110,34 @@ Popular `gpt-image-2` sizes:
 Fast draft:
 
 ```bash
-python "$IMAGE_GEN" generate \
+"$IMAGE_GEN" generate \
   --prompt "A product thumbnail of a matte ceramic mug on a stone surface" \
   --quality low \
   --size 1024x1024 \
-  --out output/imagegen/mug-draft.png
+  --out output/imagegen/mug-draft.png \
+  --yes
 ```
 
 Final 2K landscape:
 
 ```bash
-python "$IMAGE_GEN" generate \
+"$IMAGE_GEN" generate \
   --prompt "A polished landing-page hero image of a matte ceramic mug on a stone surface" \
   --quality high \
   --size 2048x1152 \
-  --out output/imagegen/mug-hero.png
+  --out output/imagegen/mug-hero.png \
+  --yes
 ```
 
 4K landscape:
 
 ```bash
-python "$IMAGE_GEN" generate \
+"$IMAGE_GEN" generate \
   --prompt "A detailed architectural visualization at golden hour" \
   --size 3840x2160 \
   --quality high \
-  --out output/imagegen/architecture-4k.png
+  --out output/imagegen/architecture-4k.png \
+  --yes
 ```
 
 True transparent fallback request:
@@ -140,12 +145,13 @@ True transparent fallback request:
 Ask for confirmation before using this command unless the user already explicitly requested `gpt-image-1.5`, `scripts/image_gen.py`, or CLI fallback.
 
 ```bash
-python "$IMAGE_GEN" generate \
+"$IMAGE_GEN" generate \
   --model gpt-image-1.5 \
   --prompt "A clean product cutout on a transparent background" \
   --background transparent \
   --output-format png \
-  --out output/imagegen/product-cutout.png
+  --out output/imagegen/product-cutout.png \
+  --yes
 ```
 
 When using this path, explain briefly that built-in `image_gen` plus chroma-key removal is the default transparent-image path, but this request needs true model-native transparency. `gpt-image-2` does not support `background=transparent`, so `gpt-image-1.5` is required for this confirmed fallback.
@@ -161,13 +167,14 @@ These are explicit CLI controls. They are not built-in `image_gen` tool argument
 Example:
 
 ```bash
-python "$IMAGE_GEN" edit \
+"$IMAGE_GEN" edit \
   --model gpt-image-1.5 \
   --image input.png \
   --prompt "Change only the background" \
   --quality high \
   --input-fidelity high \
-  --out output/imagegen/background-edit.png
+  --out output/imagegen/background-edit.png \
+  --yes
 ```
 
 Mask notes:
@@ -194,23 +201,25 @@ Mask notes:
 Generate with augmentation fields:
 
 ```bash
-python "$IMAGE_GEN" generate \
+"$IMAGE_GEN" generate \
   --prompt "A minimal hero image of a ceramic coffee mug" \
   --use-case "product-mockup" \
   --style "clean product photography" \
   --composition "wide product shot with usable negative space for page copy" \
   --constraints "no logos, no text" \
-  --out output/imagegen/mug-hero.png
+  --out output/imagegen/mug-hero.png \
+  --yes
 ```
 
 Generate + also write a downscaled copy for fast web loading:
 
 ```bash
-python "$IMAGE_GEN" generate \
+"$IMAGE_GEN" generate \
   --prompt "A cozy alpine cabin at dawn" \
   --size 1024x1024 \
   --downscale-max-dim 1024 \
-  --out output/imagegen/alpine-cabin.png
+  --out output/imagegen/alpine-cabin.png \
+  --yes
 ```
 
 Generate multiple prompts concurrently (async batch):
@@ -222,10 +231,11 @@ cat > tmp/imagegen/prompts.jsonl << 'EOF'
 {"prompt":"Gray wolf in profile in a snowy forest","use_case":"photorealistic-natural","composition":"eye-level","constraints":"no logos or trademarks; no watermark","size":"1024x1024"}
 EOF
 
-python "$IMAGE_GEN" generate-batch \
+"$IMAGE_GEN" generate-batch \
   --input tmp/imagegen/prompts.jsonl \
   --out-dir output/imagegen/batch \
-  --concurrency 5
+  --concurrency 5 \
+  --yes
 
 rm -f tmp/imagegen/prompts.jsonl
 ```

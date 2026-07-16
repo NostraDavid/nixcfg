@@ -15,9 +15,12 @@
 - Target personal POSIX tooling on Python 3.14 or newer.
 - Start with `#!/usr/bin/env -S uv run --script` and a PEP 723 block containing
   `requires-python = ">=3.14"`.
+- Set the POSIX executable bit (`chmod +x SCRIPT`) so the uv shebang is the
+  public execution interface. Run and document the script directly; do not
+  wrap normal invocations in `uv run`.
 - Keep the script self-contained. Do not add a neighboring `.lock` file.
 - Pin every PEP 723 dependency with `==`. Resolve current versions with `uv add
-  --script SCRIPT --bounds exact PACKAGE...` instead of copying versions from
+--script SCRIPT --bounds exact PACKAGE...` instead of copying versions from
   this skill.
 - Always include Click, structlog, pytest, and pytest-cov. Include Pydantic when
   data has a non-trivial schema, crosses a trust boundary, or needs coercion and
@@ -130,7 +133,7 @@
 
 ## Completion checklist
 
-- Confirm the direct uv shebang and Python 3.14 metadata.
+- Confirm the direct uv shebang, executable bit, and Python 3.14 metadata.
 - Confirm every dependency is exactly pinned and no script lockfile exists.
 - Confirm the visible task commands and visible `unit-test` command behave as
   documented and report coverage without leaving artifacts.
