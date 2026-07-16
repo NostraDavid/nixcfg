@@ -1,0 +1,39 @@
+{
+  "skill_name": "sql-optimization",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "A three-table report takes 18 seconds. Only the SQL is supplied; engine, schema, plans, distribution, and workload are absent. Help optimize it.",
+      "expected_output": "A bounded evidence request plus conditional hypotheses, not a fabricated rewrite or index prescription.",
+      "assertions": [
+        "Requests engine and version",
+        "Requests schema, indexes, representative parameters, and plan",
+        "Preserves COUNT DISTINCT semantics",
+        "Labels ideas as hypotheses",
+        "Promises no unmeasured percentage gain"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Given before/after actual plans and timings, assess whether replacing OFFSET pagination with keyset pagination is worthwhile.",
+      "expected_output": "A correctness and performance comparison including stable unique ordering.",
+      "assertions": [
+        "Handles ties and ordering stability",
+        "Compares equivalent workloads",
+        "Includes client navigation tradeoffs",
+        "Measures rather than assuming improvement"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "An index-usage report shows zero scans for several indexes over seven days. Decide which to drop.",
+      "expected_output": "A cautious evidence-led removal analysis.",
+      "assertions": [
+        "Checks reset and observation window",
+        "Checks constraints, replicas, and rare jobs",
+        "Includes write/storage benefit and rollback plan",
+        "Does not equate zero scans with safe deletion"
+      ]
+    }
+  ]
+}

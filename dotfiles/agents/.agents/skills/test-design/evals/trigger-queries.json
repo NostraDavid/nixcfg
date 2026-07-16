@@ -1,0 +1,94 @@
+[
+  {
+    "query": "Design a test strategy for this payment retry workflow.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Which unit, integration, contract, and system tests cover these risks?",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Replace this brittle mock-heavy suite with behavior-focused tests.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Turn these requirements into boundary and state-transition cases.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review whether our tests give trustworthy coverage of failure recovery.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design property tests and useful oracles for this serializer.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Create tests for idempotency, retries, and partial external failure.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Choose realistic doubles for a service that publishes events.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Find gaps and redundant cases in this test suite.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Plan deterministic tests for a concurrent state machine.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Run pytest and fix whatever currently fails.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Debug why this one test is flaky.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Refactor the production class to reduce coupling.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Write the implementation for this feature from its tests.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Explain code coverage terminology.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Set up GitHub Actions to execute our existing tests.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Investigate the root cause of this production crash.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Benchmark this algorithm's runtime.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Review this SQL migration for correctness.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Generate random fixture data with no stated test risks.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "skill_name": "continuous-delivery",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design delivery for an API and worker with a backward-compatible schema expansion, two app versions for 24 hours, and a five-minute rollback target.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Builds once and promotes an immutable artifact",
+        "Tests mixed-version compatibility",
+        "Separates deployment from release when useful",
+        "Explains when rollback is unsafe after new writes",
+        "Defines health gates and stop criteria"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review a pipeline that rebuilds per environment, runs flaky tests after deployment, and declares success when pods become Ready.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Identifies artifact mutation and weak health evidence",
+        "Places fast feedback before promotion",
+        "Does not normalize flaky tests",
+        "Adds user-visible verification and recovery rehearsal"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Choose a release strategy for a stateful service with low traffic, expensive duplicate capacity, and an irreversible event format.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Uses stated constraints instead of choosing canary automatically",
+        "Addresses low-volume evidence",
+        "Requires event compatibility or forward recovery",
+        "States residual risk"
+      ]
+    }
+  ]
+}

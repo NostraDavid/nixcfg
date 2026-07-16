@@ -1,0 +1,39 @@
+{
+  "skill_name": "linux-performance",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "A Linux API host has p99 spikes, load average 40, CPU 35%, and intermittent disk iowait. Diagnose it safely.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Defines comparable workload and timeline",
+        "Does not equate load with CPU",
+        "Checks runnable and uninterruptible work",
+        "Attributes waits before tuning",
+        "Uses bounded tracing and reversible experiments"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Memory is nearly full and an operator wants to drop caches hourly; assess the performance issue.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Does not diagnose from free memory alone",
+        "Checks available memory, reclaim, faults, swap, PSI, and cgroups",
+        "Rejects routine cache dropping",
+        "Identifies responsible workload"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Use BPF to investigate rare 2-second filesystem stalls in production.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Starts with existing counters",
+        "Scopes events and duration",
+        "Records kernel/tool semantics and overhead",
+        "Defines stop criteria and non-production fallback"
+      ]
+    }
+  ]
+}

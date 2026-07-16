@@ -1,0 +1,4 @@
+interface:
+  display_name: "Software Architecture Design"
+  short_description: "Design architecture from quality trade-offs"
+  default_prompt: "Use $software-architecture-design to compare architecture alternatives against explicit quality scenarios."

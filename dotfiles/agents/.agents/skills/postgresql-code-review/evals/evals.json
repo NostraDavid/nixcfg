@@ -1,0 +1,37 @@
+{
+  "skill_name": "postgresql-code-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review a SECURITY DEFINER function callable by app_user that reads an unqualified helper table and does not set search_path.",
+      "expected_output": "A PostgreSQL-specific privilege and name-resolution finding with a minimal fix.",
+      "assertions": [
+        "Explains the search_path attack mechanism",
+        "Checks owner and EXECUTE privileges",
+        "Recommends qualified names or a safe fixed path",
+        "Does not conflate this with query performance"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review RLS policies that define USING for SELECT and UPDATE but omit WITH CHECK, while the table owner runs the application connection.",
+      "expected_output": "Findings about write policy behavior and owner bypass.",
+      "assertions": [
+        "Distinguishes USING from WITH CHECK",
+        "Identifies owner bypass semantics",
+        "Requests supported PostgreSQL version and role context",
+        "Provides verification tests"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review a migration that wraps CREATE INDEX CONCURRENTLY in the framework's default transaction.",
+      "expected_output": "A version-aware migration finding.",
+      "assertions": [
+        "States that the command cannot run in a transaction block",
+        "Mentions invalid index cleanup after failure",
+        "Checks partition and constraint context before generalizing"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "skill_name": "gdpr-compliant",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design an analytics feature collecting user events, device data, IP addresses, and free-text search terms through a third-party SDK.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Requires approved purpose/legal basis rather than inventing consent",
+        "Maps SDK recipients, regions, logs, and derived data",
+        "Challenges necessity field by field",
+        "Defines retention, rights, and DPIA gates",
+        "Avoids universal identifiers or cryptographic defaults"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review a proposed erasure flow that sets `deleted_at` but retains profiles in search, logs, analytics, and backups indefinitely.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "States soft deletion is not erasure",
+        "Maps downstream copies",
+        "Defines justified exceptions and retention",
+        "Handles backup expiry and restore-time replay",
+        "Does not promise deletion where law requires retention"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Assess whether hashed email addresses are anonymous and outside GDPR.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Treats deterministic/linkable hashes as likely pseudonymous",
+        "Assesses reasonably likely re-identification and auxiliary data",
+        "Requires context and evidence",
+        "Avoids a categorical compliance claim"
+      ]
+    }
+  ]
+}

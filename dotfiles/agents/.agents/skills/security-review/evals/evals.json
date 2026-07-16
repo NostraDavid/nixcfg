@@ -1,0 +1,38 @@
+{
+  "skill_name": "security-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review an API where a route loads `/accounts/:id` after authentication but has no visible ownership check; middleware and ORM code are available.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Traces route through middleware and ORM",
+        "Searches for upstream authorization and tenant filters",
+        "States attacker preconditions and concrete impact",
+        "Does not report until exploit path is supported"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review a repository with an old package version, but no advisory or reachable vulnerable feature is yet known.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Does not report vulnerability from age alone",
+        "Requires authoritative current advisory and resolved version",
+        "Checks reachability/configuration",
+        "May report scoped hardening separately"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review a command construction that receives user input but passes through a framework escaping helper.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Examines helper semantics and execution API",
+        "Checks canonicalization and argument boundaries",
+        "Uses counterexamples",
+        "Discards the candidate if exploitation is unsupported"
+      ]
+    }
+  ]
+}

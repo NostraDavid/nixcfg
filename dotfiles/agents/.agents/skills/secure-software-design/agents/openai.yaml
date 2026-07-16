@@ -1,0 +1,4 @@
+interface:
+  display_name: "Secure Software Design"
+  short_description: "Design software around explicit threats"
+  default_prompt: "Use $secure-software-design to model threats and derive testable security invariants for this system."

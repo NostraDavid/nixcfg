@@ -1,0 +1,90 @@
+[
+  {
+    "query": "Create a plan for this multi-file refactor and wait before editing.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Investigate and sequence a safe repository-wide module split.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Plan how to migrate callers from this legacy API without breaking compatibility.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Scope this high-risk refactor and identify rollback gates.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Give me an evidence-backed refactor plan with affected files.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Map hidden coupling before proposing phases for this refactor.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Plan a gradual dependency inversion across these packages; do not implement.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Prepare a reviewed migration path from callbacks to events.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Sequence a compatibility-preserving refactor with safe states.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Inspect this monolith extraction and produce only the implementation plan.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  { "query": "Refactor this small function now.", "should_trigger": false, "split": "train" },
+  { "query": "Implement the approved refactor plan.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Plan a zero-downtime database migration.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Create an architecture roadmap for a new system.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review this code for security vulnerabilities.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Reduce one method's cognitive complexity.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Debug this intermittent deadlock.", "should_trigger": false, "split": "validation" },
+  {
+    "query": "Write a feature implementation plan.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Summarize the current repository architecture.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Rename this local variable for clarity.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

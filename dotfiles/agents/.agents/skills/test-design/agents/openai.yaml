@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Design"
+  short_description: "Design focused, trustworthy software tests"
+  default_prompt: "Use $test-design to turn these risks and contracts into a focused, trustworthy test strategy."

@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Design a safe commit-to-production pipeline for this service.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Improve our release flow so artifacts are built once and promoted.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Choose rolling, blue-green, or canary delivery for this change.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Plan compatibility and rollback for application and database releases.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design GitOps promotion, reconciliation, and break-glass controls.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Reduce delivery lead time without weakening verification.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Add evidence-based health gates to this deployment pipeline.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Make this manual production release repeatable and recoverable.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Design feature-control and cleanup for deploying before release.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review this pipeline for environment drift and unsafe rollback.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Write a GitHub Actions job that runs pytest.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Diagnose this live production incident.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design a microservice architecture for this domain.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Plan a PostgreSQL backfill across old and new app versions.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Fix this failing Docker build.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain what continuous integration means.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review this source code for security vulnerabilities.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Create an SLO for our checkout endpoint.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Provision one Kubernetes Deployment manifest.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Commit and push these finished changes.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

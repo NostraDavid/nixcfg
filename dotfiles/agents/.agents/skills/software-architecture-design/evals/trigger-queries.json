@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Design the architecture for this new order platform from quality requirements.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Compare a modular monolith and microservices for these constraints.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Choose service and data ownership boundaries for this domain.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Evaluate event-driven and synchronous alternatives with trade-offs.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Turn these quality attributes into measurable architecture scenarios.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review whether this proposed architecture satisfies recovery and deployment goals.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design an evolutionary path from the current system to the target architecture.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Model consistency, failure, and replay semantics for this event architecture.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Select an architecture pattern only after comparing a simpler baseline.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Validate the riskiest assumptions in this distributed design.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Document the existing codebase architecture.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Create an ADR for a decision we already made.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design a normalized PostgreSQL schema.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Refactor this class into smaller methods.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Draw the supplied architecture as a diagram.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Implement this REST endpoint.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain the observer pattern.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Plan a database column migration.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Review this code for vulnerabilities.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Write a README for this project.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

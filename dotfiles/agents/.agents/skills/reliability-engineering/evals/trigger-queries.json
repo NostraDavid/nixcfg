@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Define SLIs, SLOs, and an error-budget policy for this API.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design overload control and graceful degradation for this service.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review whether our observability can answer new incident questions.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Set retry, timeout, and circuit-breaker behavior across dependencies.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Plan disaster recovery and prove our backup restore meets RTO and RPO.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design actionable burn-rate alerts for critical user journeys.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Assess capacity, queue bounds, and load shedding before launch.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Improve failure isolation and recovery for this multi-region system.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Plan a reliability canary with explicit abort criteria.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Prioritize this backlog of reliability risks using evidence.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Find the root cause of yesterday's crash from this dump.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Diagnose Linux CPU saturation on this host.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Write a Prometheus query for one known metric.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Create a deployment pipeline.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Refactor this retry function.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain the difference between availability and durability.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Optimize this PostgreSQL query plan.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Review this code for injection bugs.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Add logging statements to this method.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Restart the failed production service.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

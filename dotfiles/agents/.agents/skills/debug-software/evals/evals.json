@@ -1,0 +1,39 @@
+{
+  "skill_name": "debug-software",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "A Go test fails roughly 1 in 300 runs with an empty result, but adding log statements makes it disappear. Diagnose it without adding sleeps.",
+      "expected_output": "An evidence-preserving plan that controls scheduling and distinguishes race hypotheses with small experiments.",
+      "assertions": [
+        "Defines the failure oracle and repetition count",
+        "Separates observations from hypotheses",
+        "Uses race detection or deterministic coordination",
+        "Does not treat logging-induced disappearance as proof",
+        "Requires a regression test"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "A parser crashes for one customer file after a dependency upgrade. You have the file, stack trace, and good/bad builds.",
+      "expected_output": "A reduced reproducer and differential investigation from failure through first bad state.",
+      "assertions": [
+        "Preserves the original artifact",
+        "Reduces input while checking the same failure",
+        "Compares good and bad builds one variable at a time",
+        "Does not patch the reporting frame without causal evidence"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "A daemon's memory grows over days. Restarts hide the issue and existing logs show no errors.",
+      "expected_output": "A bounded workload experiment and retained-object/resource analysis with explicit stop criteria.",
+      "assertions": [
+        "Treats missing logs as missing evidence",
+        "Measures growth and quiescence",
+        "Distinguishes cache, backlog, native allocation, and true leak hypotheses",
+        "Avoids production-destructive experiments"
+      ]
+    }
+  ]
+}

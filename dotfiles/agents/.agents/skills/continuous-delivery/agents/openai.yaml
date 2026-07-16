@@ -1,0 +1,4 @@
+interface:
+  display_name: "Continuous Delivery"
+  short_description: "Design safe, measurable delivery pipelines"
+  default_prompt: "Use $continuous-delivery to design a safe, measurable path from commit to release."

@@ -1,0 +1,98 @@
+[
+  {
+    "query": "Rename a populated PostgreSQL column during rolling deployments.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Split this 500-million-row table without downtime.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Plan the backfill and cutover for replacing customer_name with customer_id.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Add NOT NULL safely when legacy rows still contain nulls.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Migrate JSON text into typed columns while old app versions remain live.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "How should we retire a view consumed by ETL and BI jobs?",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Move ownership of these tables to a new service with CDC and a compatibility window.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Change an integer primary key to UUID across foreign keys and replicas.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Replace an enum with a lookup table using an online migration.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Plan a resumable production backfill with replication-lag abort thresholds.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Design a greenfield schema for a ticketing system.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Optimize this slow aggregation query.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Review this migration file for SQL injection.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain what database normalization means.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Create a new empty table for feature flags.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Should our new service use PostgreSQL or DynamoDB?",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Audit the privileges on this PostgreSQL function.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Write a SQL query to deduplicate these results.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Review our application refactor from inheritance to composition.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Why is autovacuum behind on this table?",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

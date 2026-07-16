@@ -1,0 +1,86 @@
+[
+  {
+    "query": "Diagnose this PostgreSQL EXPLAIN ANALYZE plan.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Why is autovacuum falling behind and table bloat growing?",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Use pg_stat_statements to reduce total database load.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Investigate PostgreSQL lock waits and long transactions.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Tune work_mem safely for this spilling workload.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Find why replication lag spikes during our backfill.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Evaluate BRIN versus B-tree for this append-only PostgreSQL table.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Diagnose high WAL generation and checkpoint pressure.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Assess whether this concurrent PostgreSQL index build is operationally safe.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Explain a PostgreSQL plan's row-estimate error and join choice.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review this PostgreSQL RLS policy for security.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Review generic SQL for injection.", "should_trigger": false, "split": "train" },
+  { "query": "Design tables for an invoicing service.", "should_trigger": false, "split": "train" },
+  { "query": "Plan a zero-downtime column rename.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Explain PostgreSQL arrays with an example.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Install and configure PostgreSQL from scratch.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Write a recursive CTE.", "should_trigger": false, "split": "validation" },
+  {
+    "query": "Check this trigger function for correctness.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Compare MySQL and PostgreSQL syntax.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Generate PostgreSQL DDL from this ORM model.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

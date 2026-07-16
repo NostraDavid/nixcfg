@@ -1,0 +1,36 @@
+{
+  "skill_name": "refactor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Refactor a legacy order processor that mixes validation, pricing, persistence, and notifications; preserve errors and side-effect order.",
+      "expected_output": "Characterization first, narrow seams, small extractions, and verification after each step.",
+      "assertions": [
+        "States preserved observable behavior",
+        "Preserves side-effect and exception order",
+        "Avoids speculative patterns",
+        "Uses characterization tests where evidence is missing"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Deduplicate two similar tax calculations that look alike but have different rounding and regulatory rules.",
+      "expected_output": "A cautious semantic comparison that avoids false abstraction unless the concepts and change reasons match.",
+      "assertions": [
+        "Compares domain meaning before extraction",
+        "Preserves distinct rounding behavior",
+        "Does not deduplicate by textual similarity alone"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Make a class testable when it constructs a network client internally, without changing its public API.",
+      "expected_output": "A minimal dependency seam and focused tests, followed by the smallest structural cleanup.",
+      "assertions": [
+        "Introduces a narrow seam",
+        "Preserves default production construction behavior",
+        "Avoids repository-wide dependency injection changes"
+      ]
+    }
+  ]
+}

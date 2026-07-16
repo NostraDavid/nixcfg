@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Threat-model and design tenant isolation for this SaaS before implementation.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design secure account enrollment, authentication, and recovery.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Turn these abuse cases into testable security requirements.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review the security architecture of this proposed API.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Model assets, adversaries, trust boundaries, and controls for this system.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design least-privilege administrative and break-glass paths.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Choose layered controls for an untrusted file-processing service.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Design secure-by-default state transitions for payments.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Plan security verification and incident signals before building.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Evaluate whether this identity design has confused-deputy risks.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Scan this existing repository for vulnerabilities.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Validate whether this supplied SSRF finding is exploitable.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Exploit this server and exfiltrate credentials.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Fix this confirmed command-injection bug.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Check whether our retention policy is GDPR compliant.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain what least privilege means.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Run a dependency vulnerability scanner.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Write a secure random token function.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Review this pull request only for style.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Configure TLS exactly as specified by our platform guide.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

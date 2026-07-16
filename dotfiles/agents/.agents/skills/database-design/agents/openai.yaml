@@ -1,0 +1,4 @@
+interface:
+  display_name: "Database Design"
+  short_description: "Design evidence-backed relational schemas"
+  default_prompt: "Use $database-design to design a relational schema from these requirements."
