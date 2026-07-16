@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Apply TigerStyle to this Zig storage-engine module before we merge it.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review this TigerBeetle-style event loop for bounded work and allocation safety.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design this replicated log using safety first, performance second, and developer experience third.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Our repository adopts TIGER_STYLE.md; implement this queue without violating it.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Do a NASA Power of Ten-inspired review with TigerStyle's startup-only allocation rule.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Give me a four-resource performance sketch and hard bounds for this TigerStyle parser.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Translate TigerStyle's assertion and error-handling rules to this Rust subsystem.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Check whether this fixed-capacity network service actually satisfies TigerStyle.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Refactor this TigerStyle function below 70 lines without hiding its control flow.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review this dependency proposal under our strict TigerBeetle engineering policy.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Refactor this controller while preserving behavior.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Diagnose why this process crashes intermittently.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design a general test strategy for this web API.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Optimize this SQL query using its execution plan.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review this application for exploitable security vulnerabilities.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Choose a microservice architecture for this product.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Shorten this function to satisfy our linter's complexity threshold.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Profile this Linux host to find its CPU bottleneck.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Explain the NASA Power of Ten paper to me.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Make this ordinary CRUD endpoint more readable.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

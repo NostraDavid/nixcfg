@@ -28,6 +28,7 @@ Daarnaast bevat de verzameling beoordeelde, draagbaar gemaakte workflows voor:
 - evidencegedreven software-debugging en risicogestuurd testontwerp;
 - continuous delivery, reliability-engineering en Linux-performanceanalyse;
 - softwarearchitectuur- en secure-by-design-workflows;
+- TigerStyle-ontwerp en -review voor begrensde high-integrity systems code;
 - zelfstandige, opinionated Python-CLI-scripts bouwen en herontwerpen;
 - specificaties, implementatieplannen, README's en ADR's;
 - Excalidraw- en draw.io-diagrammen;
@@ -50,7 +51,7 @@ lokale aanpassingen worden beoordeeld.
 ## Actieve clients
 
 - Codex gebruikt de ingebouwde skills uit `~/.codex/skills/.system`;
-  achtentwintig aanvullende skills worden individueel gekoppeld onder
+  negenentwintig aanvullende skills worden individueel gekoppeld onder
   `~/.codex/skills`.
 - GitHub Copilot gebruikt de gedeelde snapshot via `~/.copilot/skills`.
 - Hermes en Pi zijn nog niet gekoppeld.

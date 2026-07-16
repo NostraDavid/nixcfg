@@ -344,3 +344,30 @@ downstream-consequence perspectives. Both are recorded as no-skill: their value
 is cross-cutting judgment rather than a bounded, testable workflow, and the
 repository's binding EU-AI-Act instructions remain the appropriate policy
 mechanism.
+
+## Additional source: TigerStyle
+
+`TIGER_STYLE.md` was reviewed in full after the initial 108-source batch. Its
+design hierarchy, bounded-resource rules, assertion discipline, startup-only
+allocation policy, performance sketches, error handling, and
+developer-experience conventions form one coherent, repeatable workflow. The
+evolving policy was checked against the official TigerBeetle `main` document on
+2026-07-16.
+
+### Skill dossier: `tiger-style`
+
+- **Intent:** design, implement, or review high-integrity systems code under an
+  explicitly adopted TigerStyle policy.
+- **Existing overlap:** `software-architecture-design` selects system
+  structures, `refactor` preserves behavior during structural change,
+  `test-design` chooses tests, and `linux-performance` diagnoses measured hosts.
+  None owns TigerStyle's combined safety-first policy and hard implementation
+  constraints.
+- **Decision:** create a narrowly triggered skill rather than distribute the
+  rules across general-purpose skills.
+- **Boundary prompts:** explicit TigerStyle, TigerBeetle style, or a repository
+  policy must trigger; generic code quality, debugging, testing, or performance
+  work must not.
+- **Portability:** preserve semantic constraints across languages, but expose
+  conflicts such as steady-state runtime allocation instead of presenting
+  Zig-specific mechanisms as universal.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "TigerStyle"
+  short_description: "Engineer bounded, high-integrity systems code"
+  default_prompt: "Use $tiger-style to design or review this systems code for explicit safety and performance bounds."

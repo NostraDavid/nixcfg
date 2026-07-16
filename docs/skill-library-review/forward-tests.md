@@ -76,9 +76,37 @@ conflicting with any future deletion rule before establishing approved purposes
 or legal exceptions. The revised skills therefore materially reduced
 false-positive and compliance-claim risk.
 
+## TigerStyle systems engineering
+
+Two clean skill-assisted runs covered a bounded UDP ingestion pipeline and
+translation to a Rust async runtime. The UDP run passed all fixed assertions: it
+ranked safety before performance and developer experience, enforced
+packet/queue/batch/memory/work-per-tick bounds, reserved operating memory during
+initialization, decoupled arrival from bounded processing, and quantified
+network, disk, memory, and CPU costs. It also distinguished programmer errors
+from operating failures and paired critical ownership, length, and persistence
+invariants.
+
+The Rust run preserved the semantic policy without copying Zig syntax. It
+identified hidden steady-state runtime allocation as a strict-policy conflict,
+proposed a fixed-capacity adapter around a synchronous allocation-free core or a
+separate-process boundary, and required an explicit exception when neither is
+possible.
+
+The no-skill UDP baseline was strong on bounded queues, hostile parsing,
+batching, storage faults, and overload. The skill-assisted run added the
+distinctive combined policy: explicit goal priority, startup-only allocation for
+the operating phase, bounded orchestration turns, paired assertions,
+positive/negative state validation, and a complete frequency-aware four-resource
+sketch. This is material, task-specific value rather than a duplicate general
+code-review checklist.
+
 ## Acceptance
 
 - Trigger uniqueness: passed for all tested neighboring families.
+- TigerStyle boundary: passed for explicit TigerStyle and cross-language
+  translation without leaking into generic refactor, debug, test, architecture,
+  or tuning prompts.
 - Book-derived assertions: passed, with the one explicit unprovable-target
   refusal above.
 - No-skill comparison: material improvement for security/privacy and
