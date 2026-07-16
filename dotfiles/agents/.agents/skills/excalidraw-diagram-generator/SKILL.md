@@ -345,7 +345,7 @@ For specialized diagrams (e.g., AWS/GCP/Azure architecture diagrams), you can us
    3. Create directory: skills/excalidraw-diagram-generator/libraries/[icon-set-name]/
    4. Place the downloaded file in that directory
    5. Run the splitter script:
-      python skills/excalidraw-diagram-generator/scripts/split-excalidraw-library.py skills/excalidraw-diagram-generator/libraries/[icon-set-name]/
+      skills/excalidraw-diagram-generator/scripts/split-excalidraw-library.py split skills/excalidraw-diagram-generator/libraries/[icon-set-name]/ --yes
 
    This will split the library into individual icon files for efficient use.
    After setup is complete, I can create your diagram using the actual AWS/cloud icons.
@@ -380,7 +380,7 @@ mkdir -p skills/excalidraw-diagram-generator/libraries/aws-architecture-icons
 #### Step 4: Run Splitter Script
 
 ```bash
-python skills/excalidraw-diagram-generator/scripts/split-excalidraw-library.py skills/excalidraw-diagram-generator/libraries/aws-architecture-icons/
+skills/excalidraw-diagram-generator/scripts/split-excalidraw-library.py split skills/excalidraw-diagram-generator/libraries/aws-architecture-icons/ --yes
 ```
 
 #### Step 5: Verify Setup
@@ -416,46 +416,46 @@ The repository includes Python scripts that handle icon integration automaticall
 2. **Add icons using Python script**:
 
    ```bash
-   python skills/excalidraw-diagram-generator/scripts/add-icon-to-diagram.py \
-     <diagram-path> <icon-name> <x> <y> [--label "Text"] [--library-path PATH]
+   skills/excalidraw-diagram-generator/scripts/add-icon-to-diagram.py add \
+     <diagram-path> <icon-name> <x> <y> [--label "Text"] [--library-path PATH] --yes
    ```
 
-   - Edit via `.excalidraw.edit` is enabled by default to avoid overwrite issues; pass `--no-use-edit-suffix` to disable.
+   - Edit via `.excalidraw.edit` is enabled by default to avoid overwrite issues; pass `--no-edit-suffix` to disable.
 
    **Examples**:
 
    ```bash
    # Add EC2 icon at position (400, 300) with label
-   python scripts/add-icon-to-diagram.py diagram.excalidraw EC2 400 300 --label "Web Server"
+   scripts/add-icon-to-diagram.py add diagram.excalidraw EC2 400 300 --label "Web Server" --yes
 
    # Add VPC icon at position (200, 150)
-   python scripts/add-icon-to-diagram.py diagram.excalidraw VPC 200 150
+   scripts/add-icon-to-diagram.py add diagram.excalidraw VPC 200 150 --yes
 
    # Add icon from different library
-   python scripts/add-icon-to-diagram.py diagram.excalidraw Compute-Engine 500 200 \
-     --library-path libraries/gcp-icons --label "API Server"
+   scripts/add-icon-to-diagram.py add diagram.excalidraw Compute-Engine 500 200 \
+     --library-path libraries/gcp-icons --label "API Server" --yes
    ```
 
 3. **Add connecting arrows**:
 
    ```bash
-   python skills/excalidraw-diagram-generator/scripts/add-arrow.py \
-     <diagram-path> <from-x> <from-y> <to-x> <to-y> [--label "Text"] [--style solid|dashed|dotted] [--color HEX]
+   skills/excalidraw-diagram-generator/scripts/add-arrow.py add \
+     <diagram-path> <from-x> <from-y> <to-x> <to-y> [--label "Text"] [--style solid|dashed|dotted] [--color HEX] --yes
    ```
 
-   - Edit via `.excalidraw.edit` is enabled by default to avoid overwrite issues; pass `--no-use-edit-suffix` to disable.
+   - Edit via `.excalidraw.edit` is enabled by default to avoid overwrite issues; pass `--no-edit-suffix` to disable.
 
    **Examples**:
 
    ```bash
    # Simple arrow from (300, 250) to (500, 300)
-   python scripts/add-arrow.py diagram.excalidraw 300 250 500 300
+   scripts/add-arrow.py add diagram.excalidraw 300 250 500 300 --yes
 
    # Arrow with label
-   python scripts/add-arrow.py diagram.excalidraw 300 250 500 300 --label "HTTPS"
+   scripts/add-arrow.py add diagram.excalidraw 300 250 500 300 --label "HTTPS" --yes
 
    # Dashed arrow with custom color
-   python scripts/add-arrow.py diagram.excalidraw 400 350 600 400 --style dashed --color "#7950f2"
+   scripts/add-arrow.py add diagram.excalidraw 400 350 600 400 --style dashed --color "#7950f2" --yes
    ```
 
 4. **Workflow summary**:
@@ -465,17 +465,17 @@ The repository includes Python scripts that handle icon integration automaticall
    # (Create .excalidraw file with initial elements)
 
    # Step 2: Add icons with labels
-   python scripts/add-icon-to-diagram.py my-diagram.excalidraw "Internet-gateway" 200 150 --label "Internet Gateway"
-   python scripts/add-icon-to-diagram.py my-diagram.excalidraw VPC 250 250
-   python scripts/add-icon-to-diagram.py my-diagram.excalidraw ELB 350 300 --label "Load Balancer"
-   python scripts/add-icon-to-diagram.py my-diagram.excalidraw EC2 450 350 --label "EC2 Instance"
-   python scripts/add-icon-to-diagram.py my-diagram.excalidraw RDS 550 400 --label "Database"
+   scripts/add-icon-to-diagram.py add my-diagram.excalidraw "Internet-gateway" 200 150 --label "Internet Gateway" --yes
+   scripts/add-icon-to-diagram.py add my-diagram.excalidraw VPC 250 250 --yes
+   scripts/add-icon-to-diagram.py add my-diagram.excalidraw ELB 350 300 --label "Load Balancer" --yes
+   scripts/add-icon-to-diagram.py add my-diagram.excalidraw EC2 450 350 --label "EC2 Instance" --yes
+   scripts/add-icon-to-diagram.py add my-diagram.excalidraw RDS 550 400 --label "Database" --yes
 
    # Step 3: Add connecting arrows
-   python scripts/add-arrow.py my-diagram.excalidraw 250 200 300 250  # Internet → VPC
-   python scripts/add-arrow.py my-diagram.excalidraw 300 300 400 300  # VPC → ELB
-   python scripts/add-arrow.py my-diagram.excalidraw 400 330 500 350  # ELB → EC2
-   python scripts/add-arrow.py my-diagram.excalidraw 500 380 600 400  # EC2 → RDS
+   scripts/add-arrow.py add my-diagram.excalidraw 250 200 300 250 --yes  # Internet → VPC
+   scripts/add-arrow.py add my-diagram.excalidraw 300 300 400 300 --yes  # VPC → ELB
+   scripts/add-arrow.py add my-diagram.excalidraw 400 330 500 350 --yes  # ELB → EC2
+   scripts/add-arrow.py add my-diagram.excalidraw 500 380 600 400 --yes  # EC2 → RDS
    ```
 
 **Benefits of Python Script Approach**:
@@ -566,17 +566,17 @@ Only use this if Python scripts are unavailable:
 # Confirm icons exist: Internet-gateway, VPC, ELB, EC2, RDS
 
 # Step 3: Add icons with Python script
-python scripts/add-icon-to-diagram.py my-aws-diagram.excalidraw "Internet-gateway" 150 100 --label "Internet Gateway"
-python scripts/add-icon-to-diagram.py my-aws-diagram.excalidraw VPC 200 200
-python scripts/add-icon-to-diagram.py my-aws-diagram.excalidraw ELB 350 250 --label "Load Balancer"
-python scripts/add-icon-to-diagram.py my-aws-diagram.excalidraw EC2 500 300 --label "Web Server"
-python scripts/add-icon-to-diagram.py my-aws-diagram.excalidraw RDS 650 350 --label "Database"
+scripts/add-icon-to-diagram.py add my-aws-diagram.excalidraw "Internet-gateway" 150 100 --label "Internet Gateway" --yes
+scripts/add-icon-to-diagram.py add my-aws-diagram.excalidraw VPC 200 200 --yes
+scripts/add-icon-to-diagram.py add my-aws-diagram.excalidraw ELB 350 250 --label "Load Balancer" --yes
+scripts/add-icon-to-diagram.py add my-aws-diagram.excalidraw EC2 500 300 --label "Web Server" --yes
+scripts/add-icon-to-diagram.py add my-aws-diagram.excalidraw RDS 650 350 --label "Database" --yes
 
 # Step 4: Add connecting arrows
-python scripts/add-arrow.py my-aws-diagram.excalidraw 200 150 250 200  # Internet → VPC
-python scripts/add-arrow.py my-aws-diagram.excalidraw 265 230 350 250  # VPC → ELB
-python scripts/add-arrow.py my-aws-diagram.excalidraw 415 280 500 300  # ELB → EC2
-python scripts/add-arrow.py my-aws-diagram.excalidraw 565 330 650 350 --label "SQL" --style dashed
+scripts/add-arrow.py add my-aws-diagram.excalidraw 200 150 250 200 --yes  # Internet → VPC
+scripts/add-arrow.py add my-aws-diagram.excalidraw 265 230 350 250 --yes  # VPC → ELB
+scripts/add-arrow.py add my-aws-diagram.excalidraw 415 280 500 300 --yes  # ELB → EC2
+scripts/add-arrow.py add my-aws-diagram.excalidraw 565 330 650 350 --label "SQL" --style dashed --yes
 
 # Result: Complete diagram with professional AWS icons, labels, and connections
 ```

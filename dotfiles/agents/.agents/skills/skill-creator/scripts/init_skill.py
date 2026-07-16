@@ -1,27 +1,46 @@
-#!/usr/bin/env python3
-"""
-Skill Initializer - Creates a new skill from template
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "click==8.4.2",
+#     "pydantic==2.12.5",
+#     "pytest==9.1.1",
+#     "pytest-cov==7.1.0",
+#     "pyyaml==6.0.3",
+#     "regex==2026.2.28",
+#     "structlog==26.1.0",
+# ]
+# ///
 
-Usage:
-    init_skill.py <skill-name> --path <path> [--resources scripts,references,assets] [--examples] [--interface key=value]
+"""Create a complete Codex skill directory from a conservative template."""
 
-Examples:
-    init_skill.py my-new-skill --path skills/public
-    init_skill.py my-new-skill --path skills/public --resources scripts,references
-    init_skill.py my-api-helper --path skills/private --resources scripts --examples
-    init_skill.py custom-skill --path /custom/location
-    init_skill.py my-skill --path skills/public --interface short_description="Short UI label"
-"""
+from __future__ import annotations
 
-import argparse
-import re
+import contextlib
+import io
+import os
+import shutil
+import subprocess as sp
 import sys
+import tempfile
 from pathlib import Path
 
-from generate_openai_yaml import write_openai_yaml
+import click
+import pytest
+import regex as re
+import structlog as sl
+import structlog.stdlib as log
+from click.testing import CliRunner
+from generate_openai_yaml import MetadataError, write_openai_yaml
 
 MAX_SKILL_NAME_LENGTH = 64
 ALLOWED_RESOURCES = {"scripts", "references", "assets"}
+logger = log.get_logger(__name__)
+
+
+class SkillInitError(Exception):
+    """Report an expected skill initialization failure."""
+
 
 SKILL_TEMPLATE = """---
 name: {skill_name}
@@ -110,27 +129,6 @@ Files not intended to be loaded into context, but rather used within the output 
 **Not every skill requires all three types of resources.**
 """
 
-EXAMPLE_SCRIPT = '''#!/usr/bin/env python3
-"""
-Example helper script for {skill_name}
-
-This is a placeholder script that can be executed directly.
-Replace with actual implementation or delete if not needed.
-
-Example real scripts from other skills:
-- pdf/scripts/fill_fillable_fields.py - Fills PDF form fields
-- pdf/scripts/convert_pdf_to_images.py - Converts PDF pages to images
-"""
-
-def main():
-    print("This is an example script for {skill_name}")
-    # TODO: Add actual script logic here
-    # This could be data processing, file conversion, API calls, etc.
-
-if __name__ == "__main__":
-    main()
-'''
-
 EXAMPLE_REFERENCE = """# Reference Documentation for {skill_title}
 
 This is a placeholder for detailed reference documentation.
@@ -194,207 +192,389 @@ Note: This is a text placeholder. Actual assets can be any file type.
 """
 
 
-def normalize_skill_name(skill_name):
+def configure_logging() -> None:
+    """Send human-readable structured diagnostics to stderr."""
+    sl.configure(
+        processors=[
+            sl.processors.TimeStamper(fmt="iso", utc=True),
+            sl.processors.add_log_level,
+            sl.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
+        ],
+        wrapper_class=sl.make_filtering_bound_logger("debug"),
+        logger_factory=sl.PrintLoggerFactory(file=sys.stderr),
+        cache_logger_on_first_use=False,
+    )
+
+
+def normalize_skill_name(skill_name: str) -> str:
     """Normalize a skill name to lowercase hyphen-case."""
-    normalized = skill_name.strip().lower()
-    normalized = re.sub(r"[^a-z0-9]+", "-", normalized)
-    normalized = normalized.strip("-")
-    normalized = re.sub(r"-{2,}", "-", normalized)
-    return normalized
+    normalized = re.sub(r"[^a-z0-9]+", "-", skill_name.strip().lower())
+    return re.sub(r"-{2,}", "-", normalized).strip("-")
 
 
-def title_case_skill_name(skill_name):
-    """Convert hyphenated skill name to Title Case for display."""
+def validate_skill_name(skill_name: str) -> None:
+    """Enforce the portable skill-name length and content contract."""
+    if not skill_name:
+        raise SkillInitError("skill name must contain at least one letter or digit")
+    if len(skill_name) > MAX_SKILL_NAME_LENGTH:
+        raise SkillInitError(
+            f"skill name is {len(skill_name)} characters; maximum is {MAX_SKILL_NAME_LENGTH}"
+        )
+
+
+def title_case_skill_name(skill_name: str) -> str:
+    """Convert a hyphenated skill name to a display title."""
     return " ".join(word.capitalize() for word in skill_name.split("-"))
 
 
-def parse_resources(raw_resources):
-    if not raw_resources:
-        return []
-    resources = [item.strip() for item in raw_resources.split(",") if item.strip()]
-    invalid = sorted({item for item in resources if item not in ALLOWED_RESOURCES})
+def parse_resources(raw_resources: str) -> tuple[str, ...]:
+    """Parse, validate, and de-duplicate a comma-separated resource list."""
+    resources = tuple(
+        dict.fromkeys(item.strip() for item in raw_resources.split(",") if item.strip())
+    )
+    invalid = sorted(set(resources) - ALLOWED_RESOURCES)
     if invalid:
-        allowed = ", ".join(sorted(ALLOWED_RESOURCES))
-        print(f"[ERROR] Unknown resource type(s): {', '.join(invalid)}")
-        print(f"   Allowed: {allowed}")
-        sys.exit(1)
-    deduped = []
-    seen = set()
-    for resource in resources:
-        if resource not in seen:
-            deduped.append(resource)
-            seen.add(resource)
-    return deduped
+        raise SkillInitError(
+            f"unknown resource type(s): {', '.join(invalid)}; allowed: "
+            f"{', '.join(sorted(ALLOWED_RESOURCES))}"
+        )
+    return resources
 
 
-def create_resource_dirs(skill_dir, skill_name, skill_title, resources, include_examples):
+def create_resource_dirs(
+    skill_dir: Path,
+    skill_name: str,
+    skill_title: str,
+    resources: tuple[str, ...],
+    *,
+    include_examples: bool,
+) -> None:
+    """Create requested resource directories and optional text examples."""
+    examples = {
+        "scripts": (
+            "README.md",
+            "# Scripts\n\nUse `$python-script-builder` before adding Python helpers here.\n",
+        ),
+        "references": (
+            "api_reference.md",
+            EXAMPLE_REFERENCE.format(skill_title=skill_title),
+        ),
+        "assets": ("example_asset.txt", EXAMPLE_ASSET),
+    }
     for resource in resources:
         resource_dir = skill_dir / resource
-        resource_dir.mkdir(exist_ok=True)
-        if resource == "scripts":
-            if include_examples:
-                example_script = resource_dir / "example.py"
-                example_script.write_text(EXAMPLE_SCRIPT.format(skill_name=skill_name))
-                example_script.chmod(0o755)
-                print("[OK] Created scripts/example.py")
-            else:
-                print("[OK] Created scripts/")
-        elif resource == "references":
-            if include_examples:
-                example_reference = resource_dir / "api_reference.md"
-                example_reference.write_text(EXAMPLE_REFERENCE.format(skill_title=skill_title))
-                print("[OK] Created references/api_reference.md")
-            else:
-                print("[OK] Created references/")
-        elif resource == "assets":
-            if include_examples:
-                example_asset = resource_dir / "example_asset.txt"
-                example_asset.write_text(EXAMPLE_ASSET)
-                print("[OK] Created assets/example_asset.txt")
-            else:
-                print("[OK] Created assets/")
-
-
-def init_skill(skill_name, path, resources, include_examples, interface_overrides):
-    """
-    Initialize a new skill directory with template SKILL.md.
-
-    Args:
-        skill_name: Name of the skill
-        path: Path where the skill directory should be created
-        resources: Resource directories to create
-        include_examples: Whether to create example files in resource directories
-
-    Returns:
-        Path to created skill directory, or None if error
-    """
-    # Determine skill directory path
-    skill_dir = Path(path).resolve() / skill_name
-
-    # Check if directory already exists
-    if skill_dir.exists():
-        print(f"[ERROR] Skill directory already exists: {skill_dir}")
-        return None
-
-    # Create skill directory
-    try:
-        skill_dir.mkdir(parents=True, exist_ok=False)
-        print(f"[OK] Created skill directory: {skill_dir}")
-    except Exception as e:
-        print(f"[ERROR] Error creating directory: {e}")
-        return None
-
-    # Create SKILL.md from template
-    skill_title = title_case_skill_name(skill_name)
-    skill_content = SKILL_TEMPLATE.format(skill_name=skill_name, skill_title=skill_title)
-
-    skill_md_path = skill_dir / "SKILL.md"
-    try:
-        skill_md_path.write_text(skill_content)
-        print("[OK] Created SKILL.md")
-    except Exception as e:
-        print(f"[ERROR] Error creating SKILL.md: {e}")
-        return None
-
-    # Create agents/openai.yaml
-    try:
-        result = write_openai_yaml(skill_dir, skill_name, interface_overrides)
-        if not result:
-            return None
-    except Exception as e:
-        print(f"[ERROR] Error creating agents/openai.yaml: {e}")
-        return None
-
-    # Create resource directories if requested
-    if resources:
-        try:
-            create_resource_dirs(skill_dir, skill_name, skill_title, resources, include_examples)
-        except Exception as e:
-            print(f"[ERROR] Error creating resource directories: {e}")
-            return None
-
-    # Print next steps
-    print(f"\n[OK] Skill '{skill_name}' initialized successfully at {skill_dir}")
-    print("\nNext steps:")
-    print("1. Edit SKILL.md to complete the TODO items and update the description")
-    if resources:
+        resource_dir.mkdir()
         if include_examples:
-            print("2. Customize or delete the example files in scripts/, references/, and assets/")
-        else:
-            print("2. Add resources to scripts/, references/, and assets/ as needed")
-    else:
-        print("2. Create resource directories only if needed (scripts/, references/, assets/)")
-    print("3. Update agents/openai.yaml if the UI metadata should differ")
-    print("4. Run the validator when ready to check the skill structure")
-    print(
-        "5. Forward-test complex skills with realistic user requests to ensure they work as intended"
-    )
+            filename, content = examples[resource]
+            resource_dir.joinpath(filename).write_text(content, encoding="utf-8")
 
+
+def initialize_skill(
+    skill_name: str,
+    output_parent: Path,
+    resources: tuple[str, ...],
+    *,
+    include_examples: bool,
+    interface_overrides: tuple[str, ...],
+) -> Path:
+    """Build a complete skill in staging and atomically publish the directory."""
+    skill_dir = output_parent.resolve() / skill_name
+    if skill_dir.exists():
+        raise SkillInitError(f"skill directory already exists: {skill_dir}")
+    output_parent.mkdir(parents=True, exist_ok=True)
+    stage = Path(tempfile.mkdtemp(prefix=f".{skill_name}.", dir=output_parent))
+    try:
+        skill_title = title_case_skill_name(skill_name)
+        stage.joinpath("SKILL.md").write_text(
+            SKILL_TEMPLATE.format(skill_name=skill_name, skill_title=skill_title),
+            encoding="utf-8",
+        )
+        write_openai_yaml(stage, skill_name, interface_overrides)
+        create_resource_dirs(
+            stage,
+            skill_name,
+            skill_title,
+            resources,
+            include_examples=include_examples,
+        )
+        os.replace(stage, skill_dir)
+    except (OSError, MetadataError, KeyError) as exc:
+        shutil.rmtree(stage, ignore_errors=True)
+        raise SkillInitError(f"could not initialize skill: {exc}") from exc
     return skill_dir
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Create a new skill directory with a SKILL.md template.",
-    )
-    parser.add_argument("skill_name", help="Skill name (normalized to hyphen-case)")
-    parser.add_argument("--path", required=True, help="Output directory for the skill")
-    parser.add_argument(
-        "--resources",
-        default="",
-        help="Comma-separated list: scripts,references,assets",
-    )
-    parser.add_argument(
-        "--examples",
-        action="store_true",
-        help="Create example files inside the selected resource directories",
-    )
-    parser.add_argument(
-        "--interface",
-        action="append",
-        default=[],
-        help="Interface override in key=value format (repeatable)",
-    )
-    args = parser.parse_args()
-
-    raw_skill_name = args.skill_name
-    skill_name = normalize_skill_name(raw_skill_name)
-    if not skill_name:
-        print("[ERROR] Skill name must include at least one letter or digit.")
-        sys.exit(1)
-    if len(skill_name) > MAX_SKILL_NAME_LENGTH:
-        print(
-            f"[ERROR] Skill name '{skill_name}' is too long ({len(skill_name)} characters). "
-            f"Maximum is {MAX_SKILL_NAME_LENGTH} characters."
+def compact_pytest_output(output: str) -> str:
+    """Remove pytest-cov banners while preserving its useful report."""
+    lines: list[str] = []
+    for line in output.splitlines():
+        section = (
+            line.startswith("=") and line.endswith("=") and " tests coverage " in line
         )
-        sys.exit(1)
-    if skill_name != raw_skill_name:
-        print(f"Note: Normalized skill name from '{raw_skill_name}' to '{skill_name}'.")
+        platform = (
+            line.startswith("_")
+            and line.endswith("_")
+            and " coverage: platform " in line
+        )
+        if not section and not platform:
+            lines.append(line)
+    return "\n".join(lines).strip() + "\n"
 
-    resources = parse_resources(args.resources)
-    if args.examples and not resources:
-        print("[ERROR] --examples requires --resources to be set.")
-        sys.exit(1)
 
-    path = args.path
+@click.group()
+def cli() -> None:
+    """Create Codex skill directories."""
+    configure_logging()
 
-    print(f"Initializing skill: {skill_name}")
-    print(f"   Location: {path}")
-    if resources:
-        print(f"   Resources: {', '.join(resources)}")
-        if args.examples:
-            print("   Examples: enabled")
+
+@cli.command(name="create")
+@click.argument("skill_name")
+@click.option("--path", "output_parent", type=click.Path(path_type=Path), required=True)
+@click.option(
+    "--resources", default="", help="Comma-separated scripts,references,assets."
+)
+@click.option(
+    "--examples", is_flag=True, help="Add text examples to selected resources."
+)
+@click.option(
+    "--interface", "interfaces", multiple=True, help="Repeatable key=value UI override."
+)
+@click.option(
+    "--dry-run", is_flag=True, help="Validate and describe without creating files."
+)
+@click.option("--yes", is_flag=True, help="Create without interactive confirmation.")
+def create_command(
+    skill_name: str,
+    output_parent: Path,
+    resources: str,
+    examples: bool,
+    interfaces: tuple[str, ...],
+    dry_run: bool,
+    yes: bool,
+) -> None:
+    """Create SKILL_NAME beneath --path."""
+    normalized_name = normalize_skill_name(skill_name)
+    try:
+        validate_skill_name(normalized_name)
+        parsed_resources = parse_resources(resources)
+        if examples and not parsed_resources:
+            raise SkillInitError("--examples requires --resources")
+        target = output_parent.resolve() / normalized_name
+        if target.exists():
+            raise SkillInitError(f"skill directory already exists: {target}")
+    except SkillInitError as exc:
+        raise click.ClickException(str(exc)) from exc
+    if dry_run:
+        click.echo(f"Would create {target}")
+        return
+    if not yes:
+        click.confirm(f"Create {target}?", abort=True)
+    try:
+        result = initialize_skill(
+            normalized_name,
+            output_parent,
+            parsed_resources,
+            include_examples=examples,
+            interface_overrides=interfaces,
+        )
+    except SkillInitError as exc:
+        raise click.ClickException(str(exc)) from exc
+    logger.info("skill_initialized", skill=normalized_name, output=str(result))
+    click.echo(result)
+
+
+@click.command(name="unit-test")
+def unit_test_command() -> None:
+    """Run embedded tests and report line and branch coverage."""
+    with tempfile.TemporaryDirectory(prefix="skill-init-coverage-") as directory:
+        config = Path(directory) / ".coveragerc"
+        config.write_text(
+            os.linesep.join(
+                (
+                    "[run]",
+                    "patch = subprocess",
+                    "include =",
+                    f"    {Path(__file__).resolve()}",
+                    "",
+                )
+            ),
+            encoding="utf-8",
+        )
+        previous = os.environ.get("COVERAGE_FILE")
+        os.environ["COVERAGE_FILE"] = str(Path(directory) / ".coverage")
+        output = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(output):
+                result = pytest.main(
+                    [
+                        "--cov",
+                        "--cov-branch",
+                        "--cov-config",
+                        str(config),
+                        "--cov-report=term-missing",
+                        "-p",
+                        "no:cacheprovider",
+                        __file__,
+                        "-q",
+                    ]
+                )
+        finally:
+            if previous is None:
+                os.environ.pop("COVERAGE_FILE", None)
+            else:
+                os.environ["COVERAGE_FILE"] = previous
+    click.echo(compact_pytest_output(output.getvalue()), nl=False)
+    raise SystemExit(result)
+
+
+cli.add_command(unit_test_command)
+
+
+def test_name_helpers() -> None:
+    assert normalize_skill_name(" My API__Skill ") == "my-api-skill"
+    assert title_case_skill_name("my-api-skill") == "My Api Skill"
+    validate_skill_name("valid")
+    with pytest.raises(SkillInitError, match="at least one"):
+        validate_skill_name("")
+    with pytest.raises(SkillInitError, match="maximum is 64"):
+        validate_skill_name("a" * 65)
+
+
+def test_parse_resources_deduplicates_and_rejects_unknown() -> None:
+    assert parse_resources("") == ()
+    assert parse_resources("scripts, references, scripts") == ("scripts", "references")
+    with pytest.raises(SkillInitError, match="unknown resource"):
+        parse_resources("scripts,unknown")
+
+
+def test_initialize_skill_creates_complete_tree(tmp_path: Path) -> None:
+    result = initialize_skill(
+        "sample-skill",
+        tmp_path,
+        ("scripts", "references", "assets"),
+        include_examples=True,
+        interface_overrides=("short_description=Create useful sample skill workflows",),
+    )
+    assert result == tmp_path / "sample-skill"
+    assert (result / "SKILL.md").exists()
+    assert (result / "agents" / "openai.yaml").exists()
+    assert (result / "scripts" / "README.md").exists()
+    assert (result / "references" / "api_reference.md").exists()
+    assert (result / "assets" / "example_asset.txt").exists()
+    assert not list(tmp_path.glob(".sample-skill.*"))
+    with pytest.raises(SkillInitError, match="already exists"):
+        initialize_skill(
+            "sample-skill", tmp_path, (), include_examples=False, interface_overrides=()
+        )
+
+
+def test_initialize_skill_cleans_staging_on_failure(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def fail(*_args: object, **_kwargs: object) -> Path:
+        raise MetadataError("bad metadata")
+
+    monkeypatch.setattr(sys.modules[__name__], "write_openai_yaml", fail)
+    with pytest.raises(SkillInitError, match="bad metadata"):
+        initialize_skill(
+            "broken", tmp_path, (), include_examples=False, interface_overrides=()
+        )
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_create_command_dry_run_write_and_errors(tmp_path: Path) -> None:
+    runner = CliRunner()
+    dry_run = runner.invoke(
+        cli, ["create", "My Skill", "--path", str(tmp_path), "--dry-run"]
+    )
+    assert dry_run.exit_code == 0
+    assert "my-skill" in dry_run.stdout
+    written = runner.invoke(
+        cli,
+        [
+            "create",
+            "My Skill",
+            "--path",
+            str(tmp_path),
+            "--resources",
+            "scripts",
+        ],
+        input="y\n",
+    )
+    assert written.exit_code == 0
+    assert (tmp_path / "my-skill" / "scripts").is_dir()
+    duplicate = runner.invoke(
+        cli, ["create", "My Skill", "--path", str(tmp_path), "--yes"]
+    )
+    assert duplicate.exit_code == 1
+    assert "already exists" in duplicate.stderr
+    missing_resources = runner.invoke(
+        cli, ["create", "other", "--path", str(tmp_path), "--examples", "--dry-run"]
+    )
+    assert missing_resources.exit_code == 1
+    assert "requires --resources" in missing_resources.stderr
+
+
+def test_create_command_translates_initialization_error(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def fail(*_args: object, **_kwargs: object) -> Path:
+        raise SkillInitError("creation failed")
+
+    monkeypatch.setattr(sys.modules[__name__], "initialize_skill", fail)
+    result = CliRunner().invoke(
+        cli, ["create", "sample", "--path", str(tmp_path), "--yes"]
+    )
+    assert result.exit_code == 1
+    assert "creation failed" in result.stderr
+
+
+def test_compact_pytest_output_filters_only_banners() -> None:
+    output = "ok\n===== tests coverage =====\n_____ coverage: platform x _____\nTOTAL"
+    assert compact_pytest_output(output) == "ok\nTOTAL\n"
+    assert compact_pytest_output("= keep =\n_ keep _") == "= keep =\n_ keep _\n"
+
+
+@pytest.mark.parametrize("previous", [None, "existing"])
+def test_unit_test_command_restores_environment(
+    monkeypatch: pytest.MonkeyPatch, previous: str | None
+) -> None:
+    if previous is None:
+        monkeypatch.delenv("COVERAGE_FILE", raising=False)
     else:
-        print("   Resources: none (create as needed)")
-    print()
+        monkeypatch.setenv("COVERAGE_FILE", previous)
 
-    result = init_skill(skill_name, path, resources, args.examples, args.interface)
+    def fake_main(arguments: list[str]) -> pytest.ExitCode:
+        assert Path(arguments[arguments.index("--cov-config") + 1]).exists()
+        print("===== tests coverage =====")
+        print("TOTAL")
+        return pytest.ExitCode.OK
 
-    if result:
-        sys.exit(0)
-    else:
-        sys.exit(1)
+    monkeypatch.setattr(pytest, "main", fake_main)
+    result = CliRunner().invoke(unit_test_command)
+    assert result.exit_code == 0
+    assert result.stdout == "TOTAL\n"
+    assert os.environ.get("COVERAGE_FILE") == previous
+
+
+def test_help_logging_and_entrypoint(capsys: pytest.CaptureFixture[str]) -> None:
+    result = CliRunner().invoke(cli, ["--help"])
+    assert result.exit_code == 0
+    assert "create" in result.stdout
+    assert "unit-test" in result.stdout
+    configure_logging()
+    logger.info("test_event")
+    assert "test_event" in capsys.readouterr().err
+    process = sp.run(
+        [sys.executable, __file__, "--help"],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    assert process.returncode == 0
+    assert "Create Codex" in process.stdout
 
 
 if __name__ == "__main__":
-    main()
+    cli()

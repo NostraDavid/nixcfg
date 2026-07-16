@@ -294,7 +294,7 @@ def scaffold(
 
 
 def output_message(output: Path) -> str:
-    return f"Created {output} with exact runtime dependency pins."
+    return f"Created executable {output} with exact runtime dependency pins."
 
 
 @click.group()
@@ -575,7 +575,7 @@ def test_output_message_describes_exact_pins(tmp_path: Path) -> None:
     output = tmp_path / "tool.py"
 
     assert output_message(output) == (
-        f"Created {output} with exact runtime dependency pins."
+        f"Created executable {output} with exact runtime dependency pins."
     )
 
 
@@ -626,7 +626,9 @@ def test_create_command_reports_success(
     )
 
     assert result.exit_code == 0
-    assert result.stdout == f"Created {output} with exact runtime dependency pins.\n"
+    assert result.stdout == (
+        f"Created executable {output} with exact runtime dependency pins.\n"
+    )
     assert calls == [(output, "sync-repos", True)]
 
 

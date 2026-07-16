@@ -1,4 +1,17 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "click==8.4.2",
+#     "openai==2.45.0",
+#     "orjson==3.11.7",
+#     "pillow==12.3.0",
+#     "pytest==9.1.1",
+#     "pytest-cov==7.1.0",
+#     "regex==2026.2.28",
+#     "structlog==26.1.0",
+# ]
+# ///
 """Fallback CLI for explicit image generation or editing with GPT Image models.
 
 Used only when the user explicitly opts into CLI fallback mode, or when explicit
@@ -12,15 +25,25 @@ from __future__ import annotations
 import argparse
 import asyncio
 import base64
-import json
+import contextlib
+import io
 import os
 from pathlib import Path
-import re
+import subprocess as sp
 import sys
-import time
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+import tempfile
+from typing import IO, Any, Dict, Iterable, List, Never, Optional, Tuple
 
 from io import BytesIO
+
+import click
+import orjson as json
+import pytest
+import regex as re
+import structlog as sl
+import structlog.stdlib as log
+import time as tm
+from click.testing import CliRunner
 
 DEFAULT_MODEL = "gpt-image-2"
 DEFAULT_SIZE = "auto"
@@ -44,15 +67,33 @@ GPT_IMAGE_2_MAX_RATIO = 3.0
 
 MAX_IMAGE_BYTES = 50 * 1024 * 1024
 MAX_BATCH_JOBS = 500
+logger = log.get_logger(__name__)
 
 
-def _die(message: str, code: int = 1) -> None:
-    print(f"Error: {message}", file=sys.stderr)
-    raise SystemExit(code)
+class ImageGenerationError(Exception):
+    """Report an expected image request, input, or output failure."""
+
+
+def _die(message: str, code: int = 1) -> Never:
+    del code
+    raise ImageGenerationError(message)
 
 
 def _warn(message: str) -> None:
-    print(f"Warning: {message}", file=sys.stderr)
+    logger.warning("image_generation_warning", message=message)
+
+
+def configure_logging() -> None:
+    sl.configure(
+        processors=[
+            sl.processors.TimeStamper(fmt="iso", utc=True),
+            sl.processors.add_log_level,
+            sl.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
+        ],
+        wrapper_class=sl.make_filtering_bound_logger("debug"),
+        logger_factory=sl.PrintLoggerFactory(file=sys.stderr),
+        cache_logger_on_first_use=False,
+    )
 
 
 def _dependency_hint(package: str, *, upgrade: bool = False) -> str:
@@ -68,7 +109,7 @@ def _dependency_hint(package: str, *, upgrade: bool = False) -> str:
 
 def _ensure_api_key(dry_run: bool) -> None:
     if os.getenv("OPENAI_API_KEY"):
-        print("OPENAI_API_KEY is set.", file=sys.stderr)
+        logger.info("openai_api_key_available")
         return
     if dry_run:
         _warn("OPENAI_API_KEY is not set; dry-run only.")
@@ -132,7 +173,9 @@ def _validate_gpt_image_2_size(size: str) -> None:
     total_pixels = width * height
 
     if max_edge > GPT_IMAGE_2_MAX_EDGE:
-        _die("gpt-image-2 size maximum edge length must be less than or equal to 3840px.")
+        _die(
+            "gpt-image-2 size maximum edge length must be less than or equal to 3840px."
+        )
     if width % 16 != 0 or height % 16 != 0:
         _die("gpt-image-2 size width and height must be multiples of 16px.")
     if max_edge / min_edge > GPT_IMAGE_2_MAX_RATIO:
@@ -257,7 +300,9 @@ def _augment_prompt(args: argparse.Namespace, prompt: str) -> str:
     return _augment_prompt_fields(args.augment, prompt, fields)
 
 
-def _augment_prompt_fields(augment: bool, prompt: str, fields: Dict[str, Optional[str]]) -> str:
+def _augment_prompt_fields(
+    augment: bool, prompt: str, fields: Dict[str, Optional[str]]
+) -> str:
     if not augment:
         return prompt
 
@@ -280,7 +325,7 @@ def _augment_prompt_fields(augment: bool, prompt: str, fields: Dict[str, Optiona
     if fields.get("materials"):
         sections.append(f"Materials/textures: {fields['materials']}")
     if fields.get("text"):
-        sections.append(f"Text (verbatim): \"{fields['text']}\"")
+        sections.append(f'Text (verbatim): "{fields["text"]}"')
     if fields.get("constraints"):
         sections.append(f"Constraints: {fields['constraints']}")
     if fields.get("negative"):
@@ -306,7 +351,9 @@ def _fields_from_args(args: argparse.Namespace) -> Dict[str, Optional[str]]:
 
 
 def _print_request(payload: dict) -> None:
-    print(json.dumps(payload, indent=2, sort_keys=True))
+    click.echo(
+        json.dumps(payload, option=json.OPT_INDENT_2 | json.OPT_SORT_KEYS).decode()
+    )
 
 
 def _decode_and_write(images: List[str], outputs: List[Path], force: bool) -> None:
@@ -318,7 +365,7 @@ def _decode_and_write(images: List[str], outputs: List[Path], force: bool) -> No
             _die(f"Output already exists: {out_path} (use --force to overwrite)")
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_bytes(base64.b64decode(image_b64))
-        print(f"Wrote {out_path}")
+        click.echo(f"Wrote {out_path}")
 
 
 def _derive_downscale_path(path: Path, suffix: str) -> Path:
@@ -327,7 +374,9 @@ def _derive_downscale_path(path: Path, suffix: str) -> Path:
     return path.with_name(f"{path.stem}{suffix}{path.suffix}")
 
 
-def _downscale_image_bytes(image_bytes: bytes, *, max_dim: int, output_format: str) -> bytes:
+def _downscale_image_bytes(
+    image_bytes: bytes, *, max_dim: int, output_format: str
+) -> bytes:
     try:
         from PIL import Image
     except Exception:
@@ -342,16 +391,22 @@ def _downscale_image_bytes(image_bytes: bytes, *, max_dim: int, output_format: s
         scale = min(1.0, float(max_dim) / float(max(w, h)))
         target = (max(1, int(round(w * scale))), max(1, int(round(h * scale))))
 
-        resized = img if target == (w, h) else img.resize(target, Image.Resampling.LANCZOS)
+        resized = (
+            img if target == (w, h) else img.resize(target, Image.Resampling.LANCZOS)
+        )
 
         fmt = output_format.lower()
         if fmt == "jpg":
             fmt = "jpeg"
 
         if fmt == "jpeg":
-            if resized.mode in ("RGBA", "LA") or ("transparency" in getattr(resized, "info", {})):
+            if resized.mode in ("RGBA", "LA") or (
+                "transparency" in getattr(resized, "info", {})
+            ):
                 bg = Image.new("RGB", resized.size, (255, 255, 255))
-                bg.paste(resized.convert("RGBA"), mask=resized.convert("RGBA").split()[-1])
+                bg.paste(
+                    resized.convert("RGBA"), mask=resized.convert("RGBA").split()[-1]
+                )
                 resized = bg
             else:
                 resized = resized.convert("RGB")
@@ -380,7 +435,7 @@ def _decode_write_and_downscale(
 
         raw = base64.b64decode(image_b64)
         out_path.write_bytes(raw)
-        print(f"Wrote {out_path}")
+        click.echo(f"Wrote {out_path}")
 
         if downscale_max_dim is None:
             continue
@@ -389,16 +444,20 @@ def _decode_write_and_downscale(
         if derived.exists() and not force:
             _die(f"Output already exists: {derived} (use --force to overwrite)")
         derived.parent.mkdir(parents=True, exist_ok=True)
-        resized = _downscale_image_bytes(raw, max_dim=downscale_max_dim, output_format=output_format)
+        resized = _downscale_image_bytes(
+            raw, max_dim=downscale_max_dim, output_format=output_format
+        )
         derived.write_bytes(resized)
-        print(f"Wrote {derived}")
+        click.echo(f"Wrote {derived}")
 
 
 def _create_client():
     try:
         from openai import OpenAI
     except ImportError:
-        _die(f"openai SDK not installed in the active environment. {_dependency_hint('openai')}")
+        _die(
+            f"openai SDK not installed in the active environment. {_dependency_hint('openai')}"
+        )
     return OpenAI()
 
 
@@ -500,10 +559,7 @@ def _job_output_paths(
 
     if n == 1:
         return [base]
-    return [
-        base.with_name(f"{base.stem}-{i}{base.suffix}")
-        for i in range(1, n + 1)
-    ]
+    return [base.with_name(f"{base.stem}-{i}{base.suffix}") for i in range(1, n + 1)]
 
 
 def _extract_retry_after_seconds(exc: Exception) -> Optional[float]:
@@ -560,9 +616,13 @@ async def _generate_one_with_retries(
             sleep_s = _extract_retry_after_seconds(exc)
             if sleep_s is None:
                 sleep_s = min(60.0, 2.0**attempt)
-            print(
-                f"{job_label} attempt {attempt}/{attempts} failed ({exc.__class__.__name__}); retrying in {sleep_s:.1f}s",
-                file=sys.stderr,
+            logger.warning(
+                "image_job_retry",
+                job=job_label,
+                attempt=attempt,
+                attempts=attempts,
+                error_type=exc.__class__.__name__,
+                retry_after_seconds=sleep_s,
             )
             await asyncio.sleep(sleep_s)
     raise last_exc or RuntimeError("unknown error")
@@ -589,17 +649,25 @@ async def _run_generate_batch(args: argparse.Namespace) -> int:
             prompt = str(job["prompt"]).strip()
             fields = _merge_non_null(base_fields, job.get("fields", {}))
             # Allow flat job keys as well (use_case, scene, etc.)
-            fields = _merge_non_null(fields, {k: job.get(k) for k in base_fields.keys()})
+            fields = _merge_non_null(
+                fields, {k: job.get(k) for k in base_fields.keys()}
+            )
             augmented = _augment_prompt_fields(args.augment, prompt, fields)
 
             job_payload = dict(base_payload)
             job_payload["prompt"] = augmented
-            job_payload = _merge_non_null(job_payload, {k: job.get(k) for k in base_payload.keys()})
+            job_payload = _merge_non_null(
+                job_payload, {k: job.get(k) for k in base_payload.keys()}
+            )
             job_payload = {k: v for k, v in job_payload.items() if v is not None}
 
             _validate_generate_payload(job_payload)
-            effective_output_format = _normalize_output_format(job_payload.get("output_format"))
-            _validate_transparency(job_payload.get("background"), effective_output_format)
+            effective_output_format = _normalize_output_format(
+                job_payload.get("output_format")
+            )
+            _validate_transparency(
+                job_payload.get("background"), effective_output_format
+            )
             job_payload["output_format"] = effective_output_format
 
             n = int(job_payload.get("n", 1))
@@ -614,7 +682,8 @@ async def _run_generate_batch(args: argparse.Namespace) -> int:
             downscaled = None
             if args.downscale_max_dim is not None:
                 downscaled = [
-                    str(_derive_downscale_path(p, args.downscale_suffix)) for p in outputs
+                    str(_derive_downscale_path(p, args.downscale_suffix))
+                    for p in outputs
                 ]
             _print_request(
                 {
@@ -661,16 +730,18 @@ async def _run_generate_batch(args: argparse.Namespace) -> int:
         )
         try:
             async with sem:
-                print(f"{job_label} starting", file=sys.stderr)
-                started = time.time()
+                logger.info("image_job_started", job=job_label)
+                started = tm.time()
                 result = await _generate_one_with_retries(
                     client,
                     payload,
                     attempts=args.max_attempts,
                     job_label=job_label,
                 )
-                elapsed = time.time() - started
-                print(f"{job_label} completed in {elapsed:.1f}s", file=sys.stderr)
+                elapsed = tm.time() - started
+                logger.info(
+                    "image_job_completed", job=job_label, elapsed_seconds=elapsed
+                )
             images = [item.b64_json for item in result.data]
             _decode_write_and_downscale(
                 images,
@@ -683,12 +754,14 @@ async def _run_generate_batch(args: argparse.Namespace) -> int:
             return i, None
         except Exception as exc:
             any_failed = True
-            print(f"{job_label} failed: {exc}", file=sys.stderr)
+            logger.error("image_job_failed", job=job_label, error=str(exc))
             if args.fail_fast:
                 raise
             return i, str(exc)
 
-    tasks = [asyncio.create_task(run_job(i, job)) for i, job in enumerate(jobs, start=1)]
+    tasks = [
+        asyncio.create_task(run_job(i, job)) for i, job in enumerate(jobs, start=1)
+    ]
 
     try:
         await asyncio.gather(*tasks)
@@ -730,7 +803,9 @@ def _generate(args: argparse.Namespace) -> None:
     output_paths = _build_output_paths(args.out, output_format, args.n, args.out_dir)
     downscaled = None
     if args.downscale_max_dim is not None:
-        downscaled = [str(_derive_downscale_path(p, args.downscale_suffix)) for p in output_paths]
+        downscaled = [
+            str(_derive_downscale_path(p, args.downscale_suffix)) for p in output_paths
+        ]
 
     if args.dry_run:
         _print_request(
@@ -743,15 +818,12 @@ def _generate(args: argparse.Namespace) -> None:
         )
         return
 
-    print(
-        "Calling Image API (generation). This can take up to a couple of minutes.",
-        file=sys.stderr,
-    )
-    started = time.time()
+    logger.info("image_generation_started", model=args.model)
+    started = tm.time()
     client = _create_client()
     result = client.images.generate(**payload)
-    elapsed = time.time() - started
-    print(f"Generation completed in {elapsed:.1f}s.", file=sys.stderr)
+    elapsed = tm.time() - started
+    logger.info("image_generation_completed", elapsed_seconds=elapsed)
 
     images = [item.b64_json for item in result.data]
     _decode_write_and_downscale(
@@ -799,7 +871,9 @@ def _edit(args: argparse.Namespace) -> None:
     output_paths = _build_output_paths(args.out, output_format, args.n, args.out_dir)
     downscaled = None
     if args.downscale_max_dim is not None:
-        downscaled = [str(_derive_downscale_path(p, args.downscale_suffix)) for p in output_paths]
+        downscaled = [
+            str(_derive_downscale_path(p, args.downscale_suffix)) for p in output_paths
+        ]
 
     if args.dry_run:
         payload_preview = dict(payload)
@@ -816,11 +890,8 @@ def _edit(args: argparse.Namespace) -> None:
         )
         return
 
-    print(
-        f"Calling Image API (edit) with {len(image_paths)} image(s).",
-        file=sys.stderr,
-    )
-    started = time.time()
+    logger.info("image_edit_started", image_count=len(image_paths), model=args.model)
+    started = tm.time()
     client = _create_client()
 
     with _open_files(image_paths) as image_files, _open_mask(mask_path) as mask_file:
@@ -830,8 +901,8 @@ def _edit(args: argparse.Namespace) -> None:
             request["mask"] = mask_file
         result = client.images.edit(**request)
 
-    elapsed = time.time() - started
-    print(f"Edit completed in {elapsed:.1f}s.", file=sys.stderr)
+    elapsed = tm.time() - started
+    logger.info("image_edit_completed", elapsed_seconds=elapsed)
     images = [item.b64_json for item in result.data]
     _decode_write_and_downscale(
         images,
@@ -882,7 +953,7 @@ class _SingleFile:
 class _FileBundle:
     def __init__(self, paths: List[Path]):
         self._paths = paths
-        self._handles: List[object] = []
+        self._handles: List[IO[bytes]] = []
 
     def __enter__(self):
         self._handles = [p.open("rb") for p in self._paths]
@@ -934,7 +1005,7 @@ def _add_shared_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--downscale-suffix", default=DEFAULT_DOWNSCALE_SUFFIX)
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Fallback CLI for explicit image generation or editing via GPT Image models"
     )
@@ -949,7 +1020,9 @@ def main() -> int:
         help="Generate multiple prompts concurrently (JSONL input)",
     )
     _add_shared_args(batch_parser)
-    batch_parser.add_argument("--input", required=True, help="Path to JSONL file (one job per line)")
+    batch_parser.add_argument(
+        "--input", required=True, help="Path to JSONL file (one job per line)"
+    )
     batch_parser.add_argument("--concurrency", type=int, default=DEFAULT_CONCURRENCY)
     batch_parser.add_argument("--max-attempts", type=int, default=3)
     batch_parser.add_argument("--fail-fast", action="store_true")
@@ -962,18 +1035,23 @@ def main() -> int:
     edit_parser.add_argument("--input-fidelity")
     edit_parser.set_defaults(func=_edit)
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if args.n < 1 or args.n > 10:
         _die("--n must be between 1 and 10")
     if getattr(args, "concurrency", 1) < 1 or getattr(args, "concurrency", 1) > 25:
         _die("--concurrency must be between 1 and 25")
     if getattr(args, "max_attempts", 3) < 1 or getattr(args, "max_attempts", 3) > 10:
         _die("--max-attempts must be between 1 and 10")
-    if args.output_compression is not None and not (0 <= args.output_compression <= 100):
+    if args.output_compression is not None and not (
+        0 <= args.output_compression <= 100
+    ):
         _die("--output-compression must be between 0 and 100")
     if args.command == "generate-batch" and not args.out_dir:
         _die("generate-batch requires --out-dir")
-    if getattr(args, "downscale_max_dim", None) is not None and args.downscale_max_dim < 1:
+    if (
+        getattr(args, "downscale_max_dim", None) is not None
+        and args.downscale_max_dim < 1
+    ):
         _die("--downscale-max-dim must be >= 1")
 
     _validate_model(args.model)
@@ -991,5 +1069,246 @@ def main() -> int:
     return 0
 
 
+def compact_pytest_output(output: str) -> str:
+    lines: list[str] = []
+    for line in output.splitlines():
+        section = (
+            line.startswith("=") and line.endswith("=") and " tests coverage " in line
+        )
+        platform = (
+            line.startswith("_")
+            and line.endswith("_")
+            and " coverage: platform " in line
+        )
+        if not section and not platform:
+            lines.append(line)
+    return "\n".join(lines).strip() + "\n"
+
+
+def invoke_legacy(command: str, arguments: tuple[str, ...]) -> None:
+    """Run the mature argparse implementation behind a Click boundary."""
+    forwarded = [argument for argument in arguments if argument != "--yes"]
+    informational = "--help" in forwarded or "-h" in forwarded
+    if not informational and "--dry-run" not in forwarded and "--yes" not in arguments:
+        click.confirm(f"Run paid image {command} request?", abort=True)
+    try:
+        main([command, *forwarded])
+    except ImageGenerationError as exc:
+        raise click.ClickException(str(exc)) from exc
+
+
+@click.group()
+def cli() -> None:
+    """Generate or edit images with OpenAI's Image API."""
+    configure_logging()
+
+
+FORWARD_CONTEXT = {"ignore_unknown_options": True, "help_option_names": []}
+
+
+@cli.command(name="generate", context_settings=FORWARD_CONTEXT)
+@click.argument("arguments", nargs=-1, type=click.UNPROCESSED)
+def generate_command(arguments: tuple[str, ...]) -> None:
+    """Generate one image using legacy-compatible options."""
+    invoke_legacy("generate", arguments)
+
+
+@cli.command(name="generate-batch", context_settings=FORWARD_CONTEXT)
+@click.argument("arguments", nargs=-1, type=click.UNPROCESSED)
+def generate_batch_command(arguments: tuple[str, ...]) -> None:
+    """Generate a JSONL batch using legacy-compatible options."""
+    invoke_legacy("generate-batch", arguments)
+
+
+@cli.command(name="edit", context_settings=FORWARD_CONTEXT)
+@click.argument("arguments", nargs=-1, type=click.UNPROCESSED)
+def edit_command(arguments: tuple[str, ...]) -> None:
+    """Edit images using legacy-compatible options."""
+    invoke_legacy("edit", arguments)
+
+
+@click.command(name="unit-test")
+def unit_test_command() -> None:
+    """Run embedded tests and report line and branch coverage."""
+    with tempfile.TemporaryDirectory(prefix="image-gen-coverage-") as directory:
+        config = Path(directory) / ".coveragerc"
+        config.write_text(
+            os.linesep.join(
+                (
+                    "[run]",
+                    "patch = subprocess",
+                    "include =",
+                    f"    {Path(__file__).resolve()}",
+                    "",
+                )
+            ),
+            encoding="utf-8",
+        )
+        previous = os.environ.get("COVERAGE_FILE")
+        os.environ["COVERAGE_FILE"] = str(Path(directory) / ".coverage")
+        output = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(output):
+                result = pytest.main(
+                    [
+                        "--cov",
+                        "--cov-branch",
+                        "--cov-config",
+                        str(config),
+                        "--cov-report=term-missing",
+                        "-p",
+                        "no:cacheprovider",
+                        __file__,
+                        "-q",
+                    ]
+                )
+        finally:
+            if previous is None:
+                os.environ.pop("COVERAGE_FILE", None)
+            else:
+                os.environ["COVERAGE_FILE"] = previous
+    click.echo(compact_pytest_output(output.getvalue()), nl=False)
+    raise SystemExit(result)
+
+
+cli.add_command(unit_test_command)
+
+
+def test_prompt_format_and_size_helpers(tmp_path: Path) -> None:
+    assert _read_prompt(" hello ", None) == "hello"
+    prompt_file = tmp_path / "prompt.txt"
+    prompt_file.write_text(" file prompt ", encoding="utf-8")
+    assert _read_prompt(None, str(prompt_file)) == "file prompt"
+    with pytest.raises(ImageGenerationError):
+        _read_prompt("a", str(prompt_file))
+    assert _normalize_output_format("jpg") == "jpeg"
+    assert _normalize_output_format(None) == "png"
+    with pytest.raises(ImageGenerationError):
+        _normalize_output_format("gif")
+    assert _parse_size("1024x768") == (1024, 768)
+    assert _parse_size("auto") is None
+
+
+def test_output_paths_and_slug(tmp_path: Path) -> None:
+    paths = _build_output_paths(str(tmp_path / "image.png"), "png", 2, None)
+    assert [path.name for path in paths] == ["image-1.png", "image-2.png"]
+    assert _slugify("Hello, World!") == "hello-world"
+    assert (
+        _derive_downscale_path(tmp_path / "image.png", "-web").name == "image-web.png"
+    )
+
+
+def test_click_dry_run_and_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    result = CliRunner().invoke(
+        cli, ["generate", "--prompt", "A blue circle", "--dry-run", "--no-augment"]
+    )
+    assert result.exit_code == 0
+    assert '"endpoint": "/v1/images/generations"' in result.stdout
+    result = CliRunner().invoke(cli, ["generate", "--dry-run"])
+    assert result.exit_code == 1 and "Missing prompt" in result.stderr
+
+
+def test_edit_dry_run_preserves_legacy_request_contract(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    image = tmp_path / "input.png"
+    image.write_bytes(b"fixture")
+    output = tmp_path / "edited.png"
+
+    result = CliRunner().invoke(
+        cli,
+        [
+            "edit",
+            "--image",
+            str(image),
+            "--prompt",
+            "Make it blue",
+            "--model",
+            "gpt-image-1.5",
+            "--input-fidelity",
+            "high",
+            "--out",
+            str(output),
+            "--no-augment",
+            "--dry-run",
+        ],
+    )
+
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert payload == {
+        "endpoint": "/v1/images/edits",
+        "outputs": [str(output)],
+        "outputs_downscaled": None,
+        "model": "gpt-image-1.5",
+        "prompt": "Make it blue",
+        "n": 1,
+        "size": "auto",
+        "quality": "medium",
+        "output_format": "png",
+        "input_fidelity": "high",
+        "image": [str(image)],
+    }
+
+
+def test_invoke_legacy_confirms(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[list[str] | None] = []
+    monkeypatch.setattr(
+        sys.modules[__name__], "main", lambda argv=None: calls.append(argv) or 0
+    )
+    result = CliRunner().invoke(cli, ["generate", "--prompt", "x"], input="y\n")
+    assert result.exit_code == 0
+    assert calls == [["generate", "--prompt", "x"]]
+    result = CliRunner().invoke(cli, ["generate", "--prompt", "x", "--yes"])
+    assert result.exit_code == 0
+    result = CliRunner().invoke(cli, ["generate", "--help"])
+    assert result.exit_code == 0
+    assert calls[-1] == ["generate", "--help"]
+
+
+def test_compact_and_harness(monkeypatch: pytest.MonkeyPatch) -> None:
+    assert (
+        compact_pytest_output(
+            "ok\n===== tests coverage =====\n_____ coverage: platform x _____\nTOTAL"
+        )
+        == "ok\nTOTAL\n"
+    )
+    assert compact_pytest_output("= keep =\n_ keep _") == "= keep =\n_ keep _\n"
+    monkeypatch.delenv("COVERAGE_FILE", raising=False)
+
+    def fake_main(arguments: list[str]) -> pytest.ExitCode:
+        assert Path(arguments[arguments.index("--cov-config") + 1]).exists()
+        print("TOTAL")
+        return pytest.ExitCode.OK
+
+    monkeypatch.setattr(pytest, "main", fake_main)
+    assert CliRunner().invoke(unit_test_command).stdout == "TOTAL\n"
+
+
+def test_harness_restores_existing(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("COVERAGE_FILE", "existing")
+    monkeypatch.setattr(pytest, "main", lambda _arguments: pytest.ExitCode.OK)
+    assert CliRunner().invoke(unit_test_command).exit_code == 0
+    assert os.environ["COVERAGE_FILE"] == "existing"
+
+
+def test_help_logging_and_entrypoint(capsys: pytest.CaptureFixture[str]) -> None:
+    result = CliRunner().invoke(cli, ["--help"])
+    assert result.exit_code == 0 and "unit-test" in result.stdout
+    configure_logging()
+    logger.info("test_event")
+    assert "test_event" in capsys.readouterr().err
+    process = sp.run(
+        [sys.executable, __file__, "--help"],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    assert process.returncode == 0 and "OpenAI's Image API" in process.stdout
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    cli()

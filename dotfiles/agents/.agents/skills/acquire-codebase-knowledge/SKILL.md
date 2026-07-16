@@ -55,7 +55,7 @@ If the user supplies a focus area (for example: "architecture only" or "testing 
 1. Run the scan script from the target project root:
 
    ```bash
-   python3 "$SKILL_ROOT/scripts/scan.py" --output docs/codebase/.codebase-scan.txt
+   "$SKILL_ROOT/scripts/scan.py" scan --output docs/codebase/.codebase-scan.txt --yes
    ```
 
    Where `$SKILL_ROOT` is the absolute path to the skill folder. Works on Windows, macOS, and Linux.
@@ -63,7 +63,7 @@ If the user supplies a focus area (for example: "architecture only" or "testing 
    **Quick start:** If you have the path inline:
 
    ```bash
-   python3 /absolute/path/to/skills/acquire-codebase-knowledge/scripts/scan.py --output docs/codebase/.codebase-scan.txt
+   /absolute/path/to/skills/acquire-codebase-knowledge/scripts/scan.py scan --output docs/codebase/.codebase-scan.txt --yes
    ```
 
 2. Search for `PRD`, `TRD`, `README`, `ROADMAP`, `SPEC`, `DESIGN` files and read them.

@@ -296,15 +296,15 @@ When creating a new skill from scratch, always run the `init_skill.py` script. T
 Usage:
 
 ```bash
-scripts/init_skill.py <skill-name> --path <output-directory> [--resources scripts,references,assets] [--examples]
+scripts/init_skill.py create <skill-name> --path <output-directory> [--resources scripts,references,assets] [--examples]
 ```
 
 Examples:
 
 ```bash
-scripts/init_skill.py my-skill --path "${CODEX_HOME:-$HOME/.codex}/skills"
-scripts/init_skill.py my-skill --path "${CODEX_HOME:-$HOME/.codex}/skills" --resources scripts,references
-scripts/init_skill.py my-skill --path ~/work/skills --resources scripts --examples
+scripts/init_skill.py create my-skill --path "${CODEX_HOME:-$HOME/.codex}/skills" --yes
+scripts/init_skill.py create my-skill --path "${CODEX_HOME:-$HOME/.codex}/skills" --resources scripts,references --yes
+scripts/init_skill.py create my-skill --path ~/work/skills --resources scripts --examples --yes
 ```
 
 The script:
@@ -320,7 +320,7 @@ After initialization, customize the SKILL.md and add resources as needed. If you
 Generate `display_name`, `short_description`, and `default_prompt` by reading the skill, then pass them as `--interface key=value` to `init_skill.py` or regenerate with:
 
 ```bash
-scripts/generate_openai_yaml.py <path/to/skill-folder> --interface key=value
+scripts/generate_openai_yaml.py generate <path/to/skill-folder> --interface key=value --yes
 ```
 
 Only include other optional interface fields when the user explicitly provides them. For full field descriptions and examples, see references/openai_yaml.md.
@@ -364,7 +364,7 @@ Write instructions for using the skill and its bundled resources.
 Once development of the skill is complete, validate the skill folder to catch basic issues early:
 
 ```bash
-scripts/quick_validate.py <path/to/skill-folder>
+scripts/quick_validate.py validate <path/to/skill-folder>
 ```
 
 The validation script checks YAML frontmatter format, required fields, and naming rules. If validation fails, fix the reported issues and run the command again.

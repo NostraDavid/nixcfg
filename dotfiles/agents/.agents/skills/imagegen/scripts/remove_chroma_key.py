@@ -1,4 +1,17 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "click==8.4.2",
+#     "numpy==2.5.1",
+#     "pillow==12.3.0",
+#     "pydantic==2.12.5",
+#     "pytest==9.1.1",
+#     "pytest-cov==7.1.0",
+#     "regex==2026.2.28",
+#     "structlog==26.1.0",
+# ]
+# ///
 """Remove a solid chroma-key background from an image.
 
 This helper supports the imagegen skill's built-in-first transparent workflow:
@@ -7,23 +20,69 @@ generate an image on a flat key color, then convert that key color to alpha.
 
 from __future__ import annotations
 
-import argparse
+import contextlib
 from io import BytesIO
+import io
+import os
 from pathlib import Path
-import re
-from statistics import median
+import subprocess as sp
 import sys
+import tempfile
 from typing import Tuple
+
+import click
+import numpy as np
+import pytest
+import regex as re
+import structlog as sl
+import structlog.stdlib as log
+from click.testing import CliRunner
+from pydantic import BaseModel
 
 
 Color = Tuple[int, int, int]
 KEY_DOMINANCE_THRESHOLD = 16.0
 ALPHA_NOISE_FLOOR = 8
+logger = log.get_logger(__name__)
+
+
+class ChromaKeyError(Exception):
+    """Report an expected input, image, or output failure."""
+
+
+class ChromaOptions(BaseModel):
+    """Hold validated chroma-key processing settings."""
+
+    input: Path
+    out: Path
+    key_color: str = "#00ff00"
+    tolerance: int = 12
+    auto_key: str = "none"
+    soft_matte: bool = False
+    transparent_threshold: float = 12.0
+    opaque_threshold: float = 96.0
+    edge_feather: float = 0.0
+    edge_contract: int = 0
+    spill_cleanup: bool = False
+    force: bool = False
 
 
 def _die(message: str, code: int = 1) -> None:
-    print(f"Error: {message}", file=sys.stderr)
-    raise SystemExit(code)
+    del code
+    raise ChromaKeyError(message)
+
+
+def configure_logging() -> None:
+    sl.configure(
+        processors=[
+            sl.processors.TimeStamper(fmt="iso", utc=True),
+            sl.processors.add_log_level,
+            sl.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
+        ],
+        wrapper_class=sl.make_filtering_bound_logger("debug"),
+        logger_factory=sl.PrintLoggerFactory(file=sys.stderr),
+        cache_logger_on_first_use=False,
+    )
 
 
 def _dependency_hint(package: str) -> str:
@@ -56,7 +115,7 @@ def _parse_key_color(raw: str) -> Color:
     )
 
 
-def _validate_args(args: argparse.Namespace) -> None:
+def _validate_args(args: ChromaOptions) -> None:
     if args.tolerance < 0 or args.tolerance > 255:
         _die("--tolerance must be between 0 and 255.")
     if args.transparent_threshold < 0 or args.transparent_threshold > 255:
@@ -95,7 +154,9 @@ def _smoothstep(value: float) -> float:
     return value * value * (3.0 - 2.0 * value)
 
 
-def _soft_alpha(distance: int, transparent_threshold: float, opaque_threshold: float) -> int:
+def _soft_alpha(
+    distance: int, transparent_threshold: float, opaque_threshold: float
+) -> int:
     if distance <= transparent_threshold:
         return 0
     if distance >= opaque_threshold:
@@ -132,7 +193,9 @@ def _spill_channels(key: Color) -> list[int]:
     key_max = max(key)
     if key_max < 128:
         return []
-    return [idx for idx, value in enumerate(key) if value >= key_max - 16 and value >= 128]
+    return [
+        idx for idx, value in enumerate(key) if value >= key_max - 16 and value >= 128
+    ]
 
 
 def _key_channel_dominance(rgb: Color, key: Color) -> float:
@@ -316,13 +379,32 @@ def _sample_border_key(image, mode: str) -> Color:
         _die("Could not sample background key color from image border.")
 
     return (
-        int(round(median(sample[0] for sample in samples))),
-        int(round(median(sample[1] for sample in samples))),
-        int(round(median(sample[2] for sample in samples))),
+        int(round(float(np.median([sample[0] for sample in samples])))),
+        int(round(float(np.median([sample[1] for sample in samples])))),
+        int(round(float(np.median([sample[2] for sample in samples])))),
     )
 
 
-def _remove_chroma_key(args: argparse.Namespace) -> None:
+def _write_atomic(path: Path, payload: bytes) -> None:
+    """Create or replace an image atomically."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    mode = path.stat().st_mode if path.exists() else 0o644
+    descriptor, raw_temp_path = tempfile.mkstemp(
+        prefix=f".{path.name}.", dir=path.parent
+    )
+    temp_path = Path(raw_temp_path)
+    try:
+        with os.fdopen(descriptor, "wb") as handle:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.chmod(temp_path, mode)
+        os.replace(temp_path, path)
+    finally:
+        temp_path.unlink(missing_ok=True)
+
+
+def _remove_chroma_key(args: ChromaOptions) -> None:
     Image, _ = _load_pillow()
     src = Path(args.input)
     out = Path(args.out)
@@ -349,92 +431,275 @@ def _remove_chroma_key(args: argparse.Namespace) -> None:
 
     total, transparent_after, partial_after = _alpha_counts(rgba)
 
-    out.parent.mkdir(parents=True, exist_ok=True)
     output_format = "PNG" if out.suffix.lower() == ".png" else "WEBP"
-    out.write_bytes(_encode_image(rgba, output_format))
+    _write_atomic(out, _encode_image(rgba, output_format))
 
-    print(f"Wrote {out}")
-    print(f"Key color: #{key[0]:02x}{key[1]:02x}{key[2]:02x}")
-    print(f"Transparent pixels: {transparent_after}/{total}")
-    print(f"Partially transparent pixels: {partial_after}/{total}")
+    click.echo(f"Wrote {out}")
+    click.echo(f"Key color: #{key[0]:02x}{key[1]:02x}{key[2]:02x}")
+    click.echo(f"Transparent pixels: {transparent_after}/{total}")
+    click.echo(f"Partially transparent pixels: {partial_after}/{total}")
     if transparent == 0:
-        print("Warning: no pixels matched the key color before feathering.", file=sys.stderr)
+        logger.warning("no_key_pixels_matched", input=str(src), key=key)
 
 
-def _build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Remove a solid chroma-key background and write an image with alpha."
-    )
-    parser.add_argument("--input", required=True, help="Input image path.")
-    parser.add_argument("--out", required=True, help="Output .png or .webp path.")
-    parser.add_argument(
-        "--key-color",
-        default="#00ff00",
-        help="Hex RGB key color to remove, for example #00ff00.",
-    )
-    parser.add_argument(
-        "--tolerance",
-        type=int,
-        default=12,
-        help="Hard-key per-channel tolerance for matching the key color, 0-255.",
-    )
-    parser.add_argument(
-        "--auto-key",
-        choices=["none", "corners", "border"],
-        default="none",
-        help="Sample the key color from image corners or border instead of --key-color.",
-    )
-    parser.add_argument(
-        "--soft-matte",
-        action="store_true",
-        help="Use a smooth alpha ramp between transparent and opaque thresholds.",
-    )
-    parser.add_argument(
-        "--transparent-threshold",
-        type=float,
-        default=12.0,
-        help="Soft-matte distance at or below which pixels become fully transparent.",
-    )
-    parser.add_argument(
-        "--opaque-threshold",
-        type=float,
-        default=96.0,
-        help="Soft-matte distance at or above which pixels become fully opaque.",
-    )
-    parser.add_argument(
-        "--edge-feather",
-        type=float,
-        default=0.0,
-        help="Optional alpha blur radius for softened edges, 0-64.",
-    )
-    parser.add_argument(
-        "--edge-contract",
-        type=int,
-        default=0,
-        help="Shrink the visible alpha matte by this many pixels before feathering.",
-    )
-    parser.add_argument(
-        "--spill-cleanup",
-        dest="spill_cleanup",
-        action="store_true",
-        help="Reduce obvious key-color spill on opaque pixels.",
-    )
-    parser.add_argument(
-        "--despill",
-        dest="spill_cleanup",
-        action="store_true",
-        help="Alias for --spill-cleanup; decontaminate key-color edge spill.",
-    )
-    parser.add_argument("--force", action="store_true", help="Overwrite an existing output file.")
-    return parser
+def compact_pytest_output(output: str) -> str:
+    lines: list[str] = []
+    for line in output.splitlines():
+        section = (
+            line.startswith("=") and line.endswith("=") and " tests coverage " in line
+        )
+        platform = (
+            line.startswith("_")
+            and line.endswith("_")
+            and " coverage: platform " in line
+        )
+        if not section and not platform:
+            lines.append(line)
+    return "\n".join(lines).strip() + "\n"
 
 
-def main() -> None:
-    parser = _build_parser()
-    args = parser.parse_args()
-    _validate_args(args)
-    _remove_chroma_key(args)
+@click.group()
+def cli() -> None:
+    """Create transparent images from chroma-key inputs."""
+    configure_logging()
+
+
+@cli.command(name="remove")
+@click.option(
+    "--input",
+    "input_path",
+    type=click.Path(path_type=Path, exists=True, dir_okay=False),
+    required=True,
+)
+@click.option("--out", type=click.Path(path_type=Path, dir_okay=False), required=True)
+@click.option("--key-color", default="#00ff00", show_default=True)
+@click.option("--tolerance", type=int, default=12, show_default=True)
+@click.option(
+    "--auto-key", type=click.Choice(("none", "corners", "border")), default="none"
+)
+@click.option("--soft-matte", is_flag=True)
+@click.option("--transparent-threshold", type=float, default=12.0)
+@click.option("--opaque-threshold", type=float, default=96.0)
+@click.option("--edge-feather", type=float, default=0.0)
+@click.option("--edge-contract", type=int, default=0)
+@click.option("--spill-cleanup", "spill_cleanup", is_flag=True)
+@click.option("--despill", "spill_cleanup", flag_value=True)
+@click.option("--force", is_flag=True)
+@click.option("--dry-run", is_flag=True, help="Validate without writing an image.")
+@click.option("--yes", is_flag=True, help="Write without interactive confirmation.")
+def remove_command(
+    input_path: Path,
+    out: Path,
+    key_color: str,
+    tolerance: int,
+    auto_key: str,
+    soft_matte: bool,
+    transparent_threshold: float,
+    opaque_threshold: float,
+    edge_feather: float,
+    edge_contract: int,
+    spill_cleanup: bool,
+    force: bool,
+    dry_run: bool,
+    yes: bool,
+) -> None:
+    """Remove a solid background and write alpha to --out."""
+    options = ChromaOptions(
+        input=input_path,
+        out=out,
+        key_color=key_color,
+        tolerance=tolerance,
+        auto_key=auto_key,
+        soft_matte=soft_matte,
+        transparent_threshold=transparent_threshold,
+        opaque_threshold=opaque_threshold,
+        edge_feather=edge_feather,
+        edge_contract=edge_contract,
+        spill_cleanup=spill_cleanup,
+        force=force,
+    )
+    try:
+        _validate_args(options)
+    except ChromaKeyError as exc:
+        raise click.ClickException(str(exc)) from exc
+    if dry_run:
+        click.echo(f"Would remove chroma key from {input_path} into {out}")
+        return
+    if not yes:
+        click.confirm(f"Write {out}?", abort=True)
+    try:
+        _remove_chroma_key(options)
+    except (OSError, ChromaKeyError) as exc:
+        raise click.ClickException(str(exc)) from exc
+
+
+@click.command(name="unit-test")
+def unit_test_command() -> None:
+    """Run embedded tests and report line and branch coverage."""
+    with tempfile.TemporaryDirectory(prefix="chroma-key-coverage-") as directory:
+        config = Path(directory) / ".coveragerc"
+        config.write_text(
+            os.linesep.join(
+                (
+                    "[run]",
+                    "patch = subprocess",
+                    "include =",
+                    f"    {Path(__file__).resolve()}",
+                    "",
+                )
+            ),
+            encoding="utf-8",
+        )
+        previous = os.environ.get("COVERAGE_FILE")
+        os.environ["COVERAGE_FILE"] = str(Path(directory) / ".coverage")
+        output = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(output):
+                result = pytest.main(
+                    [
+                        "--cov",
+                        "--cov-branch",
+                        "--cov-config",
+                        str(config),
+                        "--cov-report=term-missing",
+                        "-p",
+                        "no:cacheprovider",
+                        __file__,
+                        "-q",
+                    ]
+                )
+        finally:
+            if previous is None:
+                os.environ.pop("COVERAGE_FILE", None)
+            else:
+                os.environ["COVERAGE_FILE"] = previous
+    click.echo(compact_pytest_output(output.getvalue()), nl=False)
+    raise SystemExit(result)
+
+
+cli.add_command(unit_test_command)
+
+
+def test_color_and_alpha_helpers() -> None:
+    assert _parse_key_color("#00ff80") == (0, 255, 128)
+    with pytest.raises(ChromaKeyError, match="hex RGB"):
+        _parse_key_color("bad")
+    assert _channel_distance((0, 1, 2), (2, 1, 0)) == 2
+    assert _clamp_channel(-1) == 0 and _clamp_channel(300) == 255
+    assert _smoothstep(-1) == 0 and _smoothstep(2) == 1
+    assert _soft_alpha(0, 10, 20) == 0
+    assert _soft_alpha(30, 10, 20) == 255
+    assert 0 < _soft_alpha(15, 10, 20) < 255
+    assert _spill_channels((0, 255, 0)) == [1]
+    assert _spill_channels((10, 20, 30)) == []
+    assert _dominance_alpha((0, 255, 0), (0, 255, 0)) == 0
+    assert _looks_key_colored((0, 255, 0), (0, 255, 0), 0)
+    assert _cleanup_spill((0, 255, 0), (0, 255, 0), 0)[1] == 0
+
+
+@pytest.mark.parametrize(
+    ("updates", "message"),
+    [
+        ({"tolerance": -1}, "tolerance"),
+        ({"transparent_threshold": 300}, "transparent-threshold"),
+        ({"opaque_threshold": -1}, "opaque-threshold"),
+        (
+            {"soft_matte": True, "transparent_threshold": 20, "opaque_threshold": 10},
+            "lower",
+        ),
+        ({"edge_feather": 65}, "edge-feather"),
+        ({"edge_contract": 17}, "edge-contract"),
+    ],
+)
+def test_validate_options_ranges(
+    tmp_path: Path, updates: dict[str, object], message: str
+) -> None:
+    source = tmp_path / "input.png"
+    source.write_bytes(b"x")
+    options = ChromaOptions(input=source, out=tmp_path / "out.png").model_copy(
+        update=updates
+    )
+    with pytest.raises(ChromaKeyError, match=message):
+        _validate_args(options)
+
+
+def test_remove_command_dry_run_and_image(tmp_path: Path) -> None:
+    Image, _ = _load_pillow()
+    source = tmp_path / "input.png"
+    image = Image.new("RGBA", (2, 1), (0, 255, 0, 255))
+    image.putpixel((1, 0), (255, 0, 0, 255))
+    image.save(source)
+    output = tmp_path / "out.png"
+    runner = CliRunner()
+    dry = runner.invoke(
+        cli, ["remove", "--input", str(source), "--out", str(output), "--dry-run"]
+    )
+    assert dry.exit_code == 0 and not output.exists()
+    result = runner.invoke(
+        cli, ["remove", "--input", str(source), "--out", str(output)], input="y\n"
+    )
+    assert result.exit_code == 0 and output.exists()
+    with Image.open(output) as processed:
+        assert processed.getpixel((0, 0))[3] == 0
+
+
+def test_remove_command_reports_validation_error(tmp_path: Path) -> None:
+    source = tmp_path / "input.png"
+    source.write_bytes(b"x")
+    result = CliRunner().invoke(
+        cli,
+        [
+            "remove",
+            "--input",
+            str(source),
+            "--out",
+            str(tmp_path / "bad.jpg"),
+            "--dry-run",
+        ],
+    )
+    assert result.exit_code == 1 and "png or .webp" in result.stderr
+
+
+def test_compact_and_harness(monkeypatch: pytest.MonkeyPatch) -> None:
+    assert (
+        compact_pytest_output(
+            "ok\n===== tests coverage =====\n_____ coverage: platform x _____\nTOTAL"
+        )
+        == "ok\nTOTAL\n"
+    )
+    assert compact_pytest_output("= keep =\n_ keep _") == "= keep =\n_ keep _\n"
+    monkeypatch.delenv("COVERAGE_FILE", raising=False)
+
+    def fake_main(arguments: list[str]) -> pytest.ExitCode:
+        assert Path(arguments[arguments.index("--cov-config") + 1]).exists()
+        print("TOTAL")
+        return pytest.ExitCode.OK
+
+    monkeypatch.setattr(pytest, "main", fake_main)
+    assert CliRunner().invoke(unit_test_command).stdout == "TOTAL\n"
+
+
+def test_harness_restores_existing(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("COVERAGE_FILE", "existing")
+    monkeypatch.setattr(pytest, "main", lambda _arguments: pytest.ExitCode.OK)
+    assert CliRunner().invoke(unit_test_command).exit_code == 0
+    assert os.environ["COVERAGE_FILE"] == "existing"
+
+
+def test_help_logging_and_entrypoint(capsys: pytest.CaptureFixture[str]) -> None:
+    assert "unit-test" in CliRunner().invoke(cli, ["--help"]).stdout
+    configure_logging()
+    logger.info("test_event")
+    assert "test_event" in capsys.readouterr().err
+    process = sp.run(
+        [sys.executable, __file__, "--help"],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    assert process.returncode == 0 and "transparent images" in process.stdout
 
 
 if __name__ == "__main__":
-    main()
+    cli()

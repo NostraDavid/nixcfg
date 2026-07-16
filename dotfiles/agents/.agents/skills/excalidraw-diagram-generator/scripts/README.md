@@ -8,13 +8,13 @@ Splits an Excalidraw library file (`*.excalidrawlib`) into individual icon JSON 
 
 ### Prerequisites
 
-- Python 3.6 or higher
-- No additional dependencies required (uses only standard library)
+- Python 3.14 or higher
+- `uv`; dependencies are declared in the script metadata
 
 ### Usage
 
 ```bash
-python split-excalidraw-library.py <path-to-library-directory>
+./split-excalidraw-library.py split <path-to-library-directory> --yes
 ```
 
 ### Step-by-Step Workflow
@@ -34,7 +34,7 @@ python split-excalidraw-library.py <path-to-library-directory>
 3. **Run the script**:
 
    ```bash
-   python skills/excalidraw-diagram-generator/scripts/split-excalidraw-library.py skills/excalidraw-diagram-generator/libraries/aws-architecture-icons/
+   skills/excalidraw-diagram-generator/scripts/split-excalidraw-library.py split skills/excalidraw-diagram-generator/libraries/aws-architecture-icons/ --yes
    ```
 
 ### Output Structure
@@ -108,38 +108,41 @@ Adds a specific icon from a split Excalidraw library into an existing `.excalidr
 
 ### Prerequisites
 
-- Python 3.6 or higher
+- Python 3.14 or higher
+- `uv`; dependencies are declared in the script metadata
 - A diagram file (`.excalidraw`)
 - A split icon library directory (created by `split-excalidraw-library.py`)
 
 ### Usage
 
 ```bash
-python add-icon-to-diagram.py <diagram-path> <icon-name> <x> <y> [OPTIONS]
+./add-icon-to-diagram.py add <diagram-path> <icon-name> <x> <y> [OPTIONS]
 ```
 
 ### Options
 
 - `--library-path PATH` : Path to the icon library directory (default: `aws-architecture-icons`)
 - `--label TEXT` : Add a text label below the icon
-- `--use-edit-suffix` : Edit via `.excalidraw.edit` to avoid editor overwrite issues (enabled by default; pass `--no-use-edit-suffix` to disable)
+- `--edit-suffix / --no-edit-suffix` : Edit via `.excalidraw.edit` to avoid editor overwrite issues (enabled by default)
+- `--dry-run` : Validate and describe the mutation without writing
+- `--yes` : Write without interactive confirmation
 
 ### Examples
 
 ```bash
 # Add EC2 icon at position (400, 300)
-python add-icon-to-diagram.py diagram.excalidraw EC2 400 300
+./add-icon-to-diagram.py add diagram.excalidraw EC2 400 300 --yes
 
 # Add VPC icon with label
-python add-icon-to-diagram.py diagram.excalidraw VPC 200 150 --label "VPC"
+./add-icon-to-diagram.py add diagram.excalidraw VPC 200 150 --label "VPC" --yes
 
 # Safe edit mode is enabled by default (avoids editor overwrite issues)
-# Use `--no-use-edit-suffix` to disable
-python add-icon-to-diagram.py diagram.excalidraw EC2 500 300
+# Use `--no-edit-suffix` to disable
+./add-icon-to-diagram.py add diagram.excalidraw EC2 500 300 --yes
 
 # Add icon from another library
-python add-icon-to-diagram.py diagram.excalidraw Compute-Engine 500 200 \
-   --library-path libraries/gcp-icons --label "API Server"
+./add-icon-to-diagram.py add diagram.excalidraw Compute-Engine 500 200 \
+   --library-path libraries/gcp-icons --label "API Server" --yes
 ```
 
 ### What the Script Does
@@ -159,13 +162,14 @@ Adds a straight arrow between two points in an existing `.excalidraw` diagram. S
 
 ### Prerequisites
 
-- Python 3.6 or higher
+- Python 3.14 or higher
+- `uv`; dependencies are declared in the script metadata
 - A diagram file (`.excalidraw`)
 
 ### Usage
 
 ```bash
-python add-arrow.py <diagram-path> <from-x> <from-y> <to-x> <to-y> [OPTIONS]
+./add-arrow.py add <diagram-path> <from-x> <from-y> <to-x> <to-y> [OPTIONS]
 ```
 
 ### Options
@@ -173,23 +177,25 @@ python add-arrow.py <diagram-path> <from-x> <from-y> <to-x> <to-y> [OPTIONS]
 - `--style {solid|dashed|dotted}` : Line style (default: `solid`)
 - `--color HEX` : Arrow color (default: `#1e1e1e`)
 - `--label TEXT` : Add a text label on the arrow
-  - `--use-edit-suffix` : Edit via `.excalidraw.edit` to avoid editor overwrite issues (enabled by default; pass `--no-use-edit-suffix` to disable)
+- `--edit-suffix / --no-edit-suffix` : Edit via `.excalidraw.edit` to avoid editor overwrite issues (enabled by default)
+- `--dry-run` : Validate and describe the mutation without writing
+- `--yes` : Write without interactive confirmation
 
 ### Examples
 
 ```bash
 # Simple arrow
-python add-arrow.py diagram.excalidraw 300 200 500 300
+./add-arrow.py add diagram.excalidraw 300 200 500 300 --yes
 
 # Arrow with label
-python add-arrow.py diagram.excalidraw 300 200 500 300 --label "HTTPS"
+./add-arrow.py add diagram.excalidraw 300 200 500 300 --label "HTTPS" --yes
 
 # Dashed arrow with custom color
-python add-arrow.py diagram.excalidraw 400 350 600 400 --style dashed --color "#7950f2"
+./add-arrow.py add diagram.excalidraw 400 350 600 400 --style dashed --color "#7950f2" --yes
 
 # Safe edit mode is enabled by default (avoids editor overwrite issues)
-# Use `--no-use-edit-suffix` to disable
-python add-arrow.py diagram.excalidraw 300 200 500 300
+# Use `--no-edit-suffix` to disable
+./add-arrow.py add diagram.excalidraw 300 200 500 300 --yes
 ```
 
 ### What the Script Does

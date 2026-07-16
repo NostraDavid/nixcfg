@@ -1,16 +1,38 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "click==8.4.2",
+#     "orjson==3.11.7",
+#     "pytest==9.1.1",
+#     "pytest-cov==7.1.0",
+#     "pyyaml==6.0.3",
+#     "regex==2026.2.28",
+#     "structlog==26.1.0",
+# ]
+# ///
 """Validate a generated plugin against the plugin ingestion contract."""
 
 from __future__ import annotations
 
-import argparse
-import json
-import re
+import contextlib
+import io
+import os
+import subprocess as sp
+import sys
+import tempfile
 from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import urlparse
 
+import click
+import orjson as json
+import pytest
+import regex as re
+import structlog as sl
+import structlog.stdlib as log
 import yaml
+from click.testing import CliRunner
 
 
 TODO_MARKER = "[TODO:"
@@ -23,24 +45,21 @@ SEMVER_RE = re.compile(
     r"(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$"
 )
 HEX_COLOR_RE = re.compile(r"^#[0-9A-F]{6}$", re.IGNORECASE)
+logger = log.get_logger(__name__)
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate a local Codex plugin.")
-    parser.add_argument("plugin_path", help="Path to the plugin root directory")
-    return parser.parse_args()
-
-
-def main() -> None:
-    args = parse_args()
-    plugin_root = Path(args.plugin_path).expanduser().resolve()
-    errors = validate_plugin(plugin_root)
-    if errors:
-        print("Plugin validation failed:")
-        for error in errors:
-            print(f"- {error}")
-        raise SystemExit(1)
-    print(f"Plugin validation passed: {plugin_root}")
+def configure_logging() -> None:
+    """Send human-readable structured diagnostics to stderr."""
+    sl.configure(
+        processors=[
+            sl.processors.TimeStamper(fmt="iso", utc=True),
+            sl.processors.add_log_level,
+            sl.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
+        ],
+        wrapper_class=sl.make_filtering_bound_logger("debug"),
+        logger_factory=sl.PrintLoggerFactory(file=sys.stderr),
+        cache_logger_on_first_use=False,
+    )
 
 
 def validate_plugin(plugin_root: Path) -> list[str]:
@@ -177,7 +196,9 @@ def validate_manifest_shape(
     if not isinstance(capabilities, list) or not all(
         isinstance(value, str) and value.strip() for value in capabilities
     ):
-        errors.append("plugin.json field `interface.capabilities` must be an array of strings")
+        errors.append(
+            "plugin.json field `interface.capabilities` must be an array of strings"
+        )
     for field in ("websiteURL", "privacyPolicyURL", "termsOfServiceURL"):
         validate_optional_https_url(interface, field, errors, prefix="interface")
     brand_color = interface.get("brandColor")
@@ -250,7 +271,9 @@ def reject_unknown_fields(
     errors: list[str],
 ) -> None:
     for key in sorted(set(payload) - allowed_keys):
-        errors.append(f"plugin.json field `{prefix}.{key}` is not accepted by plugin validation")
+        errors.append(
+            f"plugin.json field `{prefix}.{key}` is not accepted by plugin validation"
+        )
 
 
 def validate_optional_https_url(
@@ -265,7 +288,9 @@ def validate_optional_https_url(
         return
     parsed = urlparse(value) if isinstance(value, str) else None
     if parsed is None or parsed.scheme != "https" or not parsed.netloc:
-        errors.append(f"plugin.json field `{prefix}.{key}` must be an absolute `https://` URL")
+        errors.append(
+            f"plugin.json field `{prefix}.{key}` must be an absolute `https://` URL"
+        )
 
 
 def validate_optional_contract_path(
@@ -334,9 +359,13 @@ def validate_app_manifest(path: Path, errors: list[str]) -> None:
         )
         app_id = value.get("id")
         if not isinstance(app_id, str) or not app_id.strip():
-            errors.append(f"`.app.json` app `{key}` field `id` must be a non-empty string")
+            errors.append(
+                f"`.app.json` app `{key}` field `id` must be a non-empty string"
+            )
         category = value.get("category")
-        if category is not None and (not isinstance(category, str) or not category.strip()):
+        if category is not None and (
+            not isinstance(category, str) or not category.strip()
+        ):
             errors.append(
                 f"`.app.json` app `{key}` field `category` must be a non-empty string"
             )
@@ -438,7 +467,9 @@ def validate_skill_manifest(skill_root: Path, errors: list[str]) -> None:
         return
     skill_name = frontmatter.get("name")
     if not isinstance(skill_name, str) or not skill_name.strip():
-        errors.append(f"skill `{skill_root.name}` frontmatter field `name` must be non-empty")
+        errors.append(
+            f"skill `{skill_root.name}` frontmatter field `name` must be non-empty"
+        )
     description = frontmatter.get("description")
     if not isinstance(description, str) or not description.strip():
         errors.append(
@@ -488,7 +519,9 @@ def validate_skill_agent_manifest(
     )
     interface = payload.get("interface")
     if not isinstance(interface, dict):
-        errors.append(f"skill `{skill_root.name}` agent field `interface` must be an object")
+        errors.append(
+            f"skill `{skill_root.name}` agent field `interface` must be an object"
+        )
         return
     reject_skill_agent_unknown_fields(
         interface,
@@ -537,7 +570,9 @@ def validate_skill_agent_manifest(
     policy = payload.get("policy")
     if policy is not None:
         if not isinstance(policy, dict):
-            errors.append(f"skill `{skill_root.name}` agent field `policy` must be an object")
+            errors.append(
+                f"skill `{skill_root.name}` agent field `policy` must be an object"
+            )
         else:
             reject_skill_agent_unknown_fields(
                 policy,
@@ -614,7 +649,9 @@ def validate_asset_path(
         errors.append(f"{label} must be a non-empty relative path")
         return
     candidate = PurePosixPath(raw_path.replace("\\", "/"))
-    if candidate.is_absolute() or any(part in {"", ".", ".."} for part in candidate.parts):
+    if candidate.is_absolute() or any(
+        part in {"", ".", ".."} for part in candidate.parts
+    ):
         errors.append(f"{label} must stay inside the plugin archive")
         return
     resolved_path = (base_dir / candidate.as_posix()).resolve()
@@ -625,5 +662,283 @@ def validate_asset_path(
         errors.append(f"{label} points to a missing file")
 
 
+def compact_pytest_output(output: str) -> str:
+    """Remove pytest-cov banners while preserving its useful report."""
+    lines: list[str] = []
+    for line in output.splitlines():
+        section = (
+            line.startswith("=") and line.endswith("=") and " tests coverage " in line
+        )
+        platform = (
+            line.startswith("_")
+            and line.endswith("_")
+            and " coverage: platform " in line
+        )
+        if not section and not platform:
+            lines.append(line)
+    return "\n".join(lines).strip() + "\n"
+
+
+@click.group()
+def cli() -> None:
+    """Validate local Codex plugins."""
+    configure_logging()
+
+
+@cli.command(name="validate")
+@click.argument(
+    "plugin_path", type=click.Path(path_type=Path, exists=True, file_okay=False)
+)
+def validate_command(plugin_path: Path) -> None:
+    """Validate the plugin rooted at PLUGIN_PATH."""
+    errors = validate_plugin(plugin_path)
+    if errors:
+        formatted = "\n".join(f"- {error}" for error in errors)
+        raise click.ClickException(f"plugin validation failed:\n{formatted}")
+    logger.info("plugin_validated", plugin=str(plugin_path))
+    click.echo(f"Plugin validation passed: {plugin_path}")
+
+
+@click.command(name="unit-test")
+def unit_test_command() -> None:
+    """Run embedded tests and report line and branch coverage."""
+    with tempfile.TemporaryDirectory(prefix="plugin-validator-coverage-") as directory:
+        config = Path(directory) / ".coveragerc"
+        config.write_text(
+            os.linesep.join(
+                (
+                    "[run]",
+                    "patch = subprocess",
+                    "include =",
+                    f"    {Path(__file__).resolve()}",
+                    "",
+                )
+            ),
+            encoding="utf-8",
+        )
+        previous = os.environ.get("COVERAGE_FILE")
+        os.environ["COVERAGE_FILE"] = str(Path(directory) / ".coverage")
+        output = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(output):
+                result = pytest.main(
+                    [
+                        "--cov",
+                        "--cov-branch",
+                        "--cov-config",
+                        str(config),
+                        "--cov-report=term-missing",
+                        "-p",
+                        "no:cacheprovider",
+                        __file__,
+                        "-q",
+                    ]
+                )
+        finally:
+            if previous is None:
+                os.environ.pop("COVERAGE_FILE", None)
+            else:
+                os.environ["COVERAGE_FILE"] = previous
+    click.echo(compact_pytest_output(output.getvalue()), nl=False)
+    raise SystemExit(result)
+
+
+cli.add_command(unit_test_command)
+
+
+def valid_manifest() -> dict[str, Any]:
+    return {
+        "name": "sample",
+        "version": "1.2.3",
+        "description": "Sample plugin",
+        "author": {"name": "Developer", "url": "https://example.com"},
+        "skills": "./skills/",
+        "interface": {
+            "displayName": "Sample",
+            "shortDescription": "Use Sample in Codex.",
+            "longDescription": "Sample plugin for local workflows.",
+            "developerName": "Developer",
+            "category": "Productivity",
+            "capabilities": [],
+            "defaultPrompt": "Use Sample.",
+        },
+    }
+
+
+def write_manifest(root: Path, payload: object) -> None:
+    manifest = root / ".codex-plugin" / "plugin.json"
+    manifest.parent.mkdir(parents=True, exist_ok=True)
+    manifest.write_bytes(json.dumps(payload))
+
+
+def test_validate_plugin_accepts_minimal_manifest(tmp_path: Path) -> None:
+    write_manifest(tmp_path, valid_manifest())
+    assert validate_plugin(tmp_path) == []
+
+
+def test_load_json_object_errors(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    errors: list[str] = []
+    path = tmp_path / ".codex-plugin" / "plugin.json"
+    assert load_json_object(path, errors) is None
+    assert "missing" in errors[0]
+    path.parent.mkdir()
+    path.write_bytes(b"{")
+    errors.clear()
+    assert load_json_object(path, errors) is None and "valid JSON" in errors[0]
+    path.write_bytes(b"[]")
+    errors.clear()
+    assert load_json_object(path, errors) is None and "JSON object" in errors[0]
+
+    def fail(_path: Path, *, encoding: str) -> str:
+        raise OSError(encoding)
+
+    monkeypatch.setattr(Path, "read_text", fail)
+    errors.clear()
+    assert load_json_object(path, errors) is None and "unable to read" in errors[0]
+
+
+def test_manifest_shape_reports_contract_errors(tmp_path: Path) -> None:
+    payload: dict[str, Any] = {
+        "unknown": "[TODO: replace]",
+        "id": 3,
+        "name": "",
+        "version": "bad",
+        "description": None,
+        "author": {"extra": True, "name": "", "email": 2, "url": "http://bad"},
+        "skills": "/absolute",
+        "apps": "wrong",
+        "mcpServers": 3,
+        "interface": {
+            "unknown": True,
+            "displayName": "",
+            "shortDescription": None,
+            "longDescription": "",
+            "developerName": "",
+            "category": "",
+            "capabilities": "bad",
+            "websiteURL": "bad",
+            "brandColor": "red",
+            "composerIcon": "../escape",
+            "screenshots": "bad",
+        },
+    }
+    write_manifest(tmp_path, payload)
+    report = "\n".join(validate_plugin(tmp_path))
+    for expected in (
+        "TODO",
+        "unknown",
+        "strict semver",
+        "author.url",
+        "mcpServers",
+        "defaultPrompt",
+        "capabilities",
+        "brandColor",
+        "screenshots",
+    ):
+        assert expected in report
+
+
+def test_companion_manifests_and_inline_mcp(tmp_path: Path) -> None:
+    payload = valid_manifest()
+    payload["apps"] = "./.app.json"
+    payload["mcpServers"] = "./.mcp.json"
+    write_manifest(tmp_path, payload)
+    (tmp_path / ".app.json").write_bytes(
+        json.dumps({"apps": {"good": {"id": "app", "category": "Tools"}}})
+    )
+    (tmp_path / ".mcp.json").write_bytes(json.dumps({"mcpServers": {"server": {}}}))
+    assert validate_plugin(tmp_path) == []
+    payload["mcpServers"] = {"server": {}, "bad": "value"}
+    write_manifest(tmp_path, payload)
+    assert any("server `bad`" in error for error in validate_plugin(tmp_path))
+
+
+def test_skill_and_agent_manifests(tmp_path: Path) -> None:
+    write_manifest(tmp_path, valid_manifest())
+    skill = tmp_path / "skills" / "sample"
+    skill.mkdir(parents=True)
+    skill.joinpath("SKILL.md").write_text(
+        "---\nname: sample\ndescription: Useful skill.\n---\n", encoding="utf-8"
+    )
+    agents = skill / "agents"
+    agents.mkdir()
+    agents.joinpath("openai.yaml").write_text(
+        "interface:\n  display_name: Sample\n  short_description: Useful sample skill workflows\n"
+        "policy:\n  allow_implicit_invocation: true\n",
+        encoding="utf-8",
+    )
+    assert validate_plugin(tmp_path) == []
+    skill.joinpath("SKILL.md").write_text("bad", encoding="utf-8")
+    assert any("YAML frontmatter" in error for error in validate_plugin(tmp_path))
+
+
+def test_asset_validation(tmp_path: Path) -> None:
+    asset = tmp_path / "assets" / "logo.svg"
+    asset.parent.mkdir()
+    asset.write_text("svg", encoding="utf-8")
+    errors: list[str] = []
+    validate_asset_path(tmp_path, tmp_path, "assets/logo.svg", "interface.logo", errors)
+    assert errors == []
+    for value in (None, "../bad", "missing.svg"):
+        validate_asset_path(tmp_path, tmp_path, value, "interface.logo", errors)
+    assert len(errors) == 3
+
+
+def test_validate_command_success_and_error(tmp_path: Path) -> None:
+    write_manifest(tmp_path, valid_manifest())
+    runner = CliRunner()
+    result = runner.invoke(cli, ["validate", str(tmp_path)])
+    assert result.exit_code == 0
+    write_manifest(tmp_path, {})
+    result = runner.invoke(cli, ["validate", str(tmp_path)])
+    assert result.exit_code == 1
+    assert "validation failed" in result.stderr
+
+
+def test_compact_and_unit_test_harness(monkeypatch: pytest.MonkeyPatch) -> None:
+    assert (
+        compact_pytest_output(
+            "ok\n===== tests coverage =====\n_____ coverage: platform x _____\nTOTAL"
+        )
+        == "ok\nTOTAL\n"
+    )
+    assert compact_pytest_output("= keep =\n_ keep _") == "= keep =\n_ keep _\n"
+    monkeypatch.delenv("COVERAGE_FILE", raising=False)
+
+    def fake_main(arguments: list[str]) -> pytest.ExitCode:
+        assert Path(arguments[arguments.index("--cov-config") + 1]).exists()
+        print("TOTAL")
+        return pytest.ExitCode.OK
+
+    monkeypatch.setattr(pytest, "main", fake_main)
+    result = CliRunner().invoke(unit_test_command)
+    assert result.exit_code == 0 and result.stdout == "TOTAL\n"
+
+
+def test_unit_test_harness_restores_existing(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("COVERAGE_FILE", "existing")
+    monkeypatch.setattr(pytest, "main", lambda _arguments: pytest.ExitCode.OK)
+    assert CliRunner().invoke(unit_test_command).exit_code == 0
+    assert os.environ["COVERAGE_FILE"] == "existing"
+
+
+def test_help_logging_and_entrypoint(capsys: pytest.CaptureFixture[str]) -> None:
+    result = CliRunner().invoke(cli, ["--help"])
+    assert result.exit_code == 0 and "unit-test" in result.stdout
+    configure_logging()
+    logger.info("test_event")
+    assert "test_event" in capsys.readouterr().err
+    process = sp.run(
+        [sys.executable, __file__, "--help"],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    assert process.returncode == 0 and "Validate local Codex" in process.stdout
+
+
 if __name__ == "__main__":
-    main()
+    cli()

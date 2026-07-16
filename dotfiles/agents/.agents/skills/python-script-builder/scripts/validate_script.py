@@ -474,6 +474,8 @@ def structural_errors(target: Path) -> tuple[list[str], ScriptMetadata | None]:
     except OSError as error:
         errors.append(f"cannot read target: {error}")
         return errors, None
+    if not os.access(target, os.X_OK):
+        errors.append("target must be executable; run chmod +x TARGET")
     if not source.startswith(f"{SHEBANG}\n"):
         errors.append(f"first line must be {SHEBANG}")
 
@@ -582,8 +584,8 @@ def quality_commands(target: Path, metadata: ScriptMetadata) -> list[list[str]]:
             "no",
             str(target),
         ],
-        ["uv", "run", str(target), "--help"],
-        ["uv", "run", str(target), "unit-test"],
+        [str(target.resolve()), "--help"],
+        [str(target.resolve()), "unit-test"],
     ]
 
 
@@ -923,11 +925,23 @@ def test_invokes_embedded_pytest_rejects_incomplete_calls(body: str) -> None:
 def test_structural_errors_accept_valid_script(tmp_path: Path) -> None:
     target = tmp_path / "valid.py"
     target.write_text(valid_script_source(), encoding="utf-8")
+    target.chmod(0o755)
 
     errors, metadata = structural_errors(target)
 
     assert errors == []
     assert metadata is not None
+
+
+def test_structural_errors_requires_executable_bit(tmp_path: Path) -> None:
+    target = tmp_path / "valid.py"
+    target.write_text(valid_script_source(), encoding="utf-8")
+    target.chmod(0o644)
+
+    errors, metadata = structural_errors(target)
+
+    assert metadata is not None
+    assert "target must be executable; run chmod +x TARGET" in errors
 
 
 def test_structural_errors_reports_combined_file_and_metadata_problems(
@@ -1020,7 +1034,6 @@ def test_structural_errors_reject_from_import_workaround(tmp_path: Path) -> None
         valid_script_source("from importlib import metadata as md"),
         encoding="utf-8",
     )
-
     errors, _metadata = structural_errors(target)
 
     assert any("import importlib.metadata as md" in error for error in errors)
@@ -1264,6 +1277,7 @@ def test_structural_errors_accepts_default_and_async_command_names(
         .replace("def run_command()", "async def run_command()"),
         encoding="utf-8",
     )
+    target.chmod(0o755)
 
     errors, _metadata = structural_errors(target)
 
@@ -1371,8 +1385,8 @@ def test_quality_commands_include_every_gate(tmp_path: Path) -> None:
         str(target),
     ]
     assert commands[-2:] == [
-        ["uv", "run", str(target), "--help"],
-        ["uv", "run", str(target), "unit-test"],
+        [str(target.resolve()), "--help"],
+        [str(target.resolve()), "unit-test"],
     ]
 
 
@@ -1490,6 +1504,7 @@ def test_cli_help_shows_unit_test_command() -> None:
 def test_check_command_runs_structural_validation(tmp_path: Path) -> None:
     target = tmp_path / "valid.py"
     target.write_text(valid_script_source(), encoding="utf-8")
+    target.chmod(0o755)
 
     result = CliRunner().invoke(cli, ["check", str(target), "--structural-only"])
 
