@@ -12,7 +12,6 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
 DEV_ROOT = Path.home() / "dev"
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
@@ -25,6 +24,7 @@ RESERVED_WORKTREE_NAMES = {
     "tags",
     "checkouts",
 }
+NEW_WORKTREE_PREFIX = "+ New branch/worktree from"
 
 
 @dataclass(frozen=True)
@@ -140,6 +140,32 @@ def choose_with_fzf(
 
     selected = proc.stdout.strip()
     return selected or None
+
+
+def prompt_for_worktree_name(base_branch: str) -> str | None:
+    proc = run(
+        [
+            "fzf",
+            "--disabled",
+            "--print-query",
+            "--bind",
+            "enter:accept",
+            "--prompt",
+            "New branch/worktree name: ",
+            "--header",
+            f"Create from branch {base_branch}",
+        ],
+        input_text="Type a name, then press Enter\n",
+    )
+    if proc.returncode != 0:
+        return None
+
+    output = proc.stdout.splitlines()
+    if not output:
+        return None
+
+    name = output[0].strip()
+    return name or None
 
 
 def list_branch_refs(bare_dir: Path) -> list[str]:
@@ -273,7 +299,9 @@ def append_choice(
     seen_labels.add(choice.label)
 
 
-def list_worktrees(repo_root: Path, *, refresh_empty: bool = False) -> list[WorktreeChoice]:
+def list_worktrees(
+    repo_root: Path, *, refresh_empty: bool = False
+) -> list[WorktreeChoice]:
     choices: list[WorktreeChoice] = []
     seen_labels: set[str] = set()
 
@@ -343,6 +371,32 @@ def list_worktrees(repo_root: Path, *, refresh_empty: bool = False) -> list[Work
     return choices
 
 
+def find_active_worktree(
+    worktrees: list[WorktreeChoice],
+    cwd: Path,
+) -> WorktreeChoice | None:
+    existing_branches = [
+        choice
+        for choice in worktrees
+        if choice.kind == "branch" and (choice.path / ".git").exists()
+    ]
+    cwd = cwd.resolve(strict=False)
+
+    current = [
+        choice
+        for choice in existing_branches
+        if cwd == choice.path or cwd.is_relative_to(choice.path)
+    ]
+    if current:
+        return max(current, key=lambda choice: len(choice.path.parts))
+
+    for choice in existing_branches:
+        if choice.path.name == "trunk":
+            return choice
+
+    return None
+
+
 def local_branch_exists(bare_dir: Path, branch: str) -> bool:
     proc = run(
         [
@@ -382,7 +436,9 @@ def resolve_branch_name(bare_dir: Path, branch_label: str) -> str | None:
         candidates.append(slash_candidate)
 
     for branch in candidates:
-        if local_branch_exists(bare_dir, branch) or remote_branch_exists(bare_dir, branch):
+        if local_branch_exists(bare_dir, branch) or remote_branch_exists(
+            bare_dir, branch
+        ):
             return branch
     return None
 
@@ -451,6 +507,70 @@ def ensure_worktree(repo_root: Path, choice: WorktreeChoice) -> bool:
         print(upstream_proc.stderr or upstream_proc.stdout, end="", file=sys.stderr)
 
     return True
+
+
+def create_worktree_from_branch(
+    repo_root: Path,
+    base: WorktreeChoice,
+    branch: str,
+) -> Path | None:
+    bare_dir = repo_root / BARE_REPO_DIR
+    if not bare_dir.exists():
+        print("Creating worktrees requires a worktree.git repository.", file=sys.stderr)
+        return None
+
+    branch = branch.strip()
+    check_proc = run(
+        [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "check-ref-format",
+            "--branch",
+            branch,
+        ]
+    )
+    if check_proc.returncode != 0:
+        print(
+            check_proc.stderr or f"Invalid branch name: {branch}\n",
+            end="",
+            file=sys.stderr,
+        )
+        return None
+
+    if local_branch_exists(bare_dir, branch) or remote_branch_exists(bare_dir, branch):
+        print(f"Branch already exists: {branch}", file=sys.stderr)
+        return None
+
+    target = repo_root / branch_worktree_name(branch)
+    if target.exists():
+        print(f"Worktree path already exists: {target}", file=sys.stderr)
+        return None
+
+    base_head_proc = run(["git", "-C", str(base.path), "rev-parse", "--verify", "HEAD"])
+    if base_head_proc.returncode != 0:
+        print(base_head_proc.stderr or base_head_proc.stdout, end="", file=sys.stderr)
+        return None
+
+    base_head = base_head_proc.stdout.strip()
+    add_proc = run(
+        [
+            "git",
+            "--git-dir",
+            str(bare_dir),
+            "worktree",
+            "add",
+            "-b",
+            branch,
+            str(target),
+            base_head,
+        ]
+    )
+    if add_proc.returncode != 0:
+        print(add_proc.stderr or add_proc.stdout, end="", file=sys.stderr)
+        return None
+
+    return target
 
 
 def resolve_worktree_query(
@@ -535,13 +655,34 @@ def main() -> int:
         return 1
 
     worktree_by_label = {choice.label: choice for choice in worktrees}
+    active_worktree = find_active_worktree(worktrees, Path.cwd())
+    new_worktree_label = None
+    worktree_labels = list(worktree_by_label)
+    if active_worktree is not None and (repo_root / BARE_REPO_DIR).exists():
+        new_worktree_label = f"{NEW_WORKTREE_PREFIX} {active_worktree.ref}"
+        worktree_labels.insert(0, new_worktree_label)
+
     worktree_label = choose_with_fzf(
-        list(worktree_by_label),
+        worktree_labels,
         prompt="Select worktree: ",
     )
     if worktree_label is None:
         print("No worktree selected.", file=sys.stderr)
         return 1
+
+    if new_worktree_label is not None and worktree_label == new_worktree_label:
+        assert active_worktree is not None
+        branch = prompt_for_worktree_name(active_worktree.ref)
+        if branch is None:
+            print("No branch/worktree name entered.", file=sys.stderr)
+            return 1
+
+        target = create_worktree_from_branch(repo_root, active_worktree, branch)
+        if target is None:
+            return 1
+
+        print(target)
+        return 0
 
     choice = worktree_by_label[worktree_label]
     if not ensure_worktree(repo_root, choice):
