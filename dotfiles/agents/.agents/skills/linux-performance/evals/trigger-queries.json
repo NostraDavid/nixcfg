@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Diagnose why this Linux host's tail latency rose with high load average.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Find whether CPU, memory, disk, network, or locks constrain this process.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Investigate swapping and reclaim stalls under a stable workload.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Use BPF safely to isolate intermittent filesystem latency.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Explain and diagnose high iowait without guessing at disk tuning.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Attribute a Linux throughput regression to process, thread, cgroup, or device.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design a reversible experiment for suspected scheduler contention.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review these perf and flame-graph results for the actual bottleneck.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Investigate packet drops and retransmits on this Linux service.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Compare before/after host performance without averaging away tails.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Optimize this Python loop with cProfile output.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Tune this SQL query from EXPLAIN ANALYZE.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain the ls command.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Write a Bash script to rotate files.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Debug a wrong result in this algorithm.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Create an SLO for the whole service.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Configure one known sysctl exactly as specified.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Review a Linux kernel patch for security.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Build a Docker image.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Teach me virtual memory basics.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

@@ -17,20 +17,29 @@
       "create-architectural-decision-record"
       "create-readme"
       "create-specification"
+      "continuous-delivery"
+      "database-design"
+      "database-refactor"
+      "debug-software"
       "draw-io-diagram-generator"
       "drawio"
       "excalidraw-diagram-generator"
       "gdpr-compliant"
       "interview-me"
+      "linux-performance"
       "postgresql-code-review"
       "postgresql-optimization"
       "python-script-builder"
       "refactor"
       "refactor-method-complexity-reduce"
       "refactor-plan"
+      "reliability-engineering"
+      "secure-software-design"
       "security-review"
+      "software-architecture-design"
       "sql-code-review"
       "sql-optimization"
+      "test-design"
     ];
     sharedCodexSkills = builtins.listToAttrs (map (name: {
         name = ".codex/skills/${name}";
@@ -47,7 +56,6 @@
 
         ## Codex
         ".codex/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
-        ".codex/skills/database-design" = {source = mk "${dot}/codex-0.140.0/.codex/skills/database-design";};
         ".codex/skills/manage-adrs" = {source = mk "${dot}/codex-0.140.0/.codex/skills/manage-adrs";};
 
         ## pi

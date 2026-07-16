@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Design a PostgreSQL schema for subscriptions, invoices, and payment retries.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Model students taking many courses, with grades and enrollment history.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "What tables and constraints should back this multi-tenant inventory service?",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Turn these business rules into a normalized relational model.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review whether this proposed entity model has sound keys and relationships.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "We are replacing a spreadsheet workflow; design the target database.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Create MySQL DDL for orders, partial shipments, returns, and refunds.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Help decide how to represent temporal prices without corrupting invoice history.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Design a schema and invariant tests for room reservations that cannot overlap.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Our domain model uses polymorphic owner_type/owner_id columns; redesign it with enforceable integrity.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Why did this SELECT become slow after yesterday's release?",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review this SQL migration diff for security issues.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Rename users.name in production without downtime.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Add an index for this PostgreSQL execution plan.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain third normal form in two paragraphs.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Write a query that returns the top customer per region.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Backfill 200 million rows safely during rolling deployments.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Audit our PostgreSQL row-level security policies.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Compare B-trees and LSM trees for a lecture.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Fix the N+1 queries in this ORM endpoint.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

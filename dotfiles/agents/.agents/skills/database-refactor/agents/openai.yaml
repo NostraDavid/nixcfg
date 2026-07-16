@@ -1,0 +1,4 @@
+interface:
+  display_name: "Database Refactor"
+  short_description: "Plan safe evolutionary database changes"
+  default_prompt: "Use $database-refactor to plan this database schema change safely."

@@ -1,0 +1,38 @@
+{
+  "skill_name": "database-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design a PostgreSQL schema for a multi-tenant subscription SaaS with historical plan prices, invoices, payment retries, and organization-scoped roles.",
+      "expected_output": "Requirements and assumptions, conceptual model, constrained DDL, workload-based index candidates, and invariant tests.",
+      "assertions": [
+        "Preserves invoice history independently from current plan price",
+        "Enforces organization membership and role scope",
+        "Defines the meaning of one active subscription",
+        "Distinguishes constraints from unverified assumptions",
+        "Does not add soft deletion or UUIDs without a requirement"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Design a relational schema for hospital equipment maintenance with serialised devices, scheduled and corrective work, technicians, parts consumed, and auditable status history.",
+      "expected_output": "A requirements-led design with lifecycle semantics and validation scenarios.",
+      "assertions": [
+        "Separates device identity from maintenance events",
+        "Models history without overwriting audit facts",
+        "States unresolved lifecycle and retention decisions",
+        "Includes invalid-transition tests"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review a proposed schema that stores tag_ids as comma-separated text and uses object_type/object_id for comments on several parent tables.",
+      "expected_output": "A contextual redesign that restores enforceable relationships while acknowledging tradeoffs.",
+      "assertions": [
+        "Explains concrete integrity failures",
+        "Proposes associative relationships or another enforceable design",
+        "Does not label every collection or polymorphic design invalid without context"
+      ]
+    }
+  ]
+}

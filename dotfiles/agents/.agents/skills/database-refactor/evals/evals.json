@@ -1,0 +1,39 @@
+{
+  "skill_name": "database-refactor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Replace nullable orders.customer_name with customer_id on 180 million PostgreSQL rows while two app versions overlap for 48 hours and a BI replica must stay within 30 seconds.",
+      "expected_output": "An ordered expand/backfill/validate/cutover/contract plan with operational gates.",
+      "assertions": [
+        "Discovers non-application consumers",
+        "Uses bounded resumable backfill",
+        "Defines semantic reconciliation, not row counts alone",
+        "Includes replication-lag throttle or abort behavior",
+        "Delays contraction until all old consumers are gone"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Split accounts.address into a new addresses table while several services deploy independently and some records contain malformed addresses.",
+      "expected_output": "A compatibility plan that addresses data quality and ownership.",
+      "assertions": [
+        "Defines authoritative writes during transition",
+        "Separates invalid-data remediation from blind copying",
+        "Includes compatibility and equivalence validation",
+        "Does not assume a down migration restores transformed data"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a unique constraint to a large live email table where duplicate and null values may exist.",
+      "expected_output": "A version-specific staged plan with discovery, cleanup, lock analysis, validation, and recovery.",
+      "assertions": [
+        "Finds violating data before enforcement",
+        "Requires current engine lock/online-DDL verification",
+        "Includes concurrent-write correctness",
+        "Names destructive cleanup as an approval point"
+      ]
+    }
+  ]
+}

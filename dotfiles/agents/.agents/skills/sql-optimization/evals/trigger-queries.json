@@ -1,0 +1,86 @@
+[
+  {
+    "query": "This report query takes 18 seconds; diagnose it from the actual plan.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Which index should support this predicate and ordering workload?",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Our keyset pagination still skips rows; make it correct and fast.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Why did this query plan regress after the data distribution changed?",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Reduce total database CPU from these top workload queries.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Compare before and after plans for this proposed SQL rewrite.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "This aggregation spills to disk under concurrent load; diagnose it.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Determine whether this unused composite index is safe to remove.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Tune this cross-dialect query once I provide engine, schema, plan, and baseline.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Find the cause of excessive reads in this SQL execution plan.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review this SQL patch for injection and correctness.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Design tables for customers and orders.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Rename this production column without downtime.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Teach me how a B-tree works.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Format this SELECT statement consistently.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Audit PostgreSQL RLS policies.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Fix referential integrity in this schema.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Plan an autovacuum configuration change for PostgreSQL.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Write a window-function example for a tutorial.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  { "query": "Convert this ORM model to SQL DDL.", "should_trigger": false, "split": "validation" }
+]

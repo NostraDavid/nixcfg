@@ -1,0 +1,39 @@
+{
+  "skill_name": "secure-software-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design security for a multi-tenant document API with uploads, sharing links, background conversion, search, exports, and administrators.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Models assets, identities, boundaries, jobs, and admin paths",
+        "Derives object/action/context authorization invariants",
+        "Addresses untrusted parsing and resource exhaustion",
+        "Includes tenant-negative tests and lifecycle controls",
+        "States residual risk"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Threat-model passwordless login with email links and support-assisted account recovery.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Covers enrollment, replay, expiry, linking, recovery, and revocation",
+        "Treats recovery as security-critical",
+        "Models realistic attacker capabilities",
+        "Defines verification and incident signals"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Design an internal service that trusts all requests from the corporate network.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Rejects network location as sufficient identity/authorization",
+        "Models compromised internal callers",
+        "Uses least privilege and complete mediation",
+        "Includes service identity lifecycle"
+      ]
+    }
+  ]
+}

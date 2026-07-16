@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reliability Engineering"
+  short_description: "Engineer and operate reliable services"
+  default_prompt: "Use $reliability-engineering to define reliability objectives and failure controls for this service."

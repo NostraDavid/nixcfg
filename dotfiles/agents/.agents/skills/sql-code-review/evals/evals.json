@@ -1,0 +1,36 @@
+{
+  "skill_name": "sql-code-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review a migration that adds a nullable tenant_id, backfills it with one UPDATE, then immediately adds a foreign key and NOT NULL while old app versions remain deployed.",
+      "expected_output": "Evidence-backed migration findings with concrete failure scenarios.",
+      "assertions": [
+        "Identifies mixed-version compatibility risk",
+        "Checks existing invalid data and lock behavior",
+        "Does not turn performance speculation into a finding",
+        "Provides minimal corrections and validation"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review dynamic SQL that binds filter values but concatenates a user-selected ORDER BY column.",
+      "expected_output": "A precise injection review distinguishing values from identifiers.",
+      "assertions": [
+        "Recognizes that bind parameters do not generally represent identifiers",
+        "Requires an allowlist and dialect-safe quoting",
+        "Traces the actual input to execution path"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review a report query using LEFT JOIN, a right-table predicate in WHERE, DISTINCT, and a non-grouped selected column.",
+      "expected_output": "Correctness findings grounded in row preservation, multiplicity, and grouping semantics.",
+      "assertions": [
+        "Explains when LEFT JOIN becomes inner behavior",
+        "Investigates DISTINCT as possible symptom",
+        "Addresses nondeterministic or invalid grouping by dialect"
+      ]
+    }
+  ]
+}

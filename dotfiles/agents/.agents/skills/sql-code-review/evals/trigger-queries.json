@@ -1,0 +1,90 @@
+[
+  {
+    "query": "Review this SQL migration for correctness and security.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Find actionable issues in these views and stored procedures.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Check this ORM-generated SQL patch for injection and broken joins.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review whether this schema change preserves referential integrity.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  { "query": "Audit this MySQL DDL and trigger diff.", "should_trigger": true, "split": "train" },
+  {
+    "query": "Does this dynamic SQL safely handle values and identifiers?",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review the null and duplicate semantics of this reporting query.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Check this SQL Server migration for irreversible data loss.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Find integrity defects in this entity-attribute-value schema patch.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review transaction boundaries in these data-changing statements.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Optimize this query from its actual execution plan.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design a new relational schema for subscriptions.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Plan a zero-downtime backfill for this live table.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Explain how GROUP BY works.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Format this SQL file without reviewing it.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Tune PostgreSQL autovacuum and work_mem.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Write a SELECT query for monthly totals.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Compare relational and document databases.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Teach a beginner about foreign keys.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  { "query": "Generate seed data for this schema.", "should_trigger": false, "split": "validation" }
+]

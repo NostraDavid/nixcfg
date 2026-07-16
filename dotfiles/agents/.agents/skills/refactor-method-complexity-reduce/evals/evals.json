@@ -1,0 +1,36 @@
+{
+  "skill_name": "refactor-method-complexity-reduce",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Reduce cognitive complexity of ProcessOrder from 34 to 15 under Sonar rule S3776 while preserving exception and side-effect order.",
+      "expected_output": "Measured, incremental simplification with focused helpers and exact analyzer/test evidence.",
+      "assertions": [
+        "Records baseline and final same metric",
+        "Preserves evaluation and side-effect order",
+        "Does not move complexity into generic helpers",
+        "Reports exact test and analyzer results"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "A nested async method must reach complexity 10; it contains awaited calls in conditional branches.",
+      "expected_output": "Guard clauses or extraction that preserves await sequencing, cancellation, and errors.",
+      "assertions": [
+        "Preserves async ordering",
+        "Preserves cancellation and exceptions",
+        "Does not parallelize calls accidentally"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The analyzer is unavailable locally, but the user requires a verified threshold of 12.",
+      "expected_output": "A safe partial refactor with tests and an explicit verification blocker, not a false success claim.",
+      "assertions": [
+        "Does not claim the threshold passed",
+        "Reports available checks",
+        "Provides the exact remaining analyzer command"
+      ]
+    }
+  ]
+}

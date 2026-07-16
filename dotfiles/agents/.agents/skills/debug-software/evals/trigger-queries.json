@@ -1,0 +1,98 @@
+[
+  {
+    "query": "This service sometimes returns the wrong tenant's cached result; find the cause.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Diagnose this reproducible crash from the stack trace and core dump.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Our test flakes once in 500 runs under concurrency; investigate it.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Find why this process steadily leaks file descriptors.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Bisect and explain a wrong-result regression without guessing at fixes.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "The worker hangs only after clock changes; design discriminating experiments.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Trace this corrupted state back to the defect that created it.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Reproduce and isolate a platform-specific parser failure.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "A retry occasionally creates duplicates; diagnose the causal sequence.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Prove whether this apparent race is actually the root cause.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Fix this already-localized off-by-one bug.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review the repository for maintainability issues.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design unit tests for this pricing function.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Optimize this SQL query from its execution plan.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Refactor this long method while preserving behavior.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Explain how debuggers set breakpoints.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Add structured logging to this service as a requested feature.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Write a postmortem from these already-established incident facts.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Run the existing test suite and report failures.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Implement the supplied patch for a known null dereference.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

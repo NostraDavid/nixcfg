@@ -1,0 +1,90 @@
+[
+  {
+    "query": "Reduce ProcessOrder's cognitive complexity from 31 to at most 15.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Refactor this named method below our Sonar cognitive complexity threshold of 10.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Extract helpers so calculateQuote scores 12 or less under our configured analyzer.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "This exact function violates complexity rule S3776 at 24; bring it to 15.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Simplify HandleRequest to the agreed cognitive complexity limit and prove it.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Reduce the measured branching complexity of this target method to 8 without changing behavior.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Make validateImport pass the configured cognitive complexity gate of 20.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Refactor only parseRecord until the analyzer reports 10 or below.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Use focused extraction to lower this method from 42 to our threshold of 15.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Preserve behavior while satisfying the exact per-method complexity metric.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  { "query": "Clean up this complex class.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Refactor this long method for readability.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Explain cognitive complexity.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Reduce cyclomatic complexity but no analyzer or threshold is specified.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Plan a multi-file refactor.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Fix the bugs in this nested conditional.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Extract a helper method from this function.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Optimize this method's runtime complexity.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Review whether this function is maintainable.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Rewrite this module using a strategy pattern.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

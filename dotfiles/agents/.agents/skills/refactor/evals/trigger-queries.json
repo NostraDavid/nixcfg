@@ -1,0 +1,98 @@
+[
+  {
+    "query": "Refactor this module to separate parsing from side effects without changing behavior.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Clean up this long function in small verified steps.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Introduce a seam around this hard-coded dependency so the legacy code can be tested.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Remove duplicated domain logic while preserving public APIs.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Move this behavior to the component that owns the invariant.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Improve names and data flow in this existing implementation.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Encapsulate this mutable representation before we change it later.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Refactor this class safely; its tests are sparse and behavior must remain stable.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Replace this conditional dispatch only if the resulting design is simpler.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Reduce coupling in these existing components without a rewrite.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Plan a six-phase repository-wide refactor and wait for approval.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Rewrite this service from scratch in Rust.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Add a new discount feature.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Rename a production database column across rolling releases.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Fix the root cause of this unknown intermittent crash.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review this pull request without making changes.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Reduce this exact method's cognitive complexity to 15.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Design tests for these business invariants.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Optimize this hot loop after profiling.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Explain the Extract Method refactoring.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

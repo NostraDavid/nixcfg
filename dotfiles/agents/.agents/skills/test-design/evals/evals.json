@@ -1,0 +1,39 @@
+{
+  "skill_name": "test-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design tests for a payment API that accepts idempotency keys, retries provider timeouts, and records ledger entries.",
+      "expected_output": "A risk-mapped portfolio spanning pure rules, real persistence, provider contracts, fault injection, and concurrency.",
+      "assertions": [
+        "Tests duplicate concurrent requests",
+        "Uses real database behavior for transaction invariants",
+        "Distinguishes logical payment from provider attempts",
+        "Defines exact ledger and idempotency oracles",
+        "Avoids mocking away retry behavior"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review a unit suite that mocks every collaborator and asserts call order, making harmless refactors break hundreds of tests.",
+      "expected_output": "A diagnosis and staged replacement based on observable contracts and appropriate boundaries.",
+      "assertions": [
+        "Identifies implementation coupling",
+        "Retains interaction assertions only where interaction is contractual",
+        "Proposes contract-checked fakes or integration tests",
+        "Does not delete unique risk coverage"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Design tests for a parser with a large input space and no convenient exact expected output for every generated case.",
+      "expected_output": "Partitions, properties, metamorphic relations, shrinking/reproduction, and a small reference corpus.",
+      "assertions": [
+        "Defines meaningful invariants",
+        "Covers invalid and boundary inputs",
+        "Preserves failing seeds or examples",
+        "Does not use line coverage as correctness proof"
+      ]
+    }
+  ]
+}

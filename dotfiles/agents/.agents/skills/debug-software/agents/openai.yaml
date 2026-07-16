@@ -1,0 +1,4 @@
+interface:
+  display_name: "Debug Software"
+  short_description: "Diagnose software failures with evidence"
+  default_prompt: "Use $debug-software to diagnose this failure from evidence and design the next discriminating experiment."

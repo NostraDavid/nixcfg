@@ -1,0 +1,38 @@
+{
+  "skill_name": "refactor-plan",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan splitting a shared authentication package used by five services. Do not edit files.",
+      "expected_output": "Repository-specific contracts, dependency map, reversible phases, checks, rollback, and decisions.",
+      "assertions": [
+        "Inspects concrete callers and tests",
+        "Defines preserved contracts",
+        "Each phase reaches a verifiable safe state",
+        "Stops before implementation"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Plan migrating a public callback API to events while old plugins remain supported for two releases.",
+      "expected_output": "Compatibility-first sequencing with adapters, consumer migration, telemetry, and delayed contraction.",
+      "assertions": [
+        "Includes old/new coexistence",
+        "Migrates consumers before removal",
+        "Defines rollback and deprecation evidence",
+        "Does not invent a flag day"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Plan decomposing a large module whose tests are sparse and ownership is unclear.",
+      "expected_output": "An investigation-led plan that establishes feedback and decision gates before movement.",
+      "assertions": [
+        "Does not assume file boundaries equal responsibilities",
+        "Adds characterization evidence first",
+        "Names ownership and unknowns",
+        "Avoids unsupported exact design claims"
+      ]
+    }
+  ]
+}

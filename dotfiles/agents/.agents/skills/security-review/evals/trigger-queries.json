@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Audit this repository for exploitable security vulnerabilities.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review this authentication code for bypasses and session bugs.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Trace user input to SQL, command, template, and file sinks.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Check this API for object-level authorization failures.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review tenant isolation across handlers, jobs, and data access.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Find unsafe secrets and cryptographic use in this codebase.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Audit this IaC and CI configuration for security impact.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review this upload pipeline for parsing and path vulnerabilities.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Scan the scoped package and report only validated findings.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Assess business-logic races and replay in this payment service.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Design security architecture for a system not yet built.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Fix this already-validated vulnerability.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Triage this imported scanner finding.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Create a threat model document only.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Perform an exhaustive multi-pass security scan.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain the OWASP Top 10.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Audit only GDPR data retention.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Write a penetration-test exploit.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Review this code for general maintainability.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Update dependencies to their latest versions.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

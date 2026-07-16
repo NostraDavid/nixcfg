@@ -1,0 +1,4 @@
+interface:
+  display_name: "Linux Performance"
+  short_description: "Diagnose Linux performance from evidence"
+  default_prompt: "Use $linux-performance to diagnose this Linux performance regression from measured evidence."

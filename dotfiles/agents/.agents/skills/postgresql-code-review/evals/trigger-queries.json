@@ -1,0 +1,90 @@
+[
+  {
+    "query": "Review this PostgreSQL RLS policy and SECURITY DEFINER function.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Audit these PostgreSQL triggers for recursion and search_path issues.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review this migration that uses CREATE INDEX CONCURRENTLY.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Check our JSONB constraints and GIN operator choices.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review PostgreSQL roles, ownership, grants, and default privileges.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Find correctness issues in this PL/pgSQL function.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review exclusion constraints for overlapping reservations.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Check whether this PostgreSQL view is safely updatable and isolated.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Audit this extension installation and public-schema exposure.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review enum, domain, array, and range usage in this PostgreSQL DDL.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Optimize this PostgreSQL query from EXPLAIN ANALYZE.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review portable ANSI SQL for Oracle and MySQL.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design a new PostgreSQL schema from business requirements.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Backfill a renamed column without downtime.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Explain what JSONB is.", "should_trigger": false, "split": "train" },
+  { "query": "Tune autovacuum on this busy table.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Write a PostgreSQL SELECT using a window function.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Compare PostgreSQL and SQLite for a local app.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  { "query": "Install pg_trgm for me.", "should_trigger": false, "split": "validation" },
+  {
+    "query": "Create seed fixtures for these PostgreSQL tables.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

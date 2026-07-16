@@ -1,0 +1,3854 @@
+{
+  "library_root": "pdfs",
+  "schema_version": 1,
+  "sources": [
+    {
+      "anti_patterns": ["coding before defining constraints", "optimizing without a baseline"],
+      "category": "Algorithms and Data Structures",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "no-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 22691,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 864,
+      "path": "Algorithms and Data Structures/Algorithm Design, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Algorithms and Data Structures; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Deep algorithm knowledge and problem catalogs improve reasoning, but do not create a capability gap or a repository-specific tool workflow.",
+      "relevant_skills": [],
+      "sha256": "0ffa07ef4cc264c9cd75030bef8cbd421b6e5962c9d60a06b92ef019bc94495e",
+      "size_bytes": 5222586,
+      "status": "reviewed",
+      "title": "Algorithm Design",
+      "topics": ["algorithm selection", "correctness", "complexity"],
+      "workflows": [
+        "formalize problem",
+        "compare candidates",
+        "prove correctness",
+        "measure complexity"
+      ]
+    },
+    {
+      "anti_patterns": ["coding before defining constraints", "optimizing without a baseline"],
+      "category": "Algorithms and Data Structures",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 17798,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 464,
+      "path": "Algorithms and Data Structures/How to Think About Algorithms.pdf",
+      "provenance": [
+        "layered front/back review for Algorithms and Data Structures; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Deep algorithm knowledge and problem catalogs improve reasoning, but do not create a capability gap or a repository-specific tool workflow.",
+      "relevant_skills": [],
+      "sha256": "8994b862f583b041b6756ca23d6c7bcf336c03d9cd7a64a0e4c1da129592a3d0",
+      "size_bytes": 6335274,
+      "status": "reviewed",
+      "title": "How to Think About Algorithms",
+      "topics": ["algorithm selection", "correctness", "complexity"],
+      "workflows": [
+        "formalize problem",
+        "compare candidates",
+        "prove correctness",
+        "measure complexity"
+      ]
+    },
+    {
+      "anti_patterns": ["coding before defining constraints", "optimizing without a baseline"],
+      "category": "Algorithms and Data Structures",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "no-skill",
+      "edition": "3rd edition",
+      "extraction_chars_first_20_pages": 21373,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 1313,
+      "path": "Algorithms and Data Structures/Introduction to Algorithms, 3rd edition.pdf",
+      "provenance": [
+        "layered front/back review for Algorithms and Data Structures; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Deep algorithm knowledge and problem catalogs improve reasoning, but do not create a capability gap or a repository-specific tool workflow.",
+      "relevant_skills": [],
+      "sha256": "780800adc787535f1aba5083d71cf42384fbb80d40a4e2aea68e827092a6e32e",
+      "size_bytes": 5076764,
+      "status": "reviewed",
+      "title": "Introduction to Algorithms",
+      "topics": ["algorithm selection", "correctness", "complexity"],
+      "workflows": [
+        "formalize problem",
+        "compare candidates",
+        "prove correctness",
+        "measure complexity"
+      ]
+    },
+    {
+      "anti_patterns": ["coding before defining constraints", "optimizing without a baseline"],
+      "category": "Algorithms and Data Structures",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "no-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 22384,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 283,
+      "path": "Algorithms and Data Structures/Programming Pearls, 2nd edition.pdf",
+      "provenance": [
+        "layered front/back review for Algorithms and Data Structures; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Deep algorithm knowledge and problem catalogs improve reasoning, but do not create a capability gap or a repository-specific tool workflow.",
+      "relevant_skills": [],
+      "sha256": "abe6b6df9b81f6af33f8cf2cd37261dde90d9617d5a63961bbee2bd0d31fe195",
+      "size_bytes": 1294193,
+      "status": "reviewed",
+      "title": "Programming Pearls",
+      "topics": ["algorithm selection", "correctness", "complexity"],
+      "workflows": [
+        "formalize problem",
+        "compare candidates",
+        "prove correctness",
+        "measure complexity"
+      ]
+    },
+    {
+      "anti_patterns": ["coding before defining constraints", "optimizing without a baseline"],
+      "category": "Algorithms and Data Structures",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "no-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 30364,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 739,
+      "path": "Algorithms and Data Structures/The Algorithm Design Manual, 2nd edition.pdf",
+      "provenance": [
+        "layered front/back review for Algorithms and Data Structures; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Deep algorithm knowledge and problem catalogs improve reasoning, but do not create a capability gap or a repository-specific tool workflow.",
+      "relevant_skills": [],
+      "sha256": "fe1a100b3f30b910cb33bcc64d90f4d62892e99bd775f28cc2933d1c359640d4",
+      "size_bytes": 4082875,
+      "status": "reviewed",
+      "title": "The Algorithm Design Manual",
+      "topics": ["algorithm selection", "correctness", "complexity"],
+      "workflows": [
+        "formalize problem",
+        "compare candidates",
+        "prove correctness",
+        "measure complexity"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 15557,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 263,
+      "path": "Cloud, DevOps and SRE/Accelerate, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a coherent commit-to-release workflow with immutable artifacts, feedback, compatibility, health gates, and recovery.",
+      "relevant_skills": ["continuous-delivery"],
+      "sha256": "9be7f913de8702ec1b16e8ab736ec74349b40c481f5885a56a0fcb08c12854f8",
+      "size_bytes": 4939584,
+      "status": "reviewed",
+      "title": "Accelerate",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "no-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 23426,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 311,
+      "path": "Cloud, DevOps and SRE/Argo CD - Up and Running, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Useful product-specific operational reference, but its commands and security model are time-sensitive; the portable delivery skill keeps only stable GitOps decisions.",
+      "relevant_skills": [],
+      "sha256": "df7e81ccc01f64240078ef6e8c21ff725c2019587c518c296d4321942e1b9d23",
+      "size_bytes": 18903448,
+      "status": "reviewed",
+      "title": "Argo CD - Up and Running",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 19338,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 37,
+      "path": "Cloud, DevOps and SRE/Continuous Delivery in the Wild, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a coherent commit-to-release workflow with immutable artifacts, feedback, compatibility, health gates, and recovery.",
+      "relevant_skills": ["continuous-delivery"],
+      "sha256": "1abec3fb8e6970db577ac31a533b48c193ac63bcb269aedf9419fe6bc959e1d4",
+      "size_bytes": 2858197,
+      "status": "reviewed",
+      "title": "Continuous Delivery in the Wild",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 36509,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 497,
+      "path": "Cloud, DevOps and SRE/Continuous Delivery.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a coherent commit-to-release workflow with immutable artifacts, feedback, compatibility, health gates, and recovery.",
+      "relevant_skills": ["continuous-delivery"],
+      "sha256": "47b3da7e1e21d36b50f434a3cf1b282d5979c9320145cf89718d52b602221624",
+      "size_bytes": 14446216,
+      "status": "reviewed",
+      "title": "Continuous Delivery",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 16102,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 6,
+      "path": "Cloud, DevOps and SRE/Getting Started with Microservices.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a repeatable SLO, observability, capacity, failure-control, or recovery workflow.",
+      "relevant_skills": ["reliability-engineering", "software-architecture-design"],
+      "sha256": "da4d568b629937637a3245d2a81bae011b1efb956813b4f6a1047a50cdf3e01a",
+      "size_bytes": 408400,
+      "status": "reviewed",
+      "title": "Getting Started with Microservices",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 18502,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 346,
+      "path": "Cloud, DevOps and SRE/GitOps and Kubernetes.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a coherent commit-to-release workflow with immutable artifacts, feedback, compatibility, health gates, and recovery.",
+      "relevant_skills": ["continuous-delivery"],
+      "sha256": "fc36342f0b8e5e1fcdff4cf46de0c5fc41474d6708cc6f18e8b50ca6cd9f5b2d",
+      "size_bytes": 13250707,
+      "status": "reviewed",
+      "title": "GitOps and Kubernetes",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": "3rd edition",
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "structured-text",
+      "format": "epub",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": null,
+      "path": "Cloud, DevOps and SRE/Infrastructure as Code, 3rd edition.epub",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a coherent commit-to-release workflow with immutable artifacts, feedback, compatibility, health gates, and recovery.",
+      "relevant_skills": ["continuous-delivery"],
+      "sha256": "b0230207bfb6cf02890d1f1489dc19897c8faf0493ff0595f7c24b705d718a80",
+      "size_bytes": 10838504,
+      "status": "reviewed",
+      "title": "Infrastructure as Code",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 21663,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 187,
+      "path": "Cloud, DevOps and SRE/Managing Kubernetes, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a repeatable SLO, observability, capacity, failure-control, or recovery workflow.",
+      "relevant_skills": ["reliability-engineering"],
+      "sha256": "128b098eb77534543b1fbce93588d4d8a8a3393499fe2c72c86581281c7c997e",
+      "size_bytes": 2058829,
+      "status": "reviewed",
+      "title": "Managing Kubernetes",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 20041,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 6,
+      "path": "Cloud, DevOps and SRE/Managing Microservices.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a repeatable SLO, observability, capacity, failure-control, or recovery workflow.",
+      "relevant_skills": ["reliability-engineering", "software-architecture-design"],
+      "sha256": "10d3bf4e65b596d97205a638437cb9ae0847c22ea1ad7507445140b4d1b7c8a9",
+      "size_bytes": 438666,
+      "status": "reviewed",
+      "title": "Managing Microservices",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 21381,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 321,
+      "path": "Cloud, DevOps and SRE/Observability Engineering, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a repeatable SLO, observability, capacity, failure-control, or recovery workflow.",
+      "relevant_skills": ["reliability-engineering"],
+      "sha256": "0442265169e6f7f053008405019f497e8b674796d55a7cf3aae8c13ab774c27c",
+      "size_bytes": 11377501,
+      "status": "reviewed",
+      "title": "Observability Engineering",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 25419,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 350,
+      "path": "Cloud, DevOps and SRE/Release It!, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a repeatable SLO, observability, capacity, failure-control, or recovery workflow.",
+      "relevant_skills": ["reliability-engineering"],
+      "sha256": "d4818e6417c5277123f11fd2d2adeff67505ae5b35999247023da26a2c8bd6cc",
+      "size_bytes": 4813319,
+      "status": "reviewed",
+      "title": "Release It!",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 58723,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 48,
+      "path": "Cloud, DevOps and SRE/The DZone Guide to DevOps - Continuous Delivery and Automation, volume 4.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a coherent commit-to-release workflow with immutable artifacts, feedback, compatibility, health gates, and recovery.",
+      "relevant_skills": ["continuous-delivery"],
+      "sha256": "8625957789d560d685e9c4d3309b0f01a03d668ea067fbbfca8edb76dd078bd2",
+      "size_bytes": 4620449,
+      "status": "reviewed",
+      "title": "The DZone Guide to DevOps - Continuous Delivery and Automation, volume 4",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 51722,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 69,
+      "path": "Cloud, DevOps and SRE/The DZone Guide to DevOps - Culture and Process, volume 5.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Broad or vendor/tool-specific DevOps material; stable contributions are already represented in focused delivery and reliability skills.",
+      "relevant_skills": [],
+      "sha256": "ecab21fbb60c650b20f204a124aba33932ed268daa6668bffafd41695ad72a6c",
+      "size_bytes": 7087882,
+      "status": "reviewed",
+      "title": "The DZone Guide to DevOps - Culture and Process, volume 5",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 54693,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 49,
+      "path": "Cloud, DevOps and SRE/The DZone Guide to Orchestrating and Deploying Containers, volume 1.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Broad or vendor/tool-specific DevOps material; stable contributions are already represented in focused delivery and reliability skills.",
+      "relevant_skills": [],
+      "sha256": "b1290555b38ad06b102079904019c94d5e7493bda92c25cbf1a9346fcc80820e",
+      "size_bytes": 5724098,
+      "status": "reviewed",
+      "title": "The DZone Guide to Orchestrating and Deploying Containers, volume 1",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 20580,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 605,
+      "path": "Cloud, DevOps and SRE/The DevOps Handbook, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a coherent commit-to-release workflow with immutable artifacts, feedback, compatibility, health gates, and recovery.",
+      "relevant_skills": ["continuous-delivery"],
+      "sha256": "f737549c275546a10287feb2b6e9c3f63541545820a72721a7741d3fc54d892e",
+      "size_bytes": 10298008,
+      "status": "reviewed",
+      "title": "The DevOps Handbook",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "tool-first transformation",
+        "unmeasured reliability claims",
+        "untested rollback"
+      ],
+      "category": "Cloud, DevOps and SRE",
+      "clusters": ["cloud-delivery-reliability"],
+      "decision": "new-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 19971,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 508,
+      "path": "Cloud, DevOps and SRE/The Site Reliability Workbook, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Cloud, DevOps and SRE; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Contributes a repeatable SLO, observability, capacity, failure-control, or recovery workflow.",
+      "relevant_skills": ["reliability-engineering"],
+      "sha256": "d52130a726c86a133d61290cbac40b52775d513408b893bc2518eadf354c40e4",
+      "size_bytes": 14262842,
+      "status": "reviewed",
+      "title": "The Site Reliability Workbook",
+      "topics": ["delivery", "operations", "reliability"],
+      "workflows": [
+        "map system and value stream",
+        "automate feedback",
+        "control rollout and recovery"
+      ]
+    },
+    {
+      "anti_patterns": ["local optimization", "ethical judgment reduced to a technical checklist"],
+      "category": "Computing and Society",
+      "clusters": ["ethics-systems-thinking"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 12531,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 265,
+      "path": "Computing and Society/Computer Ethics.pdf",
+      "provenance": [
+        "layered front/back review for Computing and Society; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Important cross-cutting theory, but not a bounded repeatable skill with sufficient added value; use as review perspective and retain binding EU-AI-Act instructions separately.",
+      "relevant_skills": [],
+      "sha256": "5378b8b6ad323f0ff037da720c0fc20a1fdc75aaab15e0c14f9e1ea90e6a6d47",
+      "size_bytes": 2915930,
+      "status": "reviewed",
+      "title": "Computer Ethics",
+      "topics": ["system boundaries", "stakeholder consequences", "feedback and ethics"],
+      "workflows": [
+        "surface stakeholders and boundaries",
+        "consider feedback and downstream consequences"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "structured-text",
+      "format": "epub",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": null,
+      "path": "Data and Statistics/Advancing into Analytics.epub",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "fa70a01e9eb4b641fb21e83a5a69b8fdceca6d1ad1febafe2ccd859e830e14a2",
+      "size_bytes": 6608126,
+      "status": "reviewed",
+      "title": "Advancing into Analytics",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 18885,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 446,
+      "path": "Data and Statistics/All of Statistics.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "c0d0036787a477f8c1c67282c9e3f20da912aae163bcdaa4dca3d3c118fc1889",
+      "size_bytes": 24417120,
+      "status": "reviewed",
+      "title": "All of Statistics",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "improve",
+      "edition": "early release",
+      "extraction_chars_first_20_pages": 32436,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 42,
+      "path": "Data and Statistics/Data Quality Fundamentals, early release.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Adds data-SLI, ownership, lineage, incident, and prevention concepts to the generic reliability workflow; early-release specifics are not treated as authoritative.",
+      "relevant_skills": ["reliability-engineering"],
+      "sha256": "e42e4beb1134abc572ca2f526e3c1e6dd2f23054e83f96444f2605fe7e7c6259",
+      "size_bytes": 7995116,
+      "status": "reviewed",
+      "title": "Data Quality Fundamentals",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 23316,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 409,
+      "path": "Data and Statistics/Data Science for Business, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "5414cc78e6b8a6c6ba16f7263ac9d9d61fd2dafeab28be3e4b1e1801ef561867",
+      "size_bytes": 19653227,
+      "status": "reviewed",
+      "title": "Data Science for Business",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": "7th edition",
+      "extraction_chars_first_20_pages": 43926,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 897,
+      "path": "Data and Statistics/Elementary Statistics, 7th edition.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "517ef2c32586e496794c89354e52a3b6dff3cce8d9bde70eb5e7eca18ce521f5",
+      "size_bytes": 28400021,
+      "status": "reviewed",
+      "title": "Elementary Statistics",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 0,
+      "extraction_quality": "scanned-image",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present",
+        "visual render of image-only contents, introduction, and opening bias chapter"
+      ],
+      "pages": 129,
+      "path": "Data and Statistics/How to Lie with Statistics.pdf",
+      "provenance": ["visual review of scanned front matter and opening chapter; see decisions.md"],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "94cc85a06071aa8347e30d8ff7b64997a515500b8eb7c034203101a525e47633",
+      "size_bytes": 5026609,
+      "status": "reviewed",
+      "title": "How to Lie with Statistics",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": "3rd edition",
+      "extraction_chars_first_20_pages": 19330,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 428,
+      "path": "Data and Statistics/Introduction to Time Series and Forecasting, 3rd edition.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "3c1ea80d1300782a8911082118d8ec1e72eea29bc4525de8a6d8bc0a73cecca9",
+      "size_bytes": 3963631,
+      "status": "reviewed",
+      "title": "Introduction to Time Series and Forecasting",
+      "topics": ["stationarity", "time-series diagnostics", "forecasting uncertainty"],
+      "workflows": [
+        "plot and decompose",
+        "establish baselines",
+        "diagnose residuals",
+        "backtest forecasts"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "structured-text",
+      "format": "epub",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": null,
+      "path": "Data and Statistics/Lean Analytics.epub",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "0f3fd078f73019c7767139f4e5a4cbfa27d17a673b2276ac34536704d9a27884",
+      "size_bytes": 251928,
+      "status": "reviewed",
+      "title": "Lean Analytics",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 19662,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 409,
+      "path": "Data and Statistics/Practical Statistics for Data Scientists, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "9dce7f040116c1ff5afa391efccc5bc7e69908aedcf2867196588941ad52bdd4",
+      "size_bytes": 15951806,
+      "status": "reviewed",
+      "title": "Practical Statistics for Data Scientists",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 28760,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 366,
+      "path": "Data and Statistics/Statistical Learning from a Regression Perspective, 2nd edition.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "081aad2e223ee11453484ca06e6c5d1dd03019aba3c8cde283e38114af34c48e",
+      "size_bytes": 8201066,
+      "status": "reviewed",
+      "title": "Statistical Learning from a Regression Perspective",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 28533,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 736,
+      "path": "Data and Statistics/Statistics and Data Analysis for Financial Engineering, 2nd edition.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "00161451557028f3fdf72d6a2ef3f799ac7d53f86b1a6f29030fb1f7981e512b",
+      "size_bytes": 13826642,
+      "status": "reviewed",
+      "title": "Statistics and Data Analysis for Financial Engineering",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 31222,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 456,
+      "path": "Data and Statistics/The Data Science Design Manual.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "b49e424e87dbf2139adab83d17878578d08374645fec9937e8d80464320483e4",
+      "size_bytes": 18292388,
+      "status": "reviewed",
+      "title": "The Data Science Design Manual",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 24173,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 757,
+      "path": "Data and Statistics/The Elements of Statistical Learning, 2nd edition.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "fe6d381fc777b667d12b6583abf6d97ea2d4496e3722e0e3a9cda527b9169814",
+      "size_bytes": 15941181,
+      "status": "reviewed",
+      "title": "The Elements of Statistical Learning",
+      "topics": ["statistical inference", "analytics", "model validation"],
+      "workflows": [
+        "frame decision",
+        "inspect data",
+        "select method",
+        "validate assumptions and uncertainty"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "correlation as causation",
+        "leakage",
+        "selective reporting",
+        "unvalidated extrapolation"
+      ],
+      "category": "Data and Statistics",
+      "clusters": ["statistics-analytics-forecasting"],
+      "decision": "no-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 26127,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 501,
+      "path": "Data and Statistics/Time Series Analysis with Applications in R, 2nd edition.pdf",
+      "provenance": [
+        "layered front/back review for Data and Statistics; grouped conclusions in decisions.md"
+      ],
+      "rationale": "High-value analytical knowledge, but the available data-analytics plugin already has focused data-quality, validation, diagnostics, KPI, and analysis workflows; a repo skill would duplicate triggers.",
+      "relevant_skills": [],
+      "sha256": "862c5d12936c39109d5913435583f44c33db35581abf1a8afc938a3fe6449a1c",
+      "size_bytes": 4271303,
+      "status": "reviewed",
+      "title": "Time Series Analysis with Applications in R",
+      "topics": ["stationarity", "time-series diagnostics", "forecasting uncertainty"],
+      "workflows": [
+        "plot and decompose",
+        "establish baselines",
+        "diagnose residuals",
+        "backtest forecasts"
+      ]
+    },
+    {
+      "anti_patterns": ["flat-file modeling", "RDBMS-driven logical design", "repeating fields"],
+      "category": "Databases",
+      "clusters": ["database-design", "sql-review"],
+      "decision": "improve",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "structured-text",
+      "format": "chm",
+      "freshness": "Evergreen logical-design principles; product examples are dated.",
+      "inspected_sections": ["contents", "prefaces", "chapters 4, 11, 13, and 14", "index"],
+      "pages": null,
+      "path": "Databases/Database Design for Mere Mortals, 2nd edition.chm",
+      "provenance": ["chapters 4, 11, 13, and 14"],
+      "rationale": "Primary end-to-end requirements, logical-model, business-rule, and integrity workflow.",
+      "relevant_skills": ["database-design", "sql-code-review"],
+      "sha256": "a08f4b4203d827a7adef7ab587ec60bd6acbfe07840c4c62467c1f31ffda8c83",
+      "size_bytes": 6223741,
+      "status": "reviewed",
+      "title": "Database Design for Mere Mortals",
+      "topics": [
+        "requirements-driven design",
+        "keys and relationships",
+        "business rules",
+        "integrity"
+      ],
+      "workflows": ["seven-phase design", "stakeholder interviews", "integrity review"]
+    },
+    {
+      "anti_patterns": ["incomplete design", "redundant fields"],
+      "category": "Databases",
+      "clusters": ["database-design"],
+      "decision": "improve",
+      "edition": "3rd edition, sample chapter",
+      "extraction_chars_first_20_pages": 11619,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Later but incomplete sample; the complete second edition supplies depth.",
+      "inspected_sections": ["contents", "introduction", "sample material", "index"],
+      "pages": 89,
+      "path": "Databases/Database Design for Mere Mortals, 3rd edition, sample chapter.pdf",
+      "provenance": ["contents, introduction, sample, and index"],
+      "rationale": "Confirms that the later edition retains the same design and integrity workflow.",
+      "relevant_skills": ["database-design"],
+      "sha256": "9bd6dac1d85f4a157488e6156020f64aaf3bea9c3e75c463937105da16a77aa8",
+      "size_bytes": 647665,
+      "status": "reviewed",
+      "title": "Database Design for Mere Mortals",
+      "topics": ["relational design", "keys and relationships", "integrity"],
+      "workflows": ["requirements analysis", "logical design review"]
+    },
+    {
+      "anti_patterns": ["product choice without storage and distribution tradeoffs"],
+      "category": "Databases",
+      "clusters": ["database-internals", "distributed-data", "database-performance"],
+      "decision": "improve",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 16909,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Core algorithms are durable; product details require current documentation.",
+      "inspected_sections": [
+        "preface",
+        "scope",
+        "part summaries",
+        "targeted storage and distribution sections",
+        "index"
+      ],
+      "pages": 590,
+      "path": "Databases/Database Internals, 1st edition.pdf",
+      "provenance": ["preface, Part I and II maps, targeted sections"],
+      "rationale": "Adds causal systems reasoning without justifying a standalone workflow skill.",
+      "relevant_skills": ["postgresql-optimization"],
+      "sha256": "489c8648b8217d6619912255efbf526fdb0b72b94e06a22a28a6e08347daec6f",
+      "size_bytes": 15883648,
+      "status": "reviewed",
+      "title": "Database Internals",
+      "topics": ["storage engines", "B-trees and LSM trees", "replication", "consensus"],
+      "workflows": ["reason from internals to bottleneck hypotheses"]
+    },
+    {
+      "anti_patterns": ["physical design before requirements", "application-only integrity"],
+      "category": "Databases",
+      "clusters": ["database-design", "database-internals", "database-performance"],
+      "decision": "improve",
+      "edition": "6th edition",
+      "extraction_chars_first_20_pages": 24793,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Foundational theory is durable; implementation examples are dated.",
+      "inspected_sections": [
+        "contents",
+        "preface and dependency map",
+        "targeted design, normalization, transaction, and recovery sections",
+        "index"
+      ],
+      "pages": 1201,
+      "path": "Databases/Fundamentals of Database Systems, 6th edition.pdf",
+      "provenance": ["preface, dependency map, and Parts 2, 3, 7, 8, and 9"],
+      "rationale": "Connects conceptual, logical, and physical design and sets review boundaries.",
+      "relevant_skills": ["database-design", "sql-code-review"],
+      "sha256": "c648c9185c7348eac45f5a5aa9b1248c01f749c819d134659e641ccfb4f2859f",
+      "size_bytes": 8694548,
+      "status": "reviewed",
+      "title": "Fundamentals of Database Systems",
+      "topics": ["conceptual modeling", "normalization", "query processing", "transactions"],
+      "workflows": ["database lifecycle from requirements through physical design"]
+    },
+    {
+      "anti_patterns": ["configuration without workload evidence"],
+      "category": "Databases",
+      "clusters": ["database-performance", "postgresql", "sre-observability"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 13455,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Version-specific commands and defaults require current PostgreSQL documentation.",
+      "inspected_sections": [
+        "contents",
+        "preface",
+        "benchmarking and monitoring sections",
+        "pooling, partitioning, and replication sections",
+        "index"
+      ],
+      "pages": 354,
+      "path": "Databases/PostgreSQL High Performance Cookbook.pdf",
+      "provenance": ["preface and targeted chapters 1–7"],
+      "rationale": "Supplies the benchmark-observe-change-verify operational loop.",
+      "relevant_skills": ["postgresql-optimization"],
+      "sha256": "fb41f8d0a835caa5ad16dfbc2ca44cf96c80b9aa43459ea622d66283a652c36b",
+      "size_bytes": 5982668,
+      "status": "reviewed",
+      "title": "PostgreSQL High Performance Cookbook",
+      "topics": ["benchmarking", "configuration", "monitoring", "pooling", "replication"],
+      "workflows": ["baseline before tuning", "measure operational changes"]
+    },
+    {
+      "anti_patterns": ["big-bang changes", "unversioned assets", "premature contraction"],
+      "category": "Databases",
+      "clusters": ["database-refactoring", "continuous-delivery", "testing"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "structured-text",
+      "format": "epub",
+      "freshness": "Core workflow is durable; named tools and trigger preferences are dated.",
+      "inspected_sections": [
+        "contents",
+        "preface",
+        "chapters 1–5",
+        "targeted refactoring catalogs",
+        "index"
+      ],
+      "pages": null,
+      "path": "Databases/Refactoring Databases.epub",
+      "provenance": ["preface, chapters 1–5, and chapters 6–11 catalogs"],
+      "rationale": "Defines the distinct evolutionary migration workflow implemented by database-refactor.",
+      "relevant_skills": ["database-refactor"],
+      "sha256": "c20d199f7d2b662df99ec9254df23fe3288090a4472b396ddb4eadb893dbb575",
+      "size_bytes": 3404640,
+      "status": "reviewed",
+      "title": "Refactoring Databases",
+      "topics": [
+        "evolutionary schema change",
+        "regression testing",
+        "compatibility periods",
+        "backfills"
+      ],
+      "workflows": ["small ordered refactorings", "expand-migrate-validate-contract"]
+    },
+    {
+      "anti_patterns": [
+        "comma-separated relationships",
+        "generic EAV",
+        "index shotgun",
+        "spaghetti queries"
+      ],
+      "category": "Databases",
+      "clusters": ["database-design", "sql-review", "database-performance", "security"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 23554,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Problem structures are durable; security and engine remedies need current guidance.",
+      "inspected_sections": [
+        "contents",
+        "introduction",
+        "all antipattern summaries",
+        "targeted design and query sections",
+        "index"
+      ],
+      "pages": 334,
+      "path": "Databases/SQL Antipatterns.pdf",
+      "provenance": ["introduction and Parts I–IV"],
+      "rationale": "Replaces unconditional findings with contextual failure and exception analysis.",
+      "relevant_skills": ["database-design", "sql-code-review", "sql-optimization"],
+      "sha256": "1582b137848e97e2c754f2a38364688714ec9fc6c2012ca4dee94c06eae3ecde",
+      "size_bytes": 1659193,
+      "status": "reviewed",
+      "title": "SQL Antipatterns",
+      "topics": ["design failures", "query correctness", "index misuse", "SQL injection"],
+      "workflows": ["evaluate objective, failure, cues, exceptions, and remedy"]
+    },
+    {
+      "anti_patterns": ["copying recipes without semantic or version checks"],
+      "category": "Databases",
+      "clusters": ["sql-review", "sql-performance", "data-analysis"],
+      "decision": "no-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 20270,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Many recipes are dialect- and version-sensitive.",
+      "inspected_sections": [
+        "contents",
+        "preface",
+        "metadata and index recipes",
+        "representative cross-dialect recipes",
+        "index"
+      ],
+      "pages": 572,
+      "path": "Databases/SQL Cookbook, 2nd edition.pdf",
+      "provenance": ["preface, contents, representative recipes, and index"],
+      "rationale": "A lookup collection and eval source, not a distinct repeatable workflow.",
+      "relevant_skills": ["sql-code-review", "sql-optimization"],
+      "sha256": "d00f37196ebbaf1d5773b4b9d4fed2d5198e77427d554c5e46c2740335963e8c",
+      "size_bytes": 13036634,
+      "status": "reviewed",
+      "title": "SQL Cookbook",
+      "topics": ["SQL recipes", "metadata", "dates", "hierarchies", "window functions"],
+      "workflows": ["adapt recipes to a known dialect and schema"]
+    },
+    {
+      "anti_patterns": ["indexes without workload evidence", "mechanical rewrites"],
+      "category": "Databases",
+      "clusters": ["database-performance", "sql-performance"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 24291,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Access-path reasoning is durable; optimizer behavior is version-specific.",
+      "inspected_sections": [
+        "contents",
+        "preface",
+        "chapters 1–8",
+        "execution-plan appendix",
+        "index"
+      ],
+      "pages": 207,
+      "path": "Databases/SQL Performance Explained.pdf",
+      "provenance": ["chapters 1–8 and execution-plan appendix"],
+      "rationale": "Provides the causal plan-and-index foundation for evidence-first optimization.",
+      "relevant_skills": ["sql-optimization", "postgresql-optimization"],
+      "sha256": "c73256b8ac855e06348d607a603215909c463d0f4580f4cab6e49ee102ccd234",
+      "size_bytes": 1252662,
+      "status": "reviewed",
+      "title": "SQL Performance Explained",
+      "topics": ["B-tree access paths", "predicates", "joins", "pagination", "DML cost"],
+      "workflows": ["read plan from access path", "change one mechanism and remeasure"]
+    },
+    {
+      "anti_patterns": ["unsound relational structure", "row-by-row thinking"],
+      "category": "Databases",
+      "clusters": ["sql-review", "database-design"],
+      "decision": "no-skill",
+      "edition": "4th edition",
+      "extraction_chars_first_20_pages": 15538,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Foundations are durable; functions and syntax need dialect checks.",
+      "inspected_sections": [
+        "contents",
+        "introduction",
+        "relational-structure chapter",
+        "set, join, grouping, and window maps",
+        "index"
+      ],
+      "pages": 928,
+      "path": "Databases/SQL Queries for Mere Mortals, 4th edition.pdf",
+      "provenance": ["introduction, chapter maps, and index"],
+      "rationale": "Useful correctness and eval scenarios but no specialized capability gap.",
+      "relevant_skills": ["sql-code-review"],
+      "sha256": "492331b23ad0059410143facc7cc5c8140a0af3b8746b83e3f20ee243d4d436c",
+      "size_bytes": 6792626,
+      "status": "reviewed",
+      "title": "SQL Queries for Mere Mortals",
+      "topics": ["set-based SQL", "joins", "grouping", "window functions"],
+      "workflows": ["translate information requests into set-based SQL"]
+    },
+    {
+      "anti_patterns": ["confusing model and implementation", "ignoring candidate keys"],
+      "category": "Databases",
+      "clusters": ["database-design", "sql-review", "formal-methods"],
+      "decision": "improve",
+      "edition": "3rd edition",
+      "extraction_chars_first_20_pages": 24632,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Relational principles are evergreen; SQL criticisms require context.",
+      "inspected_sections": [
+        "prefaces",
+        "contents",
+        "targeted chapters 1, 4, 5, 8, 10, and 11",
+        "appendices",
+        "index"
+      ],
+      "pages": 584,
+      "path": "Databases/SQL and Relational Theory, 3rd edition.pdf",
+      "provenance": ["chapters 1, 4, 5, 8, 10, and 11"],
+      "rationale": "Strengthens model separation, key preservation, and invariant-based review.",
+      "relevant_skills": ["database-design", "sql-code-review"],
+      "sha256": "09c3a40b3089e551993e4080294a831aab8814a02fe5125cc21a4dd03c2b567e",
+      "size_bytes": 7867466,
+      "status": "reviewed",
+      "title": "SQL and Relational Theory",
+      "topics": ["relational model", "candidate keys", "nulls", "constraints", "logic"],
+      "workflows": ["derive schemas and queries from predicates and invariants"]
+    },
+    {
+      "anti_patterns": ["feature advocacy without requirements"],
+      "category": "Databases",
+      "clusters": ["postgresql", "sql-review", "database-performance"],
+      "decision": "improve",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 21472,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Syntax and catalog guidance require current PostgreSQL documentation.",
+      "inspected_sections": [
+        "preface",
+        "part map",
+        "targeted query, index, type, concurrency, and modeling sections",
+        "index"
+      ],
+      "pages": 457,
+      "path": "Databases/The Art of PostgreSQL, 2nd edition.pdf",
+      "provenance": ["preface, Parts 3–6 map, and targeted sections"],
+      "rationale": "Supports PostgreSQL review and tuning with conditional feature choices.",
+      "relevant_skills": ["postgresql-code-review", "postgresql-optimization"],
+      "sha256": "48f82eeb1cd97f445fbcd44970e30afe7c747e27943729cadff63aaab2e8c820",
+      "size_bytes": 1623705,
+      "status": "reviewed",
+      "title": "The Art of PostgreSQL",
+      "topics": ["PostgreSQL SQL", "indexes", "types", "concurrency", "modeling"],
+      "workflows": ["choose PostgreSQL features from workload and semantics"]
+    },
+    {
+      "anti_patterns": ["row-by-row strategy", "local tuning without global reasoning"],
+      "category": "Databases",
+      "clusters": ["sql-performance", "database-performance"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 19469,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "Strategic reasoning is durable; optimizer claims need engine evidence.",
+      "inspected_sections": ["contents", "preface", "targeted strategy chapters", "index"],
+      "pages": 369,
+      "path": "Databases/The Art of SQL.pdf",
+      "provenance": ["preface, targeted strategy chapters, and index"],
+      "rationale": "Adds whole-query and data-access strategy to the measured optimization loop.",
+      "relevant_skills": ["sql-optimization"],
+      "sha256": "0a8da5036372bad50046a96f90d854c32c2f3985dc96a99b2c1eaa875b3b31b5",
+      "size_bytes": 10176472,
+      "status": "reviewed",
+      "title": "The Art of SQL",
+      "topics": ["set-based strategy", "joins", "data reduction", "indexes"],
+      "workflows": ["optimize total work before local syntax", "decompose complex SQL"]
+    },
+    {
+      "anti_patterns": ["single-metric diagnosis", "kernel tuning without causal evidence"],
+      "category": "Linux and Systems",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 12808,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 880,
+      "path": "Linux and Systems/BPF Performance Tools.pdf",
+      "provenance": [
+        "layered front/back review for Linux and Systems; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Provides a distinct evidence-driven Linux resource diagnosis workflow across utilization, saturation, errors, attribution, profiling, and tracing.",
+      "relevant_skills": ["linux-performance"],
+      "sha256": "5b3710967084a09291b3ca1edcd63b39197125ff818588bd186b478209510e23",
+      "size_bytes": 8414043,
+      "status": "reviewed",
+      "title": "BPF Performance Tools",
+      "topics": ["Linux interfaces", "resource behavior", "systems diagnosis"],
+      "workflows": ["observe", "attribute", "form hypotheses", "run reversible experiments"]
+    },
+    {
+      "anti_patterns": ["single-metric diagnosis", "kernel tuning without causal evidence"],
+      "category": "Linux and Systems",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "no-skill",
+      "edition": "4th edition",
+      "extraction_chars_first_20_pages": 15397,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 819,
+      "path": "Linux and Systems/Beginning Linux Programming, 4th edition.pdf",
+      "provenance": [
+        "layered front/back review for Linux and Systems; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Command, shell, or systems-programming reference knowledge without a coherent skill beyond ordinary implementation; many mechanics are version-sensitive.",
+      "relevant_skills": [],
+      "sha256": "953d592a6e9d74b03e2734833132cbadec0cb759a97f64e6ceb76e4b4704d392",
+      "size_bytes": 8914278,
+      "status": "reviewed",
+      "title": "Beginning Linux Programming",
+      "topics": ["Linux interfaces", "resource behavior", "systems diagnosis"],
+      "workflows": ["observe", "attribute", "form hypotheses", "run reversible experiments"]
+    },
+    {
+      "anti_patterns": ["single-metric diagnosis", "kernel tuning without causal evidence"],
+      "category": "Linux and Systems",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 42547,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 843,
+      "path": "Linux and Systems/Linux Command Line and Shell Scripting Bible.pdf",
+      "provenance": [
+        "layered front/back review for Linux and Systems; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Command, shell, or systems-programming reference knowledge without a coherent skill beyond ordinary implementation; many mechanics are version-sensitive.",
+      "relevant_skills": [],
+      "sha256": "ed6ce7ff16656c34ca2b9fd8517e38ffdd9316e43f84156ab760cafb4662d1bf",
+      "size_bytes": 14325554,
+      "status": "reviewed",
+      "title": "Linux Command Line and Shell Scripting Bible",
+      "topics": ["Linux interfaces", "resource behavior", "systems diagnosis"],
+      "workflows": ["observe", "attribute", "form hypotheses", "run reversible experiments"]
+    },
+    {
+      "anti_patterns": ["single-metric diagnosis", "kernel tuning without causal evidence"],
+      "category": "Linux and Systems",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "no-skill",
+      "edition": "6th edition",
+      "extraction_chars_first_20_pages": 17283,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 944,
+      "path": "Linux and Systems/Linux in a Nutshell, 6th edition.pdf",
+      "provenance": [
+        "layered front/back review for Linux and Systems; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Command, shell, or systems-programming reference knowledge without a coherent skill beyond ordinary implementation; many mechanics are version-sensitive.",
+      "relevant_skills": [],
+      "sha256": "80c1ba8c8f614aefb2b2d866acd43b73a1dacd808e4e3c18b2a77a95c2f54174",
+      "size_bytes": 12512070,
+      "status": "reviewed",
+      "title": "Linux in a Nutshell",
+      "topics": ["Linux interfaces", "resource behavior", "systems diagnosis"],
+      "workflows": ["observe", "attribute", "form hypotheses", "run reversible experiments"]
+    },
+    {
+      "anti_patterns": ["single-metric diagnosis", "kernel tuning without causal evidence"],
+      "category": "Linux and Systems",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "new-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 11312,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 929,
+      "path": "Linux and Systems/Systems Performance, 2nd edition.pdf",
+      "provenance": [
+        "layered front/back review for Linux and Systems; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Provides a distinct evidence-driven Linux resource diagnosis workflow across utilization, saturation, errors, attribution, profiling, and tracing.",
+      "relevant_skills": ["linux-performance"],
+      "sha256": "18bc406ccb9c71ac3fedb016df8b0c85ccf55d7d86f724c3abb3ddb05a823e17",
+      "size_bytes": 15498450,
+      "status": "reviewed",
+      "title": "Systems Performance",
+      "topics": ["Linux interfaces", "resource behavior", "systems diagnosis"],
+      "workflows": ["observe", "attribute", "form hypotheses", "run reversible experiments"]
+    },
+    {
+      "anti_patterns": ["single-metric diagnosis", "kernel tuning without causal evidence"],
+      "category": "Linux and Systems",
+      "clusters": ["algorithms-performance-linux"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 55785,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 1556,
+      "path": "Linux and Systems/The Linux Programming Interface.pdf",
+      "provenance": [
+        "layered front/back review for Linux and Systems; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Command, shell, or systems-programming reference knowledge without a coherent skill beyond ordinary implementation; many mechanics are version-sensitive.",
+      "relevant_skills": [],
+      "sha256": "ab311f40bb63db213254b24756c069dcb75f7b19e323c910dce016c7bc3af332",
+      "size_bytes": 7265113,
+      "status": "reviewed",
+      "title": "The Linux Programming Interface",
+      "topics": ["Linux interfaces", "resource behavior", "systems diagnosis"],
+      "workflows": ["observe", "attribute", "form hypotheses", "run reversible experiments"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 22966,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "superseded by the reviewed 2nd edition",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 683,
+      "path": "Python/Effective Python, 1st edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "6db070dfabd48e5c45a8d7c4c02592a3173b4e1db41201836d7b58d967be7874",
+      "size_bytes": 12869055,
+      "status": "reviewed",
+      "title": "Effective Python",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 19190,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 469,
+      "path": "Python/Effective Python, 2nd edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "c6049c8b5985ef7449740fb4bc30f7a157dff1baef8feca2b7ad414734467de6",
+      "size_bytes": 12800688,
+      "status": "reviewed",
+      "title": "Effective Python",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 17708,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 1011,
+      "path": "Python/Fluent Python, 2nd edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "db97c77518c68ce3db19da8f65e9f8dd8f9494fcbba59dddb0ed1796973f7e35",
+      "size_bytes": 16456139,
+      "status": "reviewed",
+      "title": "Fluent Python",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": "3rd edition, early release",
+      "extraction_chars_first_20_pages": 16976,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "early release; use only stable concepts and verify all mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 226,
+      "path": "Python/High Performance Python, 3rd edition, early release.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "6405a0dfeb6cf77a6b1dedbd7bc6467f3d5fe618e34e221fef8d3721f568773f",
+      "size_bytes": 3161760,
+      "status": "reviewed",
+      "title": "High Performance Python",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": "early release",
+      "extraction_chars_first_20_pages": 12590,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "early release; use only stable concepts and verify all mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 501,
+      "path": "Python/Hypermodern Python Tooling, early release.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "7799c90b666642e1a7c6cb6bb827042d10c755dbf66b8de1f3616ce8e80ef3bb",
+      "size_bytes": 3995485,
+      "status": "reviewed",
+      "title": "Hypermodern Python Tooling",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 14274,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 819,
+      "path": "Python/Modern Python Cookbook.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "6ce0cecce1d9d88070aefb1382635d39a2af24388cb754688a1f53cd5863303c",
+      "size_bytes": 9807829,
+      "status": "reviewed",
+      "title": "Modern Python Cookbook",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": "4th edition",
+      "extraction_chars_first_20_pages": 17894,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "dated examples and ecosystem assumptions; retain only stable principles",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 1628,
+      "path": "Python/Programming Python, 4th edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "f9949699d1aacfe8f0ac2c79d483a0edf5dd52bb51e99899f2273be04d3c06dc",
+      "size_bytes": 27410567,
+      "status": "reviewed",
+      "title": "Programming Python",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 20157,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 378,
+      "path": "Python/Python Concurrency with asyncio.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "bed7ee24a00900019859c38694b0bbbc16a98f465f0718670d9e0344dbd9d371",
+      "size_bytes": 6366622,
+      "status": "reviewed",
+      "title": "Python Concurrency with asyncio",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": "3rd edition",
+      "extraction_chars_first_20_pages": 24921,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 706,
+      "path": "Python/Python Cookbook, 3rd edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "9bea28c1c7b6ecb1107f91a42b2e5d2b7a2179c2c2ef53740470978aae2c5a50",
+      "size_bytes": 6051968,
+      "status": "reviewed",
+      "title": "Python Cookbook",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": "early release",
+      "extraction_chars_first_20_pages": 26278,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "early release; use only stable concepts and verify all mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 133,
+      "path": "Python/Robust Python, early release.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "6d05924c23afed0b35e81ff317a3f621fb2f824155e60441de23c35da187f867",
+      "size_bytes": 2522692,
+      "status": "reviewed",
+      "title": "Robust Python",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Python",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 20116,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "dated examples and ecosystem assumptions; retain only stable principles",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 271,
+      "path": "Python/The Hacker's Guide to Python.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "8518928b20b82f4aa755105474d030be563d7dfc279c12039a931d6e7354f7a6",
+      "size_bytes": 2032336,
+      "status": "reviewed",
+      "title": "The Hacker's Guide to Python",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "solution-biased requirements",
+        "missing failure handling",
+        "formal notation without stakeholder semantics"
+      ],
+      "category": "Requirements and Formal Methods",
+      "clusters": ["architecture-requirements-formal-methods"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 19217,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 382,
+      "path": "Requirements and Formal Methods/Specifying Systems.pdf",
+      "provenance": [
+        "layered front/back review for Requirements and Formal Methods; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Improves specification discovery, use-case failure paths, quality scenarios, traceability, and optional formalization without forcing TLA+ on ordinary specs.",
+      "relevant_skills": ["create-specification"],
+      "sha256": "d10f6f6a8167ee1464b5c6a5e7abdc0bd065e6bece665a6a3f3c8ee65c234eb6",
+      "size_bytes": 1787256,
+      "status": "reviewed",
+      "title": "Specifying Systems",
+      "topics": ["actors and goals", "failure scenarios", "invariants and temporal behavior"],
+      "workflows": [
+        "define scope and actors",
+        "write success and failure scenarios",
+        "make requirements verifiable",
+        "formalize risky state when useful"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "solution-biased requirements",
+        "missing failure handling",
+        "formal notation without stakeholder semantics"
+      ],
+      "category": "Requirements and Formal Methods",
+      "clusters": ["architecture-requirements-formal-methods"],
+      "decision": "improve",
+      "edition": "draft",
+      "extraction_chars_first_20_pages": 57667,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 204,
+      "path": "Requirements and Formal Methods/Writing Effective Use Cases, draft.pdf",
+      "provenance": [
+        "layered front/back review for Requirements and Formal Methods; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Improves specification discovery, use-case failure paths, quality scenarios, traceability, and optional formalization without forcing TLA+ on ordinary specs.",
+      "relevant_skills": ["create-specification"],
+      "sha256": "94729d84c2473708c10918f0708c4044209a4e48c59734443b5132e731a53b50",
+      "size_bytes": 854486,
+      "status": "reviewed",
+      "title": "Writing Effective Use Cases",
+      "topics": ["actors and goals", "failure scenarios", "invariants and temporal behavior"],
+      "workflows": [
+        "define scope and actors",
+        "write success and failure scenarios",
+        "make requirements verifiable",
+        "formalize risky state when useful"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 23562,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 212,
+      "path": "Security/A Bug Hunter's Diary.pdf",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["security-review"],
+      "sha256": "85c1b2cc4afde5357f79d29dc0ccbd1cf3d3684f2f5935eb767c48d00854a2ed",
+      "size_bytes": 5408712,
+      "status": "reviewed",
+      "title": "A Bug Hunter's Diary",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "new-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 16595,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 557,
+      "path": "Security/Building Secure and Reliable Systems, 1st edition.pdf",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["secure-software-design"],
+      "sha256": "644270d705c3cb66550a941f051e4f60a2360100b1456f7588f86a171d63ac3d",
+      "size_bytes": 9321717,
+      "status": "reviewed",
+      "title": "Building Secure and Reliable Systems",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "structured-text",
+      "format": "mobi",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present",
+        "MOBI converted temporarily; complete contents and skill-bearing threat, mitigation, design, and review sections"
+      ],
+      "pages": null,
+      "path": "Security/Designing Secure Software.mobi",
+      "provenance": [
+        "temporary Calibre text conversion; complete contents and targeted design chapters; see decisions.md"
+      ],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["secure-software-design"],
+      "sha256": "788dac41796f7d07e7b4d24ed7a9d22e343f212814f2e1bbb9244f5d15d2ac29",
+      "size_bytes": 4646580,
+      "status": "reviewed",
+      "title": "Designing Secure Software",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 17096,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 305,
+      "path": "Security/Full Stack Python Security.pdf",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["security-review"],
+      "sha256": "32d9714edd03734dd431fd9fc10b60c048c187f00476fd797b2ba063ec6d0e81",
+      "size_bytes": 10511202,
+      "status": "reviewed",
+      "title": "Full Stack Python Security",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 9351,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 194,
+      "path": "Security/Python for Offensive PenTest.pdf",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Offensive recipes are dated and outside the defensive repo-skill intent; retain only as historical threat examples, not an executable skill.",
+      "relevant_skills": [],
+      "sha256": "d97538d61a66b8f99c9368724d889842f8953f2bb786258d02982a7019008fe5",
+      "size_bytes": 4693824,
+      "status": "reviewed",
+      "title": "Python for Offensive PenTest",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 20577,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 376,
+      "path": "Security/Secure APIs.pdf",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["secure-software-design", "security-review"],
+      "sha256": "a0fb529eab511aea8d75c6aa5751242e8876ca5ddef17d1f36f3d0891ab80206",
+      "size_bytes": 38116004,
+      "status": "reviewed",
+      "title": "Secure APIs",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 19435,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 400,
+      "path": "Security/Secure by Design.pdf",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["secure-software-design", "security-review"],
+      "sha256": "499d1eb65736eb7dd2a778ffbe7e3f472e7b175d290cbe0e7bef67d66771efa8",
+      "size_bytes": 9555802,
+      "status": "reviewed",
+      "title": "Secure by Design",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 18029,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 401,
+      "path": "Security/Securing DevOps.pdf",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["security-review", "continuous-delivery"],
+      "sha256": "0778274041747a1894ffa8e201e4ad0011c1d5c63ca4b648b6ce5d7e81469257",
+      "size_bytes": 12839801,
+      "status": "reviewed",
+      "title": "Securing DevOps",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "new-skill",
+      "edition": "3rd edition",
+      "extraction_chars_first_20_pages": 19371,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 1212,
+      "path": "Security/Security Engineering, 3rd edition.pdf",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["secure-software-design", "security-review"],
+      "sha256": "fce27ff96ec1bd851899ca6347a051a5b6e0c54c0f587155665553f1b1d47dbd",
+      "size_bytes": 9149696,
+      "status": "reviewed",
+      "title": "Security Engineering",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 20356,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 626,
+      "path": "Security/Threat Modeling.pdf",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["secure-software-design", "security-review"],
+      "sha256": "c3f34927467031d82f98e743b63dc8f4b61b0d4094f8c5056bded59ea8661d8a",
+      "size_bytes": 5216002,
+      "status": "reviewed",
+      "title": "Threat Modeling",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "Security",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "improve",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "structured-text",
+      "format": "epub",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": null,
+      "path": "Security/Web Application Security, 2nd edition.epub",
+      "provenance": ["layered front/back review for Security; grouped conclusions in decisions.md"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["security-review"],
+      "sha256": "15026af532994ed3f52fa4bac3b762ea4a319fd5e991c35bf7bd7b42d29c766b",
+      "size_bytes": 13600605,
+      "status": "reviewed",
+      "title": "Web Application Security",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "pattern as goal",
+        "technology before drivers",
+        "distributed system without ownership and failure semantics"
+      ],
+      "category": "Software Architecture and Design",
+      "clusters": [
+        "architecture-requirements-formal-methods",
+        "databases-data-intensive-architecture"
+      ],
+      "decision": "new-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "structured-text",
+      "format": "epub",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": null,
+      "path": "Software Architecture and Design/A Philosophy of Software Design, 2nd edition.epub",
+      "provenance": [
+        "layered front/back review for Software Architecture and Design; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Supports a distinct architecture-design workflow based on measurable quality scenarios, credible alternatives, trade-offs, validation, and evolutionary delivery.",
+      "relevant_skills": ["software-architecture-design", "refactor"],
+      "sha256": "9f587b71073a53a7813f4048669ee80ec3183eedd8eeb43736add7601d6b3d21",
+      "size_bytes": 2736155,
+      "status": "reviewed",
+      "title": "A Philosophy of Software Design",
+      "topics": [
+        "quality attributes",
+        "domain and component boundaries",
+        "architecture trade-offs"
+      ],
+      "workflows": [
+        "identify drivers",
+        "model boundaries and data",
+        "compare alternatives",
+        "validate risky assumptions",
+        "record decision"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "pattern as goal",
+        "technology before drivers",
+        "distributed system without ownership and failure semantics"
+      ],
+      "category": "Software Architecture and Design",
+      "clusters": [
+        "architecture-requirements-formal-methods",
+        "databases-data-intensive-architecture"
+      ],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 31572,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 17,
+      "path": "Software Architecture and Design/API Design Patterns, chapter 3.pdf",
+      "provenance": [
+        "layered front/back review for Software Architecture and Design; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Supports a distinct architecture-design workflow based on measurable quality scenarios, credible alternatives, trade-offs, validation, and evolutionary delivery.",
+      "relevant_skills": ["software-architecture-design"],
+      "sha256": "db598ff7b5789d20321693e594b18733bf58a029330dc13b174b61bdaff39872",
+      "size_bytes": 5334571,
+      "status": "reviewed",
+      "title": "API Design Patterns, chapter 3",
+      "topics": [
+        "quality attributes",
+        "domain and component boundaries",
+        "architecture trade-offs"
+      ],
+      "workflows": [
+        "identify drivers",
+        "model boundaries and data",
+        "compare alternatives",
+        "validate risky assumptions",
+        "record decision"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "pattern as goal",
+        "technology before drivers",
+        "distributed system without ownership and failure semantics"
+      ],
+      "category": "Software Architecture and Design",
+      "clusters": [
+        "architecture-requirements-formal-methods",
+        "databases-data-intensive-architecture"
+      ],
+      "decision": "new-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 12059,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 497,
+      "path": "Software Architecture and Design/Architecture Patterns with Python, 1st edition.pdf",
+      "provenance": [
+        "layered front/back review for Software Architecture and Design; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Supports a distinct architecture-design workflow based on measurable quality scenarios, credible alternatives, trade-offs, validation, and evolutionary delivery.",
+      "relevant_skills": ["software-architecture-design"],
+      "sha256": "b5b423b766ebe69b14ad03e1a6dbae1198a2f8b0ffbc289e34be11d70c3da32c",
+      "size_bytes": 10065375,
+      "status": "reviewed",
+      "title": "Architecture Patterns with Python",
+      "topics": [
+        "quality attributes",
+        "domain and component boundaries",
+        "architecture trade-offs"
+      ],
+      "workflows": [
+        "identify drivers",
+        "model boundaries and data",
+        "compare alternatives",
+        "validate risky assumptions",
+        "record decision"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "pattern as goal",
+        "technology before drivers",
+        "distributed system without ownership and failure semantics"
+      ],
+      "category": "Software Architecture and Design",
+      "clusters": [
+        "architecture-requirements-formal-methods",
+        "databases-data-intensive-architecture"
+      ],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 18758,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 417,
+      "path": "Software Architecture and Design/Design Patterns.pdf",
+      "provenance": [
+        "layered front/back review for Software Architecture and Design; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Supports a distinct architecture-design workflow based on measurable quality scenarios, credible alternatives, trade-offs, validation, and evolutionary delivery.",
+      "relevant_skills": ["software-architecture-design", "refactor"],
+      "sha256": "d5315985d958dfa74e5cca10c3f640d9246e4ef06e0eb8981f52fe9672dfa75c",
+      "size_bytes": 19196026,
+      "status": "reviewed",
+      "title": "Design Patterns",
+      "topics": [
+        "quality attributes",
+        "domain and component boundaries",
+        "architecture trade-offs"
+      ],
+      "workflows": [
+        "identify drivers",
+        "model boundaries and data",
+        "compare alternatives",
+        "validate risky assumptions",
+        "record decision"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "pattern as goal",
+        "technology before drivers",
+        "distributed system without ownership and failure semantics"
+      ],
+      "category": "Software Architecture and Design",
+      "clusters": [
+        "architecture-requirements-formal-methods",
+        "databases-data-intensive-architecture"
+      ],
+      "decision": "new-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 16552,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 673,
+      "path": "Software Architecture and Design/Designing Data-Intensive Applications, 2nd edition.pdf",
+      "provenance": [
+        "layered front/back review for Software Architecture and Design; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Supports a distinct architecture-design workflow based on measurable quality scenarios, credible alternatives, trade-offs, validation, and evolutionary delivery.",
+      "relevant_skills": ["software-architecture-design"],
+      "sha256": "bca051a41972f71043cf17b4c072b3e22767c01e50a6d5144bc11978566aacb8",
+      "size_bytes": 9840093,
+      "status": "reviewed",
+      "title": "Designing Data-Intensive Applications",
+      "topics": [
+        "quality attributes",
+        "domain and component boundaries",
+        "architecture trade-offs"
+      ],
+      "workflows": [
+        "identify drivers",
+        "model boundaries and data",
+        "compare alternatives",
+        "validate risky assumptions",
+        "record decision"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "pattern as goal",
+        "technology before drivers",
+        "distributed system without ownership and failure semantics"
+      ],
+      "category": "Software Architecture and Design",
+      "clusters": [
+        "architecture-requirements-formal-methods",
+        "databases-data-intensive-architecture"
+      ],
+      "decision": "new-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "structured-text",
+      "format": "epub",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": null,
+      "path": "Software Architecture and Design/Fundamentals of Software Architecture, 2nd edition.epub",
+      "provenance": [
+        "layered front/back review for Software Architecture and Design; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Supports a distinct architecture-design workflow based on measurable quality scenarios, credible alternatives, trade-offs, validation, and evolutionary delivery.",
+      "relevant_skills": ["software-architecture-design"],
+      "sha256": "879fc5531d7f5a0015cd9c8fe571f203a8243b25091148a264c29563d48ba5fd",
+      "size_bytes": 22064861,
+      "status": "reviewed",
+      "title": "Fundamentals of Software Architecture",
+      "topics": [
+        "quality attributes",
+        "domain and component boundaries",
+        "architecture trade-offs"
+      ],
+      "workflows": [
+        "identify drivers",
+        "model boundaries and data",
+        "compare alternatives",
+        "validate risky assumptions",
+        "record decision"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "pattern as goal",
+        "technology before drivers",
+        "distributed system without ownership and failure semantics"
+      ],
+      "category": "Software Architecture and Design",
+      "clusters": [
+        "architecture-requirements-formal-methods",
+        "databases-data-intensive-architecture"
+      ],
+      "decision": "new-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 25999,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 672,
+      "path": "Software Architecture and Design/Head First Design Patterns, 2nd edition.pdf",
+      "provenance": [
+        "layered front/back review for Software Architecture and Design; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Supports a distinct architecture-design workflow based on measurable quality scenarios, credible alternatives, trade-offs, validation, and evolutionary delivery.",
+      "relevant_skills": ["software-architecture-design", "refactor"],
+      "sha256": "4a97711f4533c45bd25c37a21de3d2f6e7dfcf11f801ebd78ef693f4d2bde484",
+      "size_bytes": 49899830,
+      "status": "reviewed",
+      "title": "Head First Design Patterns",
+      "topics": [
+        "quality attributes",
+        "domain and component boundaries",
+        "architecture trade-offs"
+      ],
+      "workflows": [
+        "identify drivers",
+        "model boundaries and data",
+        "compare alternatives",
+        "validate risky assumptions",
+        "record decision"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "pattern as goal",
+        "technology before drivers",
+        "distributed system without ownership and failure semantics"
+      ],
+      "category": "Software Architecture and Design",
+      "clusters": [
+        "architecture-requirements-formal-methods",
+        "databases-data-intensive-architecture"
+      ],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 41769,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 442,
+      "path": "Software Architecture and Design/Patterns of Enterprise Application Architecture.pdf",
+      "provenance": [
+        "layered front/back review for Software Architecture and Design; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Supports a distinct architecture-design workflow based on measurable quality scenarios, credible alternatives, trade-offs, validation, and evolutionary delivery.",
+      "relevant_skills": ["software-architecture-design"],
+      "sha256": "81fca4a114187d7b9deae9c692a7321b6f2cbc906beffa585574619f5ee1cdf6",
+      "size_bytes": 2493772,
+      "status": "reviewed",
+      "title": "Patterns of Enterprise Application Architecture",
+      "topics": [
+        "quality attributes",
+        "domain and component boundaries",
+        "architecture trade-offs"
+      ],
+      "workflows": [
+        "identify drivers",
+        "model boundaries and data",
+        "compare alternatives",
+        "validate risky assumptions",
+        "record decision"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 20897,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 224,
+      "path": "Software Development/Advanced Git, 1st edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "bae3441a9fc5d2830bbc10b14c04071419e695dffb58722b366f52b1b68739ed",
+      "size_bytes": 8757756,
+      "status": "reviewed",
+      "title": "Advanced Git",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 30124,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 952,
+      "path": "Software Development/Code Complete, 2nd edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "c321aafe940280e0c2fe7fe2b85a7e743ff6009bafeed7af0c8f6263b1ed08d3",
+      "size_bytes": 8880461,
+      "status": "reviewed",
+      "title": "Code Complete",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "shotgun debugging",
+        "changing several variables",
+        "fixing the reporting frame instead of the cause"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 22109,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 216,
+      "path": "Software Development/Debug It!.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Supplies a coherent evidence-first workflow for unknown software failures that no existing repo-owned skill covered.",
+      "relevant_skills": ["debug-software"],
+      "sha256": "c1528bfde6d1ad91d61a39ec58fb8e5f5e6ea744e73a29308dcd41184f260e2e",
+      "size_bytes": 2144698,
+      "status": "reviewed",
+      "title": "Debug It!",
+      "topics": ["failure reproduction", "causal debugging", "controlled experiments"],
+      "workflows": [
+        "preserve evidence",
+        "reproduce and reduce",
+        "test causal hypotheses",
+        "confirm and regress"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "shotgun debugging",
+        "changing several variables",
+        "fixing the reporting frame instead of the cause"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 47945,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present",
+        "complete skill-bearing reproduction, reduction, hypothesis, isolation, and confirmation sequence"
+      ],
+      "pages": 106,
+      "path": "Software Development/Debugging.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Supplies a coherent evidence-first workflow for unknown software failures that no existing repo-owned skill covered.",
+      "relevant_skills": ["debug-software"],
+      "sha256": "81979a9b02a62cae426ab180bf5522bb15294213d84bee8e4d23eede90b4ffc3",
+      "size_bytes": 2597142,
+      "status": "reviewed",
+      "title": "Debugging",
+      "topics": ["failure reproduction", "causal debugging", "controlled experiments"],
+      "workflows": [
+        "preserve evidence",
+        "reproduce and reduce",
+        "test causal hypotheses",
+        "confirm and regress"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "shotgun debugging",
+        "changing several variables",
+        "fixing the reporting frame instead of the cause"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 17979,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 257,
+      "path": "Software Development/Effective Debugging.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Supplies a coherent evidence-first workflow for unknown software failures that no existing repo-owned skill covered.",
+      "relevant_skills": ["debug-software"],
+      "sha256": "fe0b999b235d664f1397492464a0db78990806f9b7fdfe5586996ce887878c56",
+      "size_bytes": 3897006,
+      "status": "reviewed",
+      "title": "Effective Debugging",
+      "topics": ["failure reproduction", "causal debugging", "controlled experiments"],
+      "workflows": [
+        "preserve evidence",
+        "reproduce and reduce",
+        "test causal hypotheses",
+        "confirm and regress"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 23752,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 256,
+      "path": "Software Development/Modern Software Engineering.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "b1a34c2ab7602b974619b805d59df46622f766ab9d633827b6e8eacd49964feb",
+      "size_bytes": 6468845,
+      "status": "reviewed",
+      "title": "Modern Software Engineering",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": "draft",
+      "extraction_chars_first_20_pages": 41638,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 87,
+      "path": "Software Development/Refactoring to Patterns, draft.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "4184e5d13df72ad62f3b936d6a5e52efb98a09d656be1c2afe80749b6eabf738",
+      "size_bytes": 342516,
+      "status": "reviewed",
+      "title": "Refactoring to Patterns",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 33339,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present",
+        "complete skill-bearing principles, feedback, seam, and first-transformation chapters"
+      ],
+      "pages": 445,
+      "path": "Software Development/Refactoring, 2nd edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "4c95426002b0c157978f54a0f38bdcc01b5e6d24293aa3f43b9a5e007c031ec9",
+      "size_bytes": 4736345,
+      "status": "reviewed",
+      "title": "Refactoring",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 17092,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 204,
+      "path": "Software Development/The Art of Readable Code, 1st edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "11db4d2403eeac98629857fcc61154c0c4d3c86942e03a5698083a603df17d02",
+      "size_bytes": 26084237,
+      "status": "reviewed",
+      "title": "The Art of Readable Code",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "shotgun debugging",
+        "changing several variables",
+        "fixing the reporting frame instead of the cause"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 29235,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 232,
+      "path": "Software Development/The Developer's Guide to Debugging.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Supplies a coherent evidence-first workflow for unknown software failures that no existing repo-owned skill covered.",
+      "relevant_skills": ["debug-software"],
+      "sha256": "fb84d4e8099290f8658b1a1f2361d055606a986cee8229a04da2dec2d3b57cb0",
+      "size_bytes": 3337286,
+      "status": "reviewed",
+      "title": "The Developer's Guide to Debugging",
+      "topics": ["failure reproduction", "causal debugging", "controlled experiments"],
+      "workflows": [
+        "preserve evidence",
+        "reproduce and reduce",
+        "test causal hypotheses",
+        "confirm and regress"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 19254,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "dated examples and ecosystem assumptions; retain only stable principles",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 361,
+      "path": "Software Development/The Pragmatic Programmer, 1st edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "f846422250c9fddf820e709aa6bac7942914991c3a9185c4798c152a4cea5a8a",
+      "size_bytes": 2360828,
+      "status": "reviewed",
+      "title": "The Pragmatic Programmer",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "shotgun debugging",
+        "changing several variables",
+        "fixing the reporting frame instead of the cause"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "new-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 31550,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present",
+        "complete skill-bearing reproduction, reduction, hypothesis, isolation, and confirmation sequence"
+      ],
+      "pages": 388,
+      "path": "Software Development/Why Programs Fail, 2nd edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Supplies a coherent evidence-first workflow for unknown software failures that no existing repo-owned skill covered.",
+      "relevant_skills": ["debug-software"],
+      "sha256": "be6dd12c12c2303d18877ed941b50eed9cf01f47ea2c8f66ab92b6398dddeadd",
+      "size_bytes": 8278932,
+      "status": "reviewed",
+      "title": "Why Programs Fail",
+      "topics": ["failure reproduction", "causal debugging", "controlled experiments"],
+      "workflows": [
+        "preserve evidence",
+        "reproduce and reduce",
+        "test causal hypotheses",
+        "confirm and regress"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": 25242,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present",
+        "complete skill-bearing principles, feedback, seam, and first-transformation chapters"
+      ],
+      "pages": 458,
+      "path": "Software Development/Working Effectively with Legacy Code.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "7ff574830fc3d20fc450a419f8fb595145b3f041b68fe5ba1ef15eb90efd2c71",
+      "size_bytes": 6891104,
+      "status": "reviewed",
+      "title": "Working Effectively with Legacy Code",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 0,
+      "extraction_quality": "scanned-image",
+      "format": "pdf",
+      "freshness": "dated examples and ecosystem assumptions; retain only stable principles",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present",
+        "rendered image pages for contents, foreword, preface, and opening chapters"
+      ],
+      "pages": 185,
+      "path": "Software Development/Writing Efficient Programs.pdf",
+      "provenance": [
+        "visual render of image-only front matter and opening chapters; see decisions.md cluster 2"
+      ],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "0da010a5a911f5f7f2e14a70092488fce68b6ddb01a75e7b491fd823c266a7b9",
+      "size_bytes": 9170876,
+      "status": "reviewed",
+      "title": "Writing Efficient Programs",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Development",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 0,
+      "extraction_quality": "scanned-image",
+      "format": "pdf",
+      "freshness": "dated examples and ecosystem assumptions; retain only stable principles",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present",
+        "rendered image pages for contents, foreword, preface, and opening chapters"
+      ],
+      "pages": 288,
+      "path": "Software Development/Writing Solid Code.pdf",
+      "provenance": [
+        "visual render of image-only front matter and opening chapters; see decisions.md cluster 2"
+      ],
+      "rationale": "Broad reference knowledge, obsolete mechanics, incomplete early-release material, or an intent already covered by binding repository instructions; no distinct repeatable skill gap.",
+      "relevant_skills": [],
+      "sha256": "84c0a629c3f4a3aa4ae7cc85ea4bac1b8c9214bbe5e494f6af3c7811ae278a7f",
+      "size_bytes": 12019617,
+      "status": "reviewed",
+      "title": "Writing Solid Code",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "coverage as proof",
+        "mocking implementation details",
+        "tests without meaningful oracles"
+      ],
+      "category": "Software Testing and Quality",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 15377,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 292,
+      "path": "Software Testing and Quality/Effective Software Testing.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Provides a repeatable test-design intent distinct from merely running tests or debugging failures.",
+      "relevant_skills": ["test-design"],
+      "sha256": "45e825413172ab230f9a37e13cd0c0c07105b83a5055dc22b010cca16af89895",
+      "size_bytes": 1578740,
+      "status": "reviewed",
+      "title": "Effective Software Testing",
+      "topics": ["risk-based testing", "test boundaries", "oracles and doubles"],
+      "workflows": [
+        "map risks to contracts",
+        "select test boundary",
+        "design cases and oracles",
+        "review residual risk"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "cargo-cult technique selection",
+        "claiming success without observed checks"
+      ],
+      "category": "Software Testing and Quality",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "improve",
+      "edition": "1st edition",
+      "extraction_chars_first_20_pages": 24368,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 256,
+      "path": "Software Testing and Quality/Python Testing with pytest, 1st edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Adds reusable feedback, seam, behavior-preservation, readability, or test-boundary rules to existing and newly created focused skills.",
+      "relevant_skills": ["refactor", "refactor-plan", "test-design"],
+      "sha256": "300550f9928a960b71d9be47dc24216bf9d90913351ba440cbb3ad10f73a4e19",
+      "size_bytes": 3081510,
+      "status": "reviewed",
+      "title": "Python Testing with pytest",
+      "topics": ["software construction", "feedback and correctness"],
+      "workflows": ["inspect context", "preserve or specify behavior", "verify with evidence"]
+    },
+    {
+      "anti_patterns": [
+        "coverage as proof",
+        "mocking implementation details",
+        "tests without meaningful oracles"
+      ],
+      "category": "Software Testing and Quality",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "new-skill",
+      "edition": "2nd edition",
+      "extraction_chars_first_20_pages": 16548,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 294,
+      "path": "Software Testing and Quality/The Art of Unit Testing, 2nd edition.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Provides a repeatable test-design intent distinct from merely running tests or debugging failures.",
+      "relevant_skills": ["test-design"],
+      "sha256": "497ba75983a3a0d40722e3e634f27bacf78b9864a654c3020288b7a3f1fa04f5",
+      "size_bytes": 14606187,
+      "status": "reviewed",
+      "title": "The Art of Unit Testing",
+      "topics": ["risk-based testing", "test boundaries", "oracles and doubles"],
+      "workflows": [
+        "map risks to contracts",
+        "select test boundary",
+        "design cases and oracles",
+        "review residual risk"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "coverage as proof",
+        "mocking implementation details",
+        "tests without meaningful oracles"
+      ],
+      "category": "Software Testing and Quality",
+      "clusters": ["python-refactoring-debugging-testing"],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 17940,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "timeless concepts; verify language, framework, and tool mechanics against current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present",
+        "complete test-quality, integration-boundary, and anti-pattern sections"
+      ],
+      "pages": 305,
+      "path": "Software Testing and Quality/Unit Testing.pdf",
+      "provenance": ["layered front/back extraction; see decisions.md cluster 2"],
+      "rationale": "Provides a repeatable test-design intent distinct from merely running tests or debugging failures.",
+      "relevant_skills": ["test-design"],
+      "sha256": "144d868b2e21e5423224f0f1ac59618c291608a6cfe02e02c50198f414e67949",
+      "size_bytes": 4166310,
+      "status": "reviewed",
+      "title": "Unit Testing",
+      "topics": ["risk-based testing", "test boundaries", "oracles and doubles"],
+      "workflows": [
+        "map risks to contracts",
+        "select test boundary",
+        "design cases and oracles",
+        "review residual risk"
+      ]
+    },
+    {
+      "anti_patterns": ["local optimization", "ethical judgment reduced to a technical checklist"],
+      "category": "Systems Engineering",
+      "clusters": ["ethics-systems-thinking"],
+      "decision": "no-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": 37776,
+      "extraction_quality": "extractable-text",
+      "format": "pdf",
+      "freshness": "stable concepts retained; versioned tools, platforms, standards, and legal advice require current official documentation",
+      "inspected_sections": [
+        "metadata and edition",
+        "contents and chapter map",
+        "preface or introduction",
+        "index or back matter when present"
+      ],
+      "pages": 242,
+      "path": "Systems Engineering/Systems Thinking.pdf",
+      "provenance": [
+        "layered front/back review for Systems Engineering; grouped conclusions in decisions.md"
+      ],
+      "rationale": "Important cross-cutting theory, but not a bounded repeatable skill with sufficient added value; use as review perspective and retain binding EU-AI-Act instructions separately.",
+      "relevant_skills": [],
+      "sha256": "35849f95d648a3d990e8ff015a807854cb7daf31aa93d7f4c1ffd66610750817",
+      "size_bytes": 8262341,
+      "status": "reviewed",
+      "title": "Systems Thinking",
+      "topics": ["system boundaries", "stakeholder consequences", "feedback and ethics"],
+      "workflows": [
+        "surface stakeholders and boundaries",
+        "consider feedback and downstream consequences"
+      ]
+    },
+    {
+      "anti_patterns": [
+        "checklist-only security",
+        "authentication as authorization",
+        "pattern match as vulnerability proof"
+      ],
+      "category": "root",
+      "clusters": ["security-api-gdpr-secure-delivery"],
+      "decision": "improve",
+      "edition": null,
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "plain-text",
+      "format": "md",
+      "freshness": "high freshness risk; verify standards, advisories, framework behavior, and cryptography against current authoritative sources",
+      "inspected_sections": [
+        "complete local Markdown source",
+        "linked OWASP project/version claims checked where used"
+      ],
+      "pages": null,
+      "path": "owasp.md",
+      "provenance": ["pdfs/owasp.md; current official OWASP ASVS project page checked 2026-07-16"],
+      "rationale": "Contributes threat-led secure design and/or validated source-to-impact security review rather than a vulnerability-name checklist.",
+      "relevant_skills": ["security-review"],
+      "sha256": "e23531fd5c383c5f3a3684467cf3f7e149d9e68db6f4091ac02540fb30c7bcdc",
+      "size_bytes": 2458,
+      "status": "reviewed",
+      "title": "owasp",
+      "topics": ["threats", "security invariants", "verification"],
+      "workflows": [
+        "model assets and boundaries",
+        "trace abuse paths",
+        "select layered controls",
+        "validate exploitability and controls"
+      ]
+    }
+  ]
+}

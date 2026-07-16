@@ -21,8 +21,12 @@ referenties en licentiebestanden zijn meegenomen; lokale bytecodecaches niet.
 Daarnaast bevat de verzameling beoordeelde, draagbaar gemaakte workflows voor:
 
 - SQL- en PostgreSQL-review en -optimalisatie;
+- requirementsgedreven databaseontwerp en veilige evolutionaire databasemigraties;
 - security-review, OWASP ASI en GDPR-engineering;
 - refactoranalyse, -planning en complexity reduction;
+- evidencegedreven software-debugging en risicogestuurd testontwerp;
+- continuous delivery, reliability-engineering en Linux-performanceanalyse;
+- softwarearchitectuur- en secure-by-design-workflows;
 - zelfstandige, opinionated Python-CLI-scripts bouwen en herontwerpen;
 - specificaties, implementatieplannen, README's en ADR's;
 - Excalidraw- en draw.io-diagrammen;
@@ -45,7 +49,7 @@ lokale aanpassingen worden beoordeeld.
 ## Actieve clients
 
 - Codex gebruikt de ingebouwde skills uit `~/.codex/skills/.system`;
-  negentien aanvullende skills worden individueel gekoppeld onder
+  achtentwintig aanvullende skills worden individueel gekoppeld onder
   `~/.codex/skills`.
 - GitHub Copilot gebruikt de gedeelde snapshot via `~/.copilot/skills`.
 - Hermes en Pi zijn nog niet gekoppeld.

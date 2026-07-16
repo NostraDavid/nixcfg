@@ -1,0 +1,39 @@
+{
+  "skill_name": "software-architecture-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design architecture for a small team building a multi-tenant analytics product with strict isolation, hourly ingestion, interactive queries, and a six-month launch.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Expresses quality attributes as measurable scenarios",
+        "Includes a simpler baseline",
+        "Makes data ownership and tenant isolation explicit",
+        "Accounts for team and migration cost",
+        "Validates risky assumptions"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Evaluate a proposal to split every domain entity into a microservice sharing one database.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Does not equate entities with service boundaries",
+        "Identifies shared database coupling",
+        "Compares modular deployment alternatives",
+        "Addresses invariants and failure propagation"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Design an event-driven workflow where ordering, duplicate delivery, schema evolution, and replay matter.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Defines ownership and delivery semantics",
+        "Addresses idempotency, ordering, versioning, and replay",
+        "Compares synchronous alternative",
+        "Includes operational evidence"
+      ]
+    }
+  ]
+}

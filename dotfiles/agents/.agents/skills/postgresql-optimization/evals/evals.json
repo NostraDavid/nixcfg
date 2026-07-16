@@ -1,0 +1,38 @@
+{
+  "skill_name": "postgresql-optimization",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "A PostgreSQL 18 production query is slow. pg_stat_statements and a safe EXPLAIN JSON plan are available. Diagnose it.",
+      "expected_output": "A version-correct evidence loop using current statistics fields and plan evidence.",
+      "assertions": [
+        "Uses total_exec_time or current columns rather than total_time",
+        "Separates planning and execution",
+        "Examines estimates, loops, buffers, spills, WAL, and workers as applicable",
+        "Defines before/after verification"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "A table shows dead tuples, growing disk use, and autovacuum lag while long transactions are present.",
+      "expected_output": "A causal maintenance diagnosis rather than a generic rebuild recommendation.",
+      "assertions": [
+        "Checks long transactions and freeze or vacuum evidence",
+        "Distinguishes bloat evidence from file fragmentation folklore",
+        "Considers replication slots and workload",
+        "Avoids destructive maintenance without approval"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "A team wants to raise work_mem globally because one hash aggregate spills.",
+      "expected_output": "A concurrency-aware experiment plan.",
+      "assertions": [
+        "Explains per-operation and concurrency multiplication",
+        "Prefers scoped testing",
+        "Measures temp I/O, memory, latency, and throughput",
+        "Includes rollback criteria"
+      ]
+    }
+  ]
+}

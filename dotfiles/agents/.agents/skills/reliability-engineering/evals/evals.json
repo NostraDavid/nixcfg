@@ -1,0 +1,39 @@
+{
+  "skill_name": "reliability-engineering",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Define reliability controls for a payment API whose provider is slow and occasionally times out; duplicate charges are unacceptable.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Defines user-boundary SLIs",
+        "Treats retries as a bounded budget",
+        "Requires idempotency before retry",
+        "Includes overload and dependency isolation",
+        "Defines recovery evidence"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review an SLO that says 99.99% of Kubernetes pods must be running and pages on every failed health check.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Rejects pod state as sufficient user SLI",
+        "Defines event population and good predicate",
+        "Uses actionable symptom or burn alerts",
+        "Does not copy nines without product evidence"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Plan recovery for a regional data service with backups but no restore exercises.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Distinguishes backup from recovery",
+        "Defines RTO/RPO and reconciliation",
+        "Tests credentials/configuration and failover",
+        "Records actual exercise evidence"
+      ]
+    }
+  ]
+}

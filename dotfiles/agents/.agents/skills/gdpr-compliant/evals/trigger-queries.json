@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Review this personal-data flow for GDPR engineering gaps.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Design retention and deletion across databases, logs, and backups.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Minimize the data collected by this account feature.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Implement data-subject access and correction workflows.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Assess privacy by default for this analytics SDK.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Map processors, transfers, and lower-environment copies.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Identify DPIA decision gates for this profiling feature.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review whether pseudonymized event data remains personal data.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Design purpose and legal-basis enforcement in this API.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Validate deletion after restore and downstream propagation.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Give a definitive legal opinion on our lawful basis.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review code for SQL injection with no personal data context.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Pick an encryption algorithm for non-personal firmware.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain GDPR in one paragraph.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Write a privacy policy for our website.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Threat-model tenant authorization without privacy scope.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Delete this user's row exactly as already specified.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Configure cookie consent styling.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Audit financial reporting law retention periods.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Implement a generic UUID generator.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

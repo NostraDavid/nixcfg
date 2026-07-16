@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Create a repository specification for this feature.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Turn stakeholder goals into testable system requirements.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Write success and failure use cases for this workflow.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Specify API behavior, invariants, errors, and compatibility.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Revise this vague specification into measurable requirements.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Create a data-processing specification with acceptance criteria.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Formalize concurrent state behavior where prose is ambiguous.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Write quality-attribute scenarios for this system spec.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Trace requirements to acceptance and validation evidence.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Follow this repository's existing specification convention.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Create an implementation plan for this feature.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Write an ADR for our selected database.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Document the existing codebase.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Implement this already-specified API.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Write a project README.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design a relational database schema.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Create a TLA+ model only.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Summarize these requirements without creating a spec.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Refactor this specification parser.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Create test cases from an already-final specification.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

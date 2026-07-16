@@ -1,0 +1,39 @@
+{
+  "skill_name": "create-specification",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a specification for account email change with reauthentication, confirmation, expiry, concurrent attempts, audit, and recovery.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Identifies actors and stakeholder interests",
+        "Includes success, alternative, and failure scenarios",
+        "Defines state transitions and security invariants",
+        "Maps requirements to acceptance",
+        "Follows repository convention rather than forcing `/spec/`"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Revise a requirement that says the service must be scalable, secure, and user friendly.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Replaces adjectives with measurable quality scenarios",
+        "Separates requirements from implementation",
+        "Records unresolved stakeholder decisions",
+        "Includes negative and operational criteria"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Specify a distributed lock service where safety and liveness are ambiguous.",
+      "expected_output": "An evidence-backed, scoped response following the skill workflow.",
+      "assertions": [
+        "Defines invariants and temporal behavior",
+        "Uses a state/decision/formal model only where useful",
+        "Keeps stakeholder-facing semantics",
+        "Does not claim formal notation proves implementation"
+      ]
+    }
+  ]
+}
