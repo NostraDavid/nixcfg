@@ -40,6 +40,7 @@
       "sql-code-review"
       "sql-optimization"
       "test-design"
+      "tiger-style"
     ];
     sharedCodexSkills = builtins.listToAttrs (map (name: {
         name = ".codex/skills/${name}";

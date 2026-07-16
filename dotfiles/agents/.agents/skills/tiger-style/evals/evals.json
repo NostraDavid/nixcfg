@@ -1,0 +1,41 @@
+{
+  "skill_name": "tiger-style",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design a TigerStyle UDP ingestion loop that accepts bursts, parses messages, and writes batches to disk.",
+      "expected_output": "A bounded design with explicit safety and performance evidence.",
+      "assertions": [
+        "Ranks safety before performance before developer experience",
+        "Defines enforced bounds for packets, queues, batches, memory, and work per tick",
+        "Allocates operating memory during initialization",
+        "Decouples external arrival from bounded internal processing",
+        "Sketches network, disk, memory, and CPU costs"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review a TigerStyle state-machine function with 95 lines, recursion on retries, compound assertions, and a dynamically growing queue.",
+      "expected_output": "A prioritized review that identifies policy violations and safe restructuring guidance.",
+      "assertions": [
+        "Flags recursion and the unbounded queue as safety violations",
+        "Reduces the function without scattering control flow",
+        "Separates compound assertions and covers positive and negative space",
+        "Distinguishes expected retry failure from programmer errors",
+        "Does not claim compliance without tests and enforced limits"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Translate TigerStyle to a Rust service whose async framework allocates during steady-state operation.",
+      "expected_output": "An applicability assessment that preserves semantic constraints and exposes unavoidable conflicts.",
+      "assertions": [
+        "Does not pretend Zig-specific syntax applies directly",
+        "Identifies steady-state allocation as a policy conflict",
+        "Proposes a bounded implementation boundary or explicit exception gate",
+        "Uses fixed-capacity and checked language mechanisms where available",
+        "Preserves repository conventions that do not weaken the policy"
+      ]
+    }
+  ]
+}

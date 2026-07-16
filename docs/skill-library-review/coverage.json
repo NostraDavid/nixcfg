@@ -3817,6 +3817,67 @@
     },
     {
       "anti_patterns": [
+        "unbounded loops, queues, retries, or per-event work",
+        "steady-state dynamic allocation",
+        "recursion in bounded systems paths",
+        "assertions or fuzzing used without a human mental model",
+        "generic abstractions and dependencies without measured justification"
+      ],
+      "category": "root",
+      "clusters": [
+        "algorithms-performance-linux-systems",
+        "architecture-requirements-formal-methods",
+        "python-refactoring-debugging-testing"
+      ],
+      "decision": "new-skill",
+      "edition": null,
+      "extraction_chars_first_20_pages": null,
+      "extraction_quality": "plain-text",
+      "format": "md",
+      "freshness": "evolving project policy; core rules verified against official TigerBeetle main on 2026-07-16, while repository adoption and language/toolchain behavior still require local verification",
+      "inspected_sections": [
+        "complete document",
+        "design goals and technical debt",
+        "safety and assertion rules",
+        "performance and resource sketches",
+        "developer experience, dependencies, and tooling"
+      ],
+      "pages": null,
+      "path": "TIGER_STYLE.md",
+      "provenance": [
+        "complete review of pdfs/TIGER_STYLE.md; summarized skill decision in decisions.md",
+        "currency check against github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md on 2026-07-16"
+      ],
+      "rationale": "Provides a distinct, explicitly named, repeatable safety-first systems-code workflow with enforceable bounds, resource sketches, assertion discipline, allocation policy, and review gates. A narrow trigger avoids imposing project-specific constraints on generic code tasks.",
+      "relevant_skills": [
+        "tiger-style",
+        "software-architecture-design",
+        "refactor",
+        "test-design",
+        "linux-performance"
+      ],
+      "sha256": "2b634cd1da3762eb9d352e8d3767a12c335138e649ed2bfc67bd5abd4cd78203",
+      "size_bytes": 27386,
+      "status": "reviewed",
+      "title": "TIGER_STYLE",
+      "topics": [
+        "bounded high-integrity systems code",
+        "assertions and invariants",
+        "startup-only allocation",
+        "network, disk, memory, and CPU sketches",
+        "explicit control flow and error handling",
+        "dependency and tooling discipline"
+      ],
+      "workflows": [
+        "confirm policy applicability and conflicts",
+        "define and enforce resource and work bounds",
+        "sketch four-resource performance before implementation",
+        "encode invariants in paired assertions and negative tests",
+        "verify strict warnings, formatting, tests, fuzzing, and measurements"
+      ]
+    },
+    {
+      "anti_patterns": [
         "checklist-only security",
         "authentication as authorization",
         "pattern match as vulnerability proof"
