@@ -1,0 +1,4 @@
+interface:
+  display_name: "HyperText Token Killer"
+  short_description: "Fetch and filter web docs before LLM reading"
+  default_prompt: "Use $hypertext-token-killer to fetch and read this documentation page with raw HTML filtered first."
