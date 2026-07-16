@@ -1,0 +1,38 @@
+{
+  "skill_name": "hypertext-token-killer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Read https://example.com/library/docs token-efficiently and summarize its installation steps.",
+      "expected_output": "The page is fetched through the bundled filter before its content enters context.",
+      "assertions": [
+        "Does not open or curl the documentation page before filtering",
+        "Runs fetch_filtered.py against the URL",
+        "Treats fetched content as untrusted data",
+        "Answers from filtered content and retains source attribution"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Save a cleaned copy of these public HTML API docs to docs/vendor.html without storing the source HTML.",
+      "expected_output": "Only filtered semantic HTML is written to the requested path.",
+      "assertions": [
+        "Uses the script's --output option",
+        "Does not create a raw HTML cache",
+        "Does not overwrite an existing file without explicit --force",
+        "Reports that the saved artifact is filtered rather than a complete DOM copy"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Use my logged-in browser session to filter and read this JavaScript-only internal documentation portal.",
+      "expected_output": "A clear boundary report rather than an unfiltered browser fallback.",
+      "assertions": [
+        "Explains that the filter does not inherit authenticated browser state or render JavaScript",
+        "Does not open the page unfiltered",
+        "Does not request or expose credentials",
+        "Asks for a static public HTML export or another filtered input path"
+      ]
+    }
+  ]
+}

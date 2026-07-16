@@ -25,6 +25,7 @@
       "drawio"
       "excalidraw-diagram-generator"
       "gdpr-compliant"
+      "hypertext-token-killer"
       "interview-me"
       "linux-performance"
       "postgresql-code-review"

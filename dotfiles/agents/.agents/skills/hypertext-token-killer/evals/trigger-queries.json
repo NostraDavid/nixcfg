@@ -1,0 +1,52 @@
+[
+  {
+    "query": "Use HyperText Token Killer to read this documentation URL.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Fetch these web docs, but strip HTML boilerplate before you read them.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Save a token-efficient cleaned copy of this public documentation page.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Read this public HTML API guide without putting the raw page in context.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Follow the next-page links in these docs and filter every page first.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Open this web page and check whether its CSS layout is broken.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Download this PDF manual and summarize chapter three.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Call this JSON REST endpoint and analyze its response.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Test the checkout flow in my logged-in Chrome session.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Search the web for recent Python release news.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]
