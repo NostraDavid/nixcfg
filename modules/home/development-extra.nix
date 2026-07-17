@@ -8,7 +8,6 @@
     redpanda-client # Kafka alternative
     vimgolf # Vim golfing
     dotnet-sdk
-    # ydotool # for voxtype
     # sqruff wrapped to avoid /bin/bench collision with ollama-cuda
     (sqruff.overrideAttrs (old: {
       postInstall =
