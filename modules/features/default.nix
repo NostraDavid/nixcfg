@@ -12,7 +12,7 @@
     ./keyboard.nix
     ./laptop.nix
     ./media.nix
-    ./nvidia.nix
+    ./nvidia-workstation.nix
     ./plasma.nix
     ./selfhosted-apps.nix
     ./terminal.nix
