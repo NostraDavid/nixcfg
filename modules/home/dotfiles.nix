@@ -132,7 +132,6 @@
         "dev/save_cloned_repos.py" = {source = mk "${dot}/dev/save_cloned_repos.py";};
         "dev/update_all_local_repos.py" = {source = mk "${dot}/dev/update_all_local_repos.py";};
         "rsync-bitvavo" = {source = mk "${dot}/scripts/rsync-bitvavo";};
-        # ".config/voxtype/config.toml" = {source = mk "${dot}/voxtype/.config/voxtype/config.toml";};
       }
       // sharedCodexSkills);
 
