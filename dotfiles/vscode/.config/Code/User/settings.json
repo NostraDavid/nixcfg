@@ -27,7 +27,9 @@
     "editor.defaultFormatter": "yinfei.luahelper"
   },
   "[markdown]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 80
     // "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   },
   "[python]": {
@@ -117,7 +119,10 @@
   "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
   "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
   "continue.enableConsole": true,
-  "coverage-gutters.coverageFileNames": ["coverage-report.xml", "coverage.xml"],
+  "coverage-gutters.coverageFileNames": [
+    "coverage-report.xml",
+    "coverage.xml"
+  ],
   "coverage-gutters.ignoredPathGlobs": "**/{node_modules,venv,.venv,vendor,.git,.tox,.*_cache,__pycache__}/**",
   "coverage-gutters.showLineCoverage": true,
   "coverage-gutters.showRulerCoverage": true,
@@ -142,7 +147,10 @@
   "editor.maxTokenizationLineLength": 25000,
   "editor.minimap.renderCharacters": false,
   "editor.mouseWheelZoom": true,
-  "editor.rulers": [80, 120],
+  "editor.rulers": [
+    80,
+    120
+  ],
   "editor.selectionClipboard": false,
   "editor.semanticHighlighting.enabled": true,
   "editor.smoothScrolling": true,
@@ -266,13 +274,17 @@
       //  "ignored": ["unused_binding", "unused_with"],
       // },
       "formatting": {
-        "command": ["alejandra"]
+        "command": [
+          "alejandra"
+        ]
       }
     },
     // check https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md for all nixd config
     "nixd": {
       "formatting": {
-        "command": ["alejandra"]
+        "command": [
+          "alejandra"
+        ]
       },
       "nixpkgs": {
         "exprs": "import <nixpkgs> { }"
@@ -328,7 +340,10 @@
     }
   ],
   "piper-tts.voice": "en_GB-alan-low",
-  "python.autoComplete.extraPaths": ["src", "tests"],
+  "python.autoComplete.extraPaths": [
+    "src",
+    "tests"
+  ],
   "python.languageServer": "None",
   "python.terminal.activateEnvInCurrentTerminal": true,
   "python.terminal.activateEnvironment": false,
@@ -356,7 +371,9 @@
   "terminal.integrated.persistentSessionScrollback": 1000,
   "terminal.integrated.profiles.linux": {
     "bash": {
-      "args": ["bash"],
+      "args": [
+        "bash"
+      ],
       "icon": "terminal-bash",
       "overrideName": true,
       "path": "host-spawn"
