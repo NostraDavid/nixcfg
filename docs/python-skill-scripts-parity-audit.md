@@ -1,6 +1,9 @@
 # Python skill scripts parity audit
 
 Baseline: Git commit `4c7c1ea281425656bcfce20288f7cc2711ad647f`  
+Additional upstream baseline: `mattpocock/skills` commit
+`9603c1cc8118d08bc1b3bf34cf714f62178dea3b`
+
 Scope: all Python files under `dotfiles/agents/.agents/skills`  
 Method: isolated black-box differential tests, normalized document comparison,
 and injected network/subprocess adapters.
@@ -16,6 +19,7 @@ changing their CLI shape, safety controls, logging, and execution model.
 | `acquire-codebase-knowledge/scripts/scan.py`                       | Fifteen report sections and their complete contents on a representative project       | Exact match                                        |
 | `draw-io-diagram-generator/scripts/add-shape.py`                   | Inserted cell attributes, style, parent, and geometry                                 | Match after generated ID normalization             |
 | `draw-io-diagram-generator/scripts/validate-drawio.py`             | Valid and invalid XML decisions                                                       | Exact match                                        |
+| `diagnosing-bugs/scripts/hitl_loop.py`                             | Ordered HITL steps/captures and `KEY=VALUE` result output                             | Match, with validated TOML replacing source edits  |
 | `excalidraw-diagram-generator/scripts/add-arrow.py`                | Arrow and label payload                                                               | Match after generated identity normalization       |
 | `excalidraw-diagram-generator/scripts/add-icon-to-diagram.py`      | Transformed icon, label, bindings, and preserved diagram metadata                     | Match after generated identity normalization       |
 | `excalidraw-diagram-generator/scripts/split-excalidraw-library.py` | Icon filenames, decoded JSON, sorting, and reference rows                             | Semantic match                                     |
@@ -37,6 +41,9 @@ changing their CLI shape, safety controls, logging, and execution model.
 ## Intentional differences
 
 - Every standalone CLI now uses a Click group and explicit task subcommand.
+- The `diagnosing-bugs` HITL helper now reads a validated TOML plan instead of
+  requiring an agent to copy and edit a Bash template; `--dry-run` previews the
+  complete interaction without prompting.
 - Mutating commands add confirmation, `--yes`, dry-run behavior where useful,
   and atomic or rollback-safe writes.
 - Operational diagnostics moved to structured stderr logging; normal results
