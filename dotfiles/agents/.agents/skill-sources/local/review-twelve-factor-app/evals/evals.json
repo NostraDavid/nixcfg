@@ -1,0 +1,41 @@
+{
+  "skill_name": "review-twelve-factor-app",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this Kubernetes-hosted API against all twelve factors. It builds one image per environment, writes uploaded files and sessions to the pod filesystem, loads secrets from mounted files, emits JSON to stdout, and runs migrations from an engineer's laptop.",
+      "expected_output": "An evidence-based Twelve-Factor review with actionable findings and a complete factor matrix.",
+      "assertions": [
+        "Flags environment-specific builds under build, release, run",
+        "Flags durable local filesystem and session state under processes",
+        "Distinguishes mounted secrets from the canonical environment-variable prescription",
+        "Flags laptop-run migrations under admin processes",
+        "Does not treat Kubernetes itself as proof of adherence"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Perform a 12-factor assessment using only this repository. The CI/CD platform, production configuration, deploy history, and runtime telemetry are not available.",
+      "expected_output": "A repository-scoped review that clearly separates findings from unknown runtime behavior.",
+      "assertions": [
+        "States the evidence limitation",
+        "Does not turn missing evidence into failures",
+        "Marks runtime-dependent judgments unknown where appropriate",
+        "Requests specific evidence needed to resolve unknowns",
+        "Assesses all twelve factors"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Assess a queue-only batch worker against 12factor.net. It has no inbound network listener, uses a lockfile and pinned container, persists checkpoints in PostgreSQL, handles SIGTERM by returning work to the queue, and is scaled by queue depth.",
+      "expected_output": "A scoped review that applies the methodology without forcing irrelevant web-service requirements.",
+      "assertions": [
+        "Marks port binding not applicable with a rationale",
+        "Recognizes explicit isolated dependencies",
+        "Recognizes backing-service persistence",
+        "Assesses graceful shutdown and job safety",
+        "Does not require HTTP, microservices, or Kubernetes"
+      ]
+    }
+  ]
+}

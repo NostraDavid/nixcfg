@@ -1,0 +1,82 @@
+[
+  {
+    "query": "Review this service against the Twelve-Factor App methodology.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Doe een 12-factor review van deze applicatie.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Assess whether this repository follows 12factor.net.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Create a factor-by-factor cloud-readiness gap analysis using the twelve factors.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Check build-release-run separation, stateless processes, disposability, and dev/prod parity.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Which Twelve-Factor rules does this Kubernetes deployment violate?",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Prioritize our 12-factor modernization backlog from this architecture and pipeline.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review this background worker against all applicable 12-factor principles.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Review this pull request for code quality and bugs.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design a continuous-delivery pipeline for this service.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Threat-model this API and identify security controls.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Debug why this pod fails its readiness probe.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Define SLOs and burn-rate alerts for this application.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Refactor this service into microservices.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Explain how environment variables work in Docker.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Review our Terraform modules for maintainability.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]
