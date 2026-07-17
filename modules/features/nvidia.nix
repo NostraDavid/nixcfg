@@ -62,12 +62,7 @@
       open = false;
       nvidiaSettings = true;
       nvidiaPersistenced = true;
-      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-        version = "570.195.03";
-        sha256_64bit = "sha256-1H3oHZpRNJamCtyc+nL+nhYsZfJyL7lgxPUxvXrF3B4=";
-        settingsSha256 = "sha256-mjKkMEPV6W69PO8jKAKxAS861B82CtCpwVTeNr5CqUY=";
-        persistencedSha256 = "sha256-BMpo2PIabhHjZQqUQi/W5DYhgAPmfCdFvXdN6ND2Bfs=";
-      };
+      package = config.boot.kernelPackages.nvidiaPackages.production;
     };
   };
 }
