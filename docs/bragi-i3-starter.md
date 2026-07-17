@@ -45,19 +45,17 @@ nmcli device wifi connect "NETWERKNAAM" --ask
 Gebruik `Super+a` voor de grafische audio-instellingen. De normale volume-,
 mute- en schermhelderheidstoetsen zijn ook in i3 ingesteld.
 
-## Bewerken en Codex
+## Terminal
 
-Open een terminal met `Super+Enter` en start daarna:
+Open een terminal met `Super+Enter`. De tijdelijke minimale Bragi-configuratie
+bevat geen Codex, VS Code of algemene ontwikkeltooling. Gebruik zo nodig een
+tijdelijke Nix-shell, bijvoorbeeld:
 
 ```bash
-nvim bestand.txt
-codex
+nix shell nixpkgs#git
 ```
 
-De Bragi-installatie bevat alleen de core-ontwikkelset. Zwaardere compilers,
-extra editors en gespecialiseerde tools horen in een tijdelijke ontwikkelshell,
-bijvoorbeeld met `nix develop`, en blijven daardoor niet permanent onderdeel
-van het systeemprofiel.
+Zo blijven aanvullende programma's buiten het permanente systeemprofiel.
 
 ## Als i3 niet goed start
 
