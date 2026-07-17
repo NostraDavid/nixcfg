@@ -12,7 +12,9 @@
     }: {
       imports = with config.flake.modules.nixos; [
         ../../hosts/bragi/hardware-configuration.nix
-        i3-desktop
+        desktop-base
+        i3
+        keyboard
       ];
 
       nix.settings = {
@@ -31,17 +33,12 @@
         loader.grub.configurationLimit = 3;
       };
 
-      services = {
-        xserver.xkb.options = "grp:win_space_toggle";
-        printing.enable = true;
-      };
+      services.xserver.xkb.options = "grp:win_space_toggle";
 
       programs.firefox = {
         enable = true;
         package = pkgs.firefox-esr;
       };
-
-      environment.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
     };
   };
 }
