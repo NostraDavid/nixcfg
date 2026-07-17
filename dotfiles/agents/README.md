@@ -35,6 +35,16 @@ Daarnaast bevat de verzameling beoordeelde, draagbaar gemaakte workflows voor:
 - Excalidraw- en draw.io-diagrammen;
 - codebase-onboarding en interactieve intentverheldering.
 
+Daarnaast zijn de 22 door upstream als `engineering` en `productivity` gepromote
+skills uit [`mattpocock/skills`](https://github.com/mattpocock/skills)
+geïntegreerd op commit `9603c1cc8118d08bc1b3bf34cf714f62178dea3b` (MIT; zie
+`MATT-POCOCK-SKILLS-LICENSE.txt`). De upstream-mappen `misc`, `personal`,
+`in-progress` en `deprecated` zijn niet meegenomen. Claude-specifieke
+frontmatter en aanroepnotatie zijn vervangen door de lokale Agent Skills- en
+`agents/openai.yaml`-conventies. De shelltemplate van `diagnosing-bugs` is
+herontworpen als een gevalideerde, zelftestende Python 3.14-CLI met een
+TOML-plan voor menselijke stappen en captures.
+
 De meeste van deze workflows zijn afkomstig uit
 [`github/awesome-copilot`](https://github.com/github/awesome-copilot) (MIT; zie
 `AWESOME-COPILOT-LICENSE.txt`). Copilot-specifieke invoerplaceholders en de
@@ -51,7 +61,7 @@ lokale aanpassingen worden beoordeeld.
 
 ## Actieve clients
 
-- Codex gebruikt de ingebouwde skills uit `~/.codex/skills/.system`; dertig
+- Codex gebruikt de ingebouwde skills uit `~/.codex/skills/.system`; 52
   aanvullende skills worden individueel gekoppeld onder `~/.codex/skills`.
 - GitHub Copilot gebruikt de gedeelde snapshot via `~/.copilot/skills`.
 - Hermes en Pi zijn nog niet gekoppeld.
