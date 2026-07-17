@@ -4,7 +4,7 @@ Baseline: Git commit `4c7c1ea281425656bcfce20288f7cc2711ad647f`
 Additional upstream baseline: `mattpocock/skills` commit
 `9603c1cc8118d08bc1b3bf34cf714f62178dea3b`
 
-Scope: all Python files under `dotfiles/agents/.agents/skills`  
+Scope: all Python files under `dotfiles/agents/.agents/skill-sources`
 Method: isolated black-box differential tests, normalized document comparison,
 and injected network/subprocess adapters.
 
