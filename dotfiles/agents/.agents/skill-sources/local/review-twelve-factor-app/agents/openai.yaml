@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Twelve-Factor App"
+  short_description: "Review services against all twelve factors"
+  default_prompt: "Use $review-twelve-factor-app to review this application against the Twelve-Factor methodology."

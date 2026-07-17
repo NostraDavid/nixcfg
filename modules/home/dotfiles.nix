@@ -48,6 +48,7 @@
         "linux-performance"
         "python-script-builder"
         "reliability-engineering"
+        "review-twelve-factor-app"
         "secure-software-design"
         "software-architecture-design"
         "test-design"

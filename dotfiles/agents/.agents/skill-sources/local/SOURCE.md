@@ -10,6 +10,7 @@ is geen enkele upstream die als geheel kan worden gesynchroniseerd.
 | `continuous-delivery`, `database-design`, `database-refactor`, `debug-software`, `linux-performance`, `reliability-engineering`, `secure-software-design`, `software-architecture-design`, `test-design` | Lokaal uit de boekenbibliotheek ontwikkeld; baseline `5a6c345c`                                   |
 | `tiger-style`                                                                                                                                                                                            | Lokale, gevalideerde TigerBeetle TigerStyle-workflow; baseline `2463f15c`                         |
 | `hypertext-token-killer`                                                                                                                                                                                 | Lokale integratieworkflow; baseline `723b2b0c`                                                    |
+| `review-twelve-factor-app`                                                                                                                                                                               | Lokaal; [12factor.net](https://12factor.net/), laatst bijgewerkt in 2017 en geraadpleegd op 2026-07-17 |
 
 De repository van `Austin1serb/agents-md` publiceert geen licentie; daarom is
 voor `interview-me` geen upstreamtekst gekopieerd. Updates aan deze groep zijn
