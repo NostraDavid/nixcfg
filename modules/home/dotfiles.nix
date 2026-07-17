@@ -11,65 +11,90 @@
     dot = "${repoRoot}/dotfiles";
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
-    sharedSkillNames = [
-      "acquire-codebase-knowledge"
-      "agent-owasp-compliance"
-      "ask-matt"
-      "code-review"
-      "codebase-design"
-      "create-architectural-decision-record"
-      "create-readme"
-      "create-specification"
-      "continuous-delivery"
-      "database-design"
-      "database-refactor"
-      "debug-software"
-      "diagnosing-bugs"
-      "domain-modeling"
-      "draw-io-diagram-generator"
-      "drawio"
-      "excalidraw-diagram-generator"
-      "gdpr-compliant"
-      "grill-me"
-      "grill-with-docs"
-      "grilling"
-      "handoff"
-      "hypertext-token-killer"
-      "implement"
-      "improve-codebase-architecture"
-      "interview-me"
-      "linux-performance"
-      "postgresql-code-review"
-      "postgresql-optimization"
-      "prototype"
-      "python-script-builder"
-      "refactor"
-      "refactor-method-complexity-reduce"
-      "refactor-plan"
-      "reliability-engineering"
-      "research"
-      "resolving-merge-conflicts"
-      "secure-software-design"
-      "security-review"
-      "setup-matt-pocock-skills"
-      "software-architecture-design"
-      "sql-code-review"
-      "sql-optimization"
-      "tdd"
-      "teach"
-      "test-design"
-      "tiger-style"
-      "to-spec"
-      "to-tickets"
-      "triage"
-      "wayfinder"
-      "writing-great-skills"
-    ];
-    sharedCodexSkills = builtins.listToAttrs (map (name: {
-        name = ".codex/skills/${name}";
-        value = {source = mk "${dot}/agents/.agents/skills/${name}";};
-      })
-      sharedSkillNames);
+    skillGroups = {
+      awesome-copilot = [
+        "acquire-codebase-knowledge"
+        "agent-owasp-compliance"
+        "create-architectural-decision-record"
+        "create-readme"
+        "create-specification"
+        "draw-io-diagram-generator"
+        "drawio"
+        "excalidraw-diagram-generator"
+        "gdpr-compliant"
+        "postgresql-code-review"
+        "postgresql-optimization"
+        "refactor"
+        "refactor-method-complexity-reduce"
+        "refactor-plan"
+        "security-review"
+        "sql-code-review"
+        "sql-optimization"
+      ];
+      codex-system = [
+        "imagegen"
+        "openai-docs"
+        "plugin-creator"
+        "skill-creator"
+        "skill-installer"
+      ];
+      local = [
+        "continuous-delivery"
+        "database-design"
+        "database-refactor"
+        "debug-software"
+        "hypertext-token-killer"
+        "interview-me"
+        "linux-performance"
+        "python-script-builder"
+        "reliability-engineering"
+        "secure-software-design"
+        "software-architecture-design"
+        "test-design"
+        "tiger-style"
+      ];
+      matt-pocock = [
+        "ask-matt"
+        "code-review"
+        "codebase-design"
+        "diagnosing-bugs"
+        "domain-modeling"
+        "grill-me"
+        "grill-with-docs"
+        "grilling"
+        "handoff"
+        "implement"
+        "improve-codebase-architecture"
+        "prototype"
+        "research"
+        "resolving-merge-conflicts"
+        "setup-matt-pocock-skills"
+        "tdd"
+        "teach"
+        "to-spec"
+        "to-tickets"
+        "triage"
+        "wayfinder"
+        "writing-great-skills"
+      ];
+    };
+    skillEntries = builtins.concatLists (builtins.attrValues (
+      builtins.mapAttrs
+      (group: names: map (name: {inherit group name;}) names)
+      skillGroups
+    ));
+    mkSkillLinks = client: skills:
+      builtins.listToAttrs (map (skill: {
+          name = ".${client}/skills/${skill.name}";
+          value = {
+            source = mk "${dot}/agents/.agents/skill-sources/${skill.group}/${skill.name}";
+          };
+        })
+        skills);
+    sharedCodexSkills = mkSkillLinks "codex" (
+      builtins.filter (skill: skill.group != "codex-system") skillEntries
+    );
+    copilotSkills = mkSkillLinks "copilot" skillEntries;
   in
     forceAll ({
         # cli-proxies
@@ -99,7 +124,6 @@
         ".copilot/instructions/eu-ai-act.instructions.md" = {source = mk "${dot}/agents/instructions/eu-ai-act.md";};
         ".copilot/prompts" = {source = mk "${dot}/copilot-1.0/.copilot/prompts";};
         ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0/.copilot/settings.json";};
-        ".copilot/skills" = {source = mk "${dot}/agents/.agents/skills";};
 
         ## OpenCode
         ".config/opencode/opencode.json".text = builtins.toJSON {
@@ -155,7 +179,8 @@
         "dev/update_all_local_repos.py" = {source = mk "${dot}/dev/update_all_local_repos.py";};
         "rsync-bitvavo" = {source = mk "${dot}/scripts/rsync-bitvavo";};
       }
-      // sharedCodexSkills);
+      // sharedCodexSkills
+      // copilotSkills);
 
   home.sessionVariables = {};
 }
