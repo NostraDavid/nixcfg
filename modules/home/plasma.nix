@@ -1,5 +1,91 @@
 # Shared Plasma configuration.
-{lib, ...}: {
+{lib, ...}: let
+  associate = desktopFile: mimeTypes:
+    lib.genAttrs mimeTypes (_: "${desktopFile};");
+
+  defaultApplications = {
+    webBrowser = associate "firefox-esr.desktop" [
+      "application/vnd.mozilla.xul+xml"
+      "application/xhtml+xml"
+      "text/html"
+      "text/xml"
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+    ];
+    emailClient = associate "org.gnome.Evolution.desktop" [
+      "x-scheme-handler/mailto"
+    ];
+    imageViewer = associate "org.geeqie.Geeqie.desktop" [
+      "image/avif"
+      "image/bmp"
+      "image/gif"
+      "image/heic"
+      "image/heif"
+      "image/jpeg"
+      "image/png"
+      "image/svg"
+      "image/svg+xml"
+      "image/tiff"
+      "image/webp"
+      "image/x-MS-bmp"
+      "image/x-bmp"
+      "image/x-ico"
+      "image/x-icon"
+      "image/x-png"
+      "image/x-portable-anymap"
+      "image/x-portable-bitmap"
+      "image/x-portable-graymap"
+      "image/x-portable-pixmap"
+      "image/x-tga"
+      "image/x-xbitmap"
+      "image/x-xpixmap"
+      "image/xpm"
+    ];
+    videoPlayer = associate "mpv.desktop" [
+      "application/x-matroska"
+      "video/3gp"
+      "video/3gpp"
+      "video/3gpp2"
+      "video/avi"
+      "video/divx"
+      "video/dv"
+      "video/fli"
+      "video/flv"
+      "video/mp2t"
+      "video/mp4"
+      "video/mp4v-es"
+      "video/mpeg"
+      "video/msvideo"
+      "video/ogg"
+      "video/quicktime"
+      "video/vnd.divx"
+      "video/vnd.mpegurl"
+      "video/vnd.rn-realvideo"
+      "video/webm"
+      "video/x-avi"
+      "video/x-flv"
+      "video/x-m4v"
+      "video/x-matroska"
+      "video/x-mpeg2"
+      "video/x-ms-asf"
+      "video/x-msvideo"
+      "video/x-ms-wmv"
+      "video/x-ms-wmx"
+      "video/x-ogm"
+      "video/x-ogm+ogg"
+      "video/x-theora"
+      "video/x-theora+ogg"
+    ];
+    textEditor = associate "code.desktop" [
+      "application/json"
+      "application/x-docbook+xml"
+      "application/x-yaml"
+      "text/markdown"
+      "text/plain"
+      "text/x-cmake"
+    ];
+  };
+in {
   home.activation.preparePlasmaBaloofile = lib.hm.dag.entryBetween ["configure-plasma"] ["writeBoundary"] ''
     target="$HOME/.config/baloofilerc"
     $DRY_RUN_CMD mkdir -p "$HOME/.config"
@@ -208,6 +294,8 @@
           AccentColor = "61,174,233";
           BrowserApplication = "firefox-esr.desktop";
           LastUsedCustomAccentColor = "61,174,233";
+          TerminalApplication = "ghostty";
+          TerminalService = "com.mitchellh.ghostty.desktop";
         };
         Icons.Theme = "Win11-black-dark";
         KDE = {
@@ -215,6 +303,17 @@
           AutomaticLookAndFeelOnIdle = false;
           DefaultDarkLookAndFeel = "com.github.yeyushengfan258.Win11OS-dark";
           widgetStyle = "Breeze";
+        };
+      };
+
+      emaildefaults = {
+        Defaults.Profile = "Default";
+        PROFILE_Default = {
+          EmailClient = {
+            value = "org.gnome.Evolution.desktop";
+            shellExpand = true;
+          };
+          TerminalClient = false;
         };
       };
 
@@ -230,6 +329,18 @@
       krunnerrc.General = {
         FreeFloating = true;
         historyBehavior = "ImmediateCompletion";
+      };
+
+      "mimeapps.list" = {
+        # VS Code does not advertise MIME support in its desktop entry, so KDE
+        # needs these associations in addition to the default application.
+        "Added Associations" = defaultApplications.textEditor;
+        "Default Applications" =
+          defaultApplications.webBrowser
+          // defaultApplications.emailClient
+          // defaultApplications.imageViewer
+          // defaultApplications.videoPlayer
+          // defaultApplications.textEditor;
       };
 
       kscreenlockerrc.Daemon = {
