@@ -7,9 +7,9 @@ version="${1:-}"
 if [[ -z "${version}" ]]; then
 	version="$(
 		curl -fsSL https://whatpulse.org/releasenotes |
-			grep -oE 'https://releases-dev\.whatpulse\.org/[0-9]+\.[0-9]+\.[0-9]+/linux/whatpulse-linux-[0-9]+\.[0-9]+\.[0-9]+_amd64\.AppImage' |
+			grep -oE 'https://releases-dev\.whatpulse\.org/[0-9]+(\.[0-9]+)+/linux/whatpulse-linux-[0-9]+(\.[0-9]+)+_amd64\.AppImage' |
 			sed -E 's#^https://releases-dev\.whatpulse\.org/([^/]+)/.*$#\1#' |
-			head -n1
+			head -n1 || true
 	)"
 fi
 
