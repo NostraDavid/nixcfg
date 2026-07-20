@@ -1,0 +1,54 @@
+[
+  {
+    "query": "Interview me until you understand what I actually want.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Ask me one question at a time before you plan this feature.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Grill me on this architecture idea before we commit to it.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "My request is vague; help me clarify the outcome and constraints first.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Do not code yet—stress-test what I mean by a scalable service.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Figure out who this feature is really for by interviewing me.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Plan customer interviews for validating my startup idea.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Analyze these stakeholder interview transcripts.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  { "query": "Add a --verbose flag to this CLI.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Write a requirements specification from these confirmed notes.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Run an EventStorming workshop for the claims domain.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  { "query": "Fix the typo in README.md.", "should_trigger": false, "split": "validation" }
+]

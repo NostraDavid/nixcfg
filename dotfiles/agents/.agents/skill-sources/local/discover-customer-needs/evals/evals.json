@@ -1,0 +1,53 @@
+{
+  "skill_name": "discover-customer-needs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Prepare and conduct a discovery interview with a finance operations manager who requested a dashboard for failed settlements. We need to decide whether to fund the idea.",
+      "expected_output": "A decision-focused interview that uncovers recent behavior and consequences without validating the requested dashboard by default.",
+      "assertions": [
+        "Frames the funding decision and riskiest unknowns",
+        "Asks one non-leading question at a time during the interview",
+        "Anchors on a recent failed settlement and current workflow",
+        "Separates the dashboard idea from the underlying need",
+        "Seeks consequences, frequency, workarounds, artifacts, and decision authority"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Here are notes from eight customer interviews about appointment no-shows. Synthesize the real needs, tell me how strong the evidence is, and identify what we still need to learn.",
+      "expected_output": "A segmented, traceable synthesis that distinguishes observations, interpretations, ideas, and unknowns.",
+      "assertions": [
+        "Does not count compliments or hypothetical intent as strong evidence",
+        "Segments materially different participants instead of averaging them",
+        "Links conclusions to specific observations",
+        "Preserves contradictions and negative cases",
+        "Recommends the smallest next evidence-producing step"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Our order-to-cash process crosses sales, warehouse, billing, support, and three legacy systems. Choose and outline a workshop that will expose the real process and its biggest risks.",
+      "expected_output": "A justified Big Picture EventStorming design with complementary evidence gathering and explicit limits.",
+      "assertions": [
+        "Chooses EventStorming because knowledge crosses roles and systems",
+        "Invites diverse expertise and decision authority",
+        "Uses parallel event discovery, timeline ordering, and visible hot spots",
+        "Protects dissent from hierarchy and premature precision",
+        "Treats the result as current understanding rather than a finished specification"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Turn our proposed onboarding feature list into a story map and identify the smallest viable first release.",
+      "expected_output": "A user- and outcome-framed story map workflow that marks missing evidence before slicing a release.",
+      "assertions": [
+        "Frames a target user, situation, business outcome, and success measure",
+        "Maps activities left to right and task detail beneath them",
+        "Walks alternatives, exceptions, handoffs, and omitted supporting work",
+        "Prioritizes outcomes and users before features",
+        "Keeps assumptions visible and preserves an end-to-end usable slice"
+      ]
+    }
+  ]
+}

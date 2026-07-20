@@ -1,0 +1,41 @@
+{
+  "skill_name": "interview-me",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Interview me before you build a scalable notification system.",
+      "expected_output": "An adaptive one-question-at-a-time interview that turns scalable and notification system into a confirmed intent.",
+      "assertions": [
+        "States an intent hypothesis and calibrated confidence",
+        "Asks exactly one question at a time",
+        "Uses a concrete triggering example instead of accepting scalable",
+        "Separates desired outcome from the proposed system",
+        "Does not plan or implement before confirmation"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Grill me on my idea to replace our internal admin portal.",
+      "expected_output": "A neutral interview that resolves beneficiary, trigger, success, constraints, and scope before action.",
+      "assertions": [
+        "Inspects available context before asking discoverable facts",
+        "Does not ask leading approval questions",
+        "Surfaces trade-offs and what fails without the replacement",
+        "Reflects and tests the user's terminology",
+        "Ends with a concise confirmation statement"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I need this API to be fast. Ask whatever you need before changing it.",
+      "expected_output": "A concise clarification sequence that connects fast to a workload, user-visible consequence, and measurable threshold.",
+      "assertions": [
+        "Requests a concrete scenario or observed problem",
+        "Identifies the affected user and operation",
+        "Establishes an observable success measure",
+        "Avoids batching multiple questions",
+        "Requires confirmation before implementation"
+      ]
+    }
+  ]
+}
