@@ -43,6 +43,14 @@ in
       ]
       old.postPatch
       + ''
+        substituteInPlace resources/app/extensions/copilot/dist/extension.js \
+          --replace-fail \
+            'await O4.promises.copyFile(gr(__dirname,xKt),gr(r,xKt))' \
+            'await O4.promises.copyFile(gr(__dirname,xKt),gr(r,xKt)),await O4.promises.chmod(gr(r,xKt),420)' \
+          --replace-fail \
+            'await K$.promises.copyFile(gr(__dirname,scn),gr(t,scn))' \
+            'await K$.promises.copyFile(gr(__dirname,scn),gr(t,scn)),await K$.promises.chmod(gr(t,scn),420)'
+
         for rg in \
           resources/app/node_modules/@vscode/ripgrep/bin/rg \
           resources/app/node_modules/@vscode/ripgrep-universal/bin/linux-x64/rg \
