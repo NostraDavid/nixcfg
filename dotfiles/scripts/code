@@ -67,6 +67,8 @@ def clean_vscode_env() -> dict[str, str]:
     for name in (
         "VSCODE_IPC_HOOK_CLI",
         "ELECTRON_RUN_AS_NODE",
+        "VIRTUAL_ENV",
+        "UV_RUN_RECURSION_DEPTH",
         "NIX_CONFIG",
         "IN_NIX_SHELL",
         "shellHook",

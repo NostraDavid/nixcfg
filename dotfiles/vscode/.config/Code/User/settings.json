@@ -209,7 +209,8 @@
     "**/build": true,
     "**/coverage.xml": true,
     "**/dist": true,
-    "**/htmlcov": true
+    "**/htmlcov": true,
+    "**/result": true
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -227,6 +228,7 @@
     "**/bitvavo.db-journal": true,
     "**/htmlcov/**": true,
     "**/logs/ctbi.jsonl": true,
+    "**/result/**": true,
     "**/venv/**": true
   },
   "git.autofetch": true,
@@ -357,7 +359,8 @@
   "ruff.nativeServer": "on",
   "search.exclude": {
     "**/.tox": true,
-    "**/.venv": true
+    "**/.venv": true,
+    "**/result/**": true
   },
   "security.workspace.trust.untrustedFiles": "open",
   "shellformat.path": "/etc/profiles/per-user/david/bin/shfmt",
