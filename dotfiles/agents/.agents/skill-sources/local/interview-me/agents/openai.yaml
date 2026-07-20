@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interview Me"
+  short_description: "Clarify intent before planning or coding"
+  default_prompt: "Use $interview-me to uncover my real intent one focused question at a time."

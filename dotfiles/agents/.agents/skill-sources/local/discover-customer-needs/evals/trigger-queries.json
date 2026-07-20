@@ -1,0 +1,78 @@
+[
+  {
+    "query": "Help me interview customers without leading them toward my product idea.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Prepare a customer discovery guide for understanding why shops abandon inventory software.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Analyze these stakeholder interview notes and extract evidence-backed needs.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Choose elicitation techniques for replacing our legacy claims workflow.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Run a requirements workshop to uncover the real order fulfillment process.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Build a story map from our user research and find an end-to-end first slice.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Plan a Big Picture EventStorming session for this cross-department process.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Turn this vague reliability expectation into discovery questions and measurable evidence.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Interview me until you understand what I want you to code.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Write a formal software requirements specification from these approved decisions.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Implement the checkout feature described in this ticket.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review this PostgreSQL migration for correctness.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Create an architecture decision record for choosing Kafka.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Ask me one question because my prompt is ambiguous.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Design a relational schema from these already-confirmed requirements.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  { "query": "Fix this failing unit test.", "should_trigger": false, "split": "validation" }
+]

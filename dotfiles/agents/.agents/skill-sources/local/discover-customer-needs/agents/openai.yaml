@@ -1,0 +1,4 @@
+interface:
+  display_name: "Discover Customer Needs"
+  short_description: "Turn customer conversations into evidence"
+  default_prompt: "Use $discover-customer-needs to uncover the real needs, evidence, and unknowns behind this product request."

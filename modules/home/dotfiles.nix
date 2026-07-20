@@ -43,6 +43,7 @@
         "database-design"
         "database-refactor"
         "debug-software"
+        "discover-customer-needs"
         "hypertext-token-killer"
         "interview-me"
         "linux-performance"
