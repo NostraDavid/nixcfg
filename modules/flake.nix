@@ -107,6 +107,7 @@ in {
       # on validating/applying the flake before the full user profile is available.
       # Day-to-day tooling is grouped by capability under modules/home/.
       packages = with pkgs; [
+        bashInteractive # Keep nested shells and terminal profiles Readline-capable
         alejandra # Format Nix files before first rebuild
         statix # Catch common Nix antipatterns early
         deadnix # Detect unused Nix bindings while editing the flake
@@ -130,6 +131,7 @@ in {
       ];
 
       shellHook = ''
+        export SHELL="${pkgs.bashInteractive}/bin/bash"
         export NIX_CONFIG="experimental-features = nix-command flakes
         ''${NIX_CONFIG:-}"
       '';
