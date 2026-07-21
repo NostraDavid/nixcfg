@@ -24,7 +24,6 @@
           STOP_CHARGE_THRESH_BAT0 = 95;
         };
       };
-      libinput.enable = true;
     };
 
     hardware.bluetooth = {
