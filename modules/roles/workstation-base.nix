@@ -1,21 +1,24 @@
 {config, ...}: {
-  flake.modules.nixos.workstation = {
+  flake.modules.nixos.workstation-base = {
     lib,
-    main-user,
     pkgs,
     ...
   }: {
-    imports = [config.flake.modules.nixos.desktop];
+    imports = with config.flake.modules.nixos; [
+      desktop-base
+      browsers
+      communication
+      containers
+      desktop-apps
+      development
+      dotfiles
+      keyboard
+      media
+      terminal
+    ];
 
     services = {
       xserver.xkb.options = lib.mkDefault "grp:win_space_toggle";
-      displayManager = {
-        sddm = {
-          wayland.enable = false;
-          settings.Wayland.SessionDir = "/etc/xdg/wayland-sessions";
-        };
-        defaultSession = "plasma";
-      };
       printing.enable = false;
       udev.extraRules = ''
         # Chromium Nuphy Air rules
@@ -29,10 +32,6 @@
       gvfs.enable = true;
       devmon.enable = true;
     };
-
-    users.users.${main-user}.packages = with pkgs; [
-      kdePackages.kate
-    ];
 
     programs = {
       appimage = {

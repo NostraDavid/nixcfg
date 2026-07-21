@@ -8,7 +8,7 @@
     module = {pkgs, ...}: {
       imports = with config.flake.modules.nixos; [
         ../../hosts/wodan/hardware-configuration.nix
-        workstation
+        kde-workstation
         browsers-extra
         communication-extra
         desktop-apps-extra
