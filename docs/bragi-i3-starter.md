@@ -9,6 +9,7 @@ Bragi gebruikt i3 als lichte desktop. i3 werkt vooral met sneltoetsen. De
 | ------------------------- | --------------------------------------------- |
 | Terminal openen           | `Super+Enter`                                 |
 | Programma starten         | `Super+d`, typ de programmanaam, druk `Enter` |
+| Bureaublad tonen          | `Super+Shift+d`                               |
 | Venster sluiten           | `Super+Shift+q`                               |
 | Scherm vergrendelen       | `Super+Shift+l`                               |
 | Audio-instellingen openen | `Super+a`                                     |
@@ -29,7 +30,7 @@ Start Firefox bijvoorbeeld met `Super+d`, gevolgd door `firefox`.
   `Super+v`, voordat je het volgende venster opent.
 - Wissel tussen tegelweergave en tabbladen met `Super+w`.
 - Zet een venster schermvullend met `Super+f`.
-- Zet een venster zwevend of weer betegeld met `Super+Shift+Space`.
+- Zet een venster zwevend of weer betegeld met `Super+Shift+F`.
 
 ## Netwerk en geluid
 
