@@ -1,9 +1,12 @@
 # Shell, prompt, TUI, and terminal-emulator configuration.
 {
   config,
+  pkgs,
   repoRoot,
   ...
 }: {
+  home.packages = [pkgs.starship];
+
   home.file = let
     dot = "${repoRoot}/dotfiles";
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
