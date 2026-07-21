@@ -105,12 +105,19 @@
     "sed": true,
     "shasum": true,
     "timeout": true,
-    "uv": true
+    "uv": true,
+    "rtk": true
   },
   "chat.tools.urls.autoApprove": {
-    "https://*.cbs.nl": true,
     "https://code.visualstudio.com": true,
-    "https://github.com/microsoft/vscode/wiki/*": true
+    "https://github.com/microsoft/vscode/wiki/*": true,
+    "https://*.cbs.nl": true,
+    "https://www.freedesktop.org": {
+      "approveRequest": true,
+      "approveResponse": false
+    },
+    "https://gitlab.freedesktop.org": true,
+    "https://*.freedesktop.org": true
   },
   "chat.useClaudeHooks": true,
   "chat.viewSessions.orientation": "stacked",
