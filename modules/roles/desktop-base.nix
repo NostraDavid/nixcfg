@@ -34,6 +34,10 @@ _: {
           variant = ",basic";
         };
       };
+      libinput = {
+        enable = true;
+        touchpad.naturalScrolling = true;
+      };
       pulseaudio.enable = false;
       pipewire = {
         enable = true;
