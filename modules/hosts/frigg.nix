@@ -13,7 +13,7 @@
     }: {
       imports = with config.flake.modules.nixos; [
         ../../hosts/frigg/hardware-configuration.nix
-        workstation
+        i3-desktop
         laptop
       ];
 
