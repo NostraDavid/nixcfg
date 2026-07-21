@@ -25,6 +25,8 @@
       };
     };
 
+    security.pam.services.lightdm.kwallet.enable = true;
+
     home-manager.users.${main-user}.imports = [
       config.flake.modules.homeManager.i3
     ];
@@ -34,44 +36,30 @@
     lib,
     pkgs,
     ...
-  }: {
+  }: let
+    showDesktop = pkgs.writeShellScriptBin "i3-show-desktop" ''
+      current_workspace="$(${pkgs.i3}/bin/i3-msg -t get_workspaces | ${lib.getExe pkgs.jq} -r '.[] | select(.focused).name')"
+
+      if [ "$current_workspace" = "__desktop" ]; then
+        exec ${pkgs.i3}/bin/i3-msg workspace back_and_forth
+      else
+        exec ${pkgs.i3}/bin/i3-msg 'workspace __desktop'
+      fi
+    '';
+  in {
     home.packages = with pkgs; [
       brightnessctl
       dmenu
       ghostty
       i3lock
       i3status
+      kdePackages.dolphin
+      kdePackages.spectacle
+      kdePackages.kwallet
       networkmanagerapplet
       pavucontrol
+      showDesktop
     ];
 
-    xsession.windowManager.i3 = {
-      enable = true;
-      config = let
-        modifier = "Mod4";
-      in {
-        inherit modifier;
-        terminal = "ghostty";
-        menu = "${pkgs.dmenu}/bin/dmenu_run -i";
-        keybindings = lib.mkOptionDefault {
-          "${modifier}+Shift+l" = "exec --no-startup-id ${lib.getExe pkgs.i3lock} -c 111111";
-          "${modifier}+a" = "exec --no-startup-id ${lib.getExe pkgs.pavucontrol}";
-          "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-          "XF86AudioMute" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-          "XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+";
-          "XF86MonBrightnessDown" = "exec --no-startup-id ${lib.getExe pkgs.brightnessctl} set 5%-";
-          "XF86MonBrightnessUp" = "exec --no-startup-id ${lib.getExe pkgs.brightnessctl} set +5%";
-        };
-        startup = [
-          {
-            command = "${pkgs.networkmanagerapplet}/bin/nm-applet";
-            notification = false;
-          }
-        ];
-        bars = [
-          {statusCommand = lib.getExe pkgs.i3status;}
-        ];
-      };
-    };
   };
 }
