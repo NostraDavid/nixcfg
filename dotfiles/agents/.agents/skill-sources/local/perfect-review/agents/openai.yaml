@@ -1,0 +1,4 @@
+interface:
+  display_name: "PERFECT Review"
+  short_description: "Run prioritized, evidence-backed code reviews"
+  default_prompt: "Use $perfect-review to review these changes with the PERFECT framework."
