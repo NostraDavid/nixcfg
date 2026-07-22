@@ -103,6 +103,12 @@ def task_command(name: str) -> None:
     click.echo(message)
 
 
+@cli.command(name="check")
+def check_command() -> None:
+    """Verify that this tool's runtime setup is ready."""
+    click.echo("ok")
+
+
 def compact_pytest_output(output: str) -> str:
     """Remove pytest-cov banners while preserving its useful report."""
     lines = []
@@ -181,7 +187,15 @@ def test_cli_help_shows_unit_test_command() -> None:
 
     assert result.exit_code == 0
     assert "__COMMAND_NAME__" in result.stdout
+    assert "check" in result.stdout
     assert "unit-test" in result.stdout
+
+
+def test_check_command_reports_readiness() -> None:
+    result = CliRunner().invoke(cli, ["check"])
+
+    assert result.exit_code == 0
+    assert result.stdout == "ok\n"
 
 
 def test_task_command_separates_output_and_logs() -> None:
@@ -274,14 +288,21 @@ def scaffold(
     command_name: str,
     *,
     with_pydantic: bool,
+    dry_run: bool = False,
     dependency_pinner: DependencyPinner = pin_dependencies,
 ) -> None:
     validate_inputs(output, command_name)
+    source = BASE_TEMPLATE.replace("__COMMAND_NAME__", command_name)
+
+    if dry_run:
+        with tempfile.TemporaryDirectory(prefix="python-cli-scaffold-") as directory:
+            staged_output = Path(directory) / output.name
+            staged_output.write_text(source, encoding="utf-8")
+            dependency_pinner(staged_output, with_pydantic)
+        return
+
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(
-        BASE_TEMPLATE.replace("__COMMAND_NAME__", command_name),
-        encoding="utf-8",
-    )
+    output.write_text(source, encoding="utf-8")
 
     try:
         dependency_pinner(output, with_pydantic)
@@ -315,12 +336,38 @@ def cli() -> None:
     is_flag=True,
     help="Add an exact Pydantic pin for structured input models.",
 )
-def create_command(output: Path, command_name: str, *, with_pydantic: bool) -> None:
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    help="Validate and resolve in a temporary directory without creating OUTPUT.",
+)
+def create_command(
+    output: Path,
+    command_name: str,
+    *,
+    with_pydantic: bool,
+    dry_run: bool,
+) -> None:
     """Create a new script at OUTPUT and pin its base dependencies."""
     try:
-        scaffold(output, command_name, with_pydantic=with_pydantic)
+        scaffold(
+            output,
+            command_name,
+            with_pydantic=with_pydantic,
+            dry_run=dry_run,
+        )
     except ScaffoldError as error:
         raise click.ClickException(str(error)) from error
+
+    if dry_run:
+        logger.info(
+            "script_creation_planned",
+            output=str(output),
+            command_name=command_name,
+            with_pydantic=with_pydantic,
+        )
+        click.echo(f"Dry run succeeded; would create executable {output}.")
+        return
 
     logger.info(
         "script_created",
@@ -329,6 +376,14 @@ def create_command(output: Path, command_name: str, *, with_pydantic: bool) -> N
         with_pydantic=with_pydantic,
     )
     click.echo(output_message(output))
+
+
+@cli.command(name="check")
+def check_command() -> None:
+    """Verify that the scaffolder's runtime setup is ready."""
+    if shutil.which("uv") is None:
+        raise click.ClickException("uv is required but was not found on PATH")
+    click.echo("ok")
 
 
 def compact_pytest_output(output: str) -> str:
@@ -546,6 +601,7 @@ def test_scaffold_writes_executable_template(tmp_path: Path) -> None:
     source = output.read_text(encoding="utf-8")
     assert source.startswith("#!/usr/bin/env -S uv run --script\n")
     assert '@cli.command(name="sync-repos")' in source
+    assert '@cli.command(name="check")' in source
     assert '@click.command(name="unit-test")' in source
     assert calls == [(output, True)]
     assert output.stat().st_mode & 0o111
@@ -571,6 +627,29 @@ def test_scaffold_removes_partial_output_after_pin_failure(tmp_path: Path) -> No
     assert not lockfile.exists()
 
 
+def test_scaffold_dry_run_uses_temporary_output(tmp_path: Path) -> None:
+    output = tmp_path / "nested" / "tool.py"
+    staged_paths: list[Path] = []
+
+    def fake_pinner(path: Path, _with_pydantic: bool) -> None:
+        staged_paths.append(path)
+        assert path.is_file()
+        assert path.name == output.name
+
+    scaffold(
+        output,
+        "run",
+        with_pydantic=False,
+        dry_run=True,
+        dependency_pinner=fake_pinner,
+    )
+
+    assert len(staged_paths) == 1
+    assert not staged_paths[0].exists()
+    assert not output.exists()
+    assert not output.parent.exists()
+
+
 def test_output_message_describes_exact_pins(tmp_path: Path) -> None:
     output = tmp_path / "tool.py"
 
@@ -584,7 +663,17 @@ def test_cli_help_shows_unit_test_command() -> None:
 
     assert result.exit_code == 0
     assert "create" in result.stdout
+    assert "check" in result.stdout
     assert "unit-test" in result.stdout
+
+
+def test_check_command_reports_readiness(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(shutil, "which", lambda _command: "/usr/bin/uv")
+
+    result = CliRunner().invoke(cli, ["check"])
+
+    assert result.exit_code == 0
+    assert result.stdout == "ok\n"
 
 
 def test_create_command_reports_domain_error(tmp_path: Path) -> None:
@@ -601,15 +690,16 @@ def test_create_command_reports_success(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    calls: list[tuple[Path, str, bool]] = []
+    calls: list[tuple[Path, str, bool, bool]] = []
 
     def fake_scaffold(
         output: Path,
         command_name: str,
         *,
         with_pydantic: bool,
+        dry_run: bool,
     ) -> None:
-        calls.append((output, command_name, with_pydantic))
+        calls.append((output, command_name, with_pydantic, dry_run))
 
     monkeypatch.setattr(sys.modules[__name__], "scaffold", fake_scaffold)
     output = tmp_path / "tool.py"
@@ -629,7 +719,41 @@ def test_create_command_reports_success(
     assert result.stdout == (
         f"Created executable {output} with exact runtime dependency pins.\n"
     )
-    assert calls == [(output, "sync-repos", True)]
+    assert calls == [(output, "sync-repos", True, False)]
+
+
+def test_create_command_dry_run_does_not_create_output(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    calls: list[tuple[Path, str, bool, bool]] = []
+
+    def fake_scaffold(
+        output: Path,
+        command_name: str,
+        *,
+        with_pydantic: bool,
+        dry_run: bool,
+    ) -> None:
+        calls.append((output, command_name, with_pydantic, dry_run))
+
+    monkeypatch.setattr(sys.modules[__name__], "scaffold", fake_scaffold)
+    output = tmp_path / "tool.py"
+
+    result = CliRunner().invoke(
+        cli,
+        [
+            "create",
+            str(output),
+            "--command-name",
+            "sync-repos",
+            "--dry-run",
+        ],
+    )
+
+    assert result.exit_code == 0
+    assert result.stdout == f"Dry run succeeded; would create executable {output}.\n"
+    assert calls == [(output, "sync-repos", False, True)]
 
 
 @pytest.mark.parametrize("previous_coverage_file", [None, "existing-coverage"])

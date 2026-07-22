@@ -30,8 +30,8 @@
 
 ## CLI contract
 
-- Expose a Click group, at least one visible task command, and a visible command
-  named `unit-test`.
+- Expose a Click group, at least one visible task command, a visible `check`
+  command, and a visible `unit-test` command.
 - Give every command concise help, typed options and arguments, meaningful
   defaults, and stable option names.
 - Use Click validation for syntax-level input constraints. Validate domain rules
@@ -40,9 +40,19 @@
   failures into `click.ClickException` at the command boundary, producing exit
   code `1`.
 - Keep the group callback free of business side effects so `--help` and
-  `unit-test` remain safe.
+  `check` and `unit-test` remain safe.
 - Put normal results on stdout with `click.echo`. Reserve stderr for logs,
   warnings, and errors.
+- Make `check` a read-only readiness probe for everything the script needs at
+  runtime: configuration shape, required files and executables, permissions,
+  credentials, and safe connectivity or authentication probes where useful.
+  Do not install, initialize, migrate, or repair setup from `check`.
+- On readiness success, make `check` print exactly `ok` followed by a newline
+  on stdout and exit zero. On failure, exit nonzero and put actionable,
+  secret-safe diagnostics on stderr. Keep status logs off stdout.
+- Use `unit-test` for code correctness and `check` for runtime readiness. When
+  no external setup is required, validate the few real runtime invariants and
+  still provide the stable `ok` contract.
 
 ## Architecture and typing
 
@@ -92,8 +102,17 @@
 ## Side effects and safety
 
 - Make filesystem and remote mutations explicit in command names and help.
-- Add `--dry-run` when a useful preview can be produced. Ensure dry-run follows
-  the same discovery and validation path while skipping writes.
+- Add `--dry-run` to every command that can make a durable local or remote
+  change. Do not add it to commands that are intrinsically read-only.
+- Make dry-run follow the real discovery, input loading, parsing, validation,
+  authorization checks, selection, and planning path as far as possible. Stop
+  before the first durable mutation and simulate later decisions when needed;
+  temporary artifacts are allowed only when isolated and cleaned up.
+- Make dry-run skip filesystem writes, database changes, remote mutations,
+  messages, uploads, commits, pushes, and other externally visible effects.
+  It may use read-only network calls and subprocesses. Clearly preview what
+  would change without exposing secrets, and never prompt for mutation
+  confirmation during dry-run.
 - Add confirmation before destructive or broad changes and a clearly named
   non-interactive override such as `--yes`.
 - Use atomic writes where partial files would be harmful. Preserve permissions
@@ -125,7 +144,8 @@
 - Set `[run] patch = subprocess` in that configuration so end-to-end CLI tests
   measure child Python processes and the real `__main__` entrypoint.
 - Test pure logic, expected domain errors, Click help, command success,
-  stdout/stderr separation, and meaningful failure paths.
+  stdout/stderr separation, `check` success and failure, dry-run non-mutation,
+  and meaningful failure paths.
 - Use `click.testing.CliRunner`, temporary directories, monkeypatching, and
   injected adapters. Never contact real services or mutate user data in tests.
 - Keep `unit-test` visible in help and ensure `SCRIPT unit-test` reports line
@@ -135,11 +155,13 @@
 
 - Confirm the direct uv shebang, executable bit, and Python 3.14 metadata.
 - Confirm every dependency is exactly pinned and no script lockfile exists.
-- Confirm the visible task commands and visible `unit-test` command behave as
-  documented and report coverage without leaving artifacts.
+- Confirm the visible task commands, `check`, and `unit-test` behave as
+  documented; require `check` to emit exactly `ok` on stdout and require
+  `unit-test` to report coverage without leaving artifacts.
 - Confirm primary output uses stdout and structlog uses stderr.
 - Confirm imports and library choices follow the import policy.
 - Confirm ty passes first and Pyrefly `basic` passes afterward.
-- Confirm dry-run and confirmation semantics for risky mutations.
-- Run `scripts/validate_script.py check SCRIPT` and inspect every result rather
+- Confirm every mutating command has dry-run and confirmation semantics, and
+  prove dry-run reaches the latest safe point without durable side effects.
+- Run `scripts/validate_script.py validate SCRIPT` and inspect every result rather
   than assuming success.
