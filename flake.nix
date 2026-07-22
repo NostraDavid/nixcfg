@@ -26,7 +26,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     hermes-agent = {
-      url = "github:NousResearch/hermes-agent/v2026.7.7.2";
+      url = "github:NousResearch/hermes-agent/v2026.7.20";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
