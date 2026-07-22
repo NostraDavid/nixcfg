@@ -155,6 +155,7 @@
     visidata # Interactive terminal multitool for tabular data
     vulnix # CVE scanner for Nix
     w3m # Text-based web browser
+    wezterm # Terminal emulator
     wget
     wl-clipboard # Clipboard management for Wayland
     xh # httpie and curl alternative
@@ -166,7 +167,7 @@
     yt-dlp
     zellij # tmux alternative
     zoxide
-    wezterm # Terminal emulator
+    zuban # Mypy-compatible Python Language Server built in Rust
 
     # compression tools
     brotli
