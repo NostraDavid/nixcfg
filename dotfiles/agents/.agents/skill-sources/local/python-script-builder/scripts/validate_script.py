@@ -17,6 +17,7 @@ import contextlib
 import io
 import os
 import re
+import shutil
 import subprocess as sp
 import sys
 import tempfile
@@ -263,6 +264,7 @@ def inspect_click_structure(tree: ast.Module) -> list[str]:
     errors: list[str] = []
     has_group = False
     visible_task_commands = 0
+    has_visible_check = False
     has_visible_unit_test = False
 
     for node in ast.walk(tree):
@@ -278,7 +280,12 @@ def inspect_click_structure(tree: ast.Module) -> list[str]:
 
             command_name = keywords.get("name", node.name.replace("_", "-"))
             hidden = keywords.get("hidden", False) is True
-            if command_name == "test":
+            if command_name == "check":
+                if hidden:
+                    errors.append('Click command "check" must be visible')
+                else:
+                    has_visible_check = True
+            elif command_name == "test":
                 errors.append(
                     'Click command named "test" is ambiguous; use visible "unit-test"'
                 )
@@ -305,6 +312,8 @@ def inspect_click_structure(tree: ast.Module) -> list[str]:
         errors.append("missing a Click group")
     if visible_task_commands == 0:
         errors.append("missing a visible Click task command")
+    if not has_visible_check:
+        errors.append('missing a visible Click command named "check"')
     if not has_visible_unit_test:
         errors.append('missing a visible Click command named "unit-test"')
     elif not compacts_coverage_output(tree):
@@ -517,18 +526,28 @@ def structural_errors(target: Path) -> tuple[list[str], ScriptMetadata | None]:
     return errors, metadata
 
 
-def run_check(command: Sequence[str]) -> bool:
+def run_check(command: Sequence[str], *, expected_stdout: str | None = None) -> bool:
     logger.info("quality_check_started", command=list(command))
     environment = os.environ.copy()
     environment.pop("VIRTUAL_ENV", None)
     environment.pop("PYTHONPATH", None)
     try:
-        process = sp.run(
-            command,
-            check=False,
-            env=environment,
-            timeout=QUALITY_CHECK_TIMEOUT_SECONDS,
-        )
+        if expected_stdout is None:
+            process = sp.run(
+                command,
+                check=False,
+                env=environment,
+                timeout=QUALITY_CHECK_TIMEOUT_SECONDS,
+            )
+        else:
+            process = sp.run(
+                command,
+                check=False,
+                env=environment,
+                stdout=sp.PIPE,
+                text=True,
+                timeout=QUALITY_CHECK_TIMEOUT_SECONDS,
+            )
     except FileNotFoundError as error:
         logger.error("quality_command_not_found", command=error.filename)
         return False
@@ -544,6 +563,14 @@ def run_check(command: Sequence[str]) -> bool:
             "quality_check_failed",
             command=list(command),
             returncode=process.returncode,
+        )
+        return False
+    if expected_stdout is not None and process.stdout != expected_stdout:
+        logger.error(
+            "quality_check_unexpected_stdout",
+            command=list(command),
+            expected=expected_stdout,
+            actual=process.stdout,
         )
         return False
     return True
@@ -585,6 +612,7 @@ def quality_commands(target: Path, metadata: ScriptMetadata) -> list[list[str]]:
             str(target),
         ],
         [str(target.resolve()), "--help"],
+        [str(target.resolve()), "check"],
         [str(target.resolve()), "unit-test"],
     ]
 
@@ -596,11 +624,12 @@ def validate_target(target: Path, *, structural_only: bool) -> list[str]:
     if metadata is None:
         return ["metadata unavailable after validation"]
 
-    failed_commands = [
-        " ".join(command)
-        for command in quality_commands(target, metadata)
-        if not run_check(command)
-    ]
+    readiness_command = [str(target.resolve()), "check"]
+    failed_commands = []
+    for command in quality_commands(target, metadata):
+        expected_stdout = "ok\n" if command == readiness_command else None
+        if not run_check(command, expected_stdout=expected_stdout):
+            failed_commands.append(" ".join(command))
     return [f"quality check failed: {command}" for command in failed_commands]
 
 
@@ -610,14 +639,14 @@ def cli() -> None:
     configure_logging()
 
 
-@cli.command(name="check")
+@cli.command(name="validate")
 @click.argument("target", type=click.Path(path_type=Path, dir_okay=False))
 @click.option(
     "--structural-only",
     is_flag=True,
     help="Skip Ruff, ty, Pyrefly, CLI help, and embedded pytest execution.",
 )
-def check_command(target: Path, *, structural_only: bool) -> None:
+def validate_command(target: Path, *, structural_only: bool) -> None:
     """Validate TARGET and run every configured quality gate."""
     errors = validate_target(target, structural_only=structural_only)
     if errors:
@@ -634,6 +663,18 @@ def check_command(target: Path, *, structural_only: bool) -> None:
         click.echo("Structural validation passed.")
     else:
         click.echo("All quality gates passed.")
+
+
+@cli.command(name="check")
+def check_command() -> None:
+    """Verify that the validator's runtime setup is ready."""
+    if shutil.which("uvx") is None:
+        raise click.ClickException("uvx is required but was not found on PATH")
+    try:
+        load_alias_policy()
+    except ValidationError as error:
+        raise click.ClickException(str(error)) from error
+    click.echo("ok")
 
 
 def compact_pytest_output(output: str) -> str:
@@ -735,6 +776,10 @@ def configure_logging() -> None:
 @click.group()
 def cli() -> None:
     pass
+
+@cli.command(name="check")
+def check_command() -> None:
+    click.echo("ok")
 
 @cli.command(name="run")
 def run_command() -> None:
@@ -1120,6 +1165,40 @@ def test_structural_errors_reject_hidden_unit_test_command(tmp_path: Path) -> No
     assert 'Click command "unit-test" must be visible' in errors
 
 
+def test_structural_errors_rejects_missing_check_command(tmp_path: Path) -> None:
+    target = tmp_path / "invalid.py"
+    target.write_text(
+        valid_script_source().replace(
+            """@cli.command(name="check")
+def check_command() -> None:
+    click.echo("ok")
+
+""",
+            "",
+        ),
+        encoding="utf-8",
+    )
+
+    errors, _metadata = structural_errors(target)
+
+    assert 'missing a visible Click command named "check"' in errors
+
+
+def test_structural_errors_rejects_hidden_check_command(tmp_path: Path) -> None:
+    target = tmp_path / "invalid.py"
+    target.write_text(
+        valid_script_source().replace(
+            'name="check"',
+            'name="check", hidden=True',
+        ),
+        encoding="utf-8",
+    )
+
+    errors, _metadata = structural_errors(target)
+
+    assert 'Click command "check" must be visible' in errors
+
+
 def test_structural_errors_require_coverage_arguments(tmp_path: Path) -> None:
     target = tmp_path / "invalid.py"
     target.write_text(
@@ -1371,7 +1450,7 @@ def test_quality_commands_include_every_gate(tmp_path: Path) -> None:
 
     commands = quality_commands(target, metadata)
 
-    assert len(commands) == 6
+    assert len(commands) == 7
     assert commands[2][2] == "ty"
     assert commands[3][2:5] == ["pyrefly", "--with", "click==8.4.2"]
     assert commands[3][-8:] == [
@@ -1384,8 +1463,9 @@ def test_quality_commands_include_every_gate(tmp_path: Path) -> None:
         "no",
         str(target),
     ]
-    assert commands[-2:] == [
+    assert commands[-3:] == [
         [str(target.resolve()), "--help"],
+        [str(target.resolve()), "check"],
         [str(target.resolve()), "unit-test"],
     ]
 
@@ -1417,6 +1497,30 @@ def test_run_check_reports_process_status(
     assert run_check(["quality-tool", "check"]) is expected
     assert "VIRTUAL_ENV" not in observed_environment
     assert "PYTHONPATH" not in observed_environment
+
+
+def test_run_check_requires_exact_stdout(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake_run(
+        command: Sequence[str],
+        *,
+        check: bool,
+        env: dict[str, str],
+        stdout: int,
+        text: bool,
+        timeout: int,
+    ) -> sp.CompletedProcess[str]:
+        del check, env
+        assert stdout == sp.PIPE
+        assert text
+        assert timeout == QUALITY_CHECK_TIMEOUT_SECONDS
+        return sp.CompletedProcess(command, 0, stdout="ready\n")
+
+    monkeypatch.setattr(sp, "run", fake_run)
+
+    assert not run_check(
+        ["quality-tool", "check"],
+        expected_stdout="ok\n",
+    )
 
 
 def test_run_check_reports_missing_command(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -1480,7 +1584,12 @@ def test_validate_target_runs_all_quality_checks(
     ) -> list[list[str]]:
         return [["passing"], ["failing", "check"]]
 
-    def fake_run_check(command: Sequence[str]) -> bool:
+    def fake_run_check(
+        command: Sequence[str],
+        *,
+        expected_stdout: str | None,
+    ) -> bool:
+        del expected_stdout
         return command[0] == "passing"
 
     module = sys.modules[__name__]
@@ -1498,31 +1607,32 @@ def test_cli_help_shows_unit_test_command() -> None:
 
     assert result.exit_code == 0
     assert "check" in result.stdout
+    assert "validate" in result.stdout
     assert "unit-test" in result.stdout
 
 
-def test_check_command_runs_structural_validation(tmp_path: Path) -> None:
+def test_validate_command_runs_structural_validation(tmp_path: Path) -> None:
     target = tmp_path / "valid.py"
     target.write_text(valid_script_source(), encoding="utf-8")
     target.chmod(0o755)
 
-    result = CliRunner().invoke(cli, ["check", str(target), "--structural-only"])
+    result = CliRunner().invoke(cli, ["validate", str(target), "--structural-only"])
 
     assert result.exit_code == 0
     assert result.stdout == "Structural validation passed.\n"
 
 
-def test_check_command_reports_validation_failure(tmp_path: Path) -> None:
+def test_validate_command_reports_validation_failure(tmp_path: Path) -> None:
     target = tmp_path / "invalid.py"
     target.write_text("print('invalid')\n", encoding="utf-8")
 
-    result = CliRunner().invoke(cli, ["check", str(target), "--structural-only"])
+    result = CliRunner().invoke(cli, ["validate", str(target), "--structural-only"])
 
     assert result.exit_code == 1
     assert "validation failed" in result.stderr
 
 
-def test_check_command_reports_full_validation_success(
+def test_validate_command_reports_full_validation_success(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1536,10 +1646,28 @@ def test_check_command_reports_full_validation_success(
         successful_validation,
     )
 
-    result = CliRunner().invoke(cli, ["check", str(tmp_path / "tool.py")])
+    result = CliRunner().invoke(cli, ["validate", str(tmp_path / "tool.py")])
 
     assert result.exit_code == 0
     assert result.stdout == "All quality gates passed.\n"
+
+
+def test_check_command_reports_readiness(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(shutil, "which", lambda _command: "/usr/bin/uvx")
+
+    result = CliRunner().invoke(cli, ["check"])
+
+    assert result.exit_code == 0
+    assert result.stdout == "ok\n"
+
+
+def test_check_command_reports_missing_uvx(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(shutil, "which", lambda _command: None)
+
+    result = CliRunner().invoke(cli, ["check"])
+
+    assert result.exit_code == 1
+    assert "uvx is required" in result.stderr
 
 
 @pytest.mark.parametrize(

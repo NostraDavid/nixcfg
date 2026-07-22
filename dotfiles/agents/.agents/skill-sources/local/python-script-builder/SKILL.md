@@ -42,11 +42,11 @@ Build one-file Python CLIs that are predictable, self-testing, and pleasant to u
 8. Verify the completed script with:
 
    ```bash
-   scripts/validate_script.py check SCRIPT
+   scripts/validate_script.py validate SCRIPT
    ```
 
 9. Report the redesigned commands, meaningful behavior changes, safety
-   controls, and the exact checks that passed.
+   controls, `check` readiness result, and the exact checks that passed.
 
 ## Working rules
 
@@ -59,7 +59,12 @@ Build one-file Python CLIs that are predictable, self-testing, and pleasant to u
   requested script.
 - Keep every standalone script executable and document direct invocation as
   `./script.py ...` or an equivalent path, never `uv run script.py ...`.
-- Add dry-run behavior and confirmation for meaningful or destructive
-  mutations. Keep automation possible through an explicit non-interactive
-  override.
+- Give every script a visible, read-only `check` command that verifies its
+  required runtime setup and prints exactly `ok` on stdout when ready.
+- Add `--dry-run` to every command that can make a durable local or remote
+  change. Run discovery, loading, validation, and planning as far as possible,
+  but cross no mutation boundary. Do not add a meaningless dry-run option to a
+  read-only command.
+- Add confirmation for meaningful or destructive mutations. Keep automation
+  possible through an explicit non-interactive override.
 - Use English for code, help, errors, logs, and documentation.
