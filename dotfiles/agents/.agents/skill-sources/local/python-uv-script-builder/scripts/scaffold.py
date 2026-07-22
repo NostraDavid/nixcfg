@@ -320,7 +320,7 @@ def output_message(output: Path) -> str:
 
 @click.group()
 def cli() -> None:
-    """Create Python scripts that follow the Python Script Builder standard."""
+    """Create Python scripts that follow the Python uv Script Builder standard."""
     configure_logging()
 
 

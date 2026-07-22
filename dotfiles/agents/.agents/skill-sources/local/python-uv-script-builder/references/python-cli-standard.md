@@ -1,4 +1,4 @@
-# Python CLI Standard
+# Python uv CLI Standard
 
 ## Contents
 
@@ -16,12 +16,12 @@
 - Start with `#!/usr/bin/env -S uv run --script` and a PEP 723 block containing
   `requires-python = ">=3.14"`.
 - Set the POSIX executable bit (`chmod +x SCRIPT`) so the uv shebang is the
-  public execution interface. Run and document the script directly; do not
-  wrap normal invocations in `uv run`.
+  public execution interface. Run and document the script directly; do not wrap
+  normal invocations in `uv run`.
 - Keep the script self-contained. Do not add a neighboring `.lock` file.
 - Pin every PEP 723 dependency with `==`. Resolve current versions with `uv add
---script SCRIPT --bounds exact PACKAGE...` instead of copying versions from
-  this skill.
+--script SCRIPT --bounds exact PACKAGE...` instead of copying versions from this
+skill.
 - Always include Click, structlog, pytest, and pytest-cov. Include Pydantic when
   data has a non-trivial schema, crosses a trust boundary, or needs coercion and
   validation.
@@ -39,17 +39,17 @@
 - Let Click use exit code `2` for usage errors. Translate expected domain
   failures into `click.ClickException` at the command boundary, producing exit
   code `1`.
-- Keep the group callback free of business side effects so `--help` and
-  `check` and `unit-test` remain safe.
+- Keep the group callback free of business side effects so `--help` and `check`
+  and `unit-test` remain safe.
 - Put normal results on stdout with `click.echo`. Reserve stderr for logs,
   warnings, and errors.
 - Make `check` a read-only readiness probe for everything the script needs at
   runtime: configuration shape, required files and executables, permissions,
-  credentials, and safe connectivity or authentication probes where useful.
-  Do not install, initialize, migrate, or repair setup from `check`.
-- On readiness success, make `check` print exactly `ok` followed by a newline
-  on stdout and exit zero. On failure, exit nonzero and put actionable,
-  secret-safe diagnostics on stderr. Keep status logs off stdout.
+  credentials, and safe connectivity or authentication probes where useful. Do
+  not install, initialize, migrate, or repair setup from `check`.
+- On readiness success, make `check` print exactly `ok` followed by a newline on
+  stdout and exit zero. On failure, exit nonzero and put actionable, secret-safe
+  diagnostics on stderr. Keep status logs off stdout.
 - Use `unit-test` for code correctness and `check` for runtime readiness. When
   no external setup is required, validate the few real runtime invariants and
   still provide the stable `ok` contract.
@@ -109,10 +109,10 @@
   before the first durable mutation and simulate later decisions when needed;
   temporary artifacts are allowed only when isolated and cleaned up.
 - Make dry-run skip filesystem writes, database changes, remote mutations,
-  messages, uploads, commits, pushes, and other externally visible effects.
-  It may use read-only network calls and subprocesses. Clearly preview what
-  would change without exposing secrets, and never prompt for mutation
-  confirmation during dry-run.
+  messages, uploads, commits, pushes, and other externally visible effects. It
+  may use read-only network calls and subprocesses. Clearly preview what would
+  change without exposing secrets, and never prompt for mutation confirmation
+  during dry-run.
 - Add confirmation before destructive or broad changes and a clearly named
   non-interactive override such as `--yes`.
 - Use atomic writes where partial files would be harmful. Preserve permissions
@@ -128,8 +128,8 @@
 - Keep pytest tests in the script, below production definitions and above the
   `__main__` guard.
 - Register a visible Click command named `unit-test` that runs pytest against
-  the same file with `--cov`, `--cov-branch`, and
-  `--cov-report=term-missing`. Do not impose a generic coverage threshold.
+  the same file with `--cov`, `--cov-branch`, and `--cov-report=term-missing`.
+  Do not impose a generic coverage threshold.
 - Keep coverage output compact: suppress pytest-cov's redundant section and
   platform banners while retaining test progress, the coverage table, missing
   lines, `TOTAL`, failures, and the final pytest summary.
@@ -163,5 +163,5 @@
 - Confirm ty passes first and Pyrefly `basic` passes afterward.
 - Confirm every mutating command has dry-run and confirmation semantics, and
   prove dry-run reaches the latest safe point without durable side effects.
-- Run `scripts/validate_script.py validate SCRIPT` and inspect every result rather
-  than assuming success.
+- Run `scripts/validate_script.py validate SCRIPT` and inspect every result
+  rather than assuming success.

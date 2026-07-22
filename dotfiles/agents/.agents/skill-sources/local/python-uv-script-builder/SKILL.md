@@ -1,17 +1,18 @@
 ---
-name: python-script-builder
-description: Build or fully redesign standalone POSIX Python CLI scripts to an opinionated standard using Python 3.14+, uv and PEP 723, Click, structlog, strict typing, inline pytest tests, exact dependency pins, and functional-core architecture. Use when Codex creates a new standalone Python script or upgrades, modernizes, rewrites, or restructures an existing Python CLI script. Do not use for Python packages, libraries, services, notebooks, or application repositories.
+name: python-uv-script-builder
+description: Build or fully redesign standalone POSIX Python CLI scripts to an opinionated standard using Python 3.14+, uv and PEP 723, Click, structlog, strict typing, inline pytest tests, exact dependency pins, and functional-core architecture. Use when Codex creates or redesigns a standalone Python script that may use PyPI dependencies or when the user requests uv, PEP 723, or an uv-native script. Use python-native-script-builder instead when the result must use only the Python standard library. Do not use for Python packages, libraries, services, notebooks, or application repositories.
 ---
 
-# Python Script Builder
+# Python uv Script Builder
 
-Build one-file Python CLIs that are predictable, self-testing, and pleasant to use.
+Build one-file Python CLIs that are predictable, self-testing, and pleasant to
+use.
 
 ## Workflow
 
-1. Read [the Python CLI standard](references/python-cli-standard.md),
-   [the import policy](references/import-policy.md), and its canonical
-   [alias registry](references/import-policy.toml) completely.
+1. Read [the Python CLI standard](references/python-cli-standard.md), [the
+   import policy](references/import-policy.md), and its canonical [alias
+   registry](references/import-policy.toml) completely.
 2. Inspect repository instructions, the target script, nearby callers,
    documentation, and tests before changing existing code.
 3. Treat an existing script as a source of requirements, not as an interface
@@ -29,29 +30,28 @@ Build one-file Python CLIs that are predictable, self-testing, and pleasant to u
    scripts/scaffold.py create OUTPUT --command-name NAME [--with-pydantic]
    ```
 
-   Use `--with-pydantic` for non-trivial structured input or external data.
-   The scaffold marks the generated script executable; invoke it directly
-   through its uv shebang instead of wrapping it in `uv run`.
-   Replace the example behavior and tests rather than layering the requested
-   feature around them.
+   Use `--with-pydantic` for non-trivial structured input or external data. The
+   scaffold marks the generated script executable; invoke it directly through
+   its uv shebang instead of wrapping it in `uv run`. Replace the example
+   behavior and tests rather than layering the requested feature around them.
 
 7. For existing scripts, apply the same structure directly. Refresh all runtime
-   pins during a full redesign with
-   `uv add --script SCRIPT --bounds exact ...`. Do not create or retain a script
-   lockfile. Ensure the executable bit is set with `chmod +x SCRIPT`.
+   pins during a full redesign with `uv add --script SCRIPT --bounds exact ...`.
+   Do not create or retain a script lockfile. Ensure the executable bit is set
+   with `chmod +x SCRIPT`.
 8. Verify the completed script with:
 
    ```bash
    scripts/validate_script.py validate SCRIPT
    ```
 
-9. Report the redesigned commands, meaningful behavior changes, safety
-   controls, `check` readiness result, and the exact checks that passed.
+9. Report the redesigned commands, meaningful behavior changes, safety controls,
+   `check` readiness result, and the exact checks that passed.
 
 ## Working rules
 
-- Consult current official documentation before selecting or using a
-  third-party API that may have changed.
+- Consult current official documentation before selecting or using a third-party
+  API that may have changed.
 - Prefer a mature task-specific dependency when it materially improves
   reliability or clarity; pin every runtime dependency exactly.
 - Keep secrets out of source, logs, command previews, and test fixtures.
