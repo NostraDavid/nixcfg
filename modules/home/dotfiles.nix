@@ -47,6 +47,7 @@
         "hypertext-token-killer"
         "interview-me"
         "linux-performance"
+        "perfect-review"
         "python-script-builder"
         "reliability-engineering"
         "review-twelve-factor-app"
