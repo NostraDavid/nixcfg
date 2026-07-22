@@ -1,7 +1,7 @@
 interface:
-  display_name: "Python Script Builder"
-  short_description: "Build polished, self-testing Python CLI scripts"
-  default_prompt: "Use $python-script-builder to build or fully redesign this standalone Python CLI script."
+  display_name: "Python uv Script Builder"
+  short_description: "Build polished uv-native Python CLI scripts"
+  default_prompt: "Use $python-uv-script-builder to build or fully redesign this standalone uv-native Python CLI script."
 
 policy:
   allow_implicit_invocation: true

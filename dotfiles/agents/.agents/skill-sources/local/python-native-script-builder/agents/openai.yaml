@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Native Script Builder"
+  short_description: "Build dependency-free native Python CLI scripts"
+  default_prompt: "Use $python-native-script-builder to build or fully redesign this standalone standard-library-only Python CLI script."

@@ -1,0 +1,13 @@
+{
+  "aliases": {
+    "datetime": ["dt"],
+    "logging": ["lg"],
+    "multiprocessing": ["mp"],
+    "pdb": ["dbg"],
+    "statistics": ["stats"],
+    "subprocess": ["sp"],
+    "time": ["tm"],
+    "unittest": ["ut"],
+    "xml.etree.ElementTree": ["ET"]
+  }
+}
