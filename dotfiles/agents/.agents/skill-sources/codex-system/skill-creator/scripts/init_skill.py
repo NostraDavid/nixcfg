@@ -253,7 +253,7 @@ def create_resource_dirs(
     examples = {
         "scripts": (
             "README.md",
-            "# Scripts\n\nUse `$python-script-builder` before adding Python helpers here.\n",
+            "# Scripts\n\nUse `$python-native-script-builder` for standard-library-only helpers or `$python-uv-script-builder` when dependencies are needed.\n",
         ),
         "references": (
             "api_reference.md",
