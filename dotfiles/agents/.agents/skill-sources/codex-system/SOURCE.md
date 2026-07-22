@@ -7,9 +7,11 @@
 - Selectie: `imagegen`, `openai-docs`, `plugin-creator`, `skill-creator` en
   `skill-installer`
 
-Dit zijn ongewijzigde snapshots, inclusief scripts, assets, referenties en
-skill-specifieke licenties. Lokale bytecodecaches zijn uitgesloten. Bijwerken
-betekent de vijf volledige upstream-mappen opnieuw kopiëren, de bronmarker
+Dit zijn snapshots, inclusief scripts, assets, referenties en skill-specifieke
+licenties. Lokale bytecodecaches zijn uitgesloten. De enige integratiepatch
+vervangt in `skill-creator` de verwijderde `$python-script-builder`-verwijzing
+door de expliciete native- en uv-varianten. Bijwerken betekent de vijf volledige
+upstream-mappen opnieuw kopiëren, deze patch opnieuw toepassen, de bronmarker
 verversen en de clientprojecties en validaties opnieuw controleren.
 
 Codex zelf blijft zijn ingebouwde exemplaren gebruiken. Alleen Copilot krijgt
