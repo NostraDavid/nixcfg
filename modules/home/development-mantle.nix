@@ -82,6 +82,7 @@ in {
     local.semble # Fast code search for agents
     local.dpaint-js
     local.doctok
+    local.gigatoken
     local.tiktoken
     local.ptk
     local.photogimp # Photoshop-like defaults for GIMP
