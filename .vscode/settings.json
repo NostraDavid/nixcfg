@@ -31,5 +31,16 @@
     "commandCenter.foreground": "#e7e7e7",
     "statusBar.debuggingBackground": "#880000",
     "statusBar.debuggingForeground": "#e7e7e7"
+  },
+  "workbench.editorAssociations": {
+    "*.copilotmd": "vscode.markdown.preview.editor",
+    "*.db": "sqlite-viewer.option",
+    "*.ipynb": "jupyter-notebook",
+    "*.md": "default",
+    "file:/**/*.parquet": "jupyter-data-wrangler",
+    "*.parquet": "duckdb.dataFileViewer",
+    "*.csv": "duckdb.dataFileViewer",
+    "*.tsv": "duckdb.dataFileViewer",
+    "*.xlsx": "duckdb.dataFileViewer"
   }
 }
