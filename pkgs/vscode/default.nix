@@ -43,6 +43,9 @@ in
       ]
       old.postPatch
       + ''
+        # asar extraction drops the executable bit from the signature verifier.
+        chmod +x resources/app/node_modules/@vscode/vsce-sign/bin/vsce-sign
+
         substituteInPlace resources/app/extensions/copilot/dist/extension.js \
           --replace-fail \
             'await O4.promises.copyFile(gr(__dirname,xKt),gr(r,xKt))' \

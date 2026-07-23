@@ -455,7 +455,9 @@
     "**/.gitea/workflows/*.yml",
     "**/.gitea/workflows/*.yaml",
     "**/.forgejo/workflows/*.yml",
-    "**/.forgejo/workflows/*.yaml"
+    "**/.forgejo/workflows/*.yaml",
+    "**/dbt_project.yml",
+    "**/dbt_project.yaml"
   ],
   "yaml.maxItemsComputed": 10000,
   "zig.zls.enabled": "on",
