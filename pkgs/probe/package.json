@@ -1,0 +1,8 @@
+{
+  "name": "probe-nix",
+  "version": "0.6.0-rc325",
+  "private": true,
+  "dependencies": {
+    "@probelabs/probe": "0.6.0-rc325"
+  }
+}
