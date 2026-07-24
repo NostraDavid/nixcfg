@@ -28,6 +28,7 @@ in {
     gperftools
     flite # flite -f <file>; TTS Engine
     tts # coqui-tts
+    pocket-tts # Lightweight, CPU-friendly text-to-speech
     pulseaudio # provides pactl for PipeWire/PulseAudio debugging
     pavucontrol # Route PipeWire/PulseAudio app streams, e.g. Friture input from output monitor
 
@@ -47,6 +48,7 @@ in {
     # local.synology-drive-client-pinned # kaput in 25.11
     # local.vscode
     local.cool-retro-term # terminal emulator with retro style
+    local.voiceio # Local push-to-talk voice dictation
     # local.dlss-updater # disabled: its Flatpak dependency currently pulls insecure pnpm 9
     local.photorec # image recovery
     # local.pixieditor
