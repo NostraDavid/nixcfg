@@ -9,9 +9,12 @@ from pathlib import Path
 
 import awkward as ak
 from gigatoken import Tokenizer
+from gigatoken.gigatoken_rs import BPETokenizer
 
 
-DEFAULT_TOKENIZER = "openai-community/gpt2"
+DEFAULT_TOKENIZER = "gpt-5"
+O200K_TOKENIZER = "@o200kTokenizer@"
+O200K_CONFIG = "@o200kConfig@"
 
 
 def add_tokenizer_option(parser):
@@ -90,6 +93,11 @@ def parse_args():
 
 
 def load_tokenizer(spec):
+    if spec in ("gpt-5", "o200k_base"):
+        backend = BPETokenizer.from_tiktoken_model(
+            O200K_TOKENIZER, O200K_CONFIG, "o200k"
+        )
+        return Tokenizer(backend)
     if spec.endswith(".tiktoken"):
         return Tokenizer.from_tiktoken(spec)
     if spec.endswith(".model"):
