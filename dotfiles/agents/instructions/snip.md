@@ -1,6 +1,7 @@
 # Snip - CLI proxy
 
-Invoke snip with the original command and arguments unchanged:
+Snip is the third command-proxy fallback, after LeanCTX and RTK. Invoke it with
+the original command and arguments unchanged:
 
 ```bash
 snip git status
