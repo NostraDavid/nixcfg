@@ -1,5 +1,6 @@
 # AGENTS.md
 
+* @~/.agents/instructions/batch-instructions.md
 * @~/.agents/instructions/cli-proxy-policy.md
 * @~/.agents/instructions/RTK.md
 * @~/.agents/instructions/snip.md
