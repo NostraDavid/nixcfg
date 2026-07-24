@@ -9,6 +9,7 @@
   };
 in {
   home.packages = with pkgs; [
+    dockerfile-roast # Opinionated Dockerfile linter
     # podman
     unstable.podman-desktop # GUI for managing containers
     unstable.podman-compose # docker-compose alternative
