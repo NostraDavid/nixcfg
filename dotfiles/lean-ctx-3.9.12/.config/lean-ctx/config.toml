@@ -1,0 +1,18 @@
+minimal_overhead = true
+structure_first = true
+journal_enabled = true
+auto_capture = true
+proxy_enabled = true
+allow_ide_config_dirs = true
+
+[setup]
+auto_inject_rules = true
+auto_inject_skills = false
+
+[updates]
+auto_update = false
+check_interval_hours = 6
+notify_only = false
+
+[archive]
+enabled = true

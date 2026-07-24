@@ -30,7 +30,6 @@
     "editor.defaultFormatter": "oxc.oxc-vscode",
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 80
-    // "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   },
   "[python]": {
     "editor.codeActionsOnSave": {
@@ -79,6 +78,7 @@
   "basedpyright.analysis.useTypingExtensions": true,
   "chat.math.enabled": true,
   "chat.mcp.autostart": "newAndOutdated",
+  "chat.mcp.enabled": true,
   "chat.mcp.serverSampling": {
     "Global in Code: memory": {
       "allowedModels": []
@@ -101,23 +101,23 @@
     "psql": true,
     "pytest": true,
     "rpk": true,
+    "rtk": true,
     "ruff": true,
     "sed": true,
     "shasum": true,
     "timeout": true,
-    "uv": true,
-    "rtk": true
+    "uv": true
   },
   "chat.tools.urls.autoApprove": {
+    "https://*.cbs.nl": true,
+    "https://*.freedesktop.org": true,
     "https://code.visualstudio.com": true,
     "https://github.com/microsoft/vscode/wiki/*": true,
-    "https://*.cbs.nl": true,
+    "https://gitlab.freedesktop.org": true,
     "https://www.freedesktop.org": {
       "approveRequest": true,
       "approveResponse": false
-    },
-    "https://gitlab.freedesktop.org": true,
-    "https://*.freedesktop.org": true
+    }
   },
   "chat.useClaudeHooks": true,
   "chat.viewSessions.orientation": "stacked",
@@ -196,10 +196,10 @@
   "explorer.incrementalNaming": "smart",
   "extensions.ignoreRecommendations": false,
   "files.associations": {
-    ".env": "dotenv",
+    "**/SKILL.md": "markdown",
     "*.jsonl": "json",
     "*.mako": "jinja-py",
-    "**/SKILL.md": "markdown"
+    ".env": "dotenv"
   },
   "files.exclude": {
     "**/*.egg-info": true,
@@ -249,6 +249,20 @@
   "git.fetchOnPull": true,
   "git.ignoreRebaseWarning": true,
   "github.copilot.chat.localeOverride": "en",
+  "github.copilot.chat.planAgent.additionalTools": [
+    "lean-ctx_ctx_read",
+    "lean-ctx_ctx_search",
+    "lean-ctx_ctx_tree",
+    "lean-ctx_ctx_overview",
+    "lean-ctx_ctx_plan",
+    "lean-ctx_ctx_metrics",
+    "lean-ctx_ctx_compress",
+    "lean-ctx_ctx_session",
+    "lean-ctx_ctx_knowledge",
+    "lean-ctx_ctx_graph",
+    "lean-ctx_ctx_retrieve",
+    "lean-ctx_ctx_provider"
+  ],
   "github.copilot.chat.rateLimitAutoSwitchToAuto": true,
   "github.copilot.enable": {
     "markdown": true
@@ -273,22 +287,20 @@
   "makefile.configureOnOpen": true,
   "markdown-preview-enhanced.previewTheme": "monokai.css",
   "markdown.marp.browser": "firefox",
+  "markdownlint.config": {
+    "MD024": false
+  },
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "alejandra",
   "nix.serverPath": "nixd",
   "nix.serverSettings": {
-    // check https://github.com/oxalica/nil/blob/main/docs/configuration.md for all options available
     "nil": {
-      // "diagnostics": {
-      //  "ignored": ["unused_binding", "unused_with"],
-      // },
       "formatting": {
         "command": [
           "alejandra"
         ]
       }
     },
-    // check https://github.com/nix-community/nixd/blob/main/nixd/docs/configuration.md for all nixd config
     "nixd": {
       "formatting": {
         "command": [
@@ -302,9 +314,6 @@
         "home-manager": {
           "expr": "let opts = (builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/branches/master\").nixosConfigurations.wodan.options; in opts.home-manager.users.type.getSubOptions []"
         },
-        // By default, this entry will be read from `import <nixpkgs> { }`.
-        // You can write arbitrary Nix expressions here, to produce valid "options" declaration result.
-        // Tip: for flake-based configuration, utilize `builtins.getFlake`
         "nixos": {
           "expr": "(builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/branches/master\").nixosConfigurations.wodan.options"
         }
@@ -460,8 +469,5 @@
     "**/dbt_project.yaml"
   ],
   "yaml.maxItemsComputed": 10000,
-  "zig.zls.enabled": "on",
-  "markdownlint.config": {
-    "MD024": false
-  }
+  "zig.zls.enabled": "on"
 }
