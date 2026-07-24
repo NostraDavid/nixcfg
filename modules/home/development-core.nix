@@ -31,6 +31,7 @@ in {
 
       # unstable
       unstable.neovim
+      unstable.mistral-vibe
     ])
     ++ lib.optionals (hostname != "bragi") [
       pkgs.codex
