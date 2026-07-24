@@ -150,6 +150,7 @@
         ".config/snip/filters" = {source = mk "${dot}/snip-0.18.0/.config/snip/filters";};
 
         # The rest
+        ".config/cloc/options.txt" = {source = mk "${dot}/cloc-2.08/.config/cloc/options.txt";};
         ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode/.config/Code/User/keybindings.json";};
         ".config/Code/User/settings.json" = {source = mk "${dot}/vscode/.config/Code/User/settings.json";};
         ".config/git/attributes" = {source = mk "${dot}/git/.config/git/attributes";};
