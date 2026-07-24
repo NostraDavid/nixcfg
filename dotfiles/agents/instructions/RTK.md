@@ -1,6 +1,7 @@
 # RTK - CLI proxy
 
-Use RTK's dedicated wrappers for supported commands, for example:
+RTK is the second command-proxy fallback after LeanCTX. Use its dedicated
+wrappers when LeanCTX is unavailable, unsuitable, or loses required output:
 
 ```bash
 rtk git status
