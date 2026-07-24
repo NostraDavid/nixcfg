@@ -53,6 +53,7 @@
         "reliability-engineering"
         "review-twelve-factor-app"
         "secure-software-design"
+        "skill-review"
         "software-architecture-design"
         "test-design"
         "tiger-style"

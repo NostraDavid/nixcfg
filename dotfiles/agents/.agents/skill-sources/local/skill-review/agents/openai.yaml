@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Review"
+  short_description: "Review AI skills with measurable evaluations"
+  default_prompt: "Use $skill-review to assess this skill and design a focused evaluation suite."
