@@ -1,5 +1,36 @@
 {
   "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "/nix/store/idnip77gy6jrib5cdqwijr12ravyf1rd-lean-ctx-3.9.12/bin/lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "/nix/store/idnip77gy6jrib5cdqwijr12ravyf1rd-lean-ctx-3.9.12/bin/lean-ctx hook read-dedup",
+            "type": "command"
+          }
+        ],
+        "matcher": "Read"
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "command": "/nix/store/idnip77gy6jrib5cdqwijr12ravyf1rd-lean-ctx-3.9.12/bin/lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
     "PreToolUse": [
       {
         "hooks": [
@@ -18,7 +49,90 @@
           }
         ],
         "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "/nix/store/idnip77gy6jrib5cdqwijr12ravyf1rd-lean-ctx-3.9.12/bin/lean-ctx hook rewrite",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash|bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "/nix/store/idnip77gy6jrib5cdqwijr12ravyf1rd-lean-ctx-3.9.12/bin/lean-ctx hook redirect",
+            "type": "command"
+          }
+        ],
+        "matcher": "Read|read|ReadFile|read_file|View|view|Grep|grep|Search|search|ListFiles|list_files|ListDirectory|list_directory|Glob|glob"
       }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "command": "/nix/store/idnip77gy6jrib5cdqwijr12ravyf1rd-lean-ctx-3.9.12/bin/lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "/nix/store/idnip77gy6jrib5cdqwijr12ravyf1rd-lean-ctx-3.9.12/bin/lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "/nix/store/idnip77gy6jrib5cdqwijr12ravyf1rd-lean-ctx-3.9.12/bin/lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "command": "/nix/store/idnip77gy6jrib5cdqwijr12ravyf1rd-lean-ctx-3.9.12/bin/lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "mcp__lean-ctx__ctx_read",
+      "mcp__lean-ctx__ctx_search",
+      "mcp__lean-ctx__ctx_tree",
+      "mcp__lean-ctx__ctx_overview",
+      "mcp__lean-ctx__ctx_plan",
+      "mcp__lean-ctx__ctx_metrics",
+      "mcp__lean-ctx__ctx_compress",
+      "mcp__lean-ctx__ctx_session",
+      "mcp__lean-ctx__ctx_knowledge",
+      "mcp__lean-ctx__ctx_graph",
+      "mcp__lean-ctx__ctx_retrieve",
+      "mcp__lean-ctx__ctx_provider"
+    ],
+    "deny": [
+      "Read",
+      "Grep",
+      "Glob"
     ]
   }
 }
