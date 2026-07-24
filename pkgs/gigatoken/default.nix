@@ -1,70 +1,85 @@
 {
   lib,
   fetchFromGitHub,
+  fetchurl,
   git,
   python3Packages,
   rustPlatform,
-}:
-python3Packages.buildPythonApplication (finalAttrs: {
-  pname = "gigatoken";
-  version = "0.9.0";
-  pyproject = true;
-
-  src = fetchFromGitHub {
-    owner = "marcelroed";
-    repo = "gigatoken";
-    rev = "ecf968da2b7300e33f90e8bd9c96a11a335a01ae";
-    hash = "sha256-xzrXzCvbvic9EoA8oKJJGIkhQCasbdvioyyw4RkfIAM=";
+  writeText,
+}: let
+  o200kTokenizer = fetchurl {
+    url = "https://openaipublic.blob.core.windows.net/encodings/o200k_base.tiktoken";
+    hash = "sha256-RGqVOMtsNI41FhINfAiwn1fDZJXirP/+WaW/iwz7Gi0=";
   };
+  o200kConfig = writeText "o200k-tokenizer-config.json" (builtins.toJSON {
+    added_tokens_decoder = {
+      "199999".content = "<|endoftext|>";
+      "200018".content = "<|endofprompt|>";
+    };
+  });
+in
+  python3Packages.buildPythonApplication (finalAttrs: {
+    pname = "gigatoken";
+    version = "0.9.0";
+    pyproject = true;
 
-  cargoDeps = rustPlatform.fetchCargoVendor {
-    inherit (finalAttrs) pname version src;
-    hash = "sha256-z1sOT3QqpdkFVMe9naNEnYaGM0JRZVGoeTv+jlQlfRQ=";
-  };
+    src = fetchFromGitHub {
+      owner = "marcelroed";
+      repo = "gigatoken";
+      rev = "ecf968da2b7300e33f90e8bd9c96a11a335a01ae";
+      hash = "sha256-xzrXzCvbvic9EoA8oKJJGIkhQCasbdvioyyw4RkfIAM=";
+    };
 
-  postPatch = ''
-    # The profiling-only rustflags need nightly Cargo, but are irrelevant to
-    # the release build produced by maturin.
-    rm .cargo/config.toml
-    substituteInPlace Cargo.toml \
-      --replace-fail 'rustflags = ["-C", "force-frame-pointers=yes"]' '# rustflags removed for the release build'
-    substituteInPlace pyproject.toml \
-      --replace-fail 'gigatoken = "gigatoken._cli:app"' 'gigatoken = "gigatoken._wrapper:main"'
-    cp ${./gigatoken.py} gigatoken/_wrapper.py
-    substituteInPlace gigatoken/_wrapper.py \
-      --replace-fail '@git@' '${lib.getExe git}'
-  '';
+    cargoDeps = rustPlatform.fetchCargoVendor {
+      inherit (finalAttrs) pname version src;
+      hash = "sha256-z1sOT3QqpdkFVMe9naNEnYaGM0JRZVGoeTv+jlQlfRQ=";
+    };
 
-  # Gigatoken uses the still-unstable portable_simd feature.
-  env.RUSTC_BOOTSTRAP = 1;
+    postPatch = ''
+      # The profiling-only rustflags need nightly Cargo, but are irrelevant to
+      # the release build produced by maturin.
+      rm .cargo/config.toml
+      substituteInPlace Cargo.toml \
+        --replace-fail 'rustflags = ["-C", "force-frame-pointers=yes"]' '# rustflags removed for the release build'
+      substituteInPlace pyproject.toml \
+        --replace-fail 'gigatoken = "gigatoken._cli:app"' 'gigatoken = "gigatoken._wrapper:main"'
+      cp ${./gigatoken.py} gigatoken/_wrapper.py
+      substituteInPlace gigatoken/_wrapper.py \
+        --replace-fail '@git@' '${lib.getExe git}' \
+        --replace-fail '@o200kTokenizer@' '${o200kTokenizer}' \
+        --replace-fail '@o200kConfig@' '${o200kConfig}'
+    '';
 
-  nativeBuildInputs = [
-    rustPlatform.cargoSetupHook
-    rustPlatform.maturinBuildHook
-  ];
+    # Gigatoken uses the still-unstable portable_simd feature.
+    env.RUSTC_BOOTSTRAP = 1;
 
-  dependencies = with python3Packages; [
-    awkward
-    numpy
-    typer
-  ];
+    nativeBuildInputs = [
+      rustPlatform.cargoSetupHook
+      rustPlatform.maturinBuildHook
+    ];
 
-  pythonImportsCheck = ["gigatoken"];
+    dependencies = with python3Packages; [
+      awkward
+      numpy
+      typer
+    ];
 
-  doInstallCheck = true;
-  installCheckPhase = ''
-    runHook preInstallCheck
-    bash ${./test-cli.sh} \
-      $out/bin/gigatoken \
-      tests/fixtures/gpt2_tokenizer.json
-    runHook postInstallCheck
-  '';
+    pythonImportsCheck = ["gigatoken"];
 
-  meta = {
-    description = "Gigatoken package with count, encode, decode, and benchmark CLI";
-    homepage = "https://github.com/marcelroed/gigatoken";
-    license = lib.licenses.mit;
-    mainProgram = "gigatoken";
-    platforms = lib.platforms.linux ++ lib.platforms.darwin;
-  };
-})
+    doInstallCheck = true;
+    installCheckPhase = ''
+      runHook preInstallCheck
+      bash ${./test-cli.sh} \
+        $out/bin/gigatoken \
+        tests/fixtures/gpt2_tokenizer.json
+      runHook postInstallCheck
+    '';
+
+    meta = {
+      description = "Gigatoken package with count, encode, decode, and benchmark CLI";
+      homepage = "https://github.com/marcelroed/gigatoken";
+      license = lib.licenses.mit;
+      mainProgram = "gigatoken";
+      platforms = lib.platforms.linux ++ lib.platforms.darwin;
+    };
+  })

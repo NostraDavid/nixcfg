@@ -4,6 +4,12 @@ set -euo pipefail
 gigatoken_bin="$1"
 tokenizer="$2"
 
+actual="$(printf "You're testing GPT-5's tokenizer: 1234567 👋" | "$gigatoken_bin" count)"
+if [[ "$actual" != 14 ]]; then
+  printf 'expected default GPT-5 count output 14, got %q\n' "$actual" >&2
+  exit 1
+fi
+
 actual="$(printf 'hello' | "$gigatoken_bin" count --tokenizer "$tokenizer")"
 if [[ "$actual" != 1 ]]; then
   printf 'expected count output 1, got %q\n' "$actual" >&2
