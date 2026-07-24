@@ -11,14 +11,15 @@
   libxtst,
   openssl,
   pipewire,
+  python3,
   ripgrep,
   webkitgtk_4_1,
   libsoup_3,
 }: let
-  version = "1.129.1";
+  version = "1.130.0";
   # to grab the hash, run:
   # nix store prefetch-file https://update.code.visualstudio.com/<version>/linux-x64/stable
-  srcHash = "sha256-cieB7O7HQ2oJVFT4OfmaToXHh6pFPpBk7dltKZ8CSVM=";
+  srcHash = "sha256-fWrT06eKxFUcFGMfeNfgPIUoKrUFw86LG8BOAfr+iOo=";
   src = fetchurl {
     url = "https://update.code.visualstudio.com/${version}/linux-x64/stable";
     name = "vscode-${version}.tar.gz";
@@ -46,13 +47,36 @@ in
         # asar extraction drops the executable bit from the signature verifier.
         chmod +x resources/app/node_modules/@vscode/vsce-sign/bin/vsce-sign
 
-        substituteInPlace resources/app/extensions/copilot/dist/extension.js \
-          --replace-fail \
-            'await O4.promises.copyFile(gr(__dirname,xKt),gr(r,xKt))' \
-            'await O4.promises.copyFile(gr(__dirname,xKt),gr(r,xKt)),await O4.promises.chmod(gr(r,xKt),420)' \
-          --replace-fail \
-            'await K$.promises.copyFile(gr(__dirname,scn),gr(t,scn))' \
-            'await K$.promises.copyFile(gr(__dirname,scn),gr(t,scn)),await K$.promises.chmod(gr(t,scn),420)'
+        ${lib.getExe python3} - <<'PY'
+        import re
+        from pathlib import Path
+
+        path = Path("resources/app/extensions/copilot/dist/extension.js")
+        source = path.read_text()
+        copy_pattern = re.compile(
+            r"await (?P<fs>[\w$]+)\.promises\.copyFile\("
+            r"(?P<join>[\w$]+)\(__dirname,(?P<name>[\w$]+)\),"
+            r"(?P=join)\((?P<directory>[\w$]+),(?P=name)\)\)"
+        )
+
+        def make_writable(match):
+            fs = match["fs"]
+            target = "{}({},{})".format(
+                match["join"], match["directory"], match["name"]
+            )
+            return "{},await {}.promises.chmod({},420)".format(
+                match.group(0), fs, target
+            )
+
+        source, replacements = copy_pattern.subn(make_writable, source)
+        if replacements != 2:
+            raise RuntimeError(
+                "expected two Copilot file-copy operations, found {}".format(
+                    replacements
+                )
+            )
+        path.write_text(source)
+        PY
 
         for rg in \
           resources/app/node_modules/@vscode/ripgrep/bin/rg \
