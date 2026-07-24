@@ -29,6 +29,10 @@
       url = "github:NousResearch/hermes-agent/v2026.7.7.2";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    serena = {
+      url = "github:oraios/serena/v1.6.1";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
