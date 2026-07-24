@@ -14,16 +14,16 @@ format-alejandra:
   @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra
 
 format-oxfmt:
-  @git ls-files -z -- '*.json' '*.jsonc' | xargs -0 --no-run-if-empty oxfmt --write
+  @git ls-files -z -- '*.json' '*.jsonc' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty oxfmt --write
 
 format-shfmt:
-  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | xargs -0 --no-run-if-empty shfmt -w
+  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shfmt -w
 
 format-stylua:
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua
 
 format-ruff:
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | xargs -0 --no-run-if-empty ruff format
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' | xargs -0 --no-run-if-empty ruff format
 
 format:
   @just format-alejandra
@@ -105,10 +105,10 @@ nixos-show host=default_host:
 # Run formatting checks without modifying files.
 check:
   @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra --check
-  @git ls-files -z -- '*.json' '*.jsonc' | xargs -0 --no-run-if-empty oxfmt --check
-  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | xargs -0 --no-run-if-empty shfmt -d
+  @git ls-files -z -- '*.json' '*.jsonc' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty oxfmt --check
+  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shfmt -d
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua --check
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | xargs -0 --no-run-if-empty ruff format --check
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' | xargs -0 --no-run-if-empty ruff format --check
 
 # Test a host configuration temporarily; reverts after reboot.
 test host=default_host:
@@ -298,22 +298,22 @@ hooks-run:
   @prek --config .pre-commit-config.yaml run --all-files
 
 lint-ruff:
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zv '^dotfiles/agents/\.agents/skill-sources/' | xargs -0 --no-run-if-empty ruff check
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' | xargs -0 --no-run-if-empty ruff check
 
 lint-ruff-files *files:
-  @printf '%s\0' {{files}} | { grep -zv '^dotfiles/agents/\.agents/skill-sources/' || true; } | xargs -0 --no-run-if-empty ruff check
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' || true; } | xargs -0 --no-run-if-empty ruff check
 
 lint-shellcheck:
-  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | xargs -0 --no-run-if-empty shellcheck --severity=error
+  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shellcheck --severity=error
 
 lint-shellcheck-files *files:
-  @shellcheck --severity=error {{files}}
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' || true; } | xargs -0 --no-run-if-empty shellcheck --severity=error
 
 lint-markdown:
-  @git ls-files -z -- '*.md' | grep -zEv '^(docs/agentskills\.io/|dotfiles/agents/\.agents/skill-sources/)' | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
+  @git ls-files -z -- '*.md' | grep -zEv '^(docs/agentskills\.io/|dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/)' | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
 lint-markdown-files *files:
-  @printf '%s\0' {{files}} | { grep -zv '^dotfiles/agents/\.agents/skill-sources/' || true; } | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' || true; } | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
 lint-selene:
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty selene
