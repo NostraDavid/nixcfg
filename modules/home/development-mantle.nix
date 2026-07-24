@@ -79,7 +79,6 @@ in {
     local.vscode
     local.jsongrep # JSONPath-inspired query language over JSON documents
     local.austin # CPython frame stack sampler
-    local.semble # Fast code search for agents
     local.dpaint-js
     local.doctok
     local.gigatoken
@@ -89,7 +88,13 @@ in {
     local.hermes-agent
     local.github-copilot-cli
     local.snip # CLI proxy, to reduce token usage for LLMs
-    local.rtk
+    local.rtk # CLI proxy, to reduce token usage for LLMs
+    local.headroom # Context compression proxy for AI agents
+    local.serena # Symbol-aware code navigation and editing MCP server
+    local.probe # AST-aware semantic code search and MCP server
+    local.lean-ctx # Local-first context optimization layer and MCP server
+    local.engram # Persistent memory and MCP server for coding agents
+    local.beads # Dependency-aware task handoff between coding agents
     local.codealmanac # Local codebase wiki for AI coding agents
     local.skillkit # Local codebase wiki for AI coding agents
   ];
