@@ -1,3 +1,6 @@
 *.jar filter=lfs diff=lfs merge=lfs -text
 *.pdf filter=lfs diff=lfs merge=lfs -text
 *.zst filter=lfs diff=lfs merge=lfs -text
+
+# Bewaar upstream skill-snapshots byte-exact, inclusief hun whitespace.
+dotfiles/agents/.agents/skill-originals/** whitespace=-trailing-space
