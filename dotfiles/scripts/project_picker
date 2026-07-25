@@ -397,6 +397,30 @@ def find_active_worktree(
     return None
 
 
+def order_worktree_labels(
+    worktrees: list[WorktreeChoice],
+    new_worktree_label: str | None,
+) -> list[str]:
+    """Order labels for fzf's default bottom-up layout."""
+    trunk_labels = [
+        choice.label
+        for choice in worktrees
+        if choice.kind == "branch" and choice.path.name == "trunk"
+    ]
+    trunk_label_set = set(trunk_labels)
+    other_labels = sorted(
+        (choice.label for choice in worktrees if choice.label not in trunk_label_set),
+        key=str.casefold,
+        reverse=True,
+    )
+
+    labels = trunk_labels
+    if new_worktree_label is not None:
+        labels.append(new_worktree_label)
+    labels.extend(other_labels)
+    return labels
+
+
 def local_branch_exists(bare_dir: Path, branch: str) -> bool:
     proc = run(
         [
@@ -657,10 +681,9 @@ def main() -> int:
     worktree_by_label = {choice.label: choice for choice in worktrees}
     active_worktree = find_active_worktree(worktrees, Path.cwd())
     new_worktree_label = None
-    worktree_labels = list(worktree_by_label)
     if active_worktree is not None and (repo_root / BARE_REPO_DIR).exists():
         new_worktree_label = f"{NEW_WORKTREE_PREFIX} {active_worktree.ref}"
-        worktree_labels.insert(0, new_worktree_label)
+    worktree_labels = order_worktree_labels(worktrees, new_worktree_label)
 
     worktree_label = choose_with_fzf(
         worktree_labels,
