@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "validation-positive-typo",
+      "purpose": "Held-out informal request with typos.",
+      "query": "can u chek if the skill in {fixture} overtriggers and if its evals actualy prove anything?",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "validation-positive-retirement",
+      "purpose": "Held-out retirement decision.",
+      "query": "The model may have caught up with the capability packaged in {fixture}. Determine whether this skill still adds value or should be retired.",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "validation-positive-regression",
+      "purpose": "Held-out regression-evaluation request.",
+      "query": "Our latest edit changed when the reusable skill at {fixture} is selected. Build a regression evaluation and assess the risk.",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "validation-positive-approval",
+      "purpose": "Held-out approval request.",
+      "query": "Act as the release reviewer for the SKILL.md under {fixture}; approve it only if the evidence supports the claim.",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "validation-negative-agent-config",
+      "purpose": "Held-out adjacent agent configuration review.",
+      "query": "Review this agent's MCP configuration and fix the broken server command.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "validation-negative-readme",
+      "purpose": "Held-out documentation review.",
+      "query": "Assess whether this README is clear enough for production users.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "validation-negative-test-suite",
+      "purpose": "Held-out software test-design request.",
+      "query": "Design positive, negative, boundary, and regression tests for this authentication module.",
+      "should_trigger": false,
+      "fixture": null
+    },
+    {
+      "id": "validation-negative-model-benchmark",
+      "purpose": "Held-out model benchmark without a skill artifact.",
+      "query": "Benchmark three language models on our support-ticket prompts and compare cost and latency.",
+      "should_trigger": false,
+      "fixture": null
+    }
+  ]
+}
