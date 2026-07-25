@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "train-positive-production-audit",
+      "purpose": "Explicit production-readiness review.",
+      "query": "Audit the agent skill at {fixture}. Is it ready to ship?",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "train-positive-casual-check",
+      "purpose": "Casual phrasing with no SKILL.md keyword.",
+      "query": "hey, can you sanity-check this agent workflow in {fixture}? mainly whether it activates at the right time and has proof it works",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "train-positive-underactivation",
+      "purpose": "Activation failure investigation.",
+      "query": "This reusable agent skill in {fixture} almost never gets selected. Investigate its underactivation.",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "train-positive-eval-design",
+      "purpose": "Evaluation design request.",
+      "query": "Design positive, negative, boundary, and ablation evaluations for the skill in {fixture}.",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "train-positive-improvements",
+      "purpose": "Read-only improvement proposal.",
+      "query": "Review {fixture} and recommend the smallest improvements; don't edit anything.",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "train-positive-buried-request",
+      "purpose": "Skill review embedded in broader context.",
+      "query": "We're reducing our agent tooling before a rollout. The component at {fixture} is a reusable skill. Compare its instructions with its evidence, flag unsafe behavior, and give us a release decision.",
+      "should_trigger": true,
+      "fixture": "minimal-skill"
+    },
+    {
+      "id": "train-negative-code-review",
+      "purpose": "Near-miss ordinary code review.",
+      "query": "Review this pull request for correctness, evidence in tests, and production readiness.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-security",
+      "purpose": "Near-miss application security review.",
+      "query": "Audit this web service for OWASP issues and decide whether it is safe to ship.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-api-schema",
+      "purpose": "Near-miss schema validation.",
+      "query": "Validate this OpenAPI schema, including boundary cases and compatibility.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-performance",
+      "purpose": "Near-miss benchmark request.",
+      "query": "Benchmark this PostgreSQL query, investigate the regression, and approve the index change.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-create-skill",
+      "purpose": "Greenfield skill creation without review intent.",
+      "query": "Create a new agent skill that formats release notes.",
+      "should_trigger": false,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-prompt-library",
+      "purpose": "Review of a non-skill agent artifact.",
+      "query": "Critique this library of reusable prompts for clarity and token cost.",
+      "should_trigger": false,
+      "fixture": null
+    }
+  ]
+}

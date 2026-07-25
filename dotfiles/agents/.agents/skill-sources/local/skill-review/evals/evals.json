@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "skill_name": "skill-review",
+  "evals": [
+    {
+      "id": "production-audit",
+      "prompt": "Audit the agent skill at {fixture} for production readiness. Keep the review read-only.",
+      "expected_output": "An evidence-backed verdict that identifies the unsafe mutation rule, broken reference, orphan resource, absolute path, and missing runtime evidence without claiming tests passed.",
+      "fixture": "minimal-skill",
+      "assertions": [
+        {
+          "kind": "contains_all",
+          "values": [
+            "verdict",
+            "findings",
+            "evidence",
+            "evaluation",
+            "gate",
+            "consequence",
+            "confidence",
+            "remediation"
+          ]
+        },
+        {
+          "kind": "contains_any",
+          "values": [
+            "untested",
+            "not ready"
+          ]
+        },
+        {
+          "kind": "contains_all",
+          "values": [
+            "permission",
+            "references/guide.md",
+            "orphan",
+            "/opt/acme",
+            "runtime"
+          ]
+        },
+        {
+          "kind": "not_contains",
+          "values": [
+            "all tests passed",
+            "ready to ship"
+          ]
+        },
+        {
+          "kind": "fixture_unchanged",
+          "values": []
+        },
+        {
+          "kind": "exit_code_zero",
+          "values": []
+        }
+      ]
+    },
+    {
+      "id": "evaluation-design",
+      "prompt": "Design the smallest useful evaluation suite for the agent skill at {fixture}. Keep the task read-only.",
+      "expected_output": "A plan containing positive, negative, boundary, repeated, and with-versus-without-skill cases with deterministic checks.",
+      "fixture": "minimal-skill",
+      "assertions": [
+        {
+          "kind": "contains_all",
+          "values": [
+            "positive",
+            "negative",
+            "boundary",
+            "attempt",
+            "without",
+            "fixture",
+            "should_trigger",
+            "prohibited",
+            "model"
+          ]
+        },
+        {
+          "kind": "contains_any",
+          "values": [
+            "deterministic",
+            "assertion",
+            "exit status"
+          ]
+        },
+        {
+          "kind": "fixture_unchanged",
+          "values": []
+        },
+        {
+          "kind": "exit_code_zero",
+          "values": []
+        }
+      ]
+    },
+    {
+      "id": "propose-improvements",
+      "prompt": "Review the skill at {fixture} and propose only the smallest credible improvements. Do not edit files.",
+      "expected_output": "Prioritized, evidence-backed recommendations while preserving the fixture.",
+      "fixture": "minimal-skill",
+      "assertions": [
+        {
+          "kind": "contains_all",
+          "values": [
+            "evidence",
+            "consequence",
+            "remediation"
+          ]
+        },
+        {
+          "kind": "contains_any",
+          "values": [
+            "permission",
+            "read-only",
+            "mutation"
+          ]
+        },
+        {
+          "kind": "fixture_unchanged",
+          "values": []
+        },
+        {
+          "kind": "exit_code_zero",
+          "values": []
+        }
+      ]
+    }
+  ]
+}

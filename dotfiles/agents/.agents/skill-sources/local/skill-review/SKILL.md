@@ -1,6 +1,6 @@
 ---
 name: skill-review
-description: Review an AI-agent skill and its evaluation evidence for activation quality, instruction design, progressive disclosure, operational safety, measurable value, and production readiness. Use when asked to audit, assess, critique, validate, benchmark, improve, or approve a SKILL.md-based skill or skill directory; design positive, negative, boundary, regression, or ablation evaluations for a skill; investigate skill underactivation or overactivation; or decide whether a skill should ship, change, or retire. Keep the review read-only unless the user explicitly asks for fixes.
+description: Review a SKILL.md-based AI-agent skill and its evaluation evidence for activation quality, instruction design, progressive disclosure, operational safety, measurable value, and production readiness. Use for skill audits, approval decisions, activation investigations, and positive, negative, boundary, regression, or ablation evaluation design. Do not use for ordinary code, pull-request, security, API-schema, or performance reviews. Keep reviews and proposed improvements read-only; edit files only when the user explicitly asks to edit, update, fix, or implement changes.
 ---
 
 # Skill Review
@@ -31,6 +31,10 @@ plausible instructions are not evidence that a skill works.
    authorization.
 6. Mark claims as `observed`, `inferred`, or `untested`. Never convert the
    absence of evidence into a pass.
+7. When bundled evaluations or release criteria are needed, read
+   `references/evaluation.md` and `references/release-policy.md`. Use
+   `scripts/evaluate.py` to validate, plan, run, or aggregate the bundled
+   trigger and task-quality suites.
 
 ## Review the Skill
 
@@ -43,6 +47,9 @@ plausible instructions are not evidence that a skill works.
 - Identify vague triggers that invite overactivation and missing synonyms or use
   cases that cause underactivation.
 - Check meaningful exclusions when neighboring tasks or skills could collide.
+- Route ordinary code or pull-request reviews, application security reviews,
+  API-schema validation, and system or query performance benchmarks to their
+  dedicated workflows.
 - Flag behavior-critical activation guidance hidden in the body, because the
   body is unavailable until after activation.
 - Inspect overlap with other installed skills and define a clear routing
@@ -89,10 +96,15 @@ plausible instructions are not evidence that a skill works.
 
 ## Design the Evaluation Matrix
 
-When adequate evals do not exist, propose the smallest useful suite. Start with
-at least five positive and five negative activation prompts when the domain
-supports that many distinct cases, then add ambiguous boundaries and known
-production failures.
+Keep activation and task-quality evaluations separate:
+
+- For activation, start with 8-10 realistic positive and 8-10 near-miss
+  negative queries. Vary phrasing, explicitness, detail, and complexity; include
+  ambiguous boundaries and known production failures. Keep a fixed validation
+  split hidden from description-tuning decisions.
+- For task quality, start with 2-3 representative cases containing a prompt,
+  expected output, isolated input files, and outcome assertions. Expand only
+  after initial runs expose consequential gaps.
 
 For every case specify:
 
@@ -109,9 +121,10 @@ command exit status over an LLM judge. Make every check capable of
 distinguishing a plausible wrong result from the correct one.
 
 Run or recommend repeated attempts because a single pass cannot establish
-reliability. Report successes over attempts for each case and aggregate positive
-activation recall, negative activation specificity, task success, latency,
-tokens, and cost when those measurements are available.
+reliability. For activation, do not explicitly invoke the skill: verify that the
+client actually loaded its `SKILL.md`. Report successes over attempts for each
+case and aggregate positive activation recall, negative activation specificity,
+task success, latency, tokens, and cost when those measurements are available.
 
 ## Measure Incremental Value
 
@@ -178,6 +191,8 @@ Include:
 4. **Evaluation plan or results** — cases, attempts, metrics, and ablation;
 5. **Recommended gate** — concrete conditions to ship, revise, or retire.
 
-If the user asks for improvements, propose or implement the smallest changes
-that address validated findings and add regression cases for the changed
-behavior. Re-run available validation afterward.
+Requests to review, assess, suggest, recommend, or propose improvements remain
+read-only. Edit files only when the user explicitly asks to edit, update, fix,
+apply, or implement changes. When edits are authorized, make the smallest
+changes that address validated findings, add regression cases for changed
+behavior, and re-run available validation afterward.

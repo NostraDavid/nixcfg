@@ -1,0 +1,4 @@
+interface:
+  display_name: "Minimal Skill"
+  short_description: "Generic repository assistance"
+  default_prompt: "Use $minimal-skill to help with this repository."
