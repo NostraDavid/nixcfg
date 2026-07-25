@@ -83,15 +83,6 @@ def clean_vscode_env() -> dict[str, str]:
     return env
 
 
-def supports_flag(code_bin: str, flag: str) -> bool:
-    proc = run([code_bin, "--help"])
-    if proc.returncode != 0:
-        return False
-
-    help_text = f"{proc.stdout}\n{proc.stderr}"
-    return flag in help_text
-
-
 def is_path_argument(arg: str) -> bool:
     if not arg or arg.startswith("-"):
         return False
@@ -123,7 +114,6 @@ def resolve_direct_code_args(args: list[str]) -> list[str] | None:
 
 
 def add_new_window_flag(
-    code_bin: str,
     command: list[str],
     *,
     skip_when_flags_present: bool = False,
@@ -131,13 +121,11 @@ def add_new_window_flag(
     if skip_when_flags_present and any(arg.startswith("-") for arg in command[1:]):
         return command
 
-    if not supports_flag(code_bin, "--new-window"):
-        return command
-
     if any(arg in WINDOW_FLAGS for arg in command[1:]):
         return command
 
     return [command[0], "--new-window", *command[1:]]
+
 
 def ensure_vscode_settings(target: Path) -> None:
     """Ensure .vscode/settings.json exists with window.title set to the project name.
@@ -187,7 +175,6 @@ def main() -> int:
     direct_args = resolve_direct_code_args(args.query)
     if direct_args is not None:
         command = add_new_window_flag(
-            code_bin,
             [code_bin, *direct_args],
             skip_when_flags_present=True,
         )
@@ -205,7 +192,7 @@ def main() -> int:
 
     target = Path(proc.stdout.strip())
     ensure_vscode_settings(target)
-    command = add_new_window_flag(code_bin, [code_bin, str(target)])
+    command = add_new_window_flag([code_bin, str(target)])
 
     return subprocess.run(
         command,
