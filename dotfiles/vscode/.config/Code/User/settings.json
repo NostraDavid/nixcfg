@@ -78,7 +78,6 @@
   "basedpyright.analysis.useTypingExtensions": true,
   "chat.math.enabled": true,
   "chat.mcp.autostart": "newAndOutdated",
-  "chat.mcp.enabled": true,
   "chat.mcp.serverSampling": {
     "Global in Code: memory": {
       "allowedModels": []
@@ -469,5 +468,6 @@
     "**/dbt_project.yaml"
   ],
   "yaml.maxItemsComputed": 10000,
-  "zig.zls.enabled": "on"
+  "zig.zls.enabled": "on",
+  "chat.mcp.access": "all"
 }
