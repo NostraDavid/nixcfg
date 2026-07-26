@@ -1,6 +1,8 @@
 # Shared home-manager configuration for all hosts.
 {
   config,
+  lib,
+  pkgs,
   repoRoot,
   ...
 }: {
@@ -110,6 +112,7 @@
 
         ## Codex
         ".codex/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
+        ".codex/hooks.json" = {source = mk "${dot}/codex-0.140.0/.codex/hooks.json";};
         ".codex/skills/manage-adrs" = {source = mk "${dot}/codex-0.140.0/.codex/skills/manage-adrs";};
 
         ## pi
@@ -134,6 +137,25 @@
         ".config/opencode/opencode.json".text = builtins.toJSON {
           "$schema" = "https://opencode.ai/config.json";
           instructions = ["${config.home.homeDirectory}/.agents/instructions/eu-ai-act.md"];
+          mcp.servers = {
+            headroom = {
+              type = "local";
+              command = [(lib.getExe pkgs.headroom) "mcp" "serve"];
+            };
+            serena = {
+              type = "local";
+              command = [
+                (lib.getExe pkgs.serena)
+                "start-mcp-server"
+                "--context"
+                "ide-assistant"
+              ];
+            };
+            engram = {
+              type = "local";
+              command = [(lib.getExe pkgs.engram) "mcp"];
+            };
+          };
         };
 
         ## Hermes
