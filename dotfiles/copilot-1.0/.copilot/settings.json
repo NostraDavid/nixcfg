@@ -1,3 +1,5 @@
 {
-  "allowedUrls": ["https://nixos.org"]
+  "allowedUrls": [
+    "https://nixos.org"
+  ]
 }
