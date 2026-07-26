@@ -1,6 +1,6 @@
 # Python skill scripts parity audit
 
-Baseline: Git commit `4c7c1ea281425656bcfce20288f7cc2711ad647f`  
+Baseline: Git commit `4c7c1ea281425656bcfce20288f7cc2711ad647f`\
 Additional upstream baseline: `mattpocock/skills` commit
 `9603c1cc8118d08bc1b3bf34cf714f62178dea3b`
 

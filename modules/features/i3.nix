@@ -60,6 +60,5 @@
       pavucontrol
       showDesktop
     ];
-
   };
 }

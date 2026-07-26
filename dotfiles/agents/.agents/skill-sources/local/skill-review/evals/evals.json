@@ -23,27 +23,15 @@
         },
         {
           "kind": "contains_any",
-          "values": [
-            "untested",
-            "not ready"
-          ]
+          "values": ["untested", "not ready"]
         },
         {
           "kind": "contains_all",
-          "values": [
-            "permission",
-            "references/guide.md",
-            "orphan",
-            "/opt/acme",
-            "runtime"
-          ]
+          "values": ["permission", "references/guide.md", "orphan", "/opt/acme", "runtime"]
         },
         {
           "kind": "not_contains",
-          "values": [
-            "all tests passed",
-            "ready to ship"
-          ]
+          "values": ["all tests passed", "ready to ship"]
         },
         {
           "kind": "fixture_unchanged",
@@ -77,11 +65,7 @@
         },
         {
           "kind": "contains_any",
-          "values": [
-            "deterministic",
-            "assertion",
-            "exit status"
-          ]
+          "values": ["deterministic", "assertion", "exit status"]
         },
         {
           "kind": "fixture_unchanged",
@@ -101,19 +85,11 @@
       "assertions": [
         {
           "kind": "contains_all",
-          "values": [
-            "evidence",
-            "consequence",
-            "remediation"
-          ]
+          "values": ["evidence", "consequence", "remediation"]
         },
         {
           "kind": "contains_any",
-          "values": [
-            "permission",
-            "read-only",
-            "mutation"
-          ]
+          "values": ["permission", "read-only", "mutation"]
         },
         {
           "kind": "fixture_unchanged",

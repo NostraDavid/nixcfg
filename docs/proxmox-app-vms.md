@@ -10,13 +10,13 @@ die NixOS mount via filesystem labels.
 
 ## Waar voer je wat uit?
 
-| Stap                         | Waar                                           | Voorbeeld                                        |
-| ---------------------------- | ---------------------------------------------- | ------------------------------------------------ |
-| Nix-config checken           | laptop/werkstation, in deze repo               | `just app-vms-check`                             |
-| VM en extra disks aanmaken   | laptop/werkstation, in deze repo               | `just tofu-proxmox-apply`                        |
-| Disks formatteren en labelen | in de betreffende NixOS VM                     | `just format-homepage-data /dev/disk/by-id/...`  |
-| NixOS-config deployen        | laptop/werkstation, in deze repo               | `just deploy-homepage root@<vm-ip>`              |
-| App binaries plaatsen        | in de `apps` VM, of via je app deployment      | `/opt/huishoudboekje/current/bin/huishoudboekje` |
+| Stap                         | Waar                                      | Voorbeeld                                        |
+| ---------------------------- | ----------------------------------------- | ------------------------------------------------ |
+| Nix-config checken           | laptop/werkstation, in deze repo          | `just app-vms-check`                             |
+| VM en extra disks aanmaken   | laptop/werkstation, in deze repo          | `just tofu-proxmox-apply`                        |
+| Disks formatteren en labelen | in de betreffende NixOS VM                | `just format-homepage-data /dev/disk/by-id/...`  |
+| NixOS-config deployen        | laptop/werkstation, in deze repo          | `just deploy-homepage root@<vm-ip>`              |
+| App binaries plaatsen        | in de `apps` VM, of via je app deployment | `/opt/huishoudboekje/current/bin/huishoudboekje` |
 
 De `just` recipes staan in deze repo en voer je dus normaal uit vanaf je laptop
 of werkstation. De formatteer-recipes moeten tegen een block device in de VM

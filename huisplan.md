@@ -22,7 +22,7 @@ Maak een plan om beter mijn huistaken op te pakken.
 - [D] Afwassen / vaatwasser in- en uitruimen
 - [D] Vuilnis/PMD/glasbak wegbrengen
 - [G] Stofzuigen (woonkamer/hal/keuken)
-- [X] Speelgoed/rommel opruimen
+- [x] Speelgoed/rommel opruimen
 - [P] Was in machine + droger ophangen/uitruimen
 - [G] Wc’s kort schoonmaken (bril, pot, handvat)
 
@@ -35,16 +35,16 @@ Maak een plan om beter mijn huistaken op te pakken.
 - [C] Boodschappen in bulk (houdbaar spul)
 - [G] Ramen binnenkant lappen
 - [G] Keukenkastjes fronten afnemen
-- [X] Koelkast schoonmaken en verlopen spullen wegdoen
+- [x] Koelkast schoonmaken en verlopen spullen wegdoen
 - [D] Afvalkalender checken en bakken buiten zetten
 - [C] Planten water geven
 
 ## Maandelijks
 
 - [G] Oven schoonmaken
-- [X] Magnetron schoonmaken
+- [x] Magnetron schoonmaken
 - [G] Afzuigkap ontvetten + filters schoonmaken | Geen afzuigkap, maar wel kookplaat en afzuiging
-- [X] Gordijnen wassen (indien nodig)
+- [x] Gordijnen wassen (indien nodig)
 - [G] Alles afstoffen op hogere plekken (kasten, lampen)
 - [G] Ramen buitenkant lappen (als je dat zelf doet)
 - [P] Matras draaien/ventileren
@@ -58,8 +58,8 @@ Maak een plan om beter mijn huistaken op te pakken.
 - [G] Schuur/berging opruimen
 - [G] Zolder opruimen
 - [P] Winter/zomer­kleding sorteren en opbergen
-- [X] Speelgoedselectie: kapot → weg, overbodig → kringloop
-- [X] Administratie opschonen
+- [x] Speelgoedselectie: kapot → weg, overbodig → kringloop
+- [x] Administratie opschonen
 - [P] Kledingkast reorganiseren
 - [G] Grote apparaten schoonmaken (wasmachine, droger, koelkastrubbers)
 
@@ -74,11 +74,11 @@ Maak een plan om beter mijn huistaken op te pakken.
 
 ## Mentale last / organisatorisch
 
-- [X] Agenda’s combineren
+- [x] Agenda’s combineren
 - [G] Familieafspraken plannen
 - [G] Verjaardagen/feestdagen organiseren
 - [C] Cadeautjes kopen
-- [X] Huisdierenplanning (voer, dierenarts, vlooien/ontworm)
+- [x] Huisdierenplanning (voer, dierenarts, vlooien/ontworm)
 - [G] Verzekeringen en contracten verlengen/vergelijkingen doen
 - [G] Reparaties en monteurs regelen
 - [C] Post beheren
