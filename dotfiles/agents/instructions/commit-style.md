@@ -12,14 +12,14 @@ Gebruik Scoped Commits tijdens een git commit.
 [optionele trailers]
 ```
 
-* Zet altijd de `<scope>` vooraan; dit is het onderdeel, domein of subsystem dat
+- Zet altijd de `<scope>` vooraan; dit is het onderdeel, domein of subsystem dat
   gewijzigd is.
-* Gebruik een korte, duidelijke omschrijving van de wijziging na de dubbele
+- Gebruik een korte, duidelijke omschrijving van de wijziging na de dubbele
   punt.
-* Voeg indien nodig een body toe met extra uitleg.
-* Voeg indien nodig trailers toe voor metadata, zoals referenties of co-auteurs.
-* Speciale commits zoals merges en reverts mogen een afwijkend formaat hebben.
-* Definieer binnen een project een vaste lijst met geldige scopes en gebruik die
+- Voeg indien nodig een body toe met extra uitleg.
+- Voeg indien nodig trailers toe voor metadata, zoals referenties of co-auteurs.
+- Speciale commits zoals merges en reverts mogen een afwijkend formaat hebben.
+- Definieer binnen een project een vaste lijst met geldige scopes en gebruik die
   consequent.
 
 Voorbeelden:

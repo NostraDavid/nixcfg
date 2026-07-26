@@ -36,7 +36,11 @@
       },
     },
     "percent": {
-      "type": ["num", "bar", "hide-others"],
+      "type": [
+        "num",
+        "bar",
+        "hide-others"
+      ],
       "ndigits": 0,
       "color": {
         "green": "green",
@@ -175,7 +179,9 @@
     {
       "type": "disk",
       "key": "Disk",
-      "folders": ["/"],
+      "folders": [
+        "/"
+      ],
       "format": "{mountpoint}: \u001b[91m{size-used}\u001b[97m / \u001b[91m{size-total}\u001b[97m (\u001b[91m{size-percentage}\u001b[97m)",
     },
     {

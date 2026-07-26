@@ -101,7 +101,6 @@ require_repo = true
 format = "[ $output](fg:gray9 bg:gray2)"
 shell = ["bash", "--noprofile", "--norc"]
 
-
 # [git_status]
 # style = 'bg:dark_bg'
 # format = '[ $all_status$ahead_behind ]($style)'
