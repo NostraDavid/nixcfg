@@ -39,79 +39,79 @@ __pycache__
 
 # find folder xD
 function ff() {
-	local dir
-	if [ -n "$1" ]; then
-		# shellcheck disable=SC2012
-		dir=$(ls -d ./*/ | sed 's|/$||' | fzf --query="$1" -1)
-	else
-		# shellcheck disable=SC2012
-		dir=$(ls -d ./*/ | sed 's|/$||' | fzf --prompt="Select directory: ")
-	fi
+    local dir
+    if [ -n "$1" ]; then
+        # shellcheck disable=SC2012
+        dir=$(ls -d ./*/ | sed 's|/$||' | fzf --query="$1" -1)
+    else
+        # shellcheck disable=SC2012
+        dir=$(ls -d ./*/ | sed 's|/$||' | fzf --prompt="Select directory: ")
+    fi
 
-	if [ -n "$dir" ]; then
-		cd "$dir" || exit # Activate the selected environment
-	else
-		echo "No directory selected."
-	fi
+    if [ -n "$dir" ]; then
+        cd "$dir" || exit # Activate the selected environment
+    else
+        echo "No directory selected."
+    fi
 }
 
 function rfc3339() {
-	# date | rfc3339
-	date --date="$1" --rfc-3339='seconds'
+    # date | rfc3339
+    date --date="$1" --rfc-3339='seconds'
 }
 
 function epoch() {
-	#  epoch 2021-01-04
-	date --date="$1" +%s
+    #  epoch 2021-01-04
+    date --date="$1" +%s
 }
 
 function now() {
-	#  now -> current epoch
-	date +%s
+    #  now -> current epoch
+    date +%s
 }
 
 # == fix ssh agent ==
 function fix_ssh() {
-	SSH_AUTH_SOCK="$(find /tmp/ssh-* -user "$(whoami)" -name 'agent*' -printf '%T@ %p\n' 2>/dev/null | sort -k 1nr | sed 's/^[^ ]* //' | head -n 1)"
-	export SSH_AUTH_SOCK
-	if [ -n "$SSH_AUTH_SOCK" ]; then
-		echo 'Ok!'
-	else
-		echo 'Error!'
-	fi
+    SSH_AUTH_SOCK="$(find /tmp/ssh-* -user "$(whoami)" -name 'agent*' -printf '%T@ %p\n' 2>/dev/null | sort -k 1nr | sed 's/^[^ ]* //' | head -n 1)"
+    export SSH_AUTH_SOCK
+    if [ -n "$SSH_AUTH_SOCK" ]; then
+        echo 'Ok!'
+    else
+        echo 'Error!'
+    fi
 }
 
 # == draw all bash colors ==
 function draw_colors() {
-	for x in {0..8}; do
-		for i in {30..37}; do
-			for a in {40..47}; do
-				echo -ne "\e[${x};${i};${a}m\\\e[${x};${i};${a}m\e[0;37;40m "
-			done
-			echo
-		done
-	done
+    for x in {0..8}; do
+        for i in {30..37}; do
+            for a in {40..47}; do
+                echo -ne "\e[${x};${i};${a}m\\\e[${x};${i};${a}m\e[0;37;40m "
+            done
+            echo
+        done
+    done
 }
 
 # == auto activate virtualenv ==
 function cd_f() {
-	builtin cd "$@" || return
+    builtin cd "$@" || return
 
-	if [[ -z "$VIRTUAL_ENV" ]]; then
-		## If env folder is found then activate the vitualenv
-		if [[ -d ./.venv ]]; then
-			# shellcheck source=/dev/null
-			source .venv/bin/activate
-		fi
-	else
-		## check the current folder belong to earlier VIRTUAL_ENV folder
-		# if yes then do nothing
-		# else deactivate
-		parentdir="$(dirname "$VIRTUAL_ENV")"
-		if [[ "$PWD"/ != "$parentdir"/* ]]; then
-			deactivate
-		fi
-	fi
+    if [[ -z "$VIRTUAL_ENV" ]]; then
+        ## If env folder is found then activate the vitualenv
+        if [[ -d ./.venv ]]; then
+            # shellcheck source=/dev/null
+            source .venv/bin/activate
+        fi
+    else
+        ## check the current folder belong to earlier VIRTUAL_ENV folder
+        # if yes then do nothing
+        # else deactivate
+        parentdir="$(dirname "$VIRTUAL_ENV")"
+        if [[ "$PWD"/ != "$parentdir"/* ]]; then
+            deactivate
+        fi
+    fi
 }
 
 alias cd=cd_f
@@ -119,9 +119,9 @@ alias cd=cd_f
 # == go to folder and activate venv ==
 # Usage: venv [search_term]
 function venv() {
-	local commands
-	commands=$("$HOME/.local/bin/venv" "$@") || return
-	eval "$commands"
+    local commands
+    commands=$("$HOME/.local/bin/venv" "$@") || return
+    eval "$commands"
 }
 
 alias sc-services-all='systemctl list-unit-files --type=service'
@@ -143,11 +143,11 @@ alias ss-unix-listen='ss --listening --numeric --unix --processes'
 #   project_color my-folder  # prints hex color for provided name
 #   project_color_preview    # shows a colored sample block for current folder
 function project_color() {
-	"$HOME/.local/bin/project_color" "$@"
+    "$HOME/.local/bin/project_color" "$@"
 }
 
 function project_color_preview() {
-	"$HOME/.local/bin/project_color" --preview "$@"
+    "$HOME/.local/bin/project_color" --preview "$@"
 }
 
 # Convenience alias so it feels like an app-style command.
