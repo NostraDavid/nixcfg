@@ -64,8 +64,11 @@ def find_project_picker() -> str:
 
 def clean_vscode_env() -> dict[str, str]:
     env = os.environ.copy()
+    for name in tuple(env):
+        if name.startswith("VSCODE_"):
+            env.pop(name)
+
     for name in (
-        "VSCODE_IPC_HOOK_CLI",
         "ELECTRON_RUN_AS_NODE",
         "VIRTUAL_ENV",
         "UV_RUN_RECURSION_DEPTH",
