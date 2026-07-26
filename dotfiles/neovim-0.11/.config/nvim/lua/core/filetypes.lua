@@ -1,22 +1,22 @@
 vim.filetype.add({
-	extension = {
-		csv = "csv",
-		templ = "templ",
-		tfvars = "terraform-vars",
-		tsv = "tsv",
-		xsl = "xsl",
-		xslt = "xsl",
-	},
-	filename = {
-		[".gitlab-ci.yml"] = "yaml.gitlab",
-		[".gitlab-ci.yaml"] = "yaml.gitlab",
-		["compose.yml"] = "yaml.docker-compose",
-		["compose.yaml"] = "yaml.docker-compose",
-		["docker-compose.yml"] = "yaml.docker-compose",
-		["docker-compose.yaml"] = "yaml.docker-compose",
-		["values.yml"] = "yaml.helm-values",
-		["values.yaml"] = "yaml.helm-values",
-	},
+    extension = {
+        csv = "csv",
+        templ = "templ",
+        tfvars = "terraform-vars",
+        tsv = "tsv",
+        xsl = "xsl",
+        xslt = "xsl",
+    },
+    filename = {
+        [".gitlab-ci.yml"] = "yaml.gitlab",
+        [".gitlab-ci.yaml"] = "yaml.gitlab",
+        ["compose.yml"] = "yaml.docker-compose",
+        ["compose.yaml"] = "yaml.docker-compose",
+        ["docker-compose.yml"] = "yaml.docker-compose",
+        ["docker-compose.yaml"] = "yaml.docker-compose",
+        ["values.yml"] = "yaml.helm-values",
+        ["values.yaml"] = "yaml.helm-values",
+    },
 })
 
 vim.treesitter.language.register("html", "templ")
