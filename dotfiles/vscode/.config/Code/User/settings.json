@@ -1,33 +1,38 @@
 {
   "[css]": {
-    "editor.defaultFormatter": "vscode.css-language-features"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[dockercompose]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[dockerfile]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-containers"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[github-actions-workflow]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[html]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[less]": {
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[lua]": {
-    "editor.defaultFormatter": "yinfei.luahelper"
+    "editor.defaultFormatter": "dprint.dprint",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
   },
   "[markdown]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.defaultFormatter": "dprint.dprint",
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 80
   },
@@ -40,7 +45,16 @@
     "editor.formatOnSave": true,
     "editor.wordBasedSuggestions": "off"
   },
-  "[shellscript]": {},
+  "[sass]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+  "[shellscript]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
   "[skill]": {
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.autoIndent": "advanced",
@@ -63,16 +77,16 @@
     "editor.defaultFormatter": "jock.svg"
   },
   "[toml]": {
-    "editor.defaultFormatter": "tamasfe.even-better-toml"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[xml]": {
-    "editor.defaultFormatter": "redhat.vscode-xml"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "basedpyright.analysis.typeCheckingMode": "standard",
   "basedpyright.analysis.useTypingExtensions": true,
@@ -268,7 +282,7 @@
   "jupyter.interactiveWindow.creationMode": "perFile",
   "jupyter.notebookFileRoot": "${workspaceFolder}",
   "livePreview.customExternalBrowser": "Firefox",
-  "luahelper.format.tab_width": 2,
+  "luahelper.format.tab_width": 4,
   "makefile.configureOnOpen": true,
   "markdown-preview-enhanced.previewTheme": "monokai.css",
   "markdown.marp.browser": "firefox",
@@ -317,7 +331,6 @@
   "notebook.defaultFormatter": "charliermarsh.ruff",
   "notebook.formatOnSave.enabled": true,
   "notebook.lineNumbers": "on",
-  "oxc.path.oxfmt": "/etc/profiles/per-user/david/bin/oxfmt",
   "pgsql.connections": [
     {
       "applicationName": "vscode-pgsql",
@@ -364,6 +377,7 @@
     "**/result/**": true
   },
   "security.workspace.trust.untrustedFiles": "open",
+  "shellformat.flag": "-i 4",
   "shellformat.path": "/etc/profiles/per-user/david/bin/shfmt",
   "shellformat.useEditorConfig": true,
   "terminal.external.linuxExec": "wezterm",

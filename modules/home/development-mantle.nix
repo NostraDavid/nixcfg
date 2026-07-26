@@ -83,7 +83,7 @@ in {
       # unstable
       unstable.gemini-cli
       # unstable.github-copilot-cli
-      unstable.oxfmt # prettier replacement
+      unstable.dprint # Extensible code formatter; prettier replacement
       unstable.oxlint # js linter
       unstable.fastfetch # neofetch alternative
       unstable.zigfetch # neofetch alternative
@@ -126,81 +126,93 @@ in {
       local.skillkit # Local codebase wiki for AI coding agents
     ];
 
-    activation.piTensorx = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      if ! $DRY_RUN_CMD ${piExe} list 2>/dev/null \
-        | ${lib.getExe pkgs.gnugrep} -F '@czottmann/pi-tensorx' >/dev/null 2>&1; then
-        if ! $DRY_RUN_CMD ${piExe} install npm:@czottmann/pi-tensorx; then
-          echo "warning: failed to install Pi extension @czottmann/pi-tensorx" >&2
-        fi
-      fi
-
-      if ! $DRY_RUN_CMD ${piExe} list 2>/dev/null \
-        | ${lib.getExe pkgs.gnugrep} -F 'pi-mcp-adapter' >/dev/null 2>&1; then
-        if ! $DRY_RUN_CMD ${piExe} install npm:pi-mcp-adapter; then
-          echo "warning: failed to install Pi extension pi-mcp-adapter" >&2
-        fi
-      fi
-    '';
-
-    activation.agentMcpServers = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      if [ ! -f "${config.home.homeDirectory}/.serena/serena_config.yml" ]; then
-        $DRY_RUN_CMD ${lib.getExe local.serena} init
-      fi
-
-      update_mcp_json() {
-        config_file="$1"
-        servers_json="$2"
-        config_dir="$(${pkgs.coreutils}/bin/dirname "$config_file")"
-        temporary_file="$(${pkgs.coreutils}/bin/mktemp)"
-
-        if [ -f "$config_file" ]; then
-          ${lib.getExe pkgs.jq} --argjson servers "$servers_json" \
-            '.mcpServers = (((.mcpServers // {}) | del(."lean-ctx")) + $servers)' \
-            "$config_file" >"$temporary_file"
-        else
-          ${lib.getExe pkgs.jq} --null-input --argjson servers "$servers_json" \
-            '{mcpServers: $servers}' >"$temporary_file"
-        fi
-
-        if [ ! -f "$config_file" ] \
-          || ! ${pkgs.diffutils}/bin/cmp --silent "$temporary_file" "$config_file"; then
-          $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p "$config_dir"
-          if [ -f "$config_file" ]; then
-            $DRY_RUN_CMD ${pkgs.coreutils}/bin/install -m 0600 \
-              "$config_file" "$config_file.hm-mcp-backup"
+    activation = {
+      piTensorx = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        if ! $DRY_RUN_CMD ${piExe} list 2>/dev/null \
+          | ${lib.getExe pkgs.gnugrep} -F '@czottmann/pi-tensorx' >/dev/null 2>&1; then
+          if ! $DRY_RUN_CMD ${piExe} install npm:@czottmann/pi-tensorx; then
+            echo "warning: failed to install Pi extension @czottmann/pi-tensorx" >&2
           fi
-          $DRY_RUN_CMD ${pkgs.coreutils}/bin/install -m 0600 "$temporary_file" "$config_file"
         fi
-        ${pkgs.coreutils}/bin/rm -f "$temporary_file"
-      }
 
-      update_mcp_json \
-        "${config.home.homeDirectory}/.claude.json" \
-        '${claudeMcpServers}'
-      update_mcp_json \
-        "${config.home.homeDirectory}/.gemini/settings.json" \
-        '${geminiMcpServers}'
-      update_mcp_json \
-        "${config.home.homeDirectory}/.copilot/mcp-config.json" \
-        '${copilotMcpServers}'
-      update_mcp_json \
-        "${config.home.homeDirectory}/.config/mcp/mcp.json" \
-        '${claudeMcpServers}'
+        if ! $DRY_RUN_CMD ${piExe} list 2>/dev/null \
+          | ${lib.getExe pkgs.gnugrep} -F 'pi-mcp-adapter' >/dev/null 2>&1; then
+          if ! $DRY_RUN_CMD ${piExe} install npm:pi-mcp-adapter; then
+            echo "warning: failed to install Pi extension pi-mcp-adapter" >&2
+          fi
+        fi
+      '';
 
-      codex_executable=${lib.getExe pkgs.codex}
-      $DRY_RUN_CMD "$codex_executable" mcp remove lean-ctx >/dev/null 2>&1 || true
+      dprintVscodeExtension = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        if ! $DRY_RUN_CMD ${lib.getExe local.vscode} --list-extensions 2>/dev/null \
+          | ${lib.getExe pkgs.gnugrep} -Fx 'dprint.dprint' >/dev/null 2>&1; then
+          if ! $DRY_RUN_CMD ${lib.getExe local.vscode} \
+            --install-extension dprint.dprint; then
+            echo "warning: failed to install VS Code extension dprint.dprint" >&2
+          fi
+        fi
+      '';
 
-      $DRY_RUN_CMD "$codex_executable" mcp remove headroom >/dev/null 2>&1 || true
-      $DRY_RUN_CMD "$codex_executable" mcp add headroom -- \
-        ${lib.getExe local.headroom} mcp serve
+      agentMcpServers = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        if [ ! -f "${config.home.homeDirectory}/.serena/serena_config.yml" ]; then
+          $DRY_RUN_CMD ${lib.getExe local.serena} init
+        fi
 
-      $DRY_RUN_CMD "$codex_executable" mcp remove serena >/dev/null 2>&1 || true
-      $DRY_RUN_CMD "$codex_executable" mcp add serena -- \
-        ${lib.getExe local.serena} start-mcp-server --context codex
+        update_mcp_json() {
+          config_file="$1"
+          servers_json="$2"
+          config_dir="$(${pkgs.coreutils}/bin/dirname "$config_file")"
+          temporary_file="$(${pkgs.coreutils}/bin/mktemp)"
 
-      $DRY_RUN_CMD "$codex_executable" mcp remove engram >/dev/null 2>&1 || true
-      $DRY_RUN_CMD "$codex_executable" mcp add engram -- \
-        ${lib.getExe local.engram} mcp
-    '';
+          if [ -f "$config_file" ]; then
+            ${lib.getExe pkgs.jq} --argjson servers "$servers_json" \
+              '.mcpServers = (((.mcpServers // {}) | del(."lean-ctx")) + $servers)' \
+              "$config_file" >"$temporary_file"
+          else
+            ${lib.getExe pkgs.jq} --null-input --argjson servers "$servers_json" \
+              '{mcpServers: $servers}' >"$temporary_file"
+          fi
+
+          if [ ! -f "$config_file" ] \
+            || ! ${pkgs.diffutils}/bin/cmp --silent "$temporary_file" "$config_file"; then
+            $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p "$config_dir"
+            if [ -f "$config_file" ]; then
+              $DRY_RUN_CMD ${pkgs.coreutils}/bin/install -m 0600 \
+                "$config_file" "$config_file.hm-mcp-backup"
+            fi
+            $DRY_RUN_CMD ${pkgs.coreutils}/bin/install -m 0600 "$temporary_file" "$config_file"
+          fi
+          ${pkgs.coreutils}/bin/rm -f "$temporary_file"
+        }
+
+        update_mcp_json \
+          "${config.home.homeDirectory}/.claude.json" \
+          '${claudeMcpServers}'
+        update_mcp_json \
+          "${config.home.homeDirectory}/.gemini/settings.json" \
+          '${geminiMcpServers}'
+        update_mcp_json \
+          "${config.home.homeDirectory}/.copilot/mcp-config.json" \
+          '${copilotMcpServers}'
+        update_mcp_json \
+          "${config.home.homeDirectory}/.config/mcp/mcp.json" \
+          '${claudeMcpServers}'
+
+        codex_executable=${lib.getExe pkgs.codex}
+        $DRY_RUN_CMD "$codex_executable" mcp remove lean-ctx >/dev/null 2>&1 || true
+
+        $DRY_RUN_CMD "$codex_executable" mcp remove headroom >/dev/null 2>&1 || true
+        $DRY_RUN_CMD "$codex_executable" mcp add headroom -- \
+          ${lib.getExe local.headroom} mcp serve
+
+        $DRY_RUN_CMD "$codex_executable" mcp remove serena >/dev/null 2>&1 || true
+        $DRY_RUN_CMD "$codex_executable" mcp add serena -- \
+          ${lib.getExe local.serena} start-mcp-server --context codex
+
+        $DRY_RUN_CMD "$codex_executable" mcp remove engram >/dev/null 2>&1 || true
+        $DRY_RUN_CMD "$codex_executable" mcp add engram -- \
+          ${lib.getExe local.engram} mcp
+      '';
+    };
   };
 }

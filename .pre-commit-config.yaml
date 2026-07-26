@@ -8,6 +8,37 @@ repos:
 
   - repo: local
     hooks:
+      - id: check-alejandra
+        name: check Nix formatting (alejandra, local)
+        entry: just check-alejandra-files
+        language: system
+        files: "\\.nix$"
+
+      - id: check-dprint
+        name: check web/config formatting (dprint, local)
+        entry: just check-dprint-files
+        language: system
+        files: "(\\.(c|m)?[jt]sx?$|\\.jsonc?$|\\.md$|\\.html?$|\\.ya?ml$|\\.toml$|\\.(css|scss|sass|less|xml|dockerfile)$|(^|/)Dockerfile(\\.[^/]*)?$)"
+        exclude: "^dotfiles/agents/\\.agents/(skill-sources|skill-originals)/"
+
+      - id: check-shfmt
+        name: check shell formatting (shfmt, local)
+        entry: just check-shfmt-files
+        language: system
+        files: "(\\.sh$|\\.bashrc$|\\.bash_aliases$)"
+
+      - id: check-stylua
+        name: check Lua formatting (stylua, local)
+        entry: just check-stylua-files
+        language: system
+        files: "\\.lua$"
+
+      - id: check-ruff-format
+        name: check Python formatting (ruff, local)
+        entry: just check-ruff-format-files
+        language: system
+        files: "(\\.py$|^dotfiles/git/\\.config/git/hooks/commit-msg$)"
+
       - id: lint-ruff
         name: lint Python (ruff, local)
         entry: just lint-ruff-files

@@ -120,7 +120,7 @@ in {
         markdownlint-cli
         stylua
         selene
-        oxfmt
+        dprint
         shfmt
         uv # Run the globally managed scoped commit-message hook
         opentofu
