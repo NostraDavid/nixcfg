@@ -31,6 +31,11 @@ return {
                 yaml = { "prettierd", "prettier" },
                 zsh = { "shfmt" },
             },
+            formatters = {
+                shfmt = {
+                    append_args = { "-i", "4" },
+                },
+            },
         },
     },
     {
