@@ -92,7 +92,6 @@ in {
     local.headroom # Context compression proxy for AI agents
     local.serena # Symbol-aware code navigation and editing MCP server
     local.probe # AST-aware semantic code search and MCP server
-    local.lean-ctx # Local-first context optimization layer and MCP server
     local.engram # Persistent memory and MCP server for coding agents
     local.beads # Dependency-aware task handoff between coding agents
     local.codealmanac # Local codebase wiki for AI coding agents
