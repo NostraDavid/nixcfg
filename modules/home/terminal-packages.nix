@@ -117,7 +117,7 @@
     prek # pre-commit alternative
     # prettier # disabled: 3.8.3 pulls insecure pnpm 9.15.9 via binding-wasm32-wasi
     poppler-utils # PDF rendering library
-    # prettierd # disabled with prettier; oxfmt is configured as its replacement
+    # prettierd # disabled with prettier; dprint is configured as its replacement
     procps # for `ps` command
     procs # moddern replacement for `ps`, written in Rust; might be troublesome
     pv # Pipe viewer, useful for monitoring data through a pipe

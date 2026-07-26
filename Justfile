@@ -13,11 +13,11 @@ default:
 format-alejandra:
   @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra
 
-format-oxfmt:
-  @git ls-files -z -- '*.json' '*.jsonc' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty oxfmt --write
+format-dprint:
+  @dprint fmt
 
 format-shfmt:
-  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shfmt -w
+  @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shfmt -i 4 -w
 
 format-stylua:
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua
@@ -27,7 +27,7 @@ format-ruff:
 
 format:
   @just format-alejandra
-  @just format-oxfmt
+  @just format-dprint
   @just format-shfmt
   @just format-stylua
   @just format-ruff
@@ -105,10 +105,25 @@ nixos-show host=default_host:
 # Run formatting checks without modifying files.
 check:
   @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra --check
-  @git ls-files -z -- '*.json' '*.jsonc' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty oxfmt --check
-  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shfmt -d
+  @dprint check
+  @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shfmt -i 4 -d
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua --check
   @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' | xargs -0 --no-run-if-empty ruff format --check
+
+check-alejandra-files *files:
+  @alejandra --check {{files}}
+
+check-dprint-files *files:
+  @dprint check {{files}}
+
+check-shfmt-files *files:
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' || true; } | xargs -0 --no-run-if-empty shfmt -i 4 -d
+
+check-stylua-files *files:
+  @stylua --check {{files}}
+
+check-ruff-format-files *files:
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' || true; } | xargs -0 --no-run-if-empty ruff format --check
 
 # Test a host configuration temporarily; reverts after reboot.
 test host=default_host:
@@ -362,7 +377,7 @@ versions:
   @printf '%-14s %s\n' 'statix:' "$(if command -v statix >/dev/null 2>&1; then echo installed; else echo missing; fi)"
   @printf '%-14s %s\n' 'deadnix:' "$(if command -v deadnix >/dev/null 2>&1; then deadnix --version | awk '{print $2}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'alejandra:' "$(if command -v alejandra >/dev/null 2>&1; then alejandra --version | awk '{print $2}'; else echo missing; fi)"
-  @printf '%-14s %s\n' 'oxfmt:' "$(if command -v oxfmt >/dev/null 2>&1; then oxfmt --version | awk '/Version:/ {print $2; exit}'; else echo missing; fi)"
+  @printf '%-14s %s\n' 'dprint:' "$(if command -v dprint >/dev/null 2>&1; then dprint --version | awk '{print $2; exit}'; else echo missing; fi)"
   @printf '%-14s %s\n' 'shfmt:' "$(if command -v shfmt >/dev/null 2>&1; then shfmt --version; else echo missing; fi)"
   @printf '%-14s %s\n' 'prek:' "$(if command -v prek >/dev/null 2>&1; then prek -V | awk '{print $2}'; else echo missing; fi)"
 

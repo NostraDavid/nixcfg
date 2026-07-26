@@ -58,8 +58,8 @@ inside insert mode.
 
 ## Lua Tooling
 
-- `stylua` is the formatter. It matches the existing Neovim Lua shape: tabs,
-  double quotes when practical, and 120-column lines.
+- `stylua` is the formatter. It uses four-space indentation, double quotes when
+  practical, and 120-column lines.
 - `selene` is the linter/static analyzer. It is fast enough for editor feedback
   and understands the custom `vim` global through the repo `vim.yml`.
 - `lua-language-server` is the type/IDE layer. `lazydev.nvim` adds Neovim plugin
