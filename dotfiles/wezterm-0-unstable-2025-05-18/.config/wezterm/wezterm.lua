@@ -13,7 +13,7 @@ end
 config.front_end = "OpenGL"
 config.enable_wayland = false
 
-config.default_prog = {"tmux"}
+config.default_prog = { "tmux" }
 config.font = wezterm.font("JetBrainsMono Nerd Font")
 config.font_size = 9.0
 config.window_background_opacity = 0.95
@@ -36,42 +36,49 @@ config.cursor_blink_ease_out = "Constant"
 
 config.colors = {
     cursor_bg = "white",
-    cursor_fg = "black"
+    cursor_fg = "black",
 }
 
 config.window_padding = {
     left = 0,
     right = 0,
     top = 0,
-    bottom = 0
+    bottom = 0,
 }
 
-config.keys = {{
-    key = "_",
-    mods = "SHIFT | ALT | CTRL",
-    action = wezterm.action.SplitVertical({
-        domain = "CurrentPaneDomain"
-    })
-}, {
-    key = "|",
-    mods = "SHIFT | ALT | CTRL",
-    action = wezterm.action.SplitHorizontal({
-        domain = "CurrentPaneDomain"
-    })
-}}
+config.keys = {
+    {
+        key = "_",
+        mods = "SHIFT | ALT | CTRL",
+        action = wezterm.action.SplitVertical({
+            domain = "CurrentPaneDomain",
+        }),
+    },
+    {
+        key = "|",
+        mods = "SHIFT | ALT | CTRL",
+        action = wezterm.action.SplitHorizontal({
+            domain = "CurrentPaneDomain",
+        }),
+    },
+}
 
-config.launch_menu = {{
-    label = "tmux",
-    args = {"tmux"}
-}, {
-    label = "dev-machine",
-    args = {"ssh dev-machine"}
-    -- cwd = "/some/path"
-    -- set_environment_variables = { FOO = "bar" },
-}, {
-    label = "vdi-linux",
-    args = {"ssh vdi-linux"}
-}}
+config.launch_menu = {
+    {
+        label = "tmux",
+        args = { "tmux" },
+    },
+    {
+        label = "dev-machine",
+        args = { "ssh dev-machine" },
+        -- cwd = "/some/path"
+        -- set_environment_variables = { FOO = "bar" },
+    },
+    {
+        label = "vdi-linux",
+        args = { "ssh vdi-linux" },
+    },
+}
 
 -- config.color_scheme = "Builtin Dark"
 -- config.color_scheme = 'CGA'
@@ -103,8 +110,8 @@ config.colors = {
     -- The color of the split lines between panes
     split = "#ffffff",
 
-    ansi = {"#000000", "#fe0100", "#33ff00", "#feff00", "#0066ff", "#cc00ff", "#00ffff", "#d0d0d0"},
-    brights = {"#808080", "#fe0100", "#33ff00", "#feff00", "#0066ff", "#cc00ff", "#00ffff", "#FFFFFF"},
+    ansi = { "#000000", "#fe0100", "#33ff00", "#feff00", "#0066ff", "#cc00ff", "#00ffff", "#d0d0d0" },
+    brights = { "#808080", "#fe0100", "#33ff00", "#feff00", "#0066ff", "#cc00ff", "#00ffff", "#FFFFFF" },
 
     -- Arbitrary colors of the palette in the range from 16 to 255
     -- indexed = {
@@ -123,34 +130,34 @@ config.colors = {
     -- 1. copy_mode_active_highlight_* if additional text was selected using the mouse
     -- 2. selection_* otherwise
     copy_mode_active_highlight_bg = {
-        Color = "#000000"
+        Color = "#000000",
     },
     -- use `AnsiColor` to specify one of the ansi color palette values
     -- (index 0-15) using one of the names "Black", "Maroon", "Green",
     --  "Olive", "Navy", "Purple", "Teal", "Silver", "Grey", "Red", "Lime",
     -- "Yellow", "Blue", "Fuchsia", "Aqua" or "White".
     copy_mode_active_highlight_fg = {
-        AnsiColor = "Black"
+        AnsiColor = "Black",
     },
     copy_mode_inactive_highlight_bg = {
-        Color = "#52ad70"
+        Color = "#52ad70",
     },
     copy_mode_inactive_highlight_fg = {
-        AnsiColor = "White"
+        AnsiColor = "White",
     },
 
     quick_select_label_bg = {
-        Color = "peru"
+        Color = "peru",
     },
     quick_select_label_fg = {
-        Color = "#ffffff"
+        Color = "#ffffff",
     },
     quick_select_match_bg = {
-        AnsiColor = "Navy"
+        AnsiColor = "Navy",
     },
     quick_select_match_fg = {
-        Color = "#ffffff"
-    }
+        Color = "#ffffff",
+    },
 }
 
 -- and finally, return the configuration to wezterm

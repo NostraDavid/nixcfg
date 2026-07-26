@@ -11,9 +11,9 @@ vim.o.showtabline = 2
 vim.o.mousemodel = "extend"
 vim.opt.colorcolumn = { 80, 120 }
 vim.opt.guicursor = {
-	"n-v-c:block",
-	"i-ci-ve:block",
-	"r-cr-o:block",
+    "n-v-c:block",
+    "i-ci-ve:block",
+    "r-cr-o:block",
 }
 
 -- Indentation
@@ -39,7 +39,7 @@ vim.o.timeoutlen = 300 -- Quicker mapped sequence timeout
 vim.o.wrap = false
 -- Use system clipboard for all yank/paste operations (scheduled to reduce startup cost)
 vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
+    vim.o.clipboard = "unnamedplus"
 end)
 vim.o.undofile = true -- Persistent undo
 vim.o.ignorecase = true -- Case-insensitive by default
