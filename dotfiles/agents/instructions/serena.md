@@ -11,10 +11,9 @@ Prefer Serena for:
 - replacing a complete symbol body; and
 - inserting code relative to an existing symbol.
 
-Use LeanCTX grep or `rg` for exact text, Probe for zero-index structural or
-ranked discovery, and ordinary file edits for small configuration or
-documentation changes. Do not use Serena's memory subsystem when Engram is the
-configured canonical memory.
+Use `rg` for exact text, Probe for zero-index structural or ranked discovery,
+and ordinary file edits for small configuration or documentation changes. Do not
+use Serena's memory subsystem when Engram is the configured canonical memory.
 
 Inspect the target symbol and its references before a semantic edit. After an
 edit, inspect diagnostics and run tests or checks proportionate to the change.

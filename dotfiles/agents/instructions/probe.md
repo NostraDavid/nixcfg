@@ -5,10 +5,10 @@ code and Markdown.
 
 ## Selection
 
-Use LeanCTX grep or `rg` for exact text; `probe search` for ranked discovery;
-`probe symbols` for file structure; `probe extract` for enclosing syntax; and
-`probe query` for AST patterns. Use Serena for references and semantic edits,
-and Context7 for external documentation.
+Use `rg` for exact text; `probe search` for ranked discovery; `probe symbols`
+for file structure; `probe extract` for enclosing syntax; and `probe query` for
+AST patterns. Use Serena for references and semantic edits, and Context7 for
+external documentation.
 
 Ranked results are discovery evidence, not proof of absence. Confirm
 absence-based claims with an exhaustive text or structural search.
@@ -25,14 +25,14 @@ probe extract 'src/lib/auth.ts#authenticate'
 ```
 
 Search defaults to BM25 with stemming and stop-word removal. Use uppercase
-`AND`, `OR`, and `NOT`; quote phrases. Narrow with `ext:ts`,
-`file:src/**/*.ts`, `dir:tests`, or `lang:rust`.
+`AND`, `OR`, and `NOT`; quote phrases. Narrow with `ext:ts`, `file:src/**/*.ts`,
+`dir:tests`, or `lang:rust`.
 
 Bound broad searches with token/result limits and use `--dry-run` or
 `--files-only` first. Tests require `--allow-tests`. Probe respects
-`.gitignore`; use `--no-gitignore` only when explicitly required because
-ignored files may be large or secret. Prefer `outline` for reading, `json` for
-parsing, and a stable `--session <id>` for cached repeat searches.
+`.gitignore`; use `--no-gitignore` only when explicitly required because ignored
+files may be large or secret. Prefer `outline` for reading, `json` for parsing,
+and a stable `--session <id>` for cached repeat searches.
 
 ## Structural search
 

@@ -146,10 +146,6 @@
         ## RTK
         ".config/rtk/config.toml" = {source = mk "${dot}/rtk-0.41.0/.config/rtk/config.toml";};
 
-        ## LeanCTX
-        ".config/lean-ctx/config.toml" = {source = mk "${dot}/lean-ctx-3.9.12/.config/lean-ctx/config.toml";};
-        ".config/lean-ctx/layout.toml" = {source = mk "${dot}/lean-ctx-3.9.12/.config/lean-ctx/layout.toml";};
-
         ## snip
         ".config/snip/config.toml" = {source = mk "${dot}/snip-0.18.0/.config/snip/config.toml";};
         ".config/snip/filters" = {source = mk "${dot}/snip-0.18.0/.config/snip/filters";};
