@@ -11,6 +11,84 @@
   // Mirror the current default from the Pi agent profile.
   "model": "deepseek/deepseek-v4-flash",
 
+  // TensorX provider config: https://docs.tensorx.ai/ai-coding-assistants/opencode
+  "provider": {
+    "tensorx": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "TensorX",
+      "options": {
+        "baseURL": "https://api.tensorx.ai/v1"
+      },
+      "models": {
+        "z-ai/glm-5.1": {
+          "name": "GLM 5.1",
+          "limit": {
+            "context": 131072,
+            "output": 16384
+          }
+        },
+        "moonshotai/kimi-k2.5": {
+          "name": "Kimi K2.5",
+          "limit": {
+            "context": 131072,
+            "output": 16384
+          }
+        },
+        "deepseek/deepseek-r1-0528": {
+          "name": "DeepSeek R1",
+          "limit": {
+            "context": 131072,
+            "output": 16384
+          }
+        },
+        "qwen/qwen3-vl-235b-a22b-instruct": {
+          "name": "Qwen 3 VL",
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 131072,
+            "output": 16384
+          }
+        },
+        "minimax/minimax-m2": {
+          "name": "MiniMax M2",
+          "limit": {
+            "context": 131072,
+            "output": 16384
+          }
+        },
+        "z-ai/glm-5.2": {
+          "name": "GLM 5.2",
+          "limit": {
+            "context": 1048576,
+            "output": 16384
+          }
+        },
+        "deepseek/deepseek-v4-flash": {
+          "name": "DeepSeek V4 Flash",
+          "limit": {
+            "context": 1048576,
+            "output": 16384
+          }
+        },
+        "openai/gpt-oss-120b": {
+          "name": "GPT-OSS 120B",
+          "limit": {
+            "context": 131072,
+            "output": 16384
+          }
+        }
+      }
+    }
+  },
+
   // Reuse the same instruction corpus used across other local agents.
   "instructions": [
     "~/AGENTS.md",
@@ -68,7 +146,7 @@
         "serena",
         "start-mcp-server",
         "--context",
-        "opencode"
+        "codex"
       ],
       "enabled": true,
       "timeout": 30000
