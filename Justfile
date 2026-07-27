@@ -17,13 +17,13 @@ format-dprint:
   @dprint fmt
 
 format-shfmt:
-  @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shfmt -i 4 -w
+  @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc)/' | xargs -0 --no-run-if-empty shfmt -i 4 -w
 
 format-stylua:
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua
 
 format-ruff:
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' | xargs -0 --no-run-if-empty ruff format
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc))/' | xargs -0 --no-run-if-empty ruff format
 
 format:
   @just format-alejandra
@@ -106,9 +106,9 @@ nixos-show host=default_host:
 check:
   @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra --check
   @dprint check
-  @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shfmt -i 4 -d
+  @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc)/' | xargs -0 --no-run-if-empty shfmt -i 4 -d
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua --check
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' | xargs -0 --no-run-if-empty ruff format --check
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc))/' | xargs -0 --no-run-if-empty ruff format --check
 
 check-alejandra-files *files:
   @alejandra --check {{files}}
@@ -117,13 +117,13 @@ check-dprint-files *files:
   @dprint check {{files}}
 
 check-shfmt-files *files:
-  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' || true; } | xargs -0 --no-run-if-empty shfmt -i 4 -d
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc)/' || true; } | xargs -0 --no-run-if-empty shfmt -i 4 -d
 
 check-stylua-files *files:
   @stylua --check {{files}}
 
 check-ruff-format-files *files:
-  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' || true; } | xargs -0 --no-run-if-empty ruff format --check
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc))/' || true; } | xargs -0 --no-run-if-empty ruff format --check
 
 # Test a host configuration temporarily; reverts after reboot.
 test host=default_host:
@@ -313,22 +313,22 @@ hooks-run:
   @prek --config .pre-commit-config.yaml run --all-files
 
 lint-ruff:
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' | xargs -0 --no-run-if-empty ruff check
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc))/' | xargs -0 --no-run-if-empty ruff check
 
 lint-ruff-files *files:
-  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' || true; } | xargs -0 --no-run-if-empty ruff check
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc))/' || true; } | xargs -0 --no-run-if-empty ruff check
 
 lint-shellcheck:
-  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' | xargs -0 --no-run-if-empty shellcheck --severity=error
+  @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc)/' | xargs -0 --no-run-if-empty shellcheck --severity=error
 
 lint-shellcheck-files *files:
-  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock)/' || true; } | xargs -0 --no-run-if-empty shellcheck --severity=error
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc)/' || true; } | xargs -0 --no-run-if-empty shellcheck --severity=error
 
 lint-markdown:
-  @git ls-files -z -- '*.md' | grep -zEv '^(docs/agentskills\.io/|dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/)' | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
+  @git ls-files -z -- '*.md' | grep -zEv '^(docs/agentskills\.io/|dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc))/)' | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
 lint-markdown-files *files:
-  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock))/' || true; } | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/(skill-sources|skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc))/' || true; } | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
 lint-selene:
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty selene

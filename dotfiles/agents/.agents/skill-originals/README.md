@@ -12,6 +12,7 @@ door Codex of Copilot als actieve skill gekoppeld.
 | `awesome-copilot` | `822a551eaf80f6a8e9de8bb19d02f0d0b60ae842` | Gereconstrueerde baseline | Laatste commit op `github/awesome-copilot` vóór de lokale import van 16 juli 2026 |
 | `matt-pocock` | `v1.1.0` | Releasebaseline | De door upstream gepubliceerde release van 8 juli 2026 |
 | `codex-system` | `codex-cli-0.144.3_2575ff8690bf93c7` | Exacte baseline | De vijf gebundelde system-skills uit lokale importcommit `8325a250` |
+| `polars-inc` | `v0.2.0` | Releasebaseline | De door upstream gepubliceerde release van 23 juni 2026 |
 
 De Awesome Copilot-SHA is de beste reproduceerbare reconstructie, maar kan niet
 als de bewezen oorspronkelijke import-SHA worden beschouwd: die SHA is destijds

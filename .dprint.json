@@ -16,8 +16,7 @@
     "**/node_modules/**",
     "docs/agentskills.io/**",
     "dotfiles/copilot-1.0/.copilot/copilot-instructions.md",
-    "dotfiles/agents/.agents/skill-originals/**",
-    "dotfiles/agents/.agents/skill-sources/**"
+    "dotfiles/agents/.agents/skill-originals/**"
   ],
   "json": {
     "lineWidth": 1,

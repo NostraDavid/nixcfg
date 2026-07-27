@@ -1,0 +1,38 @@
+{
+  "skill_name": "polars",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build a Polars pipeline over orders.csv and customers.parquet that reports 2025 revenue by region. The CSV may contain dirty amounts and duplicate customer IDs.",
+      "expected_output": "A lazy, schema-aware pipeline plus explicit data-quality and join-cardinality checks.",
+      "assertions": [
+        "Inspects the schema and a bounded sample before assuming dtypes",
+        "Handles dirty numeric values and reports values converted to null",
+        "Checks customer-key uniqueness and row counts around the join",
+        "Defines ordering and materializes only the required output"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Translate this pandas transformation to Polars while preserving its output columns, row order, null behavior, and existing tests.",
+      "expected_output": "A behavior-preserving migration rather than an unsolicited redesign.",
+      "assertions": [
+        "Reads the pandas migration reference",
+        "Preserves the observable output contract explicitly",
+        "Uses native Polars expressions where available",
+        "Calls out semantic differences and runs or proposes equivalence checks"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "This Polars query is slow. It creates net_amount and then tax from net_amount in the same with_columns call. Fix and optimize it.",
+      "expected_output": "A correct dependent-expression fix followed by evidence-based optimization.",
+      "assertions": [
+        "Separates dependent derived columns into sequential contexts",
+        "Inspects the optimized plan before changing execution strategy",
+        "Does not claim speedups without measurement",
+        "Compares outputs for correctness before and after optimization"
+      ]
+    }
+  ]
+}

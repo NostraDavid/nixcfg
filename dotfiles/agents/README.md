@@ -12,12 +12,13 @@ vinden zonder kennis van de herkomstmappen.
 | [`codex-system`](.agents/skill-sources/codex-system/SOURCE.md)       | 5      | Codex CLI `0.144.3`, bronmarker `2575ff8690bf93c7`                                                  |
 | [`awesome-copilot`](.agents/skill-sources/awesome-copilot/SOURCE.md) | 17     | Lokale importcommit `777aa3ef648e19c400a4c371a459210c66017e06`; upstreamrevisie was niet vastgelegd |
 | [`matt-pocock`](.agents/skill-sources/matt-pocock/SOURCE.md)         | 22     | `mattpocock/skills@9603c1cc8118d08bc1b3bf34cf714f62178dea3b`                                        |
-| [`local`](.agents/skill-sources/local/SOURCE.md)                     | 17     | Per skill of workflowfamilie vastgelegd in het bronbestand                                          |
+| [`local`](.agents/skill-sources/local/SOURCE.md)                     | 18     | Per skill of workflowfamilie vastgelegd in het bronbestand                                          |
+| [`polars-inc`](.agents/skill-sources/polars-inc/SOURCE.md)           | 1      | `polars-inc/skills@v0.2.0`                                                                          |
 
 De `SOURCE.md` van iedere groep beschrijft de import, lokale aanpassingen en
 updateaanpak. Upstreamlicenties staan naast hun groep als `LICENSE.txt`.
 
-Onveranderde bronversies van de drie geïmporteerde groepen staan revisioneel
+Onveranderde bronversies van de geïmporteerde groepen staan revisioneel
 gearchiveerd onder
 [`skill-originals`](.agents/skill-originals/README.md). Die snapshots worden
 niet naar clients gekoppeld en kunnen met het meegeleverde `compare.sh` naast de
@@ -36,9 +37,9 @@ gekopieerd.
 
 ## Actieve clients
 
-- Codex gebruikt de ingebouwde skills uit `~/.codex/skills/.system`; de 56
+- Codex gebruikt de ingebouwde skills uit `~/.codex/skills/.system`; de 58
   overige skills worden individueel gekoppeld onder `~/.codex/skills`.
-- GitHub Copilot krijgt alle 61 skills als individuele koppelingen onder
+- GitHub Copilot krijgt alle 63 skills als individuele koppelingen onder
   `~/.copilot/skills`.
 - Hermes en Pi zijn nog niet gekoppeld.
 
