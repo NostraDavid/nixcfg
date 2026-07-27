@@ -280,6 +280,9 @@
   "html.format.wrapLineLength": 0,
   "inlineChat.notebookAgent": true,
   "json.maxItemsComputed": 500000,
+  "json.schemaDownload.trustedDomains": {
+    "https://opencode.ai/": true
+  },
   "jupyter.askForKernelRestart": false,
   "jupyter.debugJustMyCode": false,
   "jupyter.interactiveWindow.creationMode": "perFile",
