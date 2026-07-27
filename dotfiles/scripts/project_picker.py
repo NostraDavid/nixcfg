@@ -130,7 +130,7 @@ def choose_with_fzf(
     if not labels:
         return None
 
-    args = ["fzf", "--prompt", prompt]
+    args = ["fzf", "--select-1", "--exit-0", "--prompt", prompt]
     if query:
         args += ["--query", query]
 
@@ -618,19 +618,6 @@ def resolve_worktree_query(
     worktree_query = query.strip().strip("/")
     if not worktree_query:
         return None
-
-    matched_repos = [
-        repo_root
-        for label, repo_root in repos
-        if worktree_query in {label.strip("/"), repo_root.name}
-    ]
-    if len(matched_repos) == 1:
-        active_worktree = find_active_worktree(
-            list_worktrees(matched_repos[0]),
-            cwd,
-        )
-        if active_worktree is not None:
-            return active_worktree.path
 
     def repo_matches(repo_root: Path) -> list[Path]:
         matches: list[Path] = []

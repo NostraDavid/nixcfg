@@ -35,7 +35,7 @@ def require(command: str) -> None:
 
 
 def find_project_picker() -> str:
-    adjacent = Path(__file__).resolve().with_name("project_picker")
+    adjacent = Path(__file__).resolve().with_name("project_picker.py")
     if adjacent.exists() and os.access(adjacent, os.X_OK):
         return str(adjacent)
 
