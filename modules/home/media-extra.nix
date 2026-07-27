@@ -3,9 +3,10 @@
   pkgs,
   ...
 }: let
+  stable = pkgs;
   unstable = import inputs.nixpkgs-unstable {
-    inherit (pkgs.stdenv.hostPlatform) system;
-    config = pkgs.config // {allowUnfree = true;};
+    inherit (stable.stdenv.hostPlatform) system;
+    config = stable.config // {allowUnfree = true;};
   };
   inherit (builtins) attrNames filter listToAttrs map readDir;
   localPackageNames = let
@@ -16,21 +17,21 @@
     listToAttrs
     (map (name: {
         inherit name;
-        value = pkgs.${name};
+        value = stable.${name};
       })
       localPackageNames);
 in {
-  home.packages = with pkgs; [
+  home.packages = [
     unstable.blender
-    nuclear
-    renderdoc
+    stable.nuclear
+    stable.renderdoc
     # for stable-diffusion-webui
-    gperftools
-    flite # flite -f <file>; TTS Engine
-    tts # coqui-tts
-    pocket-tts # Lightweight, CPU-friendly text-to-speech
-    pulseaudio # provides pactl for PipeWire/PulseAudio debugging
-    pavucontrol # Route PipeWire/PulseAudio app streams, e.g. Friture input from output monitor
+    stable.gperftools
+    stable.flite # flite -f <file>; TTS Engine
+    stable.tts # coqui-tts
+    stable.pocket-tts # Lightweight, CPU-friendly text-to-speech
+    stable.pulseaudio # provides pactl for PipeWire/PulseAudio debugging
+    stable.pavucontrol # Route PipeWire/PulseAudio app streams, e.g. Friture input from output monitor
 
     # Unstable
     unstable.friture # Real-time audio analyzer
