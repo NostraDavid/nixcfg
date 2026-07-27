@@ -182,6 +182,7 @@
         ".local/bin/venv" = {source = mk "${dot}/scripts/venv.py";};
         ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
         "dev/.env.example" = {source = mk "${dot}/dev/.env.example";};
+        ".serena/serena_config.yml" = {source = mk "${dot}/serena-1.6.1/.serena/serena_config.yml";};
         "dev/find-uncommitted.py" = {source = mk "${dot}/dev/find-uncommitted.py";};
         "dev/get_azure_repos.py" = {source = mk "${dot}/dev/get_azure_repos.py";};
         "dev/grab.py" = {source = mk "${dot}/dev/grab.py";};
