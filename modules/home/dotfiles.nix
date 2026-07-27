@@ -1,8 +1,6 @@
 # Shared home-manager configuration for all hosts.
 {
   config,
-  lib,
-  pkgs,
   repoRoot,
   ...
 }: {
@@ -103,6 +101,7 @@
       builtins.filter (skill: skill.group != "codex-system") skillEntries
     );
     copilotSkills = mkSkillLinks "copilot" skillEntries;
+    opencodeSkills = mkSkillLinks "config/opencode" skillEntries;
   in
     forceAll ({
         # cli-proxies
@@ -135,29 +134,8 @@
         ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0/.copilot/settings.json";};
 
         ## OpenCode
-        ".config/opencode/opencode.json".text = builtins.toJSON {
-          "$schema" = "https://opencode.ai/config.json";
-          instructions = ["${config.home.homeDirectory}/.agents/instructions/eu-ai-act.md"];
-          mcp.servers = {
-            headroom = {
-              type = "local";
-              command = [(lib.getExe pkgs.headroom) "mcp" "serve"];
-            };
-            serena = {
-              type = "local";
-              command = [
-                (lib.getExe pkgs.serena)
-                "start-mcp-server"
-                "--context"
-                "ide-assistant"
-              ];
-            };
-            engram = {
-              type = "local";
-              command = [(lib.getExe pkgs.engram) "mcp"];
-            };
-          };
-        };
+        ".config/opencode/opencode.jsonc" = {source = mk "${dot}/opencode-1.18.4/.config/opencode/opencode.jsonc";};
+        ".config/opencode/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
         ## Hermes
         ".hermes/SOUL.md".text = ''
@@ -214,7 +192,8 @@
         "rsync-bitvavo" = {source = mk "${dot}/scripts/rsync-bitvavo";};
       }
       // sharedCodexSkills
-      // copilotSkills);
+      // copilotSkills
+      // opencodeSkills);
 
   home.sessionVariables = {};
 }
