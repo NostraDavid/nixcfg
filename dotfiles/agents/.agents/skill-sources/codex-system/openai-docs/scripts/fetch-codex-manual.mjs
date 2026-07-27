@@ -1,16 +1,8 @@
 #!/usr/bin/env node
-import {
-  access,
-  mkdir,
-  readFile,
-  rename,
-  rm,
-  stat,
-  writeFile,
-} from "node:fs/promises";
-import { constants as fsConstants } from "node:fs";
 import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
+import { constants as fsConstants } from "node:fs";
+import { access, mkdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { pathToFileURL } from "node:url";
@@ -44,10 +36,10 @@ const withTimeout = async (promiseFactory, timeoutMs) => {
 };
 
 const proxyConfigured = () =>
-  process.env.HTTP_PROXY ||
-  process.env.HTTPS_PROXY ||
-  process.env.http_proxy ||
-  process.env.https_proxy;
+  process.env.HTTP_PROXY
+  || process.env.HTTPS_PROXY
+  || process.env.http_proxy
+  || process.env.https_proxy;
 
 const responseHeaders = (headers) => ({
   get(name) {
@@ -79,7 +71,7 @@ const parseCurlHeaders = (rawHeaders) => {
   const statusMatch = /^HTTP\/\S+\s+(\d{3})/.exec(statusLine);
   if (!statusMatch) {
     throw new ManualFetchError(
-      `Could not parse HTTP status from curl response: ${statusLine}`
+      `Could not parse HTTP status from curl response: ${statusLine}`,
     );
   }
 
@@ -101,16 +93,17 @@ const parseCurlHeaders = (rawHeaders) => {
 const tempFilePath = (cacheDir, suffix) =>
   path.join(
     cacheDir,
-    `.fetch-codex-manual-${process.pid}-${Date.now()}-${Math.random()
-      .toString(16)
-      .slice(2)}${suffix}`
+    `.fetch-codex-manual-${process.pid}-${Date.now()}-${
+      Math.random()
+        .toString(16)
+        .slice(2)
+    }${suffix}`,
   );
 
 const requestManualWithCurl = async (url, { cacheDir, method, timeoutMs }) => {
   const headerPath = tempFilePath(cacheDir, ".headers");
   const bodyPath = tempFilePath(cacheDir, ".body");
-  const curlNames =
-    process.platform === "win32" ? ["curl.exe", "curl"] : ["curl"];
+  const curlNames = process.platform === "win32" ? ["curl.exe", "curl"] : ["curl"];
   const args = [
     "--silent",
     "--show-error",
@@ -166,7 +159,7 @@ const requestManualWithCurl = async (url, { cacheDir, method, timeoutMs }) => {
 const requestManualWithFetch = async (url, { method, timeoutMs }) => {
   if (typeof fetch !== "function") {
     throw new ManualFetchError(
-      "Native fetch is unavailable in this Node runtime."
+      "Native fetch is unavailable in this Node runtime.",
     );
   }
 
@@ -177,7 +170,7 @@ const requestManualWithFetch = async (url, { method, timeoutMs }) => {
         headers: { "User-Agent": USER_AGENT },
         signal,
       }),
-    timeoutMs
+    timeoutMs,
   );
 };
 
@@ -185,13 +178,13 @@ const requestManual = async (url, { cacheDir, method, timeoutMs }) => {
   const preferCurl = Boolean(proxyConfigured()) || typeof fetch !== "function";
   const transports = preferCurl
     ? [
-        () => requestManualWithCurl(url, { cacheDir, method, timeoutMs }),
-        () => requestManualWithFetch(url, { method, timeoutMs }),
-      ]
+      () => requestManualWithCurl(url, { cacheDir, method, timeoutMs }),
+      () => requestManualWithFetch(url, { method, timeoutMs }),
+    ]
     : [
-        () => requestManualWithFetch(url, { method, timeoutMs }),
-        () => requestManualWithCurl(url, { cacheDir, method, timeoutMs }),
-      ];
+      () => requestManualWithFetch(url, { method, timeoutMs }),
+      () => requestManualWithCurl(url, { cacheDir, method, timeoutMs }),
+    ];
 
   let lastError;
   for (const transport of transports) {
@@ -199,7 +192,7 @@ const requestManual = async (url, { cacheDir, method, timeoutMs }) => {
       const response = await transport();
       if (!response.ok) {
         throw new ManualFetchError(
-          `${method} ${url} failed with HTTP ${response.status}.`
+          `${method} ${url} failed with HTTP ${response.status}.`,
         );
       }
       return response;
@@ -306,8 +299,7 @@ const manualLines = (manual) => {
   return lines;
 };
 
-const sectionTitle = (rawTitle) =>
-  rawTitle.replace(/\s+#+\s*$/, "").replace(/\s+/g, " ").trim();
+const sectionTitle = (rawTitle) => rawTitle.replace(/\s+#+\s*$/, "").replace(/\s+/g, " ").trim();
 
 const buildOutline = (manual) => {
   const lines = manualLines(manual);
@@ -413,7 +405,7 @@ const fetchCodexManual = async ({
   const resolvedCacheDir = await resolveCacheDir(cacheDir);
   if (!resolvedCacheDir) {
     throw new ManualFetchError(
-      "Manual cache directory is unavailable; pass --cache-dir to override or use OpenAI Docs MCP fallback."
+      "Manual cache directory is unavailable; pass --cache-dir to override or use OpenAI Docs MCP fallback.",
     );
   }
   await mkdir(resolvedCacheDir, { recursive: true });
@@ -460,7 +452,7 @@ const fetchCodexManual = async ({
   const getHeaderSha256 = readHeaderSha(getResponse);
   if (getHeaderSha256 !== expectedSha256) {
     throw new ManualFetchError(
-      `${HASH_HEADER} changed between HEAD and GET for ${manualUrl}.`
+      `${HASH_HEADER} changed between HEAD and GET for ${manualUrl}.`,
     );
   }
 
@@ -469,7 +461,7 @@ const fetchCodexManual = async ({
   const manualHashMatches = actualSha256 === expectedSha256;
   if (!manualHashMatches) {
     throw new ManualFetchError(
-      `${HASH_HEADER} did not match the fetched manual body for ${manualUrl}.`
+      `${HASH_HEADER} did not match the fetched manual body for ${manualUrl}.`,
     );
   }
 
@@ -564,12 +556,14 @@ const formatErrorDetails = (error) => {
     return details;
   }
 
-  return `${details}\n\nCause:\n${inspect(error.cause, {
-    breakLength: 120,
-    colors: false,
-    compact: false,
-    depth: 8,
-  })}`;
+  return `${details}\n\nCause:\n${
+    inspect(error.cause, {
+      breakLength: 120,
+      colors: false,
+      compact: false,
+      depth: 8,
+    })
+  }`;
 };
 
 const isCliEntrypoint = () => {

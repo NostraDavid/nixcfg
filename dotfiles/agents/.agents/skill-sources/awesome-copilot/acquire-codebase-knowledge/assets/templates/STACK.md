@@ -13,7 +13,8 @@
 
 ### 2) Production Frameworks and Dependencies
 
-List only high-impact production dependencies (frameworks, data, transport, auth).
+List only high-impact production dependencies (frameworks, data, transport,
+auth).
 
 | Dependency | Version   | Role in system | Evidence    |
 | ---------- | --------- | -------------- | ----------- |

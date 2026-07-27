@@ -3,8 +3,7 @@
 const fs = require("node:fs/promises");
 const path = require("node:path");
 
-const DEFAULT_URL =
-  "https://developers.openai.com/api/docs/guides/latest-model.md";
+const DEFAULT_URL = "https://developers.openai.com/api/docs/guides/latest-model.md";
 const DEFAULT_BASE_URL = "https://developers.openai.com";
 
 function parseArgs(argv) {
@@ -82,16 +81,14 @@ function parseFlatInfo(block) {
 
 function extractLatestModelInfo(markdown) {
   const lines = markdown.split(/\r?\n/);
-  const latestModelInfoIndex = lines.findIndex((line) =>
-    /^latestModelInfo:\s*$/.test(line)
-  );
+  const latestModelInfoIndex = lines.findIndex((line) => /^latestModelInfo:\s*$/.test(line));
 
   if (latestModelInfoIndex >= 0) {
     return parseIndentedInfo(lines, latestModelInfoIndex);
   }
 
   const commentMatch = markdown.match(
-    /<!--\s*latestModelInfo\s*\n([\s\S]*?)\n\s*-->/m
+    /<!--\s*latestModelInfo\s*\n([\s\S]*?)\n\s*-->/m,
   );
   if (commentMatch) {
     return parseFlatInfo(commentMatch[1]);
@@ -115,7 +112,7 @@ function normalizeInfo(info, baseUrl) {
 
   if (!model || !migrationGuide || !promptingGuide) {
     throw new Error(
-      "latestModelInfo must include model, migrationGuide, and promptingGuide"
+      "latestModelInfo must include model, migrationGuide, and promptingGuide",
     );
   }
 
@@ -137,7 +134,7 @@ async function main() {
   }
 
   process.stdout.write(
-    `${JSON.stringify(normalizeInfo(info, baseUrl), null, 2)}\n`
+    `${JSON.stringify(normalizeInfo(info, baseUrl), null, 2)}\n`,
   );
 }
 

@@ -49,8 +49,16 @@
     "should_trigger": true,
     "split": "validation"
   },
-  { "query": "Refactor this small function now.", "should_trigger": false, "split": "train" },
-  { "query": "Implement the approved refactor plan.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Refactor this small function now.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Implement the approved refactor plan.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Plan a zero-downtime database migration.",
     "should_trigger": false,
@@ -71,7 +79,11 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Debug this intermittent deadlock.", "should_trigger": false, "split": "validation" },
+  {
+    "query": "Debug this intermittent deadlock.",
+    "should_trigger": false,
+    "split": "validation"
+  },
   {
     "query": "Write a feature implementation plan.",
     "should_trigger": false,

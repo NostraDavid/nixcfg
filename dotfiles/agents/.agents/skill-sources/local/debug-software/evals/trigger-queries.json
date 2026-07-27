@@ -74,7 +74,11 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Explain how debuggers set breakpoints.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Explain how debuggers set breakpoints.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Add structured logging to this service as a requested feature.",
     "should_trigger": false,

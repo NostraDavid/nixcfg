@@ -12,17 +12,30 @@
 
 ## General approach
 
-Preserve the existing implementation unless the user asked for a migration.
-When translating, preserve the observable contract and use existing tests or
+Preserve the existing implementation unless the user asked for a migration. When
+translating, preserve the observable contract and use existing tests or
 side-by-side fixtures to check values, shape, schema, nulls, order, and errors.
 Before writing any code:
 
-1. **Understand the data**: inspect input schemas with `.collect_schema()` and clarify what the output shape should be.
-2. **Plan the context chain**: decide which contexts are needed and in what order — `filter`, `select`, `with_columns`, `join`, `group_by`, `agg`, `sort`, `concat`, `explode`, `pivot`, `unpivot`, `transpose`, etc.
-3. **Find the right expressions**: consult the Polars API reference for built-in expressions. Native expressions preserve optimizer visibility and are generally the clearest choice.
-4. **Avoid Python-level row operations**: `map_elements`, `map_batches`, and `map_groups` are last-resort escape hatches. Use them only when no native expression implements the required behavior, and measure performance when it matters.
-5. **Use informative names**: column names and variables should clearly reflect their contents.
-6. **Match the output column order**: pandas reorders columns implicitly (`reset_index()` moves the index column to the front; `df["new"] = ...` appends at the end). If the pipeline creates any new column, always finish with an explicit `.select(...)` listing the output columns in the exact order of the pandas result. See "Column order must match pandas exactly" below.
+1. **Understand the data**: inspect input schemas with `.collect_schema()` and
+   clarify what the output shape should be.
+2. **Plan the context chain**: decide which contexts are needed and in what
+   order — `filter`, `select`, `with_columns`, `join`, `group_by`, `agg`,
+   `sort`, `concat`, `explode`, `pivot`, `unpivot`, `transpose`, etc.
+3. **Find the right expressions**: consult the Polars API reference for built-in
+   expressions. Native expressions preserve optimizer visibility and are
+   generally the clearest choice.
+4. **Avoid Python-level row operations**: `map_elements`, `map_batches`, and
+   `map_groups` are last-resort escape hatches. Use them only when no native
+   expression implements the required behavior, and measure performance when it
+   matters.
+5. **Use informative names**: column names and variables should clearly reflect
+   their contents.
+6. **Match the output column order**: pandas reorders columns implicitly
+   (`reset_index()` moves the index column to the front; `df["new"] = ...`
+   appends at the end). If the pipeline creates any new column, always finish
+   with an explicit `.select(...)` listing the output columns in the exact order
+   of the pandas result. See "Column order must match pandas exactly" below.
 
 ---
 
@@ -44,7 +57,8 @@ Before writing any code:
 
 ## Parsing date/datetime strings
 
-pandas `pd.to_datetime(col)` infers formats. The Polars equivalent is `str.to_datetime()`, which also infers common formats including ISO datetimes.
+pandas `pd.to_datetime(col)` infers formats. The Polars equivalent is
+`str.to_datetime()`, which also infers common formats including ISO datetimes.
 
 | Wrong                                       | Correct                                                                    | Notes                                                                                                                                        |
 | ------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -67,7 +81,8 @@ weather.with_columns(pl.col("date").str.to_datetime())
 
 ## Column renaming — use `Expr.name` namespace instead of lambdas
 
-Prefer the built-in `name` namespace over `rename()` with a lambda or dict comprehension.
+Prefer the built-in `name` namespace over `rename()` with a lambda or dict
+comprehension.
 
 | Pattern                             | Instead of                                  | Use                                             |
 | ----------------------------------- | ------------------------------------------- | ----------------------------------------------- |
@@ -81,7 +96,9 @@ Prefer the built-in `name` namespace over `rename()` with a lambda or dict compr
 | Add suffix to struct fields         | manual struct manipulation                  | `pl.col("s").name.suffix_fields("_suffix")`     |
 | Rename struct fields with function  | manual struct manipulation                  | `pl.col("s").name.map_fields(fn)`               |
 
-`name.prefix` / `name.suffix` / `name.to_lowercase` / `name.to_uppercase` are especially useful inside `.select()` or `.with_columns()` to bulk-rename without building a dict:
+`name.prefix` / `name.suffix` / `name.to_lowercase` / `name.to_uppercase` are
+especially useful inside `.select()` or `.with_columns()` to bulk-rename without
+building a dict:
 
 ```python
 # Instead of:
@@ -121,8 +138,10 @@ df.pivot(
 
 Key details:
 
-- Passing the **same column to `on` and `values`** works — no throwaway/sentinel column needed.
-- `aggregate_function="len"` produces **zeros** for empty cells, not nulls — no `.fill_null(0)` needed (unlike `"first"`, `"sum"`, etc.).
+- Passing the **same column to `on` and `values`** works — no throwaway/sentinel
+  column needed.
+- `aggregate_function="len"` produces **zeros** for empty cells, not nulls — no
+  `.fill_null(0)` needed (unlike `"first"`, `"sum"`, etc.).
 - `sort_columns=True` gives deterministic column order (e.g. q1 → q2 → q3 → q4).
 - `.pivot()` is available on **LazyFrames** as well as DataFrames.
 

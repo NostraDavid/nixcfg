@@ -74,8 +74,8 @@ not obscure consequential defects.
 - Review tests as code: confirm that their assertions can distinguish correct
   behavior from plausible but wrong behavior, including important failures and
   boundaries.
-- Flag production branches or interfaces that exist only to make tests pass
-  when a natural test boundary or dependency seam would preserve real behavior.
+- Flag production branches or interfaces that exist only to make tests pass when
+  a natural test boundary or dependency seam would preserve real behavior.
 - Identify missing evidence separately from demonstrated defects. Recommend the
   smallest test or check that would resolve a consequential uncertainty.
 - Treat permanently ignored or unreliable checks as an evidence-quality issue;

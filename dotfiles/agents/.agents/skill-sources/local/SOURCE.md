@@ -1,7 +1,7 @@
 # Lokaal onderhouden
 
-Deze groep bevat lokaal geschreven workflows en bewuste herimplementaties. Er
-is geen enkele upstream die als geheel kan worden gesynchroniseerd.
+Deze groep bevat lokaal geschreven workflows en bewuste herimplementaties. Er is
+geen enkele upstream die als geheel kan worden gesynchroniseerd.
 
 | Skills                                                                                                                                                                                                   | Herkomst of baseline                                                                                                                                                                                                                                     |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

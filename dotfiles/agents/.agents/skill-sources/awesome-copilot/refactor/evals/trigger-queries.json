@@ -59,7 +59,11 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Add a new discount feature.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Add a new discount feature.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Rename a production database column across rolling releases.",
     "should_trigger": false,

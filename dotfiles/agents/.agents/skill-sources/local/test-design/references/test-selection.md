@@ -19,7 +19,10 @@
 - **spy:** records interactions for later assertions;
 - **mock:** encodes an expected interaction protocol.
 
-Use a double only across an owned boundary whose real behavior is not the subject of the test. Prefer realistic fakes or contract-checked adapters over deep mock graphs. Interaction assertions are appropriate when the interaction itself is the contract, such as publishing exactly one event.
+Use a double only across an owned boundary whose real behavior is not the
+subject of the test. Prefer realistic fakes or contract-checked adapters over
+deep mock graphs. Interaction assertions are appropriate when the interaction
+itself is the contract, such as publishing exactly one event.
 
 ## Strong case-design techniques
 

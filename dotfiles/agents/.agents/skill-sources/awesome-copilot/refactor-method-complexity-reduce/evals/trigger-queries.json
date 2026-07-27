@@ -49,19 +49,31 @@
     "should_trigger": true,
     "split": "validation"
   },
-  { "query": "Clean up this complex class.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Clean up this complex class.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Refactor this long method for readability.",
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Explain cognitive complexity.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Explain cognitive complexity.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Reduce cyclomatic complexity but no analyzer or threshold is specified.",
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Plan a multi-file refactor.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Plan a multi-file refactor.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Fix the bugs in this nested conditional.",
     "should_trigger": false,

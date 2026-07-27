@@ -130,7 +130,8 @@ The block:
 
 ### Issue tracker
 
-[one-line summary of where issues are tracked]. See `docs/agents/issue-tracker.md`.
+[one-line summary of where issues are tracked]. See
+`docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
@@ -138,7 +139,8 @@ The block:
 
 ### Domain docs
 
-[one-line summary of layout — "single-context" or "multi-context"]. See `docs/agents/domain.md`.
+[one-line summary of layout — "single-context" or "multi-context"]. See
+`docs/agents/domain.md`.
 ```
 
 Include the `### Triage labels` sub-block, and write

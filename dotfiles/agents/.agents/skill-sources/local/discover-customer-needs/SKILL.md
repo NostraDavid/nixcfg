@@ -23,22 +23,22 @@ for a decision, not as transcription or backlog collection.
    by or opposed to the change. Do not let one convenient stakeholder represent
    all user classes.
 3. Select the smallest complementary set of discovery techniques that can
-   resolve the unknowns. Read [technique
-   selection](references/technique-selection.md) before choosing a non-trivial
-   mix. Prefer direct observation and existing evidence for actual behavior,
-   interviews for motivation and meaning, and collaborative models for
+   resolve the unknowns. Read
+   [technique selection](references/technique-selection.md) before choosing a
+   non-trivial mix. Prefer direct observation and existing evidence for actual
+   behavior, interviews for motivation and meaning, and collaborative models for
    conflicting or distributed knowledge.
 4. Prepare each activity with a learning goal, participant or source, timebox,
    seed artifact, capture method, consent and data-handling needs, and stopping
    condition. Research facts available in the environment before asking people.
    Separate questions that test the problem from questions that evaluate a
    proposed solution.
-5. Conduct conversations without manufacturing agreement. Read [interviewing and
-   evidence](references/interviewing-and-evidence.md) before interviewing
-   someone, drafting an interview guide, or critiquing interview notes. Ask
-   about the last concrete occurrence, the current workflow, consequences,
-   workarounds, frequency, cost, constraints, and decision path. Listen more
-   than speaking and reflect the participant's own terms.
+5. Conduct conversations without manufacturing agreement. Read
+   [interviewing and evidence](references/interviewing-and-evidence.md) before
+   interviewing someone, drafting an interview guide, or critiquing interview
+   notes. Ask about the last concrete occurrence, the current workflow,
+   consequences, workarounds, frequency, cost, constraints, and decision path.
+   Listen more than speaking and reflect the participant's own terms.
 6. Follow the work end to end. Explore the normal path, alternatives,
    exceptions, triggers, outcomes, actors, handoffs, rules, data, external
    systems, and quality trade-offs. When knowledge spans people or a list hides

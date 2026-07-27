@@ -54,9 +54,21 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Review generic SQL for injection.", "should_trigger": false, "split": "train" },
-  { "query": "Design tables for an invoicing service.", "should_trigger": false, "split": "train" },
-  { "query": "Plan a zero-downtime column rename.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Review generic SQL for injection.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design tables for an invoicing service.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Plan a zero-downtime column rename.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Explain PostgreSQL arrays with an example.",
     "should_trigger": false,
@@ -67,7 +79,11 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Write a recursive CTE.", "should_trigger": false, "split": "validation" },
+  {
+    "query": "Write a recursive CTE.",
+    "should_trigger": false,
+    "split": "validation"
+  },
   {
     "query": "Check this trigger function for correctness.",
     "should_trigger": false,

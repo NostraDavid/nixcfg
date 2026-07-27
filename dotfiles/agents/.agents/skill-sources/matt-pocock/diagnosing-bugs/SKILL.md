@@ -36,7 +36,8 @@ up.**
 7. **Property / fuzz loop.** If the bug is "sometimes wrong output", run 1000
    random inputs and look for the failure mode.
 8. **Bisection harness.** If the bug appeared between two known states (commit,
-   dataset, version), automate "boot at state X, check, repeat" so you can `git
+   dataset, version), automate "boot at state X, check, repeat" so you can
+   `git
    bisect run` it.
 9. **Differential loop.** Run the same input through old-version vs new-version
    (or two configs) and diff outputs.
@@ -83,13 +84,14 @@ Phase 1 is done when the loop is **tight** and **red-capable**: you can name
 is:
 
 - [ ] **Red-capable** — it drives the actual bug code path and asserts the
-  **user's exact symptom**, so it can go red on this bug and green once fixed.
-  Not "runs without erroring" — it must be able to _catch this specific bug_.
+      **user's exact symptom**, so it can go red on this bug and green once
+      fixed. Not "runs without erroring" — it must be able to _catch this
+      specific bug_.
 - [ ] **Deterministic** — same verdict every run (flaky bugs: a pinned, high
-  reproduction rate, per above).
+      reproduction rate, per above).
 - [ ] **Fast** — seconds, not minutes.
 - [ ] **Agent-runnable** — you can run it unattended; a human in the loop only
-  via the validated plan format in [HITL-LOOP.md](HITL-LOOP.md).
+      via the validated plan format in [HITL-LOOP.md](HITL-LOOP.md).
 
 If you catch yourself reading code to build a theory before this command exists,
 **stop — jumping straight to a hypothesis is the exact failure this skill
@@ -102,11 +104,12 @@ Run the loop. Watch it go red — the bug appears.
 Confirm:
 
 - [ ] The loop produces the failure mode the **user** described — not a
-  different failure that happens to be nearby. Wrong bug = wrong fix.
+      different failure that happens to be nearby. Wrong bug = wrong fix.
 - [ ] The failure is reproducible across multiple runs (or, for
-  non-deterministic bugs, reproducible at a high enough rate to debug against).
+      non-deterministic bugs, reproducible at a high enough rate to debug
+      against).
 - [ ] You have captured the exact symptom (error message, wrong output, slow
-  timing) so later phases can verify the fix actually addresses it.
+      timing) so later phases can verify the fix actually addresses it.
 
 ### Minimise
 
@@ -193,7 +196,7 @@ Required before declaring done:
 - [ ] All `[DEBUG-...]` instrumentation removed (`grep` the prefix)
 - [ ] Throwaway prototypes deleted (or moved to a clearly-marked debug location)
 - [ ] The hypothesis that turned out correct is stated in the commit / PR
-  message — so the next debugger learns
+      message — so the next debugger learns
 
 **Then ask: what would have prevented this bug?** If the answer involves
 architectural change (no good test seam, tangled callers, hidden coupling) hand

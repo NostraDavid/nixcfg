@@ -56,21 +56,20 @@ assumptions about adjacent features.
 ```markdown
 ## Agent Brief
 
-**Category:** bug / enhancement
-**Summary:** one-line description of what needs to happen
+**Category:** bug / enhancement **Summary:** one-line description of what needs
+to happen
 
-**Current behavior:**
-Describe what happens now. For bugs, this is the broken behavior.
-For enhancements, this is the status quo the feature builds on.
+**Current behavior:** Describe what happens now. For bugs, this is the broken
+behavior. For enhancements, this is the status quo the feature builds on.
 
-**Desired behavior:**
-Describe what should happen after the agent's work is complete.
-Be specific about edge cases and error conditions.
+**Desired behavior:** Describe what should happen after the agent's work is
+complete. Be specific about edge cases and error conditions.
 
 **Key interfaces:**
 
 - `TypeName` — what needs to change and why
-- `functionName()` return type — what it currently returns vs what it should return
+- `functionName()` return type — what it currently returns vs what it should
+  return
 - Config shape — any new configuration options needed
 
 **Acceptance criteria:**
@@ -92,23 +91,22 @@ Be specific about edge cases and error conditions.
 ```markdown
 ## Agent Brief
 
-**Category:** bug
-**Summary:** Skill description truncation drops mid-word, producing broken output
+**Category:** bug **Summary:** Skill description truncation drops mid-word,
+producing broken output
 
-**Current behavior:**
-When a skill description exceeds 1024 characters, it is truncated at exactly
-1024 characters regardless of word boundaries. This produces descriptions
-that end mid-word (e.g. "Use when the user wants to confi").
+**Current behavior:** When a skill description exceeds 1024 characters, it is
+truncated at exactly 1024 characters regardless of word boundaries. This
+produces descriptions that end mid-word (e.g. "Use when the user wants to
+confi").
 
-**Desired behavior:**
-Truncation should break at the last word boundary before 1024 characters
-and append "..." to indicate truncation.
+**Desired behavior:** Truncation should break at the last word boundary before
+1024 characters and append "..." to indicate truncation.
 
 **Key interfaces:**
 
-- The `SkillMetadata` type's `description` field — no type change needed,
-  but the validation/processing logic that populates it needs to respect
-  word boundaries
+- The `SkillMetadata` type's `description` field — no type change needed, but
+  the validation/processing logic that populates it needs to respect word
+  boundaries
 - Any function that reads SKILL.md frontmatter and extracts the description
 
 **Acceptance criteria:**
@@ -130,28 +128,26 @@ and append "..." to indicate truncation.
 ```markdown
 ## Agent Brief
 
-**Category:** enhancement
-**Summary:** Add `.out-of-scope/` directory support for tracking rejected feature requests
+**Category:** enhancement **Summary:** Add `.out-of-scope/` directory support
+for tracking rejected feature requests
 
-**Current behavior:**
-When a feature request is rejected, the issue is closed with a `wontfix` label
-and a comment. There is no persistent record of the decision or reasoning.
-Future similar requests require the maintainer to recall or search for the
-prior discussion.
+**Current behavior:** When a feature request is rejected, the issue is closed
+with a `wontfix` label and a comment. There is no persistent record of the
+decision or reasoning. Future similar requests require the maintainer to recall
+or search for the prior discussion.
 
-**Desired behavior:**
-Rejected feature requests should be documented in `.out-of-scope/<concept>.md`
-files that capture the decision, reasoning, and links to all issues that
-requested the feature. When triaging new issues, these files should be
-checked for matches.
+**Desired behavior:** Rejected feature requests should be documented in
+`.out-of-scope/<concept>.md` files that capture the decision, reasoning, and
+links to all issues that requested the feature. When triaging new issues, these
+files should be checked for matches.
 
 **Key interfaces:**
 
 - Markdown file format in `.out-of-scope/` — each file should have a
-  `# Concept Name` heading, a `**Decision:**` line, a `**Reason:**` line,
-  and a `**Prior requests:**` list with issue links
-- The triage workflow should read all `.out-of-scope/*.md` files early
-  and match incoming issues against them by concept similarity
+  `# Concept Name` heading, a `**Decision:**` line, a `**Reason:**` line, and a
+  `**Prior requests:**` list with issue links
+- The triage workflow should read all `.out-of-scope/*.md` files early and match
+  incoming issues against them by concept similarity
 
 **Acceptance criteria:**
 
@@ -177,19 +173,17 @@ the agent to finish or fix it rather than build from scratch.
 ```markdown
 ## Agent Brief
 
-**Category:** enhancement
-**Summary:** Finish the contributor's `--json` output flag for `triage list`
+**Category:** enhancement **Summary:** Finish the contributor's `--json` output
+flag for `triage list`
 
-**Current behavior:**
-The PR adds a `--json` flag that serializes the issue list to JSON. The happy
-path works and the diff matches the project's command structure. Two gaps
-remain: errors are still printed as human text (not JSON), and the new flag has
-no test coverage.
+**Current behavior:** The PR adds a `--json` flag that serializes the issue list
+to JSON. The happy path works and the diff matches the project's command
+structure. Two gaps remain: errors are still printed as human text (not JSON),
+and the new flag has no test coverage.
 
-**Desired behavior:**
-With `--json`, all output — including errors — is well-formed JSON on stdout,
-and the command's exit codes are unchanged. The existing human-readable output
-is untouched when the flag is absent.
+**Desired behavior:** With `--json`, all output — including errors — is
+well-formed JSON on stdout, and the command's exit codes are unchanged. The
+existing human-readable output is untouched when the flag is absent.
 
 **Key interfaces:**
 
@@ -217,8 +211,7 @@ is untouched when the flag is absent.
 
 **Summary:** Fix the triage bug
 
-**What to do:**
-The triage thing is broken. Look at the main file and fix it.
+**What to do:** The triage thing is broken. Look at the main file and fix it.
 The function around line 150 has the issue.
 
 **Files to change:**

@@ -51,11 +51,11 @@ Keep steps 1–3 in **one unbroken context window** — don't compact or clear u
 after `$to-tickets` — so the grilling, spec, and tickets all build on the same
 thinking. Each `$implement` then starts fresh, working from the ticket.
 
-The limit on this is the **[smart
-zone](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**: the window
-(~120k tokens on state-of-the-art models) within which the model still reasons
-sharply. If a session approaches it before `$to-tickets`, don't push on degraded
-— `$handoff` and continue in a fresh thread.
+The limit on this is the
+**[smart zone](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**: the
+window (~120k tokens on state-of-the-art models) within which the model still
+reasons sharply. If a session approaches it before `$to-tickets`, don't push on
+degraded — `$handoff` and continue in a fresh thread.
 
 ## On-ramps
 

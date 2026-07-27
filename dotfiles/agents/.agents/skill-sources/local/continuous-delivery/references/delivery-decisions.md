@@ -11,14 +11,19 @@
 
 ## Health gates
 
-Prefer user-visible correctness, latency, error, saturation, and business invariants over “pod is running.” Compare canary to a concurrent control when traffic mix changes. Define minimum sample/observation windows and guard against low-volume false confidence.
+Prefer user-visible correctness, latency, error, saturation, and business
+invariants over “pod is running.” Compare canary to a concurrent control when
+traffic mix changes. Define minimum sample/observation windows and guard against
+low-volume false confidence.
 
 ## Failure modes
 
 - artifact rebuilt or reconfigured differently in each environment;
-- deployment declared healthy before dependencies and real workflows are exercised;
+- deployment declared healthy before dependencies and real workflows are
+  exercised;
 - database contraction while old binaries or delayed jobs remain;
 - rollback path never tested with data written by the new release;
 - flaky tests normalized instead of owned and repaired;
 - security approval performed after the artifact can no longer change;
-- GitOps controller granted broad cluster privileges without scoped projects and audited break-glass access.
+- GitOps controller granted broad cluster privileges without scoped projects and
+  audited break-glass access.

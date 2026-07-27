@@ -19,9 +19,10 @@
   public execution interface. Run and document the script directly; do not wrap
   normal invocations in `uv run`.
 - Keep the script self-contained. Do not add a neighboring `.lock` file.
-- Pin every PEP 723 dependency with `==`. Resolve current versions with `uv add
---script SCRIPT --bounds exact PACKAGE...` instead of copying versions from this
-skill.
+- Pin every PEP 723 dependency with `==`. Resolve current versions with
+  `uv add
+--script SCRIPT --bounds exact PACKAGE...` instead of copying versions
+  from this skill.
 - Always include Click, structlog, pytest, and pytest-cov. Include Pydantic when
   data has a non-trivial schema, crosses a trust boundary, or needs coercion and
   validation.
