@@ -56,7 +56,7 @@ in {
     name = "Visual Studio Code";
     genericName = "Text Editor";
     comment = "Code Editing. Redefined.";
-    exec = "${config.home.homeDirectory}/.local/bin/code %F";
+    exec = "${config.home.homeDirectory}/.local/bin/ide --no-picker %F";
     icon = "vscode";
     terminal = false;
     type = "Application";
@@ -81,17 +81,19 @@ in {
       zed-editor # vscode alternative
 
       # unstable
-      unstable.gemini-cli
+      # unstable.gemini-cli # llm agent
+      # unstable.antigravity-cli # llm agent
       # unstable.github-copilot-cli
       unstable.dprint # Extensible code formatter; prettier replacement
       unstable.oxlint # js linter
       unstable.fastfetch # neofetch alternative
       unstable.zigfetch # neofetch alternative
       unstable.devenv # Development environment manager | using unstable for 2.x
-      # unstable.codex # Code autocompletion tool
+      # unstable.codex # lln agent
       unstable.witr # Why is this running?
       unstable.zsv # CSV viewer and slicer
-      unstable.opencode # codex-cli alternative
+      unstable.opencode # llm agent
+      unstable.claude-code # llm agent
       unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
       unstable.python313 # Runtime for executable agent skill helpers
 

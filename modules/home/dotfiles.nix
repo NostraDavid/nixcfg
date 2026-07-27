@@ -194,7 +194,8 @@
         ".git-templates" = {source = mk "${dot}/git-templates/.git-templates";};
         ".gitconfig" = {source = mk "${dot}/git/.gitconfig";};
         ".groovylintrc.json" = {source = mk "${dot}/groovy-lint/.groovylintrc.json";};
-        ".local/bin/code" = {source = mk "${dot}/scripts/code";};
+        ".local/bin/code" = {source = mk "${dot}/scripts/code.sh";};
+        ".local/bin/ide" = {source = mk "${dot}/scripts/ide.py";};
         ".local/bin/folder_stats" = {source = mk "${dot}/scripts/folder_stats";};
         ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color";};
         ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker";};
