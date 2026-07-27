@@ -196,11 +196,11 @@
         ".groovylintrc.json" = {source = mk "${dot}/groovy-lint/.groovylintrc.json";};
         ".local/bin/code" = {source = mk "${dot}/scripts/code.sh";};
         ".local/bin/ide" = {source = mk "${dot}/scripts/ide.py";};
-        ".local/bin/folder_stats" = {source = mk "${dot}/scripts/folder_stats";};
-        ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color";};
-        ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker";};
+        ".local/bin/folder_stats" = {source = mk "${dot}/scripts/folder_stats.py";};
+        ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color.py";};
+        ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker.py";};
         ".local/bin/tmux-login-session" = {source = mk "${dot}/scripts/tmux-login-session";};
-        ".local/bin/venv" = {source = mk "${dot}/scripts/venv";};
+        ".local/bin/venv" = {source = mk "${dot}/scripts/venv.py";};
         ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
         "dev/.env.example" = {source = mk "${dot}/dev/.env.example";};
         "dev/find-uncommitted.py" = {source = mk "${dot}/dev/find-uncommitted.py";};
