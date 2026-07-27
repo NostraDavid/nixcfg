@@ -17,7 +17,8 @@ Issues and PRDs for this repo live as GitLab issues. Use the
   `--unlabel "..."`. Multiple labels can be comma-separated or by repeating the
   flag.
 - **Close**: `glab issue close <number>`. `glab issue close` does not accept a
-  closing comment, so post the explanation first with `glab issue note <number>
+  closing comment, so post the explanation first with
+  `glab issue note <number>
   --message "..."`, then close.
 - **Merge requests**: GitLab calls PRs "merge requests". Use `glab mr create`,
   `glab mr view`, `glab mr note`, etc. — the same shape as `gh pr ...` with `mr`
@@ -39,7 +40,8 @@ the `glab mr` equivalents:
 - **List external MRs for triage**: `glab mr list -F json`, then keep only MRs
   whose author is not a project member/owner (a contributor's MR, not a
   maintainer's in-flight work).
-- **Comment / label / close**: `glab mr note`, `glab mr update
+- **Comment / label / close**: `glab mr note`,
+  `glab mr update
   --label`/`--unlabel`, `glab mr close`.
 
 Unlike GitHub, GitLab numbers issues and MRs separately, so `#42` is unambiguous
@@ -74,9 +76,11 @@ tickets.
   description. A ticket is unblocked when every blocker is closed.
 - **Frontier query**: `glab issue list -F json` scoped to the map's children,
   drop any with an open blocker — a native `blocked_by` link to an open issue
-  (`glab api projects/:id/issues/:iid/links`), or an open issue in the `Blocked
+  (`glab api projects/:id/issues/:iid/links`), or an open issue in the
+  `Blocked
   by` line — or an assignee; first in map order wins.
 - **Claim**: `glab issue update <n> --assignee @me` — the session's first write.
-- **Resolve**: `glab issue note <n> --message "<answer>"`, then `glab issue
-  close <n>`, then append a context pointer (gist + link) to the map's
-  Decisions-so-far.
+- **Resolve**: `glab issue note <n> --message "<answer>"`, then
+  `glab issue
+  close <n>`, then append a context pointer (gist + link) to the
+  map's Decisions-so-far.

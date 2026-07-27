@@ -10,9 +10,9 @@ use.
 
 ## Workflow
 
-1. Read [the Python CLI standard](references/python-cli-standard.md), [the
-   import policy](references/import-policy.md), and its canonical [alias
-   registry](references/import-policy.toml) completely.
+1. Read [the Python CLI standard](references/python-cli-standard.md),
+   [the import policy](references/import-policy.md), and its canonical
+   [alias registry](references/import-policy.toml) completely.
 2. Inspect repository instructions, the target script, nearby callers,
    documentation, and tests before changing existing code.
 3. Treat an existing script as a source of requirements, not as an interface

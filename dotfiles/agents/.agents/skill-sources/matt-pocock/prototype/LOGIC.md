@@ -73,9 +73,10 @@ Each frame has two parts, in this order:
    for less important context (timestamps, IDs, derived values). Native ANSI
    escape codes are fine — `\x1b[1m` bold, `\x1b[2m` dim, `\x1b[0m` reset. No
    need to pull in a styling library unless one is already in the project.
-2. **Keyboard shortcuts**, listed at the bottom: `[a] add user  [d] delete user
-   [t] tick clock  [q] quit`. Bold the key, dim the description, or vice-versa —
-   whatever reads cleanly.
+2. **Keyboard shortcuts**, listed at the bottom:
+   `[a] add user  [d] delete user
+   [t] tick clock  [q] quit`. Bold the key,
+   dim the description, or vice-versa — whatever reads cleanly.
 
 Behaviour:
 
@@ -91,7 +92,8 @@ The whole frame should fit on one screen.
 ### 5. Make it runnable in one command
 
 Add a script to the project's existing task runner (`package.json` scripts,
-`Makefile`, `justfile`, `pyproject.toml`). The user should run `pnpm run
+`Makefile`, `justfile`, `pyproject.toml`). The user should run
+`pnpm run
 <prototype-name>` or equivalent — never need to remember a path.
 
 If the host project has no task runner, just put the command at the top of the

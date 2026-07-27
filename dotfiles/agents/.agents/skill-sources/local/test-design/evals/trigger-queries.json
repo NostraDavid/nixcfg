@@ -54,7 +54,11 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Debug why this one test is flaky.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Debug why this one test is flaky.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Refactor the production class to reduce coupling.",
     "should_trigger": false,
@@ -65,7 +69,11 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Explain code coverage terminology.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Explain code coverage terminology.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Set up GitHub Actions to execute our existing tests.",
     "should_trigger": false,

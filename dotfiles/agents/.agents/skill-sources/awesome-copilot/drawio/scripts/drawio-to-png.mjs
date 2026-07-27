@@ -10,11 +10,11 @@
  *        node drawio-to-png.mjs --renderer=cli|viewer|auto <input.drawio> [output.png]
  */
 
-import { readFileSync, writeFileSync, readdirSync, statSync } from "fs";
-import { join, basename, dirname, resolve } from "path";
 import { spawnSync } from "child_process";
-import { inflateRawSync } from "zlib";
+import { readdirSync, readFileSync, statSync, writeFileSync } from "fs";
+import { basename, dirname, join, resolve } from "path";
 import puppeteer from "puppeteer-core";
+import { inflateRawSync } from "zlib";
 
 // --- Build HTML that uses the official draw.io viewer for rendering ---
 function buildViewerHtml(rawFileContent) {
@@ -215,7 +215,7 @@ async function main() {
       .filter(f => f.endsWith(".drawio"))
       .map(f => ({
         input: join(dir, f),
-        output: join(dir, f.replace(/\.drawio$/, ".drawio.png"))
+        output: join(dir, f.replace(/\.drawio$/, ".drawio.png")),
       }));
   } else if (args[0]) {
     const input = resolve(args[0]);
@@ -224,7 +224,9 @@ async function main() {
   } else {
     console.error("Usage: node drawio-to-png.mjs <input.drawio> [output.png]");
     console.error("       node drawio-to-png.mjs --dir <directory>");
-    console.error("       node drawio-to-png.mjs --renderer=cli|auto|custom <input.drawio> [output.png]");
+    console.error(
+      "       node drawio-to-png.mjs --renderer=cli|auto|custom <input.drawio> [output.png]",
+    );
     process.exit(1);
   }
 
@@ -278,7 +280,10 @@ async function main() {
   let execPath;
   for (const p of browserPaths) {
     try {
-      if (statSync(p).isFile()) { execPath = p; break; }
+      if (statSync(p).isFile()) {
+        execPath = p;
+        break;
+      }
     } catch { /* not found */ }
   }
 
@@ -328,7 +333,7 @@ async function main() {
       }
 
       // Take element screenshot of just the diagram div for exact bounds
-      const containerHandle = await page.$('.mxgraph');
+      const containerHandle = await page.$(".mxgraph");
       let pngBuffer;
 
       if (containerHandle) {
@@ -337,7 +342,7 @@ async function main() {
         // Fallback: full-page screenshot
         const dims = await page.evaluate(() => ({
           w: Math.ceil(window.__renderWidth),
-          h: Math.ceil(window.__renderHeight)
+          h: Math.ceil(window.__renderHeight),
         }));
         pngBuffer = await page.screenshot({
           type: "png",
@@ -358,4 +363,7 @@ async function main() {
   console.log("Done.");
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

@@ -120,7 +120,8 @@ Common predicates: `is_in`, `is_between` (inclusive), `is_null`, `is_not_null`,
 `str.contains`, `str.starts_with`, `str.ends_with`.
 
 Null behavior: a comparison against null yields null, which filter treats as
-false. `filter(pl.col("v") > 10)` silently drops null rows; add `|
+false. `filter(pl.col("v") > 10)` silently drops null rows; add
+`|
 pl.col("v").is_null()` to keep them.
 
 ## group_by() + agg()

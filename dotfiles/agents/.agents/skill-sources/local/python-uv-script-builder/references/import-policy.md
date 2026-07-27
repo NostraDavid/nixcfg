@@ -34,8 +34,8 @@
 - Use `pyarrow.parquet as pq` with `compression="zstd"` for fast binary tabular
   persistence. Use `zstandard as zstd` only when handling raw Zstandard streams
   outside Parquet.
-- Use joblib instead of pickle when it can represent the data. Never load
-  joblib or pickle data from an untrusted source.
+- Use joblib instead of pickle when it can represent the data. Never load joblib
+  or pickle data from an untrusted source.
 - Use NumPy as `np` instead of math or statistics for numerical work. Use those
   standard-library modules only when their distinct scalar semantics are the
   actual requirement.

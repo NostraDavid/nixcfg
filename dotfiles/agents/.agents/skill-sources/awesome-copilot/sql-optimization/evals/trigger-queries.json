@@ -54,19 +54,31 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Design tables for customers and orders.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Design tables for customers and orders.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Rename this production column without downtime.",
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Teach me how a B-tree works.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Teach me how a B-tree works.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Format this SELECT statement consistently.",
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Audit PostgreSQL RLS policies.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Audit PostgreSQL RLS policies.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Fix referential integrity in this schema.",
     "should_trigger": false,
@@ -82,5 +94,9 @@
     "should_trigger": false,
     "split": "validation"
   },
-  { "query": "Convert this ORM model to SQL DDL.", "should_trigger": false, "split": "validation" }
+  {
+    "query": "Convert this ORM model to SQL DDL.",
+    "should_trigger": false,
+    "split": "validation"
+  }
 ]

@@ -1,23 +1,41 @@
 # Prompting guide
 
-GPT-5.5 works best when prompts define the outcome and leave room for the model to choose an efficient solution path. Compared with earlier models, you can often use shorter, more outcome-oriented prompts: describe what good looks like, what constraints matter, what evidence is available, and what the final answer should contain.
+GPT-5.5 works best when prompts define the outcome and leave room for the model
+to choose an efficient solution path. Compared with earlier models, you can
+often use shorter, more outcome-oriented prompts: describe what good looks like,
+what constraints matter, what evidence is available, and what the final answer
+should contain.
 
-Avoid carrying over every instruction from an older prompt stack. Legacy prompts often over-specify the process because earlier models needed more help staying on track. With GPT-5.5, that can add noise, narrow the model's search space, or lead to overly mechanical answers.
+Avoid carrying over every instruction from an older prompt stack. Legacy prompts
+often over-specify the process because earlier models needed more help staying
+on track. With GPT-5.5, that can add noise, narrow the model's search space, or
+lead to overly mechanical answers.
 
-For more detail on GPT-5.5 behavior changes, start with the [Using GPT-5.5 guide](/api/docs/guides/latest-model). This guide focuses on prompt changes that follow from those behavior changes.
+For more detail on GPT-5.5 behavior changes, start with the
+[Using GPT-5.5 guide](/api/docs/guides/latest-model). This guide focuses on
+prompt changes that follow from those behavior changes.
 
-The patterns here are starting points. Adapt them to your product surface, tools, evals, and user experience goals.
+The patterns here are starting points. Adapt them to your product surface,
+tools, evals, and user experience goals.
 
 ## Personality and behavior
 
-GPT-5.5's default style is efficient, direct, and task-oriented. This is useful for production systems: responses stay focused, behavior is easier to steer, and the model avoids unnecessary conversational padding.
+GPT-5.5's default style is efficient, direct, and task-oriented. This is useful
+for production systems: responses stay focused, behavior is easier to steer, and
+the model avoids unnecessary conversational padding.
 
-For customer-facing assistants, support workflows, coaching experiences, and other conversational products, define both personality and collaboration style.
+For customer-facing assistants, support workflows, coaching experiences, and
+other conversational products, define both personality and collaboration style.
 
-- **Personality** controls how the assistant sounds: tone, warmth, directness, formality, humor, empathy, and level of polish.
-- **Collaboration style** controls how the assistant works: when it asks questions, when it makes assumptions, how proactive it should be, how much context it gives, when it checks work, and how it handles uncertainty or risk.
+- **Personality** controls how the assistant sounds: tone, warmth, directness,
+  formality, humor, empathy, and level of polish.
+- **Collaboration style** controls how the assistant works: when it asks
+  questions, when it makes assumptions, how proactive it should be, how much
+  context it gives, when it checks work, and how it handles uncertainty or risk.
 
-Keep both short. Personality instructions should shape the user experience. Collaboration instructions should shape task behavior. Neither should replace clear goals, success criteria, tool rules, or stopping conditions.
+Keep both short. Personality instructions should shape the user experience.
+Collaboration instructions should shape task behavior. Neither should replace
+clear goals, success criteria, tool rules, or stopping conditions.
 
 Example personality block for a steady task-focused assistant:
 
@@ -43,15 +61,22 @@ Be warm, collaborative, and polished. Conversation should feel easy and alive, b
 Be thoughtful and grounded when the task calls for synthesis or advice. State a clear recommendation when you have enough context, explain important tradeoffs, and name uncertainty without becoming evasive.
 ```
 
-For more expressive products, add warmth, curiosity, humor, or point of view explicitly, but keep the block short. Use personality to shape the experience, not to compensate for unclear goals or missing task instructions.
+For more expressive products, add warmth, curiosity, humor, or point of view
+explicitly, but keep the block short. Use personality to shape the experience,
+not to compensate for unclear goals or missing task instructions.
 
 ## Improve time to first visible token with a preamble
 
-In streaming applications, users notice how long it takes before the first visible response appears. GPT-5.5 may spend time reasoning, planning, or preparing tool calls before emitting visible text.
+In streaming applications, users notice how long it takes before the first
+visible response appears. GPT-5.5 may spend time reasoning, planning, or
+preparing tool calls before emitting visible text.
 
-For longer or tool-heavy tasks, prompt the model to start with a short preamble: a brief visible update that acknowledges the request and states the first step. This can improve perceived responsiveness without changing the underlying task.
+For longer or tool-heavy tasks, prompt the model to start with a short preamble:
+a brief visible update that acknowledges the request and states the first step.
+This can improve perceived responsiveness without changing the underlying task.
 
-Use this pattern when the task may take more than one step, require tool calls, or involve a long-running agent workflow.
+Use this pattern when the task may take more than one step, require tool calls,
+or involve a long-running agent workflow.
 
 ```text
 Before any tool calls for a multi-step task, send a short user-visible update that acknowledges the request and states the first step. Keep it to one or two sentences.
@@ -65,9 +90,12 @@ You must always start with an intermediary update before any content in the anal
 
 ## Outcome-first prompts and stopping conditions
 
-GPT-5.5 is strongest when the prompt defines the target outcome, success criteria, constraints, and available context, then lets the model choose the path.
+GPT-5.5 is strongest when the prompt defines the target outcome, success
+criteria, constraints, and available context, then lets the model choose the
+path.
 
-For many tasks, describe the destination rather than every step. This gives the model room to choose the right search, tool, or reasoning strategy for the task.
+For many tasks, describe the destination rather than every step. This gives the
+model room to choose the right search, tool, or reasoning strategy for the task.
 
 Prefer this:
 
@@ -81,7 +109,12 @@ Success means:
 - if evidence is missing, ask for the smallest missing field
 ```
 
-**Avoid unnecessary absolute rules.** Older prompts often use strict instructions like `ALWAYS`, `NEVER`, `must`, and `only` to control model behavior. Use those words for true invariants, such as safety rules, required output fields, or actions that should never happen. For judgment calls, such as when to search, ask for clarification, use a tool, or keep iterating, prefer decision rules instead.
+**Avoid unnecessary absolute rules.** Older prompts often use strict
+instructions like `ALWAYS`, `NEVER`, `must`, and `only` to control model
+behavior. Use those words for true invariants, such as safety rules, required
+output fields, or actions that should never happen. For judgment calls, such as
+when to search, ask for clarification, use a tool, or keep iterating, prefer
+decision rules instead.
 
 Avoid this style of instruction unless every step is truly required:
 
@@ -107,9 +140,13 @@ Use the minimum evidence sufficient to answer correctly, cite it precisely, then
 
 ## Formatting
 
-GPT-5.5 is highly steerable on output format and structure. Use that control when it improves comprehension or product fit.
+GPT-5.5 is highly steerable on output format and structure. Use that control
+when it improves comprehension or product fit.
 
-Set `text.verbosity`, describe the expected output shape, and reserve heavier structure for cases where it improves comprehension or your product UI needs a stable artifact. The API default for `text.verbosity` is `medium`; use `low` when you prefer shorter, more concise responses.
+Set `text.verbosity`, describe the expected output shape, and reserve heavier
+structure for cases where it improves comprehension or your product UI needs a
+stable artifact. The API default for `text.verbosity` is `medium`; use `low`
+when you prefer shorter, more concise responses.
 
 Plain conversational formatting:
 
@@ -127,7 +164,9 @@ Add explicit audience and length guidance:
 Write for a senior business audience. Keep the answer under 400 words. Use short paragraphs and only include bullets when they improve scannability. Prioritize the conclusion first, then the reasoning, then caveats.
 ```
 
-For editing, rewriting, summaries, or customer-facing messages, tell the model what to preserve before asking it to improve style. This pattern is useful when you want polish without expansion.
+For editing, rewriting, summaries, or customer-facing messages, tell the model
+what to preserve before asking it to improve style. This pattern is useful when
+you want polish without expansion.
 
 ```text
 Preserve the requested artifact, length, structure, and genre first. Quietly improve clarity, flow, and correctness. Do not add new claims, extra sections, or a more promotional tone unless explicitly requested.
@@ -135,11 +174,16 @@ Preserve the requested artifact, length, structure, and genre first. Quietly imp
 
 ## Grounding, citations, and retrieval budgets
 
-For grounded answers, citation behavior should be part of the prompt. Define what needs support, what counts as enough evidence, and how the model should behave when evidence is missing. Absence of evidence shouldn't automatically become a factual "no." For more details and examples, see the [citation formatting guide](/api/docs/guides/citation-formatting).
+For grounded answers, citation behavior should be part of the prompt. Define
+what needs support, what counts as enough evidence, and how the model should
+behave when evidence is missing. Absence of evidence shouldn't automatically
+become a factual "no." For more details and examples, see the
+[citation formatting guide](/api/docs/guides/citation-formatting).
 
 ### Add an explicit retrieval budget
 
-Retrieval budgets are stopping rules for search. They tell the model when enough evidence is enough.
+Retrieval budgets are stopping rules for search. They tell the model when enough
+evidence is enough.
 
 ```text
 For ordinary Q&A, start with one broad search using short, discriminative keywords. If the top results contain enough citable support for the core request, answer from those results instead of searching again.
@@ -156,7 +200,9 @@ Do not search again to improve phrasing, add examples, cite nonessential details
 
 ## Creative drafting guardrails
 
-For drafting tasks, tell the model which claims must come from sources and which parts may be creatively written. This is especially important for slides, launch copy, customer summaries, talk tracks, leadership blurbs, and narrative framing.
+For drafting tasks, tell the model which claims must come from sources and which
+parts may be creatively written. This is especially important for slides, launch
+copy, customer summaries, talk tracks, leadership blurbs, and narrative framing.
 
 ```text
 For creative or generative requests such as slides, leadership blurbs, outbound copy, summaries for sharing, talk tracks, or narrative framing, distinguish source-backed facts from creative wording.
@@ -168,11 +214,17 @@ For creative or generative requests such as slides, leadership blurbs, outbound 
 
 ## Frontend engineering and visual taste
 
-For frontend work, refer to the [example instructions](/api/docs/guides/frontend-prompt) for practical ways to steer UI quality. They cover product and user context, design-system alignment, first-screen usability, familiar controls, expected states, responsive behavior, and common generated-UI defaults to avoid, such as generic heroes, nested cards, decorative gradients, visible instructional text, and broken layouts.
+For frontend work, refer to the
+[example instructions](/api/docs/guides/frontend-prompt) for practical ways to
+steer UI quality. They cover product and user context, design-system alignment,
+first-screen usability, familiar controls, expected states, responsive behavior,
+and common generated-UI defaults to avoid, such as generic heroes, nested cards,
+decorative gradients, visible instructional text, and broken layouts.
 
 ## Prompt the model to check its work
 
-Give GPT-5.5 access to tools that let it check outputs when validation is possible.
+Give GPT-5.5 access to tools that let it check outputs when validation is
+possible.
 
 For coding agents, ask for concrete validation commands:
 
@@ -207,9 +259,15 @@ For implementation plans, include:
 
 ## Phase parameter
 
-Starting with GPT-5.4, long-running or tool-heavy Responses workflows can use assistant-item `phase` values to distinguish intermediate updates from final answers. GPT-5.5 uses the same pattern.
+Starting with GPT-5.4, long-running or tool-heavy Responses workflows can use
+assistant-item `phase` values to distinguish intermediate updates from final
+answers. GPT-5.5 uses the same pattern.
 
-If you use `previous_response_id`, the API preserves prior assistant state automatically. If your application manually replays assistant output items into the next request, preserve each original `phase` value and pass it back unchanged. This matters most when a response includes preambles, repeated tool calls, or a final answer after intermediate assistant updates.
+If you use `previous_response_id`, the API preserves prior assistant state
+automatically. If your application manually replays assistant output items into
+the next request, preserve each original `phase` value and pass it back
+unchanged. This matters most when a response includes preambles, repeated tool
+calls, or a final answer after intermediate assistant updates.
 
 ```text
 If manually replaying assistant items:
@@ -221,7 +279,8 @@ If manually replaying assistant items:
 
 ## Suggested prompt structure
 
-Use this structure as a starting point for complex prompts. Keep each section short. Add detail only where it changes behavior.
+Use this structure as a starting point for complex prompts. Keep each section
+short. Add detail only where it changes behavior.
 
 ```text
 Role: [1-2 sentences defining the model's function, context, and job]

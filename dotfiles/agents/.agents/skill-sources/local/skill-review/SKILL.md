@@ -98,8 +98,8 @@ plausible instructions are not evidence that a skill works.
 
 Keep activation and task-quality evaluations separate:
 
-- For activation, start with 8-10 realistic positive and 8-10 near-miss
-  negative queries. Vary phrasing, explicitness, detail, and complexity; include
+- For activation, start with 8-10 realistic positive and 8-10 near-miss negative
+  queries. Vary phrasing, explicitness, detail, and complexity; include
   ambiguous boundaries and known production failures. Keep a fixed validation
   split hidden from description-tuning decisions.
 - For task quality, start with 2-3 representative cases containing a prompt,

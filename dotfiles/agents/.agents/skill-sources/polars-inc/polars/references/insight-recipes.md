@@ -7,7 +7,8 @@ Workflow reminder: discover the schema first (`lf.collect_schema()`,
 `lf.head(5).collect()`), state how you interpreted vague terms ("top" = by
 revenue, "last quarter" = 2026 Q1), then answer with numbers.
 
-Throughout, `lf` is a LazyFrame, e.g. `lf = pl.scan_csv("data.csv",
+Throughout, `lf` is a LazyFrame, e.g.
+`lf = pl.scan_csv("data.csv",
 try_parse_dates=True, null_values=["N/A", ""])`.
 
 ## Contents
@@ -71,9 +72,10 @@ only.
 )
 ```
 
-Per-group variant: use `.shift(1).over("region")` and sort by `("region",
-"month")` first. State the definition used (month-over-month, percent) in the
-answer.
+Per-group variant: use `.shift(1).over("region")` and sort by
+`("region",
+"month")` first. State the definition used (month-over-month,
+percent) in the answer.
 
 ## "What share does each X have of the total?"
 

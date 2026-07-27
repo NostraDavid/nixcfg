@@ -39,7 +39,11 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Add a --verbose flag to this CLI.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Add a --verbose flag to this CLI.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Write a requirements specification from these confirmed notes.",
     "should_trigger": false,
@@ -50,5 +54,9 @@
     "should_trigger": false,
     "split": "validation"
   },
-  { "query": "Fix the typo in README.md.", "should_trigger": false, "split": "validation" }
+  {
+    "query": "Fix the typo in README.md.",
+    "should_trigger": false,
+    "split": "validation"
+  }
 ]

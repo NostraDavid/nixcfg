@@ -74,5 +74,9 @@
     "should_trigger": false,
     "split": "validation"
   },
-  { "query": "Fix this failing unit test.", "should_trigger": false, "split": "validation" }
+  {
+    "query": "Fix this failing unit test.",
+    "should_trigger": false,
+    "split": "validation"
+  }
 ]

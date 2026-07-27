@@ -56,11 +56,14 @@ The whole map at low resolution, loaded once per session. Open tickets are
 ```markdown
 ## Destination
 
-<what reaching the end of this map looks like — the spec, decision, or change this effort is finding its way to. One or two lines; every session orients to it before choosing a ticket.>
+<what reaching the end of this map looks like — the spec, decision, or change
+this effort is finding its way to. One or two lines; every session orients to it
+before choosing a ticket.>
 
 ## Notes
 
-<domain; skills every session should consult; standing preferences for this effort>
+<domain; skills every session should consult; standing preferences for this
+effort>
 
 ## Decisions so far
 
@@ -102,8 +105,8 @@ blocking falls back to a body convention. A ticket is **unblocked** when every
 ticket blocking it is closed; the **frontier** is the open, unblocked, unclaimed
 children — the edge of the known.
 
-The answer isn't part of the body — it's recorded on resolution (see [Work
-through the map](#work-through-the-map)). Assets created while resolving a
+The answer isn't part of the body — it's recorded on resolution (see
+[Work through the map](#work-through-the-map)). Assets created while resolving a
 ticket are linked from the issue, not pasted in.
 
 ## Ticket Types

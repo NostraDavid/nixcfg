@@ -5,7 +5,8 @@ description: Generate draw.io diagrams as .drawio files and export to PNG/SVG/PD
 
 # Draw.io Diagram Skill
 
-Generate draw.io diagrams as native `.drawio` files and export them to PNG images that can be embedded in Word documents.
+Generate draw.io diagrams as native `.drawio` files and export them to PNG
+images that can be embedded in Word documents.
 
 ## How to Create a Diagram
 
@@ -15,10 +16,13 @@ Generate draw.io diagrams as native `.drawio` files and export them to PNG image
 
 ## Bundled Export Script
 
-This skill includes `drawio-to-png.mjs`, a Node.js export script with two rendering backends:
+This skill includes `drawio-to-png.mjs`, a Node.js export script with two
+rendering backends:
 
-1. **draw.io CLI** (pixel-perfect, fastest) — used automatically if draw.io desktop is installed
-2. **Official draw.io viewer in headless browser** (pixel-perfect, needs Chromium/Edge) — fallback when CLI is unavailable
+1. **draw.io CLI** (pixel-perfect, fastest) — used automatically if draw.io
+   desktop is installed
+2. **Official draw.io viewer in headless browser** (pixel-perfect, needs
+   Chromium/Edge) — fallback when CLI is unavailable
 
 ### Usage
 
@@ -93,4 +97,5 @@ Try `drawio` first (works if on PATH), then fall back:
 drawio -x -f png -e -b 10 -o <output.png> <input.drawio>
 ```
 
-Flags: `-x` (export), `-f` (format), `-e` (embed diagram XML), `-b` (border), `-o` (output path).
+Flags: `-x` (export), `-f` (format), `-e` (embed diagram XML), `-b` (border),
+`-o` (output path).

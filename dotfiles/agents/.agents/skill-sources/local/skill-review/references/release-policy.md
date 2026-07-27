@@ -8,8 +8,8 @@ declared in retained evaluation results.
 
 Require all of the following before marking the skill `conditionally ready`:
 
-- the target-platform validator and, when available, `skills-ref validate`
-  both pass or their schema difference is explicitly accepted;
+- the target-platform validator and, when available, `skills-ref validate` both
+  pass or their schema difference is explicitly accepted;
 - every trigger and task-quality case has at least five attempts;
 - validation-split positive activation recall is at least 95%;
 - validation-split negative activation specificity is at least 95%;

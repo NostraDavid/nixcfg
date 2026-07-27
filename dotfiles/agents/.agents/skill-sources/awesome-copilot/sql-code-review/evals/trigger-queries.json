@@ -19,7 +19,11 @@
     "should_trigger": true,
     "split": "train"
   },
-  { "query": "Audit this MySQL DDL and trigger diff.", "should_trigger": true, "split": "train" },
+  {
+    "query": "Audit this MySQL DDL and trigger diff.",
+    "should_trigger": true,
+    "split": "train"
+  },
   {
     "query": "Does this dynamic SQL safely handle values and identifiers?",
     "should_trigger": true,
@@ -60,7 +64,11 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Explain how GROUP BY works.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Explain how GROUP BY works.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Format this SQL file without reviewing it.",
     "should_trigger": false,
@@ -86,5 +94,9 @@
     "should_trigger": false,
     "split": "validation"
   },
-  { "query": "Generate seed data for this schema.", "should_trigger": false, "split": "validation" }
+  {
+    "query": "Generate seed data for this schema.",
+    "should_trigger": false,
+    "split": "validation"
+  }
 ]

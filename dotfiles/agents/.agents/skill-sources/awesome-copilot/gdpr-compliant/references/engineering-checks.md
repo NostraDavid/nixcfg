@@ -2,15 +2,22 @@
 
 ## Processing record
 
-Capture purpose, approved legal basis, necessity, data fields/categories, data subjects, source, recipients, controller/processor roles, systems and regions, transfer mechanism, retention and trigger, rights/exceptions, security measures, owners, notice, and DPIA status.
+Capture purpose, approved legal basis, necessity, data fields/categories, data
+subjects, source, recipients, controller/processor roles, systems and regions,
+transfer mechanism, retention and trigger, rights/exceptions, security measures,
+owners, notice, and DPIA status.
 
 ## Data-flow questions
 
-- Which fields are collected, derived, inferred, linked, or exported, and why is each necessary?
+- Which fields are collected, derived, inferred, linked, or exported, and why is
+  each necessary?
 - Which identities can access them under which purpose and context?
-- Where do logs, traces, analytics, caches, queues, indexes, backups, support tools, and vendors copy them?
-- What happens after correction, erasure, restriction, consent withdrawal, objection, account closure, or restore?
-- Can a less identifying value, aggregation, on-device processing, shorter precision, or shorter retention satisfy the purpose?
+- Where do logs, traces, analytics, caches, queues, indexes, backups, support
+  tools, and vendors copy them?
+- What happens after correction, erasure, restriction, consent withdrawal,
+  objection, account closure, or restore?
+- Can a less identifying value, aggregation, on-device processing, shorter
+  precision, or shorter retention satisfy the purpose?
 
 ## Evidence
 
@@ -27,5 +34,8 @@ Capture purpose, approved legal basis, necessity, data fields/categories, data s
 ## Authoritative anchors
 
 - Regulation (EU) 2016/679 via EUR-Lex.
-- European Data Protection Board final guidance, including Guidelines 4/2019 on data protection by design and by default.
-- Competent supervisory-authority guidance, such as the CNIL developer guide, while distinguishing guidance from binding law and organisation-specific legal decisions.
+- European Data Protection Board final guidance, including Guidelines 4/2019 on
+  data protection by design and by default.
+- Competent supervisory-authority guidance, such as the CNIL developer guide,
+  while distinguishing guidance from binding law and organisation-specific legal
+  decisions.

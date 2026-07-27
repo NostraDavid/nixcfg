@@ -13,11 +13,15 @@ description: |
 
 # Agent OWASP ASI Compliance Check
 
-Evaluate AI agent systems against the OWASP Agentic Security Initiative (ASI) Top 10 — the industry standard for agent security posture.
+Evaluate AI agent systems against the OWASP Agentic Security Initiative (ASI)
+Top 10 — the industry standard for agent security posture.
 
 ## Overview
 
-The OWASP ASI Top 10 defines the critical security risks specific to autonomous AI agents — not LLMs, not chatbots, but agents that call tools, access systems, and act on behalf of users. This skill checks whether your agent implementation addresses each risk.
+The OWASP ASI Top 10 defines the critical security risks specific to autonomous
+AI agents — not LLMs, not chatbots, but agents that call tools, access systems,
+and act on behalf of users. This skill checks whether your agent implementation
+addresses each risk.
 
 ```txt
 Codebase → Scan for each ASI control:
@@ -53,7 +57,8 @@ Codebase → Scan for each ASI control:
 
 ## Check ASI-01: Prompt Injection Protection
 
-Look for input validation that runs **before** tool execution, not after LLM generation.
+Look for input validation that runs **before** tool execution, not after LLM
+generation.
 
 ```python
 import re
@@ -119,7 +124,8 @@ tool_result = await execute_tool(user_input)  # No validation
 
 ## Check ASI-02: Insecure Tool Use
 
-Verify tools have allowlists, argument validation, and no unrestricted execution.
+Verify tools have allowlists, argument validation, and no unrestricted
+execution.
 
 **What to search for:**
 
@@ -152,8 +158,8 @@ Verify agent capabilities are bounded — not open-ended.
 - Scope limits on what the agent can access
 - Principle of least privilege applied to tool access
 
-**Failing:** Agent has access to all tools by default.
-**Passing:** Agent capabilities defined as a fixed allowlist, unknown tools denied.
+**Failing:** Agent has access to all tools by default. **Passing:** Agent
+capabilities defined as a fixed allowlist, unknown tools denied.
 
 ---
 
@@ -167,14 +173,16 @@ Verify agents cannot promote their own privileges.
 - No self-promotion patterns (agent changing its own trust score or role)
 - Escalation requires external attestation (human or SRE witness)
 
-**Failing:** Agent can modify its own configuration or permissions.
-**Passing:** Privilege changes require out-of-band approval (e.g., Ring 0 requires SRE attestation).
+**Failing:** Agent can modify its own configuration or permissions. **Passing:**
+Privilege changes require out-of-band approval (e.g., Ring 0 requires SRE
+attestation).
 
 ---
 
 ## Check ASI-05: Trust Boundary Violation
 
-In multi-agent systems, verify that agents verify each other's identity before accepting instructions.
+In multi-agent systems, verify that agents verify each other's identity before
+accepting instructions.
 
 **What to search for:**
 
@@ -204,12 +212,14 @@ Verify all agent actions produce structured, tamper-evident audit entries.
 **What to search for:**
 
 - Structured logging for every tool call (not just print statements)
-- Audit entries include: timestamp, agent ID, tool name, args, result, policy decision
+- Audit entries include: timestamp, agent ID, tool name, args, result, policy
+  decision
 - Append-only or hash-chained log format
 - Logs stored separately from agent-writable directories
 
 **Failing:** Agent actions logged via `print()` or not logged at all.
-**Passing:** Structured JSONL audit trail with chain hashes, exported to secure storage.
+**Passing:** Structured JSONL audit trail with chain hashes, exported to secure
+storage.
 
 ---
 
@@ -243,8 +253,9 @@ Verify policy enforcement is deterministic — not LLM-based.
 - Policy checks cannot be skipped or overridden by the agent
 - Fail-closed behavior (if policy check errors, action is denied)
 
-**Failing:** Agent decides its own permissions via prompt ("Am I allowed to...?").
-**Passing:** PolicyEvaluator.evaluate() returns allow/deny in <0.1ms, no LLM involved.
+**Failing:** Agent decides its own permissions via prompt ("Am I allowed
+to...?"). **Passing:** PolicyEvaluator.evaluate() returns allow/deny in <0.1ms,
+no LLM involved.
 
 ---
 
@@ -273,7 +284,8 @@ Verify the system can detect and respond to agent behavioral drift.
 - Anomaly detection on tool call patterns (frequency, targets, timing)
 
 **Failing:** No mechanism to stop a misbehaving agent automatically.
-**Passing:** Circuit breaker trips after N failures, trust decays without activity, kill switch available.
+**Passing:** Circuit breaker trips after N failures, trust decays without
+activity, kill switch available.
 
 ---
 
@@ -282,8 +294,7 @@ Verify the system can detect and respond to agent behavioral drift.
 ```markdown
 # OWASP ASI Compliance Report
 
-Generated: 2026-04-01
-Project: my-agent-system
+Generated: 2026-04-01 Project: my-agent-system
 
 ## Summary: 7/10 Controls Covered
 
@@ -308,8 +319,8 @@ Project: my-agent-system
 
 ## Recommendation
 
-Install agent-governance-toolkit for reference implementations of all 10 controls:
-pip install agent-governance-toolkit
+Install agent-governance-toolkit for reference implementations of all 10
+controls: pip install agent-governance-toolkit
 ```
 
 ---
@@ -318,7 +329,8 @@ pip install agent-governance-toolkit
 
 Use these to rapidly assess an agent system:
 
-1. **Does user input pass through validation before reaching any tool?** (ASI-01)
+1. **Does user input pass through validation before reaching any tool?**
+   (ASI-01)
 2. **Is there an explicit list of what tools the agent can call?** (ASI-02)
 3. **Can the agent do anything, or are its capabilities bounded?** (ASI-03)
 4. **Can the agent promote its own privileges?** (ASI-04)
@@ -336,5 +348,7 @@ If you answer "no" to any of these, that's a gap to address.
 ## Related Resources
 
 - [OWASP Agentic AI Threats](https://owasp.org/www-project-agentic-ai-threats/)
-- [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit) — Reference implementation covering 10/10 ASI controls
-- [agent-governance skill](https://github.com/github/awesome-copilot/tree/main/skills/agent-governance) — Governance patterns for agent systems
+- [Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit)
+  — Reference implementation covering 10/10 ASI controls
+- [agent-governance skill](https://github.com/github/awesome-copilot/tree/main/skills/agent-governance)
+  — Governance patterns for agent systems

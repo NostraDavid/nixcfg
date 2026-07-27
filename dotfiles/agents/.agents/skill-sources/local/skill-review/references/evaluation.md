@@ -12,8 +12,8 @@ Keep two lanes separate:
 
 ## Runner
 
-The dependency-free Vibe and Codex adapter is `../scripts/evaluate.py`.
-Vibe is the default runtime; select Codex explicitly with `--runtime codex`:
+The dependency-free Vibe and Codex adapter is `../scripts/evaluate.py`. Vibe is
+the default runtime; select Codex explicitly with `--runtime codex`:
 
 ```bash
 ./scripts/evaluate.py check --runtime vibe
@@ -59,11 +59,11 @@ iteration-<UTC timestamp>/
     └── result.json
 ```
 
-Record the runtime, agent, model/version, tool set, skill revision, fixture revision,
-attempt, activation decision, assertion evidence, latency, tokens, cost, and
-policy violations when the client exposes them. The adapters record duration
-and leave unavailable token or cost data as `null`; never invent missing
-telemetry.
+Record the runtime, agent, model/version, tool set, skill revision, fixture
+revision, attempt, activation decision, assertion evidence, latency, tokens,
+cost, and policy violations when the client exposes them. The adapters record
+duration and leave unavailable token or cost data as `null`; never invent
+missing telemetry.
 
 Use deterministic checks for activation evidence, workspace mutations, schema
 validity, command status, and objective output requirements. Use a blind LLM

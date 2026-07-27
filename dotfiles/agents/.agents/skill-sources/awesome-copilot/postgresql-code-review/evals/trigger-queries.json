@@ -69,8 +69,16 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Explain what JSONB is.", "should_trigger": false, "split": "train" },
-  { "query": "Tune autovacuum on this busy table.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Explain what JSONB is.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Tune autovacuum on this busy table.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Write a PostgreSQL SELECT using a window function.",
     "should_trigger": false,
@@ -81,7 +89,11 @@
     "should_trigger": false,
     "split": "validation"
   },
-  { "query": "Install pg_trgm for me.", "should_trigger": false, "split": "validation" },
+  {
+    "query": "Install pg_trgm for me.",
+    "should_trigger": false,
+    "split": "validation"
+  },
   {
     "query": "Create seed fixtures for these PostgreSQL tables.",
     "should_trigger": false,

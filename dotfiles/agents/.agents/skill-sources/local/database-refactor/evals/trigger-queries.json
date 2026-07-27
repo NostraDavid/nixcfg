@@ -54,7 +54,11 @@
     "should_trigger": false,
     "split": "train"
   },
-  { "query": "Optimize this slow aggregation query.", "should_trigger": false, "split": "train" },
+  {
+    "query": "Optimize this slow aggregation query.",
+    "should_trigger": false,
+    "split": "train"
+  },
   {
     "query": "Review this migration file for SQL injection.",
     "should_trigger": false,

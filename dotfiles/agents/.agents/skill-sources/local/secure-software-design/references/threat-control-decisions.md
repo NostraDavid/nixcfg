@@ -2,16 +2,25 @@
 
 ## Threat record
 
-Capture asset/harm, actor and access, entry point, trust boundary, preconditions, attacker-controlled data or state, path to impact, current controls, evidence, severity rationale, proposed invariant/control, verification, owner, and residual risk.
+Capture asset/harm, actor and access, entry point, trust boundary,
+preconditions, attacker-controlled data or state, path to impact, current
+controls, evidence, severity rationale, proposed invariant/control,
+verification, owner, and residual risk.
 
 ## Identity and API questions
 
-- How is identity enrolled, authenticated, linked, recovered, suspended, and revoked?
-- What authenticates the client/server and prevents replay or confused-deputy behavior?
-- Is authorization evaluated for every object and action after server-side canonicalization?
-- Can bulk, nested, search, export, websocket, job, and administrative paths bypass the same invariant?
-- Are idempotency, rate/size limits, pagination, resource exhaustion, and partial failure defined?
-- Can one tenant influence identifiers, caches, queues, logs, or keys used by another?
+- How is identity enrolled, authenticated, linked, recovered, suspended, and
+  revoked?
+- What authenticates the client/server and prevents replay or confused-deputy
+  behavior?
+- Is authorization evaluated for every object and action after server-side
+  canonicalization?
+- Can bulk, nested, search, export, websocket, job, and administrative paths
+  bypass the same invariant?
+- Are idempotency, rate/size limits, pagination, resource exhaustion, and
+  partial failure defined?
+- Can one tenant influence identifiers, caches, queues, logs, or keys used by
+  another?
 
 ## Control failure modes
 
