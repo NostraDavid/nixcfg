@@ -91,6 +91,7 @@
   "basedpyright.analysis.typeCheckingMode": "standard",
   "basedpyright.analysis.useTypingExtensions": true,
   "chat.math.enabled": true,
+  "chat.mcp.access": "all",
   "chat.mcp.autostart": "newAndOutdated",
   "chat.mcp.serverSampling": {
     "Global in Code: memory": {
@@ -151,6 +152,8 @@
   "diffEditor.diffAlgorithm": "advanced",
   "diffEditor.ignoreTrimWhitespace": false,
   "docker.extension.enableComposeLanguageServer": false,
+  "dprint.experimentalLsp": true,
+  "dprint.path": "/etc/profiles/per-user/david/bin/dprint",
   "editor.aiStats.enabled": true,
   "editor.bracketPairColorization.enabled": true,
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
@@ -468,6 +471,5 @@
     "**/dbt_project.yaml"
   ],
   "yaml.maxItemsComputed": 10000,
-  "zig.zls.enabled": "on",
-  "chat.mcp.access": "all"
+  "zig.zls.enabled": "on"
 }
