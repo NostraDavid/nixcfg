@@ -1,9 +1,9 @@
 # Beads
 
 Use Beads as the project task ledger when work must survive session changes,
-move between coding clients, or be coordinated across agents or branches.
-Beads records actionable work, status, dependencies, and ownership; use Engram
-for durable decisions and discoveries.
+move between coding clients, or be coordinated across agents or branches. Beads
+records actionable work, status, dependencies, and ownership; use Engram for
+durable decisions and discoveries.
 
 In a repository that is already configured for Beads:
 

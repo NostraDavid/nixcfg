@@ -1,6 +1,10 @@
 # VS Code extensions naar Neovim alternatieven
 
-Bronnen: Dotfyle top Neovim plugins, geraadpleegd op 2026-06-26, plus gangbare Neovim LSP/formatter/debugger-tooling. Veel VS Code extensies zijn in Neovim geen losse plugin maar een combinatie van `nvim-lspconfig`, `mason.nvim`, `conform.nvim`, `nvim-lint`, `nvim-treesitter`, `nvim-dap` en een externe CLI of language server.
+Bronnen: Dotfyle top Neovim plugins, geraadpleegd op 2026-06-26, plus gangbare
+Neovim LSP/formatter/debugger-tooling. Veel VS Code extensies zijn in Neovim
+geen losse plugin maar een combinatie van `nvim-lspconfig`, `mason.nvim`,
+`conform.nvim`, `nvim-lint`, `nvim-treesitter`, `nvim-dap` en een externe CLI of
+language server.
 
 | VS Code extensie                                       | Neovim alternatief(en)                                                                                                                 | Notitie                                                            |
 | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |

@@ -20,6 +20,7 @@ useful.
 - Remember that a local proxy compresses locally, but the resulting request is
   still sent to the configured external provider.
 
-Do not run `headroom deploy`, `headroom wrap`, `headroom unwrap`, `headroom mcp
-install`, or `headroom learn --apply`, and do not persist proxy or provider
-configuration, unless the user explicitly asks for that mutation.
+Do not run `headroom deploy`, `headroom wrap`, `headroom unwrap`,
+`headroom mcp
+install`, or `headroom learn --apply`, and do not persist proxy or
+provider configuration, unless the user explicitly asks for that mutation.

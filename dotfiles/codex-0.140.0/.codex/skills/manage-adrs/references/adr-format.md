@@ -21,7 +21,8 @@ Use the project's existing vocabulary when present. Otherwise use:
 - `Proposed`: The decision is being discussed.
 - `Accepted`: The decision is approved and current.
 - `Superseded`: A later ADR replaces this decision.
-- `Deprecated`: The decision should no longer be followed, with no direct replacement.
+- `Deprecated`: The decision should no longer be followed, with no direct
+  replacement.
 - `Rejected`: The option was considered but not chosen.
 
 Avoid status churn. Historical ADRs should usually move forward through status
@@ -57,7 +58,8 @@ risks, and follow-up decisions.
 
 ## Notes
 
-Add later amendments or implementation references without rewriting the historical decision.
+Add later amendments or implementation references without rewriting the
+historical decision.
 ```
 
 ## Index Template

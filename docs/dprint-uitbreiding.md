@@ -40,11 +40,12 @@ De huidige afbakening:
 | Nix                | alleen via de Exec-procesplugin en bijvoorbeeld Alejandra | geen eigen taalplugin                     | Alejandra rechtstreeks blijven gebruiken                                         |
 | Terraform/HCL      | alleen via Exec en bijvoorbeeld OpenTofu                  | geen eigen taalplugin                     | De drie `*.tf`-bestanden en lockfile bij `tofu fmt` houden                       |
 
-De indeling “officieel” versus “wrapper” volgt de [actuele dprint-homepage](https://dprint.dev/); de volledige standaardlijst en actuele
-plugin-URL's staan in het [pluginregister](https://plugins.dprint.dev/) en het
-algemene [pluginoverzicht](https://dprint.dev/plugins/). Plugins van derden
-kunnen eveneens in het register staan; aanwezigheid daar alleen maakt een plugin
-dus niet first-party.
+De indeling “officieel” versus “wrapper” volgt de
+[actuele dprint-homepage](https://dprint.dev/); de volledige standaardlijst en
+actuele plugin-URL's staan in het [pluginregister](https://plugins.dprint.dev/)
+en het algemene [pluginoverzicht](https://dprint.dev/plugins/). Plugins van
+derden kunnen eveneens in het register staan; aanwezigheid daar alleen maakt een
+plugin dus niet first-party.
 
 ## Embedded code en code-fences
 
@@ -53,7 +54,8 @@ geconfigureerde plugins. De officiële documentatie noemt JSON, TypeScript en
 JavaScript als voorbeeld. Een nieuwe taalplugin kan daardoor ook extra
 code-fences bereiken, mits de fence-taal wordt herkend en de inhoud geldige code
 voor die formatter is. Dit moet per nieuw formaat worden getest; het is geen
-reden om een taalplugin ongezien repo-breed te activeren. Zie [Markdown: code block formatters](https://dprint.dev/plugins/markdown/#code-block-formatters).
+reden om een taalplugin ongezien repo-breed te activeren. Zie
+[Markdown: code block formatters](https://dprint.dev/plugins/markdown/#code-block-formatters).
 
 `markup_fmt` formatteert zelf alleen de markup. Voor code in `<script>` en
 `<style>` delegeert het aan respectievelijk de TypeScript-plugin en Malva; JSON
@@ -67,7 +69,8 @@ als Markdown-formatter en gebruikt
 MDX wordt niet als ondersteund formaat genoemd. De waargenomen herschikking van
 `<Tabs>` en `<Tab>` is daarom geen betrouwbare MDX-formattering. De huidige
 uitsluiting van `docs/agentskills.io/**` is passend. Voor een lokale
-uitzondering in gewone Markdown zijn [`<!-- dprint-ignore -->` en bereik-comments](https://dprint.dev/plugins/markdown/#ignore-comments)
+uitzondering in gewone Markdown zijn
+[`<!-- dprint-ignore -->` en bereik-comments](https://dprint.dev/plugins/markdown/#ignore-comments)
 beschikbaar.
 
 ## Bestandsselectie en uitsluitingen
@@ -87,7 +90,8 @@ Git-ignore van één werkstation. Geïmporteerde skillbronnen, gegenereerde
 bestanden en applicatieconfiguratie met gevoelige of bewust handgeschreven
 structuur moeten expliciet uitgesloten blijven. Voor TOML is een gerichte
 uitsluiting van bijvoorbeeld een authenticatieconfiguratie verstandiger dan
-onnodige formatter-churn. Zie [dprint CLI: gitignore-gedrag](https://dprint.dev/cli/#gitignore-files).
+onnodige formatter-churn. Zie
+[dprint CLI: gitignore-gedrag](https://dprint.dev/cli/#gitignore-files).
 
 ## Waarom niet alles via dprint Exec
 
@@ -95,7 +99,8 @@ Wasm-plugins draaien volgens dprint zonder netwerk- of bestandssysteemtoegang.
 Procesplugins draaien niet gesandboxd. De officiële Exec-plugin kan vrijwel
 iedere geïnstalleerde formatter via stdin of een bestandspad aanroepen, maar
 vereist extra configuratie voor commando's, extensies, time-outs en
-cache-invalidatie. Zie het [veiligheidsverschil tussen plugintypen](https://dprint.dev/plugins/) en de
+cache-invalidatie. Zie het
+[veiligheidsverschil tussen plugintypen](https://dprint.dev/plugins/) en de
 [`dprint-plugin-exec`-configuratie](https://github.com/dprint/dprint-plugin-exec#configuration).
 
 Voor shfmt, StyLua en Alejandra zou Exec alleen een extra tussenlaag toevoegen
@@ -108,9 +113,10 @@ standaardtaalplugin. Wrappen via Exec zou geen formatteermogelijkheden
 toevoegen.
 
 Hetzelfde geldt voorlopig voor Python. De dprint Ruff-adapter is bruikbaar, maar
-zijn pluginversie volgt volgens de [eigen versie-uitleg](https://github.com/dprint/dprint-plugin-ruff#versioning) niet
-één-op-één de Ruff-versie die erin zit. Rechtstreeks Ruff gebruiken voorkomt een
-tweede versie- en configuratiepad en behoudt de huidige gerichte
+zijn pluginversie volgt volgens de
+[eigen versie-uitleg](https://github.com/dprint/dprint-plugin-ruff#versioning)
+niet één-op-één de Ruff-versie die erin zit. Rechtstreeks Ruff gebruiken
+voorkomt een tweede versie- en configuratiepad en behoudt de huidige gerichte
 repo-uitsluitingen.
 
 ## Beheer

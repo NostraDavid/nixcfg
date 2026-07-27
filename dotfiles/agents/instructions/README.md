@@ -1,9 +1,9 @@
 # Gedeelde agent-instructies
 
 Deze map is de canonieke bron voor gedeelde instructies. Home Manager koppelt
-`AGENTS.md` aan `~/AGENTS.md` en maakt hetzelfde bestand beschikbaar voor
-Codex, Claude, Pi en Gemini. Zo is er één informatiebron, terwijl elke agent
-toegang tot de instructies houdt.
+`AGENTS.md` aan `~/AGENTS.md` en maakt hetzelfde bestand beschikbaar voor Codex,
+Claude, Pi en Gemini. Zo is er één informatiebron, terwijl elke agent toegang
+tot de instructies houdt.
 
 Ik koppel ook de volledige instructiemap aan `~/.agents/instructions/`, zodat de
 instructies en bijbehorende bestanden gemakkelijk bereikbaar zijn. De verborgen

@@ -43,7 +43,8 @@ Maak een plan om beter mijn huistaken op te pakken.
 
 - [G] Oven schoonmaken
 - [x] Magnetron schoonmaken
-- [G] Afzuigkap ontvetten + filters schoonmaken | Geen afzuigkap, maar wel kookplaat en afzuiging
+- [G] Afzuigkap ontvetten + filters schoonmaken | Geen afzuigkap, maar wel
+  kookplaat en afzuiging
 - [x] Gordijnen wassen (indien nodig)
 - [G] Alles afstoffen op hogere plekken (kasten, lampen)
 - [G] Ramen buitenkant lappen (als je dat zelf doet)

@@ -1,9 +1,9 @@
 # Neovim Profile
 
-This profile targets Neovim 0.11+ APIs and is currently used with Neovim
-0.12.x. The directory name is kept as `neovim-0.11` because Home Manager already
-links it from `modules/dotfiles.nix`; rename it in a separate cleanup if the
-dotfiles versioning convention should match the installed binary exactly.
+This profile targets Neovim 0.11+ APIs and is currently used with Neovim 0.12.x.
+The directory name is kept as `neovim-0.11` because Home Manager already links
+it from `modules/dotfiles.nix`; rename it in a separate cleanup if the dotfiles
+versioning convention should match the installed binary exactly.
 
 ## Structure
 
@@ -21,8 +21,8 @@ runtime and are pinned by `lazy-lock.json`.
 
 Rules for adding plugins:
 
-- Check [dotfyle.com](https://dotfyle.com/neovim/plugins) and the upstream repository before
-  adding a plugin.
+- Check [dotfyle.com](https://dotfyle.com/neovim/plugins) and the upstream
+  repository before adding a plugin.
 - Prefer maintained plugins with recent releases, clear licenses, and small
   dependency surfaces.
 - Add new plugins to the closest existing `lua/plugins/*.lua` group.

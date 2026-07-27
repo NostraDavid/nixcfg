@@ -27,10 +27,9 @@ aangekoppeld.
 
 OpenTofu beheert de Proxmox VM-shells en disks in `infra/proxmox`.
 
-De Proxmox API is bereikbaar via
-`https://192.168.2.100:8006/api2/json/`. De `bpg/proxmox` provider verwacht
-in `proxmox_endpoint` de root URL, dus `https://192.168.2.100:8006/`; de
-provider voegt het API-pad zelf toe.
+De Proxmox API is bereikbaar via `https://192.168.2.100:8006/api2/json/`. De
+`bpg/proxmox` provider verwacht in `proxmox_endpoint` de root URL, dus
+`https://192.168.2.100:8006/`; de provider voegt het API-pad zelf toe.
 
 Maak eerst een Proxmox API token. Zet de echte token niet in Git. Gebruik een
 lokale `terraform.tfvars` of environment variables:
@@ -109,8 +108,8 @@ bereikbaar is.
 - extra disk voor PostgreSQL.
 - extra disk voor uploads/applicatie-state.
 
-De root disk moet uiteindelijk een filesystem met label `nixos` hebben. De
-extra state disks krijgen de labels hieronder.
+De root disk moet uiteindelijk een filesystem met label `nixos` hebben. De extra
+state disks krijgen de labels hieronder.
 
 ## Verwachte disks
 

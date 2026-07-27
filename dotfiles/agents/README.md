@@ -19,10 +19,9 @@ De `SOURCE.md` van iedere groep beschrijft de import, lokale aanpassingen en
 updateaanpak. Upstreamlicenties staan naast hun groep als `LICENSE.txt`.
 
 Onveranderde bronversies van de geïmporteerde groepen staan revisioneel
-gearchiveerd onder
-[`skill-originals`](.agents/skill-originals/README.md). Die snapshots worden
-niet naar clients gekoppeld en kunnen met het meegeleverde `compare.sh` naast de
-actieve varianten worden gelegd.
+gearchiveerd onder [`skill-originals`](.agents/skill-originals/README.md). Die
+snapshots worden niet naar clients gekoppeld en kunnen met het meegeleverde
+`compare.sh` naast de actieve varianten worden gelegd.
 
 De Codex-systemskills volgen snapshots met uitsluitend de integratiepatches die
 hun `SOURCE.md` expliciet vastlegt. Houd hun productspecifieke instructies
