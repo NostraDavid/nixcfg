@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import argparse
 import shutil
-import subprocess
+import subprocess as sp
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -61,14 +61,14 @@ def run(
     args: list[str],
     *,
     input_text: str | None = None,
-) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
+) -> sp.CompletedProcess[str]:
+    return sp.run(
         args,
         input=input_text,
         check=False,
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stdout=sp.PIPE,
+        stderr=sp.PIPE,
     )
 
 
@@ -467,7 +467,12 @@ def resolve_branch_name(bare_dir: Path, branch_label: str) -> str | None:
     return None
 
 
-def ensure_worktree(repo_root: Path, choice: WorktreeChoice) -> bool:
+def ensure_worktree(
+    repo_root: Path,
+    choice: WorktreeChoice,
+    *,
+    dry_run: bool = False,
+) -> bool:
     target = choice.path
     if (target / ".git").exists():
         return True
@@ -479,6 +484,9 @@ def ensure_worktree(repo_root: Path, choice: WorktreeChoice) -> bool:
     bare_dir = repo_root / BARE_REPO_DIR
     if not bare_dir.exists():
         return False
+
+    if dry_run:
+        return True
 
     target.parent.mkdir(parents=True, exist_ok=True)
     if choice.kind == "branch":
@@ -537,6 +545,8 @@ def create_worktree_from_branch(
     repo_root: Path,
     base: WorktreeChoice,
     branch: str,
+    *,
+    dry_run: bool = False,
 ) -> Path | None:
     bare_dir = repo_root / BARE_REPO_DIR
     if not bare_dir.exists():
@@ -577,6 +587,9 @@ def create_worktree_from_branch(
         return None
 
     base_head = base_head_proc.stdout.strip()
+    if dry_run:
+        return target
+
     add_proc = run(
         [
             "git",
@@ -660,6 +673,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Select a repo worktree and print its path."
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Select and validate a target without creating or updating worktrees.",
+    )
     parser.add_argument("query", nargs="*", help="Initial fzf query for the repo.")
     return parser.parse_args()
 
@@ -686,7 +704,7 @@ def main() -> int:
         return 1
 
     repo_root = repo_by_label[repo_label]
-    worktrees = list_worktrees(repo_root, refresh_empty=True)
+    worktrees = list_worktrees(repo_root, refresh_empty=not args.dry_run)
     if not worktrees:
         print(f"No worktrees found for {repo_label}.", file=sys.stderr)
         return 1
@@ -713,7 +731,12 @@ def main() -> int:
             print("No branch/worktree name entered.", file=sys.stderr)
             return 1
 
-        target = create_worktree_from_branch(repo_root, active_worktree, branch)
+        target = create_worktree_from_branch(
+            repo_root,
+            active_worktree,
+            branch,
+            dry_run=args.dry_run,
+        )
         if target is None:
             return 1
 
@@ -721,7 +744,7 @@ def main() -> int:
         return 0
 
     choice = worktree_by_label[worktree_label]
-    if not ensure_worktree(repo_root, choice):
+    if not ensure_worktree(repo_root, choice, dry_run=args.dry_run):
         print(f"Worktree does not exist: {choice.path}", file=sys.stderr)
         return 1
 
