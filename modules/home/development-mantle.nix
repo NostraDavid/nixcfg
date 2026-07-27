@@ -29,7 +29,7 @@
     };
     serena = {
       command = lib.getExe local.serena;
-      args = ["start-mcp-server" "--context" "ide-assistant"];
+      args = ["start-mcp-server" "--context" "ide"];
     };
     engram = {
       command = lib.getExe local.engram;
@@ -159,11 +159,13 @@ in {
         fi
       '';
 
-      agentMcpServers = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        if [ ! -f "${config.home.homeDirectory}/.serena/serena_config.yml" ]; then
+      serenaInit = lib.hm.dag.entryBefore ["writeBoundary"] ''
+        if [ ! -d "${config.home.homeDirectory}/.serena/memories" ]; then
           $DRY_RUN_CMD ${lib.getExe local.serena} init
         fi
+      '';
 
+      agentMcpServers = lib.hm.dag.entryAfter ["writeBoundary"] ''
         update_mcp_json() {
           config_file="$1"
           servers_json="$2"
