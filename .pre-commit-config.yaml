@@ -19,7 +19,7 @@ repos:
         entry: just check-dprint-files
         language: system
         files: "(\\.(c|m)?[jt]sx?$|\\.jsonc?$|\\.md$|\\.html?$|\\.ya?ml$|\\.toml$|\\.(css|scss|sass|less|xml|dockerfile)$|(^|/)Dockerfile(\\.[^/]*)?$)"
-        exclude: "^dotfiles/agents/\\.agents/(skill-sources|skill-originals)/"
+        exclude: "^dotfiles/agents/\\.agents/(skill-sources|skill-originals)/|^docs/agentskills\\.io/"
 
       - id: check-shfmt
         name: check shell formatting (shfmt, local)
