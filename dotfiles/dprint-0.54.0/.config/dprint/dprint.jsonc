@@ -4,24 +4,16 @@
   "indentWidth": 2,
   "newLineKind": "lf",
   "useTabs": false,
-  "includes": [
-    "**/*.{json,jsonc,js,jsx,mjs,cjs,ts,tsx,mts,cts,md,html,htm,yaml,yml}",
-    "**/*.{toml,css,scss,sass,less,xml}",
-    "*.dockerfile",
-    "Dockerfile",
-    "Dockerfile.*"
-  ],
-  "excludes": [
-    "dev.code-workspace",
-    "**/node_modules/**",
-    "docs/agentskills.io/**",
-    "dotfiles/copilot-1.0/.copilot/copilot-instructions.md",
-    "dotfiles/agents/.agents/skill-originals/**"
-  ],
+  "typescript": {
+  },
   "json": {
     "lineWidth": 1,
     "array.preferSingleLine": false,
     "object.preferSingleLine": false
+  },
+  "markdown": {
+  },
+  "toml": {
   },
   "dockerfile": {
     "associations": [
@@ -30,19 +22,42 @@
       "Dockerfile"
     ]
   },
+  "biome": {
+  },
+  "ruff": {
+  },
+  "jupyter": {
+  },
+  "gofumpt": {
+  },
+  "malva": {
+  },
   "markup": {
     "associations": [
       "**/*.htm"
     ]
   },
+  "yaml": {
+  },
+  "graphql": {
+  },
+  "excludes": [
+    "**/node_modules",
+    "**/*-lock.json"
+  ],
   "plugins": [
     "https://plugins.dprint.dev/typescript-0.96.1.wasm",
     "https://plugins.dprint.dev/json-0.23.0.wasm",
     "https://plugins.dprint.dev/markdown-0.22.1.wasm",
     "https://plugins.dprint.dev/toml-0.7.0.wasm",
     "https://plugins.dprint.dev/dockerfile-0.4.1.wasm",
+    "https://plugins.dprint.dev/biome-0.13.3.wasm",
+    "https://plugins.dprint.dev/ruff-0.8.0.wasm",
+    "https://plugins.dprint.dev/jupyter-0.3.1.wasm",
+    "https://plugins.dprint.dev/jakebailey/gofumpt-v0.0.13.wasm",
     "https://plugins.dprint.dev/g-plane/malva-v0.16.0.wasm",
     "https://plugins.dprint.dev/g-plane/markup_fmt-v0.27.3.wasm",
-    "https://plugins.dprint.dev/g-plane/pretty_yaml-v0.6.0.wasm"
+    "https://plugins.dprint.dev/g-plane/pretty_yaml-v0.6.0.wasm",
+    "https://plugins.dprint.dev/g-plane/pretty_graphql-v0.2.3.wasm"
   ]
 }
