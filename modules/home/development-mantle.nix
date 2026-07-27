@@ -79,6 +79,7 @@ in {
       # Language runtimes and additional development applications.
       jdk17 # openjdk for nvim-lsp-java
       zed-editor # vscode alternative
+      gofumpt # gofmt alternative; useful for dprint
 
       # unstable
       # unstable.gemini-cli # llm agent
