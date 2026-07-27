@@ -6,7 +6,6 @@
 !flake.lock
 !flake.nix
 !.pre-commit-config.yaml
-!.dprint.json
 !stylua.toml
 !selene.toml
 !vim.yml

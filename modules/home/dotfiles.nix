@@ -179,6 +179,7 @@
         ".config/cloc/options.txt" = {source = mk "${dot}/cloc-2.08/.config/cloc/options.txt";};
         ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode/.config/Code/User/keybindings.json";};
         ".config/Code/User/settings.json" = {source = mk "${dot}/vscode/.config/Code/User/settings.json";};
+        ".config/dprint/dprint.jsonc" = {source = mk "${dot}/dprint-0.54.0/.config/dprint/dprint.jsonc";};
         ".config/git/attributes" = {source = mk "${dot}/git/.config/git/attributes";};
         ".config/git/commit-template" = {source = mk "${dot}/git/.config/git/commit-template";};
         ".config/git/hooks" = {source = mk "${dot}/git/.config/git/hooks";};
