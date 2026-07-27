@@ -22,20 +22,6 @@ alias ncdu='ncdu --color=dark'
 alias sudo='sudo '
 alias vi='nvim'
 alias plasma_restart='systemctl --user restart plasma-plasmashell.service'
-alias generate_gitignore='echo "# ignore all direct items, nonrecursively
-/*
-
-# unignore folders
-$(ls -l | grep ^d | awk '"'"'{print "!"$NF}'"'"' | sort)
-
-# unignore files
-!.bumpversion.cfg
-!.gitignore
-$(ls -l | grep ^- | awk '"'"'{print "!"$NF}'"'"' | sort)
-
-# reignore subfolders/files *anywhere* in the project
-__pycache__
-*.egg-info" > .gitignore'
 
 # find folder xD
 function ff() {
