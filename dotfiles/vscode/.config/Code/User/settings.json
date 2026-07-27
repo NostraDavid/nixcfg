@@ -129,6 +129,7 @@
     "https://github.com/microsoft/vscode/wiki/*": true,
     "https://gitlab.freedesktop.org": true,
     "https://opencode.ai/": true,
+    "https://models.dev/": true,
     "https://www.freedesktop.org": {
       "approveRequest": true,
       "approveResponse": false
@@ -282,7 +283,8 @@
   "inlineChat.notebookAgent": true,
   "json.maxItemsComputed": 500000,
   "json.schemaDownload.trustedDomains": {
-    "https://opencode.ai/": true
+    "https://opencode.ai/": true,
+    "https://models.dev/": true
   },
   "jupyter.askForKernelRestart": false,
   "jupyter.debugJustMyCode": false,
