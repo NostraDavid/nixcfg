@@ -26,8 +26,8 @@ Start Firefox bijvoorbeeld met `Super+d`, gevolgd door `firefox`.
 - Ga naar werkruimte 1–9 met `Super+1` tot en met `Super+9`.
 - Verplaats een venster naar een werkruimte met `Super+Shift+1` tot en met
   `Super+Shift+9`.
-- Kies horizontale plaatsing met `Super+h` en verticale plaatsing met
-  `Super+v`, voordat je het volgende venster opent.
+- Kies horizontale plaatsing met `Super+h` en verticale plaatsing met `Super+v`,
+  voordat je het volgende venster opent.
 - Wissel tussen tegelweergave en tabbladen met `Super+w`.
 - Zet een venster schermvullend met `Super+f`.
 - Zet een venster zwevend of weer betegeld met `Super+Shift+F`.
@@ -60,7 +60,8 @@ Zo blijven aanvullende programma's buiten het permanente systeemprofiel.
 
 ## Als i3 niet goed start
 
-Schakel met `Ctrl+Alt+F2` naar een tekstconsole, log in en controleer de service:
+Schakel met `Ctrl+Alt+F2` naar een tekstconsole, log in en controleer de
+service:
 
 ```bash
 systemctl status display-manager

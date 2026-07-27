@@ -16,8 +16,7 @@ they exist; otherwise use the default Markdown ADR format in
 
 1. Discover existing ADR conventions before editing.
    - Search for `docs/adr`, `doc/adr`, `adr`, `architecture/decisions`,
-     `docs/architecture`, and filenames matching
-     `[0-9][0-9][0-9][0-9]-*.md`.
+     `docs/architecture`, and filenames matching `[0-9][0-9][0-9][0-9]-*.md`.
    - Read the newest accepted ADR and any ADR index or README to infer the
      directory, numbering width, title style, metadata fields, status
      vocabulary, and date format.
@@ -69,8 +68,8 @@ For a new ADR:
 
 - Use the next integer after the highest existing ADR number.
 - Use a lowercase hyphen slug in the filename.
-- Prefer status `Proposed` when the decision is not approved yet, and
-  `Accepted` when the user asks to record a decided direction.
+- Prefer status `Proposed` when the decision is not approved yet, and `Accepted`
+  when the user asks to record a decided direction.
 - Include `Context`, `Decision`, and `Consequences`; add `Options Considered`
   when tradeoffs matter.
 - If the user has not provided enough decision context, draft explicit `TODO`
@@ -85,7 +84,8 @@ When changing an existing ADR:
   `Consequences` or `Notes`.
 - For supersession, create a new ADR for the new decision, mark the old ADR
   `Superseded`, and add reciprocal links.
-- For deprecation without a replacement, mark the ADR `Deprecated` and explain what changed.
+- For deprecation without a replacement, mark the ADR `Deprecated` and explain
+  what changed.
 
 ## Reviewing ADR Sets
 
@@ -100,4 +100,5 @@ When asked to review or summarize ADRs:
 
 - `scripts/adr.py`: Detect ADR directories, create new ADR files, list ADRs,
   update status metadata, and regenerate a Markdown index.
-- `references/adr-format.md`: Default ADR template, status vocabulary, and review checklist.
+- `references/adr-format.md`: Default ADR template, status vocabulary, and
+  review checklist.

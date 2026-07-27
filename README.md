@@ -34,8 +34,8 @@ profile. Optional local environment variables can live in `.envrc.local`.
 ## Notes
 
 - `docs/` contains script files with nifty commands.
-- `modules/hosts/` contains short host compositions that select hardware,
-  roles, features, and host-specific exceptions.
+- `modules/hosts/` contains short host compositions that select hardware, roles,
+  features, and host-specific exceptions.
 - `modules/roles/` composes reusable machine profiles such as desktops,
   workstations, and Proxmox guests.
 - `modules/features/` registers optional capabilities such as laptop power

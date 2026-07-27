@@ -28,6 +28,6 @@ credentials, secrets, or unnecessary personal data. Engram is not an automatic
 chat backup: only captured observations and summaries survive deletion.
 
 Use Beads for tasks, status, blockers, and ownership. Use Engram for decisions,
-discoveries, conventions, and handoff knowledge. Do not enable Engram Cloud,
-Git sync, passive capture, or run `engram setup` unless the user explicitly
-requests that configuration.
+discoveries, conventions, and handoff knowledge. Do not enable Engram Cloud, Git
+sync, passive capture, or run `engram setup` unless the user explicitly requests
+that configuration.
