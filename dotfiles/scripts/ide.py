@@ -3,7 +3,7 @@
 # requires-python = ">=3.14"
 # ///
 
-"""Open repository worktrees through VS Code's stable CLI entrypoint."""
+"""Implement the `ide` command for opening repository worktrees in VS Code."""
 
 from __future__ import annotations
 
@@ -29,6 +29,7 @@ class CliArgs:
     query: tuple[str, ...]
     dry_run: bool
     check: bool
+    no_picker: bool
 
 
 class ReadinessError(Exception):
@@ -81,7 +82,7 @@ def find_code_command() -> list[str]:
 
 
 def find_project_picker() -> str:
-    adjacent = Path(__file__).resolve().with_name("project_picker")
+    adjacent = Path(__file__).resolve().with_name("project_picker.py")
     if adjacent.exists() and os.access(adjacent, os.X_OK):
         return str(adjacent)
 
@@ -207,10 +208,10 @@ def ensure_vscode_settings(target: Path) -> None:
 def parse_args(argv: list[str] | None = None) -> CliArgs:
     raw_args = sys.argv[1:] if argv is None else argv
     if raw_args == ["check"]:
-        return CliArgs(query=(), dry_run=False, check=True)
+        return CliArgs(query=(), dry_run=False, check=True, no_picker=False)
 
     parser = argparse.ArgumentParser(
-        description="Open a repo worktree in VS Code.",
+        description="Open a repository worktree in VS Code.",
         epilog="commands:\n  check     Verify runtime readiness and print exactly 'ok'.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -219,12 +220,18 @@ def parse_args(argv: list[str] | None = None) -> CliArgs:
         action="store_true",
         help="Resolve and validate the target without writing files or opening VS Code.",
     )
+    parser.add_argument(
+        "--no-picker",
+        action="store_true",
+        help="Bypass project selection and pass paths directly to VS Code.",
+    )
     parser.add_argument("query", nargs="*", help="Initial fzf query for the repo.")
     parsed = parser.parse_args(raw_args)
     return CliArgs(
         query=tuple(parsed.query),
         dry_run=bool(parsed.dry_run),
         check=False,
+        no_picker=bool(parsed.no_picker),
     )
 
 
@@ -337,10 +344,17 @@ def main() -> int:
         return 1
     env = clean_vscode_env()
 
-    if not args.query:
+    if args.no_picker:
+        direct_args = [normalize_code_arg(arg) for arg in args.query]
+        command = [*code_command, *direct_args]
+        if direct_args:
+            command = add_new_window_flag(
+                command,
+                argument_start=len(code_command),
+            )
         if args.dry_run:
-            return preview(code_command)
-        return launch_code(code_command, env)
+            return preview(command)
+        return launch_code(command, env)
 
     direct_args = resolve_direct_code_args(args.query)
     if direct_args is not None:
