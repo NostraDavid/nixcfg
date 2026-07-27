@@ -5,6 +5,7 @@
   pkgs,
   ...
 }: let
+  stable = pkgs;
   unstable = import inputs.nixpkgs-unstable {
     inherit (pkgs.stdenv.hostPlatform) system;
     config = pkgs.config // {allowUnfree = true;};
@@ -18,7 +19,7 @@
     listToAttrs
     (map (name: {
         inherit name;
-        value = pkgs.${name};
+        value = stable.${name};
       })
       localPackageNames);
   agentMcpServers = {
@@ -75,11 +76,11 @@ in {
   };
 
   home = {
-    packages = with pkgs; [
+    packages = [
       # Language runtimes and additional development applications.
-      jdk17 # openjdk for nvim-lsp-java
-      zed-editor # vscode alternative
-      gofumpt # gofmt alternative; useful for dprint
+      stable.jdk17 # openjdk for nvim-lsp-java
+      stable.zed-editor # vscode alternative
+      stable.gofumpt # gofmt alternative; useful for dprint
 
       # unstable
       # unstable.gemini-cli # llm agent
@@ -94,13 +95,14 @@ in {
       unstable.witr # Why is this running?
       unstable.zsv # CSV viewer and slicer
       unstable.opencode # llm agent
+      unstable.opencode-desktop # llm agent for desktop
       unstable.claude-code # llm agent
       unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
       unstable.python313 # Runtime for executable agent skill helpers
 
       # local
-      freetype # font-rendering library, for Whatpulse
-      libpcap # for Whatpulse
+      stable.freetype # font-rendering library, for Whatpulse
+      stable.libpcap # for Whatpulse
       local.jpegli
       local.fixit
       local.mdschema
@@ -117,6 +119,7 @@ in {
       local.ptk
       local.photogimp # Photoshop-like defaults for GIMP
       local.hermes-agent
+      local.codex # llm agent
       local.github-copilot-cli
       local.snip # CLI proxy, to reduce token usage for LLMs
       local.rtk # CLI proxy, to reduce token usage for LLMs
@@ -132,14 +135,14 @@ in {
     activation = {
       piTensorx = lib.hm.dag.entryAfter ["writeBoundary"] ''
         if ! $DRY_RUN_CMD ${piExe} list 2>/dev/null \
-          | ${lib.getExe pkgs.gnugrep} -F '@czottmann/pi-tensorx' >/dev/null 2>&1; then
+          | ${lib.getExe stable.gnugrep} -F '@czottmann/pi-tensorx' >/dev/null 2>&1; then
           if ! $DRY_RUN_CMD ${piExe} install npm:@czottmann/pi-tensorx; then
             echo "warning: failed to install Pi extension @czottmann/pi-tensorx" >&2
           fi
         fi
 
         if ! $DRY_RUN_CMD ${piExe} list 2>/dev/null \
-          | ${lib.getExe pkgs.gnugrep} -F 'pi-mcp-adapter' >/dev/null 2>&1; then
+          | ${lib.getExe stable.gnugrep} -F 'pi-mcp-adapter' >/dev/null 2>&1; then
           if ! $DRY_RUN_CMD ${piExe} install npm:pi-mcp-adapter; then
             echo "warning: failed to install Pi extension pi-mcp-adapter" >&2
           fi
@@ -164,28 +167,28 @@ in {
         update_mcp_json() {
           config_file="$1"
           servers_json="$2"
-          config_dir="$(${pkgs.coreutils}/bin/dirname "$config_file")"
-          temporary_file="$(${pkgs.coreutils}/bin/mktemp)"
+          config_dir="$(${stable.coreutils}/bin/dirname "$config_file")"
+          temporary_file="$(${stable.coreutils}/bin/mktemp)"
 
           if [ -f "$config_file" ]; then
-            ${lib.getExe pkgs.jq} --argjson servers "$servers_json" \
+            ${lib.getExe stable.jq} --argjson servers "$servers_json" \
               '.mcpServers = (((.mcpServers // {}) | del(."lean-ctx")) + $servers)' \
               "$config_file" >"$temporary_file"
           else
-            ${lib.getExe pkgs.jq} --null-input --argjson servers "$servers_json" \
+            ${lib.getExe stable.jq} --null-input --argjson servers "$servers_json" \
               '{mcpServers: $servers}' >"$temporary_file"
           fi
 
           if [ ! -f "$config_file" ] \
-            || ! ${pkgs.diffutils}/bin/cmp --silent "$temporary_file" "$config_file"; then
-            $DRY_RUN_CMD ${pkgs.coreutils}/bin/mkdir -p "$config_dir"
+            || ! ${stable.diffutils}/bin/cmp --silent "$temporary_file" "$config_file"; then
+            $DRY_RUN_CMD ${stable.coreutils}/bin/mkdir -p "$config_dir"
             if [ -f "$config_file" ]; then
-              $DRY_RUN_CMD ${pkgs.coreutils}/bin/install -m 0600 \
+              $DRY_RUN_CMD ${stable.coreutils}/bin/install -m 0600 \
                 "$config_file" "$config_file.hm-mcp-backup"
             fi
-            $DRY_RUN_CMD ${pkgs.coreutils}/bin/install -m 0600 "$temporary_file" "$config_file"
+            $DRY_RUN_CMD ${stable.coreutils}/bin/install -m 0600 "$temporary_file" "$config_file"
           fi
-          ${pkgs.coreutils}/bin/rm -f "$temporary_file"
+          ${stable.coreutils}/bin/rm -f "$temporary_file"
         }
 
         update_mcp_json \
@@ -201,7 +204,7 @@ in {
           "${config.home.homeDirectory}/.config/mcp/mcp.json" \
           '${claudeMcpServers}'
 
-        codex_executable=${lib.getExe pkgs.codex}
+        codex_executable=${lib.getExe stable.codex}
         $DRY_RUN_CMD "$codex_executable" mcp remove lean-ctx >/dev/null 2>&1 || true
 
         $DRY_RUN_CMD "$codex_executable" mcp remove headroom >/dev/null 2>&1 || true

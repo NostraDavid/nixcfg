@@ -3,11 +3,12 @@
   pkgs,
   ...
 }: let
+  stable = pkgs;
   unstable = import inputs.nixpkgs-unstable {
-    inherit (pkgs.stdenv.hostPlatform) system;
-    config = pkgs.config // {allowUnfree = true;};
+    inherit (stable.stdenv.hostPlatform) system;
+    config = stable.config // {allowUnfree = true;};
   };
-  battlenet = pkgs.writeShellScriptBin "battlenet" ''
+  battlenet = stable.writeShellScriptBin "battlenet" ''
     set -eu
 
     export WINEARCH=win64
@@ -15,8 +16,8 @@
 
     installer="$HOME/Downloads/Battle.net-Setup.exe"
     launcher="$WINEPREFIX/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe"
-    wine="${pkgs.wineWow64Packages.stagingFull}/bin/wine"
-    wineboot="${pkgs.wineWow64Packages.stagingFull}/bin/wineboot"
+    wine="${stable.wineWow64Packages.stagingFull}/bin/wine"
+    wineboot="${stable.wineWow64Packages.stagingFull}/bin/wineboot"
     winetricks="${unstable.winetricks}/bin/winetricks"
 
     if [ ! -f "$launcher" ]; then
@@ -35,16 +36,16 @@
     exec "$wine" "$launcher"
   '';
 in {
-  home.packages = with pkgs; [
-    itch
+  home.packages = [
+    stable.itch
     # Games
     # unstable.openra_2019-release
-    endless-sky
-    godot
+    stable.endless-sky
+    stable.godot
     unstable.openrct2
     battlenet
     unstable.winetricks # unstable, so we can use 2026 version
-    wineWow64Packages.stagingFull # include the Wine extras Battle.net tends to expect
+    stable.wineWow64Packages.stagingFull # include the Wine extras Battle.net tends to expect
   ];
 
   xdg.desktopEntries.battlenet = {

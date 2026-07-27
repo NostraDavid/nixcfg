@@ -3,13 +3,14 @@
   pkgs,
   ...
 }: let
+  stable = pkgs;
   unstable = import inputs.nixpkgs-unstable {
-    inherit (pkgs.stdenv.hostPlatform) system;
-    config = pkgs.config // {allowUnfree = true;};
+    inherit (stable.stdenv.hostPlatform) system;
+    config = stable.config // {allowUnfree = true;};
   };
 in {
-  home.packages = with pkgs; [
-    dockerfile-roast # Opinionated Dockerfile linter
+  home.packages = [
+    stable.dockerfile-roast # Opinionated Dockerfile linter
     # podman
     unstable.podman-desktop # GUI for managing containers
     unstable.podman-compose # docker-compose alternative

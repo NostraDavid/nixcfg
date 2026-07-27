@@ -5,35 +5,36 @@
   pkgs,
   ...
 }: let
+  stable = pkgs;
   unstable = import inputs.nixpkgs-unstable {
     inherit (pkgs.stdenv.hostPlatform) system;
     config = pkgs.config // {allowUnfree = true;};
   };
 in {
   home.packages =
-    (with pkgs; [
+    [
       # stable
-      alejandra
-      fd
-      fzf
-      git
-      lua-language-server
-      luajit
-      luajitPackages.luarocks_bootstrap
-      markdownlint-cli
-      nixd
-      ripgrep
-      selene
-      stylua
-      tree-sitter
-      wl-clipboard
-      xclip
+      stable.alejandra
+      stable.fd
+      stable.fzf
+      stable.git
+      stable.lua-language-server
+      stable.luajit
+      stable.luajitPackages.luarocks_bootstrap
+      stable.markdownlint-cli
+      stable.nixd
+      stable.ripgrep
+      stable.selene
+      stable.stylua
+      stable.tree-sitter
+      stable.wl-clipboard
+      stable.xclip
 
       # unstable
       unstable.neovim
       unstable.mistral-vibe
-    ])
+    ]
     ++ lib.optionals (hostname != "bragi") [
-      pkgs.codex
+      stable.codex
     ];
 }
