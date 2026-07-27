@@ -84,6 +84,9 @@
         "wayfinder"
         "writing-great-skills"
       ];
+      polars-inc = [
+        "polars"
+      ];
     };
     skillEntries = builtins.concatLists (builtins.attrValues (
       builtins.mapAttrs

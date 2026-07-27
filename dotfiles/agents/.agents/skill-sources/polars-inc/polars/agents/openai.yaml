@@ -1,0 +1,4 @@
+interface:
+  display_name: "Polars"
+  short_description: "Build and verify idiomatic Polars pipelines"
+  default_prompt: "Use $polars to build and verify an idiomatic Polars pipeline for this data task."
