@@ -129,7 +129,7 @@
 
         ## Copilot
         ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
-        ".copilot/copilot-instructions.md" = {source = mk "${dot}/copilot-1.0/.copilot/copilot-instructions.md";};
+        ".copilot/copilot-instructions.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
         ".copilot/instructions/eu-ai-act.instructions.md" = {source = mk "${dot}/agents/instructions/eu-ai-act.md";};
         ".copilot/prompts" = {source = mk "${dot}/copilot-1.0/.copilot/prompts";};
         ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0/.copilot/settings.json";};
