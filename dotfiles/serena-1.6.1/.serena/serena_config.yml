@@ -97,7 +97,25 @@ trace_lsp_communication: false
 # Maps the language key to the options.
 # Have a look at the docstring of the constructors of the LS implementations within solidlsp (e.g., for C# or PHP) to see which options are available.
 # No documentation on options means no options are available.
-ls_specific_settings: {}
+ls_specific_settings:
+  bash:
+    ls_path: bash-language-server
+  html:
+    ls_path: vscode-html-language-server
+  json:
+    ls_path: vscode-json-language-server
+  lua:
+    ls_path: lua-language-server
+  markdown:
+    ls_path: marksman
+  nix:
+    ls_path: nixd
+  python_ty:
+    ls_path: ty
+  toml:
+    ls_path: taplo
+  yaml:
+    ls_path: yaml-language-server
 
 # list of paths to ignore across all projects.
 # Same syntax as gitignore, so you can use * and **.
