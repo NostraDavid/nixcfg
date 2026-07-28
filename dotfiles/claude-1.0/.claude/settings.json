@@ -18,7 +18,44 @@
           }
         ],
         "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "/home/david/.local/bin/qartez-guard",
+            "timeout": 3000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Glob|Grep"
+      },
+      {
+        "hooks": [
+          {
+            "command": "/home/david/.local/bin/qartez-guard",
+            "timeout": 3000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Edit|Write|MultiEdit"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "/home/david/.local/bin/qartez-setup --session-start",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ]
       }
     ]
+  },
+  "mcpServers": {
+    "qartez": {
+      "args": [],
+      "command": "/home/david/.local/bin/qartez"
+    }
   }
 }

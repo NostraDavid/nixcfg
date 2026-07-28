@@ -1,48 +1,124 @@
 {
   "$schema": "https://opencode.ai/config.json",
-
-  // Keep updates visible without force-applying them automatically.
   "autoupdate": false,
-  "share": "manual",
-  "snapshot": true,
-  "subagent_depth": 1,
-  "shell": "bash",
-
-  // Mirror the current default from the Pi agent profile.
+  "instructions": [
+    "~/AGENTS.md"
+  ],
+  "mcp": {
+    "engram": {
+      "command": [
+        "engram",
+        "mcp"
+      ],
+      "enabled": true,
+      "timeout": 30000,
+      "type": "local"
+    },
+    "headroom": {
+      "command": [
+        "headroom",
+        "mcp",
+        "serve"
+      ],
+      "enabled": true,
+      "timeout": 30000,
+      "type": "local"
+    },
+    "qartez": {
+      "command": [
+        "/home/david/.local/bin/qartez"
+      ],
+      "enabled": true,
+      "type": "local"
+    },
+    "serena": {
+      "command": [
+        "serena",
+        "start-mcp-server",
+        "--context",
+        "codex"
+      ],
+      "enabled": true,
+      "timeout": 30000,
+      "type": "local"
+    }
+  },
   "model": "deepseek/deepseek-v4-flash",
-
-  // TensorX provider config: https://docs.tensorx.ai/ai-coding-assistants/opencode
+  "permission": {
+    "*": "allow",
+    "bash": {
+      "*": "ask",
+      "cat *": "allow",
+      "fd *": "allow",
+      "git *": "allow",
+      "git branch -D *": "deny",
+      "git checkout -- *": "deny",
+      "git cherry-pick *": "ask",
+      "git clean -fd *": "deny",
+      "git clean -fdx *": "deny",
+      "git commit *": "ask",
+      "git merge *": "ask",
+      "git push *": "deny",
+      "git push --force *": "deny",
+      "git push --force-with-lease *": "deny",
+      "git rebase *": "ask",
+      "git reset --hard *": "deny",
+      "git restore --source=* *": "deny",
+      "git revert *": "ask",
+      "git submodule foreach *": "deny",
+      "git tag -d *": "deny",
+      "just *": "allow",
+      "ls *": "allow",
+      "rg *": "allow",
+      "rm -rf *": "deny",
+      "sed *": "allow"
+    },
+    "doom_loop": "ask",
+    "external_directory": "ask"
+  },
   "provider": {
     "tensorx": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "TensorX",
-      "options": {
-        "baseURL": "https://api.tensorx.ai/v1"
-      },
       "models": {
-        "z-ai/glm-5.1": {
-          "name": "GLM 5.1",
+        "deepseek/deepseek-r1-0528": {
           "limit": {
             "context": 131072,
             "output": 16384
-          }
+          },
+          "name": "DeepSeek R1"
+        },
+        "deepseek/deepseek-v4-flash": {
+          "limit": {
+            "context": 1048576,
+            "output": 16384
+          },
+          "name": "DeepSeek V4 Flash"
+        },
+        "minimax/minimax-m2": {
+          "limit": {
+            "context": 131072,
+            "output": 16384
+          },
+          "name": "MiniMax M2"
         },
         "moonshotai/kimi-k2.5": {
-          "name": "Kimi K2.5",
           "limit": {
             "context": 131072,
             "output": 16384
-          }
+          },
+          "name": "Kimi K2.5"
         },
-        "deepseek/deepseek-r1-0528": {
-          "name": "DeepSeek R1",
+        "openai/gpt-oss-120b": {
           "limit": {
             "context": 131072,
             "output": 16384
-          }
+          },
+          "name": "GPT-OSS 120B"
         },
         "qwen/qwen3-vl-235b-a22b-instruct": {
-          "name": "Qwen 3 VL",
+          "limit": {
+            "context": 131072,
+            "output": 16384
+          },
           "modalities": {
             "input": [
               "text",
@@ -52,121 +128,32 @@
               "text"
             ]
           },
-          "limit": {
-            "context": 131072,
-            "output": 16384
-          }
+          "name": "Qwen 3 VL"
         },
-        "minimax/minimax-m2": {
-          "name": "MiniMax M2",
+        "z-ai/glm-5.1": {
           "limit": {
             "context": 131072,
             "output": 16384
-          }
+          },
+          "name": "GLM 5.1"
         },
         "z-ai/glm-5.2": {
-          "name": "GLM 5.2",
           "limit": {
             "context": 1048576,
             "output": 16384
-          }
-        },
-        "deepseek/deepseek-v4-flash": {
-          "name": "DeepSeek V4 Flash",
-          "limit": {
-            "context": 1048576,
-            "output": 16384
-          }
-        },
-        "openai/gpt-oss-120b": {
-          "name": "GPT-OSS 120B",
-          "limit": {
-            "context": 131072,
-            "output": 16384
-          }
+          },
+          "name": "GLM 5.2"
         }
+      },
+      "name": "TensorX",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.tensorx.ai/v1"
       }
     }
   },
-
-  // Reuse the same instruction corpus used across other local agents.
-  "instructions": [
-    "~/AGENTS.md",
-  ],
-
-  // OpenCode v1.1.1+ uses permission instead of legacy tools booleans.
-  "permission": {
-    "*": "allow",
-    "external_directory": "ask",
-    "doom_loop": "ask",
-    "bash": {
-      "*": "ask",
-      "git *": "allow",
-      "git commit *": "ask",
-      "git rebase *": "ask",
-      "git merge *": "ask",
-      "git cherry-pick *": "ask",
-      "git revert *": "ask",
-      "git push *": "deny",
-      "git push --force *": "deny",
-      "git push --force-with-lease *": "deny",
-      "git reset --hard *": "deny",
-      "git clean -fd *": "deny",
-      "git clean -fdx *": "deny",
-      "git checkout -- *": "deny",
-      "git restore --source=* *": "deny",
-      "git branch -D *": "deny",
-      "git tag -d *": "deny",
-      "git submodule foreach *": "deny",
-      "rg *": "allow",
-      "fd *": "allow",
-      "ls *": "allow",
-      "cat *": "allow",
-      "sed *": "allow",
-      "just *": "allow",
-      "rm -rf *": "deny"
-    }
-  },
-
-  // Match the MCP stack you already inject for other coding agents.
-  "mcp": {
-    "headroom": {
-      "type": "local",
-      "command": [
-        "headroom",
-        "mcp",
-        "serve"
-      ],
-      "enabled": true,
-      "timeout": 30000
-    },
-    "serena": {
-      "type": "local",
-      "command": [
-        "serena",
-        "start-mcp-server",
-        "--context",
-        "codex"
-      ],
-      "enabled": true,
-      "timeout": 30000
-    },
-    "qartez": {
-      "type": "local",
-      "command": [
-        "qartez"
-      ],
-      "enabled": true,
-      "timeout": 30000
-    },
-    "engram": {
-      "type": "local",
-      "command": [
-        "engram",
-        "mcp"
-      ],
-      "enabled": true,
-      "timeout": 30000
-    }
-  }
+  "share": "manual",
+  "shell": "bash",
+  "snapshot": true,
+  "subagent_depth": 1
 }
