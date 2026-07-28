@@ -43,7 +43,51 @@
       "type": "local"
     }
   },
-  "model": "deepseek/deepseek-v4-flash",
+  "agent": {
+    "codex": {
+      "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
+      "mode": "primary",
+      "model": "openai/gpt-5.6-sol",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "opencode-worker": "allow"
+        }
+      },
+      "prompt": "You are the primary engineering orchestrator. Keep ownership of the user's goal, architecture, sequencing, safety, and final answer. Delegate bounded implementation, investigation, and verification work to the opencode-worker subagent through the task tool when that reduces cost or latency. Give the worker explicit scope, constraints, and acceptance criteria. Inspect its result and independently resolve gaps before reporting completion. Do not delegate user communication or final judgment."
+    },
+    "opencode-worker": {
+      "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by Codex.",
+      "mode": "subagent",
+      "model": "deepseek/deepseek-v4-flash",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "git branch -D *": "deny",
+          "git checkout -- *": "deny",
+          "git cherry-pick *": "ask",
+          "git clean -fd *": "deny",
+          "git clean -fdx *": "deny",
+          "git commit *": "ask",
+          "git merge *": "ask",
+          "git push *": "deny",
+          "git push --force *": "deny",
+          "git push --force-with-lease *": "deny",
+          "git rebase *": "ask",
+          "git reset --hard *": "deny",
+          "git restore --source=* *": "deny",
+          "git revert *": "ask",
+          "git submodule foreach *": "deny",
+          "git tag -d *": "deny",
+          "rm -rf *": "deny"
+        },
+        "task": "deny"
+      },
+      "steps": 30
+    }
+  },
+  "default_agent": "codex",
+  "model": "openai/gpt-5.6-sol",
   "permission": {
     "*": "allow",
     "bash": {
