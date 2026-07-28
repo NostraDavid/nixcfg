@@ -3,6 +3,10 @@
 Use Serena through MCP for symbol-aware code navigation and editing when
 language semantics or cross-file relationships matter.
 
+Serena is the fallback behind Qartez. Use it when Qartez cannot answer a query,
+its index is stale or incomplete, or LSP-backed language semantics are required.
+Do not repeat successful Qartez queries in Serena merely for confirmation.
+
 Prefer Serena for:
 
 - symbol overviews and locating definitions;
