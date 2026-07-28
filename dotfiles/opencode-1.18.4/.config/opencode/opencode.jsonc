@@ -61,26 +61,6 @@
       "mode": "subagent",
       "model": "tensorx/deepseek/deepseek-v4-flash",
       "permission": {
-        "bash": {
-          "*": "allow",
-          "git branch -D *": "deny",
-          "git checkout -- *": "deny",
-          "git cherry-pick *": "ask",
-          "git clean -fd *": "deny",
-          "git clean -fdx *": "deny",
-          "git commit *": "ask",
-          "git merge *": "ask",
-          "git push *": "deny",
-          "git push --force *": "deny",
-          "git push --force-with-lease *": "deny",
-          "git rebase *": "ask",
-          "git reset --hard *": "deny",
-          "git restore --source=* *": "deny",
-          "git revert *": "ask",
-          "git submodule foreach *": "deny",
-          "git tag -d *": "deny",
-          "rm -rf *": "deny"
-        },
         "task": "deny"
       },
       "steps": 30
@@ -91,7 +71,7 @@
   "permission": {
     "*": "allow",
     "bash": {
-      "*": "ask",
+      "*": "allow",
       "cat *": "allow",
       "fd *": "allow",
       "git *": "allow",
