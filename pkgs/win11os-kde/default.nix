@@ -29,8 +29,14 @@ stdenvNoCC.mkDerivation {
     cp -r plasma/desktoptheme/* $out/share/plasma/desktoptheme/
     cp -r plasma/look-and-feel/* $out/share/plasma/look-and-feel/
     cp -r wallpaper/* $out/share/wallpapers/
-    cp -r sddm-dark $out/share/sddm/themes/Win11OS-dark
-    cp -r sddm-light $out/share/sddm/themes/Win11OS-light
+    cp -r sddm-dark/6.0/Win11OS-dark $out/share/sddm/themes/Win11OS-dark
+    cp -r sddm-light/6.0/Win11OS-light $out/share/sddm/themes/Win11OS-light
+
+    darkLookAndFeel=$out/share/plasma/look-and-feel/com.github.yeyushengfan258.Win11OS-dark
+    mkdir -p "$darkLookAndFeel/contents/lockscreen"
+    cp ${./lockscreen}/* "$darkLookAndFeel/contents/lockscreen/"
+    cp sddm-dark/6.0/Win11OS-dark/background.jpeg \
+      "$darkLookAndFeel/contents/lockscreen/background.jpeg"
 
     runHook postInstall
   '';

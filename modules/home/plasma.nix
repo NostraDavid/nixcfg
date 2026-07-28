@@ -302,6 +302,7 @@ in {
           AnimationDurationFactor = 0.17677669529663687;
           AutomaticLookAndFeelOnIdle = false;
           DefaultDarkLookAndFeel = "com.github.yeyushengfan258.Win11OS-dark";
+          LookAndFeelPackage = "com.github.yeyushengfan258.Win11OS-dark";
           widgetStyle = "Breeze";
         };
       };
