@@ -7,8 +7,9 @@ code and Markdown.
 
 Use `rg` for exact text; `probe search` for ranked discovery; `probe symbols`
 for file structure; `probe extract` for enclosing syntax; and `probe query` for
-AST patterns. Use Serena for references and semantic edits, and Context7 for
-external documentation.
+AST patterns. Use Qartez first for references and semantic analysis; fall back
+to Serena when Qartez is incomplete or LSP-backed semantics are required. Use
+Context7 for external documentation.
 
 Ranked results are discovery evidence, not proof of absence. Confirm
 absence-based claims with an exhaustive text or structural search.
