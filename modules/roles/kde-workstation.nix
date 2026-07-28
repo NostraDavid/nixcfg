@@ -19,6 +19,8 @@
 
     users.users.${main-user}.packages = with pkgs; [
       kdePackages.kate
+      win11-icon-theme
+      win11os-kde
     ];
   };
 }

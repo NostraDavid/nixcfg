@@ -95,12 +95,25 @@ in {
 
     legacyPackages = pkgs;
 
-    packages = listToAttrs (map
-      (name: {
-        inherit name;
-        value = pkgs.${name};
-      })
-      localPackageNames);
+    packages =
+      listToAttrs (map
+        (name: {
+          inherit name;
+          value = pkgs.${name};
+        })
+        localPackageNames)
+      // {
+        win11-icon-theme =
+          pkgs.win11-icon-theme or (pkgs.callPackage (builtins.path {
+            path = ../pkgs/win11-icon-theme;
+            name = "win11-icon-theme";
+          }) {});
+        win11os-kde =
+          pkgs.win11os-kde or (pkgs.callPackage (builtins.path {
+            path = ../pkgs/win11os-kde;
+            name = "win11os-kde";
+          }) {});
+      };
 
     devShells.default = pkgs.mkShell {
       # Bootstrap shell for a clean NixOS install: keep this list small and focused
