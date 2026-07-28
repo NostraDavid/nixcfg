@@ -59,7 +59,7 @@
     "opencode-worker": {
       "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by Codex.",
       "mode": "subagent",
-      "model": "deepseek/deepseek-v4-flash",
+      "model": "tensorx/deepseek/deepseek-v4-flash",
       "permission": {
         "bash": {
           "*": "allow",
