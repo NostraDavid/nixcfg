@@ -151,6 +151,14 @@
       "enabled": true,
       "timeout": 30000
     },
+    "qartez": {
+      "type": "local",
+      "command": [
+        "qartez"
+      ],
+      "enabled": true,
+      "timeout": 30000
+    },
     "engram": {
       "type": "local",
       "command": [

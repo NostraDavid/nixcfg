@@ -27,6 +27,10 @@
       command = lib.getExe local.headroom;
       args = ["mcp" "serve"];
     };
+    qartez = {
+      command = lib.getExe local.qartez;
+      args = [];
+    };
     serena = {
       command = lib.getExe local.serena;
       args = ["start-mcp-server" "--context" "ide"];
@@ -124,7 +128,8 @@ in {
       local.snip # CLI proxy, to reduce token usage for LLMs
       local.rtk # CLI proxy, to reduce token usage for LLMs
       local.headroom # Context compression proxy for AI agents
-      local.serena # Symbol-aware code navigation and editing MCP server
+      local.qartez # Semantic code intelligence MCP server
+      local.serena # LSP-backed fallback for semantic code navigation and editing
       local.probe # AST-aware semantic code search and MCP server
       local.engram # Persistent memory and MCP server for coding agents
       local.beads # Dependency-aware task handoff between coding agents
@@ -216,6 +221,10 @@ in {
         $DRY_RUN_CMD "$codex_executable" mcp remove serena >/dev/null 2>&1 || true
         $DRY_RUN_CMD "$codex_executable" mcp add serena -- \
           ${lib.getExe local.serena} start-mcp-server --context codex
+
+        $DRY_RUN_CMD "$codex_executable" mcp remove qartez >/dev/null 2>&1 || true
+        $DRY_RUN_CMD "$codex_executable" mcp add qartez -- \
+          ${lib.getExe local.qartez}
 
         $DRY_RUN_CMD "$codex_executable" mcp remove engram >/dev/null 2>&1 || true
         $DRY_RUN_CMD "$codex_executable" mcp add engram -- \

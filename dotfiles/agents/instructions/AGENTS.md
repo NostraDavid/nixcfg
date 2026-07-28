@@ -5,6 +5,7 @@
 - @~/.agents/instructions/RTK.md
 - @~/.agents/instructions/snip.md
 - @~/.agents/instructions/probe.md
+- @~/.agents/instructions/qartez.md
 - @~/.agents/instructions/serena.md
 - @~/.agents/instructions/context7.md
 - @~/.agents/instructions/engram.md
