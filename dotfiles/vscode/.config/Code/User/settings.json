@@ -128,8 +128,8 @@
     "https://code.visualstudio.com": true,
     "https://github.com/microsoft/vscode/wiki/*": true,
     "https://gitlab.freedesktop.org": true,
-    "https://opencode.ai/": true,
     "https://models.dev/": true,
+    "https://opencode.ai/": true,
     "https://www.freedesktop.org": {
       "approveRequest": true,
       "approveResponse": false
@@ -283,8 +283,8 @@
   "inlineChat.notebookAgent": true,
   "json.maxItemsComputed": 500000,
   "json.schemaDownload.trustedDomains": {
-    "https://opencode.ai/": true,
-    "https://models.dev/": true
+    "https://models.dev/": true,
+    "https://opencode.ai/": true
   },
   "jupyter.askForKernelRestart": false,
   "jupyter.debugJustMyCode": false,
@@ -472,9 +472,7 @@
     "**/.gitea/workflows/*.yml",
     "**/.gitea/workflows/*.yaml",
     "**/.forgejo/workflows/*.yml",
-    "**/.forgejo/workflows/*.yaml",
-    "**/dbt_project.yml",
-    "**/dbt_project.yaml"
+    "**/.forgejo/workflows/*.yaml"
   ],
   "yaml.maxItemsComputed": 10000,
   "zig.zls.enabled": "on"
