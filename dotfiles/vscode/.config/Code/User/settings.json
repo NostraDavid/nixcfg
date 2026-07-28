@@ -320,10 +320,10 @@
       },
       "options": {
         "home-manager": {
-          "expr": "let opts = (builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/branches/master\").nixosConfigurations.wodan.options; in opts.home-manager.users.type.getSubOptions []"
+          "expr": "let opts = (builtins.getFlake (builtins.toString ./.)).nixosConfigurations.wodan.options; in opts.home-manager.users.type.getSubOptions []"
         },
         "nixos": {
-          "expr": "(builtins.getFlake \"/home/david/dev/NostraDavid/nixcfg/branches/master\").nixosConfigurations.wodan.options"
+          "expr": "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.wodan.options"
         }
       }
     }
