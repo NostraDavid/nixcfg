@@ -6,6 +6,7 @@
   flake.nixosConfigurations.frigg = mkHost {
     hostname = "frigg";
     module = {
+      inputs,
       lib,
       main-user,
       pkgs,
@@ -15,6 +16,7 @@
         ../../hosts/frigg/hardware-configuration.nix
         kde-workstation
         laptop
+        inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1
       ];
 
       nix.settings = {

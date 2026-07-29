@@ -33,6 +33,10 @@
       url = "github:oraios/serena/v1.6.1";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
