@@ -13,7 +13,7 @@
       imports = with config.flake.modules.nixos; [
         ../../hosts/bragi/hardware-configuration.nix
         desktop-base
-        i3
+        hyprland
         keyboard
       ];
 
