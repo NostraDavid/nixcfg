@@ -9,6 +9,7 @@
     busybox
     cachix # Cachix CLI
     cloc # Count lines of code
+    codex-security # Codex Security CLI
     colordiff # diff viewer
     csvkit # Python based CSV toolkit (heavier)
     curl
