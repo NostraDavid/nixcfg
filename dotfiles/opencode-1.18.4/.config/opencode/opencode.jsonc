@@ -4,6 +4,8 @@
   "instructions": [
     "~/AGENTS.md"
   ],
+  "default_agent": "master",
+  "model": "tensorx/z-ai/glm-5.2",
   "mcp": {
     "engram": {
       "command": [
@@ -31,23 +33,12 @@
       "enabled": true,
       "type": "local"
     },
-    "serena": {
-      "command": [
-        "serena",
-        "start-mcp-server",
-        "--context",
-        "codex"
-      ],
-      "enabled": true,
-      "timeout": 30000,
-      "type": "local"
-    }
   },
   "agent": {
-    "codex": {
+    "master": {
       "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
       "mode": "primary",
-      "model": "openai/gpt-5.6-sol",
+      "model": "tensorx/z-ai/glm-5.2",
       "permission": {
         "task": {
           "*": "deny",
@@ -57,7 +48,7 @@
       "prompt": "You are the primary engineering orchestrator. Keep ownership of the user's goal, architecture, sequencing, safety, and final answer. Delegate bounded implementation, investigation, and verification work to the opencode-worker subagent through the task tool when that reduces cost or latency. Give the worker explicit scope, constraints, and acceptance criteria. Inspect its result and independently resolve gaps before reporting completion. Do not delegate user communication or final judgment."
     },
     "opencode-worker": {
-      "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by Codex.",
+      "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by master.",
       "mode": "subagent",
       "model": "tensorx/deepseek/deepseek-v4-flash",
       "permission": {
@@ -66,8 +57,6 @@
       "steps": 30
     }
   },
-  "default_agent": "codex",
-  "model": "openai/gpt-5.6-sol",
   "permission": {
     "*": "allow",
     "bash": {
@@ -103,13 +92,6 @@
   "provider": {
     "tensorx": {
       "models": {
-        "deepseek/deepseek-r1-0528": {
-          "limit": {
-            "context": 131072,
-            "output": 16384
-          },
-          "name": "DeepSeek R1"
-        },
         "deepseek/deepseek-v4-flash": {
           "limit": {
             "context": 1048576,
@@ -117,49 +99,19 @@
           },
           "name": "DeepSeek V4 Flash"
         },
-        "minimax/minimax-m2": {
+        "deepseek/deepseek-v4-pro": {
           "limit": {
-            "context": 131072,
+            "context": 1048576,
             "output": 16384
           },
-          "name": "MiniMax M2"
+          "name": "DeepSeek V4 Pro"
         },
-        "moonshotai/kimi-k2.5": {
+        "moonshotai/kimi-k3": {
           "limit": {
-            "context": 131072,
+            "context": 1048576,
             "output": 16384
           },
-          "name": "Kimi K2.5"
-        },
-        "openai/gpt-oss-120b": {
-          "limit": {
-            "context": 131072,
-            "output": 16384
-          },
-          "name": "GPT-OSS 120B"
-        },
-        "qwen/qwen3-vl-235b-a22b-instruct": {
-          "limit": {
-            "context": 131072,
-            "output": 16384
-          },
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "text"
-            ]
-          },
-          "name": "Qwen 3 VL"
-        },
-        "z-ai/glm-5.1": {
-          "limit": {
-            "context": 131072,
-            "output": 16384
-          },
-          "name": "GLM 5.1"
+          "name": "Kimi K3"
         },
         "z-ai/glm-5.2": {
           "limit": {
