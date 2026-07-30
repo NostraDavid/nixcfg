@@ -163,6 +163,7 @@
         ".config/i3/config" = {source = mk "${dot}/i3/.config/i3/config";};
         ".config/markdownlint/config.yaml" = {source = mk "${dot}/markdownlint-cli-0.46.0/.config/markdownlint/config.yaml";};
         ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv/.config/mpv/mpv.conf";};
+        ".config/niri/config.kdl" = {source = mk "${dot}/niri/.config/niri/config.kdl";};
         ".config/nvim/" = {source = mk "${dot}/neovim-0.11/.config/nvim";};
         ".config/pip/pip.conf" = {source = mk "${dot}/pip-22+/.config/pip/pip.conf";};
         ".config/pypoetry/" = {source = mk "${dot}/pypoetry-2.1/.config/pypoetry";};
