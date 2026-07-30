@@ -111,12 +111,12 @@
 in
   python3Packages.buildPythonApplication rec {
     pname = "codealmanac";
-    version = "0.4.4";
+    version = "0.4.7";
     pyproject = true;
 
     src = fetchPypi {
       inherit pname version;
-      hash = "sha256-GL8VDorwp5KzNWoatQ+g6YfkzDhyHDoBY5LZeE5pXnM=";
+      hash = "sha256-rKUt9PyM3pLl85RtLgDZOqNtzLsAlehGeqTPKuAvxyY=";
     };
 
     build-system = with python3Packages; [
@@ -129,11 +129,13 @@ in
       python3Packages.charset-normalizer
       claudeAgentSdk
       fastapi
+      python3Packages.filelock
       python3Packages.httpx
       python3Packages.humanfriendly
       python3Packages.jsonlines
       markdownItPy
       pathspec
+      python3Packages.posthog
       python3Packages.psutil
       python3Packages.pydantic
       python3Packages.pydantic-settings

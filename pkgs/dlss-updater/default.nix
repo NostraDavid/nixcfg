@@ -8,10 +8,10 @@
   gnugrep,
   nix-update-script,
 }: let
-  version = "4.3.1";
+  version = "4.6.0";
   src = fetchurl {
     url = "https://github.com/Recol/DLSS-Updater/releases/download/V${version}/DLSS_Updater-${version}.flatpak";
-    hash = "sha256-o4SVCfrGAaMim1jRS668E4hv0EDHZzAkXGqiCRrJ9aQ=";
+    hash = "sha256-2EdNnyCtkypcLWWF4rCuLEXW+3TXMWejilMiFPX/DU4=";
   };
 in
   stdenvNoCC.mkDerivation {

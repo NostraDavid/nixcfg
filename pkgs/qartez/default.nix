@@ -5,11 +5,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "qartez";
-  version = "0.10.0";
+  version = "0.11.0";
 
   src = fetchurl {
     url = "https://github.com/kuberstar/qartez-mcp/releases/download/v${finalAttrs.version}/qartez-${finalAttrs.version}-x86_64-unknown-linux-gnu.tar.xz";
-    hash = "sha256-to62cVZ25YfwZnpePntZFJUqgHz5PtGHfJ8R8KYpWIw=";
+    hash = "sha256-EXsDRYYZLCshCEd804uU/e+ZGA/bkdRnjaZ0BLmjYZY=";
   };
 
   sourceRoot = "qartez-${finalAttrs.version}-x86_64-unknown-linux-gnu";
