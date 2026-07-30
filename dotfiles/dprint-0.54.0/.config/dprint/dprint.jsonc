@@ -41,6 +41,8 @@
   },
   "excludes": [
     "**/node_modules",
+    "**/skill-originals",
+    "**/agentskills.io",
     "**/*-lock.json"
   ],
   "plugins": [
