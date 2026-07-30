@@ -31,10 +31,6 @@
       command = lib.getExe local.qartez;
       args = [];
     };
-    serena = {
-      command = lib.getExe local.serena;
-      args = ["start-mcp-server" "--context" "ide"];
-    };
     engram = {
       command = lib.getExe local.engram;
       args = ["mcp"];
@@ -129,7 +125,6 @@ in {
       local.rtk # CLI proxy, to reduce token usage for LLMs
       local.headroom # Context compression proxy for AI agents
       local.qartez # Semantic code intelligence MCP server
-      local.serena # LSP-backed fallback for semantic code navigation and editing
       local.probe # AST-aware semantic code search and MCP server
       local.engram # Persistent memory and MCP server for coding agents
       local.beads # Dependency-aware task handoff between coding agents
@@ -164,12 +159,6 @@ in {
         fi
       '';
 
-      serenaInit = lib.hm.dag.entryBefore ["writeBoundary"] ''
-        if [ ! -d "${config.home.homeDirectory}/.serena/memories" ]; then
-          $DRY_RUN_CMD ${lib.getExe local.serena} init
-        fi
-      '';
-
       agentMcpServers = lib.hm.dag.entryAfter ["writeBoundary"] ''
         update_mcp_json() {
           config_file="$1"
@@ -179,7 +168,7 @@ in {
 
           if [ -f "$config_file" ]; then
             ${lib.getExe stable.jq} --argjson servers "$servers_json" \
-              '.mcpServers = (((.mcpServers // {}) | del(."lean-ctx")) + $servers)' \
+              '.mcpServers = (((.mcpServers // {}) | del(."lean-ctx", .serena)) + $servers)' \
               "$config_file" >"$temporary_file"
           else
             ${lib.getExe stable.jq} --null-input --argjson servers "$servers_json" \
@@ -219,8 +208,6 @@ in {
           ${lib.getExe local.headroom} mcp serve
 
         $DRY_RUN_CMD "$codex_executable" mcp remove serena >/dev/null 2>&1 || true
-        $DRY_RUN_CMD "$codex_executable" mcp add serena -- \
-          ${lib.getExe local.serena} start-mcp-server --context codex
 
         $DRY_RUN_CMD "$codex_executable" mcp remove qartez >/dev/null 2>&1 || true
         $DRY_RUN_CMD "$codex_executable" mcp add qartez -- \
