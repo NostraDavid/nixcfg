@@ -45,6 +45,7 @@
         "hypertext-token-killer"
         "interview-me"
         "linux-performance"
+        "manage-adrs"
         "perfect-review"
         "python-native-script-builder"
         "python-uv-script-builder"
@@ -113,8 +114,6 @@
         ## Codex
         ".codex/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
         ".codex/hooks.json" = {source = mk "${dot}/codex-0.140.0/.codex/hooks.json";};
-        ".codex/skills/manage-adrs" = {source = mk "${dot}/codex-0.140.0/.codex/skills/manage-adrs";};
-
         ## pi
         ".pi/agent/settings.json" = {source = mk "${dot}/pi/.pi/agent/settings.json";};
         ".pi/agent/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
