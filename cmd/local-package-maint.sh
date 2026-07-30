@@ -120,7 +120,7 @@ package_exists() {
     local dir="$1"
     local pkg="$2"
 
-    pkg_eval_raw "${dir}" "${pkg}" "pkgs.\"${pkg}\".pname" >/dev/null 2>&1
+    pkg_eval_raw "${dir}" "${pkg}" "if builtins.hasAttr \"${pkg}\" pkgs then \"true\" else throw \"missing package\"" >/dev/null 2>&1
 }
 
 package_version() {

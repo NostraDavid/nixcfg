@@ -114,7 +114,7 @@ check-alejandra-files *files:
   @alejandra --check {{files}}
 
 check-dprint-files *files:
-  @dprint check {{files}}
+  @dprint check --allow-no-files {{files}}
 
 check-shfmt-files *files:
   @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-originals/(awesome-copilot|codex-system|matt-pocock|polars-inc)/' || true; } | xargs -0 --no-run-if-empty shfmt -i 4 -d

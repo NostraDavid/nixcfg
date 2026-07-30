@@ -110,7 +110,7 @@
 in
   python3Packages.buildPythonApplication rec {
     pname = "semble";
-    version = "0.5.0";
+    version = "0.5.2";
     pyproject = true;
 
     src = fetchFromGitHub {
