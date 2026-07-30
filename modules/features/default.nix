@@ -13,6 +13,7 @@
     ./keyboard.nix
     ./laptop.nix
     ./media.nix
+    ./niri.nix
     ./nvidia-workstation.nix
     ./plasma.nix
     ./selfhosted-apps.nix
