@@ -14,6 +14,10 @@ TITLE_RE = re.compile(
     re.IGNORECASE,
 )
 STATUS_RE = re.compile(r"^\s*[-*]?\s*Status\s*:\s*(?P<status>.+?)\s*$", re.IGNORECASE)
+SUPERSEDED_BY_RE = re.compile(
+    r"^\s*[-*]?\s*Superseded\s+by\s*:\s*(?P<adr>.+?)\s*$",
+    re.IGNORECASE,
+)
 DATE_RE = re.compile(
     r"^\s*[-*]?\s*Date\s*:\s*(?P<date>\d{4}-\d{2}-\d{2})\s*$", re.IGNORECASE
 )
@@ -210,6 +214,8 @@ def cmd_index(args: argparse.Namespace) -> None:
 def cmd_status(args: argparse.Namespace) -> None:
     project = project_path(args.project)
     adr_path = (project / args.adr).resolve()
+    if not adr_path.is_relative_to(project):
+        raise SystemExit(f"ADR path is outside the project: {adr_path}")
     text = adr_path.read_text(encoding="utf-8")
     lines = text.splitlines()
     changed = False
@@ -222,9 +228,18 @@ def cmd_status(args: argparse.Namespace) -> None:
     if not changed:
         lines.insert(1, f"- Status: {args.status}")
     if args.superseded_by:
-        lines.append("")
-        lines.append(f"Superseded by: {args.superseded_by}")
+        for index, line in enumerate(lines):
+            if SUPERSEDED_BY_RE.match(line):
+                prefix = "- " if line.lstrip().startswith(("-", "*")) else ""
+                lines[index] = f"{prefix}Superseded by: {args.superseded_by}"
+                break
+        else:
+            lines.append("")
+            lines.append(f"Superseded by: {args.superseded_by}")
     adr_path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    index_path = adr_path.parent / "README.md"
+    if index_path.exists():
+        index_path.write_text(index_text(project, adr_path.parent), encoding="utf-8")
     print(adr_path)
 
 

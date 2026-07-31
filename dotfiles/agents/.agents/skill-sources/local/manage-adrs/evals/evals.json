@@ -1,0 +1,41 @@
+{
+  "skill_name": "manage-adrs",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add an accepted ADR for moving background jobs from database polling to a message broker. The repository already has numbered ADRs, an index, and a superseded polling ADR.",
+      "expected_output": "A convention-preserving new ADR, reciprocal supersession links, and an updated index.",
+      "assertions": [
+        "Discovers and follows the repository's existing ADR numbering, status, date, and heading conventions",
+        "Creates the next unique ADR number without renumbering historical records",
+        "Marks the polling ADR as superseded without rewriting its original decision",
+        "Adds reciprocal links between the old and new ADRs",
+        "Updates the existing ADR index"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Audit this ADR directory for lifecycle inconsistencies. It contains duplicate number 0007, two stale proposed decisions, a superseded ADR without a replacement link, and an outdated README index.",
+      "expected_output": "A prioritized, file-specific ADR-set audit with concrete repairs and no silent historical rewrites.",
+      "assertions": [
+        "Reports the duplicate number and identifies both affected files",
+        "Distinguishes stale proposals from accepted or deprecated decisions",
+        "Reports the missing supersession link",
+        "Detects that the index does not match the ADR inventory",
+        "Proposes explicit repairs without silently renumbering or rewriting accepted history"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Create the first ADR set for a project that has chosen PostgreSQL. Record the decision as accepted and establish a maintainable index.",
+      "expected_output": "A default docs/adr structure with an accepted ADR and generated index.",
+      "assertions": [
+        "Confirms that no local ADR convention exists before applying the default",
+        "Creates docs/adr with a four-digit filename and lowercase hyphenated slug",
+        "Includes Context, Decision, and Consequences",
+        "Uses Accepted because the choice is already decided",
+        "Creates an index that lists the new ADR"
+      ]
+    }
+  ]
+}
