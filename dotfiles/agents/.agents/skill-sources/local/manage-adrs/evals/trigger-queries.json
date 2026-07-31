@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Supersede ADR 0012 with our new queueing decision and update the decision index.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Review our architecture decision log for duplicate numbers and broken replacement links.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Add this accepted decision to the existing docs/adr collection.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Regenerate the ADR README after the last three decisions were merged.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Which proposed architecture decisions have never been accepted or rejected?",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Mark the old deployment ADR as deprecated without changing its historical rationale.",
+    "should_trigger": true,
+    "split": "train"
+  },
+  {
+    "query": "Start an ADR directory for this repository and record the database choice.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Summarize the status and relationships of every decision under architecture/decisions.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Repair our decision numbering after two branches both introduced ADR 0021.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Update the replacement links between these superseded architecture records.",
+    "should_trigger": true,
+    "split": "validation"
+  },
+  {
+    "query": "Write a standalone explanation of why PostgreSQL is a good default.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Design a relational schema for subscriptions and invoices.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Review this pull request for architectural problems.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Create a technical design document for the new authentication service.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Explain the difference between an RFC and an ADR.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Rename this Markdown file and fix links to it.",
+    "should_trigger": false,
+    "split": "train"
+  },
+  {
+    "query": "Draft one architecture decision from these notes; there is no ADR repository to maintain.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Make a C4 diagram for the current deployment architecture.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Assess whether this service boundary violates our dependency rules.",
+    "should_trigger": false,
+    "split": "validation"
+  },
+  {
+    "query": "Summarize the last five Git commits that touched database migrations.",
+    "should_trigger": false,
+    "split": "validation"
+  }
+]

@@ -1,6 +1,6 @@
 ---
 name: manage-adrs
-description: Manage Architecture Decision Records (ADRs) in software projects. Use when Codex needs to create, update, review, supersede, deprecate, list, renumber, index, or summarize ADR files such as docs/adr/0001-title.md, architecture/decisions/*.md, or any project-specific decision log.
+description: Manage Architecture Decision Records (ADRs) and decision logs across their lifecycle. Use when creating or updating an ADR within an existing decision set, discovering local ADR conventions, superseding or deprecating decisions, repairing numbering or indexes, reviewing decision history, or summarizing ADR status. Prefer create-architectural-decision-record for drafting one standalone ADR when no surrounding ADR-set maintenance is needed.
 ---
 
 # Manage ADRs
