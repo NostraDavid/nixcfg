@@ -102,6 +102,10 @@ cachix-unpin pin cache=default_cachix_cache:
 nixos-show host=default_host:
   @nix flake show .#nixosConfigurations."{{host}}"
 
+# Add the current NixOS machine to this repository.
+bootstrap-host hostname mode="auto":
+  @./cmd/bootstrap-host.sh "{{hostname}}" "{{mode}}"
+
 # Run formatting checks without modifying files.
 check:
   @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra --check
