@@ -26,11 +26,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     hermes-agent = {
-      url = "github:NousResearch/hermes-agent/v2026.7.7.2";
+      url = "github:NousResearch/hermes-agent";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     serena = {
-      url = "github:oraios/serena/v1.6.1";
+      url = "github:oraios/serena";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nixos-hardware = {
