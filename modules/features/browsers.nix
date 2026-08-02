@@ -13,15 +13,6 @@
     homeManager.browsers = ../home/browsers.nix;
     homeManager.browsers-extra = {pkgs, ...}: {
       home.packages = with pkgs; [
-        # Chrome met flags voor hardware acceleration.
-        (google-chrome.override {
-          commandLineArgs = [
-            "--enable-features=AcceleratedVideoEncoder"
-            "--ignore-gpu-blocklist"
-            "--enable-zero-copy"
-          ];
-        })
-
         # Alternative Gemini protocol clients
         amfora
         bombadillo
