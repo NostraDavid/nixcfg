@@ -477,5 +477,8 @@
     "**/dbt_project.yaml"
   ],
   "yaml.maxItemsComputed": 10000,
-  "zig.zls.enabled": "on"
+  "zig.zls.enabled": "on",
+  "chat.agentHost.enabled": true,
+  "chat.agentHost.codexAgent.enabled": true,
+  "chat.editor.codex.preferAgentHost": true
 }
