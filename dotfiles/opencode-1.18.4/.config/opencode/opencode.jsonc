@@ -50,7 +50,7 @@
     "opencode-worker": {
       "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by master.",
       "mode": "subagent",
-      "model": "tensorx/deepseek/deepseek-v4-flash",
+      "model": "tensorx/deepseek/deepseek-v4-flash-0731",
       "permission": {
         "task": "deny"
       },
@@ -92,12 +92,12 @@
   "provider": {
     "tensorx": {
       "models": {
-        "deepseek/deepseek-v4-flash": {
+        "deepseek/deepseek-v4-flash-0731": {
           "limit": {
             "context": 1048576,
             "output": 16384
           },
-          "name": "DeepSeek V4 Flash"
+          "name": "DeepSeek V4 Flash 0731"
         },
         "deepseek/deepseek-v4-pro": {
           "limit": {
