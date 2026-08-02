@@ -13,11 +13,12 @@ buildNpmPackage (finalAttrs: {
     hash = "sha256-+3fwPiHc2JVS3IXYg87ynNCu6ivgLzLXvf12ra2qepY=";
   };
 
-  npmDepsHash = "sha256-rSXjyjMOTuddJ5zRlCgWcKWFrsXkiYrLIgvO5AtuwQQ=";
+  npmDepsHash = "sha256-QT0tqUSsEfCfvQuuxvVpykEAXFSm799+6Twv2W1We50=";
   npmDepsFetcherVersion = 2;
 
   npmConfigProduction = true;
   npmFlags = [
+    "--legacy-peer-deps"
     "--omit=dev"
   ];
 
@@ -27,6 +28,13 @@ buildNpmPackage (finalAttrs: {
   '';
 
   dontNpmBuild = true;
+
+  postInstall = ''
+    substituteInPlace \
+      $out/lib/node_modules/skillkit/node_modules/glob/node_modules/minimatch/dist/mjs/index.js \
+      $out/lib/node_modules/skillkit/node_modules/minimatch/dist/esm/index.js \
+      --replace-fail "import expand from 'brace-expansion';" "import { expand } from 'brace-expansion';"
+  '';
 
   passthru.updateScript = nix-update-script {extraArgs = ["--generate-lockfile"];};
 
