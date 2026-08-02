@@ -61,6 +61,16 @@ in {
         };
       };
 
+      # Bluetooth headset profiles combine playback and microphone audio in a
+      # single mono channel. Keep headphones on A2DP stereo when an application
+      # (such as a game with voice chat) opens a microphone; use Donar's built-in
+      # microphone separately when voice input is needed.
+      services.pipewire.wireplumber.extraConfig."51-bluetooth-stereo" = {
+        "wireplumber.settings" = {
+          "bluetooth.autoswitch-to-headset-profile" = false;
+        };
+      };
+
       environment.systemPackages = with pkgs; [
         libva-utils
         nvtopPackages.full
