@@ -1,5 +1,9 @@
 # Shared Plasma configuration.
-{lib, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   associate = desktopFile: mimeTypes:
     lib.genAttrs mimeTypes (_: "${desktopFile};");
 
@@ -96,6 +100,12 @@ in {
 
   programs.plasma = {
     enable = true;
+
+    workspace = {
+      iconTheme = "Win11-black-dark";
+      lookAndFeel = "com.github.yeyushengfan258.Win11OS-dark";
+      wallpaper = "${pkgs.win11os-kde}/share/wallpapers/Win11OS-dark/contents/images/3840x2400.jpg";
+    };
 
     shortcuts = {
       "KDE Keyboard Layout Switcher" = {
