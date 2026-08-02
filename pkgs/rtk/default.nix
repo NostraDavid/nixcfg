@@ -13,16 +13,16 @@
 in
   (rustPlatform.buildRustPackage.override {stdenv = effectiveStdenv;}) rec {
     pname = "rtk";
-    version = "0.44.1";
+    version = "0.44.2";
 
     src = fetchFromGitHub {
       owner = "rtk-ai";
       repo = "rtk";
       rev = "v${version}";
-      sha256 = "sha256-5AN/sK0IOIqcLX0FviFPOJ9QX9xJpliSN1XY3isxyrA=";
+      sha256 = "sha256-qOWWHov0m3A8V48r/UGN2Hxz+/XraPRYhNPnZ+B+ZBY=";
     };
 
-    cargoHash = "sha256-Hd8dy0atCeTie2rZ3nfpbwbTHrIueNlXo7kpmK6QQNU=";
+    cargoHash = "sha256-1nuCXZZjGDyA8kN6pFPclx8sIdD6QbGZDlTtyl+6Gow=";
 
     doCheck = false;
 
