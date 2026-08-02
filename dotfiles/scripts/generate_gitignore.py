@@ -70,19 +70,26 @@ def render_gitignore(entries: tuple[Entry, ...]) -> str:
     ordered = sorted(entries, key=lambda entry: entry.name)
     directories = tuple(entry for entry in ordered if entry.is_directory)
     files = tuple(entry for entry in ordered if not entry.is_directory)
+    python_ignore_rules = (
+        (
+            "",
+            "# reignore subfolders/files *anywhere* in the project",
+            "**pycache**/",
+            "*.egg-info/",
+        )
+        if any(entry.name == "pyproject.toml" for entry in entries)
+        else ()
+    )
     lines = [
         "# ignore all direct items, nonrecursively",
         "/*",
         "",
         "# unignore folders",
-        *(f"!/{escape_gitignore_literal(entry.name)}/" for entry in directories),
+        *(f"!{escape_gitignore_literal(entry.name)}/" for entry in directories),
         "",
         "# unignore files",
-        *(f"!/{escape_gitignore_literal(entry.name)}" for entry in files),
-        "",
-        "# reignore subfolders/files *anywhere* in the project",
-        "__pycache__/",
-        "*.egg-info/",
+        *(f"!{escape_gitignore_literal(entry.name)}" for entry in files),
+        *python_ignore_rules,
     ]
     return "\n".join(lines) + "\n"
 
@@ -144,7 +151,7 @@ def atomic_write(output: Path, content: str) -> None:
 
 @click.group()
 def cli() -> None:
-    """Build and validate an allowlist-style .gitignore."""
+    """Build and validate an allowlist-style .gitignore, including Python projects."""
     configure_logging()
 
 
@@ -318,6 +325,19 @@ def test_render_escapes_pattern_metacharacters() -> None:
     assert "!/literal\\[1\\]\\*\\?.txt\n" in content
 
 
+def test_render_adds_python_rules_only_for_projects_with_pyproject() -> None:
+    with_pyproject = render_gitignore((Entry("pyproject.toml", False),))
+    without_pyproject = render_gitignore((Entry("setup.cfg", False),))
+
+    assert "# reignore subfolders/files *anywhere* in the project\n" in with_pyproject
+    assert "**pycache**/\n" in with_pyproject
+    assert "*.egg-info/\n" in with_pyproject
+    assert (
+        "# reignore subfolders/files *anywhere* in the project\n"
+        not in without_pyproject
+    )
+
+
 def test_dry_run_includes_output_without_mutating(tmp_path: Path) -> None:
     (tmp_path / ".env").touch()
     (tmp_path / "src").mkdir()
@@ -387,6 +407,7 @@ def test_cli_help_lists_all_commands() -> None:
     result = CliRunner().invoke(cli, ["--help"])
 
     assert result.exit_code == 0
+    assert "Python projects" in result.stdout
     assert "generate" in result.stdout
     assert "check" in result.stdout
     assert "unit-test" in result.stdout
