@@ -208,19 +208,19 @@ in {
 
         update_structured_config \
           "${config.home.homeDirectory}/.config/lean-ctx/config.toml" toml toml \
-          '.hook_binary = "lean-ctx"'
+          '.hook_binary = "${agentExecutables.leanCtx}"'
         update_structured_config \
           "${config.home.homeDirectory}/.hermes/config.yaml" yaml yaml \
-          '.mcp_servers."lean-ctx" = {"command": "${agentExecutables.leanCtx}"}'
+          '.mcp_servers = ((.mcp_servers // {}) + {"engram": {"command": "${agentExecutables.engram}", "args": ["mcp"]}, "lean-ctx": {"command": "${agentExecutables.leanCtx}"}, "qartez": {"command": "${agentExecutables.qartez}"}})'
         update_structured_config \
           "${config.home.homeDirectory}/.vibe/config.toml" toml toml \
-          '.mcp_servers = (((.mcp_servers // []) | map(select(.name != "lean-ctx"))) + [{"name": "lean-ctx", "transport": "stdio", "command": "${agentExecutables.leanCtx}", "args": ["serve"]}])'
+          '.mcp_servers = (((.mcp_servers // []) | map(select(.name != "engram" and .name != "lean-ctx" and .name != "qartez"))) + [{"name": "engram", "transport": "stdio", "command": "${agentExecutables.engram}", "args": ["mcp"]}, {"name": "lean-ctx", "transport": "stdio", "command": "${agentExecutables.leanCtx}", "args": ["serve"]}, {"name": "qartez", "transport": "stdio", "command": "${agentExecutables.qartez}", "args": []}])'
         update_structured_config \
           "${config.home.homeDirectory}/.vibe/hooks.toml" toml toml \
           '.hooks = (((.hooks // []) | map(select(.name != "lean-ctx-redirect"))) + [{"name": "lean-ctx-redirect", "type": "pre_tool", "match": "re:(bash|read_file|grep)", "command": "${agentExecutables.leanCtx} hook vibe-pre-tool", "timeout": 60.0, "description": "Route native bash through lean-ctx; steer read_file/grep to ctx_* tools"}])'
         update_structured_config \
           "${config.home.homeDirectory}/.config/opencode/opencode.json" json json \
-          '.mcp."lean-ctx" = {"command": ["${agentExecutables.leanCtx}"], "enabled": true, "type": "local"}'
+          '.mcp = ((.mcp // {}) + {"engram": {"command": ["${agentExecutables.engram}", "mcp"], "enabled": true, "type": "local"}, "lean-ctx": {"command": ["${agentExecutables.leanCtx}"], "enabled": true, "type": "local"}, "qartez": {"command": ["${agentExecutables.qartez}"], "enabled": true, "type": "local"}})'
 
         codex_executable=${lib.getExe local.codex}
         $DRY_RUN_CMD "$codex_executable" mcp remove lean-ctx >/dev/null 2>&1 || true
