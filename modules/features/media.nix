@@ -5,12 +5,15 @@
         config.flake.modules.homeManager.media
       ];
     };
-    nixos.media-extra = {main-user, ...}: {
+    nixos.media-production = {main-user, ...}: {
       home-manager.users.${main-user}.imports = [
-        config.flake.modules.homeManager.media-extra
+        config.flake.modules.homeManager.media-production
       ];
     };
-    homeManager.media = ../home/media.nix;
-    homeManager.media-extra = ../home/media-extra.nix;
+    homeManager.media.imports = [
+      ../home/media.nix
+      ../home/media-tools.nix
+    ];
+    homeManager.media-production = ../home/media-production.nix;
   };
 }
