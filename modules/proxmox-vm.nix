@@ -1,11 +1,9 @@
 {
   lib,
   main-user,
-  pkgs,
+  stable,
   ...
-}: let
-  stable = pkgs;
-in {
+}: {
   boot = {
     initrd.availableKernelModules = ["ata_piix" "uhci_hcd" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"];
     kernelModules = ["kvm-intel" "kvm-amd"];
@@ -19,8 +17,9 @@ in {
   environment.systemPackages = [
     stable.curl
     stable.git
-    stable.htop
+    stable.btop
     stable.vim
+    stable.neovim
   ];
 
   networking = {
