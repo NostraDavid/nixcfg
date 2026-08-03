@@ -1,19 +1,11 @@
 {config, ...}: {
   flake.modules.nixos.kde-workstation = {
     lib,
+    local,
     main-user,
-    pkgs,
+    stable,
     ...
-  }: let
-    stable = pkgs;
-    local = {
-      inherit
-        (pkgs)
-        win11-icon-theme
-        win11os-kde
-        ;
-    };
-  in {
+  }: {
     imports = with config.flake.modules.nixos; [
       workstation-base
       plasma

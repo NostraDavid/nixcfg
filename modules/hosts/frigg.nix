@@ -9,11 +9,9 @@
       inputs,
       lib,
       main-user,
-      pkgs,
+      stable,
       ...
-    }: let
-      stable = pkgs;
-    in {
+    }: {
       imports = with config.flake.modules.nixos; [
         ../../hosts/frigg/hardware-configuration.nix
         kde-workstation

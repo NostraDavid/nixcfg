@@ -1,6 +1,4 @@
-{pkgs, ...}: let
-  local = {inherit (pkgs) runic;};
-in {
+{local, ...}: {
   services.xserver.xkb.extraLayouts.runic = {
     description = "Custom Runic Keyboard Layout";
     languages = ["run"];

@@ -2,11 +2,9 @@ _: {
   flake.modules.nixos.hyprland = {
     lib,
     main-user,
-    pkgs,
+    stable,
     ...
-  }: let
-    stable = pkgs;
-  in {
+  }: {
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;

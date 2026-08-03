@@ -2,11 +2,9 @@
   flake.modules.nixos.niri = {
     lib,
     main-user,
-    pkgs,
+    stable,
     ...
-  }: let
-    stable = pkgs;
-  in {
+  }: {
     programs.niri.enable = true;
 
     services.xserver.enable = lib.mkForce false;
@@ -24,9 +22,7 @@
     ];
   };
 
-  flake.modules.homeManager.niri = {pkgs, ...}: let
-    stable = pkgs;
-  in {
+  flake.modules.homeManager.niri = {stable, ...}: {
     home.packages = [
       stable.alacritty
       stable.brightnessctl

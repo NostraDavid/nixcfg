@@ -1,6 +1,4 @@
-{pkgs, ...}: let
-  stable = pkgs;
-in {
+{stable, ...}: {
   fileSystems = {
     "/var/lib/postgresql" = {
       device = "/dev/disk/by-label/apps-postgres";
