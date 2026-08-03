@@ -124,6 +124,8 @@ in
 
     postFixup = ''
       wrapProgram $out/bin/headroom \
+        --unset _PYTHON_HOST_PLATFORM \
+        --unset _PYTHON_SYSCONFIGDATA_NAME \
         --prefix PATH : ${lib.makeBinPath [unstable.ast-grep]}
     '';
 

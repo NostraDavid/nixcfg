@@ -3,7 +3,8 @@
   "theme": "dark",
   "packages": [
     "npm:@czottmann/pi-tensorx",
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "npm:pi-lean-ctx"
   ],
   "defaultProvider": "tensorx",
   "defaultModel": "deepseek/deepseek-v4-flash"

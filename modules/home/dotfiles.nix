@@ -115,11 +115,7 @@
         ".codex/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
         ".codex/hooks.json" = {source = mk "${dot}/codex-0.140.0/.codex/hooks.json";};
         ## pi
-        ".pi/agent/settings.json" = {source = mk "${dot}/pi/.pi/agent/settings.json";};
         ".pi/agent/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
-
-        ## Gemini
-        ".gemini/GEMINI.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
         ## Claude
         ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
@@ -142,13 +138,6 @@
 
           ${builtins.readFile ../../dotfiles/agents/instructions/eu-ai-act.md}
         '';
-
-        ## RTK
-        ".config/rtk/config.toml" = {source = mk "${dot}/rtk-0.41.0/.config/rtk/config.toml";};
-
-        ## snip
-        ".config/snip/config.toml" = {source = mk "${dot}/snip-0.18.0/.config/snip/config.toml";};
-        ".config/snip/filters" = {source = mk "${dot}/snip-0.18.0/.config/snip/filters";};
 
         # The rest
         ".config/cloc/options.txt" = {source = mk "${dot}/cloc-2.08/.config/cloc/options.txt";};
@@ -182,7 +171,6 @@
         ".local/bin/venv" = {source = mk "${dot}/scripts/venv.py";};
         ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
         "dev/.env.example" = {source = mk "${dot}/dev/.env.example";};
-        ".serena/serena_config.yml" = {source = mk "${dot}/serena-1.6.1/.serena/serena_config.yml";};
         "dev/find-uncommitted.py" = {source = mk "${dot}/dev/find-uncommitted.py";};
         "dev/get_azure_repos.py" = {source = mk "${dot}/dev/get_azure_repos.py";};
         "dev/grab.py" = {source = mk "${dot}/dev/grab.py";};

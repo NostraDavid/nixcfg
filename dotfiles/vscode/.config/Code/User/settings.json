@@ -93,6 +93,7 @@
   "chat.math.enabled": true,
   "chat.mcp.access": "all",
   "chat.mcp.autostart": "newAndOutdated",
+  "chat.mcp.enabled": true,
   "chat.mcp.serverSampling": {
     "Global in Code: memory": {
       "allowedModels": []
@@ -115,7 +116,6 @@
     "psql": true,
     "pytest": true,
     "rpk": true,
-    "rtk": true,
     "ruff": true,
     "sed": true,
     "shasum": true,
@@ -267,6 +267,20 @@
   "git.fetchOnPull": true,
   "git.ignoreRebaseWarning": true,
   "github.copilot.chat.localeOverride": "en",
+  "github.copilot.chat.planAgent.additionalTools": [
+    "lean-ctx_ctx_read",
+    "lean-ctx_ctx_search",
+    "lean-ctx_ctx_tree",
+    "lean-ctx_ctx_overview",
+    "lean-ctx_ctx_plan",
+    "lean-ctx_ctx_metrics",
+    "lean-ctx_ctx_compress",
+    "lean-ctx_ctx_session",
+    "lean-ctx_ctx_knowledge",
+    "lean-ctx_ctx_graph",
+    "lean-ctx_ctx_retrieve",
+    "lean-ctx_ctx_provider"
+  ],
   "github.copilot.chat.rateLimitAutoSwitchToAuto": true,
   "github.copilot.enable": {
     "markdown": true

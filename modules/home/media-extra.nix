@@ -36,14 +36,6 @@ in {
     # Unstable
     unstable.friture # Real-time audio analyzer
     unstable.stable-diffusion-cpp # Stable Diffusion in C++
-    # unstable.vllm # High-performance inference server for large language models
-    # unstable.antigravity # Google IDE
-    # unstable.opencode
-    # unstable.ollama-cuda # Local LLM server
-    # # Zed is slow to build :/
-    # (unstable.zed-editor.overrideAttrs (_: {
-    #   doCheck = false;
-    # })) # Zed text editor
 
     # local.github-copilot-cli
     # local.synology-drive-client-pinned # kaput in 25.11
