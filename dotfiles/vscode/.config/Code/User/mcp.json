@@ -1,0 +1,41 @@
+{
+  "inputs": [
+    {
+      "description": "Path to the memory storage file",
+      "id": "memory_file_path",
+      "password": false,
+      "type": "promptString"
+    },
+    {
+      "description": "Path to the DuckDB database file (e.g., /path/to/database.duckdb)",
+      "id": "duckdb_db_path",
+      "password": false,
+      "type": "promptString"
+    },
+    {
+      "description": "Firecrawl API Key (get from https://www.firecrawl.dev/app/api-keys)",
+      "id": "firecrawl_api_key",
+      "password": true,
+      "type": "promptString"
+    }
+  ],
+  "servers": {
+    "engram": {
+      "args": [
+        "mcp"
+      ],
+      "command": "/etc/profiles/per-user/david/bin/engram",
+      "type": "stdio"
+    },
+    "lean-ctx": {
+      "args": [],
+      "command": "/etc/profiles/per-user/david/bin/lean-ctx",
+      "type": "stdio"
+    },
+    "qartez": {
+      "args": [],
+      "command": "/etc/profiles/per-user/david/bin/qartez",
+      "type": "stdio"
+    }
+  }
+}
