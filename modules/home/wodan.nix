@@ -1,24 +1,25 @@
 # Home-manager programs specific to wodan.
 {
-  pkgs,
   inputs,
   lib,
+  stable,
   ...
 }: let
-  stable = pkgs;
-  codexDesktopSafe = let
-    codexDesktop = inputs.codex-desktop-linux.packages.${stable.stdenv.hostPlatform.system}.codex-desktop;
-  in
-    stable.symlinkJoin {
-      name = "codex-desktop-safe-${codexDesktop.version}";
-      paths = [codexDesktop];
-      nativeBuildInputs = [stable.makeWrapper];
-      postBuild = ''
-        wrapProgram "$out/bin/codex-desktop" \
-          --run 'volatile_dir="/tmp/$USER-codex"; ${stable.coreutils}/bin/install -d -m 700 "$volatile_dir"' \
-          --set-default CODEX_ELECTRON_DISABLE_GPU_COMPOSITING 1
-      '';
-    };
+  inline = {
+    codexDesktopSafe = let
+      codexDesktop = inputs.codex-desktop-linux.packages.${stable.stdenv.hostPlatform.system}.codex-desktop;
+    in
+      stable.symlinkJoin {
+        name = "codex-desktop-safe-${codexDesktop.version}";
+        paths = [codexDesktop];
+        nativeBuildInputs = [stable.makeWrapper];
+        postBuild = ''
+          wrapProgram "$out/bin/codex-desktop" \
+            --run 'volatile_dir="/tmp/$USER-codex"; ${stable.coreutils}/bin/install -d -m 700 "$volatile_dir"' \
+            --set-default CODEX_ELECTRON_DISABLE_GPU_COMPOSITING 1
+        '';
+      };
+  };
   taskbarLaunchers = [
     "preferred://filemanager"
     "applications:firefox-esr.desktop"
@@ -122,7 +123,7 @@ in {
 
     codexDesktopLinux = {
       enable = true;
-      package = codexDesktopSafe;
+      package = inline.codexDesktopSafe;
     };
 
     direnv = {

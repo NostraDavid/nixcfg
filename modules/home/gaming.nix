@@ -1,51 +1,46 @@
 {
-  inputs,
-  pkgs,
+  stable,
+  unstable,
   ...
 }: let
-  stable = pkgs;
-  unstable = import inputs.nixpkgs-unstable {
-    inherit (stable.stdenv.hostPlatform) system;
-    config = stable.config // {allowUnfree = true;};
-  };
-  battlenet = stable.writeShellScriptBin "battlenet" ''
-    set -eu
+  inline = {
+    battlenet = stable.writeShellScriptBin "battlenet" ''
+      set -eu
 
-    export WINEARCH=win64
-    export WINEPREFIX="$HOME/.wine-battlenet"
+      export WINEARCH=win64
+      export WINEPREFIX="$HOME/.wine-battlenet"
 
-    installer="$HOME/Downloads/Battle.net-Setup.exe"
-    launcher="$WINEPREFIX/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe"
-    wine="${stable.wineWow64Packages.stagingFull}/bin/wine"
-    wineboot="${stable.wineWow64Packages.stagingFull}/bin/wineboot"
-    winetricks="${unstable.winetricks}/bin/winetricks"
+      installer="$HOME/Downloads/Battle.net-Setup.exe"
+      launcher="$WINEPREFIX/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe"
+      wine="${stable.wineWow64Packages.stagingFull}/bin/wine"
+      wineboot="${stable.wineWow64Packages.stagingFull}/bin/wineboot"
+      winetricks="${unstable.winetricks}/bin/winetricks"
 
-    if [ ! -f "$launcher" ]; then
-      if [ ! -f "$installer" ]; then
-        echo "Battle.net installer ontbreekt: $installer" >&2
-        echo "Download Battle.net-Setup.exe van https://www.blizzard.com/apps/battle.net/desktop" >&2
-        exit 1
+      if [ ! -f "$launcher" ]; then
+        if [ ! -f "$installer" ]; then
+          echo "Battle.net installer ontbreekt: $installer" >&2
+          echo "Download Battle.net-Setup.exe van https://www.blizzard.com/apps/battle.net/desktop" >&2
+          exit 1
+        fi
+
+        mkdir -p "$WINEPREFIX"
+        "$wineboot" -u
+        "$winetricks" -q dxvk
+        exec "$wine" "$installer"
       fi
 
-      mkdir -p "$WINEPREFIX"
-      "$wineboot" -u
-      "$winetricks" -q dxvk
-      exec "$wine" "$installer"
-    fi
-
-    exec "$wine" "$launcher"
-  '';
+      exec "$wine" "$launcher"
+    '';
+  };
 in {
   home.packages = [
-    stable.itch
-    # Games
-    # unstable.openra_2019-release
+    inline.battlenet
     stable.endless-sky
     stable.godot
-    unstable.openrct2
-    battlenet
-    unstable.winetricks # unstable, so we can use 2026 version
+    stable.itch
     stable.wineWow64Packages.stagingFull # include the Wine extras Battle.net tends to expect
+    unstable.openrct2
+    unstable.winetricks # unstable, so we can use 2026 version
   ];
 
   xdg.desktopEntries.battlenet = {
