@@ -1,6 +1,4 @@
-{pkgs, ...}: let
-  stable = pkgs;
-in {
+{stable, ...}: {
   home.packages = [
     # GUI libs for Haemwend
     stable.fontconfig
