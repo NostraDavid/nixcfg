@@ -6,13 +6,13 @@
 }:
 buildGoModule rec {
   pname = "mdschema";
-  version = "0.14.1";
+  version = "0.15.0";
 
   src = fetchFromGitHub {
     owner = "jackchuka";
     repo = "mdschema";
     rev = "v${version}";
-    hash = "sha256-aJ53lHYrgESJqchcCCuN3XsVW8sfFDPtv5K4KF4mGGE=";
+    hash = "sha256-ogyrGc2LyMskLg330M0YfFr4s96U3+HB8na6Dk1ns40=";
   };
 
   vendorHash = "sha256-g7pQsR4+xxEn5w7o1YvxiS8kuEIP1+krpUkGWjI7Pfg=";
