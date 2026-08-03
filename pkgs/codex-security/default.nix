@@ -16,7 +16,7 @@ buildNpmPackage (finalAttrs: {
     hash = "sha256-lcoYA61o47zPV9I5ScvaSa9lIPygo0pQCQdZXmwfHrQ=";
   };
 
-  npmDepsHash = "sha256-VGEBgdkZxrhdyEqVHUmg3W9R1iWtTSFG0qYK9jSpmIE=";
+  npmDepsHash = "sha256-MTjjm/IMoLX4+klH+wzJ3aaOS6QgD437KgOcuFJBovI=";
 
   npmConfigProduction = true;
   npmFlags = ["--omit=dev"];
