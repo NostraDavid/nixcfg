@@ -12,7 +12,9 @@ in {
       lib,
       pkgs,
       ...
-    }: {
+    }: let
+      stable = pkgs;
+    in {
       imports = with flakeConfig.flake.modules.nixos; [
         ../../hosts/donar/hardware-configuration.nix
         kde-workstation
@@ -29,7 +31,7 @@ in {
       system.stateVersion = "26.05";
 
       boot = {
-        kernelPackages = pkgs.linuxPackages_latest;
+        kernelPackages = stable.linuxPackages_latest;
 
         # Donar was installed with systemd-boot. Keep using its existing EFI
         # entry instead of inheriting Wodan's removable GRUB setup.
@@ -71,9 +73,9 @@ in {
         };
       };
 
-      environment.systemPackages = with pkgs; [
-        libva-utils
-        nvtopPackages.full
+      environment.systemPackages = [
+        stable.libva-utils
+        stable.nvtopPackages.full
       ];
     };
   };

@@ -4,7 +4,9 @@ _: {
     main-user,
     pkgs,
     ...
-  }: {
+  }: let
+    stable = pkgs;
+  in {
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
@@ -15,7 +17,7 @@ _: {
     services.greetd = {
       enable = true;
       settings.default_session = {
-        command = "${pkgs.hyprland}/bin/Hyprland";
+        command = "${stable.hyprland}/bin/Hyprland";
         user = main-user;
       };
     };

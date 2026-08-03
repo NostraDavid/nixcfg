@@ -4,7 +4,9 @@
     main-user,
     pkgs,
     ...
-  }: {
+  }: let
+    stable = pkgs;
+  in {
     programs.niri.enable = true;
 
     services.xserver.enable = lib.mkForce false;
@@ -12,7 +14,7 @@
     services.greetd = {
       enable = true;
       settings.default_session = {
-        command = "${pkgs.niri}/bin/niri-session";
+        command = "${stable.niri}/bin/niri-session";
         user = main-user;
       };
     };
@@ -22,14 +24,16 @@
     ];
   };
 
-  flake.modules.homeManager.niri = {pkgs, ...}: {
-    home.packages = with pkgs; [
-      alacritty
-      brightnessctl
-      fuzzel
-      playerctl
-      swaylock
-      waybar
+  flake.modules.homeManager.niri = {pkgs, ...}: let
+    stable = pkgs;
+  in {
+    home.packages = [
+      stable.alacritty
+      stable.brightnessctl
+      stable.fuzzel
+      stable.playerctl
+      stable.swaylock
+      stable.waybar
     ];
   };
 }

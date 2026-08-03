@@ -86,6 +86,7 @@ in {
 
   perSystem = {system, ...}: let
     pkgs = pkgsFor system;
+    stable = pkgs;
     inherit (builtins) attrNames filter listToAttrs map readDir;
     entries = readDir ../pkgs;
     localPackageNames =
@@ -115,36 +116,36 @@ in {
           }) {});
       };
 
-    devShells.default = pkgs.mkShell {
+    devShells.default = stable.mkShell {
       # Bootstrap shell for a clean NixOS install: keep this list small and focused
       # on validating/applying the flake before the full user profile is available.
       # Day-to-day tooling is grouped by capability under modules/home/.
-      packages = with pkgs; [
-        bashInteractive # Keep nested shells and terminal profiles Readline-capable
-        alejandra # Format Nix files before first rebuild
-        statix # Catch common Nix antipatterns early
-        deadnix # Detect unused Nix bindings while editing the flake
-        git # Clone/update this repo and inspect local changes
-        git-lfs # Run the globally managed LFS hooks
-        just # Run the repo's bootstrap/check/rebuild recipes
-        prek # Run project hooks from the global dispatcher
-        ruff
-        shellcheck
-        markdownlint-cli
-        stylua
-        selene
-        dprint
-        shfmt
-        uv # Run the globally managed scoped commit-message hook
-        opentofu
-        vulnix
-        sbomnix
-        osv-scanner
-        grype
+      packages = [
+        stable.bashInteractive # Keep nested shells and terminal profiles Readline-capable
+        stable.alejandra # Format Nix files before first rebuild
+        stable.statix # Catch common Nix antipatterns early
+        stable.deadnix # Detect unused Nix bindings while editing the flake
+        stable.git # Clone/update this repo and inspect local changes
+        stable.git-lfs # Run the globally managed LFS hooks
+        stable.just # Run the repo's bootstrap/check/rebuild recipes
+        stable.prek # Run project hooks from the global dispatcher
+        stable.ruff
+        stable.shellcheck
+        stable.markdownlint-cli
+        stable.stylua
+        stable.selene
+        stable.dprint
+        stable.shfmt
+        stable.uv # Run the globally managed scoped commit-message hook
+        stable.opentofu
+        stable.vulnix
+        stable.sbomnix
+        stable.osv-scanner
+        stable.grype
       ];
 
       shellHook = ''
-        export SHELL="${pkgs.bashInteractive}/bin/bash"
+        export SHELL="${stable.bashInteractive}/bin/bash"
         export NIX_CONFIG="experimental-features = nix-command flakes
         ''${NIX_CONFIG:-}"
       '';

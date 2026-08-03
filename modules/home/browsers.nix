@@ -1,7 +1,9 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [
-    brave
-    (chromium.override {
+{pkgs, ...}: let
+  stable = pkgs;
+in {
+  home.packages = [
+    stable.brave
+    (stable.chromium.override {
       commandLineArgs = [
         "--enable-features=AcceleratedVideoEncoder"
         "--ignore-gpu-blocklist"

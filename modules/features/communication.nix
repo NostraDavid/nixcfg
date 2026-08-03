@@ -11,9 +11,11 @@
       ];
     };
     homeManager.communication = ../home/communication.nix;
-    homeManager.communication-extra = {pkgs, ...}: {
-      home.packages = with pkgs; [
-        slack
+    homeManager.communication-extra = {pkgs, ...}: let
+      stable = pkgs;
+    in {
+      home.packages = [
+        stable.slack
       ];
     };
   };

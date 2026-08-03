@@ -11,13 +11,15 @@
       ];
     };
     homeManager.browsers = ../home/browsers.nix;
-    homeManager.browsers-extra = {pkgs, ...}: {
-      home.packages = with pkgs; [
+    homeManager.browsers-extra = {pkgs, ...}: let
+      stable = pkgs;
+    in {
+      home.packages = [
         # Alternative Gemini protocol clients
-        amfora
-        bombadillo
-        kristall
-        lagrange
+        stable.amfora # Gemini protocol client (TUI)
+        stable.bombadillo # Gemini protocol client (TUI)
+        stable.kristall # Gemini protocol client
+        stable.lagrange # Gemini protocol client
       ];
     };
   };

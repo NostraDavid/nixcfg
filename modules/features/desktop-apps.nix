@@ -11,10 +11,12 @@
       ];
     };
     homeManager.desktop-apps = ../home/desktop-apps.nix;
-    homeManager.desktop-apps-extra = {pkgs, ...}: {
-      home.packages = with pkgs; [
-        libreoffice-qt6
-        wireguard-ui
+    homeManager.desktop-apps-extra = {pkgs, ...}: let
+      stable = pkgs;
+    in {
+      home.packages = [
+        stable.libreoffice-qt6
+        stable.wireguard-ui
       ];
     };
   };

@@ -9,7 +9,9 @@
       lib,
       pkgs,
       ...
-    }: {
+    }: let
+      stable = pkgs;
+    in {
       imports = with config.flake.modules.nixos; [
         ../../hosts/bragi/hardware-configuration.nix
         desktop-base
@@ -29,7 +31,7 @@
       system.stateVersion = "25.05";
 
       boot = {
-        kernelPackages = pkgs.linuxPackages_latest;
+        kernelPackages = stable.linuxPackages_latest;
         loader.grub.configurationLimit = 3;
       };
 
@@ -37,7 +39,7 @@
 
       programs.firefox = {
         enable = true;
-        package = pkgs.firefox-esr;
+        package = stable.firefox-esr;
       };
     };
   };

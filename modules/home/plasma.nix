@@ -4,6 +4,7 @@
   pkgs,
   ...
 }: let
+  local = {inherit (pkgs) win11os-kde;};
   associate = desktopFile: mimeTypes:
     lib.genAttrs mimeTypes (_: "${desktopFile};");
 
@@ -104,7 +105,7 @@ in {
     workspace = {
       iconTheme = "Win11-black-dark";
       lookAndFeel = "com.github.yeyushengfan258.Win11OS-dark";
-      wallpaper = "${pkgs.win11os-kde}/share/wallpapers/Win11OS-dark/contents/images/3840x2400.jpg";
+      wallpaper = "${local.win11os-kde}/share/wallpapers/Win11OS-dark/contents/images/3840x2400.jpg";
     };
 
     shortcuts = {
