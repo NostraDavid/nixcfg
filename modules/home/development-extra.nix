@@ -1,31 +1,17 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [
-    exfatprogs # ExFAT FS utilities
-    helm
-    k3d # k3s in docker
-    k3s # kubes (includes kubectl)
-    postgresql # for psql; there's pgcli for shared
-    redpanda-client # Kafka alternative
-    vimgolf # Vim golfing
-    dotnet-sdk
-    # sqruff wrapped to avoid /bin/bench collision with ollama-cuda
-    (sqruff.overrideAttrs (old: {
-      postInstall =
-        (old.postInstall or "")
-        + ''
-          rm -f $out/bin/bench
-        '';
-    }))
-
-    # GUI libs for Haemwend
-    fontconfig
-    freetype
-    libGL
-    libx11
-    libxcursor
-    libxext
-    libxi
-    libxrandr
-    libxrender
+{pkgs, ...}: let
+  stable = pkgs;
+  local = {inherit (pkgs) hermes-agent-desktop;};
+in {
+  home.packages = [
+    stable.exfatprogs # ExFAT FS utilities
+    stable.helm # Kubernetes package manager
+    stable.k3d # k3s in docker
+    stable.k3s # kubes (includes kubectl)
+    stable.postgresql # for psql; there's pgcli for shared
+    stable.redpanda-client # Kafka alternative
+    stable.vimgolf # Vim golfing
+    stable.dotnet-sdk # .NET development kit
+    stable.sqruff # SQL formatter and linter
+    local.hermes-agent-desktop # Desktop client for the Hermes coding agent
   ];
 }
