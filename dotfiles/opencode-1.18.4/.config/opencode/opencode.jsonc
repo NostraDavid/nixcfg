@@ -16,11 +16,9 @@
       "timeout": 30000,
       "type": "local"
     },
-    "headroom": {
+    "lean-ctx": {
       "command": [
-        "headroom",
-        "mcp",
-        "serve"
+        "lean-ctx"
       ],
       "enabled": true,
       "timeout": 30000,

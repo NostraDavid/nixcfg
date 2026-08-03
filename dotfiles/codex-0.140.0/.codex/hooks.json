@@ -1,1 +1,62 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook observe",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook codex-pretooluse",
+            "timeout": 15,
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook observe",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook observe",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook codex-session-start",
+            "timeout": 15,
+            "type": "command"
+          }
+        ],
+        "matcher": "startup|resume|clear"
+      }
+    ]
+  }
+}

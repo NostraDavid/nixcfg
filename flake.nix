@@ -29,10 +29,6 @@
       url = "github:NousResearch/hermes-agent";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    serena = {
-      url = "github:oraios/serena";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -1,24 +1,37 @@
 {
   "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook read-dedup",
+            "type": "command"
+          }
+        ],
+        "matcher": "Read"
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
     "PreToolUse": [
-      {
-        "hooks": [
-          {
-            "command": "rtk hook claude",
-            "type": "command"
-          }
-        ],
-        "matcher": "Bash"
-      },
-      {
-        "hooks": [
-          {
-            "command": "snip hook",
-            "type": "command"
-          }
-        ],
-        "matcher": "Bash"
-      },
       {
         "hooks": [
           {
@@ -38,6 +51,35 @@
           }
         ],
         "matcher": "Edit|Write|MultiEdit"
+      },
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook rewrite",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash|bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook redirect",
+            "type": "command"
+          }
+        ],
+        "matcher": "Read|read|ReadFile|read_file|View|view|Grep|grep|Search|search|ListFiles|list_files|ListDirectory|list_directory|Glob|glob"
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
       }
     ],
     "SessionStart": [
@@ -49,6 +91,37 @@
             "type": "command"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "command": "lean-ctx hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
       }
     ]
   },
@@ -57,5 +130,25 @@
       "args": [],
       "command": "/home/david/.local/bin/qartez"
     }
+  },
+  "permissions": {
+    "allow": [
+      "mcp__lean-ctx__ctx_read",
+      "mcp__lean-ctx__ctx_search",
+      "mcp__lean-ctx__ctx_tree",
+      "mcp__lean-ctx__ctx_overview",
+      "mcp__lean-ctx__ctx_plan",
+      "mcp__lean-ctx__ctx_metrics",
+      "mcp__lean-ctx__ctx_compress",
+      "mcp__lean-ctx__ctx_session",
+      "mcp__lean-ctx__ctx_knowledge",
+      "mcp__lean-ctx__ctx_graph",
+      "mcp__lean-ctx__ctx_retrieve",
+      "mcp__lean-ctx__ctx_provider"
+    ],
+    "deny": [
+      "Grep",
+      "Glob"
+    ]
   }
 }
