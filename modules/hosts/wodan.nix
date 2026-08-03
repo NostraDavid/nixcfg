@@ -22,7 +22,17 @@
 
       system.stateVersion = "25.05";
 
-      boot.kernel.sysctl."fs.inotify.max_user_watches" = 1048576;
+      boot = {
+        blacklistedKernelModules = [
+          "ahci"
+          "ath12k"
+          "battery"
+          "btusb"
+          "mac_hid"
+          "thunderbolt"
+        ];
+        kernel.sysctl."fs.inotify.max_user_watches" = 1048576;
+      };
 
       services = {
         xserver.xkb.options = "caps:escape_shifted_compose,lv3:ralt_switch_multikey,compose:ralt,compose:rctrl,mod_led:compose,grp:win_space_toggle";
