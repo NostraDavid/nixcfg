@@ -2,6 +2,7 @@
 {
   lib,
   local,
+  pkgs,
   ...
 }: let
   associate = desktopFile: mimeTypes:
@@ -98,6 +99,22 @@ in {
     fi
   '';
 
+  # Prevent a broken DrKonqi launcher from recursively generating more cores.
+  systemd.user.services."drkonqi-coredump-launcher@" = {
+    Unit = {
+      Description = "Launch DrKonqi for a systemd-coredump crash";
+      PartOf = ["graphical-session.target"];
+      ConditionUser = "!@system";
+    };
+    Service = {
+      WorkingDirectory = "%T";
+      ExecStart = "${pkgs.kdePackages.drkonqi}/libexec/drkonqi-coredump-launcher";
+      Slice = "app.slice";
+      Restart = "no";
+      LimitCORE = 0;
+    };
+  };
+
   programs.plasma = {
     enable = true;
 
@@ -106,6 +123,8 @@ in {
       lookAndFeel = "com.github.yeyushengfan258.Win11OS-dark";
       wallpaper = "${local.win11os-kde}/share/wallpapers/Win11OS-dark/contents/images/3840x2400.jpg";
     };
+
+    kscreenlocker.appearance.wallpaper = "${local.win11os-kde}/share/wallpapers/Win11OS-dark/contents/images/3840x2400.jpg";
 
     shortcuts = {
       "KDE Keyboard Layout Switcher" = {
