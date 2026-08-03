@@ -11,9 +11,9 @@
           config.flake.modules.homeManager.development-core
         ];
       };
-      development-extra = {main-user, ...}: {
+      development-lab = {main-user, ...}: {
         home-manager.users.${main-user}.imports = [
-          config.flake.modules.homeManager.development-extra
+          config.flake.modules.homeManager.development-lab
           config.flake.modules.homeManager.gamedev-forge
         ];
       };
@@ -28,11 +28,13 @@
         imports = [
           config.flake.modules.homeManager.development-core
           config.flake.modules.homeManager.development-mantle
+          ../home/development-security.nix
+          ../home/development-tooling.nix
         ];
       };
       development-core = ../home/development-core.nix;
       development-mantle = ../home/development-mantle.nix;
-      development-extra = ../home/development-extra.nix;
+      development-lab = ../home/development-lab.nix;
       gamedev-forge = ../home/gamedev-forge.nix;
     };
   };
