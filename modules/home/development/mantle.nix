@@ -64,7 +64,7 @@ in {
   programs.pi.coding-agent = {
     enable = true;
     settings = builtins.fromJSON (
-      builtins.readFile ../../dotfiles/pi/.pi/agent/settings.json
+      builtins.readFile ../../../dotfiles/pi/.pi/agent/settings.json
     );
   };
 

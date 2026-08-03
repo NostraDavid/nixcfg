@@ -15,9 +15,9 @@
     homeManager = {
       terminal.imports = [
         config.flake.modules.homeManager.terminal-core
-        ../home/terminal-packages.nix
+        ../home/terminal/packages.nix
       ];
-      terminal-core = ../home/terminal.nix;
+      terminal-core = ../home/terminal/config.nix;
     };
   };
 }

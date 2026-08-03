@@ -28,14 +28,14 @@
         imports = [
           config.flake.modules.homeManager.development-core
           config.flake.modules.homeManager.development-mantle
-          ../home/development-security.nix
-          ../home/development-tooling.nix
+          ../home/development/security.nix
+          ../home/development/tooling.nix
         ];
       };
-      development-core = ../home/development-core.nix;
-      development-mantle = ../home/development-mantle.nix;
-      development-lab = ../home/development-lab.nix;
-      gamedev-forge = ../home/gamedev-forge.nix;
+      development-core = ../home/development/core.nix;
+      development-mantle = ../home/development/mantle.nix;
+      development-lab = ../home/development/lab.nix;
+      gamedev-forge = ../home/development/gamedev-forge.nix;
     };
   };
 }
