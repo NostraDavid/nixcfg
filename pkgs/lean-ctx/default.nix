@@ -1,6 +1,7 @@
 {
   fetchurl,
   lib,
+  makeWrapper,
   nix-update-script,
   stdenvNoCC,
 }:
@@ -16,10 +17,17 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   sourceRoot = ".";
   dontBuild = true;
 
+  nativeBuildInputs = [makeWrapper];
+
   installPhase = ''
     runHook preInstall
     install -Dm755 lean-ctx $out/bin/lean-ctx
     runHook postInstall
+  '';
+
+  postFixup = ''
+    wrapProgram "$out/bin/lean-ctx" \
+      --run 'export LEAN_CTX_HOOK_BINARY="''${LEAN_CTX_HOOK_BINARY:-$(command -v lean-ctx || printf %s lean-ctx)}"'
   '';
 
   passthru.updateScript = nix-update-script {
