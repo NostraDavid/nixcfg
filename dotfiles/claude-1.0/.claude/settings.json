@@ -13,7 +13,7 @@
       {
         "hooks": [
           {
-            "command": "lean-ctx hook read-dedup",
+            "command": "/etc/profiles/per-user/david/bin/lean-ctx hook read-dedup",
             "type": "command"
           }
         ],
@@ -35,7 +35,7 @@
       {
         "hooks": [
           {
-            "command": "/home/david/.local/bin/qartez-guard",
+            "command": "qartez-guard",
             "timeout": 3000,
             "type": "command"
           }
@@ -45,7 +45,7 @@
       {
         "hooks": [
           {
-            "command": "/home/david/.local/bin/qartez-guard",
+            "command": "qartez-guard",
             "timeout": 3000,
             "type": "command"
           }
@@ -55,7 +55,7 @@
       {
         "hooks": [
           {
-            "command": "lean-ctx hook rewrite",
+            "command": "/etc/profiles/per-user/david/bin/lean-ctx hook rewrite",
             "type": "command"
           }
         ],
@@ -64,7 +64,7 @@
       {
         "hooks": [
           {
-            "command": "lean-ctx hook redirect",
+            "command": "/etc/profiles/per-user/david/bin/lean-ctx hook redirect",
             "type": "command"
           }
         ],
@@ -86,7 +86,7 @@
       {
         "hooks": [
           {
-            "command": "/home/david/.local/bin/qartez-setup --session-start",
+            "command": "qartez-setup --session-start",
             "timeout": 5000,
             "type": "command"
           }
@@ -128,7 +128,7 @@
   "mcpServers": {
     "qartez": {
       "args": [],
-      "command": "/home/david/.local/bin/qartez"
+      "command": "qartez"
     }
   },
   "permissions": {

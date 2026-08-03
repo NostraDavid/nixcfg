@@ -26,7 +26,7 @@
     },
     "qartez": {
       "command": [
-        "/home/david/.local/bin/qartez"
+        "qartez"
       ],
       "enabled": true,
       "type": "local"
