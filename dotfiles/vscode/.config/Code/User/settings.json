@@ -36,6 +36,9 @@
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 80
   },
+  "[nix]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
   "[python]": {
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit",
@@ -90,10 +93,12 @@
   },
   "basedpyright.analysis.typeCheckingMode": "standard",
   "basedpyright.analysis.useTypingExtensions": true,
+  "chat.agentHost.codexAgent.enabled": true,
+  "chat.agentHost.enabled": true,
+  "chat.editor.codex.preferAgentHost": true,
   "chat.math.enabled": true,
   "chat.mcp.access": "all",
   "chat.mcp.autostart": "newAndOutdated",
-  "chat.mcp.enabled": true,
   "chat.mcp.serverSampling": {
     "Global in Code: memory": {
       "allowedModels": []
@@ -491,8 +496,5 @@
     "**/dbt_project.yaml"
   ],
   "yaml.maxItemsComputed": 10000,
-  "zig.zls.enabled": "on",
-  "chat.agentHost.enabled": true,
-  "chat.agentHost.codexAgent.enabled": true,
-  "chat.editor.codex.preferAgentHost": true
+  "zig.zls.enabled": "on"
 }
