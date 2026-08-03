@@ -2,20 +2,20 @@ _: {
   flake.modules.nixos.desktop-base = {
     inputs,
     hostname,
+    local,
     main-user,
-    pkgs,
     repoRoot,
+    stable,
+    unstable,
     ...
-  }: let
-    stable = pkgs;
-  in {
+  }: {
     imports = [
       ../boot.nix
       ../location.nix
       ../i18n.nix
       ../storage_optimization.nix
       inputs.home-manager.nixosModules.home-manager
-      (import ../home-manager.nix {inherit hostname main-user inputs repoRoot;})
+      (import ../home-manager.nix {inherit hostname main-user inputs local repoRoot stable unstable;})
     ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -62,8 +62,6 @@ _: {
         extraGroups = ["networkmanager" "wheel" "hidraw" "input"];
       };
     };
-
-    nixpkgs.config.allowUnfree = true;
 
     environment.localBinInPath = true;
 
