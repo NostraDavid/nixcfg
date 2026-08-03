@@ -40,18 +40,13 @@
       {
         "hooks": [
           {
-            "command": "lean-ctx hook observe",
-            "timeout": 5,
-            "type": "command"
-          }
-        ],
-        "matcher": ".*"
-      },
-      {
-        "hooks": [
-          {
             "command": "/etc/profiles/per-user/david/bin/lean-ctx hook codex-session-start",
             "timeout": 15,
+            "type": "command"
+          },
+          {
+            "command": "/etc/profiles/per-user/david/bin/lean-ctx hook observe",
+            "timeout": 5,
             "type": "command"
           }
         ],
