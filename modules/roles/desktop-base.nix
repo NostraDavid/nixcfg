@@ -6,7 +6,9 @@ _: {
     pkgs,
     repoRoot,
     ...
-  }: {
+  }: let
+    stable = pkgs;
+  in {
     imports = [
       ../boot.nix
       ../location.nix
@@ -65,8 +67,8 @@ _: {
 
     environment.localBinInPath = true;
 
-    fonts.packages = with pkgs; [
-      nerd-fonts.jetbrains-mono
+    fonts.packages = [
+      stable.nerd-fonts.jetbrains-mono
     ];
 
     hardware.graphics = {

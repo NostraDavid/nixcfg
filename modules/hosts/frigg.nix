@@ -11,7 +11,9 @@
       main-user,
       pkgs,
       ...
-    }: {
+    }: let
+      stable = pkgs;
+    in {
       imports = with config.flake.modules.nixos; [
         ../../hosts/frigg/hardware-configuration.nix
         kde-workstation
@@ -29,7 +31,7 @@
         name = "ChatGPT";
         genericName = "AI Assistant";
         comment = "Open ChatGPT in app mode";
-        exec = "${lib.getExe pkgs.chromium} --class=ChatGPT --app=https://chatgpt.com/";
+        exec = "${lib.getExe stable.chromium} --class=ChatGPT --app=https://chatgpt.com/";
         icon = "chatgpt";
         terminal = false;
         categories = ["Network" "Utility"];

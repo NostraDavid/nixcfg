@@ -5,7 +5,9 @@
 }: {
   flake.nixosConfigurations.wodan = mkHost {
     hostname = "wodan";
-    module = {pkgs, ...}: {
+    module = {pkgs, ...}: let
+      stable = pkgs;
+    in {
       imports = with config.flake.modules.nixos; [
         ../../hosts/wodan/hardware-configuration.nix
         kde-workstation
@@ -54,7 +56,7 @@
           description = "Legcord Discord Client";
           serviceConfig = {
             Type = "simple";
-            ExecStart = "${pkgs.legcord}/bin/legcord";
+            ExecStart = "${stable.legcord}/bin/legcord";
           };
         };
       };

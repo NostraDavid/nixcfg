@@ -3,7 +3,9 @@
   main-user,
   pkgs,
   ...
-}: {
+}: let
+  stable = pkgs;
+in {
   boot = {
     initrd.availableKernelModules = ["ata_piix" "uhci_hcd" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"];
     kernelModules = ["kvm-intel" "kvm-amd"];
@@ -14,11 +16,11 @@
     loader.timeout = 1;
   };
 
-  environment.systemPackages = with pkgs; [
-    curl
-    git
-    htop
-    vim
+  environment.systemPackages = [
+    stable.curl
+    stable.git
+    stable.htop
+    stable.vim
   ];
 
   networking = {

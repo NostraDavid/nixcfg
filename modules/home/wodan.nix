@@ -5,16 +5,17 @@
   lib,
   ...
 }: let
+  stable = pkgs;
   codexDesktopSafe = let
-    codexDesktop = inputs.codex-desktop-linux.packages.${pkgs.stdenv.hostPlatform.system}.codex-desktop;
+    codexDesktop = inputs.codex-desktop-linux.packages.${stable.stdenv.hostPlatform.system}.codex-desktop;
   in
-    pkgs.symlinkJoin {
+    stable.symlinkJoin {
       name = "codex-desktop-safe-${codexDesktop.version}";
       paths = [codexDesktop];
-      nativeBuildInputs = [pkgs.makeWrapper];
+      nativeBuildInputs = [stable.makeWrapper];
       postBuild = ''
         wrapProgram "$out/bin/codex-desktop" \
-          --run 'volatile_dir="/tmp/$USER-codex"; ${pkgs.coreutils}/bin/install -d -m 700 "$volatile_dir"' \
+          --run 'volatile_dir="/tmp/$USER-codex"; ${stable.coreutils}/bin/install -d -m 700 "$volatile_dir"' \
           --set-default CODEX_ELECTRON_DISABLE_GPU_COMPOSITING 1
       '';
     };
@@ -143,7 +144,7 @@ in {
         Name=RSS Guard
         Comment=Simple, yet powerful news feed reader
         Icon=io.github.martinrotter.rssguard
-        Exec=${pkgs.rssguard}/bin/rssguard
+        Exec=${stable.rssguard}/bin/rssguard
         Categories=Feed;News;Network;Qt;
         StartupWMClass=rssguard
         X-GNOME-SingleWindow=true
@@ -170,7 +171,7 @@ in {
       link="$codex_dir/$name"
       target="$volatile_dir/$name"
 
-      if [ -L "$link" ] && [ "$(${pkgs.coreutils}/bin/readlink "$link")" != "$target" ]; then
+      if [ -L "$link" ] && [ "$(${stable.coreutils}/bin/readlink "$link")" != "$target" ]; then
         $DRY_RUN_CMD rm -f "$link"
       fi
 
@@ -189,7 +190,7 @@ in {
       Description = "ydotool input injection daemon";
     };
     Service = {
-      ExecStart = "${pkgs.ydotool}/bin/ydotoold";
+      ExecStart = "${stable.ydotool}/bin/ydotoold";
       Restart = "on-failure";
     };
     Install = {

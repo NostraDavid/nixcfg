@@ -3,7 +3,9 @@
     lib,
     pkgs,
     ...
-  }: {
+  }: let
+    stable = pkgs;
+  in {
     imports = with config.flake.modules.nixos; [
       desktop-base
       browsers
@@ -40,11 +42,11 @@
       };
       nix-ld = {
         enable = true;
-        libraries = with pkgs; [freetype];
+        libraries = [stable.freetype];
       };
       firefox = {
         enable = true;
-        package = pkgs.firefox-esr;
+        package = stable.firefox-esr;
         policies.Certificates.ImportEnterpriseRoots = true;
         languagePacks = [
           "en-US"

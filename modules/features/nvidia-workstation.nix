@@ -3,9 +3,11 @@
     config,
     pkgs,
     ...
-  }: {
+  }: let
+    stable = pkgs;
+  in {
     boot = {
-      kernelPackages = pkgs.linuxPackages_6_12;
+      kernelPackages = stable.linuxPackages_6_12;
       extraModprobeConfig = ''
         options nvidia NVreg_PreserveVideoMemoryAllocations=1
       '';
@@ -23,9 +25,9 @@
     };
 
     programs = {
-      nix-ld.libraries = with pkgs; [
-        libGL
-        libglvnd
+      nix-ld.libraries = [
+        stable.libGL
+        stable.libglvnd
       ];
       firefox.preferences = {
         "media.ffmpeg.vaapi.enabled" = true;
@@ -40,18 +42,18 @@
         LIBVA_DRIVER_NAME = "radeonsi";
         MOZ_DRM_DEVICE = "/dev/dri/by-path/pci-0000:79:00.0-render";
       };
-      systemPackages = with pkgs; [
-        android-tools
-        espeak-ng
-        flite
-        libva-utils
-        cudaPackages.cudatoolkit
-        cudaPackages.cudnn
-        cudaPackages.nccl
-        nvtopPackages.full
+      systemPackages = [
+        stable.android-tools
+        stable.espeak-ng
+        stable.flite
+        stable.libva-utils
+        stable.cudaPackages.cudatoolkit
+        stable.cudaPackages.cudnn
+        stable.cudaPackages.nccl
+        stable.nvtopPackages.full
       ];
       # Keep Wayland sessions hidden so SDDM only offers X11.
-      etc."xdg/wayland-sessions".source = pkgs.emptyDirectory;
+      etc."xdg/wayland-sessions".source = stable.emptyDirectory;
     };
 
     hardware.nvidia = {

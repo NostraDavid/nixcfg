@@ -4,8 +4,10 @@
   pkgs,
   repoRoot,
   ...
-}: {
-  home.packages = [pkgs.starship];
+}: let
+  stable = pkgs;
+in {
+  home.packages = [stable.starship];
 
   home.file = let
     dot = "${repoRoot}/dotfiles";

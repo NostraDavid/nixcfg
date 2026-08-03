@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  stable = pkgs;
+in {
   fileSystems = {
     "/var/lib/postgresql" = {
       device = "/dev/disk/by-label/apps-postgres";
@@ -137,7 +139,7 @@
 
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql_16;
+    package = stable.postgresql_16;
     ensureDatabases = [
       "huishoudboekje"
       "recepten"
