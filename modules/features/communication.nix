@@ -5,17 +5,15 @@
         config.flake.modules.homeManager.communication
       ];
     };
-    nixos.communication-extra = {main-user, ...}: {
+    nixos.work-communication = {main-user, ...}: {
       home-manager.users.${main-user}.imports = [
-        config.flake.modules.homeManager.communication-extra
+        config.flake.modules.homeManager.work-communication
       ];
     };
     homeManager.communication = ../home/communication.nix;
-    homeManager.communication-extra = {pkgs, ...}: let
-      stable = pkgs;
-    in {
+    homeManager.work-communication = {stable, ...}: {
       home.packages = [
-        stable.slack
+        stable.slack # Work chat; intentionally excluded from lean workstations
       ];
     };
   };
