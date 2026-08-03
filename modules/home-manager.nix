@@ -2,7 +2,10 @@
   hostname,
   main-user,
   inputs,
+  local,
   repoRoot,
+  stable,
+  unstable,
   ...
 }: {
   home-manager = {
@@ -16,7 +19,8 @@
         inputs.codex-desktop-linux.homeManagerModules.default
       ];
 
-      _module.args = {inherit hostname inputs repoRoot;};
+      # Home Manager reuses the exact package sets configured by NixOS.
+      _module.args = {inherit hostname inputs local repoRoot stable unstable;};
 
       programs.home-manager.enable = true;
       home = {

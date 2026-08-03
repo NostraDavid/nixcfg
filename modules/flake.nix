@@ -1,19 +1,24 @@
 {inputs, ...}: let
-  overlay-local = final: prev: let
-    inherit
-      (builtins)
-      attrNames
-      filter
-      listToAttrs
-      map
-      pathExists
-      readDir
-      ;
-    pkgsDir = ../pkgs;
-    entries = readDir pkgsDir;
-    packageNames =
-      filter (name: entries.${name} == "directory") (attrNames entries);
-  in
+  inherit
+    (builtins)
+    attrNames
+    filter
+    listToAttrs
+    pathExists
+    readDir
+    ;
+  pkgsDir = ../pkgs;
+  entries = readDir pkgsDir;
+  localPackageNames =
+    filter (name: entries.${name} == "directory") (attrNames entries);
+  mkLocal = pkgs:
+    listToAttrs (map
+      (name: {
+        inherit name;
+        value = pkgs.${name};
+      })
+      localPackageNames);
+  overlay-local = final: prev:
     listToAttrs (map
       (name: {
         inherit name;
@@ -32,12 +37,13 @@
               import argsPath {
                 inherit final prev inputs;
                 system = final.stdenv.system;
+                unstable = unstableFor final.stdenv.system;
               }
             else {};
         in
           prev.callPackage pkgPath (moldArgs // fileArgs);
       })
-      packageNames);
+      localPackageNames);
   overlay-fixes = _final: prev: {
     kdash = prev.kdash.overrideAttrs (old: {
       doCheck = false;
@@ -53,10 +59,16 @@
     moldStdenv = prev.useMoldLinker prev.stdenv;
   };
   overlays = [overlay-fixes overlay-build-tools overlay-local];
+  nixpkgsConfig.allowUnfree = true;
+  unstableFor = system:
+    import inputs.nixpkgs-unstable {
+      inherit system;
+      config = nixpkgsConfig;
+    };
   pkgsFor = system:
     import inputs.nixpkgs {
       inherit system overlays;
-      config.allowUnfree = true;
+      config = nixpkgsConfig;
     };
   main-user = "david";
   mkHost = {
@@ -65,16 +77,31 @@
     repoSubdir ? "dev/NostraDavid/nixcfg/trunk",
   }: let
     repoRoot = "/home/${main-user}/${repoSubdir}";
+    system = "x86_64-linux";
+    unstable = unstableFor system;
   in
     inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+      inherit system;
       modules = [
-        {nixpkgs.overlays = overlays;}
+        ({pkgs, ...}: {
+          # Keep package-source qualifiers readable without rebuilding or
+          # re-aliasing the configured NixOS package set in every module.
+          _module.args = {
+            stable = pkgs;
+            local = mkLocal pkgs;
+          };
+        })
+        {
+          nixpkgs = {
+            inherit overlays;
+            config = nixpkgsConfig;
+          };
+        }
         ./cachix.nix
         module
       ];
       specialArgs = {
-        inherit inputs hostname main-user repoRoot;
+        inherit inputs hostname main-user repoRoot unstable;
       };
     };
 in {
@@ -85,32 +112,22 @@ in {
   flake.overlays.default = overlay-local;
 
   perSystem = {system, ...}: let
-    pkgs = pkgsFor system;
-    stable = pkgs;
-    inherit (builtins) attrNames filter listToAttrs map readDir;
-    entries = readDir ../pkgs;
-    localPackageNames =
-      filter (name: entries.${name} == "directory") (attrNames entries);
+    stable = pkgsFor system;
   in {
-    _module.args.pkgs = pkgs;
+    _module.args.pkgs = stable;
 
-    legacyPackages = pkgs;
+    legacyPackages = stable;
 
     packages =
-      listToAttrs (map
-        (name: {
-          inherit name;
-          value = pkgs.${name};
-        })
-        localPackageNames)
+      mkLocal stable
       // {
         win11-icon-theme =
-          pkgs.win11-icon-theme or (pkgs.callPackage (builtins.path {
+          stable.win11-icon-theme or (stable.callPackage (builtins.path {
             path = ../pkgs/win11-icon-theme;
             name = "win11-icon-theme";
           }) {});
         win11os-kde =
-          pkgs.win11os-kde or (pkgs.callPackage (builtins.path {
+          stable.win11os-kde or (stable.callPackage (builtins.path {
             path = ../pkgs/win11os-kde;
             name = "win11os-kde";
           }) {});
