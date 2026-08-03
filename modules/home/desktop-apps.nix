@@ -1,16 +1,16 @@
-{pkgs, ...}: let
-  stable = pkgs;
-in {
+{stable, ...}: {
   home.packages = [
-    stable.fsearch
-    stable.geeqie
-    stable.gimp3
-    stable.gparted
-    stable.hardinfo2
-    stable.kdePackages.kclock
-    stable.keepassxc
-    stable.speedcrunch
-    stable.synology-drive-client
-    stable.wireguard-tools
+    stable.fsearch # Everything-like file search tool
+    stable.geeqie # Image viewer
+    stable.gparted # Partition editor
+    stable.gramps # Genealogy application
+    stable.hardinfo2 # System profiler and benchmark
+    stable.kdePackages.kclock # Stopwatch and clock
+    stable.keepassxc # Password manager
+    stable.meld # Graphical file and directory comparison
+    stable.nomacs # Image viewer
+    stable.speedcrunch # calculator
+    stable.synology-drive-client # Synology Drive client
+    stable.wireguard-tools # self-hosted VPN
   ];
 }

@@ -1,11 +1,9 @@
 {config, ...}: {
   flake.modules.nixos.workstation-base = {
     lib,
-    pkgs,
+    stable,
     ...
-  }: let
-    stable = pkgs;
-  in {
+  }: {
     imports = with config.flake.modules.nixos; [
       desktop-base
       browsers
@@ -56,6 +54,10 @@
       thunderbird.enable = true;
       starship.enable = false;
     };
+
+    environment.systemPackages = [
+      stable.ntfs3g # NTFS filesystem driver and administration tools
+    ];
 
     virtualisation = {
       containers.enable = true;

@@ -1,9 +1,10 @@
-{pkgs, ...}: let
-  stable = pkgs;
-in {
+{stable, ...}: {
   home.packages = [
-    stable.evolution
-    stable.legcord
-    stable.signal-desktop
+    stable.evolution # Email client
+    stable.legcord # Discord client
+    stable.mutt # Terminal email client
+    stable.newsboat # Terminal RSS reader
+    stable.nom # RSS reader for the terminal
+    stable.signal-desktop # Signal client
   ];
 }

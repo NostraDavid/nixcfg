@@ -1,8 +1,7 @@
-{pkgs, ...}: let
-  stable = pkgs;
-in {
+{stable, ...}: {
   home.packages = [
-    stable.brave
+    stable.lynx # Terminal web browser
+    stable.w3m # Terminal web browser
     (stable.chromium.override {
       commandLineArgs = [
         "--enable-features=AcceleratedVideoEncoder"
