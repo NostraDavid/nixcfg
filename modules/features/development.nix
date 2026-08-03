@@ -14,6 +14,12 @@
       development-extra = {main-user, ...}: {
         home-manager.users.${main-user}.imports = [
           config.flake.modules.homeManager.development-extra
+          config.flake.modules.homeManager.gamedev-forge
+        ];
+      };
+      gamedev-forge = {main-user, ...}: {
+        home-manager.users.${main-user}.imports = [
+          config.flake.modules.homeManager.gamedev-forge
         ];
       };
     };
@@ -27,6 +33,7 @@
       development-core = ../home/development-core.nix;
       development-mantle = ../home/development-mantle.nix;
       development-extra = ../home/development-extra.nix;
+      gamedev-forge = ../home/gamedev-forge.nix;
     };
   };
 }

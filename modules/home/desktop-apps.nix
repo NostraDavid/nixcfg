@@ -1,16 +1,16 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [
-    fsearch
-    geeqie
-    ghostty
-    gimp3
-    gparted
-    hardinfo2
-    hermes-agent-desktop
-    kdePackages.kclock
-    keepassxc
-    speedcrunch
-    synology-drive-client
-    wireguard-tools
+{pkgs, ...}: let
+  stable = pkgs;
+in {
+  home.packages = [
+    stable.fsearch
+    stable.geeqie
+    stable.gimp3
+    stable.gparted
+    stable.hardinfo2
+    stable.kdePackages.kclock
+    stable.keepassxc
+    stable.speedcrunch
+    stable.synology-drive-client
+    stable.wireguard-tools
   ];
 }
