@@ -7,11 +7,9 @@
     hostname = "bragi";
     module = {
       lib,
-      pkgs,
+      stable,
       ...
-    }: let
-      stable = pkgs;
-    in {
+    }: {
       imports = with config.flake.modules.nixos; [
         ../../hosts/bragi/hardware-configuration.nix
         desktop-base

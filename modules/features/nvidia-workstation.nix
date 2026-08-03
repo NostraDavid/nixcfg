@@ -1,11 +1,9 @@
 {
   flake.modules.nixos.nvidia-workstation = {
     config,
-    pkgs,
+    stable,
     ...
-  }: let
-    stable = pkgs;
-  in {
+  }: {
     boot = {
       kernelPackages = stable.linuxPackages_6_12;
       extraModprobeConfig = ''

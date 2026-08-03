@@ -1,10 +1,9 @@
 # Shared Plasma configuration.
 {
   lib,
-  pkgs,
+  local,
   ...
 }: let
-  local = {inherit (pkgs) win11os-kde;};
   associate = desktopFile: mimeTypes:
     lib.genAttrs mimeTypes (_: "${desktopFile};");
 
