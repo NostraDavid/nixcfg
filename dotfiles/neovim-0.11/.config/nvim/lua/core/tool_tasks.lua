@@ -193,23 +193,13 @@ local tasks = {
         end,
     },
     {
-        id = "ai-gemini",
-        label = "AI: Gemini CLI",
-        exe = "gemini",
+        id = "ai-claude",
+        label = "AI: Claude Code",
+        exe = "claude",
         project = true,
         interactive = true,
         command = function()
-            return "gemini"
-        end,
-    },
-    {
-        id = "ai-copilot",
-        label = "AI: GitHub Copilot CLI",
-        exe = "github-copilot-cli",
-        project = true,
-        interactive = true,
-        command = function()
-            return "github-copilot-cli"
+            return "claude"
         end,
     },
     {
@@ -220,6 +210,56 @@ local tasks = {
         interactive = true,
         command = function()
             return "codex"
+        end,
+    },
+    {
+        id = "ai-copilot",
+        label = "AI: GitHub Copilot CLI",
+        exe = "copilot",
+        project = true,
+        interactive = true,
+        command = function()
+            return "copilot"
+        end,
+    },
+    {
+        id = "ai-hermes",
+        label = "AI: Hermes Agent",
+        exe = "hermes",
+        project = true,
+        interactive = true,
+        command = function()
+            return "hermes"
+        end,
+    },
+    {
+        id = "ai-mistral-vibe",
+        label = "AI: Mistral Vibe",
+        exe = "vibe",
+        project = true,
+        interactive = true,
+        command = function()
+            return "vibe"
+        end,
+    },
+    {
+        id = "ai-opencode",
+        label = "AI: OpenCode",
+        exe = "opencode",
+        project = true,
+        interactive = true,
+        command = function()
+            return "opencode"
+        end,
+    },
+    {
+        id = "ai-pi",
+        label = "AI: Pi Coding Agent",
+        exe = "pi",
+        project = true,
+        interactive = true,
+        command = function()
+            return "pi"
         end,
     },
 }
