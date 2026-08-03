@@ -101,12 +101,9 @@ in {
       unstable.python313 # Runtime for executable agent skill helpers
 
       # local
-      stable.freetype # font-rendering library, for Whatpulse
-      stable.libpcap # for Whatpulse
       local.jpegli
       local.fixit
       local.mdschema
-      local.whatpulse
       local.yafc
       local.xdgctl
       local.vscode
