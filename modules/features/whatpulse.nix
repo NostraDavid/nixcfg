@@ -1,12 +1,10 @@
 {config, ...}: {
   flake.modules = {
     nixos.whatpulse = {
-      pkgs,
+      local,
       main-user,
       ...
-    }: let
-      local = {inherit (pkgs) whatpulse-pcap-service;};
-    in {
+    }: {
       hardware.uinput.enable = true;
 
       users = {
