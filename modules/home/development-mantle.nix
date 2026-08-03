@@ -1,38 +1,28 @@
 {
   config,
-  inputs,
   lib,
-  pkgs,
+  local,
+  stable,
+  unstable,
   ...
 }: let
-  stable = pkgs;
-  unstable = import inputs.nixpkgs-unstable {
-    inherit (stable.stdenv.hostPlatform) system;
-    config = stable.config // {allowUnfree = true;};
+  agentExecutables = {
+    engram = "${config.home.profileDirectory}/bin/engram";
+    headroom = "${config.home.profileDirectory}/bin/headroom";
+    leanCtx = "${config.home.profileDirectory}/bin/lean-ctx";
+    qartez = "${config.home.profileDirectory}/bin/qartez";
   };
-  inherit (builtins) attrNames filter listToAttrs map readDir;
-  localPackageNames = let
-    entries = readDir ../../pkgs;
-  in
-    filter (name: entries.${name} == "directory") (attrNames entries);
-  local =
-    listToAttrs
-    (map (name: {
-        inherit name;
-        value = stable.${name};
-      })
-      localPackageNames);
   agentMcpServers = {
     qartez = {
-      command = lib.getExe local.qartez;
+      command = agentExecutables.qartez;
       args = [];
     };
     engram = {
-      command = lib.getExe local.engram;
+      command = agentExecutables.engram;
       args = ["mcp"];
     };
     lean-ctx = {
-      command = lib.getExe local.lean-ctx;
+      command = agentExecutables.leanCtx;
       args = [];
     };
   };
@@ -61,7 +51,7 @@
 
     [mcp]
     transport = "stdio"
-    command = "${lib.getExe local.headroom}"
+    command = "${agentExecutables.headroom}"
     args = ["mcp", "serve"]
 
     [capabilities]
@@ -102,48 +92,41 @@ in {
 
   home = {
     packages = [
-      # Language runtimes and additional development applications.
-      stable.jdk17 # openjdk for nvim-lsp-java
-      stable.zed-editor # vscode alternative
+      local.austin # CPython frame stack sampler
+      local.codex # llm agent
+      local.codex-security # Codex Security CLI
+      local.cool-retro-term # terminal emulator with retro style
+      local.dpaint-js # DPaint written in JS
+      local.engram # Persistent memory and MCP server for coding agents
+      local.fixit # fix command in case you mess up a command
+      local.gigatoken # Fast tokenization for OpenAI models
+      local.headroom # Compression addon available only through the LeanCTX gateway
+      local.hermes-agent # LLM agent for desktop
+      local.jsongrep # JSONPath-inspired query language over JSON documents
+      local.lean-ctx # Context engineering layer shared by coding agents
+      local.mdschema # A declarative schema-based Markdown validator
+      local.photogimp # Photoshop-like defaults for GIMP
+      local.ptk # python-token-killer
+      local.qartez # Semantic code intelligence MCP server
+      local.tiktoken # Tokenizer for OpenAI models
+      local.vscode
+      local.xdgctl # TUI for managing XDG default applications
+      local.yafc # Yet Another Ftp Client
       stable.gofumpt # gofmt alternative; useful for dprint
-
-      # unstable
-      # unstable.github-copilot-cli
-      unstable.dprint # Extensible code formatter; prettier replacement
-      unstable.oxlint # js linter
-      unstable.fastfetch # neofetch alternative
-      unstable.zigfetch # neofetch alternative
-      unstable.devenv # Development environment manager | using unstable for 2.x
-      # unstable.codex # lln agent
-      unstable.witr # Why is this running?
-      unstable.zsv # CSV viewer and slicer
-      unstable.opencode # llm agent
-      unstable.opencode-desktop # llm agent for desktop
+      stable.openjdk25 # openjdk for nvim-lsp-java
+      stable.zed-editor # vscode alternative
       unstable.claude-code # llm agent
       unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
+      unstable.dprint # Extensible code formatter; prettier replacement
+      unstable.fastfetch # neofetch alternative
+      unstable.github-copilot-cli
+      unstable.mistral-vibe # Mistral coding agent
+      unstable.opencode # llm agent
+      unstable.opencode-desktop # llm agent for desktop
+      unstable.oxlint # js linter
       unstable.python313 # Runtime for executable agent skill helpers
-
-      # local
-      local.jpegli # JPEG encoder and decoder for image processing and compression
-      local.fixit # fix command in case you mess up a command
-      local.mdschema # A declarative schema-based Markdown validator
-      local.yafc # Yet Another Ftp Client
-      local.xdgctl # TUI for managing XDG default applications
-      local.vscode
-      local.jsongrep # JSONPath-inspired query language over JSON documents
-      local.austin # CPython frame stack sampler
-      local.dpaint-js # DPaint written in JS
-      local.gigatoken # Fast tokenization for OpenAI models
-      local.tiktoken # Tokenizer for OpenAI models
-      local.ptk # python-token-killer
-      local.photogimp # Photoshop-like defaults for GIMP
-      local.hermes-agent # LLM agent for desktop
-      local.codex # llm agent
-      local.github-copilot-cli
-      local.qartez # Semantic code intelligence MCP server
-      local.engram # Persistent memory and MCP server for coding agents
-      local.lean-ctx # Context engineering layer shared by coding agents
-      local.headroom # Compression addon available only through the LeanCTX gateway
+      unstable.witr # Why is this running?
+      unstable.zigfetch # neofetch alternative
     ];
 
     activation = {
@@ -224,14 +207,20 @@ in {
         }
 
         update_structured_config \
+          "${config.home.homeDirectory}/.config/lean-ctx/config.toml" toml toml \
+          '.hook_binary = "lean-ctx"'
+        update_structured_config \
           "${config.home.homeDirectory}/.hermes/config.yaml" yaml yaml \
-          '.mcp_servers."lean-ctx" = {"command": "${lib.getExe local.lean-ctx}"}'
+          '.mcp_servers."lean-ctx" = {"command": "${agentExecutables.leanCtx}"}'
         update_structured_config \
           "${config.home.homeDirectory}/.vibe/config.toml" toml toml \
-          '.mcp_servers = (((.mcp_servers // []) | map(select(.name != "lean-ctx"))) + [{"name": "lean-ctx", "transport": "stdio", "command": "${lib.getExe local.lean-ctx}", "args": ["serve"]}])'
+          '.mcp_servers = (((.mcp_servers // []) | map(select(.name != "lean-ctx"))) + [{"name": "lean-ctx", "transport": "stdio", "command": "${agentExecutables.leanCtx}", "args": ["serve"]}])'
         update_structured_config \
           "${config.home.homeDirectory}/.vibe/hooks.toml" toml toml \
-          '.hooks = (((.hooks // []) | map(select(.name != "lean-ctx-redirect"))) + [{"name": "lean-ctx-redirect", "type": "pre_tool", "match": "re:(bash|read_file|grep)", "command": "${lib.getExe local.lean-ctx} hook vibe-pre-tool", "timeout": 60.0, "description": "Route native bash through lean-ctx; steer read_file/grep to ctx_* tools"}])'
+          '.hooks = (((.hooks // []) | map(select(.name != "lean-ctx-redirect"))) + [{"name": "lean-ctx-redirect", "type": "pre_tool", "match": "re:(bash|read_file|grep)", "command": "${agentExecutables.leanCtx} hook vibe-pre-tool", "timeout": 60.0, "description": "Route native bash through lean-ctx; steer read_file/grep to ctx_* tools"}])'
+        update_structured_config \
+          "${config.home.homeDirectory}/.config/opencode/opencode.json" json json \
+          '.mcp."lean-ctx" = {"command": ["${agentExecutables.leanCtx}"], "enabled": true, "type": "local"}'
 
         codex_executable=${lib.getExe local.codex}
         $DRY_RUN_CMD "$codex_executable" mcp remove lean-ctx >/dev/null 2>&1 || true
@@ -241,15 +230,15 @@ in {
 
         $DRY_RUN_CMD "$codex_executable" mcp remove qartez >/dev/null 2>&1 || true
         $DRY_RUN_CMD "$codex_executable" mcp add qartez -- \
-          ${lib.getExe local.qartez}
+          ${agentExecutables.qartez}
 
         $DRY_RUN_CMD "$codex_executable" mcp remove engram >/dev/null 2>&1 || true
         $DRY_RUN_CMD "$codex_executable" mcp add engram -- \
-          ${lib.getExe local.engram} mcp
+          ${agentExecutables.engram} mcp
 
         $DRY_RUN_CMD "$codex_executable" mcp remove lean-ctx >/dev/null 2>&1 || true
         $DRY_RUN_CMD "$codex_executable" mcp add lean-ctx -- \
-          ${lib.getExe local.lean-ctx}
+          ${agentExecutables.leanCtx}
       '';
 
       headroomLeanCtxAddon = lib.hm.dag.entryAfter ["agentMcpServers"] ''
