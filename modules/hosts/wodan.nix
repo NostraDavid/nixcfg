@@ -5,20 +5,11 @@
 }: {
   flake.nixosConfigurations.wodan = mkHost {
     hostname = "wodan";
-    module = {pkgs, ...}: let
-      stable = pkgs;
-    in {
+    module = {stable, ...}: {
       imports = with config.flake.modules.nixos; [
         ../../hosts/wodan/hardware-configuration.nix
-        kde-workstation
-        browsers-extra
-        communication-extra
-        desktop-apps-extra
-        development-extra
+        full-workstation
         nvidia-workstation
-        gaming
-        media-extra
-        whatpulse
         wodan-home
       ];
 

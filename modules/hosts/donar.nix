@@ -10,22 +10,13 @@ in {
     module = {
       config,
       lib,
-      pkgs,
+      stable,
       ...
-    }: let
-      stable = pkgs;
-    in {
+    }: {
       imports = with flakeConfig.flake.modules.nixos; [
         ../../hosts/donar/hardware-configuration.nix
-        kde-workstation
+        full-workstation
         laptop
-        browsers-extra
-        communication-extra
-        desktop-apps-extra
-        development-extra
-        gaming
-        media-extra
-        whatpulse
       ];
 
       system.stateVersion = "26.05";
