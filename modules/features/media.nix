@@ -11,9 +11,9 @@
       ];
     };
     homeManager.media.imports = [
-      ../home/media.nix
-      ../home/media-tools.nix
+      ../home/media/apps.nix
+      ../home/media/tools.nix
     ];
-    homeManager.media-production = ../home/media-production.nix;
+    homeManager.media-production = ../home/media/production.nix;
   };
 }

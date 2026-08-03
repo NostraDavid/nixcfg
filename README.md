@@ -66,7 +66,8 @@ profile. Optional local environment variables can live in `.envrc.local`.
 - `modules/` contains the flake-parts entry modules and reusable NixOS and Home
   Manager modules.
 - `dotfiles/` contains dotfiles for various applications; the Home Manager
-  mappings live in `modules/home/dotfiles.nix` and `modules/home/terminal.nix`.
+  mappings live in `modules/home/dotfiles.nix` and
+  `modules/home/terminal/config.nix`.
 - `mkHost` derives the editable checkout path from `repoSubdir` (default:
   `~/dev/NostraDavid/nixcfg/trunk`) and passes it to Home Manager as `repoRoot`;
   a host composition can override `repoSubdir` when its checkout lives
