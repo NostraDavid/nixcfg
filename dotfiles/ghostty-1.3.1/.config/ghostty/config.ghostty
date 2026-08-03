@@ -2,7 +2,7 @@
 command = tmux
 
 font-family = JetBrainsMono Nerd Font
-font-size = 9
+font-size = 12
 
 background = #000000
 foreground = #ffffff
@@ -28,6 +28,6 @@ palette = 13=#cc00ff
 palette = 14=#00ffff
 palette = 15=#ffffff
 
-background-opacity = 0.95
+background-opacity = 1.0
 window-padding-x = 0
 window-padding-y = 0
