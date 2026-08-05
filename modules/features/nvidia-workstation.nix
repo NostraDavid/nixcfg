@@ -5,7 +5,7 @@
     ...
   }: {
     boot = {
-      kernelPackages = stable.linuxPackages_6_12;
+      kernelPackages = stable.linuxPackages_latest;
       extraModprobeConfig = ''
         options nvidia NVreg_PreserveVideoMemoryAllocations=1
       '';
