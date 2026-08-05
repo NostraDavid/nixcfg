@@ -2,10 +2,11 @@
   flake.modules.nixos.nvidia-workstation = {
     config,
     stable,
+    unstable,
     ...
   }: {
     boot = {
-      kernelPackages = stable.linuxPackages_latest;
+      kernelPackages = unstable.linuxPackages_latest;
       extraModprobeConfig = ''
         options nvidia NVreg_PreserveVideoMemoryAllocations=1
       '';
