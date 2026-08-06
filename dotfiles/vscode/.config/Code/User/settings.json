@@ -146,7 +146,6 @@
   "chatgpt.openOnStartup": true,
   "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
   "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
-  "continue.enableConsole": true,
   "coverage-gutters.coverageFileNames": [
     "coverage-report.xml",
     "coverage.xml"
