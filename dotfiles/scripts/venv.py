@@ -13,7 +13,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 DEFAULT_PYTHON = "3.11"
 POETRY_VERSION = "2.1.2"
 
