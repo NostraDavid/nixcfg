@@ -28,6 +28,7 @@
     stable.wezterm # Terminal emulator
     stable.xxd # Hex dump utility
     stable.yank # Copy terminal output to the clipboard
+    stable.ydotool # for lean-ctx automation
     stable.zellij # Terminal workspace and multiplexer
     stable.zoxide # Directory jumper
   ];
