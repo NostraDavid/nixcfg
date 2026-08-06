@@ -28,11 +28,11 @@ import click
 import orjson as json
 import pytest
 import structlog as sl
-import structlog.stdlib as log
+import structlog.stdlib as sls
 from click.testing import CliRunner
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-logger = log.get_logger(__name__)
+logger = sls.get_logger(__name__)
 SUPPORTED_SUFFIXES = frozenset({".pdf", ".epub", ".chm", ".mobi", ".md"})
 EDITION_MARKERS = (", early release", ", sample chapter", ", draft")
 
