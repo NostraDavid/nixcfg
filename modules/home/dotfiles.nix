@@ -125,12 +125,26 @@
         ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
         ".copilot/copilot-instructions.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
         ".copilot/instructions/eu-ai-act.instructions.md" = {source = mk "${dot}/agents/instructions/eu-ai-act.md";};
+        ".copilot/mcp-config.json" = {source = mk "${dot}/copilot-1.0/.copilot/mcp-config.json";};
         ".copilot/prompts" = {source = mk "${dot}/copilot-1.0/.copilot/prompts";};
         ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0/.copilot/settings.json";};
 
         ## OpenCode
         ".config/opencode/opencode.jsonc" = {source = mk "${dot}/opencode-1.18.4/.config/opencode/opencode.jsonc";};
         ".config/opencode/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
+
+        ## LeanCTX
+        ".config/lean-ctx/config.toml" = {source = mk "${dot}/lean-ctx-3.9.14/.config/lean-ctx/config.toml";};
+
+        ## Shared MCP
+        ".config/mcp/mcp.json" = {source = mk "${dot}/mcp/.config/mcp/mcp.json";};
+
+        ## Hermes
+        ".hermes/config.yaml" = {source = mk "${dot}/hermes-agent/.hermes/config.yaml";};
+
+        ## Mistral Vibe
+        ".vibe/config.toml" = {source = mk "${dot}/mistral-vibe/.vibe/config.toml";};
+        ".vibe/hooks.toml" = {source = mk "${dot}/mistral-vibe/.vibe/hooks.toml";};
 
         ## Hermes
         ".hermes/SOUL.md".text = ''

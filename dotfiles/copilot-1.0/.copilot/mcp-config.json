@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "engram": {
+      "args": [
+        "mcp"
+      ],
+      "command": "engram",
+      "tools": [
+        "*"
+      ],
+      "type": "local"
+    },
+    "qartez": {
+      "args": [],
+      "command": "qartez",
+      "tools": [
+        "*"
+      ],
+      "type": "local"
+    },
+    "lean-ctx": {
+      "args": [],
+      "command": "lean-ctx",
+      "tools": [
+        "*"
+      ],
+      "type": "local"
+    }
+  }
+}

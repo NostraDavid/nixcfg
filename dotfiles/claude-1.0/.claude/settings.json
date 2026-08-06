@@ -13,7 +13,7 @@
       {
         "hooks": [
           {
-            "command": "/etc/profiles/per-user/david/bin/lean-ctx hook read-dedup",
+            "command": "lean-ctx hook read-dedup",
             "type": "command"
           }
         ],
@@ -55,7 +55,7 @@
       {
         "hooks": [
           {
-            "command": "/etc/profiles/per-user/david/bin/lean-ctx hook rewrite",
+            "command": "lean-ctx hook rewrite",
             "type": "command"
           }
         ],
@@ -64,7 +64,7 @@
       {
         "hooks": [
           {
-            "command": "/etc/profiles/per-user/david/bin/lean-ctx hook redirect",
+            "command": "lean-ctx hook redirect",
             "type": "command"
           }
         ],

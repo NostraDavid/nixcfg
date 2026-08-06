@@ -24,17 +24,17 @@
       "args": [
         "mcp"
       ],
-      "command": "/etc/profiles/per-user/david/bin/engram",
+      "command": "engram",
       "type": "stdio"
     },
     "lean-ctx": {
       "args": [],
-      "command": "/etc/profiles/per-user/david/bin/lean-ctx",
+      "command": "lean-ctx",
       "type": "stdio"
     },
     "qartez": {
       "args": [],
-      "command": "/etc/profiles/per-user/david/bin/qartez",
+      "command": "qartez",
       "type": "stdio"
     }
   }

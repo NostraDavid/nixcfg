@@ -1,0 +1,7 @@
+[[hooks]]
+name = "lean-ctx-redirect"
+type = "pre_tool"
+match = "re:(bash|read_file|grep)"
+command = "lean-ctx hook vibe-pre-tool"
+timeout = 60.0
+description = "Route native bash through lean-ctx; steer read_file/grep to ctx_* tools"

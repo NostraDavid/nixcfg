@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "engram": {
+      "args": [
+        "mcp"
+      ],
+      "command": "engram"
+    },
+    "qartez": {
+      "args": [],
+      "command": "qartez"
+    },
+    "lean-ctx": {
+      "args": [],
+      "command": "lean-ctx"
+    }
+  }
+}
