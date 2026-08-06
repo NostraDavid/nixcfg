@@ -1,0 +1,43 @@
+rules_injection = "dedicated"
+minimal_overhead = true
+structure_first = true
+journal_enabled = true
+auto_capture = true
+hook_binary = "lean-ctx"
+shell_allowlist_extra = [
+  "just",
+  "devenv",
+  "fwupdmgr",
+  "nvidia-smi",
+  "nixos-rebuild",
+  "sudo",
+  "ssh",
+  "printenv",
+  "systemctl",
+  "ss",
+  "ssh-add",
+]
+
+[gateway]
+enabled = true
+
+[[gateway.servers]]
+name = "headroom"
+transport = "stdio"
+enabled = true
+command = "headroom"
+args = [
+  "mcp",
+  "serve",
+]
+url = ""
+
+[gateway.servers.env]
+
+[gateway.servers.headers]
+
+[gateway.servers.capabilities]
+network = "full"
+filesystem = "read_write"
+env = []
+exec = "none"
