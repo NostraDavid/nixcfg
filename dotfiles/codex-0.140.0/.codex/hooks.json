@@ -16,7 +16,7 @@
       {
         "hooks": [
           {
-            "command": "lean-ctx hook codex-pretooluse",
+            "command": "/etc/profiles/per-user/david/bin/lean-ctx hook codex-pretooluse",
             "timeout": 15,
             "type": "command"
           }
@@ -40,7 +40,7 @@
       {
         "hooks": [
           {
-            "command": "lean-ctx hook codex-session-start",
+            "command": "/etc/profiles/per-user/david/bin/lean-ctx hook codex-session-start",
             "timeout": 15,
             "type": "command"
           },

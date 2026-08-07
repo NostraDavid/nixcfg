@@ -9,14 +9,14 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "codex-security";
-  version = "0.1.5";
+  version = "0.1.7";
 
   src = fetchzip {
     url = "https://registry.npmjs.org/@openai/codex-security/-/codex-security-${finalAttrs.version}.tgz";
-    hash = "sha256-lcoYA61o47zPV9I5ScvaSa9lIPygo0pQCQdZXmwfHrQ=";
+    hash = "sha256-VKld/BM4IGiFYGLp+2Eepgf3BvD+rob7L44YiSggYfY=";
   };
 
-  npmDepsHash = "sha256-MTjjm/IMoLX4+klH+wzJ3aaOS6QgD437KgOcuFJBovI=";
+  npmDepsHash = "sha256-MuDWwBXDaSHvpPhdFSBlZgH05iqgZJFCjFWK4gJXv6M=";
 
   npmConfigProduction = true;
   npmFlags = ["--omit=dev"];
