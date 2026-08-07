@@ -26,30 +26,40 @@
     if stdenv.hostPlatform.isLinux
     then stdenvAdapters.useMoldLinker stdenv
     else stdenv;
-  rustyV8Archive =
+  rustyV8Artifacts =
     if stdenv.hostPlatform.system == "x86_64-linux"
-    then
-      fetchurl {
-        url = "https://github.com/denoland/rusty_v8/releases/download/v149.2.0/librusty_v8_release_x86_64-unknown-linux-gnu.a.gz";
-        hash = "sha256-iu2YY323533Iv7i7R1nsW95HLQv3lD9Y4OYqNQlFxVk=";
-      }
+    then {
+      archive = fetchurl {
+        url = "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_x86_64-unknown-linux-gnu.a.gz";
+        hash = "sha256-o1x10fJuapg4haRbM0kKTr5U8FBQVosyuJz7QhswtYM=";
+      };
+      binding = fetchurl {
+        url = "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_x86_64-unknown-linux-gnu.rs";
+        hash = "sha256-dyeCauR5vbZF6Acjn7EtH44uI956bPFvXuWSaQ0dhQY=";
+      };
+    }
     else if stdenv.hostPlatform.system == "aarch64-darwin"
-    then
-      fetchurl {
-        url = "https://github.com/denoland/rusty_v8/releases/download/v149.2.0/librusty_v8_release_aarch64-apple-darwin.a.gz";
-        hash = "sha256-hQ2J1b0Z9AOfa4x4g8Rv+dG8fV7fW24Qv2jq3u5M5o4=";
-      }
-    else throw "Unsupported system for codex rusty_v8 archive: ${stdenv.hostPlatform.system}";
+    then {
+      archive = fetchurl {
+        url = "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/librusty_v8_ptrcomp_sandbox_release_aarch64-apple-darwin.a.gz";
+        hash = "sha256-AK27SHmISMd1UEQcaGc6XoUpuOG3PqvN7iMss5tA9KE=";
+      };
+      binding = fetchurl {
+        url = "https://github.com/openai/codex/releases/download/rusty-v8-v150.4.0/src_binding_ptrcomp_sandbox_release_aarch64-apple-darwin.rs";
+        hash = "sha256-ylrfDPicmnCtRgrnNkiy/om3SqETs8t/dXtqArdYOU8=";
+      };
+    }
+    else throw "Unsupported system for codex rusty_v8 artifacts: ${stdenv.hostPlatform.system}";
 in
   (rustPlatform.buildRustPackage.override {stdenv = effectiveStdenv;}) (finalAttrs: {
     pname = "codex";
-    version = "0.146.0";
+    version = "0.147.0";
 
     src = fetchFromGitHub {
       owner = "openai";
       repo = "codex";
       tag = "rust-v${finalAttrs.version}";
-      hash = "sha256-/kTIOX/klxm1nq2bJsBqS8f1jZZp2ilaTeULQFPJgDk=";
+      hash = "sha256-NKeOxp9vLcx7tpghqhpS3ocPqUDP2PircNwkJNpHBPo=";
     };
 
     sourceRoot = "${finalAttrs.src.name}/codex-rs";
@@ -57,9 +67,8 @@ in
     cargoLock = {
       lockFile = "${finalAttrs.src}/codex-rs/Cargo.lock";
       outputHashes = {
-        "crossterm-0.28.1" = "sha256-6qCtfSMuXACKFb9ATID39XyFDIEMFDmbx6SSmNe+728=";
+        "crossterm-0.29.0" = "sha256-ewiWWQPEU1lSUHzmZTiO5yes5luIaQ9TrvCNnTWhxpE=";
         "nucleo-0.5.0" = "sha256-Hm4SxtTSBrcWpXrtSqeO0TACbUxq3gizg1zD/6Yw/sI=";
-        "ratatui-0.29.0" = "sha256-HBvT5c8GsiCxMffNjJGLmHnvG77A6cqEL+1ARurBXho=";
         "runfiles-0.1.0" = "sha256-uJpVLcQh8wWZA3GPv9D8Nt43EOirajfDJ7eq/FB+tek=";
         "tokio-tungstenite-0.28.0" = "sha256-V1xmnrfRWOcZZogelZEA4vvyMj2awCfHVA5/glQ6KAI=";
         "tungstenite-0.27.0" = "sha256-VVHhk7l9J/sEmG3q/UuV/sQ3f+fGsmq5vumSy8vbMvw=";
@@ -103,7 +112,8 @@ in
     # character-conversion warning-as-error disabled.
     env = {
       LIBCLANG_PATH = "${lib.getLib libclang}/lib";
-      RUSTY_V8_ARCHIVE = rustyV8Archive;
+      RUSTY_V8_ARCHIVE = rustyV8Artifacts.archive;
+      RUSTY_V8_SRC_BINDING_PATH = rustyV8Artifacts.binding;
       NIX_CFLAGS_COMPILE = toString (
         lib.optionals stdenv.cc.isGNU [
           "-Wno-error=stringop-overflow"
