@@ -37,7 +37,6 @@
 
   home = {
     packages = [
-      local.austin # CPython frame stack sampler
       local.codex # llm agent
       local.codex-security # Codex Security CLI
       local.cool-retro-term # terminal emulator with retro style
