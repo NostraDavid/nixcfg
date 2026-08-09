@@ -58,10 +58,9 @@ in
     pname = "tiktoken";
     inherit version;
     name = "${pname}-${version}";
-    paths = [
-      pythonPackage
-      wrapper
-    ];
+    # The wrapper embeds its Python environment; exporting pythonPackage here
+    # would collide with the copy already pulled in by LiteLLM.
+    paths = [wrapper];
 
     passthru.updateScript = ../../cmd/update-tiktoken.sh;
 
