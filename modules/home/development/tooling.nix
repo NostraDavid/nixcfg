@@ -1,4 +1,10 @@
-{stable, ...}: {
+{stable, ...}: let
+  litellmProxy = stable.python3.withPackages (ps:
+    [
+      ps.litellm
+    ]
+    ++ ps.litellm."optional-dependencies".proxy);
+in {
   home.packages = [
     stable.alejandra # Nix formatter
     stable.bash-language-server # Bash LSP
@@ -26,6 +32,7 @@
     stable.pyrefly # Python type checker
     stable.python3Packages.jupytext # Represent notebooks as text
     stable.python3Packages.scalene # Python profiler
+    litellmProxy # LiteLLM with the proxy extra
     stable.ruff # Python linter and formatter
     stable.selene # Fast Lua linter/static analyzer
     stable.shellcheck # Shell script analyzer
