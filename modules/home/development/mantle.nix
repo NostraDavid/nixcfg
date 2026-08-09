@@ -68,7 +68,6 @@
       unstable.opencode # llm agent
       unstable.opencode-desktop # llm agent for desktop
       unstable.oxlint # js linter
-      unstable.python313 # Runtime for executable agent skill helpers
       unstable.witr # Why is this running?
       unstable.zigfetch # neofetch alternative
     ];

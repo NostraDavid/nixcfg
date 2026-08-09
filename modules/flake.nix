@@ -55,6 +55,14 @@
       };
     });
   };
+  overlay-unstable-fixes = _final: prev: {
+    # Textual 8.2.8 can race the parent mount in this upstream test.
+    mistral-vibe = prev.mistral-vibe.overrideAttrs (old: {
+      disabledTests =
+        (old.disabledTests or [])
+        ++ ["test_idle_skill_fires_telemetry"];
+    });
+  };
   overlay-build-tools = _final: prev: {
     moldStdenv = prev.useMoldLinker prev.stdenv;
   };
@@ -63,6 +71,7 @@
   unstableFor = system:
     import inputs.nixpkgs-unstable {
       inherit system;
+      overlays = [overlay-unstable-fixes];
       config = nixpkgsConfig;
     };
   pkgsFor = system:
