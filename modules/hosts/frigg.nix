@@ -9,7 +9,7 @@
       inputs,
       lib,
       main-user,
-      stable,
+      local,
       ...
     }: {
       imports = with config.flake.modules.nixos; [
@@ -25,17 +25,7 @@
       };
       systemd.services.nix-daemon.serviceConfig.CPUQuota = "400%";
 
-      home-manager.users.${main-user}.xdg.desktopEntries.chatgpt = {
-        name = "ChatGPT";
-        genericName = "AI Assistant";
-        comment = "Open ChatGPT in app mode";
-        exec = "${lib.getExe stable.chromium} --class=ChatGPT --app=https://chatgpt.com/";
-        icon = "chatgpt";
-        terminal = false;
-        categories = ["Network" "Utility"];
-        startupNotify = true;
-        settings.StartupWMClass = "ChatGPT";
-      };
+      home-manager.users.${main-user}.home.packages = [local.chatgpt];
 
       system.stateVersion = "25.05";
     };
