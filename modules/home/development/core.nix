@@ -1,7 +1,6 @@
 {
   hostname,
   lib,
-  local,
   stable,
   unstable,
   ...
@@ -35,6 +34,6 @@
       unstable.uv # Python project and package manager
     ]
     ++ lib.optionals (hostname != "bragi") [
-      local.codex # OpenAI coding agent; omitted on resource-constrained Bragi
+      unstable.codex # OpenAI coding agent; omitted on resource-constrained Bragi
     ];
 }

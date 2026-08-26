@@ -37,7 +37,7 @@
 
   home = {
     packages = [
-      local.codex # llm agent
+      unstable.codex # llm agent
       local.codex-security # Codex Security CLI
       local.cool-retro-term # terminal emulator with retro style
       local.dpaint-js # DPaint written in JS
