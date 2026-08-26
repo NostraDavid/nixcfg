@@ -37,7 +37,7 @@ in {
     inline.battlenet
     stable.endless-sky
     stable.godot
-    stable.itch
+    unstable.itch
     stable.wineWow64Packages.stagingFull # include the Wine extras Battle.net tends to expect
     unstable.openrct2
     unstable.winetricks # unstable, so we can use 2026 version
