@@ -19,7 +19,7 @@ in
   synology-drive-client.overrideAttrs (old: {
     inherit version;
     src =
-      if old.stdenv.isDarwin or false
+      if old.stdenv.hostPlatform.isDarwin or false
       then darwinSrc
       else linuxSrc;
 
