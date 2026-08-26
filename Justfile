@@ -1,6 +1,7 @@
 default_host := `hostname --short`
 default_cachix_cache := "thaumatorium"
 nix_clean_env := "env -u LD_LIBRARY_PATH -u NIX_LD_LIBRARY_PATH -u LD_PRELOAD"
+flake_update_delay_seconds := "5"
 audient_mic_source := "alsa_input.usb-Audient_Audient_iD4-00.HiFi__Mic__source"
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
@@ -37,11 +38,21 @@ fmt:
 
 # Update flake inputs in flake.lock.
 update:
-  @nix flake update
+  @inputs="$(nix flake metadata --no-write-lock-file --json | jq -r '.locks.nodes.root.inputs | keys[]')"; \
+  first=true; \
+  while IFS= read -r input; do \
+    if [ "$first" = false ]; then sleep "{{flake_update_delay_seconds}}"; fi; \
+    printf 'Updating flake input: %s\n' "$input"; \
+    {{nix_clean_env}} nix flake update --option http-connections 1 "$input"; \
+    first=false; \
+  done <<< "$inputs"
 
 # Update nixpkgs and home-manager flake inputs in flake.lock.
 update-nix:
-  @{{nix_clean_env}} nix flake update nixpkgs home-manager
+  @for input in nixpkgs home-manager; do \
+    {{nix_clean_env}} nix flake update --option http-connections 1 "$input"; \
+    if [ "$input" = nixpkgs ]; then sleep "{{flake_update_delay_seconds}}"; fi; \
+  done
 
 # Update a local flake package via its updater or nix-update fallback.
 pkg-update package:
