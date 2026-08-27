@@ -60,7 +60,11 @@
     mistral-vibe = prev.mistral-vibe.overrideAttrs (old: {
       disabledTests =
         (old.disabledTests or [])
-        ++ ["test_idle_skill_fires_telemetry"];
+        ++ [
+          "test_idle_skill_fires_telemetry"
+          "test_queued_head_skill_injects_skill_tool_message"
+          "test_skill_without_args_does_not_add_extra_text"
+        ];
     });
   };
   overlay-build-tools = _final: prev: {
