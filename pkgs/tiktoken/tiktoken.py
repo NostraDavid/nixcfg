@@ -25,7 +25,7 @@ def parse_args():
         description="Count, encode, and decode text with OpenAI tiktoken encodings.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("--version", action="version", version="%(prog)s 0.13.0")
+    parser.add_argument("--version", action="version", version="%(prog)s 0.14.0")
     commands = parser.add_subparsers(dest="command", required=True)
 
     count = commands.add_parser(
