@@ -16,10 +16,20 @@ shell_allowlist_extra = [
   "systemctl",
   "ss",
   "ssh-add",
+  "ffmpeg",
+  "ffprobe",
+  "cjpegli",
+  "djpegli",
+  "oxipng",
+  "exiftool",
+  "sha256sum",
+  "rsync",
 ]
-
 [gateway]
 enabled = true
+
+[gain]
+last_auto_publish = "2026-08-30T10:03:16.102850161+00:00"
 
 [[gateway.servers]]
 name = "headroom"
