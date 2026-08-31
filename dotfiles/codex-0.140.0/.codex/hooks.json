@@ -5,11 +5,11 @@
         "hooks": [
           {
             "command": "lean-ctx hook observe",
-            "timeout": 3,
+            "timeout": 4,
             "type": "command"
           }
         ],
-        "matcher": ".*"
+        "matcher": "Write|Edit|MultiEdit|StrReplace|str_replace_editor|edit_file|str_replace|replace_in_file|create_file|write_file"
       }
     ],
     "PreToolUse": [
@@ -21,7 +21,7 @@
             "type": "command"
           }
         ],
-        "matcher": "Bash"
+        "matcher": "Bash|Read|Grep|Glob"
       }
     ],
     "SessionEnd": [
@@ -46,7 +46,7 @@
           },
           {
             "command": "/etc/profiles/per-user/david/bin/lean-ctx hook observe",
-            "timeout": 5,
+            "timeout": 4,
             "type": "command"
           }
         ],
