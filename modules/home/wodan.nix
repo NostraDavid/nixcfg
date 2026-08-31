@@ -67,16 +67,6 @@ in {
       enable = true;
       package = inline.codexDesktopSafe;
     };
-
-    direnv = {
-      enable = true;
-      config.global = {
-        hide_env_diff = true;
-        disable_stdin = true;
-        warn_timeout = "15s";
-      };
-      nix-direnv.enable = true;
-    };
   };
 
   xdg = {
