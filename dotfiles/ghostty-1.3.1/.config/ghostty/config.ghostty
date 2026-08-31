@@ -1,7 +1,28 @@
 # Keep Ghostty aligned with the existing terminal setup.
 command = tmux-login-session
 
-font-family = JetBrainsMono Nerd Font
+# font-family = JetBrainsMono Nerd Font
+# font-family = Creep
+# font-family = ANAKRON
+# font-family = ANAKRON2x
+# font-family = ANAKRON3x
+# font-family = Cozette
+# font-family = GohuFont uni11 Nerd Font
+# font-family = Kirsch Nerd Font
+# font-family = ProFont IIx Nerd Font
+# font-family = ProggyClean Nerd Font
+# font-family = Spleen
+# font-family = Spleen 12x24
+# font-family = Spleen 16x32
+# font-family = Spleen 32x64
+# font-family = Spleen 6x12
+# font-family = Spleen 8x16
+# font-family = Tamzen
+# font-family = Terminess Nerd Font
+# font-family = kirsch
+# font-family = kirsch2x
+# font-family = kirsch3x
+font-family = scientifica
 font-size = 12
 
 background = #000000
