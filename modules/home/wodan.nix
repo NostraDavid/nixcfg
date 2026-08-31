@@ -20,54 +20,9 @@
         '';
       };
   };
-  taskbarLaunchers = [
-    "preferred://filemanager"
-    "applications:firefox-esr.desktop"
-    "applications:code.desktop"
-    "applications:org.wezfurlong.wezterm.desktop"
-    "applications:io.missioncenter.MissionCenter.desktop"
-    "applications:org.keepassxc.KeePassXC.desktop"
-    "applications:org.gnome.Evolution.desktop"
-    "applications:steam.desktop"
-    "applications:signal.desktop"
-    "applications:whatpulse.desktop"
-    "applications:spotify.desktop"
-  ];
-  mkBottomPanel = screen: {
-    inherit screen;
-    location = "bottom";
-    widgets = [
-      "org.kde.plasma.kickoff"
-      "org.kde.plasma.pager"
-      {
-        iconTasks.launchers = taskbarLaunchers;
-      }
-      "org.kde.plasma.marginsseparator"
-      {
-        systemTray = {
-          items.extra = [
-            "org.kde.plasma.cameraindicator"
-            "org.kde.plasma.clipboard"
-            "org.kde.plasma.manage-inputmethod"
-            "org.kde.plasma.keyboardlayout"
-            "org.kde.plasma.devicenotifier"
-            "org.kde.plasma.notifications"
-            "org.kde.plasma.mediacontroller"
-            "org.kde.plasma.brightness"
-            "org.kde.plasma.networkmanagement"
-            "org.kde.kscreen"
-            "org.kde.plasma.keyboardindicator"
-            "org.kde.plasma.battery"
-            "org.kde.plasma.weather"
-            "org.kde.plasma.volume"
-          ];
-        };
-      }
-      "org.kde.plasma.digitalclock"
-      "org.kde.plasma.showdesktop"
-    ];
-  };
 in {
+  nixcfg.plasma.taskbarScreens = [0 1];
+
   programs = {
     plasma = {
       configFile = {
@@ -106,19 +61,6 @@ in {
           "org.kde.kdecoration2".theme = "__aurorae__svg__WillowDarkBlur";
         };
       };
-
-      panels = [
-        {
-          screen = 1;
-          location = "top";
-          height = 26;
-          widgets = [
-            "org.kde.plasma.appmenu"
-          ];
-        }
-        (mkBottomPanel 0)
-        (mkBottomPanel 1)
-      ];
     };
 
     codexDesktopLinux = {
