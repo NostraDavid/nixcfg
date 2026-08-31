@@ -29,7 +29,7 @@ shell_allowlist_extra = [
 enabled = true
 
 [gain]
-last_auto_publish = "2026-08-30T10:03:16.102850161+00:00"
+last_auto_publish = "2026-08-31T21:26:12.353083227+00:00"
 
 [[gateway.servers]]
 name = "headroom"

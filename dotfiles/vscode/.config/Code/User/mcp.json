@@ -30,6 +30,7 @@
     "lean-ctx": {
       "args": [],
       "command": "lean-ctx",
+      "env": {},
       "type": "stdio"
     },
     "qartez": {

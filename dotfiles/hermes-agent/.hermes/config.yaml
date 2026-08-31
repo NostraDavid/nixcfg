@@ -3,7 +3,7 @@ mcp_servers:
     command: engram
     args:
       - mcp
-  lean-ctx:
-    command: lean-ctx
   qartez:
     command: qartez
+  lean-ctx:
+    command: lean-ctx
