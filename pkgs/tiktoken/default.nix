@@ -7,15 +7,15 @@
   writeShellScriptBin,
 }: let
   py = unstable.python313Packages;
-  version = "0.13.0";
+  version = "0.14.0";
   wheelBySystem = {
     "x86_64-linux" = {
-      url = "https://files.pythonhosted.org/packages/86/f5/bab735d2c72ea55404b295d02d092644eb5f7cc6205e34d35eb9abfb9ab2/tiktoken-${version}-cp313-cp313-manylinux_2_28_x86_64.whl";
-      hash = "sha256-XmNYkRyrSt7mcS2ifWVXNJak9oz4orX8pqStEPxXSM8=";
+      url = "https://files.pythonhosted.org/packages/37/62/cae690d9783146b0f81f564ada0f8f611de68178c0c9c7e1e969f0516b48/tiktoken-${version}-cp313-cp313-manylinux_2_28_x86_64.whl";
+      hash = "sha256-JuYPapVu4XGrcos3uEOZBdfqHbQ1ww+YIvKR6YYchh0=";
     };
     "aarch64-darwin" = {
-      url = "https://files.pythonhosted.org/packages/53/61/c68e123b6d753e3fc2751e9b18e732c9d8bf1e1926762e736eee935d931c/tiktoken-${version}-cp313-cp313-macosx_11_0_arm64.whl";
-      hash = "sha256-j+gGpQZk6Dpv/VbL0eT13MbNMqPnU49w3DixonE4RUU=";
+      url = "https://files.pythonhosted.org/packages/ad/5f/6448cfe278c3664ba9ec5b5ac08344341f7dc3d42888476e215a14eda2be/tiktoken-${version}-cp313-cp313-macosx_11_0_arm64.whl";
+      hash = "sha256-y+LMO7qTm82vED4D351QOdM4hwgLMVYkvijsaQWeX5Q=";
     };
   };
   srcInfo = wheelBySystem.${unstable.stdenv.hostPlatform.system}
