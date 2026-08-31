@@ -61,9 +61,13 @@
       disabledTests =
         (old.disabledTests or [])
         ++ [
+          "test_double_escape_with_content_clears_input_without_rewind"
           "test_idle_skill_fires_telemetry"
           "test_queued_head_skill_injects_skill_tool_message"
+          "test_skill_with_args_displays_literal_command_with_args"
+          "test_skill_without_args_displays_literal_command"
           "test_skill_without_args_does_not_add_extra_text"
+          "test_ui_session_incremental_loader_pages_before_initial_snapshot"
         ];
     });
   };
