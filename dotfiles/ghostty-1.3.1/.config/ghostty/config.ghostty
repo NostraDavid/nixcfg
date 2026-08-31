@@ -1,5 +1,5 @@
 # Keep Ghostty aligned with the existing terminal setup.
-command = tmux
+command = tmux-login-session
 
 font-family = JetBrainsMono Nerd Font
 font-size = 12
