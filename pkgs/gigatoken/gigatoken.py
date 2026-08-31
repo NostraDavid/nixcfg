@@ -11,10 +11,8 @@ import awkward as ak
 from gigatoken import Tokenizer
 from gigatoken.gigatoken_rs import BPETokenizer
 
-
 DEFAULT_TOKENIZER = "gpt-5"
 O200K_TOKENIZER = "@o200kTokenizer@"
-O200K_CONFIG = "@o200kConfig@"
 
 
 def add_tokenizer_option(parser):
@@ -34,7 +32,7 @@ def parse_args():
         description="Count, encode, and decode text with Gigatoken.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("--version", action="version", version="%(prog)s 0.9.0")
+    parser.add_argument("--version", action="version", version="%(prog)s 0.10.0")
     commands = parser.add_subparsers(dest="command", required=True)
 
     count = commands.add_parser(
@@ -94,8 +92,10 @@ def parse_args():
 
 def load_tokenizer(spec):
     if spec in ("gpt-5", "o200k_base"):
-        backend = BPETokenizer.from_tiktoken_model(
-            O200K_TOKENIZER, O200K_CONFIG, "o200k"
+        backend = BPETokenizer.from_tiktoken(
+            O200K_TOKENIZER,
+            "o200k",
+            {"<|endoftext|>": 199999, "<|endofprompt|>": 200018},
         )
         return Tokenizer(backend)
     if spec.endswith(".tiktoken"):
