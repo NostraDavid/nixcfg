@@ -14,7 +14,8 @@ config.front_end = "OpenGL"
 config.enable_wayland = false
 
 config.default_prog = { "tmux" }
-config.font = wezterm.font("JetBrainsMono Nerd Font")
+-- config.font = wezterm.font("JetBrainsMono Nerd Font")
+config.font = wezterm.font("scientifica")
 config.font_size = 9.0
 config.window_background_opacity = 0.95
 
