@@ -67,6 +67,17 @@ _: {
 
     fonts.packages = [
       stable.nerd-fonts.jetbrains-mono
+      stable.nerd-fonts.terminess-ttf
+      stable.nerd-fonts.proggy-clean-tt
+      stable.nerd-fonts.profont
+      stable.cozette
+      stable.nerd-fonts.gohufont
+      stable.kirsch
+      stable.anakron
+      stable.scientifica
+      stable.creep
+      stable.tamzen
+      stable.spleen
     ];
 
     hardware.graphics = {
