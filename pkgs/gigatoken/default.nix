@@ -1,38 +1,28 @@
 {
   lib,
-  fetchFromGitHub,
   fetchurl,
   git,
   python3Packages,
   rustPlatform,
-  writeText,
 }: let
   o200kTokenizer = fetchurl {
     url = "https://openaipublic.blob.core.windows.net/encodings/o200k_base.tiktoken";
     hash = "sha256-RGqVOMtsNI41FhINfAiwn1fDZJXirP/+WaW/iwz7Gi0=";
   };
-  o200kConfig = writeText "o200k-tokenizer-config.json" (builtins.toJSON {
-    added_tokens_decoder = {
-      "199999".content = "<|endoftext|>";
-      "200018".content = "<|endofprompt|>";
-    };
-  });
 in
   python3Packages.buildPythonApplication (finalAttrs: {
     pname = "gigatoken";
-    version = "0.9.0";
+    version = "0.10.0";
     pyproject = true;
 
-    src = fetchFromGitHub {
-      owner = "marcelroed";
-      repo = "gigatoken";
-      rev = "ecf968da2b7300e33f90e8bd9c96a11a335a01ae";
-      hash = "sha256-xzrXzCvbvic9EoA8oKJJGIkhQCasbdvioyyw4RkfIAM=";
+    src = fetchurl {
+      url = "https://files.pythonhosted.org/packages/33/8a/fa097b404650a9eaea59de80bc8c33ad8ccb6b4a17ff6f33f213ec091057/gigatoken-0.10.0.tar.gz";
+      hash = "sha256-Vi/UKE6s3r2KgEPOId3NrLYSEKA25ucAzRO9yisq96w=";
     };
 
     cargoDeps = rustPlatform.fetchCargoVendor {
       inherit (finalAttrs) pname version src;
-      hash = "sha256-z1sOT3QqpdkFVMe9naNEnYaGM0JRZVGoeTv+jlQlfRQ=";
+      hash = "sha256-9CiXqxJcu2ve0ypQL0uGTvTz4cE8qwMsPGIMG1BuPCs=";
     };
 
     postPatch = ''
@@ -46,8 +36,7 @@ in
       cp ${./gigatoken.py} gigatoken/_wrapper.py
       substituteInPlace gigatoken/_wrapper.py \
         --replace-fail '@git@' '${lib.getExe git}' \
-        --replace-fail '@o200kTokenizer@' '${o200kTokenizer}' \
-        --replace-fail '@o200kConfig@' '${o200kConfig}'
+        --replace-fail '@o200kTokenizer@' '${o200kTokenizer}'
     '';
 
     # Gigatoken uses the still-unstable portable_simd feature.
