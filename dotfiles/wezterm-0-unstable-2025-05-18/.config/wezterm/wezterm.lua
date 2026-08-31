@@ -15,8 +15,9 @@ config.enable_wayland = false
 
 config.default_prog = { "tmux" }
 -- config.font = wezterm.font("JetBrainsMono Nerd Font")
-config.font = wezterm.font("scientifica")
-config.font_size = 9.0
+-- config.font = wezterm.font("scientifica")
+config.font = wezterm.font("Spleen")
+config.font_size = 7.0
 config.window_background_opacity = 0.95
 
 config.use_fancy_tab_bar = true
