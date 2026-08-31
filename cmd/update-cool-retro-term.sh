@@ -7,9 +7,10 @@ repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 pkg_file="${repo_root}/pkgs/cool-retro-term/default.nix"
 current_version="$(sed -n 's/^[[:space:]]*version = "\([^"]*\)";$/\1/p' "${pkg_file}" | head -n1)"
 
-release_json="$(curl -fsSL 'https://api.github.com/repos/Swordfish90/cool-retro-term/releases?per_page=1')"
-version="$(printf '%s' "${release_json}" | jq -r '.[0].tag_name')"
-version="${version#v}"
+version="$(git ls-remote --tags --refs 'https://github.com/Swordfish90/cool-retro-term.git' |
+    awk -F/ '$NF ~ /^v?[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$/ { sub(/^v/, "", $NF); print $NF }' |
+    sort -V |
+    tail -n1)"
 
 if [[ -z "${version}" || "${version}" == "null" ]]; then
     echo 'Failed to determine latest cool-retro-term release metadata.' >&2

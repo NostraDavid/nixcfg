@@ -5,14 +5,21 @@ set -euo pipefail
 
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 pkg_file="${repo_root}/pkgs/dpaint-js/default.nix"
+current_version="$(sed -n 's/^[[:space:]]*version = "\([^"]*\)";$/\1/p' "${pkg_file}" | head -n1)"
 
-release_json="$(curl -fsSL 'https://api.github.com/repos/steffest/DPaint-js/releases?per_page=1')"
-version="$(printf '%s' "${release_json}" | jq -r '.[0].tag_name')"
-version="${version#v}"
+version="$(git ls-remote --tags --refs 'https://github.com/steffest/DPaint-js.git' |
+    awk -F/ '$NF ~ /^v?[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$/ { sub(/^v/, "", $NF); print $NF }' |
+    sort -V |
+    tail -n1)"
 
 if [[ -z "${version}" || "${version}" == "null" ]]; then
     echo 'Failed to determine latest DPaint.js release metadata.' >&2
     exit 1
+fi
+
+if [[ "${version}" == "${current_version}" ]]; then
+    printf 'dpaint-js is already at %s\n' "${version}"
+    exit 0
 fi
 
 printf 'Updating dpaint-js to version %s\n' "${version}"
