@@ -365,3 +365,8 @@ fi
 # Keep history syncing last so prompt integrations can safely extend
 # PROMPT_COMMAND without clobbering each other.
 append_prompt_command 'history -a' 'history -n'
+# lean-ctx shell hook — begin
+if [ -f "/home/david/.config/lean-ctx/shell-hook.bash" ]; then
+    . "/home/david/.config/lean-ctx/shell-hook.bash"
+fi
+# lean-ctx shell hook — end

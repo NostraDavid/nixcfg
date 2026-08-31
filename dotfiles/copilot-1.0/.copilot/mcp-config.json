@@ -19,7 +19,9 @@
       "type": "local"
     },
     "lean-ctx": {
-      "args": [],
+      "args": [
+        "mcp"
+      ],
       "command": "lean-ctx",
       "tools": [
         "*"
