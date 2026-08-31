@@ -167,7 +167,7 @@
   "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorStyle": "block",
-  "editor.fontFamily": "'JetBrainsMono NF', Hack, Consolas, 'Courier New', monospace",
+  "editor.fontFamily": "'Spleen', 'JetBrainsMono NF', monospace",
   "editor.fontLigatures": true,
   "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.inlineSuggest.enabled": true,
