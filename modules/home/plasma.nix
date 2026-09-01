@@ -20,6 +20,9 @@
     emailClient = associate "org.gnome.Evolution.desktop" [
       "x-scheme-handler/mailto"
     ];
+    codex = associate "chatgpt.desktop" [
+      "x-scheme-handler/codex"
+    ];
     imageViewer = associate "org.geeqie.Geeqie.desktop" [
       "image/avif"
       "image/bmp"
@@ -368,6 +371,7 @@ in {
         "Default Applications" =
           defaultApplications.webBrowser
           // defaultApplications.emailClient
+          // defaultApplications.codex
           // defaultApplications.imageViewer
           // defaultApplications.videoPlayer
           // defaultApplications.textEditor;
