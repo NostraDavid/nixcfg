@@ -1,6 +1,6 @@
 ---
 name: python-native-script-builder
-description: Build or fully redesign dependency-free standalone POSIX Python CLI scripts supporting Python 3.11+ and using only the standard library, with argparse subcommands, logging, strict typing, inline unittest tests, readiness checks, safe dry-run behavior, and functional-core architecture. Use when Codex creates or redesigns a standalone Python script that must run on an installed Python interpreter without uv, PEP 723, pip, PyPI, virtual environments, or third-party imports. Use python-uv-script-builder instead when PyPI dependencies are allowed or requested. Do not use for Python packages, libraries, services, notebooks, or application repositories.
+description: "Use when creating or fully redesigning a standalone Python helper script bundled with an AI-agent skill, such as a skill's scripts/ validator, scaffold, or automation helper. This skill applies only to scripts that belong to skills and must run with the Python standard library. Do not trigger for project scripts; use python-uv-script-builder for those. Do not trigger for packages, libraries, services, notebooks, or small maintenance edits."
 ---
 
 # Python Native Script Builder

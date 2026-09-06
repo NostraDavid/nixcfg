@@ -1,6 +1,6 @@
 ---
 name: python-uv-script-builder
-description: Build or fully redesign standalone POSIX Python CLI scripts to an opinionated standard using Python 3.14+, uv and PEP 723, Click, structlog, strict typing, inline pytest tests, exact dependency pins, and functional-core architecture. Use when Codex creates or redesigns a standalone Python script that may use PyPI dependencies or when the user requests uv, PEP 723, or an uv-native script. Use python-native-script-builder instead when the result must use only the Python standard library. Do not use for Python packages, libraries, services, notebooks, or application repositories.
+description: "Use when creating or fully redesigning a standalone Python project script, such as repository automation, maintenance, data-processing, or developer tooling, using uv and PEP 723. This skill applies only to project scripts. Do not trigger for scripts bundled with AI-agent skills; use python-native-script-builder for those. Do not trigger for packages, libraries, services, notebooks, small maintenance edits, or scripts explicitly required to run without uv."
 ---
 
 # Python uv Script Builder
