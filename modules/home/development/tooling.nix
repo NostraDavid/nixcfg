@@ -1,4 +1,8 @@
-{stable, ...}: let
+{
+  stable,
+  unstable,
+  ...
+}: let
   litellmProxy = stable.python3.withPackages (ps:
     [
       ps.litellm
@@ -42,7 +46,7 @@ in {
     stable.statix # Nix static analyzer
     stable.stylua # Lua formatter used by conform.nvim
     stable.taplo # TOML formatter and LSP
-    stable.ty # Python type checker
+    unstable.ty # Python type checker
     stable.vscode-langservers-extracted # HTML, CSS, JSON and ESLint language servers
     stable.yaml-language-server # YAML LSP
     stable.zuban # Mypy-compatible Python language server
