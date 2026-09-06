@@ -31,10 +31,11 @@ import structlog as sl
 import structlog.stdlib as log
 import yaml
 from click.testing import CliRunner
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
 MAX_SKILL_NAME_LENGTH = 64
 MAX_DESCRIPTION_LENGTH = 1024
+MAX_COMPATIBILITY_LENGTH = 500
 FRONTMATTER_PATTERN = re.compile(r"\A---\r?\n(.*?)\r?\n---(?:\r?\n|\Z)", re.DOTALL)
 logger = log.get_logger(__name__)
 
@@ -50,8 +51,19 @@ class SkillFrontmatter(BaseModel):
     name: str
     description: str
     license: str | None = None
+    compatibility: str | None = Field(
+        default=None, strict=True, min_length=1, max_length=MAX_COMPATIBILITY_LENGTH
+    )
     allowed_tools: str | list[str] | None = Field(default=None, alias="allowed-tools")
     metadata: dict[str, object] | None = None
+
+    @field_validator("compatibility")
+    @classmethod
+    def validate_compatibility(cls, value: str | None) -> str:
+        """Allow omission, but require nonempty text when explicitly provided."""
+        if value is None or not value.strip():
+            raise ValueError("compatibility must be a nonempty string when provided")
+        return value
 
 
 def configure_logging() -> None:
@@ -223,6 +235,45 @@ def test_validate_skill_accepts_supported_frontmatter(tmp_path: Path) -> None:
     frontmatter = validate_skill(tmp_path)
     assert frontmatter.name == "valid-skill"
     assert frontmatter.allowed_tools == ["Read"]
+
+
+@pytest.mark.parametrize(
+    "compatibility", ["x", "Requires Python 3.14+ and uv", "x" * 500]
+)
+def test_validate_skill_accepts_compatibility(
+    tmp_path: Path, compatibility: str
+) -> None:
+    content = skill_document().replace(
+        "description: Useful skill.",
+        f'description: Useful skill.\ncompatibility: "{compatibility}"',
+    )
+    (tmp_path / "SKILL.md").write_text(content, encoding="utf-8")
+    assert validate_skill(tmp_path).compatibility == compatibility
+    result = CliRunner().invoke(cli, ["validate", str(tmp_path)])
+    assert result.exit_code == 0
+    assert result.stdout == "Skill is valid.\n"
+
+
+def test_compatibility_can_be_omitted() -> None:
+    assert parse_frontmatter(skill_document()).compatibility is None
+
+
+@pytest.mark.parametrize(
+    "value", ['""', '" "', "null", "true", "42", "[]", "{}", '"' + "x" * 501 + '"']
+)
+def test_validate_skill_rejects_invalid_compatibility(
+    tmp_path: Path, value: str
+) -> None:
+    content = skill_document().replace(
+        "description: Useful skill.",
+        f"description: Useful skill.\ncompatibility: {value}",
+    )
+    (tmp_path / "SKILL.md").write_text(content, encoding="utf-8")
+    with pytest.raises(SkillValidationError, match="compatibility"):
+        validate_skill(tmp_path)
+    result = CliRunner().invoke(cli, ["validate", str(tmp_path)])
+    assert result.exit_code == 1
+    assert "compatibility" in result.stderr
 
 
 def test_validate_skill_reports_missing_file(tmp_path: Path) -> None:
