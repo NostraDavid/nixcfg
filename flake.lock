@@ -400,6 +400,23 @@
         "type": "github"
       }
     },
+    "polars-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787316388,
+        "narHash": "sha256-9SfrNDDEL2lN3o3u7vA5ZWhOiAhwZJYPZVjqQIVPo2o=",
+        "owner": "polars-inc",
+        "repo": "skills",
+        "rev": "70bec73cd09722411492dfd3613c73bb6df979b8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "polars-inc",
+        "ref": "v0.3.1",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
     "pstack-skills": {
       "flake": false,
       "locked": {
@@ -481,6 +498,7 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "pi": "pi",
         "plasma-manager": "plasma-manager",
+        "polars-skills": "polars-skills",
         "pstack-skills": "pstack-skills"
       }
     },
