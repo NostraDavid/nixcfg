@@ -34,11 +34,8 @@
         "test-design"
         "tiger-style"
       ];
-      polars-inc = [
-        "polars"
-      ];
     };
-    importedSkills = [local.awesome-copilot-skills local.matt-pocock-skills local.pstack-skills];
+    importedSkills = [local.awesome-copilot-skills local.matt-pocock-skills local.polars-skills local.pstack-skills];
     importedEntries =
       builtins.concatMap
       (package:
