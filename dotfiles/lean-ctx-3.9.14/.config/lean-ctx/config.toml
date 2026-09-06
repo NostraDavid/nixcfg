@@ -24,6 +24,30 @@ shell_allowlist_extra = [
   "exiftool",
   "sha256sum",
   "rsync",
+  "steam",
+  "journalctl",
+  "wmctrl",
+  "xdotool",
+  "import",
+  "xprop",
+  "spectacle",
+  "lscpu",
+  "vmstat",
+  "pidstat",
+  "iostat",
+  "xrandr",
+  "qdbus",
+  "nvidia-settings",
+  "alejandra",
+  "lua",
+  "nix-instantiate",
+]
+read_only_roots = ["/home/david/data/wow_3.3.5a/WTF"]
+allow_paths = [
+  "/home/david/data/wow_3.3.5a/WTF",
+  "/home/david/dev/NostraDavid/nixcfg/trunk",
+  "/home/david/dev/NostraDavid/nixcfg/trunk/dotfiles/agents/.agents/skill-sources/local/linux-performance",
+  "/home/david/dev/NostraDavid/nixcfg/trunk/dotfiles/agents/instructions",
 ]
 [gateway]
 enabled = true
@@ -45,9 +69,3 @@ url = ""
 [gateway.servers.env]
 
 [gateway.servers.headers]
-
-[gateway.servers.capabilities]
-network = "full"
-filesystem = "read_write"
-env = []
-exec = "none"
