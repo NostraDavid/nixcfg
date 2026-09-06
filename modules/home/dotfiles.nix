@@ -12,29 +12,27 @@
     dot = "${repoRoot}/dotfiles";
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
-    skillGroups = {
-      local = [
-        "continuous-delivery"
-        "database-design"
-        "database-refactor"
-        "debug-software"
-        "discover-customer-needs"
-        "hypertext-token-killer"
-        "interview-me"
-        "linux-performance"
-        "manage-adrs"
-        "perfect-review"
-        "python-native-script-builder"
-        "python-uv-script-builder"
-        "reliability-engineering"
-        "review-twelve-factor-app"
-        "secure-software-design"
-        "skill-review"
-        "software-architecture-design"
-        "test-design"
-        "tiger-style"
-      ];
-    };
+    localSkills = [
+      "continuous-delivery"
+      "database-design"
+      "database-refactor"
+      "debug-software"
+      "discover-customer-needs"
+      "hypertext-token-killer"
+      "interview-me"
+      "linux-performance"
+      "manage-adrs"
+      "perfect-review"
+      "python-native-script-builder"
+      "python-uv-script-builder"
+      "reliability-engineering"
+      "review-twelve-factor-app"
+      "secure-software-design"
+      "skill-review"
+      "software-architecture-design"
+      "test-design"
+      "tiger-style"
+    ];
     importedSkills = [local.awesome-copilot-skills local.matt-pocock-skills local.polars-skills local.pstack-skills];
     importedEntries =
       builtins.concatMap
@@ -47,15 +45,11 @@
       importedSkills;
     skillEntries =
       importedEntries
-      ++ builtins.concatLists (builtins.attrValues (
-        builtins.mapAttrs (group: names:
-          map (name: {
-            inherit name group;
-            source = mk "${dot}/agents/.agents/skill-sources/${group}/${name}";
-          })
-          names)
-        skillGroups
-      ));
+      ++ map (name: {
+        inherit name;
+        source = mk "${dot}/agents/.agents/${name}";
+      })
+      localSkills;
     mkSkillLinks = client: skills: let
       links = builtins.listToAttrs (map (skill: {
           name = ".${client}/skills/${skill.name}";

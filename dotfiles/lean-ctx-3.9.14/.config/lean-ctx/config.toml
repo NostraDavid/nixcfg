@@ -46,7 +46,7 @@ read_only_roots = ["/home/david/data/wow_3.3.5a/WTF"]
 allow_paths = [
   "/home/david/data/wow_3.3.5a/WTF",
   "/home/david/dev/NostraDavid/nixcfg/trunk",
-  "/home/david/dev/NostraDavid/nixcfg/trunk/dotfiles/agents/.agents/skill-sources/local/linux-performance",
+  "/home/david/dev/NostraDavid/nixcfg/trunk/dotfiles/agents/.agents/linux-performance",
   "/home/david/dev/NostraDavid/nixcfg/trunk/dotfiles/agents/instructions",
 ]
 [gateway]

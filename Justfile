@@ -24,7 +24,7 @@ format-stylua:
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua
 
 format-ruff:
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/skill-sources/' | xargs -0 --no-run-if-empty ruff format
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff format
 
 format:
   @just format-alejandra
@@ -123,7 +123,7 @@ check:
   @dprint check . --excludes dev.code-workspace docs/agentskills.io dotfiles/copilot-1.0/.copilot/copilot-instructions.md
   @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | xargs -0 --no-run-if-empty shfmt -i 4 -d
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua --check
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/skill-sources/' | xargs -0 --no-run-if-empty ruff format --check
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff format --check
 
 check-alejandra-files *files:
   @alejandra --check {{files}}
@@ -138,7 +138,7 @@ check-stylua-files *files:
   @stylua --check {{files}}
 
 check-ruff-format-files *files:
-  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-sources/' || true; } | xargs -0 --no-run-if-empty ruff format --check
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/' || true; } | xargs -0 --no-run-if-empty ruff format --check
 
 # Test a host configuration temporarily; reverts after reboot.
 test host=default_host:
@@ -328,10 +328,10 @@ hooks-run:
   @prek --config .pre-commit-config.yaml run --all-files
 
 lint-ruff:
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/skill-sources/' | xargs -0 --no-run-if-empty ruff check
+  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff check
 
 lint-ruff-files *files:
-  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-sources/' || true; } | xargs -0 --no-run-if-empty ruff check
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/' || true; } | xargs -0 --no-run-if-empty ruff check
 
 lint-shellcheck:
   @git ls-files -z -- '*.sh' '.bashrc' '.bash_aliases' | xargs -0 --no-run-if-empty shellcheck --severity=error
@@ -340,10 +340,10 @@ lint-shellcheck-files *files:
   @printf '%s\0' {{files}} | xargs -0 --no-run-if-empty shellcheck --severity=error
 
 lint-markdown:
-  @git ls-files -z -- '*.md' | grep -zEv '^(docs/agentskills\.io/|dotfiles/agents/\.agents/skill-sources/)' | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
+  @git ls-files -z -- '*.md' | grep -zEv '^(docs/agentskills\.io/|dotfiles/agents/\.agents/)' | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
 lint-markdown-files *files:
-  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/skill-sources/' || true; } | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
+  @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/' || true; } | xargs -0 --no-run-if-empty markdownlint --disable MD013 MD040 MD041 --
 
 lint-selene:
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty selene
