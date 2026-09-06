@@ -8,7 +8,7 @@ stdenv.mkDerivation (finalAttrs: let
   srcBySystem = {
     "x86_64-linux" = {
       url = "https://github.com/databricks/cli/releases/download/v${finalAttrs.version}/databricks_cli_${finalAttrs.version}_linux_amd64.tar.gz";
-      hash = "sha256-Dn39IDgWZTu2ouFP4Qq9td2cgBsgTvDIUog/3YRjNVU=";
+      hash = "sha256-qm2JyPWa0ftuW+70hZnu27gfnOkmdZVHZcp8u09Tm80=";
     };
     "aarch64-linux" = {
       url = "https://github.com/databricks/cli/releases/download/v${finalAttrs.version}/databricks_cli_${finalAttrs.version}_linux_arm64.tar.gz";
@@ -28,7 +28,7 @@ stdenv.mkDerivation (finalAttrs: let
     or (throw "databricks-cli: unsupported system ${stdenv.hostPlatform.system}");
 in {
   pname = "databricks-cli";
-  version = "1.14.1";
+  version = "1.15.0";
 
   src = fetchurl {
     inherit (srcInfo) url hash;
