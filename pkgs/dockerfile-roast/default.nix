@@ -6,16 +6,16 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "dockerfile-roast";
-  version = "1.6.1";
+  version = "1.7.0";
 
   src = fetchFromGitHub {
     owner = "immanuwell";
     repo = "dockerfile-roast";
     rev = finalAttrs.version;
-    hash = "sha256-X2mVc61kTZbVgFQZN65gRtckXxe/dF8Jw5OkCWYqqow=";
+    hash = "sha256-K5QrUwGVt8x5yF/dBPUmfpLy8lGmv3CZrDGxn83upfc=";
   };
 
-  cargoHash = "sha256-UvigSS2h11SIi7XSuTTmVRUo5GUlFc3es3u6E9yjUJE=";
+  cargoHash = "sha256-bFG4/c294XQ9oFUPtF8A/dKIOjj1WDK3s7nEHeuDLIU=";
 
   # Four discovery tests in the 1.4.8 release expect 13 fixtures, but find 14.
   doCheck = false;
