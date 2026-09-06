@@ -1,0 +1,4 @@
+interface:
+  display_name: "ADR"
+  short_description: "Write and validate architecture decision records"
+  default_prompt: "Use $adr to draft or validate architecture decision records and their relationships."

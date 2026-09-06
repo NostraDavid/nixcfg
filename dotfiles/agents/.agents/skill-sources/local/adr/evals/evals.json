@@ -1,0 +1,99 @@
+{
+  "skill_name": "adr",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Maak een ADR in docs/adr voor orderopslag. Domein SYS, systeem Orders, eigenaar Orders team, decider Architecture group. De groep koos PostgreSQL op 2026-01-15. Orders en orderregels moeten samen committen; het team beheert al PostgreSQL. Een document store is overwogen maar vereist nieuwe operationele kennis. Er bestaan nog geen ADRs. Gebruik de adr-skill.",
+      "expected_output": "One evidence-backed accepted ADR using the domain format, with passing strict collection validation.",
+      "assertions": [
+        "Creates ADR-SYS-0001 with matching filename, metadata, H1, and displayed ID",
+        "Records ACCEPTED and supplied date and people without asking again for approval",
+        "Compares PostgreSQL and a document store using the supplied drivers without invented benchmarks",
+        "Includes all template sections, options and consequences with substantive content",
+        "Runs strict validation on the whole output collection and reports its actual result"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Schrijf met $adr een concept voor een cachekeuze. Domein SYS, systeem Catalog. We twijfelen tussen geen cache en een gedeelde cache. Latency lijkt een probleem maar is niet gemeten; eigenaar, goedkeurder en besluitdatum zijn onbekend. Maak nu een bruikbaar concept.",
+      "expected_output": "An honest DRAFT with explicit unknowns and validation warnings, no invented approval.",
+      "assertions": [
+        "Creates useful DRAFT without blocking on all unknowns",
+        "Uses null dates and explicit TODO owners/decider rather than invented names",
+        "Considers no cache and a shared cache, marks outcome Undecided",
+        "Labels latency claim as unmeasured and specifies evidence needed",
+        "Reports incomplete-content warnings and does not claim strict validation passed"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Gebruik $adr om in deze collectie een nieuwe geaccepteerde ADR voor SQLite als orderopslag toe te voegen. Vervang de bestaande PostgreSQL-keuze. Domein SYS, eigenaar Orders team, decider Architecture group, besluitdatum 2026-02-01. De service draait nu uitsluitend op één device zonder netwerk; PostgreSQL en SQLite zijn vergeleken. Behoud de oude beslissing als geschiedenis.",
+      "files": [
+        "evals/fixtures/valid/ADR-SYS-0001-use-postgresql.md"
+      ],
+      "expected_output": "A new accepted ADR-SYS-0002 and preserved old ADR with reciprocal supersession metadata.",
+      "assertions": [
+        "Allocates 0002 rather than reusing or renaming 0001",
+        "Keeps old context, outcome and decision date intact",
+        "Marks old record SUPERSEDED with superseded_by ADR-SYS-0002 and new supersedes ADR-SYS-0001",
+        "Explains changed deployment context and meaningful consequences",
+        "Validates both records together with no relationship or chronology errors"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Audit deze ADR-collectie met $adr; pas niets aan. Rapporteer of een groene validator ook bewijst dat de keuze inhoudelijk juist en goedgekeurd is.",
+      "files": [
+        "evals/fixtures/valid/ADR-SYS-0001-use-postgresql.md"
+      ],
+      "expected_output": "A read-only structural pass with clear limits on synthetic evidence and semantic approval.",
+      "assertions": [
+        "Runs validator without editing records",
+        "Reports that the fixture is synthetic, as stated in its More Information section",
+        "Does not infer real approval from metadata alone",
+        "Distinguishes structural correctness from quality of decision evidence"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Onze ADRs gebruiken adr-0001.md met alleen Context, Decision en Consequences, zonder YAML. Voeg met $adr een voorgestelde keuze voor Redis toe; behoud ons bestaande formaat.",
+      "files": ["evals/fixtures/legacy/adr-0001.md"],
+      "expected_output": "A convention-preserving proposal rather than an unsolicited schema migration.",
+      "assertions": [
+        "Inspects existing records before choosing next number",
+        "Preserves existing filenames, headings and status vocabulary",
+        "Does not add required domain metadata to every historical record",
+        "Does not claim the bundled domain-schema validator validates legacy records",
+        "Uses repository checks and reports evidence or outstanding input"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Gebruik $adr om onze DRAFT-keuze voor SQLite te koppelen aan een bestaande ACCEPTED PostgreSQL-ADR als mogelijke vervanger. We hebben nog geen goedkeuring. Dezelfde owner en decider blijven gelden.",
+      "files": [
+        "evals/fixtures/valid/ADR-SYS-0001-use-postgresql.md"
+      ],
+      "expected_output": "A proposed replacement linked via related without falsely retiring the accepted decision.",
+      "assertions": [
+        "Leaves existing ADR ACCEPTED and its rationale unchanged",
+        "Keeps new record DRAFT with no fabricated decision date",
+        "Uses related rather than active supersession fields",
+        "Explains approval is still unresolved and reports validation limitations"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Maak op basis van $adr een HTML-versie van onze ADR voor niet-technische lezers. De repository heeft al een Markdown-publicatiepipeline.",
+      "files": [
+        "evals/fixtures/valid/ADR-SYS-0001-use-postgresql.md"
+      ],
+      "expected_output": "HTML derived through the existing pipeline with Markdown retained as canonical source.",
+      "assertions": [
+        "Inspects and reuses existing renderer",
+        "Does not create a second independently maintained HTML template",
+        "Preserves metadata, rationale and links in the derived output",
+        "Checks output without publishing unless publication is authorized"
+      ]
+    }
+  ]
+}
