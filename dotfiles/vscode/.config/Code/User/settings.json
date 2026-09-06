@@ -221,7 +221,8 @@
     "**/SKILL.md": "markdown",
     "*.jsonl": "json",
     "*.mako": "jinja-py",
-    ".env": "dotenv"
+    ".env": "dotenv",
+    "*.just": "just"
   },
   "files.exclude": {
     "**/*.egg-info": true,
