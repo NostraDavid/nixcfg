@@ -2,7 +2,6 @@
 
 Onveranderde baselines voor:
 
-- awesome-copilot
 - codex-system
 - polars-inc
 

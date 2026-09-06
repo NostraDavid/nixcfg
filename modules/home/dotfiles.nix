@@ -13,23 +13,6 @@
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
     skillGroups = {
-      awesome-copilot = [
-        "acquire-codebase-knowledge"
-        "agent-owasp-compliance"
-        "create-architectural-decision-record"
-        "create-readme"
-        "create-specification"
-        "drawio"
-        "gdpr-compliant"
-        "postgresql-code-review"
-        "postgresql-optimization"
-        "refactor"
-        "refactor-method-complexity-reduce"
-        "refactor-plan"
-        "security-review"
-        "sql-code-review"
-        "sql-optimization"
-      ];
       codex-system = [
         "imagegen"
         "openai-docs"
@@ -62,7 +45,7 @@
         "polars"
       ];
     };
-    importedSkills = [local.matt-pocock-skills local.pstack-skills];
+    importedSkills = [local.awesome-copilot-skills local.matt-pocock-skills local.pstack-skills];
     importedEntries =
       builtins.concatMap
       (package:

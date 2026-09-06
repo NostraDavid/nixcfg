@@ -5,7 +5,6 @@ archive_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 sources_root="$(dirname -- "$archive_root")/skill-sources"
 
 declare -A revisions=(
-    ["awesome-copilot"]="822a551eaf80f6a8e9de8bb19d02f0d0b60ae842"
     ["codex-system"]="codex-cli-0.144.3_2575ff8690bf93c7"
     ["polars-inc"]="v0.2.0"
 )
