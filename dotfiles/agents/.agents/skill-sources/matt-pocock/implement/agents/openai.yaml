@@ -1,6 +1,0 @@
-interface:
-  display_name: "Implement"
-  short_description: "Build work from a spec or tickets"
-  default_prompt: "Use $implement to build the work described by this spec or ticket."
-policy:
-  allow_implicit_invocation: false

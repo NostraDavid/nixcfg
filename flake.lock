@@ -232,6 +232,23 @@
         "type": "sourcehut"
       }
     },
+    "matt-pocock-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786025105,
+        "narHash": "sha256-I/EXHGW92nXz6JCLp8SKGgzXrbbUTkLAfxv8bc/ThwQ=",
+        "owner": "mattpocock",
+        "repo": "skills",
+        "rev": "6acc160e4e0cd062dbbbd7a1b26ae92855edf07e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mattpocock",
+        "ref": "v1.2.3",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "inputs": {
         "nixpkgs": [
@@ -366,6 +383,23 @@
         "type": "github"
       }
     },
+    "pstack-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788525468,
+        "narHash": "sha256-wA+B7ho81xzhoLgg+30fX9Cx1RvEF2N4qsQZexSZT0s=",
+        "owner": "cursor",
+        "repo": "plugins",
+        "rev": "93b00b89ef425a9c1bac0d0b317dfc49c930ac99",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cursor",
+        "repo": "plugins",
+        "rev": "93b00b89ef425a9c1bac0d0b317dfc49c930ac99",
+        "type": "github"
+      }
+    },
     "pyproject-build-systems": {
       "inputs": {
         "nixpkgs": [
@@ -423,11 +457,13 @@
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager_2",
         "home-manager-unstable": "home-manager-unstable",
+        "matt-pocock-skills": "matt-pocock-skills",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "pi": "pi",
-        "plasma-manager": "plasma-manager"
+        "plasma-manager": "plasma-manager",
+        "pstack-skills": "pstack-skills"
       }
     },
     "systems": {

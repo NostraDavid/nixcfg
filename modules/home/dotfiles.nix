@@ -1,6 +1,7 @@
 # Shared home-manager configuration for all hosts.
 {
   config,
+  local,
   repoRoot,
   ...
 }: {
@@ -57,50 +58,44 @@
         "test-design"
         "tiger-style"
       ];
-      matt-pocock = [
-        "ask-matt"
-        "code-review"
-        "codebase-design"
-        "diagnosing-bugs"
-        "domain-modeling"
-        "grill-me"
-        "grill-with-docs"
-        "grilling"
-        "handoff"
-        "implement"
-        "improve-codebase-architecture"
-        "prototype"
-        "research"
-        "resolving-merge-conflicts"
-        "setup-matt-pocock-skills"
-        "tdd"
-        "teach"
-        "to-spec"
-        "to-tickets"
-        "triage"
-        "wayfinder"
-        "writing-great-skills"
-      ];
       polars-inc = [
         "polars"
       ];
     };
-    skillEntries = builtins.concatLists (builtins.attrValues (
-      builtins.mapAttrs
-      (group: names: map (name: {inherit group name;}) names)
-      skillGroups
-    ));
-    mkSkillLinks = client: skills:
-      builtins.listToAttrs (map (skill: {
+    importedSkills = [local.matt-pocock-skills local.pstack-skills];
+    importedEntries =
+      builtins.concatMap
+      (package:
+        map (name: {
+          inherit name;
+          source = "${package}/${name}";
+        })
+        package.skillNames)
+      importedSkills;
+    skillEntries =
+      importedEntries
+      ++ builtins.concatLists (builtins.attrValues (
+        builtins.mapAttrs (group: names:
+          map (name: {
+            inherit name group;
+            source = mk "${dot}/agents/.agents/skill-sources/${group}/${name}";
+          })
+          names)
+        skillGroups
+      ));
+    mkSkillLinks = client: skills: let
+      links = builtins.listToAttrs (map (skill: {
           name = ".${client}/skills/${skill.name}";
           value = {
-            source = mk "${dot}/agents/.agents/skill-sources/${skill.group}/${skill.name}";
+            inherit (skill) source;
           };
         })
         skills);
-    sharedCodexSkills = mkSkillLinks "codex" (
-      builtins.filter (skill: skill.group != "codex-system") skillEntries
-    );
+    in
+      if builtins.length (builtins.attrNames links) != builtins.length skills
+      then throw "Duplicate skill names: enable each name in only one skill package or local group."
+      else links;
+    sharedCodexSkills = mkSkillLinks "codex" (builtins.filter (skill: (skill.group or "imported") != "codex-system") skillEntries);
     copilotSkills = mkSkillLinks "copilot" skillEntries;
     opencodeSkills = mkSkillLinks "config/opencode" skillEntries;
   in
