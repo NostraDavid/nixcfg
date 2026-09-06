@@ -71,20 +71,6 @@ in {
 
   xdg = {
     configFile = {
-      "autostart/io.github.martinrotter.rssguard.desktop".text = ''
-        [Desktop Entry]
-        Type=Application
-        Name=RSS Guard
-        Comment=Simple, yet powerful news feed reader
-        Icon=io.github.martinrotter.rssguard
-        Exec=${stable.rssguard}/bin/rssguard
-        Categories=Feed;News;Network;Qt;
-        StartupWMClass=rssguard
-        X-GNOME-SingleWindow=true
-        X-GNOME-Autostart-Delay=15
-        X-LXQt-Need-Tray=true
-      '';
-
       "codex-desktop/settings.json".text = builtins.toJSON {
         codex-linux-prompt-window-enabled = false;
         codex-linux-system-tray-enabled = false;

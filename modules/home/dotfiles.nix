@@ -170,7 +170,6 @@
         ".config/nvim/" = {source = mk "${dot}/neovim-0.11/.config/nvim";};
         ".config/pip/pip.conf" = {source = mk "${dot}/pip-22+/.config/pip/pip.conf";};
         ".config/pypoetry/" = {source = mk "${dot}/pypoetry-2.1/.config/pypoetry";};
-        ".config/RSS Guard 4/config/config.ini" = {source = mk "${dot}/rssguard-4/.config/RSS Guard 4/config/config.ini";};
         ".config/uv/uv.toml" = {source = mk "${dot}/uv-0.9.0/.config/uv/uv.toml";};
         ".git-templates" = {source = mk "${dot}/git-templates/.git-templates";};
         ".gitconfig" = {source = mk "${dot}/git/.gitconfig";};
