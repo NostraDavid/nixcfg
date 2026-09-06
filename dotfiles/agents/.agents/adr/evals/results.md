@@ -71,7 +71,7 @@ limit 500).
 The official reference validator passed with exit 0:
 
 ```bash
-uv tool run --from 'git+https://github.com/agentskills/agentskills@69ef37e9424c0a7ea9dd2293b559e43ec8176379#subdirectory=skills-ref' skills-ref validate dotfiles/agents/.agents/skill-sources/local/adr
+uv tool run --from 'git+https://github.com/agentskills/agentskills@69ef37e9424c0a7ea9dd2293b559e43ec8176379#subdirectory=skills-ref' skills-ref validate dotfiles/agents/.agents/adr
 ```
 
 The run resolved that exact upstream revision and reported `Valid skill`.
