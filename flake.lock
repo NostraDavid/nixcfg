@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "awesome-copilot-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784150933,
+        "narHash": "sha256-9mUkzrl5rNy8MKy+pgsNtbMpIwA4ycUhMBJU0eBIiVI=",
+        "owner": "github",
+        "repo": "awesome-copilot",
+        "rev": "822a551eaf80f6a8e9de8bb19d02f0d0b60ae842",
+        "type": "github"
+      },
+      "original": {
+        "owner": "github",
+        "repo": "awesome-copilot",
+        "rev": "822a551eaf80f6a8e9de8bb19d02f0d0b60ae842",
+        "type": "github"
+      }
+    },
     "bun2nix": {
       "inputs": {
         "flake-parts": "flake-parts_3",
@@ -452,6 +469,7 @@
     },
     "root": {
       "inputs": {
+        "awesome-copilot-skills": "awesome-copilot-skills",
         "codex-desktop-linux": "codex-desktop-linux",
         "flake-parts": "flake-parts",
         "hermes-agent": "hermes-agent",

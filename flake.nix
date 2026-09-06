@@ -33,6 +33,10 @@
       url = "github:NixOS/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    awesome-copilot-skills = {
+      url = "github:github/awesome-copilot/822a551eaf80f6a8e9de8bb19d02f0d0b60ae842";
+      flake = false;
+    };
     matt-pocock-skills = {
       url = "github:mattpocock/skills/v1.2.3";
       flake = false;
