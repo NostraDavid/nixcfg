@@ -13,13 +13,6 @@
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
     skillGroups = {
-      codex-system = [
-        "imagegen"
-        "openai-docs"
-        "plugin-creator"
-        "skill-creator"
-        "skill-installer"
-      ];
       local = [
         "continuous-delivery"
         "database-design"
@@ -78,7 +71,7 @@
       if builtins.length (builtins.attrNames links) != builtins.length skills
       then throw "Duplicate skill names: enable each name in only one skill package or local group."
       else links;
-    sharedCodexSkills = mkSkillLinks "codex" (builtins.filter (skill: (skill.group or "imported") != "codex-system") skillEntries);
+    sharedCodexSkills = mkSkillLinks "codex" skillEntries;
     copilotSkills = mkSkillLinks "copilot" skillEntries;
     opencodeSkills = mkSkillLinks "config/opencode" skillEntries;
   in

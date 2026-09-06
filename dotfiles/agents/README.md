@@ -14,7 +14,8 @@ bron.
 
 ## Lokale bronnen
 
-Onder .agents/skill-sources staan codex-system, polars-inc, local. Onveranderde
-baselines staan in .agents/skill-originals, met compare.sh.
+Onder .agents/skill-sources staan polars-inc, local. Onveranderde baselines
+staan in .agents/skill-originals, met compare.sh. Codex gebruikt zijn ingebouwde
+system-skills; deze worden niet naar andere clients gekopieerd.
 
 Activeer wijzigingen met just switch.
