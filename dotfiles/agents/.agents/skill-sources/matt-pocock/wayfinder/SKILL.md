@@ -1,6 +1,6 @@
 ---
 name: wayfinder
-description: Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.
+description: "Use when the user asks to plan a multi-session effort whose route is still unclear and track unresolved decisions as a shared issue-tracker map. Use to-tickets when the decisions are settled and the task is to split implementation work."
 ---
 
 A loose idea has arrived — too big for one agent session, and wrapped in fog:

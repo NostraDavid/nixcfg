@@ -1,6 +1,6 @@
 ---
 name: refactor-plan
-description: Investigate and plan a multi-file or high-risk code refactor without editing implementation files. Use when the user asks for a refactor plan, sequencing, scope, migration path, or review gate before implementation. Do not use for a small refactor the user asked to implement now.
+description: "Use when the user asks for a refactor plan, sequencing, scope, migration path, or review gate before changing implementation, especially for a multi-file or high-risk refactor. Do not trigger for a small refactor the user asks to implement now."
 ---
 
 # Refactor Plan

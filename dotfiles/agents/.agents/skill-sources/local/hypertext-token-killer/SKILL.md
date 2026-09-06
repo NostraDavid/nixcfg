@@ -1,6 +1,6 @@
 ---
 name: hypertext-token-killer
-description: Fetch, filter, read, or save public HTTP(S) documentation pages without exposing raw HTML to the LLM context. Use when Codex is asked to retrieve web documentation token-efficiently, invoke HyperText Token Killer, remove HTML or page boilerplate before reading, or save cleaned documentation. Do not use for PDFs, JSON APIs, authenticated/browser-session pages, dynamic pages requiring JavaScript rendering, or tasks that require the original DOM, styling, or visual layout.
+description: "Use when the user asks to retrieve public web documentation with HyperText Token Killer, remove HTML or page boilerplate before reading, save cleaned documentation, or reduce documentation-fetch token usage. Do not trigger for PDFs, JSON APIs, authenticated pages, JavaScript-dependent pages, or tasks requiring the original DOM or visual layout."
 ---
 
 # HyperText Token Killer

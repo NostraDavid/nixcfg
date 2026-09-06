@@ -1,6 +1,6 @@
 ---
 name: continuous-delivery
-description: Design or improve a build, test, artifact, deployment, and release workflow so every change is releasable through repeatable automation. Use for deployment pipelines, release strategies, GitOps delivery flow, environment promotion, rollback, database-change coordination, and delivery metrics. Do not use for operating an incident, generic CI configuration, or designing application architecture.
+description: "Use when the user asks to design or improve deployment pipelines, release strategies, GitOps delivery, environment promotion, rollback, or coordination of application and database releases. Do not trigger for isolated CI configuration, live incident investigation, or application architecture design."
 ---
 
 # Continuous Delivery

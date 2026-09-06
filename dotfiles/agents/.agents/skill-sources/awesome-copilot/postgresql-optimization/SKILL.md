@@ -1,6 +1,6 @@
 ---
 name: postgresql-optimization
-description: Diagnose PostgreSQL performance and operational bottlenecks using EXPLAIN, pg_stat views, pg_stat_statements, wait events, vacuum and bloat evidence, WAL, replication, memory, and measured workload behavior. Use for PostgreSQL-specific slow queries, server load, indexing, autovacuum, contention, connection, or replication problems. Do not use for generic SQL review or unmeasured feature recommendations.
+description: "Use when the user reports PostgreSQL-specific slow queries, server load, bloat, autovacuum, lock contention, connection saturation, or replication lag, or asks to tune these using workload evidence. Do not trigger for generic SQL review or speculative feature recommendations."
 ---
 
 # PostgreSQL Optimization

@@ -1,6 +1,6 @@
 ---
 name: database-design
-description: Design or review a relational database schema from domain requirements, business rules, data lifecycles, and workload evidence. Use when defining entities, keys, relationships, constraints, normalization boundaries, data types, or a physical schema for a new or substantially redesigned database. Do not use for tuning one slow query, reviewing an existing SQL patch, or planning an evolutionary production migration.
+description: "Use when the user asks to design or evaluate a new or substantially redesigned relational schema, including entities, keys, relationships, constraints, normalization, and data types. Use database-refactor for evolutionary changes to an existing schema; do not trigger for isolated query tuning or SQL patch review."
 ---
 
 # Database Design

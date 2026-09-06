@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Compact the current conversation into a handoff document for another agent to pick up.
+description: "Use when the user asks to capture the current conversation, decisions, progress, and remaining work in a handoff document for another agent or session. Do not trigger for an ordinary progress update or final response."
 ---
 
 Write a handoff document summarising the current conversation so a fresh agent

@@ -1,6 +1,6 @@
 ---
 name: teach
-description: Teach the user a new skill or concept, within this workspace.
+description: "Use when the user asks for an ongoing learning or tutoring workspace with lessons, exercises, and progress carried across sessions. Do not trigger for a one-off explanation of a concept or code snippet."
 ---
 
 The user has asked you to teach them something. This is a stateful request -

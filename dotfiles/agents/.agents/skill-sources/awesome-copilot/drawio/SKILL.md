@@ -1,6 +1,6 @@
 ---
 name: drawio
-description: Generate draw.io diagrams as .drawio files and export to PNG/SVG/PDF with embedded XML
+description: "Use when the user requests a draw.io diagram, an editable .drawio file, or a PNG, SVG, or PDF export that retains draw.io XML. Do not trigger for diagrams whose requested source format is Mermaid or another format."
 ---
 
 # Draw.io Diagram Skill

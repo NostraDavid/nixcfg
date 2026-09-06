@@ -1,6 +1,6 @@
 ---
 name: test-design
-description: Design or improve a focused software test strategy from risks, contracts, and system boundaries. Use when deciding what to test, choosing unit/integration/contract/system/property tests, creating high-value test cases, replacing brittle mocks, or reviewing a test suite's coverage and trustworthiness. Do not use for merely running existing tests or debugging an unknown failure.
+description: "Use when the user asks what to test, which test levels to use, how to cover risky behavior, how to replace brittle mocks, or whether a suite provides trustworthy coverage. Do not trigger merely to run existing tests or diagnose an unknown failure; use tdd when test-first implementation is requested."
 ---
 
 # Test Design

@@ -1,6 +1,6 @@
 ---
 name: gdpr-compliant
-description: Apply or review GDPR/AVG data-protection requirements in software and infrastructure handling personal data. Use for data-flow design, minimisation, purpose/legal-basis enforcement, retention/deletion, data-subject rights, processors/transfers, privacy defaults, DPIA triggers, logging, testing data, and privacy engineering reviews. Do not use as a substitute for legal advice or for security work with no personal-data implications.
+description: "Use when a software task explicitly concerns GDPR/AVG or requires engineering personal-data controls such as minimisation, consent or purpose enforcement, retention, erasure, data-subject rights, or privacy defaults. Do not trigger merely because an application stores user data, or for legal advice without an engineering task."
 ---
 
 # GDPR Engineering

@@ -1,6 +1,6 @@
 ---
 name: discover-customer-needs
-description: Discover evidence-backed customer and stakeholder needs before choosing or specifying a solution. Use when planning, conducting, or reviewing customer interviews; analyzing interview notes; eliciting product or software requirements; uncovering current workflows, business events, workarounds, constraints, and quality expectations; or choosing between observation, interviews, story mapping, EventStorming, prototypes, and requirements models. Do not use merely to clarify the current user's prompt, write a formal specification, or ask whether people like an already-decided idea.
+description: "Use when the user asks to plan customer or stakeholder research, analyze interview notes, uncover workflows and unmet needs, or elicit requirements before choosing a solution. Do not trigger merely to clarify the current user's prompt, write a formal specification, or validate enthusiasm for an already-decided idea."
 ---
 
 # Discover Customer Needs

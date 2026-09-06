@@ -1,6 +1,6 @@
 ---
 name: diagnosing-bugs
-description: Diagnosis loop for hard bugs and performance regressions. Use when the user says "diagnose"/"debug this", or reports something broken/throwing/failing/slow.
+description: "Use when a difficult bug or performance regression needs a reliable reproduction, failing test, replay, or bisection loop to isolate its cause, or the user explicitly invokes diagnosing-bugs. Use debug-software for general unknown-cause failures and the database or Linux performance skills for domain-specific tuning."
 ---
 
 # Diagnosing Bugs

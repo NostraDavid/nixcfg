@@ -1,6 +1,6 @@
 ---
 name: reliability-engineering
-description: Define, assess, or improve service reliability through user-centered SLOs, observability, capacity, resilience, overload control, incident learning, and recovery. Use for SLI/SLO and error-budget design, alerting, dependency failure, saturation, canaries, graceful degradation, disaster recovery, and reliability reviews. Do not use for a live root-cause investigation or host-level Linux performance diagnosis.
+description: "Use when the user asks to define or assess service SLOs, SLIs, error budgets, alerting, capacity, resilience to dependency failures, overload handling, disaster recovery, or lessons from incidents. Do not trigger for a live root-cause investigation or host-level Linux performance diagnosis."
 ---
 
 # Reliability Engineering

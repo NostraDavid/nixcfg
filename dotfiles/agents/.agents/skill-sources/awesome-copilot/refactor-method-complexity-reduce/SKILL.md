@@ -1,6 +1,6 @@
 ---
 name: refactor-method-complexity-reduce
-description: Reduce a specified method's measured cognitive complexity to a stated threshold while preserving behavior, primarily through focused extraction and control-flow simplification. Use only when the target method, metric, and threshold are explicit. For general cleanup use refactor; for plan-only work use refactor-plan.
+description: "Use when the user asks to reduce a specific method's measured cognitive complexity and supplies the target method, metric, and threshold. Use refactor for general cleanup and refactor-plan for planning without implementation."
 ---
 
 # Reduce Method Complexity

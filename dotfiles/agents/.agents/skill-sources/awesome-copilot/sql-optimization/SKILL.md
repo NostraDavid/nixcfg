@@ -1,6 +1,6 @@
 ---
 name: sql-optimization
-description: Diagnose and improve SQL performance using workload evidence, execution plans, schema statistics, and before/after measurements across SQL databases. Use for slow queries, expensive reports, indexing decisions, pagination bottlenecks, excessive database load, or plan regressions. Do not use for general SQL code review, greenfield schema design, or PostgreSQL-only operational tuning when postgresql-optimization is available.
+description: "Use when the user reports slow SQL queries, expensive reports, pagination bottlenecks, excessive database load, or plan regressions, or asks for indexing or query tuning based on workload evidence. Use postgresql-optimization for PostgreSQL-specific diagnosis; do not trigger for general SQL review or greenfield schema design."
 ---
 
 # SQL Optimization

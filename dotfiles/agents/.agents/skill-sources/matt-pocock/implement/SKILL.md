@@ -1,6 +1,6 @@
 ---
 name: implement
-description: "Implement a piece of work based on a spec or set of tickets."
+description: "Use when the user asks to implement work from an existing spec or set of tickets. Do not trigger for drafting requirements, splitting work into tickets, or reviewing a plan without implementing it."
 ---
 
 Implement the work described by the user in the spec or tickets.

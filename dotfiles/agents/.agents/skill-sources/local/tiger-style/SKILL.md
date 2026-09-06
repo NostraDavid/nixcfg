@@ -1,6 +1,6 @@
 ---
 name: tiger-style
-description: Apply TigerBeetle's TigerStyle approach to design, implement, or review bounded high-integrity systems code with safety before performance before developer experience. Use when the user explicitly requests TigerStyle or TigerBeetle coding style, a repository adopts it, or a task calls for its NASA Power of Ten-inspired constraints such as bounded work, startup-only allocation, assertion-rich invariants, and up-front resource sketches. Do not use for generic code review, ordinary refactoring, incident debugging, or performance tuning without this policy context.
+description: "Use when the user explicitly requests TigerStyle or TigerBeetle coding style, the repository adopts it, or the task explicitly requires its bounded-work, startup-only-allocation, and assertion-rich constraints. Do not trigger for ordinary review, refactoring, debugging, or performance tuning without that policy context."
 ---
 
 # Tiger Style

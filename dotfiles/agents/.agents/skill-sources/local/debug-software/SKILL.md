@@ -1,6 +1,6 @@
 ---
 name: debug-software
-description: Diagnose reproducible and intermittent software failures by turning observations into tested causal hypotheses. Use for crashes, wrong results, hangs, races, resource leaks, flaky failures, and regressions when the cause is unknown. Do not use when the defect is already localized and the user only asks for a fix, for broad code review, or for pure performance tuning without a failure.
+description: "Use when the user reports crashes, wrong results, hangs, races, leaks, or intermittent failures and the cause is unknown. Use diagnosing-bugs for a difficult regression that needs a dedicated reproduction or bisection loop; do not trigger when the defect is already localized and only a fix is requested."
 ---
 
 # Debug Software

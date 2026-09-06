@@ -1,6 +1,6 @@
 ---
 name: manage-adrs
-description: Manage Architecture Decision Records (ADRs) and decision logs across their lifecycle. Use when creating or updating an ADR within an existing decision set, discovering local ADR conventions, superseding or deprecating decisions, repairing numbering or indexes, reviewing decision history, or summarizing ADR status. Prefer create-architectural-decision-record for drafting one standalone ADR when no surrounding ADR-set maintenance is needed.
+description: "Use when the user asks to create or update an ADR within an existing decision set, discover ADR conventions, supersede decisions, repair numbering or indexes, or review decision history and status. Use create-architectural-decision-record for one standalone ADR without surrounding decision-set maintenance."
 ---
 
 # Manage ADRs

@@ -1,6 +1,6 @@
 ---
 name: linux-performance
-description: Diagnose a measured Linux host or process performance problem across CPU, scheduler, memory, filesystem, storage, network, locks, and kernel behavior. Use for unexplained latency, low throughput, saturation, stalls, load, swapping, I/O waits, packet loss, or resource regressions on Linux. Do not use for application-only profiling, SQL tuning, or generic shell-command questions.
+description: "Use when a Linux host or process has unexplained latency, low throughput, saturation, stalls, swapping, I/O waits, packet loss, or a resource regression that needs system-level diagnosis. Do not trigger for application-only profiling, SQL tuning, or generic shell questions."
 ---
 
 # Linux Performance

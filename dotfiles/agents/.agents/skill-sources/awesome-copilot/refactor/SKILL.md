@@ -1,6 +1,6 @@
 ---
 name: refactor
-description: Surgically improve existing code structure while preserving observable behavior. Use for extracting or moving responsibilities, clarifying names and data flow, reducing duplication or coupling, introducing seams around dependencies, or making legacy code safer to change. Do not use for a rewrite, behavior-changing feature work, a plan-only multi-file refactor, or a database migration.
+description: "Use when the task is to improve existing code structure while preserving observable behavior, such as extracting responsibilities, reducing duplication or coupling, clarifying data flow, or introducing dependency seams. Do not trigger for rewrites, new behavior, plan-only work, or database migrations."
 ---
 
 # Refactor

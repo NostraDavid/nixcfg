@@ -1,6 +1,6 @@
 ---
 name: improve-codebase-architecture
-description: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
+description: "Use when the user asks to scan a codebase for module-deepening opportunities, compare those opportunities in a visual report, and explore a selected improvement. Use codebase-design for a specific module interface and software-architecture-design for broader system architecture."
 ---
 
 # Improve Codebase Architecture

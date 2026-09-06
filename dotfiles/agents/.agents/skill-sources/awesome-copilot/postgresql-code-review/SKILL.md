@@ -1,6 +1,6 @@
 ---
 name: postgresql-code-review
-description: Review PostgreSQL SQL, DDL, migrations, functions, triggers, roles, row-level security, and PostgreSQL-specific data types for correctness, security, integrity, and maintainability. Use when a review depends on PostgreSQL semantics or catalog behavior. Use sql-code-review for portable SQL and postgresql-optimization for measured performance tuning.
+description: "Use when reviewing SQL, migrations, functions, triggers, roles, row-level security, or types requires PostgreSQL-specific semantics. Use sql-code-review for portable SQL review and postgresql-optimization for PostgreSQL performance diagnosis."
 ---
 
 # PostgreSQL Code Review

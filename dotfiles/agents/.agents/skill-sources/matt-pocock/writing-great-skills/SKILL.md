@@ -1,6 +1,6 @@
 ---
 name: writing-great-skills
-description: Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable.
+description: "Use when the user asks how to structure skill instructions, choose invocation or composition patterns, or make an existing skill's workflow more predictable. Use skill-creator for concrete skill creation or edits and skill-review for an evidence-based audit."
 ---
 
 A skill exists to wrangle determinism out of a stochastic system.

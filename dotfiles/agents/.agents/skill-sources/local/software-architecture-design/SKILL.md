@@ -1,6 +1,6 @@
 ---
 name: software-architecture-design
-description: Design or evaluate software architecture from domain boundaries, quality-attribute scenarios, data and consistency needs, deployment constraints, and trade-offs. Use for selecting system structure, service/module boundaries, integration styles, evolutionary architecture, or architecture alternatives. Do not use for low-level class refactoring, relational schema design, or merely documenting an existing codebase.
+description: "Use when the user asks to choose or evaluate system structure, service or module boundaries, integration styles, consistency models, deployment trade-offs, or an evolutionary architecture. Do not trigger for low-level class refactoring, relational schema design, or merely documenting an existing codebase."
 ---
 
 # Software Architecture Design
