@@ -7,7 +7,6 @@ sources_root="$(dirname -- "$archive_root")/skill-sources"
 declare -A revisions=(
     ["awesome-copilot"]="822a551eaf80f6a8e9de8bb19d02f0d0b60ae842"
     ["codex-system"]="codex-cli-0.144.3_2575ff8690bf93c7"
-    ["matt-pocock"]="v1.1.0"
     ["polars-inc"]="v0.2.0"
 )
 
@@ -33,7 +32,7 @@ summarize() {
     printf '%-18s %-36s %8s %8s %8s %8s\n' \
         group skill total changed original variant
 
-    for group in awesome-copilot codex-system matt-pocock polars-inc; do
+    for group in "${!revisions[@]}"; do
         revision="${revisions[$group]}"
         for original in "$archive_root/$group/$revision/skills"/*; do
             [[ -d "$original" ]] || continue

@@ -33,6 +33,14 @@
       url = "github:NixOS/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    matt-pocock-skills = {
+      url = "github:mattpocock/skills/v1.2.3";
+      flake = false;
+    };
+    pstack-skills = {
+      url = "github:cursor/plugins/93b00b89ef425a9c1bac0d0b317dfc49c930ac99";
+      flake = false;
+    };
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
