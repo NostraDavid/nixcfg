@@ -102,6 +102,9 @@ in {
     fi
   '';
 
+  # Take ownership of legacy direct-to-store unit symlinks, which HM cannot back up.
+  xdg.configFile."systemd/user/drkonqi-coredump-launcher@.service".force = true;
+
   # Prevent a broken DrKonqi launcher from recursively generating more cores.
   systemd.user.services."drkonqi-coredump-launcher@" = {
     Unit = {
