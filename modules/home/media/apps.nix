@@ -14,7 +14,6 @@ in {
     stable.pixelorama # Pixel art editor
     stable.qbittorrent-enhanced # BitTorrent client
     stable.qdirstat # Disk usage analyzer
-    stable.rssguard # RSS feed reader
     stable.spotify # Music streaming app
     stable.xnviewmp # Image viewer and converter
   ];
