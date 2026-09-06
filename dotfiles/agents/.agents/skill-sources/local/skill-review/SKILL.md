@@ -1,6 +1,6 @@
 ---
 name: skill-review
-description: Review a SKILL.md-based AI-agent skill and its evaluation evidence for activation quality, instruction design, progressive disclosure, operational safety, measurable value, and production readiness. Use for skill audits, approval decisions, activation investigations, and positive, negative, boundary, regression, or ablation evaluation design. Do not use for ordinary code, pull-request, security, API-schema, or performance reviews. Keep reviews and proposed improvements read-only; edit files only when the user explicitly asks to edit, update, fix, or implement changes.
+description: "Use when the user asks to review or audit an AI-agent skill, investigate its activation, assess its readiness or value, or design or interpret trigger and task-quality evaluations. Do not trigger for ordinary code, PR, security, API-schema, or performance reviews. Review-only requests do not authorize edits; apply improvements only when the user asks for changes."
 ---
 
 # Skill Review

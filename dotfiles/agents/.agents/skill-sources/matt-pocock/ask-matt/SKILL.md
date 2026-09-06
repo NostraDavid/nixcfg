@@ -1,6 +1,6 @@
 ---
 name: ask-matt
-description: Ask which skill or flow fits your situation. A router over the skills in this repo.
+description: "Use when the user asks which Matt Pocock skill or engineering workflow fits their situation, or how to move between those skills. Do not trigger for generic questions about unrelated skill libraries."
 ---
 
 # Ask Matt

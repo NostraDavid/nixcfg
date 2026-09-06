@@ -1,6 +1,6 @@
 ---
 name: polars
-description: Write, debug, review, optimize, or migrate Python Polars code and analyze tabular data with Polars DataFrames, LazyFrames, expressions, and query plans. Use when the user explicitly names Polars, supplies Polars code, or asks for Python tabular work where Polars fits the repository and constraints. Do not replace a requested pandas, DuckDB, Spark, or other implementation unless migration is requested. Not for Polars Cloud, On-Prem, distributed, or GPU workloads.
+description: "Use when the user names Polars, supplies Polars code, requests a migration to Polars, or asks for Python tabular work in a repository that uses Polars. Do not trigger when pandas, DuckDB, Spark, or another implementation is requested unless migration is part of the task, or for Polars Cloud, On-Prem, distributed, or GPU workloads."
 ---
 
 # Polars

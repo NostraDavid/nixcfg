@@ -1,6 +1,6 @@
 ---
 name: perfect-review
-description: Perform a prioritized, evidence-backed code review with the PERFECT framework across Purpose, Edge Cases, Reliability, Form, Evidence, Clarity, and Taste. Use when the user explicitly invokes perfect-review or asks for a PERFECT review of code, a snippet, diff, pull request, merge request, branch, or work in progress; for a structured self-review; or for team review conventions based on PERFECT. Prefer the separate code-review skill for a generic branch review against a user-supplied fixed point when PERFECT was not requested.
+description: "Use when the user explicitly requests a PERFECT code review, a structured self-review, or team review conventions based on PERFECT. Use code-review for a generic branch, PR, or work-in-progress review against a fixed point when PERFECT was not requested."
 ---
 
 # PERFECT Review

@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed.
+description: "Use when the user asks to turn the current conversation into a spec or PRD for the project's issue tracker, using decisions already discussed. Use create-specification for a repository specification that needs fresh requirements work."
 ---
 
 This skill takes the current conversation context and codebase understanding and

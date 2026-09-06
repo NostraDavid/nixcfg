@@ -1,6 +1,6 @@
 ---
 name: grilling
-description: Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.
+description: "Use when the user explicitly asks to be grilled or to stress-test the assumptions and decisions in a plan or idea, or another skill invokes a grilling session. Use interview-me for ordinary task clarification; use grill-with-docs when the interview must also maintain domain documentation."
 ---
 
 Interview me relentlessly about every aspect of this until we reach a shared

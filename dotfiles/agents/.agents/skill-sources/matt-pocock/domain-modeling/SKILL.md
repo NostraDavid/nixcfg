@@ -1,6 +1,6 @@
 ---
 name: domain-modeling
-description: Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model.
+description: "Use when the user asks to define or refine domain terminology, a ubiquitous language, domain boundaries, or a project's CONTEXT.md, or when another workflow needs to maintain that domain model. Use manage-adrs for ADR lifecycle work that does not require domain modeling."
 ---
 
 # Domain Modeling

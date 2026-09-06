@@ -1,6 +1,6 @@
 ---
 name: security-review
-description: Review an existing codebase or scoped path for exploitable software vulnerabilities by modeling trust boundaries and tracing attacker-controlled data and state to security impact. Use for repository security audits, auth/access-control review, injection, secrets exposure, unsafe cryptography, supply-chain configuration, and business-logic abuse. Do not use for greenfield security design, offensive exploitation, a supplied finding that only needs validation, or applying fixes unless explicitly requested.
+description: "Use when the user asks to audit an existing repository or scoped code for exploitable vulnerabilities, including access-control flaws, injection, secrets exposure, unsafe cryptography, or business-logic abuse. Do not trigger for greenfield security design, offensive exploitation, or a supplied finding that only needs validation; applying fixes requires an explicit request."
 ---
 
 # Security Review

@@ -1,6 +1,6 @@
 ---
 name: create-readme
-description: "Create a README.md file for the project"
+description: "Use when the user asks to create a project README.md or substantially rewrite its overview, setup, and usage guidance. Do not trigger for a small correction to an existing README."
 ---
 
 # Create README.md

@@ -1,6 +1,6 @@
 ---
 name: create-specification
-description: Create or substantially revise a repository specification that turns stakeholder goals into scoped, traceable, testable requirements and interfaces. Use for feature, system, API, data, infrastructure, process, or architecture specifications. Do not use for an implementation plan, ADR, README, or formal TLA+ model unless explicitly requested.
+description: "Use when the user asks to create or substantially revise a repository specification for a feature, system, API, data contract, infrastructure, process, or architecture. Do not trigger for implementation plans, ADRs, READMEs, or formal TLA+ models; use to-spec when the request is to turn an existing conversation into a tracker spec."
 ---
 
 # Create Specification

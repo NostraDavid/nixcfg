@@ -1,6 +1,6 @@
 ---
 name: triage
-description: Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs.
+description: "Use when the user asks to categorize, verify, prioritize, or prepare agent-ready briefs for tracker issues or external pull requests. Do not trigger for a code-only PR review or implementation of an already-triaged ticket."
 ---
 
 # Triage

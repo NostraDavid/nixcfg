@@ -1,6 +1,6 @@
 ---
 name: create-architectural-decision-record
-description: "Create an Architectural Decision Record (ADR) document for AI-optimized decision documentation."
+description: "Use when the user asks to draft a standalone Architectural Decision Record (ADR) for a specific decision, its alternatives, and consequences. Use manage-adrs when the task also involves maintaining an existing ADR set."
 ---
 
 # Create Architectural Decision Record

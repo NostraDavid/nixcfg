@@ -1,6 +1,6 @@
 ---
 name: review-twelve-factor-app
-description: Review a service application's repository, architecture, configuration, delivery pipeline, and runtime practices against the original Twelve-Factor App methodology. Use for twelve-factor or 12-factor assessments, factor-by-factor gap analyses, cloud-readiness reviews explicitly based on 12factor.net, and modernization backlogs organized by the twelve factors. Do not use for a generic code-quality, security, reliability, or CI/CD review unless Twelve-Factor criteria are requested.
+description: "Use when the user explicitly asks for a Twelve-Factor or 12-factor assessment, a factor-by-factor gap analysis, or a cloud-readiness or modernization review based on 12factor.net. Do not trigger for generic code-quality, security, reliability, or CI/CD reviews."
 ---
 
 # Review Twelve-Factor App

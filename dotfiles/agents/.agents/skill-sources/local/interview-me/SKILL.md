@@ -1,6 +1,6 @@
 ---
 name: interview-me
-description: Extract the current user's real intent before planning, specifying, or coding. Use when their request is underspecified or missing who it is for, why it matters, what observable success means, or which constraint binds; or when the user asks to be interviewed, grilled, or have their own thinking stress-tested. Do not use for clear mechanical requests, non-interactive runs, or research interviews with customers or multiple stakeholders.
+description: "Use when the user asks to be interviewed to clarify a task, or missing purpose, audience, success criteria, or binding constraints prevent useful planning or implementation. Use grilling for an explicit adversarial stress-test of a plan; do not trigger for clear mechanical requests, non-interactive runs, or customer research."
 ---
 
 # Interview Me

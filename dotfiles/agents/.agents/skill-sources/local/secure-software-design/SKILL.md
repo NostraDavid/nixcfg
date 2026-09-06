@@ -1,6 +1,6 @@
 ---
 name: secure-software-design
-description: Design or substantially revise software security before implementation by modeling assets, actors, trust boundaries, abuse cases, security invariants, and layered controls. Use for security architecture, threat modeling, secure API or identity design, privilege boundaries, and secure-by-design requirements. Do not use for scanning existing code, validating a supplied vulnerability, offensive exploitation, or GDPR-only compliance.
+description: "Use when the user asks to design or substantially revise security architecture, threat models, secure APIs or identity flows, privilege boundaries, or security requirements before implementation. Do not trigger for scanning existing code, validating a supplied vulnerability, offensive exploitation, or GDPR-only compliance."
 ---
 
 # Secure Software Design

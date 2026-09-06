@@ -1,6 +1,6 @@
 ---
 name: database-refactor
-description: Plan and implement safe evolutionary changes to an existing database schema while preserving data, compatibility, and required behavior. Use for renaming or splitting tables or columns, changing types or constraints, backfilling data, replacing legacy schema, or coordinating zero/low-downtime database migrations across application versions. Do not use for greenfield schema design or isolated query tuning.
+description: "Use when the task changes an existing database schema while preserving data and application compatibility, such as renaming or splitting tables or columns, changing types or constraints, backfilling data, or coordinating migrations across application versions. Do not trigger for greenfield schema design or isolated query tuning."
 ---
 
 # Database Refactor

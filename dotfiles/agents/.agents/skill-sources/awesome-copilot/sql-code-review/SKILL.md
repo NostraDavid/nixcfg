@@ -1,6 +1,6 @@
 ---
 name: sql-code-review
-description: Review SQL and relational schema changes for correctness, security, integrity, portability, and maintainability across SQL databases. Use for SQL files, migrations, views, stored routines, ORM-emitted SQL, or database patches when the user wants findings rather than performance tuning. Defer engine-specific PostgreSQL behavior to postgresql-code-review and measured performance diagnosis to sql-optimization.
+description: "Use when the user asks for correctness, security, integrity, portability, or maintainability findings on SQL, relational schema changes, migrations, views, stored routines, or ORM-emitted SQL. Use postgresql-code-review when PostgreSQL semantics matter and sql-optimization when the task is measured performance tuning."
 ---
 
 # SQL Code Review
