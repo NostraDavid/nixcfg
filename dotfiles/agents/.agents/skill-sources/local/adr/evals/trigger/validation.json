@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "explicit",
+      "query": "Gebruik $adr voor een beslissing over onze berichtenbroker.",
+      "should_trigger": true
+    },
+    {
+      "id": "dutch-record",
+      "query": "Leg onze architectuurkeuze voor PostgreSQL vast, inclusief alternatieven en gevolgen.",
+      "should_trigger": true
+    },
+    {
+      "id": "schema",
+      "query": "Controleer of al onze ADRs valide YAML, unieke IDs en kloppende supersession-relaties hebben.",
+      "should_trigger": true
+    },
+    {
+      "id": "template",
+      "query": "Maak een Architectural Decision Record template voor onze domeinen OP SYS TRS CM.",
+      "should_trigger": true
+    },
+    {
+      "id": "history",
+      "query": "Vervang ADR-SYS-0007 door een nieuwe beslissing en behoud de geschiedenis.",
+      "should_trigger": true
+    },
+    {
+      "id": "architecture-advice",
+      "query": "Wat zijn de voor- en nadelen van microservices?",
+      "should_trigger": false
+    },
+    {
+      "id": "implementation",
+      "query": "Implementeer een Redis-cache in deze service.",
+      "should_trigger": false
+    },
+    {
+      "id": "legal",
+      "query": "Explain alternative dispute resolution for a tenancy dispute.",
+      "should_trigger": false
+    },
+    {
+      "id": "readme",
+      "query": "Schrijf een README met installatie-instructies.",
+      "should_trigger": false
+    },
+    {
+      "id": "stock",
+      "query": "What is an American Depositary Receipt (ADR)?",
+      "should_trigger": false
+    }
+  ]
+}
