@@ -38,7 +38,6 @@
   home = {
     packages = [
       local.codex # llm agent
-      local.codex-security # Codex Security CLI
       local.cool-retro-term # terminal emulator with retro style
       local.dpaint-js # DPaint written in JS
       local.engram # Persistent memory and MCP server for coding agents
