@@ -127,7 +127,7 @@ package_version() {
     local dir="$1"
     local pkg="$2"
 
-    pkg_eval_raw "${dir}" "${pkg}" "pkgs.\"${pkg}\".version"
+    pkg_eval_raw "${dir}" "${pkg}" "pkgs.\"${pkg}\".version or \"\""
 }
 
 package_has_update_script() {
@@ -278,6 +278,11 @@ probe_skip_reason() {
     local mode
 
     current_version="$(package_version "${dir}" "${pkg}")"
+    if [[ -z "${current_version}" ]]; then
+        echo "no package version (may be managed by a flake input)"
+        return 0
+    fi
+
     mode="$(update_mode "${dir}" "${pkg}")"
 
     if [[ "${mode}" == "unsupported-external-script" ]]; then
@@ -368,13 +373,12 @@ list_updates() {
 
     for pkg in "${packages[@]}"; do
         ensure_package "${repo_root}" "${pkg}"
-        before="$(package_version "${repo_root}" "${pkg}")"
-
         if skip_reason="$(probe_skip_reason "${repo_root}" "${pkg}")"; then
             skipped+=("${pkg}: ${skip_reason}")
             continue
         fi
 
+        before="$(package_version "${repo_root}" "${pkg}")"
         tmpdir="$(mktemp -d)"
         update_log="${tmpdir}/update.log"
         mkdir -p "${tmpdir}/repo"

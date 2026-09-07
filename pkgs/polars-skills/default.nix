@@ -13,6 +13,7 @@
   skillNames;
 in
   (linkFarm "polars-skills" entries).overrideAttrs (_: {
+    version = "0.3.1";
     passthru = {inherit skillNames;};
     meta.license = lib.licenses.mit;
   })

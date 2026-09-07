@@ -34,7 +34,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     awesome-copilot-skills = {
-      url = "github:github/awesome-copilot/822a551eaf80f6a8e9de8bb19d02f0d0b60ae842";
+      url = "github:github/awesome-copilot";
       flake = false;
     };
     matt-pocock-skills = {
@@ -46,7 +46,7 @@
       flake = false;
     };
     pstack-skills = {
-      url = "github:cursor/plugins/93b00b89ef425a9c1bac0d0b317dfc49c930ac99";
+      url = "github:cursor/plugins";
       flake = false;
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
