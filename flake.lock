@@ -3,17 +3,16 @@
     "awesome-copilot-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1784150933,
-        "narHash": "sha256-9mUkzrl5rNy8MKy+pgsNtbMpIwA4ycUhMBJU0eBIiVI=",
+        "lastModified": 1788754510,
+        "narHash": "sha256-Z/TFFcaIQ0sr0fRYj1efU52UcKbYQcNRRDrCwdJLGU4=",
         "owner": "github",
         "repo": "awesome-copilot",
-        "rev": "822a551eaf80f6a8e9de8bb19d02f0d0b60ae842",
+        "rev": "f38fb6cf039b835990d0f49dc161d7c2af99ef69",
         "type": "github"
       },
       "original": {
         "owner": "github",
         "repo": "awesome-copilot",
-        "rev": "822a551eaf80f6a8e9de8bb19d02f0d0b60ae842",
         "type": "github"
       }
     },
@@ -430,7 +429,6 @@
       "original": {
         "owner": "cursor",
         "repo": "plugins",
-        "rev": "93b00b89ef425a9c1bac0d0b317dfc49c930ac99",
         "type": "github"
       }
     },

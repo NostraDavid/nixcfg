@@ -13,6 +13,7 @@
   skillNames;
 in
   (linkFarm "awesome-copilot-skills" entries).overrideAttrs (_: {
+    version = "unstable-${src.lastModifiedDate}-${src.shortRev}";
     passthru = {inherit skillNames;};
     meta.license = lib.licenses.mit;
   })
