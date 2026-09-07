@@ -11,13 +11,13 @@
   libpng,
   zlib,
   fetchFromGitHub,
+  fetchzip,
 }: let
   version = "unstable-2026-06-01";
-  libjpegTurboSrc = fetchFromGitHub {
-    owner = "libjpeg-turbo";
-    repo = "libjpeg-turbo";
-    rev = "8ecba3647edb6dd940463fedf38ca33a8e2a73d1";
-    hash = "sha256-96SBBZp+/4WkXLvHKSPItNi5WuzdVccI/ZcbJOFjYYk=";
+  libjpegTurboVersion = "3.2.0";
+  libjpegTurboSrc = fetchzip {
+    url = "https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/${libjpegTurboVersion}/libjpeg-turbo-${libjpegTurboVersion}.tar.gz";
+    hash = "sha256-SPxWCDt9hFQ8uRaaKLkpWp9oPhfcRkDBm5MarTgdmV4=";
   };
   sjpegSrc = fetchFromGitHub {
     owner = "webmproject";
@@ -28,7 +28,7 @@
   src = fetchFromGitHub {
     owner = "google";
     repo = "jpegli";
-    # Prefer a pinned commit for reproducibility.
+    # Upstream jpegli does not publish version tags.
     rev = "031a0077f5799a6041004267fc12b956c1f52a20";
     # Submodule fetch via git intermittently fails while pruning .git metadata;
     # the GitHub source archive is sufficient with our system-lib cmake flags.
@@ -79,6 +79,9 @@ in
       rm -rf third_party/libjpeg-turbo
       cp -r ${libjpegTurboSrc} third_party/libjpeg-turbo
       chmod -R u+w third_party/libjpeg-turbo
+      # libjpeg-turbo 3.2 moved the public headers and config template into src/.
+      substituteInPlace lib/jpegli.cmake \
+        --replace-fail "../third_party/libjpeg-turbo/" "../third_party/libjpeg-turbo/src/"
 
       rm -rf third_party/sjpeg
       cp -r ${sjpegSrc} third_party/sjpeg

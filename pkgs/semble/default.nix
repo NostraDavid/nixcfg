@@ -4,29 +4,6 @@
   fetchPypi,
   python3Packages,
 }: let
-  bm25s = python3Packages.buildPythonPackage rec {
-    pname = "bm25s";
-    version = "0.3.9";
-    pyproject = true;
-
-    src = fetchPypi {
-      inherit pname version;
-      hash = "sha256-iVxnnZUrfeg1XttfPhpiCh4vKU0dQrkZvwghzOLi9Zc=";
-    };
-
-    build-system = with python3Packages; [
-      setuptools
-    ];
-
-    dependencies = with python3Packages; [
-      numpy
-    ];
-
-    pythonImportsCheck = [
-      "bm25s"
-    ];
-  };
-
   model2vec = python3Packages.buildPythonPackage rec {
     pname = "model2vec";
     version = "0.8.1";
@@ -84,19 +61,19 @@
     ];
   };
 
-  tree-sitter-language-pack = python3Packages.buildPythonPackage rec {
-    pname = "tree-sitter-language-pack";
-    version = "1.6.2";
+  semble-grammars = python3Packages.buildPythonPackage rec {
+    pname = "semble-grammars";
+    version = "0.1.2";
     format = "wheel";
 
     src = fetchPypi {
-      pname = "tree_sitter_language_pack";
+      pname = "semble_grammars";
       inherit version format;
-      dist = "cp310";
-      python = "cp310";
-      abi = "abi3";
-      platform = "manylinux_2_34_x86_64";
-      hash = "sha256-IwXfeDXByz00txRQt50TWHi8JepdAtmYTO6GRgekrWA=";
+      dist = "py3";
+      python = "py3";
+      abi = "none";
+      platform = "manylinux2014_x86_64";
+      hash = "sha256-wEBZXKThF5aaNJgH3OBcGlHbs2joDegLAFU5/YbvnAc=";
     };
 
     dependencies = with python3Packages; [
@@ -104,7 +81,7 @@
     ];
 
     pythonImportsCheck = [
-      "tree_sitter_language_pack"
+      "semble_grammars"
     ];
   };
 in
@@ -116,8 +93,8 @@ in
     src = fetchFromGitHub {
       owner = "MinishLab";
       repo = "semble";
-      rev = "e6afc1d7abe6e0d730f7fcb95d338973bc75f930";
-      hash = "sha256-Mhco4G9p1V9RzOzwhu8yhawxIWBsjaWnqSJatGsMZXA=";
+      tag = "v${version}";
+      hash = "sha256-pV/ermCbbGv8xJIjHNQcCzZBxkqmUBUaM6LZ7Sdues4=";
     };
 
     build-system = with python3Packages; [
@@ -126,7 +103,6 @@ in
     ];
 
     dependencies = with python3Packages; [
-      bm25s
       huggingface-hub
       mcp
       model2vec
@@ -134,9 +110,9 @@ in
       orjson
       pathspec
       tree-sitter
-      tree-sitter-language-pack
+      questionary
+      semble-grammars
       vicinity
-      watchfiles
     ];
 
     pythonImportsCheck = [
