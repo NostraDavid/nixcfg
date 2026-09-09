@@ -13,6 +13,7 @@
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
     localSkills = [
+      "audio-notify"
       "continuous-delivery"
       "database-design"
       "database-refactor"
@@ -78,6 +79,7 @@
         ## Generic
         "AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
         ".agents/instructions" = {source = mk "${dot}/agents/instructions";};
+        ".agents/audio-notify" = {source = mk "${dot}/agents/.agents/audio-notify";};
 
         ## Codex
         ".codex/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};

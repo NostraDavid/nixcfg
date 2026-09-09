@@ -1,5 +1,8 @@
 # AGENTS.md
 
+- Before asking the user a question or handing over a completed task, follow
+  @~/.agents/audio-notify/SKILL.md
+
 - @~/.agents/instructions/batch-instructions.md
 - @~/.agents/instructions/lean-ctx.md
 - @~/.agents/instructions/headroom.md

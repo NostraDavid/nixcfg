@@ -55,6 +55,28 @@ Die repository publiceert geen licentie en is niet letterlijk gekopieerd.
 Koppel de bronverzameling niet ook aan `~/.agents/skills`: dat kan dezelfde
 skills dubbel beschikbaar maken.
 
+`audio-notify` speelt een geluid bij vragen aan de gebruiker en bij het afronden
+van een taak. De gedeelde `AGENTS.md` verwijst naar de skill via
+`~/.agents/audio-notify/`, ook voor clients zonder de gedeelde skillselectie. Na
+een Home Manager-rebuild kun je beide geluiden proberen:
+
+```bash
+"$HOME/.agents/audio-notify/scripts/notify.sh" question
+"$HOME/.agents/audio-notify/scripts/notify.sh" done
+```
+
+`notify.sh` laat `say` "biep boep. Ik heb een vraag." of "biep boep. De taak is
+klaar." uitspreken. De toevoeging hoort bij de gesproken agentmeldingen. Home
+Manager koppelt `dotfiles/scripts/say.sh` aan `~/.local/bin/say`. `say.sh`
+gebruikt `espeak-ng` met de Nederlandse steminstellingen en spreekt de opgegeven
+tekst uit.
+
+`say`, `espeak-ng` en `timeout` moeten op `PATH` staan. Een shellalias werkt
+niet vanuit `notify.sh` of `timeout`. Zet `AGENT_NOTIFY_MUTE=1` om de meldingen
+te dempen. De meldingen hangen af van het volgen van de instructies door het
+model en toegestane uitvoering van het afspeelcommando; er wordt geen clienthook
+geïnstalleerd.
+
 ## Geheugen en sessiegeschiedenis
 
 `nixcfg.agentMemory.provider` in `modules/home/development/mantle.nix` kiest het

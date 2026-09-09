@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audio notifications"
+  short_description: "Speak with say for questions and completed tasks"
+  default_prompt: "Use $audio-notify to speak with say when you need my input or finish the task."
