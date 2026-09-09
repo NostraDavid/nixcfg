@@ -40,7 +40,7 @@
 
   home = {
     packages = [
-      local.codex # llm agent
+      unstable.codex # llm agent
       local.cool-retro-term # terminal emulator with retro style
       local.dpaint-js # DPaint written in JS
       local.fixit # fix command in case you mess up a command
