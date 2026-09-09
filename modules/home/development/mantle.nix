@@ -11,6 +11,7 @@
 
   programs.pi.coding-agent = {
     enable = true;
+    package = local.pi-coding-agent;
     settings = builtins.fromJSON (
       builtins.readFile ../../../dotfiles/pi/.pi/agent/settings.json
     );
