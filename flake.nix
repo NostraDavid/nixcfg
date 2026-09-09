@@ -37,6 +37,18 @@
       url = "github:github/awesome-copilot";
       flake = false;
     };
+    blender-mcp-skills = {
+      url = "github:vinhelysia/blender-mcp";
+      flake = false;
+    };
+    blender-reference-skills = {
+      url = "github:LevyBytes/AI-SKILL-blender";
+      flake = false;
+    };
+    cc-blender-skills = {
+      url = "github:RobLe3/cc-blender-skill";
+      flake = false;
+    };
     matt-pocock-skills = {
       url = "github:mattpocock/skills/v1.2.3";
       flake = false;

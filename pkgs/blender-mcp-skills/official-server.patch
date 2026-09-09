@@ -1,0 +1,117 @@
+--- a/skill/blender-mcp/SKILL.md
++++ b/skill/blender-mcp/SKILL.md
+@@ -1,41 +1,39 @@
+ ---
+ name: blender-mcp
+-description: Expert operation of the Blender MCP connector (26 tools bridging to a Blender addon on localhost:9876). Use this skill WHENEVER the user mentions Blender, bpy, 3D modeling, meshes, materials, GLB/glTF export, .blend files, rendering, viewport, rigging, physics simulation, game assets, or asks to create/edit/inspect anything 3D — even if they don't say "Blender MCP" explicitly. Also use when exporting assets for Godot (Cogito framework).
++description: Use for inspecting or editing Blender scenes through the official Blender Lab MCP server, including bpy scripting, materials, rendering, and GLB/glTF export.
+ ---
+ 
+ # Blender MCP Mastery
+ 
+-You control a live Blender 5.x instance through MCP tools. `blender_execute_python`
+-runs arbitrary `bpy` code — everything else is a convenience wrapper. Work like a
++You control a live Blender 5.x instance through MCP tools. `execute_blender_code`
++runs arbitrary `bpy` code. Prefer a dedicated tool when one covers the task. Work like a
+ careful technical artist: inspect first, act in small verified steps, never claim
+ success without numeric proof.
+ 
+ ## Golden loop (follow every time)
+ 
+-1. **Inspect** — `blender_get_objects_summary` before assuming anything about the scene.
+-2. **Act** — one focused `blender_execute_python` call per logical step.
++1. **Inspect** — `get_objects_summary` before assuming anything about the scene.
++2. **Act** — use the dedicated tool or one focused `execute_blender_code` call per logical step.
+ 3. **Verify numerically** — return dimensions, vert/tri counts, bounding boxes,
+    material slot names in `result`. "The code ran" is not verification.
+-4. **Verify visually** — `blender_get_area_screenshot` (VIEW_3D) or
+-   `blender_get_window_screenshot` for a final check. If screenshots misbehave,
++4. **Verify visually** — `get_screenshot_of_area_as_image` (VIEW_3D) or
++   `get_screenshot_of_window_as_image` for a final check. If screenshots misbehave,
+    fall back to numeric checks; do not block on pixels.
+ 
+ ## Core conventions
+ 
+-- Interactive tools: executed code assigns a JSON-serializable dict to `result`.
+-  CLI tools (`*_cli`): assign to `summary` instead.
++- Both interactive and CLI code tools return a JSON-serializable dict assigned
++  to `result`. Use the parameter names advertised by the connected server.
+ - Import everything yourself (`import bpy, bmesh, math, mathutils`) in every call —
+   namespaces do not persist between calls.
+ - Convert Blender types before returning: `[round(v,4) for v in obj.dimensions]`,
+   never raw Vector/Euler/Matrix.
+ - `print()` is captured and returned as `stdout`; errors return a full traceback
+   in `message`.
+-- Long operations (physics bakes, renders, heavy booleans): pass `timeout` (e.g. 300).
+-  On timeout the op may STILL be running inside Blender — wait and re-inspect,
+-  never re-fire a heavy op blindly.
+-- CLI variants spawn a headless `blender --background <file>`; changes are DISCARDED
+-  unless the code calls `bpy.ops.wm.save_mainfile()`. Blender's exe is auto-detected
+-  from the running instance; if Blender is closed, `BLENDER_BINARY` env var is needed.
++- On timeout an operation may still be running inside Blender. Re-inspect before
++  repeating it. The official code tools do not accept a per-call `timeout` argument.
++- CLI variants (`*_for_cli`) spawn a background Blender process. Supply the
++  `blend_file` path; persist edits only when requested, using an explicit save.
+ 
+ ## Context overrides (most bpy.ops failures come from this)
+ 
+@@ -87,33 +85,37 @@
+ 3. UV: cube project with sensible world-scale tiling (e.g. 2 m).
+ 4. Verify by sampling `img.pixels[:8]` — never trust the bake blind.
+ 
+-## Godot / Cogito export conventions (user's FPS project)
++## Export conventions
+ 
+-- Grid: 1 unit = 1 m, 4 m modular pieces. Light concrete albedo (~0.6 gray);
+-  NEVER near-black albedo.
+-- Collision naming suffixes Godot auto-imports: `-col` (trimesh), `-convcol`
+-  (convex), `-colonly` (collision-only, no visual).
+-- Origins: bottom-center; walls use bottom inner edge.
+-- GLB export: zero the asset to origin first, then
+-  `bpy.ops.export_scene.gltf(filepath=..., use_selection=True, export_apply=True,
+-  export_yup=True, export_cameras=False, export_lights=False)` — textures embed
+-  automatically.
+-- Export dir: `C:/Stuff/godot-fps-cogito-master/godot-fps-cogito-master/Assets/Blender`.
+-- Keep visual meshes low-poly (a 4 m wall ≈ tens of tris; a rubble pile ≤ ~500 tris).
++Use the target project's units, origin, collision naming, and polygon budget.
++Choose the export path from the user's request or project configuration.
++For GLB, select the intended objects; set `use_selection=True, use_active_scene=True`.
+ 
+ ## Tool selection quick map
+ 
+-- Scene overview → `blender_get_objects_summary`; one object deep-dive →
+-  `blender_get_object_detail_summary` (evaluated counts, modifiers, materials).
+-- See the screen → `blender_get_area_screenshot` (VIEW_3D) / window variant;
+-  UI geometry without pixels → `blender_get_screenshot_as_json`.
+-- Render to a file → `blender_render_viewport_to_path` /
+-  `blender_render_thumbnail_to_path` (frames one object automatically).
+-- API uncertainty → `blender_search_api_docs` or `blender_get_python_api_docs`
++- Scene overview → `get_objects_summary`; one object deep-dive →
++  `get_object_detail_summary` (dimensions, modifiers, materials).
++- See the screen → `get_screenshot_of_area_as_image` (VIEW_3D) / window variant;
++  UI geometry without pixels → `get_screenshot_of_window_as_json`.
++- Render to a file → `render_viewport_to_path` /
++  `render_thumbnail_to_path` (small render using the scene camera).
++- API uncertainty → `search_api_docs` or `get_python_api_docs`
+   (live, matches installed version) before guessing operator names.
+-- Inspect a .blend WITHOUT touching the open session → the `*_cli` summary tools
+-  or `blender_execute_python_cli`.
+-- Everything else → `blender_execute_python`.
++- Inspect a .blend WITHOUT touching the open session → the `*_for_cli` summary tools
++  or `execute_blender_code_for_cli`.
++- Everything else → `execute_blender_code`.
++
++## Official server output
++
++`get_objects_summary` returns a collection tree; deduplicate object names when
++counting objects in multiple collections. Object details include dimensions but
++no vertex/triangle counts or bounding-box corners. Measure those through
++`execute_blender_code` on the evaluated object; call `calc_loop_triangles()` for
++triangles and release temporary meshes with `to_mesh_clear()`.
++
++The render helpers write under Blender's MCP scratch directory using the basename
++of `output_path`. Use the returned `filepath` to find the actual image. Thumbnail
++rendering uses the scene camera and does not automatically frame an object.
+ 
+ ## Safety rules
+ 

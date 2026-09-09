@@ -1,0 +1,84 @@
+--- a/SKILL.md
++++ b/SKILL.md
+@@ -57,9 +57,3 @@
+ ## Official documentation
+ 
+ Includes original content written for this skill. The official documentation is at https://docs.blender.org/manual/en/latest/ — consult it to verify anything uncertain, conflicting, or version-specific.
+-
+-## Verification
+-
+-```powershell
+-python "$env:DEVROOT\SKILLS\skills\skill-drafting\scripts\validate_skill_package.py" --package "$env:DEVROOT\SKILLS\skills\blender"
+-```
+--- a/actions-fcurves/SKILL.md
++++ b/actions-fcurves/SKILL.md
+@@ -27,9 +27,3 @@
+ 
+ All depth lives in `references/` — start at `references/INDEX.md`, with metadata in
+ `references/topics.json`. One subject per file.
+-
+-## Verification
+-
+-```powershell
+-python "$env:DEVROOT\SKILLS\skills\skill-drafting\scripts\validate_skill_package.py" "$env:DEVROOT\SKILLS\skills\blender\actions-fcurves"
+-```
+--- a/addons-panels/SKILL.md
++++ b/addons-panels/SKILL.md
+@@ -27,9 +27,3 @@
+ 
+ All depth lives in `references/` — start at `references/INDEX.md`, with metadata in
+ `references/topics.json`. One subject per file.
+-
+-## Verification
+-
+-```powershell
+-python "$env:DEVROOT\SKILLS\skills\skill-drafting\scripts\validate_skill_package.py" "$env:DEVROOT\SKILLS\skills\blender\addons-panels"
+-```
+--- a/cameras-lights/SKILL.md
++++ b/cameras-lights/SKILL.md
+@@ -27,9 +27,3 @@
+ 
+ All depth lives in `references/` — start at `references/INDEX.md`, with metadata in
+ `references/topics.json`. One subject per file.
+-
+-## Verification
+-
+-```powershell
+-python "$env:DEVROOT\SKILLS\skills\skill-drafting\scripts\validate_skill_package.py" "$env:DEVROOT\SKILLS\skills\blender\cameras-lights"
+-```
+--- a/linked-libraries/SKILL.md
++++ b/linked-libraries/SKILL.md
+@@ -27,9 +27,3 @@
+ 
+ All depth lives in `references/` — start at `references/INDEX.md`, with metadata in
+ `references/topics.json`. One subject per file.
+-
+-## Verification
+-
+-```powershell
+-python "$env:DEVROOT\SKILLS\skills\skill-drafting\scripts\validate_skill_package.py" "$env:DEVROOT\SKILLS\skills\blender\linked-libraries"
+-```
+--- a/material-nodes/SKILL.md
++++ b/material-nodes/SKILL.md
+@@ -27,9 +27,3 @@
+ 
+ All depth lives in `references/` — start at `references/INDEX.md`, with metadata in
+ `references/topics.json`. One subject per file.
+-
+-## Verification
+-
+-```powershell
+-python "$env:DEVROOT\SKILLS\skills\skill-drafting\scripts\validate_skill_package.py" "$env:DEVROOT\SKILLS\skills\blender\material-nodes"
+-```
+--- a/python-api/SKILL.md
++++ b/python-api/SKILL.md
+@@ -27,9 +27,3 @@
+ 
+ All depth lives in `references/` — start at `references/INDEX.md`, with metadata in
+ `references/topics.json`. One subject per file.
+-
+-## Verification
+-
+-```powershell
+-python "$env:DEVROOT\SKILLS\skills\skill-drafting\scripts\validate_skill_package.py" "$env:DEVROOT\SKILLS\skills\blender\python-api"
+-```

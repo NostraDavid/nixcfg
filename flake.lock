@@ -16,6 +16,38 @@
         "type": "github"
       }
     },
+    "blender-mcp-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783853815,
+        "narHash": "sha256-p+OZ97DcdM/qimXAz52egV/TE0g3MM1ZhhV+tXo2XNg=",
+        "owner": "vinhelysia",
+        "repo": "blender-mcp",
+        "rev": "a23c7fc4ca0a62ee09f3ee1f0edc0cb11191ceb2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vinhelysia",
+        "repo": "blender-mcp",
+        "type": "github"
+      }
+    },
+    "blender-reference-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782115229,
+        "narHash": "sha256-mVMoEX3+wolXs6OxZ05cx/4AlTVpr781f5OOdQa45v0=",
+        "owner": "LevyBytes",
+        "repo": "AI-SKILL-blender",
+        "rev": "59dda21f52824ddfb1a3fe07ad843fc0cdc23334",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LevyBytes",
+        "repo": "AI-SKILL-blender",
+        "type": "github"
+      }
+    },
     "bun2nix": {
       "inputs": {
         "flake-parts": "flake-parts_3",
@@ -41,6 +73,22 @@
         "owner": "nix-community",
         "ref": "2.1.0",
         "repo": "bun2nix",
+        "type": "github"
+      }
+    },
+    "cc-blender-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777631671,
+        "narHash": "sha256-A2BoLYMcIeF4Wq+HZOUZfPHhRKJV9yOIB0KYIOY1hV8=",
+        "owner": "RobLe3",
+        "repo": "cc-blender-skill",
+        "rev": "11016c9a5847897491dde935c346571bd7548e3d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "RobLe3",
+        "repo": "cc-blender-skill",
         "type": "github"
       }
     },
@@ -502,6 +550,9 @@
     "root": {
       "inputs": {
         "awesome-copilot-skills": "awesome-copilot-skills",
+        "blender-mcp-skills": "blender-mcp-skills",
+        "blender-reference-skills": "blender-reference-skills",
+        "cc-blender-skills": "cc-blender-skills",
         "codex-desktop-linux": "codex-desktop-linux",
         "flake-parts": "flake-parts",
         "hermes-agent": "hermes-agent",
