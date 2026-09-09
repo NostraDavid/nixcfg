@@ -19,6 +19,14 @@ alias ll='lsd -lha --group-dirs first --header --blocks permission,user,group,si
 alias llo='ls -alhF'
 alias ls='ls --color=auto'
 alias ncdu='ncdu --color=dark'
+# eSpeak NG options below have no long equivalents:
+# -v en-us: American English voice (list voices: espeak-ng --voices).
+# -s 200: speed in words per minute (default: 175).
+# -p 0: pitch, 0-99 (default: 50; 0 is lowest).
+# -P 0: pitch range, 0-99 (default: 50; 0 is monotone).
+# -a 200: amplitude, 0-200 (default: 100; 200 is maximum).
+# Usage: say "Build complete"; override options: say -v nl -s 150 "Klaar".
+alias say='espeak-ng -v en-us -s 200 -p 0 -P 0 -a 200'
 alias sudo='sudo '
 alias vi='nvim'
 alias plasma_restart='systemctl --user restart plasma-plasmashell.service'
