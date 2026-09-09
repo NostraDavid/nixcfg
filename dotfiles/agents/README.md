@@ -61,15 +61,19 @@ van een taak. De gedeelde `AGENTS.md` verwijst naar de skill via
 een Home Manager-rebuild kun je beide geluiden proberen:
 
 ```bash
-"$HOME/.agents/audio-notify/scripts/notify.sh" question
-"$HOME/.agents/audio-notify/scripts/notify.sh" done
+"$HOME/.agents/audio-notify/scripts/notify.sh" question "Welke stem wil je gebruiken?"
+"$HOME/.agents/audio-notify/scripts/notify.sh" done "Repositorynaam toegevoegd aan de meldingen."
 ```
 
-`notify.sh` laat `say` "biep boep. Ik heb een vraag." of "biep boep. De taak is
-klaar." uitspreken. De toevoeging hoort bij de gesproken agentmeldingen. Home
-Manager koppelt `dotfiles/scripts/say.sh` aan `~/.local/bin/say`. `say.sh`
-gebruikt `espeak-ng` met de Nederlandse steminstellingen en spreekt de opgegeven
-tekst uit.
+Voer `notify.sh` uit vanuit de repository waar de taak over gaat. Geef als
+tweede argument een korte omschrijving mee van wat klaar is of welke input je
+nodig hebt. Houd die op maximaal twaalf woorden. Je hoort bijvoorbeeld: "biep
+boep. nixcfg. Repositorynaam toegevoegd aan de meldingen.". De naam komt uit de
+gedeelde Git-map; `trunk`, submappen en andere worktrees krijgen zo dezelfde
+projectnaam. Buiten Git vervalt de naam. De toevoeging hoort bij de gesproken
+agentmeldingen. Home Manager koppelt `dotfiles/scripts/say.sh` aan
+`~/.local/bin/say`. `say.sh` gebruikt `espeak-ng` met de Nederlandse
+steminstellingen en spreekt de opgegeven tekst uit.
 
 `say`, `espeak-ng` en `timeout` moeten op `PATH` staan. Een shellalias werkt
 niet vanuit `notify.sh` of `timeout`. Zet `AGENT_NOTIFY_MUTE=1` om de meldingen

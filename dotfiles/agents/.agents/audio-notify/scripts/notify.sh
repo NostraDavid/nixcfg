@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-    printf 'Usage: %s question|done\n' "$0" >&2
+message=${2:-}
+if [[ $# -ne 2 || ! $message =~ [^[:space:]] ]]; then
+    printf 'Usage: %s question|done "short message"\n' "$0" >&2
     exit 2
 fi
 
 case "$1" in
-question) message='Ik heb een vraag.' ;;
-done) message='De taak is klaar.' ;;
+question | done) ;;
 *)
     printf 'Unknown notification event: %s\n' "$1" >&2
     exit 2
@@ -27,4 +27,13 @@ if ! command -v timeout >/dev/null 2>&1; then
     exit 1
 fi
 
-exec timeout -k 1 5 say "biep boep. $message"
+repository=''
+if git_dir=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null); then
+    repository=$(dirname -- "$git_dir")
+    if [[ ${repository##*/} == trunk ]]; then
+        repository=$(dirname -- "$repository")
+    fi
+    repository=${repository##*/}
+fi
+
+exec timeout -k 1 10 say "biep boep. ${repository:+$repository. }$message"

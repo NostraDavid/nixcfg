@@ -5,9 +5,9 @@ description: Speak a notification with say before asking the user a question or 
 
 # Audio notifications
 
-Run the bundled command once at each user-facing handoff. Resolve
-`scripts/notify.sh` relative to this `SKILL.md`; the shared installation is
-`~/.agents/audio-notify/`.
+Run the bundled command once at each user-facing handoff, with the working
+directory inside the task's repository. Resolve `scripts/notify.sh` relative
+to this `SKILL.md`; the shared installation is `~/.agents/audio-notify/`.
 
 | Moment | Command argument |
 | --- | --- |
@@ -24,22 +24,32 @@ deliverable is a plan; an internal plan during implementation does not. If the
 handoff asks for a reply, use `question` alone.
 
 ```bash
-"$HOME/.agents/audio-notify/scripts/notify.sh" question
-"$HOME/.agents/audio-notify/scripts/notify.sh" done
+"$HOME/.agents/audio-notify/scripts/notify.sh" question "Welke stem wil je gebruiken?"
+"$HOME/.agents/audio-notify/scripts/notify.sh" done "Repositorynaam toegevoegd aan de meldingen."
 ```
+
+Always supply a short, task-specific message as the second argument. Use one
+sentence of at most twelve words. For completion, name what was finished and,
+when useful, its result or the user's next step. For a question, name the input
+needed. Keep file lists, commit hashes, and technical details in the written
+reply. Quote the message as one shell argument.
 
 Choose the one command matching the event. Invoke it through the available
 shell tool. Only the agent talking to the user plays notifications. Progress
 updates, internal substeps, quoted questions, and subagent messages are silent.
 An incomplete or blocked task does not get a completion sound.
 
-The script uses `say` to speak "biep boep. Ik heb een vraag." for `question`
-and "biep boep. De taak is klaar." for `done`. The notification script adds the
-spoken prefix; keep written replies free of this prefix. It requires an
+The script speaks "biep boep", the repository name, then your message. For
+example: "biep boep. nixcfg. Repositorynaam toegevoegd aan de meldingen."
+It derives the repository name from the shared Git directory, so
+subdirectories and sibling worktrees keep the same name. For this repository
+layout, `nixcfg/trunk` and `nixcfg/codex-task` both identify `nixcfg`. Outside
+Git it omits the repository name. The notification script adds the spoken
+prefix; keep written replies free of this prefix. It requires an
 executable `say` and `timeout` on `PATH`; a shell alias cannot be called by
 `timeout`. Home Manager installs
 `say.sh` as `~/.local/bin/say`, using `espeak-ng`.
-Playback gets five seconds to finish, followed by a one-second kill grace
+Playback gets ten seconds to finish, followed by a one-second kill grace
 period. A successful command does not prove that the user heard it.
 
 Report a missing command, playback failure, or tool restriction briefly once
