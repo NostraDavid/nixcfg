@@ -55,6 +55,7 @@ enabled = true
 [gain]
 last_auto_publish = "2026-08-31T21:26:12.353083227+00:00"
 
+# On-demand local compression; clients access Headroom through ctx_tools.
 [[gateway.servers]]
 name = "headroom"
 transport = "stdio"
@@ -63,6 +64,8 @@ command = "headroom"
 args = [
   "mcp",
   "serve",
+  "--transport",
+  "stdio",
 ]
 url = ""
 

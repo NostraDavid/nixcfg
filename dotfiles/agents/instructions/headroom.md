@@ -1,26 +1,43 @@
-# Headroom
+# Headroom through LeanCTX
 
-Use Headroom through its MCP tools for explicit compression and retrieval of
-large tool outputs, JSON, logs, RAG results, files, or long conversation
-context. It is separate from the shell-output policy: RTK and Snip remain
-ordered according to `cli-proxy-policy.md`.
+Use Headroom for explicit compression of large raw tool outputs, JSON, logs, or
+retrieved documents. Keep ordinary file reads and searches in LeanCTX; avoid
+compressing content that LeanCTX has already compressed.
 
-Headroom is configured in MCP-only mode. It does not proxy model traffic or
-compress every request automatically; call its MCP tools when compression is
-useful.
+Discover Headroom with `ctx_tools` using `action = "find"` and
+`query = "headroom"`. If `ctx_tools` is not exposed, invoke it through
+`ctx_call` with `name = "ctx_tools"` and the same arguments.
 
-- Avoid repeatedly compressing the same content when that would remove useful
-  detail.
-- Keep Engram as the canonical cross-session memory; do not also enable Headroom
-  memory or learning writes by default.
-- Proxy diagnostics such as `headroom doctor`, performance reports, and the
-  dashboard do not apply unless a separate proxy route is deliberately enabled.
-- Never expose provider credentials in commands, logs, memory, or instruction
-  files.
-- Remember that a local proxy compresses locally, but the resulting request is
-  still sent to the configured external provider.
+Call it through the LeanCTX gateway:
 
-Do not run `headroom deploy`, `headroom wrap`, `headroom unwrap`,
-`headroom mcp
-install`, or `headroom learn --apply`, and do not persist proxy or
-provider configuration, unless the user explicitly asks for that mutation.
+```json
+{
+  "action": "call",
+  "tool": "headroom::headroom_compress",
+  "arguments": { "content": "<raw content>" }
+}
+```
+
+Keep the returned `hash` with the compressed result. Before relying on omitted
+values, exact wording, or source to edit, retrieve the original with
+`headroom::headroom_retrieve` and `arguments = {"hash":"<returned hash>"}`. Use
+`headroom::headroom_stats` with empty arguments for compression statistics.
+
+LeanCTX 3.10.1 can return `Transport closed` when it reuses a downstream
+connection after shutting down that call's runtime. For these Headroom tools,
+use a fresh LeanCTX CLI process as the fallback. Write the same gateway JSON to
+a temporary file, then run through `ctx_shell`:
+
+```bash
+lean-ctx call ctx_tools --project-root /absolute/project/path --json-file /path/to/request.json
+```
+
+Remove the temporary request file after use. Keep the original source until
+retrieval succeeds; an expired hash requires returning to that source.
+
+Nix supplies Headroom and the gateway starts `headroom mcp serve` on demand.
+This integration compresses locally and needs no model-traffic proxy or API
+credentials. A proxy-unreachable warning alone does not invalidate a successful
+local compression or retrieval. Keep Engram as the durable memory store. Change
+provider routing, install separate agent MCP entries, or enable Headroom
+learning only when the user explicitly requests those changes.
