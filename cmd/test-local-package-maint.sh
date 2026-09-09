@@ -10,10 +10,10 @@ cd "${repo_root}"
 source <(sed '$d' cmd/local-package-maint.sh)
 
 # These bundles must reach their flake updater, even with unstable versions.
-for package in awesome-copilot-skills matt-pocock-skills polars-skills pstack-skills; do
+for package in awesome-copilot-skills matt-pocock-skills polars-skills ponytail-skills pstack-skills; do
     if [[ "${package}" == polars-skills ]]; then
         [[ "$(package_version "${repo_root}" "${package}")" =~ ^0\.[0-9]+\.[0-9]+$ ]]
-    elif [[ "${package}" == matt-pocock-skills ]]; then
+    elif [[ "${package}" == matt-pocock-skills || "${package}" == ponytail-skills ]]; then
         [[ "$(package_version "${repo_root}" "${package}")" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
     else
         [[ "$(package_version "${repo_root}" "${package}")" == unstable-* ]]
