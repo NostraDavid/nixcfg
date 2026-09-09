@@ -21,16 +21,16 @@ related: []
 
 De orderservice draait nu uitsluitend op één device zonder netwerk. De eerdere
 PostgreSQL-keuze was gebaseerd op transacties voor orders en orderregels en
-bestaande operationele ervaring. Die consistentiebehoefte blijft gelden, maar
-de gewijzigde deployment maakt lokaal beheer met minder componenten bepalend.
+bestaande operationele ervaring. Die consistentiebehoefte blijft gelden, maar de
+gewijzigde deployment maakt lokaal beheer met minder componenten bepalend.
 PostgreSQL en SQLite zijn voor deze situatie vergeleken.
 
 ## Decision Outcome
 
 **Chosen option:** SQLite
 
-Gebruik SQLite als orderopslag. De ingebedde database past bij uitvoering op
-één device, ondersteunt transacties en vermijdt beheer van een afzonderlijk
+Gebruik SQLite als orderopslag. De ingebedde database past bij uitvoering op één
+device, ondersteunt transacties en vermijdt beheer van een afzonderlijk
 databaseproces. Deze eenvoud weegt zwaarder dan hergebruik van de bestaande
 PostgreSQL-beheerervaring. Dit geaccepteerde besluit vervangt ADR-SYS-0001.
 
@@ -62,18 +62,18 @@ verandert de inhoudelijke consistentiebehoefte van orders en orderregels niet.
 
 ## Decision Drivers
 
-| Driver | Relative weight | Description |
-| --- | --- | --- |
-| Lokale uitvoering | High | De service draait uitsluitend op één device zonder netwerk. |
-| Eenvoudig beheer | High | Beperk afzonderlijk te beheren componenten op het device. |
-| Consistentie | High | Orders en orderregels moeten samen worden vastgelegd. |
-| Bestaande ervaring | Medium | Het team heeft volgens de eerdere ADR PostgreSQL-beheerervaring. |
+| Driver             | Relative weight | Description                                                      |
+| ------------------ | --------------- | ---------------------------------------------------------------- |
+| Lokale uitvoering  | High            | De service draait uitsluitend op één device zonder netwerk.      |
+| Eenvoudig beheer   | High            | Beperk afzonderlijk te beheren componenten op het device.        |
+| Consistentie       | High            | Orders en orderregels moeten samen worden vastgelegd.            |
+| Bestaande ervaring | Medium          | Het team heeft volgens de eerdere ADR PostgreSQL-beheerervaring. |
 
 ## Considered Options
 
-| Option | Summary |
-| --- | --- |
-| SQLite | Ingebedde transactionele opslag op het device. |
+| Option     | Summary                                                      |
+| ---------- | ------------------------------------------------------------ |
+| SQLite     | Ingebedde transactionele opslag op het device.               |
 | PostgreSQL | Behoud van de bestaande keuze met een lokaal databaseproces. |
 
 ### Pros and Cons of the Options
@@ -87,7 +87,8 @@ transactiebehoefte, met minder afzonderlijk databasebeheer.
 
 - Good, because een afzonderlijk databaseproces niet nodig is.
 - Neutral, because back-up- en hersteleigenaarschap bij Orders team blijft.
-- Bad, because de bestaande opslag en eventuele PostgreSQL-specifieke code moeten worden gemigreerd.
+- Bad, because de bestaande opslag en eventuele PostgreSQL-specifieke code
+  moeten worden gemigreerd.
 
 #### PostgreSQL
 
@@ -99,15 +100,16 @@ afzonderlijk te beheren databaseproces op het device.
 
 - Good, because de bestaande databasekennis en opslagkeuze behouden blijven.
 - Neutral, because ook bij deze optie lokale back-ups en herstel nodig blijven.
-- Bad, because een afzonderlijk databaseproces extra beheer vraagt in deze deployment.
+- Bad, because een afzonderlijk databaseproces extra beheer vraagt in deze
+  deployment.
 
 ## More Information
 
-Voorgaand besluit: [ADR-SYS-0001](ADR-SYS-0001-use-postgresql.md). De oorspronkelijke
-argumentatie en besluitdatum blijven daarin bewaard.
+Voorgaand besluit: [ADR-SYS-0001](ADR-SYS-0001-use-postgresql.md). De
+oorspronkelijke argumentatie en besluitdatum blijven daarin bewaard.
 
 Bron voor de gewijzigde context, goedkeuringsstatus, eigenaar, decider en
-besluitdatum is de aangeleverde opdracht binnen deze synthetische evaluatie.
-Er zijn geen benchmarkresultaten of uitvoeringsbewijzen aangeleverd.
-Heropen de keuze wanneer meerdere devices, netwerktoegang of veranderde
-schrijfbelasting nodig worden. Een laatste reviewdatum is niet aangeleverd.
+besluitdatum is de aangeleverde opdracht binnen deze synthetische evaluatie. Er
+zijn geen benchmarkresultaten of uitvoeringsbewijzen aangeleverd. Heropen de
+keuze wanneer meerdere devices, netwerktoegang of veranderde schrijfbelasting
+nodig worden. Een laatste reviewdatum is niet aangeleverd.
