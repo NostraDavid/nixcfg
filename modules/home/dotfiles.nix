@@ -105,9 +105,6 @@
         ".config/opencode/opencode.jsonc" = {source = mk "${dot}/opencode-1.18.4/.config/opencode/opencode.jsonc";};
         ".config/opencode/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
-        ## LeanCTX
-        ".config/lean-ctx/config.toml" = {source = mk "${dot}/lean-ctx-3.9.14/.config/lean-ctx/config.toml";};
-
         ## Shared MCP
         ".config/mcp/mcp.json" = {source = mk "${dot}/mcp/.config/mcp/mcp.json";};
 

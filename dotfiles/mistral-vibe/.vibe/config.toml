@@ -30,10 +30,10 @@ transport = "stdio"
 command = "agent-memory"
 args = ["mcp"]
 [[mcp_servers]]
-name = "lean-ctx"
+name = "headroom"
 transport = "stdio"
-command = "lean-ctx"
-args = ["serve"]
+command = "headroom"
+args = ["mcp", "serve", "--transport", "stdio"]
 [[mcp_servers]]
 name = "qartez"
 transport = "stdio"

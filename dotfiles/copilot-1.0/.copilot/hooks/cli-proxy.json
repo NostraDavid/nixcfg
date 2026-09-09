@@ -1,29 +1,4 @@
 {
   "version": 1,
-  "hooks": {
-    "PreToolUse": [
-      {
-        "type": "command",
-        "command": "lean-ctx hook rewrite",
-        "cwd": ".",
-        "timeout": 5
-      }
-    ],
-    "preToolUse": [
-      {
-        "type": "command",
-        "bash": "lean-ctx hook rewrite",
-        "powershell": "lean-ctx hook rewrite",
-        "cwd": ".",
-        "timeoutSec": 5
-      },
-      {
-        "type": "command",
-        "bash": "lean-ctx hook redirect",
-        "powershell": "lean-ctx hook redirect",
-        "cwd": ".",
-        "timeoutSec": 5
-      }
-    ]
-  }
+  "hooks": {}
 }

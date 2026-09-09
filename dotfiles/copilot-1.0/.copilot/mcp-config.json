@@ -18,11 +18,14 @@
       ],
       "type": "local"
     },
-    "lean-ctx": {
+    "headroom": {
       "args": [
-        "mcp"
+        "mcp",
+        "serve",
+        "--transport",
+        "stdio"
       ],
-      "command": "lean-ctx",
+      "command": "headroom",
       "tools": [
         "*"
       ],

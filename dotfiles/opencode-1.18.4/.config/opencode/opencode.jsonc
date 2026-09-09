@@ -16,9 +16,13 @@
       "timeout": 30000,
       "type": "local"
     },
-    "lean-ctx": {
+    "headroom": {
       "command": [
-        "lean-ctx"
+        "headroom",
+        "mcp",
+        "serve",
+        "--transport",
+        "stdio"
       ],
       "enabled": true,
       "timeout": 30000,

@@ -27,15 +27,20 @@
       "command": "agent-memory",
       "type": "stdio"
     },
-    "lean-ctx": {
-      "args": [],
-      "command": "/etc/profiles/per-user/david/bin/lean-ctx",
-      "env": {},
-      "type": "stdio"
-    },
     "qartez": {
       "args": [],
       "command": "qartez",
+      "type": "stdio"
+    },
+    "headroom": {
+      "args": [
+        "mcp",
+        "serve",
+        "--transport",
+        "stdio"
+      ],
+      "command": "headroom",
+      "env": {},
       "type": "stdio"
     }
   }

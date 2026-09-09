@@ -5,5 +5,6 @@ mcp_servers:
       - mcp
   qartez:
     command: qartez
-  lean-ctx:
-    command: lean-ctx
+  headroom:
+    command: headroom
+    args: [mcp, serve, --transport, stdio]

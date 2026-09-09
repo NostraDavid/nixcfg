@@ -6,7 +6,7 @@
   unstable,
   ...
 }: {
-  imports = [./agent-memory.nix];
+  imports = [./agent-memory.nix ./headroom.nix];
   nixcfg.agentMemory.provider = "engrim";
 
   programs.pi.coding-agent = {
@@ -45,10 +45,8 @@
       local.dpaint-js # DPaint written in JS
       local.fixit # fix command in case you mess up a command
       local.gigatoken # Fast tokenization for OpenAI models
-      local.headroom # Compression addon available only through the LeanCTX gateway
       local.hermes-agent # LLM agent for desktop
       local.jsongrep # JSONPath-inspired query language over JSON documents
-      local.lean-ctx # Context engineering layer shared by coding agents
       local.mdschema # A declarative schema-based Markdown validator
       local.photogimp # Photoshop-like defaults for GIMP
       local.ptk # python-token-killer
