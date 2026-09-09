@@ -45,6 +45,12 @@
       importedSkills;
     skillEntries =
       importedEntries
+      ++ [
+        {
+          name = "ctx";
+          source = "${local.ctx}/share/skills/ctx";
+        }
+      ]
       ++ map (name: {
         inherit name;
         source = mk "${dot}/agents/.agents/${name}";
@@ -80,6 +86,8 @@
         ".pi/agent/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
         ## Claude
+        ".claude/skills/ctx".source = "${local.ctx}/share/skills/ctx";
+        ".pi/agent/skills/ctx".source = "${local.ctx}/share/skills/ctx";
         ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
         ".claude/CLAUDE.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 

@@ -1,6 +1,6 @@
 mcp_servers:
-  engram:
-    command: engram
+  agent-memory:
+    command: agent-memory
     args:
       - mcp
   qartez:

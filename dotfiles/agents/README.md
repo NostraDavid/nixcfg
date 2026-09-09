@@ -54,3 +54,27 @@ Die repository publiceert geen licentie en is niet letterlijk gekopieerd.
 
 Koppel de bronverzameling niet ook aan `~/.agents/skills`: dat kan dezelfde
 skills dubbel beschikbaar maken.
+
+## Geheugen en sessiegeschiedenis
+
+`nixcfg.agentMemory.provider` in `modules/home/development/mantle.nix` kiest het
+actieve geheugen. Het staat op `"engrim"`; verander dit in `"engram"` en rebuild
+om terug te schakelen. Herstart daarna de coding-clients. Beide CLI's blijven
+geïnstalleerd. Hun databases worden niet gemigreerd, gesynchroniseerd of
+verwijderd bij een switch.
+
+De MCP-configuraties gebruiken `agent-memory mcp`, dat de gekozen backend start.
+Home Manager past bij activatie ook de bestaande Codex- en Claude-configuratie
+aan en bewaart de oorspronkelijke bestanden met de suffix
+`.before-agent-memory`. Andere instellingen en MCP-servers blijven behouden.
+`~/.config/agent-memory/provider` vertelt agents welke instructies gelden.
+Engrim bewaart geselecteerde kennis in `~/.engrim/memory.db`; het embeddingmodel
+komt via Nix mee en kan offline worden gebruikt.
+
+CTX bewaart doorzoekbare sessiegeschiedenis in `~/.ctx`. De user-service
+`ctx-history` initialiseert en onderhoudt de index na de rebuild. Controleer hem
+met `systemctl --user status ctx-history` en `ctx status`. De upstream
+history-search-skill heet in CTX 1.3.1 `ctx` en is beschikbaar voor Codex,
+Claude, Copilot, OpenCode en Pi. CLI en skill worden samen bijgewerkt met
+`just pkg-update ctx`. Engrim gebruikt de gewone updater via
+`just pkg-update engrim`; beide vallen ook onder `just pkg-update-all`.

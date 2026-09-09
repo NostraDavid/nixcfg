@@ -5,6 +5,6 @@
 - @~/.agents/instructions/headroom.md
 - @~/.agents/instructions/qartez.md
 - @~/.agents/instructions/context7.md
-- @~/.agents/instructions/engram.md
+- @~/.agents/instructions/memory.md
 - @~/.agents/instructions/commit-style.md
 - @~/.agents/instructions/worktrees.md

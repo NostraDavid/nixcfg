@@ -20,11 +20,11 @@
     }
   ],
   "servers": {
-    "engram": {
+    "agent-memory": {
       "args": [
         "mcp"
       ],
-      "command": "engram",
+      "command": "agent-memory",
       "type": "stdio"
     },
     "lean-ctx": {
