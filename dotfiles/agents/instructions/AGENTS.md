@@ -4,7 +4,6 @@
   @~/.agents/audio-notify/SKILL.md
 
 - @~/.agents/instructions/batch-instructions.md
-- @~/.agents/instructions/lean-ctx.md
 - @~/.agents/instructions/headroom.md
 - @~/.agents/instructions/qartez.md
 - @~/.agents/instructions/context7.md

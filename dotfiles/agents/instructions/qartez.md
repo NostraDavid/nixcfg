@@ -3,9 +3,9 @@
 Use Qartez through MCP for indexed, graph-aware code navigation and editing when
 language semantics or cross-file relationships matter.
 
-Treat Qartez as the primary code-intelligence tool. Fall back to LeanCTX when
-Qartez cannot answer a query or its index is stale or incomplete. Do not
-duplicate successful Qartez queries merely for confirmation.
+Treat Qartez as the primary code-intelligence tool. Fall back to native file and
+search tools when Qartez cannot answer a query or its index is stale or
+incomplete. Do not duplicate successful Qartez queries merely for confirmation.
 
 Start with `qartez_map` for an unfamiliar repository. Prefer `qartez_find`,
 `qartez_outline`, and `qartez_read` for symbol discovery and targeted reads.

@@ -10,9 +10,14 @@
       "args": [],
       "command": "qartez"
     },
-    "lean-ctx": {
-      "args": [],
-      "command": "lean-ctx"
+    "headroom": {
+      "args": [
+        "mcp",
+        "serve",
+        "--transport",
+        "stdio"
+      ],
+      "command": "headroom"
     }
   }
 }
