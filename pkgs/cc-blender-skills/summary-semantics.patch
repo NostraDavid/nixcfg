@@ -1,0 +1,29 @@
+--- a/plugin/skills/text-to-blender/SKILL.md
++++ b/plugin/skills/text-to-blender/SKILL.md
+@@ -199,7 +199,8 @@
+ After significant work, call `mcp__blender__get_scene_info` and verify:
+ - Expected objects exist with correct names.
+ - Object counts make sense (no runaway duplication).
+-- Polycount roughly matches target.
++- For polycounts, use `execute_blender_code` to inspect the evaluated mesh;
++  scene and object summaries do not include geometry counts.
+ 
+ Before reporting success on a render or export, confirm the file actually exists (use `Bash`: `ls -la /path/to/output`).
+ 
+--- a/plugin/skills/wireframe-to-3d/SKILL.md
++++ b/plugin/skills/wireframe-to-3d/SKILL.md
+@@ -211,8 +211,12 @@
+ After the full pipeline, validate before declaring success:
+ 
+ 1. `mcp__blender__get_scene_info` — confirm expected objects exist.
+-2. For paired parts (left/right lens), call `mcp__blender__get_object_info` on each and compare bounding box widths. Tolerance: 1 mm.
+-3. Triangle count: get via `get_object_info`. If a part exceeds budget, plan Decimate.
++2. For paired parts (left/right lens), use `mcp__blender__get_object_info`
++   for dimensions. For world-space bounding boxes, measure evaluated objects
++   through `execute_blender_code`. Tolerance: 1 mm.
++3. Triangle count: use `execute_blender_code` on the evaluated mesh, call
++   `calc_loop_triangles()`, count `loop_triangles`, and release the temporary
++   mesh with `to_mesh_clear()`. If a part exceeds budget, plan Decimate.
+ 4. File size: must be ≤ 15 MB hard cap, ideally ≤ 8 MB.
+ 
+ ## Error recovery

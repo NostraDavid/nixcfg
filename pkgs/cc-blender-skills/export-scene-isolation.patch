@@ -1,0 +1,11 @@
+--- a/plugin/skills/blender-export/SKILL.md
++++ b/plugin/skills/blender-export/SKILL.md
+@@ -35,6 +35,8 @@
+ bpy.ops.export_scene.gltf(
+     filepath='/tmp/output.glb',
+     export_format='GLB',                 # single-file binary; preferred
++    use_selection=True,                 # select the intended objects first
++    use_active_scene=True,              # exclude selected objects in other scenes
+     export_apply=True,                   # apply modifiers before export
+     export_materials='EXPORT',
+     export_image_format='AUTO',          # PNG; AUTO falls back to JPEG for opaque images

@@ -1,0 +1,5 @@
+# Shared by Blender preferences and Codex's stdio server.
+host = "127.0.0.1"
+port = 9876
+use_autostart = true
+startup_timeout_sec = 60
