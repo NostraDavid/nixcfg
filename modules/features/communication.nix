@@ -14,6 +14,7 @@
     homeManager.work-communication = {stable, ...}: {
       home.packages = [
         stable.slack # Work chat; intentionally excluded from lean workstations
+        stable.espeak-ng # Text-to-speech for accessibility
       ];
     };
   };
