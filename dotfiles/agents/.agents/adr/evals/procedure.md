@@ -15,8 +15,8 @@ From the skill directory:
 
 Expect zero exits; readiness prints exactly `ok`. The complete fixture is
 synthetic and must pass strict checks. The legacy fixture intentionally uses
-another convention and must not be silently migrated to make this validator pass.
-Inline unit tests exercise malformed input, collection invariants, and CLI
+another convention and must not be silently migrated to make this validator
+pass. Inline unit tests exercise malformed input, collection invariants, and CLI
 failure behavior in isolated temporary directories.
 
 ## Task quality
@@ -27,8 +27,8 @@ For each case in `evals.json`:
    `docs/adr/`, retaining their basenames. Start without ADRs when none are
    listed. For case 7, supply a real project with an existing Markdown pipeline
    and record its revision; otherwise mark the case blocked, not passed.
-2. Give the execution agent only the prompt, workspace, and skill resources.
-   Do not expose `expected_output`, assertions, previous diagnoses, or fixes.
+2. Give the execution agent only the prompt, workspace, and skill resources. Do
+   not expose `expected_output`, assertions, previous diagnoses, or fixes.
 3. Retain the produced files, command exits, relevant tool trace, and final
    response. Compare fixture before/after when history must be preserved.
 4. Independently score every assertion as pass, fail, or blocked, citing an
@@ -48,8 +48,9 @@ query. Do not supply the skill body or expected label. Record actual selections,
 false positives, false negatives, and whether explicit invocation was involved.
 
 The existing create-architectural-decision-record and manage-adrs skills overlap
-with this skill. Evaluate routing in the actual installed catalog before claiming
-reliable implicit selection; do not alter those skills as part of this package.
+with this skill. Evaluate routing in the actual installed catalog before
+claiming reliable implicit selection; do not alter those skills as part of this
+package.
 
 ## Saved evidence
 

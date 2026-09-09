@@ -57,7 +57,9 @@
     {
       "id": 5,
       "prompt": "Onze ADRs gebruiken adr-0001.md met alleen Context, Decision en Consequences, zonder YAML. Voeg met $adr een voorgestelde keuze voor Redis toe; behoud ons bestaande formaat.",
-      "files": ["evals/fixtures/legacy/adr-0001.md"],
+      "files": [
+        "evals/fixtures/legacy/adr-0001.md"
+      ],
       "expected_output": "A convention-preserving proposal rather than an unsolicited schema migration.",
       "assertions": [
         "Inspects existing records before choosing next number",

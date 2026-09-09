@@ -19,7 +19,8 @@ related: []
 
 ## Context and Problem Statement
 
-TODO: Describe the problem, constraints, and evidence that require this decision.
+TODO: Describe the problem, constraints, and evidence that require this
+decision.
 
 ## Decision Outcome
 
@@ -47,15 +48,15 @@ TODO: Explain other effects or state why none are known.
 
 ## Decision Drivers
 
-| Driver | Relative weight | Description |
-| --- | --- | --- |
-| TODO: Driver | High | TODO: Explain this constraint and its evidence. |
+| Driver       | Relative weight | Description                                     |
+| ------------ | --------------- | ----------------------------------------------- |
+| TODO: Driver | High            | TODO: Explain this constraint and its evidence. |
 
 ## Considered Options
 
-| Option | Summary |
-| --- | --- |
-| Option A | TODO: Describe the first genuine option. |
+| Option   | Summary                                                        |
+| -------- | -------------------------------------------------------------- |
+| Option A | TODO: Describe the first genuine option.                       |
 | Option B | TODO: Describe an alternative, including status quo if viable. |
 
 ### Pros and Cons of the Options

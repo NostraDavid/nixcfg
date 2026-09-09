@@ -38,7 +38,8 @@ decision and customer support depends on consistent order records.
 
 ### Positive
 
-Orders and line items can be committed together using existing operational skills.
+Orders and line items can be committed together using existing operational
+skills.
 
 ### Negative
 
@@ -50,16 +51,16 @@ The team continues to own backup and restore exercises.
 
 ## Decision Drivers
 
-| Driver | Relative weight | Description |
-| --- | --- | --- |
-| Consistency | High | Orders and line items must commit together. |
-| Operations | Medium | Reuse database skills already held by the team. |
+| Driver      | Relative weight | Description                                     |
+| ----------- | --------------- | ----------------------------------------------- |
+| Consistency | High            | Orders and line items must commit together.     |
+| Operations  | Medium          | Reuse database skills already held by the team. |
 
 ## Considered Options
 
-| Option | Summary |
-| --- | --- |
-| PostgreSQL | Relational storage with transactions and explicit schema. |
+| Option         | Summary                                                     |
+| -------------- | ----------------------------------------------------------- |
+| PostgreSQL     | Relational storage with transactions and explicit schema.   |
 | Document store | Flexible order documents in a separately operated database. |
 
 ### Pros and Cons of the Options
