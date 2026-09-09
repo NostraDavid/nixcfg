@@ -25,9 +25,9 @@ enabled_skills = []
 disabled_skills = []
 applied_migrations = ["bash_read_only_defaults_v1"]
 [[mcp_servers]]
-name = "engram"
+name = "agent-memory"
 transport = "stdio"
-command = "engram"
+command = "agent-memory"
 args = ["mcp"]
 [[mcp_servers]]
 name = "lean-ctx"

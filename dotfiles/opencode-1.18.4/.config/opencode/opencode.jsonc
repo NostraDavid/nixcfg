@@ -7,9 +7,9 @@
   "default_agent": "master",
   "model": "tensorx/z-ai/glm-5.2",
   "mcp": {
-    "engram": {
+    "agent-memory": {
       "command": [
-        "engram",
+        "agent-memory",
         "mcp"
       ],
       "enabled": true,

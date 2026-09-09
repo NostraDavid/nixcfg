@@ -1,10 +1,10 @@
 {
   "mcpServers": {
-    "engram": {
+    "agent-memory": {
       "args": [
         "mcp"
       ],
-      "command": "engram",
+      "command": "agent-memory",
       "tools": [
         "*"
       ],

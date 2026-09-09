@@ -38,6 +38,6 @@ retrieval succeeds; an expired hash requires returning to that source.
 Nix supplies Headroom and the gateway starts `headroom mcp serve` on demand.
 This integration compresses locally and needs no model-traffic proxy or API
 credentials. A proxy-unreachable warning alone does not invalidate a successful
-local compression or retrieval. Keep Engram as the durable memory store. Change
-provider routing, install separate agent MCP entries, or enable Headroom
-learning only when the user explicitly requests those changes.
+local compression or retrieval. Use the backend selected in `memory.md` for
+durable memory. Change provider routing, install separate agent MCP entries, or
+enable Headroom learning only when the user explicitly requests those changes.

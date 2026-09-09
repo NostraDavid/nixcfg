@@ -6,6 +6,9 @@
   unstable,
   ...
 }: {
+  imports = [./agent-memory.nix];
+  nixcfg.agentMemory.provider = "engrim";
+
   programs.pi.coding-agent = {
     enable = true;
     settings = builtins.fromJSON (
@@ -40,7 +43,6 @@
       local.codex # llm agent
       local.cool-retro-term # terminal emulator with retro style
       local.dpaint-js # DPaint written in JS
-      local.engram # Persistent memory and MCP server for coding agents
       local.fixit # fix command in case you mess up a command
       local.gigatoken # Fast tokenization for OpenAI models
       local.headroom # Compression addon available only through the LeanCTX gateway
