@@ -45,6 +45,10 @@
       url = "github:polars-inc/skills/v0.3.1";
       flake = false;
     };
+    ponytail-skills = {
+      url = "github:DietrichGebert/ponytail/v4.9.0";
+      flake = false;
+    };
     pstack-skills = {
       url = "github:cursor/plugins";
       flake = false;

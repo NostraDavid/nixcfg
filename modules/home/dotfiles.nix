@@ -33,7 +33,7 @@
       "test-design"
       "tiger-style"
     ];
-    importedSkills = [local.awesome-copilot-skills local.matt-pocock-skills local.polars-skills local.pstack-skills];
+    importedSkills = [local.awesome-copilot-skills local.matt-pocock-skills local.polars-skills local.ponytail-skills local.pstack-skills];
     importedEntries =
       builtins.concatMap
       (package:
