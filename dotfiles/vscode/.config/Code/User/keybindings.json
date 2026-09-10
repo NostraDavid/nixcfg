@@ -232,5 +232,19 @@
     "command": "-tabout",
     "key": "tab",
     "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+shift+0",
+    "command": "workbench.action.browser.resetZoom",
+    "when": "browserFocused && browserHasUrl && !browserHasError && activeEditor == 'workbench.editor.browser'"
+  },
+  {
+    "key": "ctrl+numpad0",
+    "command": "-workbench.action.browser.resetZoom",
+    "when": "browserFocused && browserHasUrl && !browserHasError && activeEditor == 'workbench.editor.browser'"
+  },
+  {
+    "key": "ctrl+shift+0",
+    "command": "-coverage-gutters.removeCoverage"
   }
 ]
