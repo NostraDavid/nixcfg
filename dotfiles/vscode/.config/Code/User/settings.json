@@ -163,11 +163,11 @@
   "editor.aiStats.enabled": true,
   "editor.bracketPairColorization.enabled": true,
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-  "editor.codeLensFontFamily": "'JetBrainsMono NF', Hack, Consolas, 'Courier New', monospace",
+  "editor.codeLensFontFamily": "'GohuFont 11 Nerd Font Mono', 'JetBrainsMono NF', monospace",
   "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorStyle": "block",
-  "editor.fontFamily": "'Spleen', 'JetBrainsMono NF', monospace",
+  "editor.fontFamily": "'GohuFont 11 Nerd Font Mono', 'JetBrainsMono NF', monospace",
   "editor.fontLigatures": true,
   "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.inlineSuggest.enabled": true,
@@ -399,7 +399,7 @@
   "terminal.integrated.defaultProfile.linux": "tmux",
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.enableMultiLinePasteWarning": "never",
-  "terminal.integrated.fontFamily": "'JetBrainsMono NF', monospace",
+  "terminal.integrated.fontFamily": "'GohuFont 11 Nerd Font Mono', 'JetBrainsMono NF', monospace",
   "terminal.integrated.persistentSessionScrollback": 1000,
   "terminal.integrated.profiles.linux": {
     "bash": {
