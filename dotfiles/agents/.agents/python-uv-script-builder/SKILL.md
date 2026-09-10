@@ -1,6 +1,6 @@
 ---
 name: pyuv
-description: "Use when creating or fully redesigning a standalone Python project script, such as repository automation, maintenance, data-processing, or developer tooling, using uv and PEP 723. This skill applies only to project scripts. Do not trigger for scripts bundled with AI-agent skills; use pystd for those. Do not trigger for packages, libraries, services, notebooks, small maintenance edits, or scripts explicitly required to run without uv."
+description: "Create or redesign standalone project scripts using uv and PEP 723. Use for repository automation, maintenance, or data processing. Exclude skill helpers, packages, services, notebooks, minor edits, and scripts requiring no uv."
 ---
 
 # Python uv Script Builder

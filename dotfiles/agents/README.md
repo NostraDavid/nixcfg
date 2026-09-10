@@ -32,6 +32,21 @@ korte namen rechtstreeks.
 Ingebouwde skills, pluginmappen en submappen binnen upstreamskills worden door
 hun eigen distributie beheerd en vallen buiten deze symlinknamenlijst.
 
+## Beschrijvingsbudget
+
+`descriptions.json` bewaart de beschrijvingen, de grens van 50 tokens en de
+`gpt-5`-tokenizer (`o200k_base`). Elke beschrijving blijft strikt onder die
+grens. `just check-agent-instructions` telt echte tokens met gepinde
+tokenizerdata, controleert de volledige lijst en vergelijkt de beheerde skills
+met de lijst.
+
+Pas bij wijzigingen de centrale lijst en de betrokken lokale `SKILL.md` aan. De
+Nix-build past de teksten toe op geïmporteerde skills. Home Manager past bekende
+beschrijvingen bij activatie ook toe op ingebouwde Codex-skills en
+pluginbestanden. Na een pluginupdate kan tot de volgende activatie tijdelijk de
+upstreambeschrijving terugkomen. Nieuwe skills moeten aan de lijst worden
+toegevoegd; beschrijvingen worden inhoudelijk ingekort, niet afgekapt.
+
 ## Rechtstreekse imports
 
 Awesome Copilot komt via `awesome-copilot-skills` uit `github/awesome-copilot`.

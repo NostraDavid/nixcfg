@@ -3,10 +3,12 @@
 import json
 import os
 import re
+import runpy
 import unittest
 from pathlib import Path
 
 import yaml
+import tiktoken
 
 
 def shared_target(source, target):
@@ -39,6 +41,54 @@ class AgentInstructions(unittest.TestCase):
         cls.catalog = json.loads((cls.source / "skills.json").read_text())
         cls.names = cls.catalog["local"] + cls.catalog["workflow"]
         cls.links = json.loads(Path(os.environ["AGENT_LINKS"]).read_text())
+        cls.descriptions = json.loads((cls.source / "descriptions.json").read_text())
+        cls.encoding = tiktoken.encoding_for_model(cls.descriptions["model"])
+
+    def test_description_token_budget(self):
+        for name, text in self.descriptions["descriptions"].items():
+            with self.subTest(skill=name):
+                self.assertTrue(text.strip())
+                self.assertLess(
+                    len(self.encoding.encode(text)), self.descriptions["max_tokens"]
+                )
+
+    def test_description_rewrite_preserves_metadata_and_body(self):
+        rewrite = runpy.run_path(os.environ["DESCRIPTION_REWRITER"])["rewrite"]
+        for value in ['"Original description"', ">\n  Original\n  description"]:
+            with self.subTest(value=value):
+                text = (
+                    f"---\nname: sample\ndescription: {value}\n"
+                    "metadata:\n  short-description: Keep this\n"
+                    "disable-model-invocation: true\n---\n\n# Original body\n"
+                )
+                updated = rewrite(text, {"sample": "Short description."})
+                self.assertEqual(
+                    yaml.safe_load(updated.split("---", 2)[1]),
+                    {
+                        **yaml.safe_load(text.split("---", 2)[1]),
+                        "description": "Short description.",
+                    },
+                )
+                self.assertEqual(updated.split("---", 2)[2], text.split("---", 2)[2])
+                self.assertEqual(
+                    rewrite(updated, {"sample": "Short description."}), updated
+                )
+                self.assertEqual(rewrite(text, {}), text)
+
+    def test_installed_descriptions_match_catalog(self):
+        for name, alias in self.catalog["aliases"].items():
+            with self.subTest(skill=name):
+                root = (
+                    self.source / ".agents" / name
+                    if name in self.names
+                    else Path(self.links[f".codex/skills/{alias}"])
+                )
+                for path in root.rglob("SKILL.md"):
+                    metadata = yaml.safe_load(path.read_text().split("---", 2)[1])
+                    self.assertEqual(
+                        metadata["description"],
+                        self.descriptions["descriptions"][metadata["name"]],
+                    )
 
     def test_catalog_names_are_unique(self):
         self.assertEqual(len(self.names), len(set(self.names)))

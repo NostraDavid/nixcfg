@@ -1,6 +1,6 @@
 ---
 name: db
-description: "Use when the user asks to design or evaluate a new or substantially redesigned relational schema, including entities, keys, relationships, constraints, normalization, and data types. Use dbref for evolutionary changes to an existing schema; do not trigger for isolated query tuning or SQL patch review."
+description: "Design new or substantially redesigned relational schemas, including entities, keys, constraints, normalization, and data types. Use dbref for compatible schema migrations. Exclude isolated query tuning and SQL review."
 ---
 
 # Database Design

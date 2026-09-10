@@ -1,6 +1,6 @@
 ---
 name: ask
-description: "Use when the user asks to be interviewed to clarify a task, or missing purpose, audience, success criteria, or binding constraints prevent useful planning or implementation. Use grilling for an explicit adversarial stress-test of a plan; do not trigger for clear mechanical requests, non-interactive runs, or customer research."
+description: "Interview the user when requested, or when missing purpose, audience, success criteria, or constraints prevent useful work. Use grill for adversarial plan review. Exclude clear mechanical requests and customer research."
 ---
 
 # Interview Me
