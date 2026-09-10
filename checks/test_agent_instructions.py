@@ -44,6 +44,14 @@ class AgentInstructions(unittest.TestCase):
         cls.descriptions = json.loads((cls.source / "descriptions.json").read_text())
         cls.encoding = tiktoken.encoding_for_model(cls.descriptions["model"])
 
+    def test_trigger_contract_clauses(self):
+        cases = json.loads(Path(os.environ["TRIGGER_CASES"]).read_text())
+        for name, case in cases["skills"].items():
+            with self.subTest(skill=name):
+                text = self.descriptions["descriptions"][name]
+                for pattern in case["required_patterns"]:
+                    self.assertRegex(text, pattern)
+
     def test_description_token_budget(self):
         for name, text in self.descriptions["descriptions"].items():
             with self.subTest(skill=name):

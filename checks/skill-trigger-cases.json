@@ -1,0 +1,220 @@
+{
+  "scope": "Static clause checks and manually reviewed activation examples; not measured model activation.",
+  "skills": {
+    "b3d": {
+      "original_description": "Drive Blender from natural language. Converts plain-English requests (\"model a sword and render it with cinematic lighting\", \"make this glass look frosted\", \"set up three-point lighting\", \"export this scene as glTF for the web\") into Blender Python code executed via the Blender MCP server. Acts as the orchestrator that picks and chain-loads specialised sub-skills (bmesh, bmat, blight, bcam, brender, banim, bexp, wire3d, bflow, bsync, refine). Use this skill whenever the user wants Claude to do anything in Blender, including creating geometry, applying materials, lighting a scene, framing a camera, rendering, animating, or exporting. Make sure to invoke this skill even if the user does not say \"Blender\" — also covers requests like \"create a 3D model of...\", \"render this...\", \"make a glTF from...\", \"set up a scene with...\", or any 3D-creation task. Requires the official Blender Lab MCP extension running on port 9876.",
+      "required_patterns": [
+        "any Blender task",
+        "even when Blender is not named"
+      ],
+      "positive_prompts": [
+        "Make this glass frosted.",
+        "Create a 3D model of a chair."
+      ],
+      "negative_prompts": [
+        "Review a SQL query."
+      ]
+    },
+    "polars": {
+      "original_description": "Write fast, idiomatic Polars in Python using the lazy API, and answer natural-language questions about data in one shot. Use this skill whenever a task involves loading, querying, transforming, aggregating, joining, or analyzing tabular data (CSV, Parquet, NDJSON, or DataFrames). top-k, trends, period-over-period, distributions, time series, share-of-total, or writing, debugging, or speeding up Polars code, or translating pandas to Polars. Applies even when the user doesn't say \"Polars,\" and is the default for Python data work when no dataframe library is specified. Covers expressions, window functions, group-bys, joins, the streaming engine for larger-than-memory data, and pandas migration. Not for Polars Cloud, On-Prem, distributed, or GPU workloads.\n",
+      "required_patterns": [
+        "Default.*Python tabular.*no library is specified",
+        "without naming Polars",
+        "Exclude.*Cloud.*On-Prem.*distributed.*GPU workloads"
+      ],
+      "positive_prompts": [
+        "Analyze this CSV in Python; choose the library.",
+        "Optimize this Polars join."
+      ],
+      "negative_prompts": [
+        "Configure Polars On-Prem.",
+        "Run a Polars GPU workload."
+      ]
+    },
+    "ctx": {
+      "original_description": "Use ctx as working memory for prior agent work. Before starting or continuing work in an unfamiliar area, resuming earlier work, or revisiting an investigation, search prior sessions to ground yourself in earlier context. When ctx blame is available, use it to trace a line, file, commit, or PR to the agent session that produced it. Use when prior decisions, constraints, attempts, tool calls, transcript evidence, or code provenance may matter.",
+      "required_patterns": [
+        "before starting or continuing unfamiliar work",
+        "resuming earlier work",
+        "revisiting investigations"
+      ],
+      "positive_prompts": [
+        "Begin work in this unfamiliar subsystem.",
+        "Revisit our earlier investigation."
+      ],
+      "negative_prompts": [
+        "Answer a standalone arithmetic question with no project history."
+      ]
+    },
+    "track-findings": {
+      "original_description": "Track validated Codex Security findings in Linear, Jira, GitHub issues, or draft GitHub security advisories. Use it for one finding or an explicitly selected batch of up to 25 findings tracked as Linear, Jira, or GitHub issues. Includes duplicate checks, exact previews, approval-gated writes, and readback. Do not use it for scans or fixes.",
+      "required_patterns": [
+        "explicitly selected batches up to 25",
+        "preview writes.*approval.*readback",
+        "Exclude scans and fixes"
+      ],
+      "positive_prompts": [
+        "Track these 25 validated security findings."
+      ],
+      "negative_prompts": [
+        "Track all 40 findings in one batch.",
+        "Find and fix vulnerabilities."
+      ]
+    },
+    "ask": {
+      "original_description": "Use when the user asks to be interviewed to clarify a task, or missing purpose, audience, success criteria, or binding constraints prevent useful planning or implementation. Use grilling for an explicit adversarial stress-test of a plan; do not trigger for clear mechanical requests, non-interactive runs, or customer research.",
+      "required_patterns": [
+        "non-interactive runs",
+        "Route adversarial plan reviews to grill",
+        "Exclude.*mechanical.*customer research"
+      ],
+      "positive_prompts": [
+        "Interview me to clarify this task."
+      ],
+      "negative_prompts": [
+        "Run this mechanical migration unattended."
+      ]
+    },
+    "bdoc": {
+      "original_description": "Use when work depends on Blender Manual or Blender Python API facts: bpy scripting, operators, add-ons and extensions; actions, F-curves, keyframes and animation; materials, shader nodes, textures and images; cameras, lights and rendering; linked libraries and append/link; and panels, properties and operators. Routes to six area sub-skills. Not for other DCC tools or non-Blender Python.",
+      "required_patterns": [
+        "Exclude.*other 3D tools.*non-Blender Python"
+      ],
+      "positive_prompts": [
+        "Look up Blender driver behavior."
+      ],
+      "negative_prompts": [
+        "Explain a generic Python list operation."
+      ]
+    },
+    "bsync": {
+      "original_description": "Harmonize multiple Blender skills into a coherent pipeline with clear activation precedence, handoff artifacts, dependency gates, and conflict-resolution rules. Use when a Blender task spans several skills, when reference-locked work conflicts with generic production workflow, after adding/updating skills, or when repeated failures indicate skill interference or missing inter/intra-play.",
+      "required_patterns": [
+        "skill additions or updates",
+        "repeated workflow failures"
+      ],
+      "positive_prompts": [
+        "Reconcile these Blender skills after their update."
+      ],
+      "negative_prompts": [
+        "Update an unrelated SQL skill."
+      ]
+    },
+    "pgopt": {
+      "original_description": "PostgreSQL-specific development assistant focusing on unique PostgreSQL features, advanced data types, and PostgreSQL-exclusive capabilities. Covers JSONB operations, array types, custom types, range/geometric types, full-text search, window functions, and PostgreSQL extensions ecosystem.",
+      "required_patterns": [
+        "development and optimization",
+        "feature implementation"
+      ],
+      "positive_prompts": [
+        "Implement PostgreSQL full-text search."
+      ],
+      "negative_prompts": [
+        "Design a Redis key layout."
+      ]
+    },
+    "recall": {
+      "original_description": "Reconstruct your recent working context from your own chat history, live state, and the shared record (user reports, prior fixes, incidents), then hand back a tight current-state brief. Use for 'recall my work on X', 'catch me up', 'what have I been working on', 'where did I leave off', before starting or resuming work.",
+      "required_patterns": [
+        "before starting or resuming",
+        "chat history.*live state.*shared records"
+      ],
+      "positive_prompts": [
+        "Before starting, reconstruct my recent work."
+      ],
+      "negative_prompts": [
+        "Calculate a number with no work context."
+      ]
+    },
+    "skillrev": {
+      "original_description": "Use when the user asks to review or audit an AI-agent skill, investigate its activation, assess its readiness or value, or design or interpret trigger and task-quality evaluations. Do not trigger for ordinary code, PR, security, API-schema, or performance reviews. Review-only requests do not authorize edits; apply improvements only when the user asks for changes.",
+      "required_patterns": [
+        "Exclude.*PR.*API-schema",
+        "Review alone does not authorize edits"
+      ],
+      "positive_prompts": [
+        "Audit this skill for missed activation."
+      ],
+      "negative_prompts": [
+        "Review this API schema."
+      ]
+    },
+    "triage-finding": {
+      "original_description": "Use when the user supplies or imports existing security findings, vulnerability reports, or security/vulnerability Jira/Linear tickets from scanners, advisories, GitHub, Atlassian Rovo, Linear, or similar backlog sources and wants static repo-impact triage. Do not use for discovery, duplicate-bug triage, validation, or fixes.",
+      "required_patterns": [
+        "Exclude discovery.*duplicate-bug triage.*validation.*fixes"
+      ],
+      "positive_prompts": [
+        "Assess this imported vulnerability report for repository impact."
+      ],
+      "negative_prompts": [
+        "Validate and fix this vulnerability."
+      ]
+    },
+    "gdpr": {
+      "original_description": "Apply GDPR-compliant engineering practices across your codebase. Use this skill whenever you are designing APIs, writing data models, building authentication flows, implementing logging, handling user data, writing retention/deletion jobs, designing cloud infrastructure, or reviewing pull requests for privacy compliance. Trigger this skill for any task involving personal data, user accounts, cookies, analytics, emails, audit logs, encryption, pseudonymization, anonymization, data exports, breach response, CI/CD pipelines that process real data, or any question framed as \"is this GDPR-compliant?\". Inspired by CNIL developer guidance and GDPR Articles 5, 25, 32, 33, 35.",
+      "required_patterns": [
+        "API.*data-model.*authentication.*logging.*cloud",
+        "breach response.*real-data CI/CD"
+      ],
+      "positive_prompts": [
+        "Design an authentication API.",
+        "Review our breach response processing."
+      ],
+      "negative_prompts": [
+        "Adjust a Blender light with no user data."
+      ]
+    },
+    "needs": {
+      "original_description": "Use when the user asks to plan customer or stakeholder research, analyze interview notes, uncover workflows and unmet needs, or elicit requirements before choosing a solution. Do not trigger merely to clarify the current user's prompt, write a formal specification, or validate enthusiasm for an already-decided idea.",
+      "required_patterns": [
+        "customer or stakeholder research",
+        "Exclude.*prompt clarification.*specification.*already-decided"
+      ],
+      "positive_prompts": [
+        "Plan stakeholder research."
+      ],
+      "negative_prompts": [
+        "Clarify this single coding prompt."
+      ]
+    },
+    "control-in-app-browser": {
+      "original_description": "Control the in-app Browser for opening, navigating, inspecting visible or interactive page state, clicking, typing, screenshots, and local web testing. It can have existing signed-in sessions. For semantic operations on linked resources, prefer a purpose-built connector, API, or CLI when available.",
+      "required_patterns": [
+        "Prefer dedicated connectors.*APIs.*CLIs"
+      ],
+      "positive_prompts": [
+        "Inspect the visible page in the in-app browser."
+      ],
+      "negative_prompts": [
+        "Use the available dedicated CLI to retrieve a linked resource."
+      ]
+    },
+    "teach": {
+      "original_description": "Explain a body of work plainly so a person actually understands it. Runs the `how` and `why` skills and weaves what they find into one clear explanation. Use for 'teach me this', 'help me really understand X', 'explain this change or subsystem to me'.",
+      "required_patterns": [
+        "body of work or subsystem",
+        "how.*why"
+      ],
+      "positive_prompts": [
+        "Explain this unfinished subsystem so I understand it."
+      ],
+      "negative_prompts": [
+        "Give only a one-line completion status."
+      ]
+    },
+    "publish-artifact-to-sites": {
+      "original_description": "Publish a validated Data Analytics report or dashboard artifact through Sites. Use automatically for durable artifacts in any positively identified Work Mode when the full Sites lifecycle is callable, or in ChatGPT Desktop outside Work Mode only after an explicit Sites request or acceptance of the optional post-handoff sharing offer.",
+      "required_patterns": [
+        "confirmed Work Mode.*automatically.*durable.*full lifecycle",
+        "Desktop outside Work Mode.*explicit Sites request or accepted sharing offer"
+      ],
+      "positive_prompts": [
+        "Publish this validated report through Sites in Desktop."
+      ],
+      "negative_prompts": [
+        "Publish from Desktop without a request or accepted offer."
+      ]
+    }
+  }
+}

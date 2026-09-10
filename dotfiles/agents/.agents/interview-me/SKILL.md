@@ -1,6 +1,6 @@
 ---
 name: ask
-description: "Interview the user when requested, or when missing purpose, audience, success criteria, or constraints prevent useful work. Use grill for adversarial plan review. Exclude clear mechanical requests and customer research."
+description: "Interview when requested or when missing purpose, audience, success criteria, or constraints prevent useful work. Route adversarial plan reviews to grill. Exclude clear mechanical requests, non-interactive runs, and customer research."
 ---
 
 # Interview Me

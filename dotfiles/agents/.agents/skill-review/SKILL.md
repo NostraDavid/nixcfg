@@ -1,6 +1,6 @@
 ---
 name: skillrev
-description: "Review agent skills for activation, readiness, value, and task quality. Design or assess trigger evaluations. Review-only requests do not authorize edits. Exclude ordinary code, security, and performance reviews."
+description: "Review agent skills, activation, readiness, value, and trigger or task-quality evaluations. Exclude ordinary code, PR, security, API-schema, and performance reviews. Review alone does not authorize edits; change skills only when requested."
 ---
 
 # Skill Review

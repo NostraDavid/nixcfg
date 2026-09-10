@@ -40,6 +40,11 @@ grens. `just check-agent-instructions` telt echte tokens met gepinde
 tokenizerdata, controleert de volledige lijst en vergelijkt de beheerde skills
 met de lijst.
 
+`checks/skill-trigger-cases.json` bewaart oorspronkelijke beschrijvingen,
+belangrijke triggerbepalingen en positieve en negatieve voorbeeldvragen voor
+herstelde grenzen. De checks bewaken die bepalingen. De voorbeelden zijn
+statisch beoordeeld; modelactivatie is daarmee niet gemeten.
+
 Pas bij wijzigingen de centrale lijst en de betrokken lokale `SKILL.md` aan. De
 Nix-build past de teksten toe op geïmporteerde skills. Home Manager past bekende
 beschrijvingen bij activatie ook toe op ingebouwde Codex-skills en

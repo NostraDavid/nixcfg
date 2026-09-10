@@ -1,6 +1,6 @@
 ---
 name: needs
-description: "Plan customer research, analyze interviews, and identify workflows, unmet needs, or requirements before choosing a solution. Exclude routine prompt clarification, formal specification writing, and validation of an already chosen idea."
+description: "Plan customer or stakeholder research, analyze interviews, and uncover workflows, needs, or requirements before choosing solutions. Exclude current-user prompt clarification, formal specification writing, and endorsement of already-decided ideas."
 ---
 
 # Discover Customer Needs

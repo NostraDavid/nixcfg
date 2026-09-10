@@ -24,6 +24,7 @@ in
     nativeBuildInputs = [(pkgs.python3.withPackages (ps: [ps.pyyaml ps.tiktoken]))];
     AGENT_SOURCE = ../dotfiles/agents;
     DESCRIPTION_REWRITER = ../modules/home/skill-descriptions.py;
+    TRIGGER_CASES = ./skill-trigger-cases.json;
     AGENT_LINKS = pkgs.writeText "agent-skill-links.json" (builtins.toJSON links);
   } ''
     export TIKTOKEN_CACHE_DIR="$TMPDIR/tiktoken"
