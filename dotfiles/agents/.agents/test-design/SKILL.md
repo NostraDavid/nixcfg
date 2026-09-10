@@ -1,5 +1,5 @@
 ---
-name: test-design
+name: tests
 description: "Use when the user asks what to test, which test levels to use, how to cover risky behavior, how to replace brittle mocks, or whether a suite provides trustworthy coverage. Do not trigger merely to run existing tests or diagnose an unknown failure; use tdd when test-first implementation is requested."
 ---
 

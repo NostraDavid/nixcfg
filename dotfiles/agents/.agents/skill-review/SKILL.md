@@ -1,5 +1,5 @@
 ---
-name: skill-review
+name: skillrev
 description: "Use when the user asks to review or audit an AI-agent skill, investigate its activation, assess its readiness or value, or design or interpret trigger and task-quality evaluations. Do not trigger for ordinary code, PR, security, API-schema, or performance reviews. Review-only requests do not authorize edits; apply improvements only when the user asks for changes."
 ---
 

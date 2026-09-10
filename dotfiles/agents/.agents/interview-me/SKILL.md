@@ -1,5 +1,5 @@
 ---
-name: interview-me
+name: ask
 description: "Use when the user asks to be interviewed to clarify a task, or missing purpose, audience, success criteria, or binding constraints prevent useful planning or implementation. Use grilling for an explicit adversarial stress-test of a plan; do not trigger for clear mechanical requests, non-interactive runs, or customer research."
 ---
 
@@ -56,5 +56,5 @@ with evidence, and ask them to select or correct it.
 
 Do not batch questions, produce a premature plan, save an intent artifact
 without permission, or turn the exchange into customer research. Use
-`discover-customer-needs` for interview guides, customer or stakeholder
+`needs` for interview guides, customer or stakeholder
 conversations, multi-source elicitation, and analysis of discovery evidence.

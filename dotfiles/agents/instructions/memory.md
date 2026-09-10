@@ -2,8 +2,8 @@
 
 Read `~/.config/agent-memory/provider` to select durable memory. At session
 start, retrieve project context; before substantial work, search relevant prior
-knowledge. Use `~/.agents/skills/agent-memory/SKILL.md` for the selected
-backend's MCP and CLI procedure. Write new observations only to that backend.
+knowledge. Use `~/.agents/skills/mem/SKILL.md` for the selected backend's MCP
+and CLI procedure. Write new observations only to that backend.
 
 Save reusable decisions, discoveries, conventions, and explicit handoff state at
 meaningful decision points and before handing unfinished work to another

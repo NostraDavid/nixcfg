@@ -1,6 +1,6 @@
 ---
-name: debug-software
-description: "Use when the user reports crashes, wrong results, hangs, races, leaks, or intermittent failures and the cause is unknown. Use diagnosing-bugs for a difficult regression that needs a dedicated reproduction or bisection loop; do not trigger when the defect is already localized and only a fix is requested."
+name: debug
+description: "Use when the user reports crashes, wrong results, hangs, races, leaks, or intermittent failures and the cause is unknown. Use diag for a difficult regression that needs a dedicated reproduction or bisection loop; do not trigger when the defect is already localized and only a fix is requested."
 ---
 
 # Debug Software

@@ -1,5 +1,5 @@
 ---
-name: discover-customer-needs
+name: needs
 description: "Use when the user asks to plan customer or stakeholder research, analyze interview notes, uncover workflows and unmet needs, or elicit requirements before choosing a solution. Do not trigger merely to clarify the current user's prompt, write a formal specification, or validate enthusiasm for an already-decided idea."
 ---
 
@@ -96,5 +96,5 @@ Return a discovery brief containing:
 10. traceability from each material conclusion to observations or artifacts.
 
 Hand confirmed needs to `create-specification` only when the user requests a
-durable specification. Use `interview-me` instead when the task is solely to
+durable specification. Use `ask` instead when the task is solely to
 clarify the current user's own request before planning or coding.

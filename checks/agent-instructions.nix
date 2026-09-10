@@ -3,12 +3,12 @@
   homeFiles,
 }: let
   catalog = builtins.fromJSON (builtins.readFile ../dotfiles/agents/skills.json);
-  names = catalog.local ++ catalog.workflow;
+  alias = name: catalog.aliases.${name} or name;
   wanted =
     builtins.concatMap
-    (client: map (name: ".${client}/skills/${name}") names)
+    (client: map (name: ".${client}/skills/${alias name}") (builtins.attrNames catalog.aliases))
     ["codex" "copilot" "config/opencode"]
-    ++ map (name: ".agents/skills/${name}") catalog.workflow;
+    ++ map (name: ".agents/skills/${alias name}") catalog.workflow;
   links = builtins.listToAttrs (map (name: {
       inherit name;
       value = toString homeFiles.${name}.source;

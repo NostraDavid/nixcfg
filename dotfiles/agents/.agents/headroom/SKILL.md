@@ -1,5 +1,5 @@
 ---
-name: headroom
+name: hr
 description: Compress large raw tool outputs, logs, JSON, or retrieved documents with Headroom, and retrieve the original before relying on omitted details.
 ---
 

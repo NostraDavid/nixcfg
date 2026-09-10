@@ -15,7 +15,10 @@ def shared_target(source, target):
     if suffix.startswith("instructions/"):
         return source / suffix
     if suffix.startswith("skills/"):
-        return source / ".agents" / suffix.removeprefix("skills/")
+        alias, rest = suffix.removeprefix("skills/").split("/", 1)
+        catalog = json.loads((source / "skills.json").read_text())
+        names = {short: name for name, short in catalog["aliases"].items()}
+        return source / ".agents" / names[alias] / rest
     return source / ".agents" / suffix
 
 
@@ -40,6 +43,26 @@ class AgentInstructions(unittest.TestCase):
     def test_catalog_names_are_unique(self):
         self.assertEqual(len(self.names), len(set(self.names)))
 
+    def test_aliases_are_short_unique_and_installed(self):
+        aliases = self.catalog["aliases"]
+        self.assertEqual(len(aliases), len(set(aliases.values())))
+        for name, alias in aliases.items():
+            with self.subTest(skill=name, alias=alias):
+                self.assertRegex(alias, r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+                self.assertLessEqual(len(alias), len(name))
+                target = Path(self.links[f".codex/skills/{alias}"])
+                for client in ["copilot", "config/opencode"]:
+                    self.assertEqual(
+                        self.links[f".{client}/skills/{alias}"], str(target)
+                    )
+                # Local out-of-store sources are checked separately below.
+                if name not in self.names:
+                    self.assertTrue((target / "SKILL.md").is_file())
+                    metadata = yaml.safe_load(
+                        (target / "SKILL.md").read_text().split("---", 2)[1]
+                    )
+                    self.assertEqual(metadata["name"], alias)
+
     def test_managed_skill_frontmatter(self):
         for name in self.names:
             with self.subTest(skill=name):
@@ -49,7 +72,7 @@ class AgentInstructions(unittest.TestCase):
                 self.assertIsNotNone(match, f"Missing YAML frontmatter: {path}")
                 metadata = yaml.safe_load(match[1])
                 self.assertIsInstance(metadata, dict)
-                self.assertEqual(metadata.get("name"), name)
+                self.assertEqual(metadata.get("name"), self.catalog["aliases"][name])
                 self.assertRegex(name, r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
                 self.assertLessEqual(len(name), 64)
                 description = metadata.get("description")
@@ -61,7 +84,8 @@ class AgentInstructions(unittest.TestCase):
             names = self.catalog["workflow"] if client == "agents" else self.names
             for name in names:
                 with self.subTest(client=client, skill=name):
-                    link = Path(self.links[f".{client}/skills/{name}"])
+                    alias = self.catalog["aliases"].get(name, name)
+                    link = Path(self.links[f".{client}/skills/{alias}"])
                     self.assertTrue(link.is_symlink(), f"Not a symlink: {link}")
                     self.assertTrue(
                         os.readlink(link).endswith(f"/dotfiles/agents/.agents/{name}"),

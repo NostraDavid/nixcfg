@@ -3,6 +3,7 @@
   config,
   local,
   repoRoot,
+  stable,
   ...
 }: {
   # This list may look a little weird, but that's because the original dotfiles
@@ -13,15 +14,55 @@
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
     skillCatalog = builtins.fromJSON (builtins.readFile ../../dotfiles/agents/skills.json);
+    skillAlias = name: skillCatalog.aliases.${name} or name;
     workflowSkills = skillCatalog.workflow;
     localSkills = skillCatalog.local ++ workflowSkills;
     importedSkills = [local.awesome-copilot-skills local.blender-mcp-skills local.blender-reference-skills local.cc-blender-skills local.matt-pocock-skills local.polars-skills local.ponytail-skills local.pstack-skills];
+    namedSkills =
+      stable.runCommand "short-skill-names" {
+        nativeBuildInputs = [stable.python3];
+      } ''
+        mkdir -p "$out"
+        ${builtins.concatStringsSep "\n" (map (package:
+          builtins.concatStringsSep "\n" (map (name: ''
+              cp -RL ${package}/${name} "$out/${name}"
+            '')
+            package.skillNames))
+        importedSkills)}
+        chmod -R u+w "$out"
+        python - "$out" ${../../dotfiles/agents/skills.json} <<'PY'
+        import json
+        import re
+        import sys
+        from pathlib import Path
+
+        root = Path(sys.argv[1])
+        aliases = json.loads(Path(sys.argv[2]).read_text())["aliases"]
+        # Rewrite skill references, keeping source paths and ordinary words intact.
+        references = re.compile(
+            r"(?<![\w./-])(?:" + "|".join(re.escape(n) for n in aliases if "-" in n) + r")(?![\w./-])"
+        )
+        invocations = re.compile(
+            r"(?<![\w./:])([$/])(" + "|".join(re.escape(n) for n in aliases) + r")(?![\w./-])"
+        )
+        for path in root.rglob("*.md"):
+            text = path.read_text()
+            if path.name == "SKILL.md" and path.parent.name in aliases:
+                front, body = text.removeprefix("---\n").split("\n---", 1)
+                front, count = re.subn(r"^name:.*$", "name: " + aliases[path.parent.name], front, count=1, flags=re.M)
+                assert count == 1, path
+                text = "---\n" + front + "\n---" + body
+            text = references.sub(lambda match: aliases[match[0]], text)
+            text = invocations.sub(lambda match: match[1] + aliases[match[2]], text)
+            path.write_text(text)
+        PY
+      '';
     importedEntries =
       builtins.concatMap
       (package:
         map (name: {
           inherit name;
-          source = "${package}/${name}";
+          source = "${namedSkills}/${name}";
         })
         package.skillNames)
       importedSkills;
@@ -40,7 +81,7 @@
       localSkills;
     mkSkillLinks = client: skills: let
       links = builtins.listToAttrs (map (skill: {
-          name = ".${client}/skills/${skill.name}";
+          name = ".${client}/skills/${skillAlias skill.name}";
           value = {
             inherit (skill) source;
           };
@@ -48,7 +89,7 @@
         skills);
     in
       if builtins.length (builtins.attrNames links) != builtins.length skills
-      then throw "Duplicate skill names: enable each name in only one skill package or local group."
+      then throw "Duplicate skill names or aliases: each enabled skill needs a unique link name."
       else links;
     sharedCodexSkills = mkSkillLinks "codex" skillEntries;
     sharedWorkflowSkills = mkSkillLinks "agents" (builtins.filter
@@ -153,6 +194,4 @@
       // sharedWorkflowSkills
       // copilotSkills
       // opencodeSkills);
-
-  home.sessionVariables = {};
 }
