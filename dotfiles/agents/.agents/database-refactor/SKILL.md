@@ -1,5 +1,5 @@
 ---
-name: database-refactor
+name: dbref
 description: "Use when the task changes an existing database schema while preserving data and application compatibility, such as renaming or splitting tables or columns, changing types or constraints, backfilling data, or coordinating migrations across application versions. Do not trigger for greenfield schema design or isolated query tuning."
 ---
 

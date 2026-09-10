@@ -1,5 +1,5 @@
 ---
-name: tiger-style
+name: tiger
 description: "Use when the user explicitly requests TigerStyle or TigerBeetle coding style, the repository adopts it, or the task explicitly requires its bounded-work, startup-only-allocation, and assertion-rich constraints. Do not trigger for ordinary review, refactoring, debugging, or performance tuning without that policy context."
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: perfect-review
+name: perfect
 description: "Use when the user explicitly requests a PERFECT code review, a structured self-review, or team review conventions based on PERFECT. Use code-review for a generic branch, PR, or work-in-progress review against a fixed point when PERFECT was not requested."
 ---
 

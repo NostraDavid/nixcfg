@@ -1,5 +1,5 @@
 ---
-name: audio-notify
+name: notify
 description: Speak a notification with say before asking the user a question or handing over a completed task, including a finished plan or verified change. Apply at these moments regardless of the task domain.
 ---
 

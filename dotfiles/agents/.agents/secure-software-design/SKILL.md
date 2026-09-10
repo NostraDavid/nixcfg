@@ -1,5 +1,5 @@
 ---
-name: secure-software-design
+name: secdesign
 description: "Use when the user asks to design or substantially revise security architecture, threat models, secure APIs or identity flows, privilege boundaries, or security requirements before implementation. Do not trigger for scanning existing code, validating a supplied vulnerability, offensive exploitation, or GDPR-only compliance."
 ---
 

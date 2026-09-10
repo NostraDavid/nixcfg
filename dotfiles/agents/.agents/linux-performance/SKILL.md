@@ -1,5 +1,5 @@
 ---
-name: linux-performance
+name: perf
 description: "Use when a Linux host or process has unexplained latency, low throughput, saturation, stalls, swapping, I/O waits, packet loss, or a resource regression that needs system-level diagnosis. Do not trigger for application-only profiling, SQL tuning, or generic shell questions."
 ---
 

@@ -10,10 +10,10 @@
 - @~/.agents/instructions/commit-style.md
 - @~/.agents/instructions/worktrees.md
 
-- When external library documentation is needed, use the `context7` skill at
-  `~/.agents/skills/context7/SKILL.md`.
+- When external library documentation is needed, use the `c7` skill at
+  `~/.agents/skills/c7/SKILL.md`.
 - When large raw outputs need compression or compressed details need retrieval,
-  use the `headroom` skill at `~/.agents/skills/headroom/SKILL.md`.
+  use the `hr` skill at `~/.agents/skills/hr/SKILL.md`.
 
 - When tracking work in a repository configured for Beads, use
   `~/.agents/skills/beads/SKILL.md`.

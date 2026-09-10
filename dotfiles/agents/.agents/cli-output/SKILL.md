@@ -1,5 +1,5 @@
 ---
-name: cli-output
+name: cli
 description: Use RTK and Snip to compress shell command output, select a supported wrapper, or recover complete failure details.
 ---
 

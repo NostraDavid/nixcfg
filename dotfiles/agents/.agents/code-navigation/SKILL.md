@@ -1,5 +1,5 @@
 ---
-name: code-navigation
+name: nav
 description: Choose and use code intelligence tools when tracing symbols, assessing cross-file impact, refactoring, or discovering code structurally.
 ---
 

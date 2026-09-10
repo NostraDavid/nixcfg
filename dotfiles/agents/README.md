@@ -11,6 +11,27 @@ zijn ingebouwde system-skills uit `~/.codex/skills/.system`. Deze worden hier
 niet gekopieerd of naar Copilot en OpenCode gekoppeld. Hermes en Pi zijn niet
 aan deze selectie gekoppeld.
 
+## Korte symlinknamen
+
+`skills.json` bevat onder `aliases` de vaste korte mapnamen, bijvoorbeeld
+`blender-materials` → `bmat`, `database-refactor` → `dbref` en
+`postgresql-optimization` → `pgopt`. Codex, Copilot en OpenCode gebruiken
+dezelfde aliassen; de gedeelde workflowlinks onder `~/.agents/skills` ook. De
+bronmappen blijven behouden; het `name`-veld in `SKILL.md` gebruikt dezelfde
+korte alias. Nieuwe skills zonder alias gebruiken hun bronnaam totdat je een
+korte naam toevoegt. Dubbele linknamen geven een evaluatiefout.
+
+Home Manager vervangt de oude links bij de volgende activatie. Verwijzingen in
+de gedeelde instructies gebruiken de korte paden. De aparte ingang
+`~/.agents/audio-notify/` blijft beschikbaar voor clients zonder skillselectie.
+Geïmporteerde skills krijgen hun korte naam in een aparte Nix-build. Die werkt
+ook verwijzingen naar hernoemde skills bij, met behoud van bronpaden. De gepinde
+upstreambronnen blijven onaangetast. Lokale `SKILL.md`-bestanden bevatten de
+korte namen rechtstreeks.
+
+Ingebouwde skills, pluginmappen en submappen binnen upstreamskills worden door
+hun eigen distributie beheerd en vallen buiten deze symlinknamenlijst.
+
 ## Rechtstreekse imports
 
 Awesome Copilot komt via `awesome-copilot-skills` uit `github/awesome-copilot`.

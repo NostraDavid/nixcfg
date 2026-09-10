@@ -1,5 +1,5 @@
 ---
-name: continuous-delivery
+name: cd
 description: "Use when the user asks to design or improve deployment pipelines, release strategies, GitOps delivery, environment promotion, rollback, or coordination of application and database releases. Do not trigger for isolated CI configuration, live incident investigation, or application architecture design."
 ---
 

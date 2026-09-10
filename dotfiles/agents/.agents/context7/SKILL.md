@@ -1,5 +1,5 @@
 ---
-name: context7
+name: c7
 description: Retrieve library documentation with Context7 when implementing or checking an external library API, configuration option, or version-specific behavior.
 ---
 

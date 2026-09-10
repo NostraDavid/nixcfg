@@ -1,5 +1,5 @@
 ---
-name: git-worktrees
+name: wt
 description: Create, reuse, or hand off an isolated Git worktree when the user requests one or isolation has a concrete benefit for the task. Routine work stays in the current checkout.
 ---
 

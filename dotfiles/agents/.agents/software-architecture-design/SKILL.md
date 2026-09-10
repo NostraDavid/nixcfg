@@ -1,5 +1,5 @@
 ---
-name: software-architecture-design
+name: design
 description: "Use when the user asks to choose or evaluate system structure, service or module boundaries, integration styles, consistency models, deployment trade-offs, or an evolutionary architecture. Do not trigger for low-level class refactoring, relational schema design, or merely documenting an existing codebase."
 ---
 

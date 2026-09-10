@@ -1,6 +1,6 @@
 ---
-name: database-design
-description: "Use when the user asks to design or evaluate a new or substantially redesigned relational schema, including entities, keys, relationships, constraints, normalization, and data types. Use database-refactor for evolutionary changes to an existing schema; do not trigger for isolated query tuning or SQL patch review."
+name: db
+description: "Use when the user asks to design or evaluate a new or substantially redesigned relational schema, including entities, keys, relationships, constraints, normalization, and data types. Use dbref for evolutionary changes to an existing schema; do not trigger for isolated query tuning or SQL patch review."
 ---
 
 # Database Design

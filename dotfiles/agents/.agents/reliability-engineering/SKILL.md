@@ -1,5 +1,5 @@
 ---
-name: reliability-engineering
+name: sre
 description: "Use when the user asks to define or assess service SLOs, SLIs, error budgets, alerting, capacity, resilience to dependency failures, overload handling, disaster recovery, or lessons from incidents. Do not trigger for a live root-cause investigation or host-level Linux performance diagnosis."
 ---
 
