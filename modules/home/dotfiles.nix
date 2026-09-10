@@ -135,6 +135,7 @@
         ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color.py";};
         ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker.py";};
         ".local/bin/say" = {source = mk "${dot}/scripts/say.sh";};
+        ".config/say/espeak-ng-data" = {source = "${local.say-dictionary}/share/espeak-ng-data";};
         ".local/bin/tmux-login-session" = {source = mk "${dot}/scripts/tmux-login-session";};
         ".local/bin/venv" = {source = mk "${dot}/scripts/venv.py";};
         ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
