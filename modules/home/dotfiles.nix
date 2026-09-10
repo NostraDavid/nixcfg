@@ -12,28 +12,9 @@
     dot = "${repoRoot}/dotfiles";
     mk = path: config.lib.file.mkOutOfStoreSymlink path;
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
-    localSkills = [
-      "audio-notify"
-      "continuous-delivery"
-      "database-design"
-      "database-refactor"
-      "debug-software"
-      "discover-customer-needs"
-      "hypertext-token-killer"
-      "interview-me"
-      "linux-performance"
-      "manage-adrs"
-      "perfect-review"
-      "python-native-script-builder"
-      "python-uv-script-builder"
-      "reliability-engineering"
-      "review-twelve-factor-app"
-      "secure-software-design"
-      "skill-review"
-      "software-architecture-design"
-      "test-design"
-      "tiger-style"
-    ];
+    skillCatalog = builtins.fromJSON (builtins.readFile ../../dotfiles/agents/skills.json);
+    workflowSkills = skillCatalog.workflow;
+    localSkills = skillCatalog.local ++ workflowSkills;
     importedSkills = [local.awesome-copilot-skills local.blender-mcp-skills local.blender-reference-skills local.cc-blender-skills local.matt-pocock-skills local.polars-skills local.ponytail-skills local.pstack-skills];
     importedEntries =
       builtins.concatMap
@@ -70,6 +51,9 @@
       then throw "Duplicate skill names: enable each name in only one skill package or local group."
       else links;
     sharedCodexSkills = mkSkillLinks "codex" skillEntries;
+    sharedWorkflowSkills = mkSkillLinks "agents" (builtins.filter
+      (skill: builtins.elem skill.name workflowSkills)
+      skillEntries);
     copilotSkills = mkSkillLinks "copilot" skillEntries;
     opencodeSkills = mkSkillLinks "config/opencode" skillEntries;
   in
@@ -165,6 +149,7 @@
         "rsync-bitvavo" = {source = mk "${dot}/scripts/rsync-bitvavo";};
       }
       // sharedCodexSkills
+      // sharedWorkflowSkills
       // copilotSkills
       // opencodeSkills);
 

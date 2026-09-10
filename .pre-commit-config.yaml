@@ -8,6 +8,13 @@ repos:
 
   - repo: local
     hooks:
+      - id: check-agent-instructions
+        name: check agent instructions and skill links
+        entry: just check-agent-instructions
+        language: system
+        files: "^(dotfiles/agents/|modules/home/dotfiles\\.nix$|modules/flake\\.nix$|checks/)"
+        pass_filenames: false
+
       - id: check-alejandra
         name: check Nix formatting (alejandra, local)
         entry: just check-alejandra-files

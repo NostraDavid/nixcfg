@@ -1,9 +1,14 @@
 # Agent memory and history
 
-Read `~/.config/agent-memory/provider` to determine the active durable memory.
-For `engrim`, follow `~/.agents/instructions/engrim.md`; for `engram`, follow
-`~/.agents/instructions/engram.md`. Use only the selected backend for new
-observations. The `agent-memory` MCP server runs that backend.
+Read `~/.config/agent-memory/provider` to select durable memory. At session
+start, retrieve project context; before substantial work, search relevant prior
+knowledge. Use `~/.agents/skills/agent-memory/SKILL.md` for the selected
+backend's MCP and CLI procedure. Write new observations only to that backend.
+
+Save reusable decisions, discoveries, conventions, and explicit handoff state at
+meaningful decision points and before handing unfinished work to another
+session. Exclude routine output, transient progress, full transcripts,
+credentials, secrets, and unnecessary personal data.
 
 Use the `ctx` skill to retrieve original sessions when investigating earlier
 work or when saved memory does not explain a prior decision. Inspect cited

@@ -1,4 +1,8 @@
-{inputs, ...}: let
+{
+  inputs,
+  self,
+  ...
+}: let
   inherit
     (builtins)
     attrNames
@@ -134,6 +138,11 @@ in {
     _module.args.pkgs = stable;
 
     legacyPackages = stable;
+
+    checks.agent-instructions = import ../checks/agent-instructions.nix {
+      pkgs = stable;
+      homeFiles = self.nixosConfigurations.wodan.config.home-manager.users.david.home.file;
+    };
 
     packages =
       mkLocal stable
