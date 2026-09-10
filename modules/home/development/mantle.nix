@@ -68,6 +68,8 @@
       unstable.opencode # llm agent
       unstable.opencode-desktop # llm agent for desktop
       unstable.oxlint # js linter
+      unstable.rtk # Compress CLI output for coding agents
+      unstable.snip # Limit command output for coding agents
       unstable.witr # Why is this running?
       unstable.zigfetch # neofetch alternative
     ];
