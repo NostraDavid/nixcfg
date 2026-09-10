@@ -1,6 +1,6 @@
 ---
 name: adr
-description: "Use when the user asks to create or update an ADR within an existing decision set, discover ADR conventions, supersede decisions, repair numbering or indexes, or review decision history and status. Use create-architectural-decision-record for one standalone ADR without surrounding decision-set maintenance."
+description: "Maintain an existing ADR collection: discover conventions, create or supersede decisions, repair numbering and indexes, and review decision history. Use for decision-set maintenance rather than an isolated architecture document."
 ---
 
 # Manage ADRs

@@ -1,6 +1,6 @@
 ---
 name: tests
-description: "Use when the user asks what to test, which test levels to use, how to cover risky behavior, how to replace brittle mocks, or whether a suite provides trustworthy coverage. Do not trigger merely to run existing tests or diagnose an unknown failure; use tdd when test-first implementation is requested."
+description: "Design test coverage, choose test levels, assess suite quality, and replace brittle mocks. Use for testing strategy questions. Exclude routine test execution and unknown bug diagnosis; use tdd for test-first implementation."
 ---
 
 # Test Design

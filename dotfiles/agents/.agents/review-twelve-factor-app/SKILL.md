@@ -1,6 +1,6 @@
 ---
 name: 12factor
-description: "Use when the user explicitly asks for a Twelve-Factor or 12-factor assessment, a factor-by-factor gap analysis, or a cloud-readiness or modernization review based on 12factor.net. Do not trigger for generic code-quality, security, reliability, or CI/CD reviews."
+description: "Assess applications against Twelve-Factor principles when explicitly requested. Produce factor-by-factor gaps and modernization guidance. Exclude generic code, security, reliability, and CI/CD reviews."
 ---
 
 # Review Twelve-Factor App

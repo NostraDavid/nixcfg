@@ -2,6 +2,7 @@
 {
   config,
   local,
+  lib,
   repoRoot,
   stable,
   ...
@@ -20,7 +21,7 @@
     importedSkills = [local.awesome-copilot-skills local.blender-mcp-skills local.blender-reference-skills local.cc-blender-skills local.matt-pocock-skills local.polars-skills local.ponytail-skills local.pstack-skills];
     namedSkills =
       stable.runCommand "short-skill-names" {
-        nativeBuildInputs = [stable.python3];
+        nativeBuildInputs = [(stable.python3.withPackages (ps: [ps.pyyaml]))];
       } ''
         mkdir -p "$out"
         ${builtins.concatStringsSep "\n" (map (package:
@@ -29,6 +30,7 @@
             '')
             package.skillNames))
         importedSkills)}
+        cp -RL ${local.ctx}/share/skills/ctx "$out/ctx"
         chmod -R u+w "$out"
         python - "$out" ${../../dotfiles/agents/skills.json} <<'PY'
         import json
@@ -56,6 +58,7 @@
             text = invocations.sub(lambda match: match[1] + aliases[match[2]], text)
             path.write_text(text)
         PY
+        python ${./skill-descriptions.py} ${../../dotfiles/agents/descriptions.json} "$out"
       '';
     importedEntries =
       builtins.concatMap
@@ -71,7 +74,7 @@
       ++ [
         {
           name = "ctx";
-          source = "${local.ctx}/share/skills/ctx";
+          source = "${namedSkills}/ctx";
         }
       ]
       ++ map (name: {
@@ -113,8 +116,8 @@
         ".pi/agent/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
         ## Claude
-        ".claude/skills/ctx".source = "${local.ctx}/share/skills/ctx";
-        ".pi/agent/skills/ctx".source = "${local.ctx}/share/skills/ctx";
+        ".claude/skills/ctx".source = "${namedSkills}/ctx";
+        ".pi/agent/skills/ctx".source = "${namedSkills}/ctx";
         ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
         ".claude/CLAUDE.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
@@ -194,4 +197,11 @@
       // sharedWorkflowSkills
       // copilotSkills
       // opencodeSkills);
+
+  home.activation.skillDescriptions = lib.hm.dag.entryAfter ["linkGeneration"] ''
+    $DRY_RUN_CMD ${stable.python3.withPackages (ps: [ps.pyyaml])}/bin/python \
+      ${./skill-descriptions.py} ${../../dotfiles/agents/descriptions.json} \
+      "${config.home.homeDirectory}/.codex/skills/.system" \
+      "${config.home.homeDirectory}/.codex/plugins/cache"
+  '';
 }

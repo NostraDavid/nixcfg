@@ -1,6 +1,6 @@
 ---
 name: sre
-description: "Use when the user asks to define or assess service SLOs, SLIs, error budgets, alerting, capacity, resilience to dependency failures, overload handling, disaster recovery, or lessons from incidents. Do not trigger for a live root-cause investigation or host-level Linux performance diagnosis."
+description: "Define or assess service reliability: SLIs, SLOs, error budgets, alerts, capacity, overload, dependency failures, and recovery. Exclude live root-cause investigations and host performance diagnosis."
 ---
 
 # Reliability Engineering

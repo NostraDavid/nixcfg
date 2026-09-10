@@ -1,6 +1,6 @@
 ---
 name: htk
-description: "Use when the user asks to retrieve public web documentation with HyperText Token Killer, remove HTML or page boilerplate before reading, save cleaned documentation, or reduce documentation-fetch token usage. Do not trigger for PDFs, JSON APIs, authenticated pages, JavaScript-dependent pages, or tasks requiring the original DOM or visual layout."
+description: "Retrieve public web documentation with HyperText Token Killer and remove HTML boilerplate. Use for explicit tool requests or cleaned documentation. Exclude PDFs, JSON, authenticated pages, and tasks requiring JavaScript or the original DOM."
 ---
 
 # HyperText Token Killer

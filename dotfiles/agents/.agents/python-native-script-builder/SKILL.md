@@ -1,6 +1,6 @@
 ---
 name: pystd
-description: "Use when creating or fully redesigning a standalone Python helper script bundled with an AI-agent skill, such as a skill's scripts/ validator, scaffold, or automation helper. This skill applies only to scripts that belong to skills and must run with the Python standard library. Do not trigger for project scripts; use pyuv for those. Do not trigger for packages, libraries, services, notebooks, or small maintenance edits."
+description: "Create or redesign standalone Python helpers bundled with skills, using only the standard library. Exclude project scripts, libraries, services, notebooks, and minor edits. Use pyuv for project automation."
 ---
 
 # Python Native Script Builder

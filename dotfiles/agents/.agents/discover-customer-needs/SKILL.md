@@ -1,6 +1,6 @@
 ---
 name: needs
-description: "Use when the user asks to plan customer or stakeholder research, analyze interview notes, uncover workflows and unmet needs, or elicit requirements before choosing a solution. Do not trigger merely to clarify the current user's prompt, write a formal specification, or validate enthusiasm for an already-decided idea."
+description: "Plan customer research, analyze interviews, and identify workflows, unmet needs, or requirements before choosing a solution. Exclude routine prompt clarification, formal specification writing, and validation of an already chosen idea."
 ---
 
 # Discover Customer Needs
