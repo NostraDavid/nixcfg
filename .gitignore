@@ -36,6 +36,7 @@
 !just/
 !.vscode/settings.json
 !scripts/
+!checks/
 !codd/
 
 # OpenTofu/Terraform local state and secrets

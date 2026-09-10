@@ -1,3 +1,8 @@
+---
+name: headroom
+description: Compress large raw tool outputs, logs, JSON, or retrieved documents with Headroom, and retrieve the original before relying on omitted details.
+---
+
 # Headroom
 
 Use the standalone Headroom MCP server for explicit compression of large raw
@@ -14,5 +19,5 @@ Nix installs Headroom independently. Clients start
 `headroom mcp serve --transport stdio` on demand. Local compression needs no
 model-traffic proxy or API credentials. A proxy-unreachable warning alone does
 not invalidate successful local compression or retrieval. Use the backend in
-`memory.md` for durable memory. Enable a proxy or Headroom learning only when
-the user explicitly requests it.
+`~/.agents/instructions/memory.md` for durable memory. Enable a proxy or
+Headroom learning only when the user explicitly requests it.

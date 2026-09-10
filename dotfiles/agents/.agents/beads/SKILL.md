@@ -1,9 +1,15 @@
+---
+name: beads
+description: Track tasks, dependencies, ownership, and completion in repositories already configured for Beads, especially across sessions or agents.
+---
+
 # Beads
 
 Use Beads as the project task ledger when work must survive session changes,
 move between coding clients, or be coordinated across agents or branches. Beads
-records actionable work, status, dependencies, and ownership; use Engram for
-durable decisions and discoveries.
+records actionable work, status, dependencies, and ownership; use the backend
+selected by `~/.agents/instructions/memory.md` for durable decisions and
+discoveries.
 
 In a repository that is already configured for Beads:
 
@@ -20,8 +26,8 @@ bd close <id> --reason "<result>"
 - Record blockers and dependencies in Beads instead of an ad-hoc Markdown task
   list when the repository already uses Beads.
 - Close work only after its requested outcome and relevant checks are complete.
-- Keep task state in Beads and learned knowledge in Engram; do not duplicate the
-  same note in both systems.
+- Keep task state in Beads and learned knowledge in the selected memory backend;
+  do not duplicate the same note in both systems.
 
 Do not run `bd init`, `bd setup`, `bd onboard`, hook installation, server-mode
 setup, or remote sync unless the user explicitly asks to configure Beads for

@@ -1,6 +1,10 @@
 hooks-run:
   @prek --config .pre-commit-config.yaml run --all-files
 
+# Validate managed agent skills, shared references, and Home Manager links.
+check-agent-instructions:
+  @{{nix_clean_env}} nix build 'path:.#checks.x86_64-linux.agent-instructions' --no-link
+
 lint-ruff:
   @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff check
 
@@ -46,6 +50,7 @@ lint-deadnix-files *files:
   "${cmd[@]}" {{files}}
 
 lint:
+  @just check-agent-instructions
   @just lint-ruff
   @just lint-shellcheck
   @just lint-markdown

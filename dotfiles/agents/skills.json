@@ -1,0 +1,33 @@
+{
+  "local": [
+    "audio-notify",
+    "continuous-delivery",
+    "database-design",
+    "database-refactor",
+    "debug-software",
+    "discover-customer-needs",
+    "hypertext-token-killer",
+    "interview-me",
+    "linux-performance",
+    "manage-adrs",
+    "perfect-review",
+    "python-native-script-builder",
+    "python-uv-script-builder",
+    "reliability-engineering",
+    "review-twelve-factor-app",
+    "secure-software-design",
+    "skill-review",
+    "software-architecture-design",
+    "test-design",
+    "tiger-style"
+  ],
+  "workflow": [
+    "context7",
+    "headroom",
+    "git-worktrees",
+    "code-navigation",
+    "beads",
+    "agent-memory",
+    "cli-output"
+  ]
+}
