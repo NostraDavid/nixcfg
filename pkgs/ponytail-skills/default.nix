@@ -13,7 +13,7 @@
   skillNames;
 in
   (linkFarm "ponytail-skills" entries).overrideAttrs (_: {
-    version = "4.9.0";
+    version = "4.10.0";
     passthru = {inherit skillNames;};
     meta.license = lib.licenses.mit;
   })

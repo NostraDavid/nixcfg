@@ -5,7 +5,7 @@
 }:
 python3Packages.buildPythonApplication {
   pname = "blender-mcp";
-  version = "1.0.2-unstable-2026-09-08";
+  version = "26.04.10";
   pyproject = true;
   src = fetchgit {
     url = "https://projects.blender.org/lab/blender_mcp.git";
