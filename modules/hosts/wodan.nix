@@ -11,6 +11,7 @@
         full-workstation
         nvidia-workstation
         wodan-home
+        proxmox-lab-host
       ];
 
       system.stateVersion = "25.05";

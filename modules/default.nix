@@ -5,5 +5,6 @@
     ./flake.nix
     ./hosts
     ./roles
+    ./proxmox-lab.nix
   ];
 }
