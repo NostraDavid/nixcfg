@@ -2,6 +2,7 @@
   flake.modules.nixos.nvidia-workstation = {
     config,
     stable,
+    local,
     unstable,
     ...
   }: {
@@ -43,7 +44,7 @@
       };
       systemPackages = [
         stable.android-tools
-        stable.espeak-ng
+        local.say-dictionary.speechEngine
         stable.flite
         stable.libva-utils
         stable.cudaPackages.cudatoolkit

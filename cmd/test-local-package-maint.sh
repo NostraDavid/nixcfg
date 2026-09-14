@@ -25,6 +25,15 @@ for package in awesome-copilot-skills matt-pocock-skills polars-skills ponytail-
     fi
 done
 
+for package in say-dictionary sqlline tamzen-otf; do
+    if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
+        printf '%s must have a locally updatable version: %s\n' "${package}" "${reason}" >&2
+        exit 1
+    fi
+    [[ "$(update_mode "${repo_root}" "${package}")" == embedded-nix-update ]]
+    list_packages | rg -x "${package}" >/dev/null
+done
+
 if output="$(./cmd/local-package-maint.sh update nonexistent-regression-test-package 2>&1)"; then
     echo "Unknown packages must fail" >&2
     exit 1

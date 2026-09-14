@@ -1,17 +1,51 @@
 {
   stdenvNoCC,
   espeak-ng,
+  lib,
+  mbrola,
+  fetchFromGitHub,
+  nix-update-script,
 }:
-stdenvNoCC.mkDerivation {
+stdenvNoCC.mkDerivation (finalAttrs: let
+  speechEngine = espeak-ng.overrideAttrs (old: {
+    inherit (finalAttrs) version src;
+    # Upstream includes the backports and searches XDG paths for MBROLA voices.
+    # Only the MBROLA executable still needs an absolute Nix path.
+    patches = [];
+    postPatch =
+      (old.postPatch or "")
+      + lib.optionalString espeak-ng.mbrolaSupport ''
+        substituteInPlace src/libespeak-ng/mbrowrap.c \
+          --replace-fail 'execlp("mbrola",' 'execlp("${lib.getExe' mbrola "mbrola"}",'
+      '';
+    meta =
+      old.meta
+      // {
+        changelog = "https://github.com/espeak-ng/espeak-ng/blob/${finalAttrs.src.rev}/ChangeLog.md";
+      };
+  });
+in {
   pname = "say-dictionary";
-  inherit (espeak-ng) version src;
-  nativeBuildInputs = [espeak-ng];
+  version = "1.52.0-unstable-2026-09-11";
+  src = fetchFromGitHub {
+    owner = "espeak-ng";
+    repo = "espeak-ng";
+    rev = "699e79690f23e2558d990a3a78b0050745b96932";
+    hash = "sha256-QCAmrvu9wfu5P9kZt3g8ode5HCI6c2zMw2gr6YbV74M=";
+  };
+  nativeBuildInputs = [speechEngine];
+  passthru = {
+    inherit speechEngine;
+    updateScript = nix-update-script {
+      extraArgs = ["--version" "branch"];
+    };
+  };
   phases = ["unpackPhase" "installPhase"];
 
   installPhase = ''
     runHook preInstall
     mkdir -p "$out/share"
-    cp -r ${espeak-ng}/share/espeak-ng-data "$out/share/"
+    cp -r ${speechEngine}/share/espeak-ng-data "$out/share/"
     chmod -R u+w "$out/share/espeak-ng-data"
     cd dictsource
     printf '\n' >> nl_extra
@@ -21,4 +55,4 @@ stdenvNoCC.mkDerivation {
       "$(espeak-ng -q -v nl -x 'niks config')"
     runHook postInstall
   '';
-}
+})
