@@ -9,7 +9,7 @@ _: {
     extra-substituters = [
       "https://thaumatorium.cachix.org?priority=1"
       "https://pi.cachix.org?priority=2"
-      "https://cuda-maintainers.cachix.org?priority=3"
+      "https://cache.nixos-cuda.org?priority=3"
       "https://devenv.cachix.org?priority=4"
       "https://nix-community.cachix.org?priority=5"
       "https://numtide.cachix.org?priority=6"
@@ -18,7 +18,7 @@ _: {
     extra-trusted-public-keys = [
       "thaumatorium.cachix.org-1:KbOXBN34Tv0AeoRRhvBKoZHUfgmOALmfyQWeRE6MITo="
       "pi.cachix.org-1:lGeoGJaZ5ZDabuRzkcD5EBTNnDM4HJ1vqeOxlWk1Flk="
-      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
