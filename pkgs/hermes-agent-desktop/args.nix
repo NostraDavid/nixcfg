@@ -7,16 +7,15 @@
   hermesAgent = inputs.hermes-agent.packages.${system}.default;
   hermesAgentSrc = inputs.hermes-agent.outPath;
 
-  # The upstream desktop package currently pins a stale Electron header hash.
-  # Re-evaluate that package from the locked source with the artifact's
-  # current content hash until upstream publishes the correction.
+  # Use nixpkgs' unpacked headers for the selected Electron version.
+  # The upstream tarball hash can lag behind nixpkgs' Electron updates.
   desktopSource =
     builtins.replaceStrings [
-      "sha256-f8bSbLRmtbP93CJAvEBs+sHWDZ1xP2bcpLhC1EnOmZU="
+      ''tar -xzf ''${electronHeaders} -C "$TMPDIR/electron-headers" --strip-components=1''
       "../apps/desktop/assets/icon.png"
       "../hermes_cli/linux_desktop_entry.py"
     ] [
-      "sha256-CyzcARd1+GhWr8ED7HBYW2MYD+tgetqZFMkaivaGvw0="
+      ''cp -r ''${electron.headers}/. "$TMPDIR/electron-headers"''
       "${hermesAgentSrc}/apps/desktop/assets/icon.png"
       "${hermesAgentSrc}/hermes_cli/linux_desktop_entry.py"
     ] (builtins.readFile "${hermesAgentSrc}/nix/desktop.nix");
