@@ -8,13 +8,13 @@
 }:
 python3Packages.buildPythonApplication rec {
   pname = "engrim";
-  version = "1.3.0";
+  version = "1.4.5";
   pyproject = true;
   src = fetchFromGitHub {
     owner = "timgordontg";
     repo = "engrim";
     tag = "v${version}";
-    hash = "sha256-ncXISbKCpd+8JPH2bc/v23BVeBrOUtbr+/XT/Qr+8lk=";
+    hash = "sha256-EU00xCrSJop5h/WyB2VjREtwg2UrEtz/0d1I6DMqMlY=";
   };
   build-system = [python3Packages.setuptools];
   dependencies = [model2vec];
