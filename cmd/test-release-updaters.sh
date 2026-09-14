@@ -6,7 +6,7 @@ test_root="$(mktemp -d)"
 trap 'rm -rf "${test_root}"' EXIT
 export TEST_REPO="${test_root}/repo"
 mkdir -p "${TEST_REPO}/cmd" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
-cp "${repo_root}"/cmd/update-{jpegli,semble,github-unstable}.sh "${TEST_REPO}/cmd/"
+cp "${repo_root}"/cmd/update-{jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/cmd/"
 cp "${repo_root}/pkgs/jpegli/default.nix" "${TEST_REPO}/pkgs/jpegli/"
 cp "${repo_root}/pkgs/semble/default.nix" "${TEST_REPO}/pkgs/semble/"
 export TEST_MAIN_REV
@@ -30,6 +30,9 @@ cat >"${test_root}/bin/nix" <<'EOF'
 #!/usr/bin/env bash
 if [[ "$1" == store ]]; then
     printf '{"hash":"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="}\n'
+elif [[ "$1" == flake ]]; then
+    echo 'updated input' >>"${TEST_REPO}/flake.lock"
+    exit "${TEST_FLAKE_FAILURE:-0}"
 else
     printf '%s\n' "$*" >>"${TEST_REPO}/builds.log"
     exit "${TEST_BUILD_FAILURE:-0}"
@@ -63,4 +66,22 @@ if "${TEST_REPO}/cmd/update-jpegli.sh" >/dev/null 2>&1; then
     exit 1
 fi
 cmp "${repo_root}/pkgs/jpegli/default.nix" "${TEST_REPO}/pkgs/jpegli/default.nix"
+
+# Failed input updates and builds must preserve pre-existing lockfile changes.
+printf 'existing user changes\n' >"${TEST_REPO}/flake.lock"
+cp "${TEST_REPO}/flake.lock" "${test_root}/flake.lock.before"
+if bash "${TEST_REPO}/cmd/update-flake-package.sh" skills skills >/dev/null 2>&1; then
+    echo 'Expected flake package build failure' >&2
+    exit 1
+fi
+cmp "${test_root}/flake.lock.before" "${TEST_REPO}/flake.lock"
+export TEST_BUILD_FAILURE=0 TEST_FLAKE_FAILURE=1
+if bash "${TEST_REPO}/cmd/update-flake-package.sh" skills skills >/dev/null 2>&1; then
+    echo 'Expected flake update failure' >&2
+    exit 1
+fi
+cmp "${test_root}/flake.lock.before" "${TEST_REPO}/flake.lock"
+export TEST_FLAKE_FAILURE=0
+bash "${TEST_REPO}/cmd/update-flake-package.sh" skills skills >/dev/null
+rg -q '^updated input$' "${TEST_REPO}/flake.lock"
 echo 'Release updater regression checks passed.'

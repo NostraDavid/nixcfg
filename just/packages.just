@@ -22,8 +22,9 @@ pkg-update package:
 
 # Update every local flake package via its updater or nix-update fallback.
 pkg-update-all:
-  @red="$$(printf '\033[31m')"; reset="$$(printf '\033[0m')"; bold="$$(printf '\033[1m')"; failures=(); \
-  for package in $(nix eval --json .#packages.$(nix eval --impure --raw --expr 'builtins.currentSystem') --apply 'pkgs: builtins.attrNames pkgs' | jq -r '.[]'); do \
+  @packages="$(./cmd/local-package-maint.sh packages)" || exit $?; \
+  red="$$(printf '\033[31m')"; reset="$$(printf '\033[0m')"; bold="$$(printf '\033[1m')"; failures=(); \
+  for package in $packages; do \
     if ! just pkg-update "$package"; then \
       failures+=("$package"); \
     fi; \

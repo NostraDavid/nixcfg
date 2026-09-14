@@ -2,10 +2,11 @@
   lib,
   stdenvNoCC,
   fetchFromGitHub,
+  nix-update-script,
 }:
 stdenvNoCC.mkDerivation {
   pname = "creep2";
-  version = "0-unstable-69dc0de";
+  version = "0-unstable-2021-03-25";
 
   src = fetchFromGitHub {
     owner = "raymond-w-ko";
@@ -15,6 +16,10 @@ stdenvNoCC.mkDerivation {
   };
 
   dontBuild = true;
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--version" "branch"];
+  };
 
   installPhase = ''
     runHook preInstall

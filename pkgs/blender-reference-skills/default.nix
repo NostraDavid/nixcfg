@@ -18,7 +18,7 @@
   skillNames;
 in
   (linkFarm "blender-reference-skills" entries).overrideAttrs (_: {
-    version = "unstable-2026-06-22";
+    version = "unstable-${src.lastModifiedDate}-${src.shortRev}";
     passthru = {inherit skillNames;};
     meta.license = lib.licenses.agpl3Only;
   })

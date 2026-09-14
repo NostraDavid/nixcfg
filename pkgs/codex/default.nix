@@ -156,8 +156,7 @@ in
       updateScript = nix-update-script {
         extraArgs = [
           "--flake"
-          "--version"
-          "unstable"
+          "--use-github-releases"
           "--version-regex"
           "^rust-v(\\d+\\.\\d+\\.\\d+)$"
         ];

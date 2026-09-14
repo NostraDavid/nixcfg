@@ -25,7 +25,7 @@ in
         path = "${src}/LICENSE";
       }
     ])).overrideAttrs (_: {
-    version = "unstable-2026-07-12";
+    version = "unstable-${src.lastModifiedDate}-${src.shortRev}";
     passthru = {inherit skillNames;};
     meta.license = lib.licenses.mit;
   })
