@@ -18,6 +18,8 @@ stdenvNoCC.mkDerivation {
   dontUnpack = true;
   dontBuild = true;
 
+  passthru.updateSkipReason = "manual upstream download; no versioned release feed";
+
   installPhase = ''
     runHook preInstall
     install -Dm644 "$src" "$out/share/fonts/truetype/pico-8.ttf"

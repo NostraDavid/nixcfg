@@ -91,6 +91,7 @@ usage() {
 Usage:
   cmd/local-package-maint.sh update <package>
   cmd/local-package-maint.sh list [package...]
+  cmd/local-package-maint.sh packages
 EOF
 }
 
@@ -147,7 +148,13 @@ package_update_script() {
 list_packages() {
     (
         cd "${repo_root}"
-        nix eval --json "${flake_packages}" --apply 'pkgs: builtins.attrNames pkgs' | jq -r '.[]'
+        nix eval --json "${flake_packages}" --apply 'pkgs: builtins.filter (name:
+          (pkgs.${name}.passthru.updateSkipReason or "") == ""
+        ) (builtins.attrNames pkgs)' | jq -r '.[]' | while IFS= read -r pkg; do
+            if [[ -f "${repo_root}/pkgs/${pkg}/default.nix" ]]; then
+                printf '%s\n' "${pkg}"
+            fi
+        done
     )
 }
 
@@ -276,6 +283,18 @@ probe_skip_reason() {
     local pkg="$2"
     local current_version
     local mode
+    local reason
+
+    if [[ ! -f "${dir}/pkgs/${pkg}/default.nix" ]]; then
+        echo "generated flake output; updated through flake inputs and configuration"
+        return 0
+    fi
+
+    reason="$(pkg_eval_raw "${dir}" "${pkg}" "pkgs.\"${pkg}\".passthru.updateSkipReason or \"\"")"
+    if [[ -n "${reason}" ]]; then
+        printf '%s\n' "${reason}"
+        return 0
+    fi
 
     current_version="$(package_version "${dir}" "${pkg}")"
     if [[ -z "${current_version}" ]]; then
@@ -370,6 +389,7 @@ list_updates() {
     local pkg before after tmpdir update_log
     local skip_reason
     local -a skipped=()
+    local -a failed=()
 
     for pkg in "${packages[@]}"; do
         ensure_package "${repo_root}" "${pkg}"
@@ -390,22 +410,32 @@ list_updates() {
             if [[ "${before}" != "${after}" ]] && looks_like_real_version "${after}"; then
                 print_success "${pkg} ${before} -> ${after}"
                 found=1
+            elif ! cmp -s "${repo_root}/flake.lock" "${tmpdir}/repo/flake.lock"; then
+                print_success "${pkg} ${before} (flake input updated)"
+                found=1
             fi
         else
             skip_reason="$(summarize_failure "${update_log}")"
-            skipped+=("${pkg}: ${skip_reason}")
+            failed+=("${pkg}: ${skip_reason}")
+            emit_log_file "${update_log}" stderr
         fi
 
         rm -rf "${tmpdir}"
     done
 
-    if [[ "${found}" -eq 0 ]]; then
+    if [[ "${found}" -eq 0 && ${#failed[@]} -eq 0 ]]; then
         print_info "No newer versions found."
     fi
 
     if [[ ${#skipped[@]} -gt 0 ]]; then
         printf '%sSkipped probes:%s\n' "${C_BOLD}${C_YELLOW}" "${C_RESET}" >&2
         printf '  %s\n' "${skipped[@]}" >&2
+    fi
+
+    if [[ ${#failed[@]} -gt 0 ]]; then
+        print_error 'Failed probes:'
+        printf '  %s\n' "${failed[@]}" >&2
+        return 1
     fi
 }
 
@@ -420,7 +450,7 @@ main() {
 
     case "${command}" in
     update)
-        local tmpdir update_log skip_reason
+        local tmpdir update_log skip_reason status
         if [[ $# -ne 1 ]]; then
             usage >&2
             exit 1
@@ -436,18 +466,19 @@ main() {
             emit_log_file "${update_log}"
             rm -rf "${tmpdir}"
             exit 0
+        else
+            status=$?
         fi
-        if skip_reason="$(summarize_failure "${update_log}")"; then
-            print_warning "Skipping update for $1: ${skip_reason}"
-            rm -rf "${tmpdir}"
-            exit 0
-        fi
+        print_error "Update failed for $1: $(summarize_failure "${update_log}")"
         emit_log_file "${update_log}" stderr
         rm -rf "${tmpdir}"
-        exit 1
+        exit "${status}"
         ;;
     list)
         list_updates "$@"
+        ;;
+    packages)
+        list_packages
         ;;
     *)
         usage >&2

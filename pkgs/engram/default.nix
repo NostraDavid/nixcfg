@@ -1,6 +1,7 @@
 {
   fetchurl,
   lib,
+  nix-update-script,
   stdenvNoCC,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -14,6 +15,10 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   sourceRoot = ".";
   dontBuild = true;
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--use-github-releases" "--version-regex" "^v(\\d+\\.\\d+\\.\\d+)$"];
+  };
 
   installPhase = ''
     runHook preInstall
