@@ -5,7 +5,7 @@
     "~/AGENTS.md"
   ],
   "default_agent": "master",
-  "model": "tensorx/z-ai/glm-5.2",
+  "model": "tensorx/z-ai/glm-5.3-flash",
   "mcp": {
     "agent-memory": {
       "command": [
@@ -40,7 +40,7 @@
     "master": {
       "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
       "mode": "primary",
-      "model": "tensorx/z-ai/glm-5.2",
+      "model": "tensorx/z-ai/glm-5.3-flash",
       "permission": {
         "task": {
           "*": "deny",
@@ -52,7 +52,7 @@
     "opencode-worker": {
       "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by master.",
       "mode": "subagent",
-      "model": "tensorx/deepseek/deepseek-v4-flash-0731",
+      "model": "tensorx/deepseek/deepseek-v4.1-flash",
       "permission": {
         "task": "deny"
       },
@@ -94,33 +94,26 @@
   "provider": {
     "tensorx": {
       "models": {
-        "deepseek/deepseek-v4-flash-0731": {
+        "deepseek/deepseek-v4.1-flash": {
           "limit": {
             "context": 1048576,
             "output": 16384
           },
-          "name": "DeepSeek V4 Flash 0731"
+          "name": "DeepSeek V4.1 Flash"
         },
-        "deepseek/deepseek-v4-pro": {
+        "qwen/qwen3.8-flash-next": {
           "limit": {
-            "context": 1048576,
+            "context": 262144,
             "output": 16384
           },
-          "name": "DeepSeek V4 Pro"
+          "name": "Qwen3.8 Flash Next"
         },
-        "moonshotai/kimi-k3": {
+        "z-ai/glm-5.3-flash": {
           "limit": {
             "context": 1048576,
             "output": 16384
           },
-          "name": "Kimi K3"
-        },
-        "z-ai/glm-5.2": {
-          "limit": {
-            "context": 1048576,
-            "output": 16384
-          },
-          "name": "GLM 5.2"
+          "name": "GLM 5.3 Flash"
         }
       },
       "name": "TensorX",
