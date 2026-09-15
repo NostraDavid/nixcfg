@@ -52,3 +52,6 @@ palette = 15=#ffffff
 background-opacity = 1.0
 window-padding-x = 0
 window-padding-y = 0
+
+# Use epoll for async backend to avoid high CPU usage on Linux.
+async-backend = epoll
