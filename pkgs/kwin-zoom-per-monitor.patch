@@ -1,0 +1,133 @@
+--- a/src/plugins/zoom/zoom.cpp
++++ b/src/plugins/zoom/zoom.cpp
+@@ -30,6 +30,8 @@
+ #include <QAction>
+ #include <QTimer>
+ 
++#include <algorithm>
++
+ using namespace std::chrono_literals;
+ 
+ static void ensureResources()
+@@ -253,11 +255,22 @@
+         }
+         m_lastPresentTime = presentTime;
+ 
+-        const float zoomDist = std::abs(m_targetZoom - m_sourceZoom);
+-        if (m_targetZoom > m_zoom) {
+-            m_zoom = std::min(m_zoom + ((zoomDist * time) / animationTime(std::chrono::milliseconds(int(150 * m_zoomFactor)))), m_targetZoom);
++        if (m_mouseTracking == MouseTrackingProportional) {
++            const auto animTime = animationTime(std::chrono::milliseconds(int(30 * m_zoomFactor)));
++            const float stepDist = std::abs(m_zoom * (m_zoomFactor - 1.0));
++
++            if (m_targetZoom > m_zoom) {
++                m_zoom = std::min(m_zoom + ((stepDist * time) / animTime), m_targetZoom);
++            } else {
++                m_zoom = std::max(m_zoom - ((stepDist * time) / animTime), m_targetZoom);
++            }
+         } else {
+-            m_zoom = std::max(m_zoom - ((zoomDist * time) / animationTime(std::chrono::milliseconds(int(150 * m_zoomFactor)))), m_targetZoom);
++            const float zoomDist = std::abs(m_targetZoom - m_sourceZoom);
++            if (m_targetZoom > m_zoom) {
++                m_zoom = std::min(m_zoom + ((zoomDist * time) / animationTime(std::chrono::milliseconds(int(150 * m_zoomFactor)))), m_targetZoom);
++            } else {
++                m_zoom = std::max(m_zoom - ((zoomDist * time) / animationTime(std::chrono::milliseconds(int(150 * m_zoomFactor)))), m_targetZoom);
++            }
+         }
+     }
+ 
+@@ -294,11 +307,25 @@
+ 
+     // mouse-tracking allows navigation of the zoom-area using the mouse.
+     switch (m_mouseTracking) {
+-    case MouseTrackingProportional:
+-        m_xTranslation = -int(trackPoint.x() * (m_zoom - 1.0));
+-        m_yTranslation = -int(trackPoint.y() * (m_zoom - 1.0));
++    case MouseTrackingProportional: {
+         m_prevPoint = m_cursorPoint;
++        if (LogicalOutput *activeScreen = effects->screenAt(trackPoint)) {
++            const QRect r = activeScreen->geometry();
++            const int min_tx = int((r.x() + r.width()) * (1.0 - m_zoom));
++            const int max_tx = int(r.x() * (1.0 - m_zoom));
++            const int ideal_tx = int(r.x() + r.width() / 2.0 - trackPoint.x() * m_zoom);
++            m_xTranslation = std::clamp(ideal_tx, std::min(min_tx, max_tx), std::max(min_tx, max_tx));
++
++            const int min_ty = int((r.y() + r.height()) * (1.0 - m_zoom));
++            const int max_ty = int(r.y() * (1.0 - m_zoom));
++            const int ideal_ty = int(r.y() + r.height() / 2.0 - trackPoint.y() * m_zoom);
++            m_yTranslation = std::clamp(ideal_ty, std::min(min_ty, max_ty), std::max(min_ty, max_ty));
++        } else {
++            m_xTranslation = -int(trackPoint.x() * (m_zoom - 1.0));
++            m_yTranslation = -int(trackPoint.y() * (m_zoom - 1.0));
++        }
+         break;
++    }
+     case MouseTrackingCentered:
+         m_prevPoint = m_cursorPoint;
+         m_xTranslation = std::min(0, std::max(int(screenSize.width() - screenSize.width() * m_zoom), int(screenSize.width() / 2 - trackPoint.x() * m_zoom)));
+@@ -417,16 +444,22 @@
+ 
+     const auto scale = viewport.scale();
+ 
+-    // Render transformed offscreen texture.
++    const LogicalOutput *cursorScreen = effects->screenAt(effects->cursorPos().toPoint());
++    const bool shouldZoom = (screen == cursorScreen);
++    GLShader *shader = shaderForZoom(shouldZoom ? m_zoom : 1.0);
++
++    // Render transformed offscreen textures. Only the output containing the
++    // cursor is magnified; the other outputs remain at their native scale.
+     glClearColor(0.0, 0.0, 0.0, 0.0);
+     glClear(GL_COLOR_BUFFER_BIT);
+ 
+-    GLShader *shader = shaderForZoom(m_zoom);
+     ShaderManager::instance()->pushShader(shader);
+-    for (auto &[screen, offscreen] : m_offscreenData) {
++    for (auto &[dataScreen, offscreen] : m_offscreenData) {
+         QMatrix4x4 matrix;
+-        matrix.translate(m_xTranslation * scale, m_yTranslation * scale);
+-        matrix.scale(m_zoom, m_zoom);
++        if (shouldZoom) {
++            matrix.translate(m_xTranslation * scale, m_yTranslation * scale);
++            matrix.scale(m_zoom, m_zoom);
++        }
+         matrix.translate(offscreen.viewport.x() * scale, offscreen.viewport.y() * scale);
+ 
+         shader->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, viewport.projectionMatrix() * matrix);
+@@ -462,7 +495,17 @@
+ {
+     m_sourceZoom = m_zoom;
+     if (to < 0.0) {
+-        setTargetZoom(m_targetZoom * m_zoomFactor);
++        if (m_mouseTracking == MouseTrackingProportional) {
++            if (m_targetZoom < m_zoom) {
++                setTargetZoom(m_zoom * m_zoomFactor);
++            } else {
++                const double factor = m_zoomFactor > 1.0 ? m_zoomFactor : (m_zoomFactor > 0.0 ? 1.0 / m_zoomFactor : 1.2);
++                const double maxTarget = m_zoom * factor * factor;
++                setTargetZoom(std::min(m_targetZoom * m_zoomFactor, maxTarget));
++            }
++        } else {
++            setTargetZoom(m_targetZoom * m_zoomFactor);
++        }
+     } else {
+         setTargetZoom(to);
+     }
+@@ -475,7 +518,17 @@
+ void ZoomEffect::zoomOut()
+ {
+     m_sourceZoom = m_zoom;
+-    setTargetZoom(m_targetZoom / m_zoomFactor);
++    if (m_mouseTracking == MouseTrackingProportional) {
++        if (m_targetZoom > m_zoom) {
++            setTargetZoom(m_zoom / m_zoomFactor);
++        } else {
++            const double factor = m_zoomFactor > 1.0 ? m_zoomFactor : (m_zoomFactor > 0.0 ? 1.0 / m_zoomFactor : 1.2);
++            const double minTarget = m_zoom / (factor * factor);
++            setTargetZoom(std::max(m_targetZoom / m_zoomFactor, minTarget));
++        }
++    } else {
++        setTargetZoom(m_targetZoom / m_zoomFactor);
++    }
+     if ((m_zoomFactor > 1 && m_targetZoom < 1.01) || (m_zoomFactor < 1 && m_targetZoom > 0.99)) {
+         setTargetZoom(1);
+     }

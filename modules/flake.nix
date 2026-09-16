@@ -58,6 +58,15 @@
         hash = "sha256-CFGZIRZgOUiB/evCDUQFB+w5PJCJNtrWqYzx2yRQKpE=";
       };
     });
+
+    kdePackages = prev.kdePackages.overrideScope (_kdeFinal: kdePrev: {
+      kwin = kdePrev.kwin.overrideAttrs (old: {
+        patches = (old.patches or []) ++ [../pkgs/kwin-zoom-per-monitor.patch];
+      });
+      kwin-x11 = kdePrev.kwin-x11.overrideAttrs (old: {
+        patches = (old.patches or []) ++ [../pkgs/kwin-x11-zoom-per-monitor.patch];
+      });
+    });
   };
   overlay-unstable-fixes = _final: prev: {
     # Textual 8.2.8 can race the parent mount in this upstream test.

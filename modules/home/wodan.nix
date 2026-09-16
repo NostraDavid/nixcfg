@@ -25,6 +25,14 @@ in {
 
   programs = {
     plasma = {
+      kwin.effects.zoom = {
+        enable = true;
+        mousePointer = "scale";
+        mouseTracking = "proportional";
+        # Four steps reach exactly 2x linear zoom: one source quarter fills the screen.
+        zoomFactor = 1.189207115002721;
+      };
+
       configFile = {
         kcminputrc = {
           "Libinput/1133/49970/Logitech Gaming Mouse G502".PointerAccelerationProfile = 1;
