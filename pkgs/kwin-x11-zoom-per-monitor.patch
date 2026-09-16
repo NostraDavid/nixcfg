@@ -1,0 +1,114 @@
+--- a/src/plugins/zoom/zoom.cpp
++++ b/src/plugins/zoom/zoom.cpp
+@@ -26,6 +26,8 @@
+ 
+ #include <QAction>
+ 
++#include <algorithm>
++
+ using namespace std::chrono_literals;
+ 
+ static void ensureResources()
+@@ -240,11 +242,22 @@
+         }
+         m_lastPresentTime = presentTime;
+ 
+-        const float zoomDist = std::abs(m_targetZoom - m_sourceZoom);
+-        if (m_targetZoom > m_zoom) {
+-            m_zoom = std::min(m_zoom + ((zoomDist * time) / animationTime(std::chrono::milliseconds(int(150 * m_zoomFactor)))), m_targetZoom);
++        if (m_mouseTracking == MouseTrackingProportional) {
++            const auto animTime = animationTime(std::chrono::milliseconds(int(30 * m_zoomFactor)));
++            const float stepDist = std::abs(m_zoom * (m_zoomFactor - 1.0));
++
++            if (m_targetZoom > m_zoom) {
++                m_zoom = std::min(m_zoom + ((stepDist * time) / animTime), m_targetZoom);
++            } else {
++                m_zoom = std::max(m_zoom - ((stepDist * time) / animTime), m_targetZoom);
++            }
+         } else {
+-            m_zoom = std::max(m_zoom - ((zoomDist * time) / animationTime(std::chrono::milliseconds(int(150 * m_zoomFactor)))), m_targetZoom);
++            const float zoomDist = std::abs(m_targetZoom - m_sourceZoom);
++            if (m_targetZoom > m_zoom) {
++                m_zoom = std::min(m_zoom + ((zoomDist * time) / animationTime(std::chrono::milliseconds(int(150 * m_zoomFactor)))), m_targetZoom);
++            } else {
++                m_zoom = std::max(m_zoom - ((zoomDist * time) / animationTime(std::chrono::milliseconds(int(150 * m_zoomFactor)))), m_targetZoom);
++            }
+         }
+     }
+ 
+@@ -313,11 +326,25 @@
+     qreal xTranslation = 0;
+     qreal yTranslation = 0;
+     switch (m_mouseTracking) {
+-    case MouseTrackingProportional:
+-        xTranslation = -int(m_cursorPoint.x() * (m_zoom - 1.0));
+-        yTranslation = -int(m_cursorPoint.y() * (m_zoom - 1.0));
++    case MouseTrackingProportional: {
+         m_prevPoint = m_cursorPoint;
++        if (Output *activeScreen = effects->screenAt(m_cursorPoint)) {
++            const QRect r = activeScreen->geometry();
++            const int min_tx = int((r.x() + r.width()) * (1.0 - m_zoom));
++            const int max_tx = int(r.x() * (1.0 - m_zoom));
++            const int ideal_tx = int(r.x() + r.width() / 2.0 - m_cursorPoint.x() * m_zoom);
++            xTranslation = std::clamp(ideal_tx, std::min(min_tx, max_tx), std::max(min_tx, max_tx));
++
++            const int min_ty = int((r.y() + r.height()) * (1.0 - m_zoom));
++            const int max_ty = int(r.y() * (1.0 - m_zoom));
++            const int ideal_ty = int(r.y() + r.height() / 2.0 - m_cursorPoint.y() * m_zoom);
++            yTranslation = std::clamp(ideal_ty, std::min(min_ty, max_ty), std::max(min_ty, max_ty));
++        } else {
++            xTranslation = -int(m_cursorPoint.x() * (m_zoom - 1.0));
++            yTranslation = -int(m_cursorPoint.y() * (m_zoom - 1.0));
++        }
+         break;
++    }
+     case MouseTrackingCentered:
+         m_prevPoint = m_cursorPoint;
+         // fall through
+@@ -407,7 +434,7 @@
+     }
+     ShaderManager::instance()->popShader();
+ 
+-    if (m_mousePointer != MousePointerHide) {
++    if (m_mousePointer != MousePointerHide && m_isMouseHidden) {
+         // Draw the mouse-texture at the position matching to zoomed-in image of the desktop. Hiding the
+         // previous mouse-cursor and drawing our own fake mouse-cursor is needed to be able to scale the
+         // mouse-cursor up and to re-position those mouse-cursor to match to the chosen zoom-level.
+@@ -459,7 +486,17 @@
+ {
+     m_sourceZoom = m_zoom;
+     if (to < 0.0) {
+-        setTargetZoom(m_targetZoom * m_zoomFactor);
++        if (m_mouseTracking == MouseTrackingProportional) {
++            if (m_targetZoom < m_zoom) {
++                setTargetZoom(m_zoom * m_zoomFactor);
++            } else {
++                const double factor = m_zoomFactor > 1.0 ? m_zoomFactor : (m_zoomFactor > 0.0 ? 1.0 / m_zoomFactor : 1.2);
++                const double maxTarget = m_zoom * factor * factor;
++                setTargetZoom(std::min(m_targetZoom * m_zoomFactor, maxTarget));
++            }
++        } else {
++            setTargetZoom(m_targetZoom * m_zoomFactor);
++        }
+     } else {
+         setTargetZoom(to);
+     }
+@@ -473,7 +510,17 @@
+ void ZoomEffect::zoomOut()
+ {
+     m_sourceZoom = m_zoom;
+-    setTargetZoom(m_targetZoom / m_zoomFactor);
++    if (m_mouseTracking == MouseTrackingProportional) {
++        if (m_targetZoom > m_zoom) {
++            setTargetZoom(m_zoom / m_zoomFactor);
++        } else {
++            const double factor = m_zoomFactor > 1.0 ? m_zoomFactor : (m_zoomFactor > 0.0 ? 1.0 / m_zoomFactor : 1.2);
++            const double minTarget = m_zoom / (factor * factor);
++            setTargetZoom(std::max(m_targetZoom / m_zoomFactor, minTarget));
++        }
++    } else {
++        setTargetZoom(m_targetZoom / m_zoomFactor);
++    }
+     if ((m_zoomFactor > 1 && m_targetZoom < 1.01) || (m_zoomFactor < 1 && m_targetZoom > 0.99)) {
+         setTargetZoom(1);
+     }
