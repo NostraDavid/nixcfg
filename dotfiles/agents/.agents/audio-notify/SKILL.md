@@ -46,10 +46,12 @@ sibling worktrees keep the same name. For this repository layout, `nixcfg/trunk`
 and `nixcfg/codex-task` both identify `nixcfg`. Outside Git it omits the
 repository name. The notification script adds the spoken prefix; keep written
 replies free of this prefix. It requires an executable `say` and `timeout` on
-`PATH`; a shell alias cannot be called by `timeout`. Home Manager installs
-`say.sh` as `~/.local/bin/say`, using `espeak-ng`. Playback gets ten seconds to
-finish, followed by a one-second kill grace period. A successful command does
-not prove that the user heard it.
+`PATH`; a shell alias cannot be called by `timeout`. Home Manager installs the
+`say` dispatcher and its eSpeak NG, MBROLA, and Piper backends under
+`~/.local/bin`. `notify.sh` selects the Piper backend explicitly; it uses the
+Dutch `nl_NL-pim-medium` model and keeps selected English terms in English.
+Playback gets ten seconds to finish, followed by a one-second kill grace period.
+A successful command does not prove that the user heard it.
 
 Report a missing command, playback failure, or tool restriction briefly once per
 session, then continue with the question or result. Do not retry notifications,

@@ -17,6 +17,7 @@
     skillCatalog = builtins.fromJSON (builtins.readFile ../../dotfiles/agents/skills.json);
     skillAlias = name: skillCatalog.aliases.${name} or name;
     workflowSkills = skillCatalog.workflow;
+    mbrolaNl2 = stable.mbrola-voices.override {languages = ["nl2"];};
     localSkills = skillCatalog.local ++ workflowSkills;
     importedSkills = [local.awesome-copilot-skills local.blender-mcp-skills local.blender-reference-skills local.cc-blender-skills local.matt-pocock-skills local.polars-skills local.ponytail-skills local.pstack-skills];
     namedSkills =
@@ -179,7 +180,17 @@
         ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color.py";};
         ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker.py";};
         ".local/bin/say" = {source = mk "${dot}/scripts/say.sh";};
+        ".local/bin/say-espeak-ng" = {source = mk "${dot}/scripts/say-espeak-ng.sh";};
+        ".local/bin/say-espeak-ng-mbrola" = {source = mk "${dot}/scripts/say-espeak-ng-mbrola.sh";};
+        ".local/bin/say-piper-tts" = {source = mk "${dot}/scripts/say-piper-tts.sh";};
         ".config/say/espeak-ng-data" = {source = "${local.say-dictionary}/share/espeak-ng-data";};
+        ".local/share/mbrola/nl2" = {source = "${mbrolaNl2}/data/nl2";};
+        ".local/share/piper-voices/en_US-amy-medium.onnx" = {source = mk "${dot}/piper-voices/en_US-amy-medium.onnx";};
+        ".local/share/piper-voices/en_US-amy-medium.onnx.json" = {source = mk "${dot}/piper-voices/en_US-amy-medium.onnx.json";};
+        ".local/share/piper-voices/nl_NL-mls-medium.onnx" = {source = mk "${dot}/piper-voices/nl_NL-mls-medium.onnx";};
+        ".local/share/piper-voices/nl_NL-mls-medium.onnx.json" = {source = mk "${dot}/piper-voices/nl_NL-mls-medium.onnx.json";};
+        ".local/share/piper-voices/nl_NL-pim-medium.onnx" = {source = mk "${dot}/piper-voices/nl_NL-pim-medium.onnx";};
+        ".local/share/piper-voices/nl_NL-pim-medium.onnx.json" = {source = mk "${dot}/piper-voices/nl_NL-pim-medium.onnx.json";};
         ".local/bin/tmux-login-session" = {source = mk "${dot}/scripts/tmux-login-session";};
         ".local/bin/venv" = {source = mk "${dot}/scripts/venv.py";};
         ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};

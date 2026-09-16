@@ -36,4 +36,4 @@ if git_dir=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null);
     repository=${repository##*/}
 fi
 
-exec timeout -k 1 10 say "biep boep. ${repository:+$repository. }$message"
+exec timeout -k 1 10 say piper "biep boep. ${repository:+$repository. }$message"

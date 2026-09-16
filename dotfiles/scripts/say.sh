@@ -1,16 +1,41 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Agent tools may omit the desktop session's runtime directory.
-export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$UID}"
+script_path="$(readlink -f -- "$0")"
+script_dir="$(cd -- "$(dirname -- "$script_path")" && pwd)"
 
-# This directory contains espeak-ng-data with the compiled pronunciation list.
-data_path="${SAY_DATA_PATH:-${XDG_CONFIG_HOME:-$HOME/.config}/say}"
+usage() {
+    cat <<'EOF'
+Gebruik: say [stem] [tekst ...]
 
-# eSpeak NG options below have no long equivalents:
-# -v nl: Dutch voice (list voices: espeak-ng --voices).
-# -s 200: speed in words per minute (default: 175).
-# -p 0: pitch, 0-99 (default: 50; 0 is lowest).
-# -P 0: pitch range, 0-99 (default: 50; 0 is monotone).
-# -a 200: amplitude, 0-200 (default: 100; 200 is maximum).
-# Usage: say "Build complete"; override options: say -v nl -s 150 "Klaar".
-exec espeak-ng --path="$data_path" -v nl -s 200 -p 0 -P 0 -a 200 "$@"
+Stemmen:
+  espeak-ng              eSpeak NG Nederlands (standaard)
+  espeak-ng-mbrola       eSpeak NG met MBROLA nl2
+  piper                  Piper nl_NL-pim-medium
+
+Zonder tekst leest de gekozen stem van stdin.
+EOF
+}
+
+if [[ ${1-} == "-h" || ${1-} == "--help" ]]; then
+    usage
+    exit 0
+fi
+
+engine="espeak-ng"
+case ${1-} in
+espeak-ng | espeak)
+    engine="espeak-ng"
+    shift
+    ;;
+espeak-ng-mbrola | mbrola)
+    engine="espeak-ng-mbrola"
+    shift
+    ;;
+piper | piper-tts)
+    engine="piper-tts"
+    shift
+    ;;
+esac
+
+exec "$script_dir/say-$engine.sh" "$@"
