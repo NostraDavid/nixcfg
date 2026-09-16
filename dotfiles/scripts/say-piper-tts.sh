@@ -22,19 +22,20 @@ fi
 output_file=$(mktemp --suffix=.wav "${TMPDIR:-/tmp}/say-piper-tts.XXXXXX")
 trap 'rm -f "$output_file"' EXIT
 
-# The Dutch Piper voice otherwise applies Dutch phonemization to these terms.
-# Raw phoneme blocks keep their English pronunciation while retaining the
-# selected Dutch voice for the rest of the text.
-english_terms() {
+# The Dutch Piper voice otherwise applies the wrong phonemization to these
+# terms. Raw phoneme blocks keep English terms in English; the project name is
+# replaced with its Dutch pronunciation.
+pronunciation_fixes() {
     sed \
+        -e 's/\<nixcfg\>/niks config/g' \
         -e 's/\<scoped\>/[[skˈoʊpd]]/g' \
         -e 's/\<message\>/[[mˈɛsɪdʒ]]/g'
 }
 
 if (($# > 0)); then
-    printf '%s\n' "$*" | english_terms | piper --model "$model" --config "$config" --output-file "$output_file"
+    printf '%s\n' "$*" | pronunciation_fixes | piper --model "$model" --config "$config" --output-file "$output_file"
 else
-    english_terms | piper --model "$model" --config "$config" --output-file "$output_file"
+    pronunciation_fixes | piper --model "$model" --config "$config" --output-file "$output_file"
 fi
 
 player="${SAY_PIPER_TTS_PLAYER:-pw-play}"
