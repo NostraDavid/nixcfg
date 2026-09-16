@@ -113,14 +113,14 @@ boep. nixcfg. Repositorynaam toegevoegd aan de meldingen.". De naam komt uit de
 gedeelde Git-map; `trunk`, submappen en andere worktrees krijgen zo dezelfde
 projectnaam. Buiten Git vervalt de naam. De toevoeging hoort bij de gesproken
 agentmeldingen. Home Manager koppelt `dotfiles/scripts/say.sh` aan
-`~/.local/bin/say`. `say.sh` gebruikt `espeak-ng` met de Nederlandse
-steminstellingen en spreekt de opgegeven tekst uit.
+`~/.local/bin/say`. Zonder stemnaam gebruikt `say` de Nederlandse eSpeak NG-
+stem; je kunt ook `say espeak-ng-mbrola "tekst"` of `say piper "tekst"` kiezen.
 
-`say`, `espeak-ng` en `timeout` moeten op `PATH` staan. Een shellalias werkt
-niet vanuit `notify.sh` of `timeout`. Zet `AGENT_NOTIFY_MUTE=1` om de meldingen
-te dempen. De meldingen hangen af van het volgen van de instructies door het
-model en toegestane uitvoering van het afspeelcommando; er wordt geen clienthook
-geïnstalleerd.
+`say`, `piper`, `pw-play` en `timeout` moeten op `PATH` staan. Een shellalias
+werkt niet vanuit `notify.sh` of `timeout`. Zet `AGENT_NOTIFY_MUTE=1` om de
+meldingen te dempen. De meldingen hangen af van het volgen van de instructies
+door het model en toegestane uitvoering van het afspeelcommando; er wordt geen
+clienthook geïnstalleerd.
 
 ## Geheugen en sessiegeschiedenis
 
