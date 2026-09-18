@@ -116,44 +116,14 @@
         exec "${stable.wineWow64Packages.stagingFull}/bin/wine" Wow.exe -d3d9 "$@"
       '';
     };
-    battlenet = stable.writeShellScriptBin "battlenet" ''
-      set -eu
-
-      export WINEARCH=win64
-      export WINEPREFIX="$HOME/.wine-battlenet"
-
-      installer="$HOME/Downloads/Battle.net-Setup.exe"
-      launcher="$WINEPREFIX/drive_c/Program Files (x86)/Battle.net/Battle.net Launcher.exe"
-      wine="${stable.wineWow64Packages.stagingFull}/bin/wine"
-      wineboot="${stable.wineWow64Packages.stagingFull}/bin/wineboot"
-      winetricks="${unstable.winetricks}/bin/winetricks"
-
-      if [ ! -f "$launcher" ]; then
-        if [ ! -f "$installer" ]; then
-          echo "Battle.net installer ontbreekt: $installer" >&2
-          echo "Download Battle.net-Setup.exe van https://www.blizzard.com/apps/battle.net/desktop" >&2
-          exit 1
-        fi
-
-        mkdir -p "$WINEPREFIX"
-        "$wineboot" -u
-        "$winetricks" -q dxvk
-        exec "$wine" "$installer"
-      fi
-
-      exec "$wine" "$launcher"
-    '';
   };
 in {
   home.packages = [
     inline.wow-wotlk
-    inline.battlenet
     stable.endless-sky
     stable.godot
     unstable.itch
-    stable.wineWow64Packages.stagingFull # include the Wine extras Battle.net tends to expect
     unstable.openrct2
-    unstable.winetricks # unstable, so we can use 2026 version
   ];
 
   xdg.desktopEntries.wow-wotlk = {
@@ -163,14 +133,5 @@ in {
     categories = ["Game"];
     comment = "Launch WoW 3.3.5a with DXVK, a 165 FPS limit and a frame-time graph";
     icon = "${./assets/wow.png}";
-  };
-
-  xdg.desktopEntries.battlenet = {
-    name = "Battle.net";
-    exec = "battlenet";
-    terminal = false;
-    categories = ["Game"];
-    comment = "Launch Blizzard Battle.net via Wine";
-    icon = "wine";
   };
 }
