@@ -1,7 +1,9 @@
 """Apply curated descriptions during skill builds and Home Manager activation."""
 
 import json
+import os
 import sys
+import tempfile
 from pathlib import Path
 
 import yaml
@@ -35,7 +37,16 @@ def main():
             text = path.read_text()
             updated = rewrite(text, descriptions)
             if updated != text:
-                path.write_text(updated)
+                # Codex installs marketplace plugin files read-only; replacing
+                # the file through its writable parent avoids changing modes.
+                fd, temporary = tempfile.mkstemp(dir=path.parent)
+                try:
+                    with os.fdopen(fd, "w") as stream:
+                        stream.write(updated)
+                    os.replace(temporary, path)
+                finally:
+                    if os.path.exists(temporary):
+                        os.unlink(temporary)
                 changed += 1
     print(f"Updated {changed} skill descriptions")
 
