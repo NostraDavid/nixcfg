@@ -11,6 +11,13 @@ zijn ingebouwde system-skills uit `~/.codex/skills/.system`. Deze worden hier
 niet gekopieerd of naar Copilot en OpenCode gekoppeld. Hermes en Pi zijn niet
 aan deze selectie gekoppeld.
 
+Ponytail is voor Codex ook als volledige plugin beschikbaar. Home Manager
+plaatst de gepinde bron in `~/plugins/ponytail`, voegt hem toe aan de
+persoonlijke Codex-marketplace en installeert hem idempotent met
+`codex plugin add`. Daarmee zijn naast `ponytail-review` ook de
+Ponytail-instructies, overige skills en lifecycle-hooks actief. De bestaande
+marketplace-items blijven behouden.
+
 ## Korte symlinknamen
 
 `skills.json` bevat onder `aliases` de vaste korte mapnamen, bijvoorbeeld
@@ -76,6 +83,14 @@ Polars komt via `polars-skills` uit `polars-inc/skills`, gepind op `v0.3.1`.
 `polars` staat aan in `pkgs/polars-skills/skills.nix`. De volledige skillmap
 komt rechtstreeks uit upstream, inclusief referenties en de upstreamtrigger. Er
 is geen lokale variant of snapshot.
+
+Ponytail komt via `ponytail-skills` uit
+[`DietrichGebert/ponytail`](https://github.com/DietrichGebert/ponytail), gepind
+op `v4.10.0`. De gedeelde skillkoppeling bevat alleen `ponytail-review`,
+geselecteerd in `pkgs/ponytail-skills/skills.nix`. Codex krijgt daarnaast de
+volledige plugin via `pkgs/ponytail-codex`: de zes upstream-skills, commands en
+lifecycle-hooks blijven daarbij ongewijzigd. De updater ververst de flake-input
+en beide lokale pakketversies tegelijk.
 
 `flake.nix` kiest de revisie en `flake.lock` legt de inhoudshash vast. Voor
 updates: wijzig de revisie, voer `nix flake lock` uit en controleer of de
