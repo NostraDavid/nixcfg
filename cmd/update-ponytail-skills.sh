@@ -17,5 +17,9 @@ fi
 printf 'Updating ponytail-skills to version %s\n' "${version}"
 sed -i "s#github:DietrichGebert/ponytail[^\"]*#github:DietrichGebert/ponytail/v${version}#" flake.nix
 sed -i "s/version = \".*\";/version = \"${version}\";/" pkgs/ponytail-skills/default.nix
+sed -i "s/version = \".*\";/version = \"${version}\";/" pkgs/ponytail-codex/default.nix
 
-exec "${repo_root}/cmd/update-flake-package.sh" ponytail-skills ponytail-skills
+"${repo_root}/cmd/update-flake-package.sh" ponytail-skills ponytail-skills
+
+echo 'Verifying Codex plugin build...'
+nix build .#ponytail-codex --no-link
