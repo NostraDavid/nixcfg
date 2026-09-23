@@ -27,6 +27,7 @@
   libXfixes,
   libxkbcommon,
   libXrandr,
+  makeWrapper,
   mesa,
   nspr,
   nss,
@@ -49,6 +50,7 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     autoPatchelfHook
     dpkg
+    makeWrapper
   ];
 
   buildInputs = [
@@ -105,6 +107,12 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p "$out"
     cp -R --no-preserve=ownership usr/. "$out/"
     runHook postInstall
+  '';
+
+  # Electron dlopens libGL, so autoPatchelfHook cannot discover this dependency.
+  postFixup = ''
+    wrapProgram "$out/lib/chatgpt/codex-launcher" \
+      --prefix LD_LIBRARY_PATH : "${libGL}/lib"
   '';
 
   meta = {
