@@ -3,6 +3,8 @@
   unstable,
   ...
 }: let
+  # FreeArc in the installer hangs in the new WoW64 mode (Wine bug 59472).
+  warcraftWine = stable.wineWow64Packages.stagingFull.override {wineBuild = "wineWow";};
   wowStockDxvkConfig = stable.writeText "wow-dxvk-defaults.conf" "# Use DXVK defaults and built-in game compatibility settings.\n";
   wowGplall =
     stable.runCommand "wow-dxvk-gplall-2.6.8-2" {
@@ -34,6 +36,59 @@
     toggle_hud=Shift_R+F12
   '';
   inline = {
+    warcraft-remastered = stable.writeShellApplication {
+      name = "warcraft-remastered";
+      runtimeInputs = [stable.coreutils stable.util-linux warcraftWine];
+      text = ''
+        export WINEARCH=win64
+        export WINEPREFIX="''${XDG_DATA_HOME:-$HOME/.local/share}/wineprefixes/warcraft-remastered"
+        export WINEDEBUG="''${WINEDEBUG:--all}"
+        game_dir="$WINEPREFIX/drive_c/Games/Warcraft Remastered"
+        state_dir="''${XDG_STATE_HOME:-$HOME/.local/state}/warcraft-remastered"
+        action="''${1:-}"
+        if [ "$#" -gt 0 ]; then shift; fi
+        case "$action" in
+          install|1|2) ;;
+          *) echo "Gebruik: warcraft-remastered {install [installatiemap]|1|2}" >&2; exit 2 ;;
+        esac
+
+        mkdir -p "$WINEPREFIX" "$state_dir"
+        exec 9>"$WINEPREFIX/launcher.lock"
+        if ! flock -n 9; then
+          echo "Sluit eerst de actieve Warcraft-installatie of game af." >&2
+          exit 1
+        fi
+
+        if [ "$action" = install ]; then
+          installer_dir="''${1:-$HOME/data/torrents/Warcraft I & II Remastered [FitGirl Repack]}"
+          if [ ! -f "$installer_dir/setup.exe" ]; then
+            echo "Installer ontbreekt: $installer_dir/setup.exe" >&2
+            exit 1
+          fi
+          wineboot -u
+          cd "$installer_dir"
+          wine setup.exe /SILENT /SUPPRESSMSGBOXES /NORESTART /SP- \
+            '/DIR=C:\Games\Warcraft Remastered' /TASKS= '/LOG=C:\install.log'
+          wineserver -w
+          test -f "$game_dir/WC1/Warcraft.exe"
+          test -f "$game_dir/WC2/Warcraft II.exe"
+          exit 0
+        fi
+
+        case "$action" in
+          1) game_dir="$game_dir/WC1"; executable=Warcraft.exe ;;
+          2) game_dir="$game_dir/WC2"; executable="Warcraft II.exe" ;;
+        esac
+        if [ ! -f "$game_dir/$executable" ]; then
+          echo "Warcraft ontbreekt. Voer eerst warcraft-remastered install uit." >&2
+          exit 1
+        fi
+        wineboot -u >>"$state_dir/wineboot.log" 2>&1
+        cd "$game_dir"
+        wine "$executable" "$@" >>"$state_dir/warcraft-$action.log" 2>&1
+        wineserver -w
+      '';
+    };
     wow-wotlk = stable.writeShellApplication {
       name = "wow-wotlk";
       runtimeInputs = [stable.coreutils stable.procps stable.util-linux];
@@ -119,6 +174,7 @@
   };
 in {
   home.packages = [
+    inline.warcraft-remastered
     inline.wow-wotlk
     stable.endless-sky
     stable.godot
@@ -126,12 +182,30 @@ in {
     unstable.openrct2
   ];
 
-  xdg.desktopEntries.wow-wotlk = {
-    name = "WoW";
-    exec = "env DXVK_FRAME_RATE=165 wow-wotlk --gplall --stock-config --profile";
-    terminal = false;
-    categories = ["Game"];
-    comment = "Launch WoW 3.3.5a with DXVK, a 165 FPS limit and a frame-time graph";
-    icon = "${./assets/wow.png}";
+  xdg.desktopEntries = {
+    warcraft-1-remastered = {
+      name = "Warcraft I Remastered";
+      exec = "warcraft-remastered 1";
+      terminal = false;
+      categories = ["Game" "StrategyGame"];
+      icon = "wine";
+    };
+
+    warcraft-2-remastered = {
+      name = "Warcraft II Remastered";
+      exec = "warcraft-remastered 2";
+      terminal = false;
+      categories = ["Game" "StrategyGame"];
+      icon = "wine";
+    };
+
+    wow-wotlk = {
+      name = "WoW";
+      exec = "env DXVK_FRAME_RATE=165 wow-wotlk --gplall --stock-config --profile";
+      terminal = false;
+      categories = ["Game"];
+      comment = "Launch WoW 3.3.5a with DXVK, a 165 FPS limit and a frame-time graph";
+      icon = "${./assets/wow.png}";
+    };
   };
 }
