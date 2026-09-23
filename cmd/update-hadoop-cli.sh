@@ -22,7 +22,7 @@ if [[ "${version}" == "${current_version}" ]]; then
     exit 0
 fi
 
-url="https://downloads.apache.org/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz"
+url="https://ftp.belnet.be/pub/ftp.apache.org/apache-dist/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz"
 source_hash="$(nix store prefetch-file --json "${url}" | jq -er '.hash')"
 original_pkg="$(cat "${pkg_file}")"
 restore() {
