@@ -74,6 +74,11 @@
       disabledTests =
         (old.disabledTests or [])
         ++ [
+          # These tests replace PATH with host /usr/bin:/bin, unavailable in the Nix sandbox.
+          "test_install_fails_when_vibe_not_in_uv_tool_dir"
+          "test_install_reports_missing_path_for_uv_tool_bin"
+          "test_install_succeeds_when_uv_bin_dir_is_already_on_path"
+          "test_update_succeeds_when_vibe_is_already_on_path"
           "test_double_escape_with_content_clears_input_without_rewind"
           "test_idle_skill_fires_telemetry"
           "test_queued_head_skill_injects_skill_tool_message"
