@@ -21,9 +21,9 @@ stdenv.mkDerivation rec {
 
   # Fetch the prebuilt tarball from the Apache mirrors. Replace the sha256 if
   # Hadoop version is updated. You can get a new hash via:
-  # nix-prefetch-url --unpack https://downloads.apache.org/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz
+  # nix-prefetch-url --unpack https://ftp.belnet.be/pub/ftp.apache.org/apache-dist/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz
   src = fetchurl {
-    url = "https://downloads.apache.org/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz";
+    url = "https://ftp.belnet.be/pub/ftp.apache.org/apache-dist/hadoop/common/hadoop-${version}/hadoop-${version}.tar.gz";
     inherit sha256;
   };
 
