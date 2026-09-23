@@ -2,10 +2,13 @@
   lib,
   stdenvNoCC,
   fetchFromGitHub,
+  gzip,
 }:
 stdenvNoCC.mkDerivation {
   pname = "win11os-kde";
   version = "unstable-2025-06-26";
+
+  nativeBuildInputs = [gzip];
 
   src = fetchFromGitHub {
     owner = "yeyushengfan258";
@@ -31,6 +34,20 @@ stdenvNoCC.mkDerivation {
     cp -r wallpaper/* $out/share/wallpapers/
     cp -r sddm-dark/6.0/Win11OS-dark $out/share/sddm/themes/Win11OS-dark
     cp -r sddm-light/6.0/Win11OS-light $out/share/sddm/themes/Win11OS-light
+
+    darkTheme=$out/share/plasma/desktoptheme/Win11OS-dark-nixcfg
+    cp -r "$out/share/plasma/desktoptheme/Win11OS-dark" "$darkTheme"
+    substituteInPlace "$darkTheme/metadata.desktop" \
+      --replace-fail 'Name=Win11OS-dark' 'Name=Win11OS-dark-nixcfg'
+
+    # The upstream tooltip SVGs use a light fallback behind the theme's light text.
+    for tooltip in "$darkTheme/widgets/tooltip.svgz" "$darkTheme/solid/widgets/tooltip.svgz"; do
+      gzip -cd "$tooltip" | sed \
+        -e '/\.ColorScheme-Background {/,/}/s/#fefefe/#1e1e1e/g' \
+        -e '/\.ColorScheme-Background {/,/}/s/#eff0f1/#1e1e1e/g' \
+        > "''${tooltip%.svgz}.svg"
+      rm "$tooltip"
+    done
 
     darkLookAndFeel=$out/share/plasma/look-and-feel/com.github.yeyushengfan258.Win11OS-dark
     mkdir -p "$darkLookAndFeel/contents/lockscreen"
