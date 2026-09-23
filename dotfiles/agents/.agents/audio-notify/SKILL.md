@@ -39,6 +39,12 @@ tool. Only the agent talking to the user plays notifications. Progress updates,
 internal substeps, quoted questions, and subagent messages are silent. An
 incomplete or blocked task does not get a completion sound.
 
+In a sandboxed Codex shell, request unsandboxed execution for the notification
+command on the first attempt. The sandbox blocks access to the user's PipeWire
+socket even when the desktop session is working. With `exec_command`, set
+`sandbox_permissions` to `require_escalated` and explain that the command needs
+the user's audio session. This changes no file or socket permissions.
+
 The script speaks "biep boep", the repository name, then your message. For
 example: "biep boep. nixcfg. Repositorynaam toegevoegd aan de meldingen." It
 derives the repository name from the shared Git directory, so subdirectories and
@@ -53,9 +59,10 @@ Dutch `nl_NL-pim-medium` model and keeps selected English terms in English.
 Playback gets ten seconds to finish, followed by a one-second kill grace period.
 A successful command does not prove that the user heard it.
 
-Report a missing command, playback failure, or tool restriction briefly once per
-session, then continue with the question or result. Do not retry notifications,
-substitute another player, or change tool permissions to make a sound play.
+If unsandboxed execution is unavailable or rejected, or playback still fails,
+report it briefly once per session and continue with the question or result.
+Do not retry notifications, substitute another player, or change system
+permissions to make a sound play.
 
 Set `AGENT_NOTIFY_MUTE=1` to disable playback. An explicit request for silence
 also suppresses notifications for its stated duration. Use the existing voice,
