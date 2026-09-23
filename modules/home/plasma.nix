@@ -392,7 +392,7 @@ in {
         LC_TIME = "en_SE.UTF-8";
       };
 
-      plasmarc.Theme.name = "Win11OS-dark";
+      plasmarc.Theme.name = "Win11OS-dark-nixcfg";
     };
   };
 }
