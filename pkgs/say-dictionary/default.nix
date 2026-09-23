@@ -26,12 +26,12 @@ stdenvNoCC.mkDerivation (finalAttrs: let
   });
 in {
   pname = "say-dictionary";
-  version = "1.52.0-unstable-2026-09-11";
+  version = "1.52.0-unstable-2026-09-22";
   src = fetchFromGitHub {
     owner = "espeak-ng";
     repo = "espeak-ng";
-    rev = "699e79690f23e2558d990a3a78b0050745b96932";
-    hash = "sha256-QCAmrvu9wfu5P9kZt3g8ode5HCI6c2zMw2gr6YbV74M=";
+    rev = "ba90c8e9f440ad544f674a790bb5f53878b6ffc5";
+    hash = "sha256-XHiNZQD9UG9rTLl5ZhbnYuZBLXv6pXA3HBCQAnnKEHk=";
   };
   nativeBuildInputs = [speechEngine];
   passthru = {
