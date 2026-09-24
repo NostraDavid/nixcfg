@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   self,
   ...
@@ -97,7 +98,10 @@
   unstableFor = system:
     import inputs.nixpkgs-unstable {
       inherit system;
-      overlays = [overlay-unstable-fixes];
+      overlays =
+        if builtins.match ".*-darwin" system != null
+        then []
+        else [overlay-unstable-fixes];
       config = nixpkgsConfig;
     };
   pkgsFor = system:
@@ -139,10 +143,93 @@
         inherit inputs hostname main-user repoRoot unstable;
       };
     };
+  mkMimir2 = {extraHomeModules ? []}: let
+    system = "x86_64-linux";
+    stable = pkgsFor system;
+  in
+    inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = stable;
+      extraSpecialArgs = {
+        inherit inputs stable;
+        hostname = "mimir2";
+        repoRoot = "/home/${main-user}/nixcfg";
+        unstable = unstableFor system;
+        local = mkLocal stable;
+      };
+      modules =
+        [
+          config.flake.modules.homeManager.portable-cli
+          {
+            programs.home-manager.enable = true;
+            targets.genericLinux = {
+              enable = true;
+              gpu.enable = false;
+            };
+            home = {
+              username = main-user;
+              homeDirectory = "/home/${main-user}";
+              stateVersion = "25.11";
+            };
+          }
+        ]
+        ++ extraHomeModules;
+    };
+  mkLoki = {
+    extraDarwinModules ? [],
+    extraHomeModules ? [],
+  }: let
+    system = "aarch64-darwin";
+  in
+    inputs.nix-darwin.lib.darwinSystem {
+      inherit system;
+      modules =
+        [
+          inputs.home-manager.darwinModules.home-manager
+          ({pkgs, ...}: {
+            nixpkgs = {
+              config = nixpkgsConfig;
+            };
+            networking.hostName = "loki";
+            system = {
+              primaryUser = main-user;
+              stateVersion = 7;
+            };
+            users.users.${main-user} = {
+              home = "/Users/${main-user}";
+              shell = pkgs.bashInteractive;
+            };
+            programs.bash.enable = true;
+            home-manager = {
+              backupFileExtension = "hm.bak";
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = {
+                inherit inputs;
+                hostname = "loki";
+                repoRoot = "/Users/${main-user}/nixcfg";
+                stable = pkgs;
+                unstable = unstableFor system;
+              };
+              users.${main-user} = {
+                imports = [config.flake.modules.homeManager.portable-cli] ++ extraHomeModules;
+                programs.home-manager.enable = true;
+                home = {
+                  username = main-user;
+                  homeDirectory = "/Users/${main-user}";
+                  stateVersion = "25.11";
+                };
+              };
+            };
+          })
+        ]
+        ++ extraDarwinModules;
+    };
 in {
   systems = ["x86_64-linux"];
 
-  _module.args = {inherit mkHost;};
+  _module.args = {inherit mkHost mkMimir2 mkLoki;};
+
+  flake.lib = {inherit mkMimir2 mkLoki;};
 
   flake.overlays.default = overlay-local;
 

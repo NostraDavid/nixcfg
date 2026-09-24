@@ -72,8 +72,12 @@ path_remove "$HOME/.local/bin" "$HOME/bin"
 path_prepend "$HOME/bin" "$HOME/.local/bin"
 export PATH
 
-# Flatpak desktop entries
-export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+if [[ $(uname -s) == Linux ]]; then
+    # Flatpak desktop entries and the Linux locale.
+    export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+    export LANG=C.UTF-8
+    export LC_ALL=C.UTF-8
+fi
 
 # make ls output iso8601
 export TIME_STYLE=long-iso
@@ -85,9 +89,6 @@ export TIME_STYLE=long-iso
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
-
-export LANG=C.UTF-8
-export LC_ALL=C.UTF-8
 
 # $- is the shell options, so we're grabbing the index of 'i' within $-
 iatest=0
@@ -354,6 +355,12 @@ if [ -n "${XDG_DATA_DIRS-}" ]; then
             source "$dir/fzf/key-bindings.bash"
         fi
     done
+fi
+
+# Work settings can live in the separate work repository.
+if [ -f "$HOME/.bashrc.work" ]; then
+    # shellcheck source=/dev/null
+    source "$HOME/.bashrc.work"
 fi
 
 # load a non-tracked local file (if it exists)

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
+# Shared aliases are also used on macOS.
+# shellcheck source=/dev/null
+source "$HOME/.bash_aliases-common"
+
 alias egrep='grep -E --color=auto'
 alias fgrep='fgrep --color=auto'
 alias getsizes='du -h . | sort -rh | head -5'
 alias gitbulk='git verify-pack -v .git/objects/pack/pack-*.idx | sort -k 3 -n | tail -3'
-alias gitfilebranch='git log --oneline --branches --' # pass the filename from gitrev
-alias gitrev='git rev-list --objects --all | grep'    # pass a hash from gitbulk
-alias gitsize='git count-objects -v'                  # gitsize: size-pack is the repo size in KB
-alias gitundo="git reset --soft HEAD~1"
 alias grep='grep -E --color=auto'
 alias sed='sed -E'
 alias rg='rg -S'
@@ -20,7 +20,6 @@ alias llo='ls -alhF'
 alias ls='ls --color=auto'
 alias ncdu='ncdu --color=dark'
 alias sudo='sudo '
-alias vi='nvim'
 alias plasma_restart='systemctl --user restart plasma-plasmashell.service'
 
 # find folder xD
@@ -140,9 +139,3 @@ function project_color_preview() {
 alias project-color=project_color
 alias project-colour=project_color
 alias pc=project_color
-
-alias ...='cd ../../'
-alias ....='cd ../../../'
-alias .....='cd ../../../../'
-alias ......='cd ../../../../../'
-alias .......='cd ../../../../../../'
