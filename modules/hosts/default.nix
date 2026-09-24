@@ -6,6 +6,8 @@
     ./frigg.nix
     ./forgejo-lab.nix
     ./homepage.nix
+    ./loki.nix
+    ./mimir2.nix
     ./wodan.nix
   ];
 }

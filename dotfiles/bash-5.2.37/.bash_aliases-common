@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+alias gitfilebranch='git log --oneline --branches --'
+alias gitrev='git rev-list --objects --all | grep'
+alias gitsize='git count-objects -v'
+alias gitundo='git reset --soft HEAD~1'
+alias vi='nvim'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias .....='cd ../../../../'
+alias ......='cd ../../../../../'
+alias .......='cd ../../../../../../'

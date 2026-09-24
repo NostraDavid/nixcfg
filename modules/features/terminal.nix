@@ -18,6 +18,7 @@
         ../home/terminal/packages.nix
       ];
       terminal-core = ../home/terminal/config.nix;
+      portable-cli = ../home/portable-cli.nix;
     };
   };
 }

@@ -8,9 +8,9 @@ changelog:
 
 # NostraDavid's nixconfig & dotfiles
 
-The repository uses flake-parts modules to compose multiple NixOS
-configurations. Host composition lives in `modules/hosts/`; generated hardware
-configuration remains in `hosts/` and `servers/`.
+The repository uses flake-parts modules to compose NixOS, Debian Home Manager,
+and nix-darwin configurations. Host composition lives in `modules/hosts/`;
+generated NixOS hardware configuration remains in `hosts/` and `servers/`.
 
 ## Usage
 
@@ -18,6 +18,13 @@ configuration remains in `hosts/` and `servers/`.
 # apply the wodan configuration
 sudo nixos-rebuild switch --flake .#wodan
 ```
+
+### Debian and macOS workstations
+
+This flake defines `mimir2` and `loki`. The work repository extends them with
+`lib.mkMimir2` and `lib.mkLoki`. See
+[Connect a work configuration to nixcfg](docs/work-repo-integration.md) for the
+flake input, module hooks, work files, and switch commands.
 
 ### Bootstrap a new machine
 
@@ -60,7 +67,8 @@ profile. Optional local environment variables can live in `.envrc.local`.
   management, NVIDIA support, terminal tooling, development, browsers,
   communication, media, gaming, containers, and self-hosted applications.
 - `modules/home/` contains the Home Manager implementations registered by those
-  features. Wodan-specific extensions use the same capability boundaries.
+  features. `portable-cli` is shared by Debian and macOS; Wodan-specific
+  extensions use the same capability boundaries.
 - `hosts/` and `servers/` contain machine-specific hardware configuration and
   supporting files.
 - `modules/` contains the flake-parts entry modules and reusable NixOS and Home

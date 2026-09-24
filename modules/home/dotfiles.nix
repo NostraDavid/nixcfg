@@ -78,6 +78,8 @@
             os.unlink(temporary)
   '';
 in {
+  imports = [./portable-dotfiles.nix];
+
   # This list may look a little weird, but that's because the original dotfiles
   # were managed by `stow`, which needs this folder structure to work correctly.
   # I decided to keep it that way, so I could return to stow in the future.
@@ -225,25 +227,13 @@ in {
           '';
 
           # The rest
-          ".config/cloc/options.txt" = {source = mk "${dot}/cloc-2.08/.config/cloc/options.txt";};
           ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode/.config/Code/User/keybindings.json";};
           ".config/Code/User/mcp.json" = {source = mk "${dot}/vscode/.config/Code/User/mcp.json";};
           ".config/Code/User/settings.json" = {source = mk "${dot}/vscode/.config/Code/User/settings.json";};
-          ".config/dprint/dprint.jsonc" = {source = mk "${dot}/dprint-0.54.0/.config/dprint/dprint.jsonc";};
-          ".config/git/attributes" = {source = mk "${dot}/git/.config/git/attributes";};
-          ".config/git/commit-template" = {source = mk "${dot}/git/.config/git/commit-template";};
-          ".config/git/hooks" = {source = mk "${dot}/git/.config/git/hooks";};
-          ".config/git/ignore" = {source = mk "${dot}/git/.config/git/ignore";};
+          ".config/git/identity.conf" = {source = mk "${dot}/git/.config/git/identity.conf";};
           ".config/i3/config" = {source = mk "${dot}/i3/.config/i3/config";};
-          ".config/markdownlint/config.yaml" = {source = mk "${dot}/markdownlint-cli-0.46.0/.config/markdownlint/config.yaml";};
           ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv/.config/mpv/mpv.conf";};
           ".config/niri/config.kdl" = {source = mk "${dot}/niri/.config/niri/config.kdl";};
-          ".config/nvim/" = {source = mk "${dot}/neovim-0.11/.config/nvim";};
-          ".config/pip/pip.conf" = {source = mk "${dot}/pip-22+/.config/pip/pip.conf";};
-          ".config/pypoetry/" = {source = mk "${dot}/pypoetry-2.1/.config/pypoetry";};
-          ".config/uv/uv.toml" = {source = mk "${dot}/uv-0.9.0/.config/uv/uv.toml";};
-          ".git-templates" = {source = mk "${dot}/git-templates/.git-templates";};
-          ".gitconfig" = {source = mk "${dot}/git/.gitconfig";};
           ".groovylintrc.json" = {source = mk "${dot}/groovy-lint/.groovylintrc.json";};
           ".local/bin/code" = {source = mk "${dot}/scripts/code.sh";};
           ".local/bin/generate_gitignore" = {source = mk "${dot}/scripts/generate_gitignore.py";};
@@ -266,7 +256,6 @@ in {
           ".local/share/piper-voices/nl_NL-pim-medium.onnx.json" = {source = mk "${dot}/piper-voices/nl_NL-pim-medium.onnx.json";};
           ".local/bin/tmux-login-session" = {source = mk "${dot}/scripts/tmux-login-session";};
           ".local/bin/venv" = {source = mk "${dot}/scripts/venv.py";};
-          ".vimrc" = {source = mk "${dot}/vim-9.0/.vimrc";};
           "dev/.env.example" = {source = mk "${dot}/dev/.env.example";};
           "dev/find-uncommitted.py" = {source = mk "${dot}/dev/find-uncommitted.py";};
           "dev/get_azure_repos.py" = {source = mk "${dot}/dev/get_azure_repos.py";};
