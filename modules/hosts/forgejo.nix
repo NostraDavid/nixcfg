@@ -15,7 +15,19 @@
         ../forgejo.nix
       ];
 
-      networking.hostName = "forgejo";
+      networking = {
+        hostName = "forgejo";
+        useDHCP = false;
+        interfaces.ens18.ipv4.addresses = [
+          {
+            address = "192.168.2.110";
+            prefixLength = 24;
+          }
+        ];
+        defaultGateway = "192.168.2.1";
+        nameservers = ["192.168.2.102"];
+        firewall.allowedTCPPorts = lib.mkForce [2222];
+      };
       fileSystems."/" = {
         device = "/dev/disk/by-label/nixos";
         fsType = "ext4";
@@ -54,8 +66,6 @@
         after = ["srv-forgejo.mount" "forgejo-data-directories.service"];
         unitConfig.AssertPathIsMountPoint = "/srv/forgejo";
       };
-
-      networking.firewall.allowedTCPPorts = lib.mkForce [2222];
 
       users.users.${main-user} = {
         isNormalUser = true;
