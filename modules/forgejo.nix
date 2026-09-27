@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  cfg = config.lab.forgejo;
+  cfg = config.nixcfg.forgejo;
   initializeDisk = pkgs.writeShellApplication {
     name = "forgejo-initialize-disk";
     runtimeInputs = [pkgs.util-linux pkgs.e2fsprogs pkgs.diffutils pkgs.coreutils];
@@ -17,9 +17,18 @@
     unitConfig.AssertPathIsMountPoint = "/srv/forgejo";
   };
 in {
-  options.lab.forgejo = {
+  options.nixcfg.forgejo = {
     enable = lib.mkEnableOption "the Forgejo service with a separate persistent disk";
-    address = lib.mkOption {type = lib.types.str;};
+    domain = lib.mkOption {type = lib.types.str;};
+    rootUrl = lib.mkOption {
+      type = lib.types.str;
+      default = "http://${cfg.domain}:3000/";
+    };
+    appName = lib.mkOption {
+      type = lib.types.str;
+      default = "Forgejo";
+    };
+    adminEmail = lib.mkOption {type = lib.types.str;};
     dataDevice = lib.mkOption {
       type = lib.types.str;
       default = "/dev/disk/by-id/virtio-forgejo-state";
@@ -41,13 +50,13 @@ in {
         stateDir = "/srv/forgejo/forgejo";
         database.type = "postgres";
         settings = {
-          DEFAULT.APP_NAME = "Forgejo lab";
+          DEFAULT.APP_NAME = cfg.appName;
           server = {
-            DOMAIN = cfg.address;
-            ROOT_URL = "http://${cfg.address}:3000/";
+            DOMAIN = cfg.domain;
+            ROOT_URL = cfg.rootUrl;
             HTTP_ADDR = "0.0.0.0";
             START_SSH_SERVER = true;
-            SSH_DOMAIN = cfg.address;
+            SSH_DOMAIN = cfg.domain;
             SSH_PORT = 2222;
             SSH_LISTEN_PORT = 2222;
           };
@@ -111,7 +120,7 @@ in {
       forgejo-admin = lib.mkMerge [
         requireData
         {
-          description = "Create the initial lab administrator without resetting existing accounts";
+          description = "Create the initial Forgejo administrator without resetting existing accounts";
           wantedBy = ["multi-user.target"];
           requires = ["forgejo.service"];
           after = ["forgejo.service"];
@@ -133,7 +142,7 @@ in {
               openssl rand -base64 24 > /srv/forgejo/admin-password
             fi
             runuser -u forgejo -- ${forgejo} admin user create \
-              --username david --email david@forgejo-lab.home.arpa \
+              --username david --email ${lib.escapeShellArg cfg.adminEmail} \
               --password "$(cat /srv/forgejo/admin-password)" \
               --admin --must-change-password=false >/dev/null
           '';

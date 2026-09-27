@@ -27,6 +27,12 @@ variable "datastore_id" {
   default     = "local"
 }
 
+variable "forgejo_datastore_id" {
+  description = "Proxmox datastore for the Forgejo VM's system and data disks."
+  type        = string
+  default     = "vm_storage_1"
+}
+
 variable "network_bridge" {
   description = "Proxmox network bridge connected to the LAN."
   type        = string
