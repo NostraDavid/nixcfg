@@ -21,7 +21,7 @@ deploy-apps target="david@apps":
   @just app-vm-deploy apps "{{target}}"
 
 # Deploy the Forgejo VM configuration.
-deploy-forgejo target="david@forgejo.home.arpa":
+deploy-forgejo target="david@192.168.2.110":
   @just app-vm-deploy forgejo "{{target}}"
 
 # Format a Homepage state disk with the expected filesystem label.

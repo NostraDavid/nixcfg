@@ -110,14 +110,16 @@ NixOS-installatie een aparte stap. De Forgejo-resource heeft `prevent_destroy`,
 zodat een gewone OpenTofu-destroy de datadisk niet wist.
 
 De image wordt alleen bij het aanmaken van VM 110 naar de systeemdisk
-geïmporteerd. Gebruik `just deploy-forgejo david@<forgejo-ip>` voor latere
-NixOS-wijzigingen op de bestaande VM. Een volgende OpenTofu-apply vernieuwt het
-opgeslagen importbestand, maar overschrijft de draaiende systeemdisk niet.
+geïmporteerd. Gebruik `just deploy-forgejo` voor latere NixOS-wijzigingen op de
+bestaande VM. Een volgende OpenTofu-apply vernieuwt het opgeslagen
+importbestand, maar overschrijft de draaiende systeemdisk niet.
 
 ## Proxmox VM layout
 
-De Nix-config gaat ervan uit dat de VM via DHCP netwerk krijgt en dat SSH
-bereikbaar is.
+`homepage` en `apps` krijgen hun netwerkconfiguratie via DHCP. `forgejo`
+gebruikt het vaste adres `192.168.2.110/24` op `ens18`, met gateway
+`192.168.2.1` en DNS `192.168.2.102`. SSH moet bereikbaar zijn om later te
+deployen.
 
 `homepage`:
 
@@ -209,7 +211,7 @@ Voer dit uit op je laptop/werkstation in deze repo, zodra SSH naar de VM werkt:
 ```bash
 just deploy-homepage root@<homepage-ip>
 just deploy-apps root@<apps-ip>
-just deploy-forgejo david@<forgejo-ip>
+just deploy-forgejo
 ```
 
 Als DNS werkt, kan dit ook:
@@ -217,16 +219,19 @@ Als DNS werkt, kan dit ook:
 ```bash
 just deploy-homepage root@homepage
 just deploy-apps root@apps
-just deploy-forgejo
 ```
+
+`just deploy-forgejo` gebruikt standaard `david@192.168.2.110` en heeft dus geen
+DNS-record nodig.
 
 De deploy recipes gebruiken bewust `path:.`, zodat ze ook werken tijdens lokaal
 itereren met untracked files.
 
-De Forgejo-host gebruikt DHCP. Reserveer zijn adres in de router en laat
-`forgejo.home.arpa` daarnaar verwijzen voor toegang via een vaste naam. Caddy
-biedt `https://forgejo.home.arpa/` op poort 443 aan en stuurt HTTP op poort 80
-door naar HTTPS. Forgejo zelf luistert alleen op `127.0.0.1:3000`. Git over SSH
+Reserveer `192.168.2.110` voor deze VM in de DHCP-server of sluit dat adres uit
+van de DHCP-pool, zodat een ander apparaat het niet krijgt. Laat
+`forgejo.home.arpa` naar `192.168.2.110` verwijzen. Caddy biedt
+`https://forgejo.home.arpa/` op poort 443 aan en stuurt HTTP op poort 80 door
+naar HTTPS. Forgejo zelf luistert alleen op `127.0.0.1:3000`. Git over SSH
 gebruikt poort 2222. Na de eerste start staat het initiële adminwachtwoord in
 `/srv/forgejo/admin-password` op de VM.
 
@@ -236,14 +241,14 @@ mee in de backup. Haal het publieke rootcertificaat op en vertrouw het op elk
 apparaat dat Forgejo gebruikt:
 
 ```bash
-ssh david@<forgejo-ip> 'sudo cat /srv/forgejo/caddy/.local/share/caddy/pki/authorities/local/root.crt' > forgejo-ca.crt
+ssh david@192.168.2.110 'sudo cat /srv/forgejo/caddy/.local/share/caddy/pki/authorities/local/root.crt' > forgejo-ca.crt
 ```
 
 Controleer vóór de DNS-wijziging het volledige HTTPS-pad met:
 
 ```bash
 curl --fail --cacert forgejo-ca.crt \
-  --resolve forgejo.home.arpa:443:<forgejo-ip> \
+  --resolve forgejo.home.arpa:443:192.168.2.110 \
   https://forgejo.home.arpa/api/healthz
 ```
 
