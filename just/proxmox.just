@@ -68,11 +68,11 @@ tofu-proxmox-check:
 
 # Plan Proxmox VM changes.
 tofu-proxmox-plan:
-  @tofu -chdir=infra/proxmox plan
+  @image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; image_path="$image_dir/nixos.qcow2"; test -s "$image_path"; TF_VAR_forgejo_image_path="$image_path" tofu -chdir=infra/proxmox plan
 
-# Apply Proxmox VM changes.
+# Build the NixOS image and apply Proxmox VM changes.
 tofu-proxmox-apply:
-  @tofu -chdir=infra/proxmox apply
+  @image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; image_path="$image_dir/nixos.qcow2"; test -s "$image_path"; TF_VAR_forgejo_image_path="$image_path" tofu -chdir=infra/proxmox apply
 
 # Show OpenTofu-managed Proxmox VM outputs.
 tofu-proxmox-output:
@@ -84,8 +84,8 @@ tofu-proxmox-state:
 
 # Plan destroying OpenTofu-managed Proxmox resources.
 tofu-proxmox-plan-destroy:
-  @tofu -chdir=infra/proxmox plan -destroy
+  @image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; TF_VAR_forgejo_image_path="$image_dir/nixos.qcow2" tofu -chdir=infra/proxmox plan -destroy
 
 # Destroy OpenTofu-managed Proxmox resources.
 tofu-proxmox-destroy:
-  @tofu -chdir=infra/proxmox destroy
+  @image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; TF_VAR_forgejo_image_path="$image_dir/nixos.qcow2" tofu -chdir=infra/proxmox destroy
