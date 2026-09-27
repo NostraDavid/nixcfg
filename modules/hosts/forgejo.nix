@@ -25,13 +25,37 @@
         initrd.availableKernelModules = ["virtio_blk"];
         kernelParams = ["console=ttyS0"];
       };
-      services.qemuGuest.enable = true;
+      services = {
+        qemuGuest.enable = true;
+        forgejo.settings.server.HTTP_ADDR = lib.mkForce "127.0.0.1";
+        caddy = {
+          enable = true;
+          dataDir = "/srv/forgejo/caddy";
+          globalConfig = "skip_install_trust";
+          virtualHosts."forgejo.home.arpa".extraConfig = ''
+            tls internal
+            reverse_proxy 127.0.0.1:3000
+          '';
+        };
+      };
 
       nixcfg.forgejo = {
         enable = true;
         domain = "forgejo.home.arpa";
+        rootUrl = "https://forgejo.home.arpa/";
         adminEmail = "david@forgejo.home.arpa";
       };
+
+      systemd.tmpfiles.rules = [
+        "d /srv/forgejo/caddy 0700 caddy caddy -"
+      ];
+      systemd.services.caddy = {
+        requires = ["srv-forgejo.mount" "forgejo-data-directories.service"];
+        after = ["srv-forgejo.mount" "forgejo-data-directories.service"];
+        unitConfig.AssertPathIsMountPoint = "/srv/forgejo";
+      };
+
+      networking.firewall.allowedTCPPorts = lib.mkForce [2222];
 
       users.users.${main-user} = {
         isNormalUser = true;
