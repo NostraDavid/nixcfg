@@ -246,5 +246,15 @@
   {
     "key": "ctrl+shift+0",
     "command": "-coverage-gutters.removeCoverage"
+  },
+  {
+    "key": "alt+p",
+    "command": "workbench.action.pinEditor",
+    "when": "!activeEditorIsPinned"
+  },
+  {
+    "key": "alt+p",
+    "command": "workbench.action.unpinEditor",
+    "when": "activeEditorIsPinned"
   }
 ]
