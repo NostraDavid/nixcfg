@@ -27,9 +27,11 @@ in {
         defaultGateway = settings.gateway;
         nameservers = [settings.gateway];
       };
-      lab.forgejo = {
+      nixcfg.forgejo = {
         enable = true;
-        address = settings.forgejo.address;
+        domain = settings.forgejo.address;
+        appName = "Forgejo lab";
+        adminEmail = "david@forgejo-lab.home.arpa";
       };
       fileSystems."/" = {
         device = "/dev/disk/by-label/nixos";

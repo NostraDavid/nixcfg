@@ -137,15 +137,13 @@ toegepast. Gebruik een bewuste reset voor een nieuwe omgeving. De labstack heeft
 eigen OpenTofu-state en gebruikt uitsluitend `pve-lab`. De bestaande
 productiestack in `infra/proxmox` wordt door deze opdrachten niet aangeroepen.
 
-## Naar productie voorbereiden
+## Productieomgeving
 
-Hergebruik `modules/forgejo.nix` in een aparte productiehost. Geef die host
-eigen netwerk-, URL-, opslag- en toegangsinstellingen. Controleer vooraf de
-Proxmox-versie, beschikbare CPU-opties en opslag.
-
-Gebruik een geteste Nix-revisie om het productiesysteem te bouwen. Migreer
-vervolgens de repositories, database en Forgejo-geheimen met een consistente
-backup. Maak vóór een applicatie- of databaseschema-upgrade een backup. Een
+De aparte productiehost `forgejo` gebruikt dezelfde Forgejo-module, met een
+eigen hostnaam en URL. VM 110 wordt vanaf een lege NixOS-installatie opgebouwd;
+de inhoud van dit tijdelijke lab wordt niet gemigreerd. Zie
+[Proxmox app VMs](proxmox-app-vms.md) voor de opslag- en netwerkconfiguratie.
+Maak vóór een latere applicatie- of databaseschema-upgrade een backup. Een
 NixOS-rollback draait een gewijzigde database niet terug.
 
 De andere bestaande productie-VMs vallen buiten dit lab.

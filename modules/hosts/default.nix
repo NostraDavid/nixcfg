@@ -4,6 +4,7 @@
     ./bragi.nix
     ./donar.nix
     ./frigg.nix
+    ./forgejo.nix
     ./forgejo-lab.nix
     ./homepage.nix
     ./loki.nix

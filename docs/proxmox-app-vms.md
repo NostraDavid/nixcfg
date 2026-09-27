@@ -1,9 +1,10 @@
 # Proxmox app VMs
 
-Deze repo definieert twee NixOS guests voor Proxmox:
+Deze repo definieert drie NixOS guests voor Proxmox:
 
 - `homepage`: dashboard host voor Homepage.
 - `apps`: gedeelde host voor het huishoudboekje en de recepten/boodschappen app.
+- `forgejo`: eigen Git-dienst op VM 110, `prd-svc-forgejo-01`.
 
 De root disks zijn vervangbaar. Applicatie-state staat op aparte Proxmox disks
 die NixOS mount via filesystem labels.
@@ -25,7 +26,18 @@ aangekoppeld.
 
 ## OpenTofu
 
-OpenTofu beheert de Proxmox VM-shells en disks in `infra/proxmox`.
+OpenTofu beheert de Proxmox VM-shells en disks in `infra/proxmox`. VM 210
+(`homepage`) en 211 (`apps`) gebruiken `datastore_id`, standaard `local`. Alleen
+VM 110 gebruikt `forgejo_datastore_id`, standaard `vm_storage_1`. De
+NixOS-installatie-ISO voor Forgejo blijft op `local`; zijn systeem- en datadisk
+staan op `vm_storage_1`.
+
+De lokale OpenTofu-state staat in `infra/proxmox/terraform.tfstate` en blijft
+buiten Git. VM 210 en 211 zijn daarin geïmporteerd; VM 110 is via OpenTofu
+aangemaakt. Bewaar deze state bij een verhuizing van de checkout. Zonder state
+zou een nieuwe `apply` de bestaande VM's opnieuw proberen aan te maken. Een
+momentopname na het aanmaken van VM 110 staat in
+`~/.local/state/nixcfg/proxmox/terraform.tfstate-after-vm110-20260927`.
 
 De Proxmox API is bereikbaar via `https://192.168.2.100:8006/api2/json/`. De
 `bpg/proxmox` provider verwacht in `proxmox_endpoint` de root URL, dus
@@ -76,6 +88,7 @@ Voor deze VM-aanmaak heeft de token rechten nodig op minimaal:
 - `/vms`: VM allocatie en configuratie.
 - `/nodes/POwerMonolith`: VM beheer op de node.
 - `/storage/local`: disks aanmaken op de datastore.
+- `/storage/vm_storage_1`: de Forgejo-disks aanmaken op de datastore.
 
 Let op: als de token met privilege separation is aangemaakt, moeten zowel de
 user `terraform@pve` als de token `terraform@pve!tf2` voldoende rechten hebben.
@@ -88,9 +101,13 @@ Pragmatische start: geef tijdelijk `PVEAdmin` op `/` met propagate aan beide:
 
 Test daarna `apply` en maak later een beperktere rol voor VM beheer.
 
-De OpenTofu config maakt de VMs aan maar start ze nog niet automatisch. Dat is
+De OpenTofu config maakt de VM's aan maar start ze nog niet automatisch. Dat is
 bewust: installeer eerst NixOS of koppel een NixOS image/template aan, zodat de
-root disk het label `nixos` krijgt en SSH bereikbaar wordt.
+root disk het label `nixos` krijgt en SSH bereikbaar wordt. Forgejo krijgt de al
+aanwezige minimale NixOS-ISO als cdrom. De bootvolgorde probeert eerst de
+systeemdisk en daarna de ISO. Zet `on_boot` pas aan nadat de installatie en
+Forgejo zijn gecontroleerd. De Forgejo-resource heeft `prevent_destroy`, zodat
+een gewone OpenTofu-destroy de datadisk niet wist.
 
 ## Proxmox VM layout
 
@@ -107,6 +124,13 @@ bereikbaar is.
 - root disk voor NixOS.
 - extra disk voor PostgreSQL.
 - extra disk voor uploads/applicatie-state.
+
+`forgejo`:
+
+- 32 GiB systeemdisk (`virtio0`) voor NixOS.
+- 64 GiB datadisk (`virtio1`, serienummer `forgejo-state`) voor PostgreSQL,
+  repositories en Forgejo-geheimen.
+- 2 CPU-cores, 4 GiB RAM en netwerk via `vmbr0`.
 
 De root disk moet uiteindelijk een filesystem met label `nixos` hebben. De extra
 state disks krijgen de labels hieronder.
@@ -127,6 +151,17 @@ state disks krijgen de labels hieronder.
 | `/`                   | `nixos`         | OS/root disk                |
 | `/var/lib/postgresql` | `apps-postgres` | PostgreSQL data             |
 | `/srv/apps`           | `apps-data`     | uploads en applicatie-state |
+
+`forgejo`:
+
+| mountpoint     | label           | purpose                            |
+| -------------- | --------------- | ---------------------------------- |
+| `/`            | `nixos`         | OS/root disk                       |
+| `/srv/forgejo` | `forgejo-state` | database, repositories en geheimen |
+
+Laat de nieuwe Forgejo-datadisk leeg. De NixOS-module controleert het opgegeven
+virtio-apparaat en initialiseert alleen een volledig lege disk met het label
+`forgejo-state`. Formatteer deze disk niet met de recipes hieronder.
 
 ## State disks formatteren
 
@@ -169,6 +204,7 @@ Voer dit uit op je laptop/werkstation in deze repo, zodra SSH naar de VM werkt:
 ```bash
 just deploy-homepage root@<homepage-ip>
 just deploy-apps root@<apps-ip>
+just deploy-forgejo david@<forgejo-ip>
 ```
 
 Als DNS werkt, kan dit ook:
@@ -176,10 +212,17 @@ Als DNS werkt, kan dit ook:
 ```bash
 just deploy-homepage root@homepage
 just deploy-apps root@apps
+just deploy-forgejo
 ```
 
 De deploy recipes gebruiken bewust `path:.`, zodat ze ook werken tijdens lokaal
 itereren met untracked files.
+
+De Forgejo-host gebruikt DHCP. Reserveer zijn adres in de router en laat
+`forgejo.home.arpa` daarnaar verwijzen voordat je de dienst gebruikt. De NixOS
+config adverteert `http://forgejo.home.arpa:3000/` voor webtoegang en poort 2222
+voor Git over SSH. Na de eerste start staat het initiële adminwachtwoord in
+`/srv/forgejo/admin-password` op de VM.
 
 ## Applicatie entrypoints
 

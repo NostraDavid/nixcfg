@@ -71,6 +71,7 @@ resource "proxmox_virtual_environment_vm" "app" {
   vm_id       = each.value.vm_id
 
   started = false
+  on_boot = false
 
   agent {
     enabled = true
@@ -105,5 +106,66 @@ resource "proxmox_virtual_environment_vm" "app" {
       size         = disk.value.size
       file_format  = "raw"
     }
+  }
+}
+
+resource "proxmox_virtual_environment_vm" "forgejo" {
+  name        = "prd-svc-forgejo-01"
+  description = "Forgejo Git service VM. NixOS system and persistent Forgejo data use separate disks."
+  node_name   = var.node_name
+  vm_id       = 110
+
+  started    = false
+  on_boot    = false
+  bios       = "seabios"
+  boot_order = ["virtio0", "ide2"]
+
+  agent {
+    enabled = true
+  }
+
+  cpu {
+    cores = 2
+    type  = "host"
+  }
+
+  memory {
+    dedicated = 4096
+  }
+
+  operating_system {
+    type = "l26"
+  }
+
+  network_device {
+    bridge = var.network_bridge
+    model  = "virtio"
+  }
+
+  cdrom {
+    file_id   = "local:iso/latest-nixos-minimal-x86_64-linux.iso"
+    interface = "ide2"
+  }
+
+  disk {
+    datastore_id = var.forgejo_datastore_id
+    interface    = "virtio0"
+    size         = 32
+    file_format  = "raw"
+    serial       = "forgejo-root"
+  }
+
+  disk {
+    datastore_id = var.forgejo_datastore_id
+    interface    = "virtio1"
+    size         = 64
+    file_format  = "raw"
+    serial       = "forgejo-state"
+  }
+
+  serial_device {}
+
+  lifecycle {
+    prevent_destroy = true
   }
 }

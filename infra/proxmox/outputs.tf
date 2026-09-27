@@ -8,3 +8,12 @@ output "app_vms" {
     }
   }
 }
+
+output "forgejo_vm" {
+  description = "Forgejo VM managed by this OpenTofu stack."
+  value = {
+    id      = proxmox_virtual_environment_vm.forgejo.id
+    vm_id   = proxmox_virtual_environment_vm.forgejo.vm_id
+    started = proxmox_virtual_environment_vm.forgejo.started
+  }
+}

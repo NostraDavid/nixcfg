@@ -2,10 +2,11 @@
 app-vm-check host:
   @nix eval path:.#nixosConfigurations."{{host}}".config.system.build.toplevel.drvPath
 
-# Evaluate both Proxmox app VM configurations.
+# Evaluate the Proxmox app VM configurations.
 app-vms-check:
   @just app-vm-check homepage
   @just app-vm-check apps
+  @just app-vm-check forgejo
 
 # Deploy an app VM configuration to a remote NixOS guest.
 app-vm-deploy host target:
@@ -18,6 +19,10 @@ deploy-homepage target="david@homepage":
 # Deploy the shared apps VM configuration.
 deploy-apps target="david@apps":
   @just app-vm-deploy apps "{{target}}"
+
+# Deploy the Forgejo VM configuration.
+deploy-forgejo target="david@forgejo.home.arpa":
+  @just app-vm-deploy forgejo "{{target}}"
 
 # Format a Homepage state disk with the expected filesystem label.
 format-homepage-data device:
