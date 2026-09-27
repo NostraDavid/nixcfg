@@ -73,7 +73,6 @@ local groups = {
             { cmd = "hermes", purpose = "Hermes Agent tasks" },
             { cmd = "opencode", purpose = "OpenCode tasks" },
             { cmd = "pi", purpose = "Pi Coding Agent tasks" },
-            { cmd = "vibe", purpose = "Mistral Vibe tasks" },
         },
     },
 }

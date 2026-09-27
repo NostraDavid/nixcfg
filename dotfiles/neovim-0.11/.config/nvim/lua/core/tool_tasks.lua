@@ -233,16 +233,6 @@ local tasks = {
         end,
     },
     {
-        id = "ai-mistral-vibe",
-        label = "AI: Mistral Vibe",
-        exe = "vibe",
-        project = true,
-        interactive = true,
-        command = function()
-            return "vibe"
-        end,
-    },
-    {
         id = "ai-opencode",
         label = "AI: OpenCode",
         exe = "opencode",
