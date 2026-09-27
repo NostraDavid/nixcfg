@@ -17,3 +17,12 @@ output "forgejo_vm" {
     started = proxmox_virtual_environment_vm.forgejo.started
   }
 }
+
+output "proxy_vm" {
+  description = "Shared proxy VM managed by this OpenTofu stack."
+  value = {
+    id      = proxmox_virtual_environment_vm.proxy.id
+    vm_id   = proxmox_virtual_environment_vm.proxy.vm_id
+    started = proxmox_virtual_environment_vm.proxy.started
+  }
+}

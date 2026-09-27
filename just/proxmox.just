@@ -7,6 +7,7 @@ app-vms-check:
   @just app-vm-check homepage
   @just app-vm-check apps
   @just app-vm-check forgejo
+  @just app-vm-check proxy
 
 # Deploy an app VM configuration to a remote NixOS guest.
 app-vm-deploy host target:
@@ -23,6 +24,10 @@ deploy-apps target="david@apps":
 # Deploy the Forgejo VM configuration.
 deploy-forgejo target="david@192.168.2.110":
   @just app-vm-deploy forgejo "{{target}}"
+
+# Deploy the shared proxy VM configuration.
+deploy-proxy target="david@192.168.2.111":
+  @just app-vm-deploy proxy "{{target}}"
 
 # Format a Homepage state disk with the expected filesystem label.
 format-homepage-data device:
@@ -68,11 +73,11 @@ tofu-proxmox-check:
 
 # Plan Proxmox VM changes.
 tofu-proxmox-plan:
-  @image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; image_path="$image_dir/nixos.qcow2"; test -s "$image_path"; TF_VAR_forgejo_image_path="$image_path" tofu -chdir=infra/proxmox plan
+  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; test -s "$forgejo_image_dir/nixos.qcow2"; test -s "$proxy_image_dir/nixos.qcow2"; SSL_CERT_FILE="$PWD/hosts/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox plan
 
 # Build the NixOS image and apply Proxmox VM changes.
 tofu-proxmox-apply:
-  @image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; image_path="$image_dir/nixos.qcow2"; test -s "$image_path"; TF_VAR_forgejo_image_path="$image_path" tofu -chdir=infra/proxmox apply
+  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; test -s "$forgejo_image_dir/nixos.qcow2"; test -s "$proxy_image_dir/nixos.qcow2"; SSL_CERT_FILE="$PWD/hosts/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox apply
 
 # Show OpenTofu-managed Proxmox VM outputs.
 tofu-proxmox-output:
@@ -84,8 +89,8 @@ tofu-proxmox-state:
 
 # Plan destroying OpenTofu-managed Proxmox resources.
 tofu-proxmox-plan-destroy:
-  @image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; TF_VAR_forgejo_image_path="$image_dir/nixos.qcow2" tofu -chdir=infra/proxmox plan -destroy
+  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; SSL_CERT_FILE="$PWD/hosts/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox plan -destroy
 
 # Destroy OpenTofu-managed Proxmox resources.
 tofu-proxmox-destroy:
-  @image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; TF_VAR_forgejo_image_path="$image_dir/nixos.qcow2" tofu -chdir=infra/proxmox destroy
+  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; SSL_CERT_FILE="$PWD/hosts/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox destroy

@@ -4,6 +4,7 @@
     ./features
     ./flake.nix
     ./forgejo-image.nix
+    ./proxy-image.nix
     ./hosts
     ./roles
     ./proxmox-lab.nix
