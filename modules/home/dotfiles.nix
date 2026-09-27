@@ -215,10 +215,6 @@ in {
           ## Hermes
           ".hermes/config.yaml" = {source = mk "${dot}/hermes-agent/.hermes/config.yaml";};
 
-          ## Mistral Vibe
-          ".vibe/config.toml" = {source = mk "${dot}/mistral-vibe/.vibe/config.toml";};
-          ".vibe/hooks.toml" = {source = mk "${dot}/mistral-vibe/.vibe/hooks.toml";};
-
           ## Hermes
           ".hermes/SOUL.md".text = ''
             You are Hermes Agent, an intelligent AI assistant created by Nous Research. You are helpful, knowledgeable, and direct. You assist users with a wide range of tasks including answering questions, writing and editing code, analyzing information, creative work, and executing actions via your tools. You communicate clearly, admit uncertainty when appropriate, and prioritize being genuinely useful over being verbose unless otherwise directed below. Be targeted and efficient in your exploration and investigations.

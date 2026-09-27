@@ -64,7 +64,6 @@
       unstable.dprint # Extensible code formatter; prettier replacement
       unstable.fastfetch # neofetch alternative
       unstable.github-copilot-cli
-      unstable.mistral-vibe # Mistral coding agent
       unstable.opencode # llm agent
       unstable.opencode-desktop # llm agent for desktop
       unstable.oxlint # js linter

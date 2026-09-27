@@ -69,27 +69,6 @@
       });
     });
   };
-  overlay-unstable-fixes = _final: prev: {
-    # Textual 8.2.8 can race the parent mount in this upstream test.
-    mistral-vibe = prev.mistral-vibe.overrideAttrs (old: {
-      disabledTests =
-        (old.disabledTests or [])
-        ++ [
-          # These tests replace PATH with host /usr/bin:/bin, unavailable in the Nix sandbox.
-          "test_install_fails_when_vibe_not_in_uv_tool_dir"
-          "test_install_reports_missing_path_for_uv_tool_bin"
-          "test_install_succeeds_when_uv_bin_dir_is_already_on_path"
-          "test_update_succeeds_when_vibe_is_already_on_path"
-          "test_double_escape_with_content_clears_input_without_rewind"
-          "test_idle_skill_fires_telemetry"
-          "test_queued_head_skill_injects_skill_tool_message"
-          "test_skill_with_args_displays_literal_command_with_args"
-          "test_skill_without_args_displays_literal_command"
-          "test_skill_without_args_does_not_add_extra_text"
-          "test_ui_session_incremental_loader_pages_before_initial_snapshot"
-        ];
-    });
-  };
   overlay-build-tools = _final: prev: {
     moldStdenv = prev.useMoldLinker prev.stdenv;
   };
@@ -98,10 +77,6 @@
   unstableFor = system:
     import inputs.nixpkgs-unstable {
       inherit system;
-      overlays =
-        if builtins.match ".*-darwin" system != null
-        then []
-        else [overlay-unstable-fixes];
       config = nixpkgsConfig;
     };
   pkgsFor = system:
