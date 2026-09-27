@@ -179,3 +179,74 @@ resource "proxmox_virtual_environment_vm" "forgejo" {
     ignore_changes  = [disk[0].import_from]
   }
 }
+
+resource "proxmox_virtual_environment_file" "proxy_image" {
+  content_type = "import"
+  datastore_id = "local"
+  node_name    = var.node_name
+  overwrite    = false
+
+  source_file {
+    path      = var.proxy_image_path
+    file_name = "proxy-${substr(filesha256(var.proxy_image_path), 0, 12)}.qcow2"
+    checksum  = filesha256(var.proxy_image_path)
+  }
+}
+
+resource "proxmox_virtual_environment_vm" "proxy" {
+  name        = "prd-svc-proxy-01"
+  description = "Shared HTTPS and Git SSH entry point. NixOS system and persistent Caddy state use separate disks."
+  node_name   = var.node_name
+  vm_id       = 111
+
+  started    = true
+  on_boot    = true
+  bios       = "seabios"
+  boot_order = ["virtio0"]
+
+  agent {
+    enabled = true
+  }
+
+  cpu {
+    cores = 1
+    type  = "host"
+  }
+
+  memory {
+    dedicated = 1024
+  }
+
+  operating_system {
+    type = "l26"
+  }
+
+  network_device {
+    bridge = var.network_bridge
+    model  = "virtio"
+  }
+
+  disk {
+    datastore_id = var.proxy_datastore_id
+    interface    = "virtio0"
+    import_from  = proxmox_virtual_environment_file.proxy_image.id
+    size         = 16
+    file_format  = "raw"
+    serial       = "proxy-root"
+  }
+
+  disk {
+    datastore_id = var.proxy_datastore_id
+    interface    = "virtio1"
+    size         = 8
+    file_format  = "raw"
+    serial       = "proxy-state"
+  }
+
+  serial_device {}
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = [disk[0].import_from]
+  }
+}

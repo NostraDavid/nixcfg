@@ -27,6 +27,10 @@
         defaultGateway = "192.168.2.1";
         nameservers = ["192.168.2.102"];
         firewall.allowedTCPPorts = lib.mkForce [2222];
+        firewall.extraCommands = lib.mkForce ''
+          iptables -w -A nixos-fw -s 192.168.2.0/24 -p tcp --dport 22 -j nixos-fw-accept
+          iptables -w -A nixos-fw -s 192.168.2.111/32 -p tcp --dport 8443 -j nixos-fw-accept
+        '';
       };
       fileSystems."/" = {
         device = "/dev/disk/by-label/nixos";
@@ -43,9 +47,24 @@
         caddy = {
           enable = true;
           dataDir = "/srv/forgejo/caddy";
-          globalConfig = "skip_install_trust";
-          virtualHosts."forgejo.home.arpa".extraConfig = ''
-            tls internal
+          globalConfig = ''
+            skip_install_trust
+            servers {
+              trusted_proxies static 192.168.2.111/32
+              trusted_proxies_strict
+            }
+            pki {
+              ca backend {
+                name "Forgejo Backend CA"
+              }
+            }
+          '';
+          virtualHosts."forgejo-backend.powerlan.empire:8443".extraConfig = ''
+            tls {
+              issuer internal {
+                ca backend
+              }
+            }
             reverse_proxy 127.0.0.1:3000
           '';
         };
@@ -53,8 +72,8 @@
 
       nixcfg.forgejo = {
         enable = true;
-        domain = "forgejo.home.arpa";
-        rootUrl = "https://forgejo.home.arpa/";
+        domain = "forgejo.powerlan.empire";
+        rootUrl = "https://forgejo.powerlan.empire/";
         adminEmail = "david@forgejo.home.arpa";
       };
 

@@ -38,6 +38,17 @@ variable "forgejo_image_path" {
   type        = string
 }
 
+variable "proxy_datastore_id" {
+  description = "Proxmox datastore for the shared proxy VM's system and data disks."
+  type        = string
+  default     = "vm_storage_1"
+}
+
+variable "proxy_image_path" {
+  description = "Absolute path to the Nix-built proxy QCOW2 image, passed by the just plan/apply recipes."
+  type        = string
+}
+
 variable "network_bridge" {
   description = "Proxmox network bridge connected to the LAN."
   type        = string
