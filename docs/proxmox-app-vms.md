@@ -14,7 +14,7 @@ die NixOS mount via filesystem labels.
 | Stap                         | Waar                                      | Voorbeeld                                        |
 | ---------------------------- | ----------------------------------------- | ------------------------------------------------ |
 | Nix-config checken           | laptop/werkstation, in deze repo          | `just app-vms-check`                             |
-| VM en extra disks aanmaken   | laptop/werkstation, in deze repo          | `just tofu-proxmox-apply`                        |
+| Forgejo-image en VM maken    | laptop/werkstation, in deze repo          | `just tofu-proxmox-apply`                        |
 | Disks formatteren en labelen | in de betreffende NixOS VM                | `just format-homepage-data /dev/disk/by-id/...`  |
 | NixOS-config deployen        | laptop/werkstation, in deze repo          | `just deploy-homepage root@<vm-ip>`              |
 | App binaries plaatsen        | in de `apps` VM, of via je app deployment | `/opt/huishoudboekje/current/bin/huishoudboekje` |
@@ -26,18 +26,20 @@ aangekoppeld.
 
 ## OpenTofu
 
-OpenTofu beheert de Proxmox VM-shells en disks in `infra/proxmox`. VM 210
+OpenTofu beheert de Proxmox VM's en disks in `infra/proxmox`. VM 210
 (`homepage`) en 211 (`apps`) gebruiken `datastore_id`, standaard `local`. Alleen
 VM 110 gebruikt `forgejo_datastore_id`, standaard `vm_storage_1`. De
-NixOS-installatie-ISO voor Forgejo blijft op `local`; zijn systeem- en datadisk
-staan op `vm_storage_1`.
+`tofu-proxmox-plan`- en `tofu-proxmox-apply`-recipes bouwen eerst een
+NixOS-image met Forgejo. OpenTofu uploadt die als importbestand naar `local` en
+importeert hem als systeemdisk op `vm_storage_1`. De datadisk staat daar ook. Op
+Proxmox moet `local` daarvoor het contenttype `Import` toelaten.
 
 De lokale OpenTofu-state staat in `infra/proxmox/terraform.tfstate` en blijft
 buiten Git. VM 210 en 211 zijn daarin geïmporteerd; VM 110 is via OpenTofu
 aangemaakt. Bewaar deze state bij een verhuizing van de checkout. Zonder state
 zou een nieuwe `apply` de bestaande VM's opnieuw proberen aan te maken. Een
-momentopname na het aanmaken van VM 110 staat in
-`~/.local/state/nixcfg/proxmox/terraform.tfstate-after-vm110-20260927`.
+momentopname na het installeren van Forgejo staat in
+`~/.local/state/nixcfg/proxmox/terraform.tfstate-after-forgejo-image-20260927`.
 
 De Proxmox API is bereikbaar via `https://192.168.2.100:8006/api2/json/`. De
 `bpg/proxmox` provider verwacht in `proxmox_endpoint` de root URL, dus
@@ -87,7 +89,7 @@ Voor deze VM-aanmaak heeft de token rechten nodig op minimaal:
 
 - `/vms`: VM allocatie en configuratie.
 - `/nodes/POwerMonolith`: VM beheer op de node.
-- `/storage/local`: disks aanmaken op de datastore.
+- `/storage/local`: de NixOS-image als importbestand uploaden.
 - `/storage/vm_storage_1`: de Forgejo-disks aanmaken op de datastore.
 
 Let op: als de token met privilege separation is aangemaakt, moeten zowel de
@@ -101,13 +103,16 @@ Pragmatische start: geef tijdelijk `PVEAdmin` op `/` met propagate aan beide:
 
 Test daarna `apply` en maak later een beperktere rol voor VM beheer.
 
-De OpenTofu config maakt de VM's aan maar start ze nog niet automatisch. Dat is
-bewust: installeer eerst NixOS of koppel een NixOS image/template aan, zodat de
-root disk het label `nixos` krijgt en SSH bereikbaar wordt. Forgejo krijgt de al
-aanwezige minimale NixOS-ISO als cdrom. De bootvolgorde probeert eerst de
-systeemdisk en daarna de ISO. Zet `on_boot` pas aan nadat de installatie en
-Forgejo zijn gecontroleerd. De Forgejo-resource heeft `prevent_destroy`, zodat
-een gewone OpenTofu-destroy de datadisk niet wist.
+VM 110 start na de eerste `apply` automatisch vanaf de vooraf gebouwde
+NixOS-systeemdisk. De Forgejo-module initialiseert alleen een volledig lege
+datadisk en start daarna PostgreSQL en Forgejo. Voor VM 210 en 211 blijft de
+NixOS-installatie een aparte stap. De Forgejo-resource heeft `prevent_destroy`,
+zodat een gewone OpenTofu-destroy de datadisk niet wist.
+
+De image wordt alleen bij het aanmaken van VM 110 naar de systeemdisk
+geïmporteerd. Gebruik `just deploy-forgejo david@<forgejo-ip>` voor latere
+NixOS-wijzigingen op de bestaande VM. Een volgende OpenTofu-apply vernieuwt het
+opgeslagen importbestand, maar overschrijft de draaiende systeemdisk niet.
 
 ## Proxmox VM layout
 
@@ -219,10 +224,14 @@ De deploy recipes gebruiken bewust `path:.`, zodat ze ook werken tijdens lokaal
 itereren met untracked files.
 
 De Forgejo-host gebruikt DHCP. Reserveer zijn adres in de router en laat
-`forgejo.home.arpa` daarnaar verwijzen voordat je de dienst gebruikt. De NixOS
+`forgejo.home.arpa` daarnaar verwijzen voor toegang via een vaste naam. De NixOS
 config adverteert `http://forgejo.home.arpa:3000/` voor webtoegang en poort 2222
 voor Git over SSH. Na de eerste start staat het initiële adminwachtwoord in
 `/srv/forgejo/admin-password` op de VM.
+
+Controleer de draaiende dienst met
+`curl -fsS http://<forgejo-ip>:3000/api/healthz`. De checks voor cache en
+database moeten allebei `pass` melden.
 
 ## Applicatie entrypoints
 

@@ -2,6 +2,8 @@ node_name = "POwerMonolith"
 datastore_id = "local"
 forgejo_datastore_id = "vm_storage_1"
 
+# The just plan/apply recipes build the Forgejo image and set TF_VAR_forgejo_image_path.
+
 # Keep secrets out of Git. Put the real value in terraform.tfvars or use:
 # export TF_VAR_proxmox_api_token='root@pam!tofu=...'
 proxmox_api_token = "user@realm!token-id=secret"

@@ -33,6 +33,11 @@ variable "forgejo_datastore_id" {
   default     = "vm_storage_1"
 }
 
+variable "forgejo_image_path" {
+  description = "Absolute path to the Nix-built Forgejo QCOW2 image, passed by the just plan/apply recipes."
+  type        = string
+}
+
 variable "network_bridge" {
   description = "Proxmox network bridge connected to the LAN."
   type        = string

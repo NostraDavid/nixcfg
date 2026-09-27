@@ -27,8 +27,8 @@
     networkmanager.enable = false;
     firewall = {
       enable = true;
-      extraInputRules = ''
-        ip saddr 192.168.2.0/24 tcp dport { 22, 80, 443 } accept
+      extraCommands = ''
+        iptables -w -A nixos-fw -s 192.168.2.0/24 -p tcp -m multiport --dports 22,80,443 -j nixos-fw-accept
       '';
     };
   };

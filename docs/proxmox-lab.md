@@ -140,8 +140,8 @@ productiestack in `infra/proxmox` wordt door deze opdrachten niet aangeroepen.
 ## Productieomgeving
 
 De aparte productiehost `forgejo` gebruikt dezelfde Forgejo-module, met een
-eigen hostnaam en URL. VM 110 wordt vanaf een lege NixOS-installatie opgebouwd;
-de inhoud van dit tijdelijke lab wordt niet gemigreerd. Zie
+eigen hostnaam en URL. OpenTofu importeert een vooraf gebouwde NixOS-image in VM
+110; de inhoud van dit tijdelijke lab wordt niet gemigreerd. Zie
 [Proxmox app VMs](proxmox-app-vms.md) voor de opslag- en netwerkconfiguratie.
 Maak vóór een latere applicatie- of databaseschema-upgrade een backup. Een
 NixOS-rollback draait een gewijzigde database niet terug.

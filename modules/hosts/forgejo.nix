@@ -20,8 +20,11 @@
         device = "/dev/disk/by-label/nixos";
         fsType = "ext4";
       };
-      boot.loader.grub.device = lib.mkForce "/dev/vda";
-      boot.kernelParams = ["console=ttyS0"];
+      boot = {
+        loader.grub.device = lib.mkForce "/dev/vda";
+        initrd.availableKernelModules = ["virtio_blk"];
+        kernelParams = ["console=ttyS0"];
+      };
       services.qemuGuest.enable = true;
 
       nixcfg.forgejo = {
@@ -35,6 +38,7 @@
         extraGroups = ["wheel"];
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDpqILWYPLnnke+4O3dAj61p8p+RghxZhTuP32TP6l07 david@nixos"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJaTWrJGOvCf4dpAechU1ak3L+cylIrQtnjZsyMk/nSk david@nixos"
         ];
       };
       security.sudo.wheelNeedsPassword = false;
