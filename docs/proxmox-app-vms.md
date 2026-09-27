@@ -224,14 +224,32 @@ De deploy recipes gebruiken bewust `path:.`, zodat ze ook werken tijdens lokaal
 itereren met untracked files.
 
 De Forgejo-host gebruikt DHCP. Reserveer zijn adres in de router en laat
-`forgejo.home.arpa` daarnaar verwijzen voor toegang via een vaste naam. De NixOS
-config adverteert `http://forgejo.home.arpa:3000/` voor webtoegang en poort 2222
-voor Git over SSH. Na de eerste start staat het initiële adminwachtwoord in
+`forgejo.home.arpa` daarnaar verwijzen voor toegang via een vaste naam. Caddy
+biedt `https://forgejo.home.arpa/` op poort 443 aan en stuurt HTTP op poort 80
+door naar HTTPS. Forgejo zelf luistert alleen op `127.0.0.1:3000`. Git over SSH
+gebruikt poort 2222. Na de eerste start staat het initiële adminwachtwoord in
 `/srv/forgejo/admin-password` op de VM.
 
-Controleer de draaiende dienst met
-`curl -fsS http://<forgejo-ip>:3000/api/healthz`. De checks voor cache en
-database moeten allebei `pass` melden.
+Caddy gebruikt een eigen interne CA voor `forgejo.home.arpa`. De CA en de
+sleutels staan op de persistente datadisk onder `/srv/forgejo/caddy`; neem die
+mee in de backup. Haal het publieke rootcertificaat op en vertrouw het op elk
+apparaat dat Forgejo gebruikt:
+
+```bash
+ssh david@<forgejo-ip> 'sudo cat /srv/forgejo/caddy/.local/share/caddy/pki/authorities/local/root.crt' > forgejo-ca.crt
+```
+
+Controleer vóór de DNS-wijziging het volledige HTTPS-pad met:
+
+```bash
+curl --fail --cacert forgejo-ca.crt \
+  --resolve forgejo.home.arpa:443:<forgejo-ip> \
+  https://forgejo.home.arpa/api/healthz
+```
+
+De checks voor cache en database moeten allebei `pass` melden. Importeer
+`forgejo-ca.crt` in de vertrouwde CA's van de client of browser voordat je
+Forgejo via de browser gebruikt. De private CA-sleutel blijft op de VM.
 
 ## Applicatie entrypoints
 
