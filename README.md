@@ -50,11 +50,10 @@ just bootstrap-host donar laptop
 direnv allow
 ```
 
-The repository exposes a default flake dev shell for bootstrapping a clean NixOS
-install and running its validation gates. It includes the Nix formatters,
-linters, Prek, OpenTofu, and SBOM/vulnerability tooling used by `just` and CI.
-Day-to-day editor and language tools are installed through the normal user
-profile. Optional local environment variables can live in `.envrc.local`.
+The default flake dev shell provides Git, Git LFS, and Just to bootstrap a clean
+NixOS install. Home Manager installs day-to-day tools; CI obtains its validation
+tools separately. Optional local environment variables can live in
+`.envrc.local`.
 
 ## Notes
 

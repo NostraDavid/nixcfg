@@ -17,12 +17,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v20
-      - name: Run project hooks
-        run: nix develop --command just hooks-run
-      - name: Check formatting and lint
+      - name: Run project hooks, formatting and lint
         run: |
-          nix develop --command just check
-          nix develop --command just lint
+          nix shell \
+            .#legacyPackages.x86_64-linux.just \
+            .#legacyPackages.x86_64-linux.prek \
+            .#legacyPackages.x86_64-linux.alejandra \
+            .#legacyPackages.x86_64-linux.dprint \
+            .#legacyPackages.x86_64-linux.shfmt \
+            .#legacyPackages.x86_64-linux.stylua \
+            .#legacyPackages.x86_64-linux.ruff \
+            .#legacyPackages.x86_64-linux.shellcheck \
+            .#legacyPackages.x86_64-linux.markdownlint-cli \
+            .#legacyPackages.x86_64-linux.selene \
+            .#legacyPackages.x86_64-linux.statix \
+            .#legacyPackages.x86_64-linux.deadnix \
+            --command bash -e -c '
+              just hooks-run
+              just check
+              just lint
+            '
       - name: Evaluate the flake
         run: nix flake check --no-build
       - name: Reject insecure package exceptions
@@ -32,8 +46,13 @@ jobs:
           fi
       - name: Validate OpenTofu
         run: |
-          nix develop --command tofu -chdir=infra/proxmox init -backend=false
-          nix develop --command just tofu-proxmox-check
+          nix shell \
+            .#legacyPackages.x86_64-linux.just \
+            .#legacyPackages.x86_64-linux.opentofu \
+            --command bash -e -c '
+              tofu -chdir=infra/proxmox init -backend=false
+              just tofu-proxmox-check
+            '
 
   security:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -43,10 +62,18 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@v20
       - name: Generate and scan Wodan SBOM
         run: |
-          nix develop --command just security-sbom wodan reports/security
-          nix develop --command just security-osv wodan reports/security
-          nix develop --command just security-grype wodan reports/security critical
-          nix develop --command just security-vulnix wodan true
+          nix shell \
+            .#legacyPackages.x86_64-linux.just \
+            .#legacyPackages.x86_64-linux.sbomnix \
+            .#legacyPackages.x86_64-linux.osv-scanner \
+            .#legacyPackages.x86_64-linux.grype \
+            .#legacyPackages.x86_64-linux.vulnix \
+            --command bash -e -c '
+              just security-sbom wodan reports/security
+              just security-osv wodan reports/security
+              just security-grype wodan reports/security critical
+              just security-vulnix wodan true
+            '
       - name: Upload security reports
         if: always()
         uses: actions/upload-artifact@v4
