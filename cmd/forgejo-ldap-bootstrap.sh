@@ -37,7 +37,7 @@ if [[ ${1:-} == --check ]]; then
 fi
 
 umask 077
-temp_dir=$(mktemp -d)
+temp_dir=$(mktemp -d /tmp/forgejo-ldap.XXXXXXXXXX)
 trap 'rm -rf -- "$temp_dir"' EXIT
 password_file="$temp_dir/ldap-bind-password"
 
