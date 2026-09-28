@@ -20,6 +20,8 @@ in {
     ".config/pip/pip.conf".source = mk "${dot}/pip-22+/.config/pip/pip.conf";
     ".config/pypoetry/".source = mk "${dot}/pypoetry-2.1/.config/pypoetry";
     ".config/uv/uv.toml".source = mk "${dot}/uv-0.9.0/.config/uv/uv.toml";
+    ".oxlintrc.json".source = mk "${dot}/oxlint-1.41.0/.oxlintrc.json";
+    ".rubocop.yml".source = mk "${dot}/ruby-3.3/.rubocop.yml";
     ".git-templates".source = mk "${dot}/git-templates/.git-templates";
     ".gitconfig".source = mk "${dot}/git/.gitconfig";
     ".vimrc".source = mk "${dot}/vim-9.0/.vimrc";
