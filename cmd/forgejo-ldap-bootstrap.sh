@@ -42,9 +42,9 @@ trap 'rm -rf -- "$temp_dir"' EXIT
 password_file="$temp_dir/ldap-bind-password"
 
 if ssh -o BatchMode=yes "$forgejo_target" "sudo test -s $secret_path"; then
-    ssh -o BatchMode=yes "$forgejo_target" "sudo cat $secret_path" >"$password_file"
+    ssh -o BatchMode=yes "$forgejo_target" "sudo cat $secret_path" | tr -d '\n' >"$password_file"
 else
-    openssl rand -base64 48 >"$password_file"
+    openssl rand -base64 48 | tr -d '\n' >"$password_file"
     ssh -o BatchMode=yes "$forgejo_target" \
         "sudo install -m 0600 -o forgejo -g forgejo /dev/stdin $secret_path" \
         <"$password_file"
