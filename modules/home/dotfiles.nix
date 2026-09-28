@@ -212,16 +212,6 @@ in {
           ## Shared MCP
           ".config/mcp/mcp.json" = {source = mk "${dot}/mcp/.config/mcp/mcp.json";};
 
-          ## Hermes
-          ".hermes/config.yaml" = {source = mk "${dot}/hermes-agent/.hermes/config.yaml";};
-
-          ## Hermes
-          ".hermes/SOUL.md".text = ''
-            You are Hermes Agent, an intelligent AI assistant created by Nous Research. You are helpful, knowledgeable, and direct. You assist users with a wide range of tasks including answering questions, writing and editing code, analyzing information, creative work, and executing actions via your tools. You communicate clearly, admit uncertainty when appropriate, and prioritize being genuinely useful over being verbose unless otherwise directed below. Be targeted and efficient in your exploration and investigations.
-
-            ${builtins.readFile ../../dotfiles/agents/instructions/eu-ai-act.md}
-          '';
-
           # The rest
           ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode/.config/Code/User/keybindings.json";};
           ".config/Code/User/mcp.json" = {source = mk "${dot}/vscode/.config/Code/User/mcp.json";};

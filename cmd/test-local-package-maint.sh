@@ -10,12 +10,12 @@ cd "${repo_root}"
 source <(sed '$d' cmd/local-package-maint.sh)
 
 # These bundles must reach their flake updater, even with unstable versions.
-for package in awesome-copilot-skills blender-mcp-skills blender-reference-skills cc-blender-skills hermes-agent-desktop matt-pocock-skills pi-coding-agent-bun polars-skills ponytail-skills pstack-skills; do
+for package in awesome-copilot-skills blender-mcp-skills blender-reference-skills cc-blender-skills matt-pocock-skills pi-coding-agent-bun polars-skills ponytail-skills pstack-skills; do
     if [[ "${package}" == polars-skills ]]; then
         [[ "$(package_version "${repo_root}" "${package}")" =~ ^0\.[0-9]+\.[0-9]+$ ]]
     elif [[ "${package}" == matt-pocock-skills || "${package}" == ponytail-skills ]]; then
         [[ "$(package_version "${repo_root}" "${package}")" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
-    elif [[ "${package}" != cc-blender-skills && "${package}" != hermes-agent-desktop && "${package}" != pi-coding-agent-bun ]]; then
+    elif [[ "${package}" != cc-blender-skills && "${package}" != pi-coding-agent-bun ]]; then
         [[ "$(package_version "${repo_root}" "${package}")" == unstable-* ]]
     fi
     if [[ "$(update_mode "${repo_root}" "${package}")" != local-script ]]; then

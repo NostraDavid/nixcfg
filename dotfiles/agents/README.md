@@ -8,8 +8,8 @@ een skill daar op `true` of `false`; `modules/home/dotfiles.nix` verzorgt alleen
 de koppelingen en de overige lokale groepen. Dubbele skillnamen geven een
 evaluatiefout: schakel eerst de andere variant uit. Codex gebruikt daarnaast
 zijn ingebouwde system-skills uit `~/.codex/skills/.system`. Deze worden hier
-niet gekopieerd of naar Copilot en OpenCode gekoppeld. Hermes en Pi zijn niet
-aan deze selectie gekoppeld.
+niet gekopieerd of naar Copilot en OpenCode gekoppeld. Pi is niet aan deze
+selectie gekoppeld.
 
 Ponytail is voor Codex ook als volledige plugin beschikbaar. Home Manager
 plaatst de gepinde bron in `~/plugins/ponytail`, voegt hem toe aan de

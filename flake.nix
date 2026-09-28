@@ -30,10 +30,6 @@
       url = "github:lukasl-dev/pi.nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    hermes-agent = {
-      url = "github:NousResearch/hermes-agent";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";

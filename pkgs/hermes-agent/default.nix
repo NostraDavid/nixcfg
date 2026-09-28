@@ -1,2 +1,0 @@
-{hermes-agent}:
-hermes-agent

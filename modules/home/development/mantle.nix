@@ -46,7 +46,6 @@
       local.dpaint-js # DPaint written in JS
       local.fixit # fix command in case you mess up a command
       local.gigatoken # Fast tokenization for OpenAI models
-      local.hermes-agent # LLM agent for desktop
       local.jsongrep # JSONPath-inspired query language over JSON documents
       local.mdschema # A declarative schema-based Markdown validator
       local.photogimp # Photoshop-like defaults for GIMP
