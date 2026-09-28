@@ -127,10 +127,7 @@ def get_projects():
 
 
 def get_repos(project_id: str, project_name: str):
-    url = (
-        f"{ORG_URL.rstrip('/')}/{quote(project_name)}/_apis/git/repositories"
-        f"?api-version=7.0"
-    )
+    url = f"{ORG_URL.rstrip('/')}/{quote(project_name)}/_apis/git/repositories?api-version=7.0"
     resp = http.get(url, headers=HEADERS, timeout=TIMEOUT)
     resp.raise_for_status()
     repos = resp.json()["value"]
@@ -142,8 +139,7 @@ def get_repos(project_id: str, project_name: str):
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            f"Clone/update Azure DevOps repos using {BARE_REPO_DIR} plus flat "
-            "branch and tag worktrees."
+            f"Clone/update Azure DevOps repos using {BARE_REPO_DIR} plus flat branch and tag worktrees."
         ),
     )
     parser.add_argument(
@@ -175,8 +171,7 @@ def parse_args() -> argparse.Namespace:
         "--branches",
         default=",".join(DEFAULT_BRANCHES),
         help=(
-            "Comma-separated branch names for flat worktrees "
-            "(used only when --no-all-branches is set)."
+            "Comma-separated branch names for flat worktrees (used only when --no-all-branches is set)."
         ),
     )
     parser.add_argument(
@@ -651,8 +646,7 @@ def maybe_migrate_legacy_repo(repo_root: Path) -> tuple[bool, str]:
 
     return (
         False,
-        f"{repo_root} is a legacy bare repository. Move it aside before syncing "
-        f"this repo into {BARE_REPO_DIR} plus flat worktree layout.",
+        f"{repo_root} is a legacy bare repository. Move it aside before syncing this repo into {BARE_REPO_DIR} plus flat worktree layout.",
     )
 
 

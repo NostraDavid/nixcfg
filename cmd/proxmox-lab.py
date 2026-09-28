@@ -372,8 +372,7 @@ ordering = "fully-up"
         )
         boot = (REPO / "cmd/proxmox-lab-first-boot.sh").read_text()
         boot = (
-            f"#!/bin/bash\nLAB_NODE={shlex.quote(CONFIG['node'])}\n"
-            f"initialize_disk() {{\n{initialize}\n}}\n"
+            f"#!/bin/bash\nLAB_NODE={shlex.quote(CONFIG['node'])}\ninitialize_disk() {{\n{initialize}\n}}\n"
             + "\n".join(boot.splitlines()[1:])
             + "\n"
         )

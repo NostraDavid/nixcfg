@@ -60,9 +60,9 @@ Playback gets ten seconds to finish, followed by a one-second kill grace period.
 A successful command does not prove that the user heard it.
 
 If unsandboxed execution is unavailable or rejected, or playback still fails,
-report it briefly once per session and continue with the question or result.
-Do not retry notifications, substitute another player, or change system
-permissions to make a sound play.
+report it briefly once per session and continue with the question or result. Do
+not retry notifications, substitute another player, or change system permissions
+to make a sound play.
 
 Set `AGENT_NOTIFY_MUTE=1` to disable playback. An explicit request for silence
 also suppresses notifications for its stated duration. Use the existing voice,

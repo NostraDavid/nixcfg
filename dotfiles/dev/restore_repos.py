@@ -47,10 +47,7 @@ def read_repo_urls(repos_file: Path) -> list[str]:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Restore the explicit repository list from repos.dat using the same "
-            f"{grab.BARE_REPO_DIR} plus flat branch/tag worktree layout as grab.py. "
-            "grab.py discovers GitHub personal and org repositories through gh; "
-            "restore_repos.py restores the fixed list, including non-GitHub remotes."
+            f"Restore the explicit repository list from repos.dat using the same {grab.BARE_REPO_DIR} plus flat branch/tag worktree layout as grab.py. grab.py discovers GitHub personal and org repositories through gh; restore_repos.py restores the fixed list, including non-GitHub remotes."
         ),
     )
     parser.add_argument(
@@ -76,8 +73,7 @@ def parse_args() -> argparse.Namespace:
         "--branches",
         default=",".join(grab.DEFAULT_BRANCHES),
         help=(
-            "Comma-separated branch names for flat worktrees "
-            "(used only when --no-all-branches is set)."
+            "Comma-separated branch names for flat worktrees (used only when --no-all-branches is set)."
         ),
     )
     parser.add_argument(
@@ -131,8 +127,7 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=grab.DEFAULT_FETCH_TIMEOUT,
         help=(
-            "Timeout in seconds for 'git fetch' per repository. "
-            f"Default: {grab.DEFAULT_FETCH_TIMEOUT}."
+            f"Timeout in seconds for 'git fetch' per repository. Default: {grab.DEFAULT_FETCH_TIMEOUT}."
         ),
     )
     return parser.parse_args()

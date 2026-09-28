@@ -105,8 +105,7 @@ def run_fetch(repo: Path, dry_run: bool) -> tuple[Path, bool, bool, float, str]:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Fetch existing local git repositories. This does not discover or "
-            "clone GitHub repos; use grab.py for that workflow."
+            "Fetch existing local git repositories. This does not discover or clone GitHub repos; use grab.py for that workflow."
         )
     )
     parser.add_argument(
