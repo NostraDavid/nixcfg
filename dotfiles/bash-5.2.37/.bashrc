@@ -6,6 +6,9 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
+# uv rejects an empty value inherited from terminal environments.
+[[ -n ${UV_PYTHON_DOWNLOADS-} ]] || unset UV_PYTHON_DOWNLOADS
+
 # PATH helpers (avoid duplicates when shells inherit an existing PATH).
 path_prepend() {
     local dir
