@@ -27,10 +27,12 @@ stream_mode = "filter" # "filter" | "full"
 [filters.bypass]
 # Commands that should always skip filtering.
 # Examples: ["cat", "less", "tail -f"]
-commands = []
+commands = ["uv"]
 
 [filters.enable]
 # git-diff = false       # disable a specific built-in filter
+# Disable uv's sync filter because uv's output must remain unfiltered.
+uv-sync = false
 
 # Per-filter pipeline overrides (v0.18.0+).
 # Example:
