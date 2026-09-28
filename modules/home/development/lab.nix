@@ -1,10 +1,5 @@
-{
-  local,
-  stable,
-  ...
-}: {
+{stable, ...}: {
   home.packages = [
-    local.hermes-agent-desktop # Desktop client for the Hermes coding agent
     stable.dotnet-sdk # .NET development kit
     stable.exfatprogs # ExFAT FS utilities
     stable.helm # Kubernetes package manager

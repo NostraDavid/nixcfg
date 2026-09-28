@@ -223,16 +223,6 @@ local tasks = {
         end,
     },
     {
-        id = "ai-hermes",
-        label = "AI: Hermes Agent",
-        exe = "hermes",
-        project = true,
-        interactive = true,
-        command = function()
-            return "hermes"
-        end,
-    },
-    {
         id = "ai-opencode",
         label = "AI: OpenCode",
         exe = "opencode",
