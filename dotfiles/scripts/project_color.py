@@ -58,8 +58,7 @@ def print_preview(name: str, color: Color) -> None:
         foreground = "255;255;255"
 
     print(
-        f"\033[48;2;{color.red};{color.green};{color.blue}m"
-        f"\033[38;2;{foreground}m {name} ({color.hex}) \033[0m"
+        f"\033[48;2;{color.red};{color.green};{color.blue}m\033[38;2;{foreground}m {name} ({color.hex}) \033[0m"
     )
 
 

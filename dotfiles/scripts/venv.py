@@ -88,10 +88,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         metavar="ARG",
         help="Pass an extra argument to `uv venv` without affecting branch selection. Repeat as needed.",
     )
-    parser.epilog = (
-        "Use `--uv-arg` for arguments that should only go to `uv venv`, "
-        "for example: venv feature/foo --python 3.12 --uv-arg=--seed"
-    )
+    parser.epilog = "Use `--uv-arg` for arguments that should only go to `uv venv`, for example: venv feature/foo --python 3.12 --uv-arg=--seed"
     return parser.parse_args(argv)
 
 

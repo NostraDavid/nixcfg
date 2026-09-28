@@ -76,10 +76,7 @@ class Guest:
             "-device",
             "virtio-blk-pci,drive=root,serial=forgejo-root",
             "-netdev",
-            "user,id=net0,net=10.0.1.0/24,host=10.0.1.1,"
-            "hostfwd=tcp:127.0.0.1:22310-10.0.1.241:22,"
-            "hostfwd=tcp:127.0.0.1:3000-10.0.1.241:3000,"
-            "hostfwd=tcp:127.0.0.1:2222-10.0.1.241:2222",
+            "user,id=net0,net=10.0.1.0/24,host=10.0.1.1,hostfwd=tcp:127.0.0.1:22310-10.0.1.241:22,hostfwd=tcp:127.0.0.1:3000-10.0.1.241:3000,hostfwd=tcp:127.0.0.1:2222-10.0.1.241:2222",
             "-device",
             "virtio-net-pci,netdev=net0,mac=52:54:00:4c:41:02",
         ]
@@ -166,8 +163,7 @@ class Guest:
             print(self.serial.read_text(errors="replace")[-10000:], file=sys.stderr)
             print(
                 self.command(
-                    "sudo journalctl -b -u forgejo -u postgresql -u forgejo-admin "
-                    "-u forgejo-data-init --no-pager -n 60"
+                    "sudo journalctl -b -u forgejo -u postgresql -u forgejo-admin -u forgejo-data-init --no-pager -n 60"
                 ).stdout,
                 file=sys.stderr,
             )
@@ -222,8 +218,7 @@ with tempfile.TemporaryDirectory(prefix="nixcfg-forgejo-check-") as temporary:
         guest.check_services()
         commit = lab.smoke()
         identity = guest.command(
-            "sudo sha256sum /srv/forgejo/admin-password "
-            "/srv/forgejo/forgejo/custom/conf/secret_key"
+            "sudo sha256sum /srv/forgejo/admin-password /srv/forgejo/forgejo/custom/conf/secret_key"
         ).stdout
     print(
         "PASS: clean image boots, creates the administrator and supports Git.",
@@ -237,8 +232,7 @@ with tempfile.TemporaryDirectory(prefix="nixcfg-forgejo-check-") as temporary:
         assert lab.smoke() == commit
         assert (
             guest.command(
-                "sudo sha256sum /srv/forgejo/admin-password "
-                "/srv/forgejo/forgejo/custom/conf/secret_key"
+                "sudo sha256sum /srv/forgejo/admin-password /srv/forgejo/forgejo/custom/conf/secret_key"
             ).stdout
             == identity
         )

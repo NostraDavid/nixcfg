@@ -629,8 +629,7 @@ def ensure_branch_worktrees(
         )
         if set_upstream.returncode != 0:
             trace.add_warning(
-                f"branch upstream set failed: {branch}: "
-                f"{(set_upstream.stderr or set_upstream.stdout).strip()}"
+                f"branch upstream set failed: {branch}: {(set_upstream.stderr or set_upstream.stdout).strip()}"
             )
 
         if worktree_is_dirty(target):
@@ -644,8 +643,7 @@ def ensure_branch_worktrees(
         )
         if ff_only_proc.returncode != 0:
             trace.add_warning(
-                f"branch update skipped: {branch}: "
-                f"{(ff_only_proc.stderr or ff_only_proc.stdout or 'non-fast-forward').strip()}"
+                f"branch update skipped: {branch}: {(ff_only_proc.stderr or ff_only_proc.stdout or 'non-fast-forward').strip()}"
             )
             continue
         trace.add_action(f"branch worktree updated: {branch}")
@@ -744,17 +742,13 @@ def maybe_migrate_legacy_bare_repo(
 
     if (repo_root / ".git").exists():
         return False, (
-            f"{repo_root} is a normal checkout. Move it aside before syncing "
-            f"this repo into {BARE_REPO_DIR} plus flat worktree layout."
+            f"{repo_root} is a normal checkout. Move it aside before syncing this repo into {BARE_REPO_DIR} plus flat worktree layout."
         )
 
     if not repo_is_bare_repo(repo_root):
         return True, "no migration needed"
 
-    message = (
-        f"{repo_root} is a legacy bare repository. Move it aside before syncing "
-        f"this repo into {BARE_REPO_DIR} plus flat worktree layout."
-    )
+    message = f"{repo_root} is a legacy bare repository. Move it aside before syncing this repo into {BARE_REPO_DIR} plus flat worktree layout."
     if trace is not None:
         trace.add_warning(message)
     return False, message
@@ -957,8 +951,7 @@ def org_repo_urls(org: str) -> list[str]:
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Clone/update all personal and organization GitHub repositories "
-            f"using {BARE_REPO_DIR} plus flat branch and tag worktrees."
+            f"Clone/update all personal and organization GitHub repositories using {BARE_REPO_DIR} plus flat branch and tag worktrees."
         ),
     )
     parser.add_argument(
@@ -978,8 +971,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--branches",
         default=",".join(DEFAULT_BRANCHES),
         help=(
-            "Comma-separated branch names for flat worktrees "
-            "(used only when --no-all-branches is set)."
+            "Comma-separated branch names for flat worktrees (used only when --no-all-branches is set)."
         ),
     )
     parser.add_argument(
@@ -1033,8 +1025,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=int,
         default=DEFAULT_FETCH_TIMEOUT,
         help=(
-            "Timeout in seconds for 'git fetch' per repository. "
-            f"Default: {DEFAULT_FETCH_TIMEOUT}."
+            f"Timeout in seconds for 'git fetch' per repository. Default: {DEFAULT_FETCH_TIMEOUT}."
         ),
     )
     return parser.parse_args(argv)

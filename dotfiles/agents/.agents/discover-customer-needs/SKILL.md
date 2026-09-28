@@ -96,5 +96,5 @@ Return a discovery brief containing:
 10. traceability from each material conclusion to observations or artifacts.
 
 Hand confirmed needs to `create-specification` only when the user requests a
-durable specification. Use `ask` instead when the task is solely to
-clarify the current user's own request before planning or coding.
+durable specification. Use `ask` instead when the task is solely to clarify the
+current user's own request before planning or coding.

@@ -64,11 +64,7 @@ class AgentInstructions(unittest.TestCase):
         rewrite = runpy.run_path(os.environ["DESCRIPTION_REWRITER"])["rewrite"]
         for value in ['"Original description"', ">\n  Original\n  description"]:
             with self.subTest(value=value):
-                text = (
-                    f"---\nname: sample\ndescription: {value}\n"
-                    "metadata:\n  short-description: Keep this\n"
-                    "disable-model-invocation: true\n---\n\n# Original body\n"
-                )
+                text = f"---\nname: sample\ndescription: {value}\nmetadata:\n  short-description: Keep this\ndisable-model-invocation: true\n---\n\n# Original body\n"
                 updated = rewrite(text, {"sample": "Short description."})
                 self.assertEqual(
                     yaml.safe_load(updated.split("---", 2)[1]),

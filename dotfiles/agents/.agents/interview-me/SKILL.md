@@ -55,6 +55,6 @@ delegates a material decision back, present two concrete choices, recommend one
 with evidence, and ask them to select or correct it.
 
 Do not batch questions, produce a premature plan, save an intent artifact
-without permission, or turn the exchange into customer research. Use
-`needs` for interview guides, customer or stakeholder
-conversations, multi-source elicitation, and analysis of discovery evidence.
+without permission, or turn the exchange into customer research. Use `needs` for
+interview guides, customer or stakeholder conversations, multi-source
+elicitation, and analysis of discovery evidence.
