@@ -1,10 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-    "master": {
+    "codex": {
       "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
       "mode": "primary",
-      "model": "tensorx/z-ai/glm-5.3-flash",
+      "model": "openai/gpt-5.6-sol",
       "permission": {
         "task": {
           "*": "deny",
@@ -14,7 +14,7 @@
       "prompt": "You are the primary engineering orchestrator. Keep ownership of the user's goal, architecture, sequencing, safety, and final answer. Delegate bounded implementation, investigation, and verification work to the opencode-worker subagent through the task tool when that reduces cost or latency. Give the worker explicit scope, constraints, and acceptance criteria. Inspect its result and independently resolve gaps before reporting completion. Do not delegate user communication or final judgment."
     },
     "opencode-worker": {
-      "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by master.",
+      "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by Codex.",
       "mode": "subagent",
       "model": "tensorx/deepseek/deepseek-v4.1-flash",
       "permission": {
@@ -24,7 +24,7 @@
     }
   },
   "autoupdate": false,
-  "default_agent": "master",
+  "default_agent": "codex",
   "instructions": [
     "~/AGENTS.md"
   ],
@@ -35,7 +35,6 @@
         "mcp"
       ],
       "enabled": true,
-      "timeout": 30000,
       "type": "local"
     },
     "headroom": {
@@ -47,7 +46,6 @@
         "stdio"
       ],
       "enabled": true,
-      "timeout": 30000,
       "type": "local"
     },
     "qartez": {
@@ -56,9 +54,20 @@
       ],
       "enabled": true,
       "type": "local"
+    },
+    "serena": {
+      "command": [
+        "serena",
+        "start-mcp-server",
+        "--context",
+        "codex"
+      ],
+      "enabled": true,
+      "timeout": 30000,
+      "type": "local"
     }
   },
-  "model": "tensorx/z-ai/glm-5.3-flash",
+  "model": "openai/gpt-5.6-sol",
   "permission": {
     "*": "allow",
     "bash": {
