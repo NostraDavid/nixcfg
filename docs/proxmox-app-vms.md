@@ -324,12 +324,12 @@ just forgejo-ldap-check
 just forgejo-ldap-bootstrap
 ```
 
-De bootstrap vraagt interactief om het FreeIPA Directory Manager-wachtwoord.
-Voer dat zelf in; zet het niet in Git of de chat. Het commando maakt
-`uid=forgejo-reader,cn=sysaccounts,cn=etc,dc=powerlan,dc=empire` aan en bewaart
-het bindwachtwoord alleen op VM 110 in `/srv/forgejo/ldap-bind-password`
-(eigenaar `forgejo`, mode `0600`). Opnieuw uitvoeren gebruikt hetzelfde
-wachtwoord en werkt de bestaande aanmeldbron bij.
+De bootstrap vraagt interactief om het FreeIPA `admin`-wachtwoord voor een
+tijdelijk Kerberos-ticket. Voer dat zelf in; zet het niet in Git of de chat. Het
+commando maakt `uid=forgejo-reader,cn=sysaccounts,cn=etc,dc=powerlan,dc=empire`
+aan en bewaart het bindwachtwoord alleen op VM 110 in
+`/srv/forgejo/ldap-bind-password` (eigenaar `forgejo`, mode `0600`). Opnieuw
+uitvoeren gebruikt hetzelfde wachtwoord en werkt de bestaande aanmeldbron bij.
 
 De aanmeldbron zoekt onder `cn=users,cn=accounts,dc=powerlan,dc=empire` en laat
 alleen leden van `grp-forgejo-user` toe. LDAP-accounts krijgen niet automatisch

@@ -35,7 +35,7 @@ forgejo-ldap-check:
 
 # Create the restricted FreeIPA bind account and configure Forgejo via LDAPS.
 forgejo-ldap-bootstrap:
-  @nix shell nixpkgs#openldap --command ./cmd/forgejo-ldap-bootstrap.sh
+  @nix shell nixpkgs#openldap nixpkgs#krb5 --command ./cmd/forgejo-ldap-bootstrap.sh
 
 # Format a Homepage state disk with the expected filesystem label.
 format-homepage-data device:

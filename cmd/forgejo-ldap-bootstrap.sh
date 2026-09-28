@@ -56,6 +56,29 @@ if [[ $(wc -c <"$password_file") -lt 48 ]]; then
 fi
 
 if ! ldapwhoami -x -H "$ldap_url" -D "$bind_dn" -y "$password_file" >/dev/null 2>&1; then
+    command -v kinit >/dev/null || {
+        echo 'Ontbrekend commando: kinit' >&2
+        exit 1
+    }
+    export KRB5_CONFIG="$temp_dir/krb5.conf"
+    export KRB5CCNAME="FILE:$temp_dir/krb5cc"
+    cat >"$KRB5_CONFIG" <<'EOF'
+[libdefaults]
+    default_realm = POWERLAN.EMPIRE
+    dns_lookup_kdc = false
+    dns_lookup_realm = false
+    rdns = false
+    udp_preference_limit = 1
+
+[realms]
+    POWERLAN.EMPIRE = {
+        kdc = ldap.powerlan.empire
+    }
+
+[domain_realm]
+    .powerlan.empire = POWERLAN.EMPIRE
+    powerlan.empire = POWERLAN.EMPIRE
+EOF
     cat >"$temp_dir/forgejo-reader.ldif" <<EOF
 dn: $bind_dn
 changetype: add
@@ -66,9 +89,10 @@ userPassword: $(tr -d '\n' <"$password_file")
 passwordExpirationTime: 20380119031407Z
 nsIdleTimeout: 0
 EOF
-    echo 'Voer nu zelf het FreeIPA Directory Manager-wachtwoord in bij de LDAP-prompt.'
-    ldapadd -x -H "$ldap_url" -D 'cn=Directory Manager' -W \
-        -f "$temp_dir/forgejo-reader.ldif"
+    echo 'Voer nu zelf het FreeIPA admin-wachtwoord in bij de Kerberos-prompt.'
+    kinit admin@POWERLAN.EMPIRE
+    ldapwhoami -Q -Y GSSAPI -N -H "$ldap_url" >/dev/null
+    ldapadd -Q -Y GSSAPI -N -H "$ldap_url" -f "$temp_dir/forgejo-reader.ldif"
 fi
 
 ldapwhoami -x -H "$ldap_url" -D "$bind_dn" -y "$password_file" >/dev/null
