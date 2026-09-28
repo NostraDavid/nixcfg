@@ -38,5 +38,13 @@ else
     pronunciation_fixes | piper --model "$model" --config "$config" --output-file "$output_file"
 fi
 
-player="${SAY_PIPER_TTS_PLAYER:-pw-play}"
-"$player" "$output_file"
+if [[ -n "${SAY_PIPER_TTS_PLAYER:-}" ]]; then
+    "$SAY_PIPER_TTS_PLAYER" "$output_file"
+elif command -v pw-play >/dev/null 2>&1 && pw-play "$output_file" 2>/dev/null; then
+    :
+elif command -v ffplay >/dev/null 2>&1; then
+    ffplay -nodisp -autoexit -loglevel error "$output_file"
+else
+    printf 'say-piper-tts: geen audio-player gevonden (pw-play of ffplay).\n' >&2
+    exit 1
+fi
