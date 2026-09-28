@@ -1,6 +1,8 @@
 [hooks]
-# exclude_commands = ["curl", "playwright"]  # skip rewrite for these
+exclude_commands = ["uv"] # uv has a keyring-aware Bash wrapper
 
 [tee]
-# enabled = true          # save raw output on failure (default: true)
-# mode = "failures"       # "failures", "always", or "never"
+enabled = true
+mode = "failures"
+max_files = 20
+max_file_size = 1048576

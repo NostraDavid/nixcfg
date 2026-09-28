@@ -30,7 +30,6 @@ stream_mode = "filter" # "filter" | "full"
 commands = ["uv"]
 
 [filters.enable]
-# git-diff = false       # disable a specific built-in filter
 # Disable uv's sync filter because uv's output must remain unfiltered.
 uv-sync = false
 
