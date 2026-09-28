@@ -87,14 +87,14 @@
 in
   python3Packages.buildPythonApplication rec {
     pname = "semble";
-    version = "0.6.0";
+    version = "0.6.1";
     pyproject = true;
 
     src = fetchFromGitHub {
       owner = "MinishLab";
       repo = "semble";
       tag = "v${version}";
-      hash = "sha256-8svJ2DhJPFP4AEExflG+IrbDt2XIIUKGahhHR3SV5y0=";
+      hash = "sha256-k9OqoKRqxkKq0DnsuNCq2XUaqW4//KdPKDhF/gWMM4c=";
     };
 
     build-system = with python3Packages; [
