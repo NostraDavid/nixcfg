@@ -29,6 +29,14 @@ deploy-forgejo target="david@192.168.2.110":
 deploy-proxy target="david@192.168.2.111":
   @just app-vm-deploy proxy "{{target}}"
 
+# Check the Forgejo/FreeIPA LDAP prerequisites without changing accounts.
+forgejo-ldap-check:
+  @nix shell nixpkgs#openldap --command ./cmd/forgejo-ldap-bootstrap.sh --check
+
+# Create the restricted FreeIPA bind account and configure Forgejo via LDAPS.
+forgejo-ldap-bootstrap:
+  @nix shell nixpkgs#openldap --command ./cmd/forgejo-ldap-bootstrap.sh
+
 # Format a Homepage state disk with the expected filesystem label.
 format-homepage-data device:
   @sudo mkfs.ext4 -L homepage-data "{{device}}"

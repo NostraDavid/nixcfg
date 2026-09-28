@@ -44,6 +44,11 @@
       services = {
         qemuGuest.enable = true;
         forgejo.settings.server.HTTP_ADDR = lib.mkForce "127.0.0.1";
+        forgejo.settings."cron.sync_external_users" = {
+          ENABLED = true;
+          RUN_AT_START = true;
+          SCHEDULE = "@every 1h";
+        };
         caddy = {
           enable = true;
           dataDir = "/srv/forgejo/caddy";

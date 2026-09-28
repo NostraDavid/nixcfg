@@ -309,6 +309,36 @@ De checks voor cache en database moeten allebei `pass` melden. Importeer
 `forgejo-ca.crt` in de vertrouwde CA's van de client of browser voordat je
 Forgejo via de browser gebruikt. De publieke CA-sleutel blijft op VM 111.
 
+## Forgejo en FreeIPA
+
+FreeIPA draait op `ldap.powerlan.empire` (`192.168.2.101`). De niet-POSIX-groep
+`grp-forgejo-user` bepaalt wie via LDAP in Forgejo mag inloggen. Aanvankelijk is
+alleen `nostradavid` lid. De Forgejo-VM vertrouwt de FreeIPA-CA uit
+`hosts/wodan/certs/freeipa.crt`, zodat LDAPS op poort 636 wordt gecontroleerd.
+
+Controleer de verbinding en maak daarna een beperkt LDAP-systeemaccount plus
+Forgejo-aanmeldbron aan vanaf het werkstation:
+
+```bash
+just forgejo-ldap-check
+just forgejo-ldap-bootstrap
+```
+
+De bootstrap vraagt interactief om het FreeIPA Directory Manager-wachtwoord.
+Voer dat zelf in; zet het niet in Git of de chat. Het commando maakt
+`uid=forgejo-reader,cn=sysaccounts,cn=etc,dc=powerlan,dc=empire` aan en bewaart
+het bindwachtwoord alleen op VM 110 in `/srv/forgejo/ldap-bind-password`
+(eigenaar `forgejo`, mode `0600`). Opnieuw uitvoeren gebruikt hetzelfde
+wachtwoord en werkt de bestaande aanmeldbron bij.
+
+De aanmeldbron zoekt onder `cn=users,cn=accounts,dc=powerlan,dc=empire` en laat
+alleen leden van `grp-forgejo-user` toe. LDAP-accounts krijgen niet automatisch
+Forgejo-beheerdersrechten. Het lokale adminaccount blijft beschikbaar. Forgejo
+synchroniseert LDAP-gebruikers ieder uur; als de groep leeg wordt, mag de
+synchronisatie ook alle gebruikers van deze bron deactiveren. Controleer na het
+toevoegen of verwijderen van een groepslid de toegang opnieuw, ook via Git over
+SSH.
+
 ## Applicatie entrypoints
 
 De `apps` host verwacht gedeployde applicatie-binaries op:
