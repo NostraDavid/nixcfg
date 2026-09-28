@@ -312,8 +312,8 @@ Forgejo via de browser gebruikt. De publieke CA-sleutel blijft op VM 111.
 ## Forgejo en FreeIPA
 
 FreeIPA draait op `ldap.powerlan.empire` (`192.168.2.101`). De niet-POSIX-groep
-`grp-forgejo-user` bepaalt wie via LDAP in Forgejo mag inloggen. Aanvankelijk is
-alleen `nostradavid` lid. De Forgejo-VM vertrouwt de FreeIPA-CA uit
+`grp-forgejo-user` bepaalt wie via LDAP in Forgejo mag inloggen. Momenteel zijn
+`nostradavid` en `poweremperor` lid. De Forgejo-VM vertrouwt de FreeIPA-CA uit
 `hosts/wodan/certs/freeipa.crt`, zodat LDAPS op poort 636 wordt gecontroleerd.
 
 Controleer de verbinding en maak daarna een beperkt LDAP-systeemaccount plus
@@ -337,7 +337,8 @@ Forgejo-beheerdersrechten. Het lokale adminaccount blijft beschikbaar. Forgejo
 synchroniseert LDAP-gebruikers ieder uur; als de groep leeg wordt, mag de
 synchronisatie ook alle gebruikers van deze bron deactiveren. Controleer na het
 toevoegen of verwijderen van een groepslid de toegang opnieuw, ook via Git over
-SSH.
+SSH. Herstart `forgejo` op VM 110 als een nieuw groepslid meteen een
+Forgejo-account moet krijgen; anders volgt dit bij de uurlijkse synchronisatie.
 
 ## Applicatie entrypoints
 
