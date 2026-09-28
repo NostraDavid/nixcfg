@@ -30,24 +30,16 @@ lint-selene-files *files:
   @selene {{files}}
 
 lint-statix:
-  @cmd=(statix check); \
-  if ! command -v statix >/dev/null 2>&1; then cmd=(nix develop --command statix check); fi; \
-  git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty -n1 "${cmd[@]}"
+  @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty -n1 statix check
 
 lint-statix-files *files:
-  @cmd=(statix check); \
-  if ! command -v statix >/dev/null 2>&1; then cmd=(nix develop --command statix check); fi; \
-  for file in {{files}}; do "${cmd[@]}" "$file"; done
+  @for file in {{files}}; do statix check "$file"; done
 
 lint-deadnix:
-  @cmd=(deadnix --fail); \
-  if ! command -v deadnix >/dev/null 2>&1; then cmd=(nix develop --command deadnix --fail); fi; \
-  git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty "${cmd[@]}"
+  @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty deadnix --fail
 
 lint-deadnix-files *files:
-  @cmd=(deadnix --fail); \
-  if ! command -v deadnix >/dev/null 2>&1; then cmd=(nix develop --command deadnix --fail); fi; \
-  "${cmd[@]}" {{files}}
+  @deadnix --fail {{files}}
 
 lint:
   @just check-agent-instructions
