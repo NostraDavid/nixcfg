@@ -1,11 +1,33 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "master": {
+      "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
+      "mode": "primary",
+      "model": "tensorx/z-ai/glm-5.3-flash",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "opencode-worker": "allow"
+        }
+      },
+      "prompt": "You are the primary engineering orchestrator. Keep ownership of the user's goal, architecture, sequencing, safety, and final answer. Delegate bounded implementation, investigation, and verification work to the opencode-worker subagent through the task tool when that reduces cost or latency. Give the worker explicit scope, constraints, and acceptance criteria. Inspect its result and independently resolve gaps before reporting completion. Do not delegate user communication or final judgment."
+    },
+    "opencode-worker": {
+      "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by master.",
+      "mode": "subagent",
+      "model": "tensorx/deepseek/deepseek-v4.1-flash",
+      "permission": {
+        "task": "deny"
+      },
+      "steps": 30
+    }
+  },
   "autoupdate": false,
+  "default_agent": "master",
   "instructions": [
     "~/AGENTS.md"
   ],
-  "default_agent": "master",
-  "model": "tensorx/z-ai/glm-5.3-flash",
   "mcp": {
     "agent-memory": {
       "command": [
@@ -34,31 +56,9 @@
       ],
       "enabled": true,
       "type": "local"
-    },
-  },
-  "agent": {
-    "master": {
-      "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
-      "mode": "primary",
-      "model": "tensorx/z-ai/glm-5.3-flash",
-      "permission": {
-        "task": {
-          "*": "deny",
-          "opencode-worker": "allow"
-        }
-      },
-      "prompt": "You are the primary engineering orchestrator. Keep ownership of the user's goal, architecture, sequencing, safety, and final answer. Delegate bounded implementation, investigation, and verification work to the opencode-worker subagent through the task tool when that reduces cost or latency. Give the worker explicit scope, constraints, and acceptance criteria. Inspect its result and independently resolve gaps before reporting completion. Do not delegate user communication or final judgment."
-    },
-    "opencode-worker": {
-      "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by master.",
-      "mode": "subagent",
-      "model": "tensorx/deepseek/deepseek-v4.1-flash",
-      "permission": {
-        "task": "deny"
-      },
-      "steps": 30
     }
   },
+  "model": "tensorx/z-ai/glm-5.3-flash",
   "permission": {
     "*": "allow",
     "bash": {
