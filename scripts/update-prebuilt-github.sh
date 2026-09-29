@@ -8,9 +8,14 @@ pkg_file="${repo_root}/pkgs/${package}/default.nix"
 
 case "$package" in
 fixit) repo=eugene-babichenko/fixit ;;
+beads) repo=gastownhall/beads ;;
+bitbucket-cli) repo=avivsinai/bitbucket-cli ;;
 dockerfile-roast) repo=immanuwell/dockerfile-roast ;;
 jsongrep) repo=micahkepe/jsongrep ;;
 mdschema) repo=jackchuka/mdschema ;;
+outlook-cli) repo=rvben/outlook-cli ;;
+rtk) repo=rtk-ai/rtk ;;
+snip) repo=edouard-claude/snip ;;
 *)
     echo "Unsupported package: $package" >&2
     exit 1
@@ -37,28 +42,41 @@ for system in x86_64-linux aarch64-linux x86_64-darwin aarch64-darwin; do
         rust=x86_64-unknown-linux-musl
         roast=linux-x86_64
         go=linux_amd64
+        bkt=linux_x86_64
+        rtk_target=$rust
         ;;
     aarch64-linux)
         rust=aarch64-unknown-linux-musl
         roast=linux-arm64
         go=linux_arm64
+        bkt=linux_arm64
+        rtk_target=aarch64-unknown-linux-gnu
         ;;
     x86_64-darwin)
         rust=x86_64-apple-darwin
         roast=macos-x86_64
         go=darwin_amd64
+        bkt=darwin_x86_64
+        rtk_target=$rust
         ;;
     aarch64-darwin)
         rust=aarch64-apple-darwin
         roast=macos-arm64
         go=darwin_arm64
+        bkt=darwin_arm64
+        rtk_target=$rust
         ;;
     esac
     case "$package" in
     fixit) asset="fixit-v${version}-${rust}.tar.gz" ;;
+    beads) asset="beads_${version}_${go}.tar.gz" ;;
+    bitbucket-cli) asset="bkt_${version}_${bkt}.tar.gz" ;;
     dockerfile-roast) asset="droast-${roast}" ;;
     jsongrep) asset="jsongrep-${version}-${rust}.tar.gz" ;;
     mdschema) asset="mdschema_${version}_${go}.tar.gz" ;;
+    outlook-cli) asset="outlook-v${version}-${rust}.tar.gz" ;;
+    rtk) asset="rtk-${rtk_target}.tar.gz" ;;
+    snip) asset="snip_${version}_${go}.tar.gz" ;;
     esac
     digest="$(jq -er --arg name "$asset" '.assets[] | select(.name == $name) | .digest | select(startswith("sha256:")) | sub("^sha256:"; "")' <<<"$release")"
     hash="$(nix hash convert --hash-algo sha256 --to sri "$digest")"
