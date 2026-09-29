@@ -3,11 +3,11 @@
     "awesome-copilot-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1790301481,
-        "narHash": "sha256-cY7ZP8Eg3m/fdyhbQViSO2ijg8Exda0qtHBlGUSR2/0=",
+        "lastModified": 1790653794,
+        "narHash": "sha256-n79XVaLYE+dAW3Rsl0B9N1e6HpwWLwP3LydxkVJi9vs=",
         "owner": "github",
         "repo": "awesome-copilot",
-        "rev": "6c4d33b9cfca967a28bb2962ef4d55e4a384c88c",
+        "rev": "997e95a6e42869c350f8ca6ec4c066287697c9f0",
         "type": "github"
       },
       "original": {
@@ -132,11 +132,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790510073,
-        "narHash": "sha256-ePu9Vqm1/S/lTidMGMnPS3PheOb2sEOqJ5iBA74A8nY=",
+        "lastModified": 1790676236,
+        "narHash": "sha256-Kz0SczV2U566td4JEINvZMUszlqtgjSVvx/F2RREeeA=",
         "owner": "ilysenko",
         "repo": "codex-desktop-linux",
-        "rev": "5b80192545dcc9a820c49cf26c806308a7afd551",
+        "rev": "1545938db09233638a32bbb7635d22eecafec386",
         "type": "github"
       },
       "original": {
@@ -378,11 +378,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1790463110,
-        "narHash": "sha256-hKlVl12B1dF0Q5vd9dY3lIJM5mFGWYSlXwSLAqHZ1+s=",
+        "lastModified": 1790578696,
+        "narHash": "sha256-ZoxIApko70jCdbH3l20HWXOBaT2HZd87orzd2yJ9dVE=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e158d9ed9b51c98974c5e66e1ba1c9e0255fecaa",
+        "rev": "7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f",
         "type": "github"
       },
       "original": {
@@ -420,11 +420,11 @@
         "nixpkgs-x86_64-darwin": "nixpkgs-x86_64-darwin"
       },
       "locked": {
-        "lastModified": 1790503368,
-        "narHash": "sha256-WHBSMxk+w2cLC0OZjG8dtzalKP8R7XdFH/qC+hMzVQE=",
+        "lastModified": 1790678676,
+        "narHash": "sha256-O7lZ4pivUKf0uI3br9h29Dp5YhnsSuAoHIXKnkWAqx4=",
         "owner": "lukasl-dev",
         "repo": "pi.nix",
-        "rev": "2e30a696b6e52d731a235cd5a52fea252457c941",
+        "rev": "8334ce0f8f5e2c4c1f447bf32dfb14b8b25c4151",
         "type": "github"
       },
       "original": {
@@ -493,11 +493,11 @@
     "pstack-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1790377473,
-        "narHash": "sha256-okjUS0AVmgoQfCO3nzzqjL1PnZ8X3r8wjtz5SwrFse0=",
+        "lastModified": 1790607924,
+        "narHash": "sha256-mQ6+lYLBYkmdOOsXXGR0wxPcHj35dLdb5sMaR/CvQ58=",
         "owner": "cursor",
         "repo": "plugins",
-        "rev": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+        "rev": "adf3218ca2f5b9971eedc07a76bef22df7701539",
         "type": "github"
       },
       "original": {

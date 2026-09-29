@@ -7,17 +7,17 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "ctx";
-  version = "2.0.5";
+  version = "2.1.2";
 
   src = fetchurl {
     url = "https://github.com/ctxrs/ctx/releases/download/v${finalAttrs.version}/ctx-linux-x64";
-    hash = "sha256-fnzq4oG5UUMP8jAHSOia9kpdH9mtn9Kk2dgq8Pzl+Dw=";
+    hash = "sha256-otyKTDfmaoQbs2X2GewH4xKiME4W5rciZj8LNt8E+jM=";
   };
   skillSource = fetchFromGitHub {
     owner = "ctxrs";
     repo = "ctx";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-typdq0NUNvdMmezpX4rc1YLjPKBjek71Iz36stReCV4=";
+    hash = "sha256-Cp7mT9nZNUjBh8peqQbfLdsmrAj4o9Sg+jZZypCbU5s=";
   };
 
   nativeBuildInputs = [autoPatchelfHook];
