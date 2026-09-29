@@ -30,7 +30,8 @@ done
 
 [[ "$(update_mode "${repo_root}" creep2)" == embedded-nix-update ]]
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
-[[ "$(package_update_script "${repo_root}" codex)" == *"--use-github-releases"* ]]
+[[ "$(update_mode "${repo_root}" codex)" == local-script ]]
+rg -q -- '--use-github-releases' cmd/update-codex.sh
 
 for package in say-dictionary sqlline tamzen-otf; do
     if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
