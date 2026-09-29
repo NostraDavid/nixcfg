@@ -89,9 +89,9 @@ emit_log_file() {
 usage() {
     cat <<'EOF'
 Usage:
-  cmd/local-package-maint.sh update <package>
-  cmd/local-package-maint.sh list [package...]
-  cmd/local-package-maint.sh packages
+  scripts/local-package-maint.sh update <package>
+  scripts/local-package-maint.sh list [package...]
+  scripts/local-package-maint.sh packages
 EOF
 }
 
@@ -161,7 +161,7 @@ list_packages() {
 local_update_script() {
     local dir="$1"
     local pkg="$2"
-    local script="${dir}/cmd/update-${pkg}.sh"
+    local script="${dir}/scripts/update-${pkg}.sh"
 
     if [[ -f "${script}" ]]; then
         printf '%s\n' "${script}"

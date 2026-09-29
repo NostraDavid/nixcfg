@@ -39,12 +39,12 @@ deploy-proxy target="david@192.168.2.111":
 # Check the Forgejo/FreeIPA LDAP prerequisites without changing accounts.
 [group('proxmox')]
 forgejo-ldap-check:
-  @nix shell nixpkgs#openldap --command ./cmd/forgejo-ldap-bootstrap.sh --check
+  @nix shell nixpkgs#openldap --command ./scripts/forgejo-ldap-bootstrap.sh --check
 
 # Create the restricted FreeIPA bind account and configure Forgejo via LDAPS.
 [group('proxmox')]
 forgejo-ldap-bootstrap:
-  @nix shell nixpkgs#openldap nixpkgs#krb5 --command ./cmd/forgejo-ldap-bootstrap.sh
+  @nix shell nixpkgs#openldap nixpkgs#krb5 --command ./scripts/forgejo-ldap-bootstrap.sh
 
 # Format a Homepage state disk with the expected filesystem label.
 [group('proxmox')]
@@ -90,7 +90,7 @@ tofu-proxmox-validate:
 # Show effective Proxmox permissions for the configured API token.
 [group('tofu')]
 tofu-proxmox-permissions:
-  @./cmd/proxmox-permissions.sh
+  @./scripts/proxmox-permissions.sh
 
 # Run non-network OpenTofu checks for the Proxmox stack.
 [group('tofu')]

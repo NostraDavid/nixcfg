@@ -14,7 +14,7 @@
       initializeDisk = pkgs.writeShellApplication {
         name = "proxy-initialize-disk";
         runtimeInputs = [pkgs.util-linux pkgs.e2fsprogs pkgs.diffutils pkgs.coreutils];
-        text = builtins.readFile ../../cmd/lab-initialize-disk.sh;
+        text = builtins.readFile ../../scripts/lab-initialize-disk.sh;
       };
       backendCaCert = "/srv/proxy/backend-root.crt";
     in {

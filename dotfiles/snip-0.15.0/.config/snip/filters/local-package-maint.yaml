@@ -3,7 +3,7 @@ version: 1
 description: "Condensed local package maintenance output: package update summaries and failures"
 
 match:
-  command: "cmd/local-package-maint.sh"
+  command: "scripts/local-package-maint.sh"
 
 streams:
   - stdout

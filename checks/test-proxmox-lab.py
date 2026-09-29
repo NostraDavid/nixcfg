@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location(
-    "lab", Path(__file__).parents[1] / "cmd/proxmox-lab.py"
+    "lab", Path(__file__).parents[1] / "scripts/proxmox-lab.py"
 )
 lab = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(lab)

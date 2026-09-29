@@ -8,7 +8,7 @@
   initializeDisk = pkgs.writeShellApplication {
     name = "forgejo-initialize-disk";
     runtimeInputs = [pkgs.util-linux pkgs.e2fsprogs pkgs.diffutils pkgs.coreutils];
-    text = builtins.readFile ../cmd/lab-initialize-disk.sh;
+    text = builtins.readFile ../scripts/lab-initialize-disk.sh;
   };
   forgejo = "${config.services.forgejo.package}/bin/forgejo --work-path /srv/forgejo/forgejo --config /srv/forgejo/forgejo/custom/conf/app.ini";
   requireData = {

@@ -18,7 +18,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   dontBuild = true;
 
-  passthru.updateScript = ../../cmd/update-dpaint-js.sh;
+  passthru.updateScript = ../../scripts/update-dpaint-js.sh;
 
   installPhase = ''
     runHook preInstall

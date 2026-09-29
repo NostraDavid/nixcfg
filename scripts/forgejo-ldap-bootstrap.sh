@@ -123,7 +123,7 @@ if grep -q '^dn:' <<<"$denied_result"; then
 fi
 
 ssh -o BatchMode=yes "$forgejo_target" 'sudo -u forgejo bash -s' \
-    <"$repo_root/cmd/forgejo-ldap-configure.sh"
+    <"$repo_root/scripts/forgejo-ldap-configure.sh"
 ssh -o BatchMode=yes "$forgejo_target" \
     'sudo systemctl restart forgejo && systemctl is-active --quiet forgejo'
 echo 'FreeIPA-aanmeldbron geconfigureerd. Test nu het inloggen als nostradavid.'

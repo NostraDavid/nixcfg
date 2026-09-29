@@ -5,8 +5,8 @@ repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 test_root="$(mktemp -d)"
 trap 'rm -rf "${test_root}"' EXIT
 export TEST_REPO="${test_root}/repo"
-mkdir -p "${TEST_REPO}/cmd" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
-cp "${repo_root}"/cmd/update-{jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/cmd/"
+mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
+cp "${repo_root}"/scripts/update-{jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
 cp "${repo_root}/pkgs/jpegli/default.nix" "${TEST_REPO}/pkgs/jpegli/"
 cp "${repo_root}/pkgs/semble/default.nix" "${TEST_REPO}/pkgs/semble/"
 export TEST_MAIN_REV
@@ -41,10 +41,10 @@ EOF
 chmod +x "${test_root}/bin/"*
 export PATH="${test_root}/bin:${PATH}"
 
-"${TEST_REPO}/cmd/update-jpegli.sh" >/dev/null
+"${TEST_REPO}/scripts/update-jpegli.sh" >/dev/null
 rg -q 'libjpegTurboVersion = "3.3.0";' "${TEST_REPO}/pkgs/jpegli/default.nix"
 rg -q '^build .#jpegli --no-link$' "${TEST_REPO}/builds.log"
-"${TEST_REPO}/cmd/update-semble.sh" >/dev/null
+"${TEST_REPO}/scripts/update-semble.sh" >/dev/null
 rg -q 'version = "0.10.0";' "${TEST_REPO}/pkgs/semble/default.nix"
 # Dependency versions and hashes must remain untouched.
 sed '/pname = "semble";/,$d' "${repo_root}/pkgs/semble/default.nix" >"${test_root}/before"
@@ -54,14 +54,14 @@ cmp "${test_root}/before" "${test_root}/after"
 export TEST_BUILD_FAILURE=1
 for package in jpegli semble; do
     cp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
-    if "${TEST_REPO}/cmd/update-${package}.sh" >/dev/null 2>&1; then
+    if "${TEST_REPO}/scripts/update-${package}.sh" >/dev/null 2>&1; then
         echo "Expected ${package} build failure" >&2
         exit 1
     fi
     cmp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
 done
 export TEST_RELEASE=3.4.0-beta1
-if "${TEST_REPO}/cmd/update-jpegli.sh" >/dev/null 2>&1; then
+if "${TEST_REPO}/scripts/update-jpegli.sh" >/dev/null 2>&1; then
     echo 'Expected invalid release tag to fail' >&2
     exit 1
 fi
@@ -70,18 +70,18 @@ cmp "${repo_root}/pkgs/jpegli/default.nix" "${TEST_REPO}/pkgs/jpegli/default.nix
 # Failed input updates and builds must preserve pre-existing lockfile changes.
 printf 'existing user changes\n' >"${TEST_REPO}/flake.lock"
 cp "${TEST_REPO}/flake.lock" "${test_root}/flake.lock.before"
-if bash "${TEST_REPO}/cmd/update-flake-package.sh" skills skills >/dev/null 2>&1; then
+if bash "${TEST_REPO}/scripts/update-flake-package.sh" skills skills >/dev/null 2>&1; then
     echo 'Expected flake package build failure' >&2
     exit 1
 fi
 cmp "${test_root}/flake.lock.before" "${TEST_REPO}/flake.lock"
 export TEST_BUILD_FAILURE=0 TEST_FLAKE_FAILURE=1
-if bash "${TEST_REPO}/cmd/update-flake-package.sh" skills skills >/dev/null 2>&1; then
+if bash "${TEST_REPO}/scripts/update-flake-package.sh" skills skills >/dev/null 2>&1; then
     echo 'Expected flake update failure' >&2
     exit 1
 fi
 cmp "${test_root}/flake.lock.before" "${TEST_REPO}/flake.lock"
 export TEST_FLAKE_FAILURE=0
-bash "${TEST_REPO}/cmd/update-flake-package.sh" skills skills >/dev/null
+bash "${TEST_REPO}/scripts/update-flake-package.sh" skills skills >/dev/null
 rg -q '^updated input$' "${TEST_REPO}/flake.lock"
 echo 'Release updater regression checks passed.'

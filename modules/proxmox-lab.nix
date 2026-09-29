@@ -98,7 +98,7 @@ in {
       ];
       text = ''
         export PROXMOX_LAB_CONFIG=${pkgs.writeText "proxmox-lab.json" (builtins.toJSON settings)}
-        exec python3 ${../cmd/proxmox-lab.py} "$@"
+        exec python3 ${../scripts/proxmox-lab.py} "$@"
       '';
     };
   };

@@ -18,4 +18,4 @@ printf 'Updating matt-pocock-skills to version %s\n' "${version}"
 sed -i "s#github:mattpocock/skills[^\"]*#github:mattpocock/skills/v${version}#" flake.nix
 sed -i "s/version = \".*\";/version = \"${version}\";/" pkgs/matt-pocock-skills/default.nix
 
-exec "${repo_root}/cmd/update-flake-package.sh" matt-pocock-skills matt-pocock-skills
+exec "${repo_root}/scripts/update-flake-package.sh" matt-pocock-skills matt-pocock-skills

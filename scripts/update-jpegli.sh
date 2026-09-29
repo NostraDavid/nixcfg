@@ -19,7 +19,7 @@ trap restore ERR
 printf 'Updating jpegli dependency libjpeg-turbo to %s\n' "${version}"
 sed -i -E "s/libjpegTurboVersion = \"[^\"]+\";/libjpegTurboVersion = \"${version}\";/" "${pkg_file}"
 sed -i -E "/libjpegTurboSrc = fetchzip/,/};/ s#hash = \"[^\"]+\";#hash = \"${source_hash}\";#" "${pkg_file}"
-"${repo_root}/cmd/update-github-unstable.sh" jpegli google jpegli
+"${repo_root}/scripts/update-github-unstable.sh" jpegli google jpegli
 
 # The shared updater skips its build when jpegli HEAD has not changed.
 cd "${repo_root}"

@@ -4,15 +4,15 @@ set -euo pipefail
 
 usage() {
     cat <<'EOF'
-Usage: cmd/bootstrap-host.sh <hostname> [auto|laptop|workstation]
+Usage: scripts/bootstrap-host.sh <hostname> [auto|laptop|workstation]
 
 Adds the current NixOS machine to this repository. The default mode is auto:
 machines with a battery become laptops, all others become workstations.
 
 Examples:
-  cmd/bootstrap-host.sh donar
-  cmd/bootstrap-host.sh frigg laptop
-  cmd/bootstrap-host.sh wodan workstation
+  scripts/bootstrap-host.sh donar
+  scripts/bootstrap-host.sh frigg laptop
+  scripts/bootstrap-host.sh wodan workstation
 EOF
 }
 
