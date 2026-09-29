@@ -1,5 +1,0 @@
-#!/bin/sh
-
-# Global core.hooksPath owns hook execution. This inert template keeps old
-# repositories from inheriting the former broken branch check.
-exit 0
