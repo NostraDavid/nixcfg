@@ -13,7 +13,7 @@
     builtins.concatMap
     (client: map (name: ".${client}/skills/${alias name}") (builtins.attrNames catalog.aliases))
     ["codex" "copilot" "config/opencode"]
-    ++ map (name: ".agents/skills/${alias name}") catalog.workflow;
+    ++ map (name: ".agents/skills/${alias name}") (builtins.attrNames catalog.aliases);
   links = builtins.listToAttrs (map (name: {
       inherit name;
       value = toString homeFiles.${name}.source;
