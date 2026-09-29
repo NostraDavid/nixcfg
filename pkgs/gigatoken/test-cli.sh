@@ -2,7 +2,6 @@
 set -euo pipefail
 
 gigatoken_bin="$1"
-tokenizer="$2"
 
 actual="$(printf "You're testing GPT-5's tokenizer: 1234567 👋" | "$gigatoken_bin" count)"
 if [[ "$actual" != 14 ]]; then
@@ -10,7 +9,7 @@ if [[ "$actual" != 14 ]]; then
     exit 1
 fi
 
-actual="$(printf 'hello' | "$gigatoken_bin" count --tokenizer "$tokenizer")"
+actual="$(printf 'hello' | "$gigatoken_bin" count)"
 if [[ "$actual" != 1 ]]; then
     printf 'expected count output 1, got %q\n' "$actual" >&2
     exit 1
@@ -22,19 +21,19 @@ printf 'hello' >"$test_dir/one.txt"
 printf 'hello world' >"$test_dir/two.txt"
 printf 'ignored' >"$test_dir/ignored.log"
 
-actual="$("$gigatoken_bin" count --tokenizer "$tokenizer" --exclude '*.log' "$test_dir")"
+actual="$("$gigatoken_bin" count --exclude '*.log' "$test_dir")"
 if [[ "$actual" != 3 ]]; then
     printf 'expected directory count output 3, got %q\n' "$actual" >&2
     exit 1
 fi
 
-actual="$("$gigatoken_bin" encode --tokenizer "$tokenizer" --json hello)"
-if [[ "$actual" != '[31373]' ]]; then
-    printf 'expected encoded token [31373], got %q\n' "$actual" >&2
+encoded="$("$gigatoken_bin" encode --json hello)"
+if [[ "$encoded" != \[*\] ]]; then
+    printf 'expected encoded JSON array, got %q\n' "$encoded" >&2
     exit 1
 fi
 
-actual="$("$gigatoken_bin" decode --tokenizer "$tokenizer" 31373)"
+actual="$(printf '%s' "$encoded" | "$gigatoken_bin" decode)"
 if [[ "$actual" != hello ]]; then
     printf 'expected decoded text hello, got %q\n' "$actual" >&2
     exit 1

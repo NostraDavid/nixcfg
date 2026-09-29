@@ -32,6 +32,9 @@ done
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
 rg -q -- '--use-github-releases' scripts/update-codex.sh
+for package in fixit dockerfile-roast jsongrep mdschema gigatoken; do
+    [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
+done
 
 for package in say-dictionary sqlline tamzen-otf; do
     if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
