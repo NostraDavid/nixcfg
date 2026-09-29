@@ -6,8 +6,8 @@ repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 cd "${repo_root}"
 
 # Load the maintenance functions without invoking the CLI.
-# shellcheck source=cmd/local-package-maint.sh
-source <(sed '$d' cmd/local-package-maint.sh)
+# shellcheck source=scripts/local-package-maint.sh
+source <(sed '$d' scripts/local-package-maint.sh)
 
 # These bundles must reach their flake updater, even with unstable versions.
 for package in awesome-copilot-skills blender-mcp-skills blender-reference-skills cc-blender-skills matt-pocock-skills pi-coding-agent-bun polars-skills ponytail-skills pstack-skills; do
@@ -31,7 +31,7 @@ done
 [[ "$(update_mode "${repo_root}" creep2)" == embedded-nix-update ]]
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
-rg -q -- '--use-github-releases' cmd/update-codex.sh
+rg -q -- '--use-github-releases' scripts/update-codex.sh
 
 for package in say-dictionary sqlline tamzen-otf; do
     if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
@@ -49,7 +49,7 @@ if list_packages | rg -q '^(forgejo-lab-image|proxmox-lab|pico-8-font)$'; then
 fi
 [[ "$(probe_skip_reason "${repo_root}" forgejo-lab-image)" == *"generated flake output"* ]]
 
-if output="$(./cmd/local-package-maint.sh update nonexistent-regression-test-package 2>&1)"; then
+if output="$(./scripts/local-package-maint.sh update nonexistent-regression-test-package 2>&1)"; then
     echo "Unknown packages must fail" >&2
     exit 1
 fi
@@ -58,8 +58,8 @@ fi
 # Exercise the public CLI against a real flake and a failing local updater.
 test_root="$(mktemp -d)"
 trap 'rm -rf "${test_root}"' EXIT
-mkdir -p "${test_root}/cmd" "${test_root}/pkgs/fixture"
-cp cmd/local-package-maint.sh "${test_root}/cmd/"
+mkdir -p "${test_root}/scripts" "${test_root}/pkgs/fixture"
+cp scripts/local-package-maint.sh "${test_root}/scripts/"
 cat >"${test_root}/flake.nix" <<EOF
 {
   outputs = _: {
@@ -71,21 +71,21 @@ cat >"${test_root}/flake.nix" <<EOF
 }
 EOF
 touch "${test_root}/pkgs/fixture/default.nix"
-cat >"${test_root}/cmd/update-fixture.sh" <<'EOF'
+cat >"${test_root}/scripts/update-fixture.sh" <<'EOF'
 #!/usr/bin/env bash
 echo 'fixture upstream connection failed' >&2
 exit 19
 EOF
 git init -q "${test_root}"
 git -C "${test_root}" add .
-[[ "$(NIX_SYSTEM="${system}" bash "${test_root}/cmd/local-package-maint.sh" packages)" == fixture ]]
+[[ "$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" packages)" == fixture ]]
 status=0
-output="$(NIX_SYSTEM="${system}" bash "${test_root}/cmd/local-package-maint.sh" update fixture 2>&1)" || status=$?
+output="$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" update fixture 2>&1)" || status=$?
 [[ "${status}" -eq 19 ]]
 [[ "${output}" == *"fixture upstream connection failed"* ]]
 [[ "${output}" != *"Skipping update"* ]]
 status=0
-output="$(NIX_SYSTEM="${system}" bash "${test_root}/cmd/local-package-maint.sh" list fixture 2>&1)" || status=$?
+output="$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" list fixture 2>&1)" || status=$?
 [[ "${status}" -eq 1 ]]
 [[ "${output}" == *"fixture upstream connection failed"* ]]
 [[ "${output}" != *"No newer versions found"* ]]

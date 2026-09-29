@@ -25,7 +25,6 @@
 !home/
 !modules/
 !pkgs/
-!cmd/
 !programs/
 !infra/
 !infra/**/*.tf

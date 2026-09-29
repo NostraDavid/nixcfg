@@ -21,12 +21,12 @@ update-nix:
 # Update a local flake package via its updater or nix-update fallback.
 [group('packages')]
 pkg-update package:
-  @./cmd/local-package-maint.sh update "{{package}}"
+  @./scripts/local-package-maint.sh update "{{package}}"
 
 # Update every local flake package via its updater or nix-update fallback.
 [group('packages')]
 pkg-update-all:
-  @packages="$(./cmd/local-package-maint.sh packages)" || exit $?; \
+  @packages="$(./scripts/local-package-maint.sh packages)" || exit $?; \
   red="$$(printf '\033[31m')"; reset="$$(printf '\033[0m')"; bold="$$(printf '\033[1m')"; failures=(); \
   for package in $packages; do \
     if ! just pkg-update "$package"; then \
@@ -42,4 +42,4 @@ pkg-update-all:
 # List local packages with newer versions available.
 [group('packages')]
 pkg-updates *packages:
-  @./cmd/local-package-maint.sh list {{packages}}
+  @./scripts/local-package-maint.sh list {{packages}}

@@ -31,7 +31,7 @@ flake input, module hooks, work files, and switch commands.
 From a checkout on a standard NixOS installation, add the current machine with:
 
 ```bash
-./cmd/bootstrap-host.sh donar
+./scripts/bootstrap-host.sh donar
 ```
 
 The script generates the hardware configuration, registers the host, detects a
@@ -39,7 +39,7 @@ laptop from its battery, and evaluates the resulting flake. Existing hosts are
 never overwritten. The machine type can also be selected explicitly:
 
 ```bash
-./cmd/bootstrap-host.sh donar laptop
+./scripts/bootstrap-host.sh donar laptop
 # Or, when `just` is already available:
 just bootstrap-host donar laptop
 ```

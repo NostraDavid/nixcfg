@@ -366,11 +366,11 @@ source = "from-iso"
 ordering = "fully-up"
 """
         private_file(STATE / "answer.toml", answer)
-        initialize = (REPO / "cmd/lab-initialize-disk.sh").read_text()
+        initialize = (REPO / "scripts/lab-initialize-disk.sh").read_text()
         initialize = "\n".join(initialize.splitlines()[2:]).replace(
             "exit 0", "return 0"
         )
-        boot = (REPO / "cmd/proxmox-lab-first-boot.sh").read_text()
+        boot = (REPO / "scripts/proxmox-lab-first-boot.sh").read_text()
         boot = (
             f"#!/bin/bash\nLAB_NODE={shlex.quote(CONFIG['node'])}\ninitialize_disk() {{\n{initialize}\n}}\n"
             + "\n".join(boot.splitlines()[1:])

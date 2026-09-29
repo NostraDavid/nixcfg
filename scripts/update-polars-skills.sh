@@ -18,4 +18,4 @@ printf 'Updating polars-skills to version %s\n' "${version}"
 sed -i "s#github:polars-inc/skills[^\"]*#github:polars-inc/skills/v${version}#" flake.nix
 sed -i "s/version = \".*\";/version = \"${version}\";/" pkgs/polars-skills/default.nix
 
-exec "${repo_root}/cmd/update-flake-package.sh" polars-skills polars-skills
+exec "${repo_root}/scripts/update-flake-package.sh" polars-skills polars-skills

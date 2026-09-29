@@ -62,7 +62,7 @@ in
     # would collide with the copy already pulled in by LiteLLM.
     paths = [wrapper];
 
-    passthru.updateScript = ../../cmd/update-tiktoken.sh;
+    passthru.updateScript = ../../scripts/update-tiktoken.sh;
 
     meta =
       pythonPackage.meta
