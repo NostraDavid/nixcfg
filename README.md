@@ -58,6 +58,8 @@ tools separately. Optional local environment variables can live in
 ## Notes
 
 - `docs/` contains script files with nifty commands.
+- [FreeIPA-toegang](docs/freeipa-access.md) beschrijft teams, rechten en de
+  gefaseerde toepassing op Forgejo, Proxmox en ingeschreven hosts.
 - `modules/hosts/` contains short host compositions that select hardware, roles,
   features, and host-specific exceptions.
 - `modules/roles/` composes reusable machine profiles such as desktops,

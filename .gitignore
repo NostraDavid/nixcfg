@@ -30,6 +30,7 @@
 !infra/**/*.tf
 !infra/**/*.md
 !infra/**/*.example
+!infra/freeipa/*.toml
 !infra/**/.terraform.lock.hcl
 !Justfile
 !just/

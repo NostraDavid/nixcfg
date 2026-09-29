@@ -38,7 +38,7 @@ auth_args=(
     --port 636
     --user-search-base 'cn=users,cn=accounts,dc=powerlan,dc=empire'
     --user-filter '(&(uid=%s)(memberOf=cn=grp-forgejo-user,cn=groups,cn=accounts,dc=powerlan,dc=empire))'
-    --admin-filter ''
+    --admin-filter '(memberOf=cn=grp-forgejo-admin,cn=groups,cn=accounts,dc=powerlan,dc=empire)'
     --allow-deactivate-all
     --username-attribute uid
     --firstname-attribute givenName
