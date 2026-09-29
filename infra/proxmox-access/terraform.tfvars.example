@@ -1,0 +1,2 @@
+# Use a separate access-management token; do not commit the real token.
+proxmox_api_token = "ipa-access@pve!access=secret"

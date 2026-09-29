@@ -11,6 +11,7 @@ ca_cert="$repo_root/hosts/wodan/certs/freeipa.crt"
 ldap_url='ldaps://ldap.powerlan.empire'
 users_base='cn=users,cn=accounts,dc=powerlan,dc=empire'
 group_dn='cn=grp-forgejo-user,cn=groups,cn=accounts,dc=powerlan,dc=empire'
+admin_group_dn='cn=grp-forgejo-admin,cn=groups,cn=accounts,dc=powerlan,dc=empire'
 bind_dn='uid=forgejo-reader,cn=sysaccounts,cn=etc,dc=powerlan,dc=empire'
 forgejo_target='david@192.168.2.110'
 secret_path='/srv/forgejo/ldap-bind-password'
@@ -26,6 +27,11 @@ export LDAPTLS_CACERT="$ca_cert"
 group_result=$(ldapsearch -x -LLL -H "$ldap_url" -s base -b "$group_dn" '(objectClass=*)' dn)
 if ! grep -Fxq "dn: $group_dn" <<<"$group_result"; then
     echo "FreeIPA-groep ontbreekt: $group_dn" >&2
+    exit 1
+fi
+admin_group_result=$(ldapsearch -x -LLL -H "$ldap_url" -s base -b "$admin_group_dn" '(objectClass=*)' dn)
+if ! grep -Fxq "dn: $admin_group_dn" <<<"$admin_group_result"; then
+    echo "FreeIPA-beheergroep ontbreekt: $admin_group_dn" >&2
     exit 1
 fi
 ssh -o BatchMode=yes "$forgejo_target" \
@@ -108,17 +114,28 @@ if ! grep -Eq '^mail: .+' <<<"$allowed_result"; then
     exit 1
 fi
 
-denied_filter="(&(uid=ldap_tester)(memberOf=$group_dn))"
+for admin_uid in nostradavid-adm poweremperor-adm; do
+    admin_filter="(&(uid=$admin_uid)(memberOf=$group_dn)(memberOf=$admin_group_dn))"
+    admin_result=$(ldapsearch -x -LLL -H "$ldap_url" -D "$bind_dn" -y "$password_file" \
+        -b "$users_base" "$admin_filter" dn mail)
+    if ! grep -Fxq "dn: uid=$admin_uid,$users_base" <<<"$admin_result" ||
+        ! grep -Eq '^mail: .+' <<<"$admin_result"; then
+        echo "Forgejo-beheerdersaccount is niet bereikbaar via LDAP: $admin_uid" >&2
+        exit 1
+    fi
+done
+
+denied_filter="(&(uid=mediacenter)(memberOf=$group_dn))"
 denied_user=$(ldapsearch -x -LLL -H "$ldap_url" -D "$bind_dn" -y "$password_file" \
-    -s base -b "uid=ldap_tester,$users_base" '(objectClass=*)' dn)
-if ! grep -Fxq "dn: uid=ldap_tester,$users_base" <<<"$denied_user"; then
-    echo 'Kan de negatieve controle met ldap_tester niet uitvoeren.' >&2
+    -s base -b "uid=mediacenter,$users_base" '(objectClass=*)' dn)
+if ! grep -Fxq "dn: uid=mediacenter,$users_base" <<<"$denied_user"; then
+    echo 'Kan de negatieve controle met mediacenter niet uitvoeren.' >&2
     exit 1
 fi
 denied_result=$(ldapsearch -x -LLL -H "$ldap_url" -D "$bind_dn" -y "$password_file" \
     -b "$users_base" "$denied_filter" dn)
 if grep -q '^dn:' <<<"$denied_result"; then
-    echo 'ldap_tester staat onverwacht in de Forgejo-groep.' >&2
+    echo 'mediacenter staat onverwacht in de Forgejo-groep.' >&2
     exit 1
 fi
 

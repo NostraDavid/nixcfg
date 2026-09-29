@@ -1,0 +1,87 @@
+[people]
+known = [
+  "admin",
+  "engi",
+  "ldap_tester",
+  "mediacenter",
+  "nostradavid",
+  "nostradavid-adm",
+  "poweremperor",
+  "poweremperor-adm",
+]
+
+[teams]
+team-infra = ["nostradavid", "poweremperor"]
+team-development = ["nostradavid", "poweremperor", "engi", "ldap_tester"]
+team-media = ["mediacenter"]
+
+[roles]
+platform-admin = ["nostradavid-adm", "poweremperor-adm"]
+
+[grants.admins]
+existing = true
+users = ["admin"]
+roles = ["platform-admin"]
+
+[grants.grp-infra-admin]
+existing = true
+posix = true
+roles = ["platform-admin"]
+
+[grants.grp-proxmox-admin]
+description = "Full Proxmox administration"
+roles = ["platform-admin"]
+
+[grants.grp-ro-monitor]
+existing = true
+posix = true
+teams = ["team-infra"]
+
+[grants.grp-vm-operator]
+existing = true
+posix = true
+
+[grants.grp-vpn-user]
+existing = true
+posix = true
+
+[grants.grp-forgejo-user]
+existing = true
+teams = ["team-development"]
+roles = ["platform-admin"]
+
+[grants.grp-forgejo-admin]
+description = "Forgejo site administration"
+roles = ["platform-admin"]
+
+[grants.media-center]
+existing = true
+posix = true
+teams = ["team-media"]
+
+[hostgroups]
+hg-identity = ["ldap.powerlan.empire"]
+hg-network = ["pihole.powerlan.empire"]
+hg-storage = ["datavault.powerlan.empire"]
+
+[hbac.hbac-platform-admin]
+groups = ["grp-infra-admin"]
+hostgroups = ["hg-identity", "hg-network", "hg-storage"]
+services = ["sshd", "login", "sudo", "sudo-i"]
+
+[hbac.hbac-admin-recovery]
+users = ["admin"]
+hostgroups = ["hg-identity"]
+services = ["sshd", "login", "sudo", "sudo-i"]
+
+[sudo.sudo-platform-admin]
+groups = ["grp-infra-admin"]
+hostgroups = ["hg-identity", "hg-network", "hg-storage"]
+
+[sudo.sudo-admin-recovery]
+users = ["admin"]
+hostgroups = ["hg-identity"]
+
+[settings]
+# Change to true only after real SSH and sudo checks on enrolled hosts.
+enforce_hbac = false

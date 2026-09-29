@@ -46,6 +46,52 @@ forgejo-ldap-check:
 forgejo-ldap-bootstrap:
   @nix shell nixpkgs#openldap nixpkgs#krb5 --command ./scripts/forgejo-ldap-bootstrap.sh
 
+# Validate the Git-owned FreeIPA group policy without connecting to FreeIPA.
+[group('proxmox')]
+freeipa-policy-validate:
+  @python3 ./scripts/freeipa-policy.py validate
+
+# Show or apply exact group membership using an interactive admin Kerberos ticket.
+[group('proxmox')]
+freeipa-policy-plan:
+  @nix shell nixpkgs#freeipa nixpkgs#krb5 nixpkgs#openldap --command python3 ./scripts/freeipa-policy.py plan
+
+[group('proxmox')]
+freeipa-policy-apply:
+  @nix shell nixpkgs#freeipa nixpkgs#krb5 nixpkgs#openldap --command python3 ./scripts/freeipa-policy.py apply
+
+[group('proxmox')]
+freeipa-policy-check:
+  @nix shell nixpkgs#freeipa nixpkgs#krb5 nixpkgs#openldap --command python3 ./scripts/freeipa-policy.py check
+
+# Create the dedicated Proxmox LDAP search account and a local, untracked password file.
+[group('proxmox')]
+freeipa-proxmox-reader-bootstrap:
+  @nix shell nixpkgs#freeipa nixpkgs#krb5 nixpkgs#openldap --command python3 ./scripts/freeipa-policy.py bootstrap-proxmox-reader
+
+# Manage Proxmox's FreeIPA realm and ACLs in a separate, privileged Tofu stack.
+[group('tofu')]
+tofu-proxmox-access-init:
+  @tofu -chdir=infra/proxmox-access init
+
+[group('tofu')]
+tofu-proxmox-access-tfvars:
+  @cp -n infra/proxmox-access/terraform.tfvars.example infra/proxmox-access/terraform.tfvars
+  @${EDITOR:-nano} infra/proxmox-access/terraform.tfvars
+
+[group('tofu')]
+tofu-proxmox-access-check:
+  @tofu fmt -check infra/proxmox-access
+  @tofu -chdir=infra/proxmox-access validate
+
+[group('tofu')]
+tofu-proxmox-access-plan:
+  @SSL_CERT_FILE="$PWD/hosts/wodan/certs/proxmox.crt" tofu -chdir=infra/proxmox-access plan
+
+[group('tofu')]
+tofu-proxmox-access-apply:
+  @SSL_CERT_FILE="$PWD/hosts/wodan/certs/proxmox.crt" tofu -chdir=infra/proxmox-access apply
+
 # Format a Homepage state disk with the expected filesystem label.
 [group('proxmox')]
 format-homepage-data device:
