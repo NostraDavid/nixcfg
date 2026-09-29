@@ -8,7 +8,7 @@
 }: let
   python = stable.python3.withPackages (p: [p.tomlkit]);
   blenderVersion = lib.versions.majorMinor unstable.blender.version;
-  dotfiles = ../../../dotfiles/blender/.config/blender;
+  dotfiles = ../../../dotfiles/blender-5.2.1/.config/blender;
 in {
   home = {
     packages = [local.blender-mcp];

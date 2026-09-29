@@ -57,7 +57,7 @@ Create `home/work.nix`:
 {pkgs, ...}: {
   home.packages = [pkgs.gh];
   home.file.".bashrc.work".source = ../dotfiles/bashrc.work;
-  home.file.".config/git/identity.conf".source = ../dotfiles/git/identity.conf;
+  home.file.".config/git/identity.conf".source = ../dotfiles/git-2.49.0/identity.conf;
 }
 ```
 
@@ -72,7 +72,8 @@ The shared `.bashrc` sources `~/.bashrc.work` when it exists. It does so before
 sourced. Run the work flake's switch command again after editing this Home
 Manager-managed file.
 
-Create `dotfiles/git/identity.conf` with the work Git identity, for example:
+Create `dotfiles/git-2.49.0/identity.conf` with the work Git identity, for
+example:
 
 ```gitconfig
 [user]

@@ -6,7 +6,7 @@ check-agent-instructions:
   @{{nix_clean_env}} nix build 'path:.#checks.x86_64-linux.agent-instructions' --no-link
 
 lint-ruff:
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff check
+  @git ls-files -z -- '*.py' 'dotfiles/git-2.49.0/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff check
 
 lint-ruff-files *files:
   @printf '%s\0' {{files}} | { grep -zEv '^dotfiles/agents/\.agents/' || true; } | xargs -0 --no-run-if-empty ruff check

@@ -194,16 +194,16 @@ in {
           ## Claude
           ".claude/skills/ctx".source = "${namedSkills}/ctx";
           ".pi/agent/skills/ctx".source = "${namedSkills}/ctx";
-          ".claude/settings.json" = {source = mk "${dot}/claude-1.0/.claude/settings.json";};
+          ".claude/settings.json" = {source = mk "${dot}/claude-2.1.191/.claude/settings.json";};
           ".claude/CLAUDE.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
           ## Copilot
-          ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0/.copilot/hooks/cli-proxy.json";};
+          ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/hooks/cli-proxy.json";};
           ".copilot/copilot-instructions.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
           ".copilot/instructions/eu-ai-act.instructions.md" = {source = mk "${dot}/agents/instructions/eu-ai-act.md";};
-          ".copilot/mcp-config.json" = {source = mk "${dot}/copilot-1.0/.copilot/mcp-config.json";};
-          ".copilot/prompts" = {source = mk "${dot}/copilot-1.0/.copilot/prompts";};
-          ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0/.copilot/settings.json";};
+          ".copilot/mcp-config.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/mcp-config.json";};
+          ".copilot/prompts" = {source = mk "${dot}/copilot-1.0.65/.copilot/prompts";};
+          ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/settings.json";};
 
           ## OpenCode
           ".config/opencode/opencode.jsonc" = {source = mk "${dot}/opencode-1.18.4/.config/opencode/opencode.jsonc";};
@@ -213,14 +213,14 @@ in {
           ".config/mcp/mcp.json" = {source = mk "${dot}/mcp/.config/mcp/mcp.json";};
 
           # The rest
-          ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode/.config/Code/User/keybindings.json";};
-          ".config/Code/User/mcp.json" = {source = mk "${dot}/vscode/.config/Code/User/mcp.json";};
-          ".config/Code/User/settings.json" = {source = mk "${dot}/vscode/.config/Code/User/settings.json";};
-          ".config/git/identity.conf" = {source = mk "${dot}/git/.config/git/identity.conf";};
-          ".config/i3/config" = {source = mk "${dot}/i3/.config/i3/config";};
-          ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv/.config/mpv/mpv.conf";};
-          ".config/niri/config.kdl" = {source = mk "${dot}/niri/.config/niri/config.kdl";};
-          ".groovylintrc.json" = {source = mk "${dot}/groovy-lint/.groovylintrc.json";};
+          ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode-1.106.2/.config/Code/User/keybindings.json";};
+          ".config/Code/User/mcp.json" = {source = mk "${dot}/vscode-1.106.2/.config/Code/User/mcp.json";};
+          ".config/Code/User/settings.json" = {source = mk "${dot}/vscode-1.106.2/.config/Code/User/settings.json";};
+          ".config/git/identity.conf" = {source = mk "${dot}/git-2.49.0/.config/git/identity.conf";};
+          ".config/i3/config" = {source = mk "${dot}/i3-4.24/.config/i3/config";};
+          ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv-0.41.0/.config/mpv/mpv.conf";};
+          ".config/niri/config.kdl" = {source = mk "${dot}/niri-26.04/.config/niri/config.kdl";};
+          ".groovylintrc.json" = {source = mk "${dot}/groovy-lint-15.2.0/.groovylintrc.json";};
           ".local/bin/code" = {source = mk "${dot}/scripts/code.sh";};
           ".local/bin/generate_gitignore" = {source = mk "${dot}/scripts/generate_gitignore.py";};
           ".local/bin/ide" = {source = mk "${dot}/scripts/ide.py";};
