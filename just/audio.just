@@ -1,4 +1,5 @@
 # Switch input to the default audio output monitor.
+[group('audio')]
 audio-output:
   @sink="$(pactl get-default-sink)"; \
   source="$sink.monitor"; \
@@ -9,6 +10,7 @@ audio-output:
   printf 'Default source: %s\n' "$source"
 
 # Switch input to the Audient iD4 microphone.
+[group('audio')]
 audio-mic:
   @source="{{audient_mic_source}}"; \
   pactl set-default-source "$source"; \

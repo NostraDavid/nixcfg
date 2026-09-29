@@ -1,4 +1,5 @@
 # Update flake inputs in flake.lock.
+[group('packages')]
 update:
   @inputs="$(nix flake metadata --no-write-lock-file --json | jq -r '.locks.nodes.root.inputs | keys[]')"; \
   first=true; \
@@ -10,6 +11,7 @@ update:
   done <<< "$inputs"
 
 # Update nixpkgs and home-manager flake inputs in flake.lock.
+[group('packages')]
 update-nix:
   @for input in nixpkgs home-manager; do \
     {{nix_clean_env}} nix flake update --option http-connections 1 "$input"; \
@@ -17,10 +19,12 @@ update-nix:
   done
 
 # Update a local flake package via its updater or nix-update fallback.
+[group('packages')]
 pkg-update package:
   @./cmd/local-package-maint.sh update "{{package}}"
 
 # Update every local flake package via its updater or nix-update fallback.
+[group('packages')]
 pkg-update-all:
   @packages="$(./cmd/local-package-maint.sh packages)" || exit $?; \
   red="$$(printf '\033[31m')"; reset="$$(printf '\033[0m')"; bold="$$(printf '\033[1m')"; failures=(); \
@@ -36,5 +40,6 @@ pkg-update-all:
   fi
 
 # List local packages with newer versions available.
+[group('packages')]
 pkg-updates *packages:
   @./cmd/local-package-maint.sh list {{packages}}
