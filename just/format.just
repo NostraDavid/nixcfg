@@ -3,7 +3,7 @@ format-alejandra:
   @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra
 
 format-dprint:
-  @dprint fmt . --excludes dev.code-workspace docs/agentskills.io dotfiles/copilot-1.0/.copilot/copilot-instructions.md
+  @dprint fmt . --excludes dev.code-workspace docs/agentskills.io dotfiles/copilot-1.0.65/.copilot/copilot-instructions.md
 
 format-shfmt:
   @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | xargs -0 --no-run-if-empty shfmt -i 4 -w
@@ -12,7 +12,7 @@ format-stylua:
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua
 
 format-ruff:
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff format
+  @git ls-files -z -- '*.py' 'dotfiles/git-2.49.0/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff format
 
 format:
   @just format-alejandra
@@ -27,10 +27,10 @@ fmt:
 # Run formatting checks without modifying files.
 check:
   @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra --check
-  @dprint check . --excludes dev.code-workspace docs/agentskills.io dotfiles/copilot-1.0/.copilot/copilot-instructions.md
+  @dprint check . --excludes dev.code-workspace docs/agentskills.io dotfiles/copilot-1.0.65/.copilot/copilot-instructions.md
   @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | xargs -0 --no-run-if-empty shfmt -i 4 -d
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua --check
-  @git ls-files -z -- '*.py' 'dotfiles/git/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff format --check
+  @git ls-files -z -- '*.py' 'dotfiles/git-2.49.0/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff format --check
 
 check-alejandra-files *files:
   @alejandra --check {{files}}

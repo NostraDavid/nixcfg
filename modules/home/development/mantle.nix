@@ -13,7 +13,7 @@
     enable = true;
     package = local.pi-coding-agent;
     settings = builtins.fromJSON (
-      builtins.readFile ../../../dotfiles/pi/.pi/agent/settings.json
+      builtins.readFile ../../../dotfiles/pi-0.80.3/.pi/agent/settings.json
     );
   };
 
