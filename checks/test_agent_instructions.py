@@ -105,7 +105,7 @@ class AgentInstructions(unittest.TestCase):
                 self.assertRegex(alias, r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
                 self.assertLessEqual(len(alias), len(name))
                 target = Path(self.links[f".codex/skills/{alias}"])
-                for client in ["copilot", "config/opencode"]:
+                for client in ["copilot", "config/opencode", "agents"]:
                     self.assertEqual(
                         self.links[f".{client}/skills/{alias}"], str(target)
                     )
@@ -135,8 +135,7 @@ class AgentInstructions(unittest.TestCase):
 
     def test_home_manager_links(self):
         for client in ["codex", "copilot", "config/opencode", "agents"]:
-            names = self.catalog["workflow"] if client == "agents" else self.names
-            for name in names:
+            for name in self.names:
                 with self.subTest(client=client, skill=name):
                     alias = self.catalog["aliases"].get(name, name)
                     link = Path(self.links[f".{client}/skills/{alias}"])

@@ -16,9 +16,9 @@ zouden nieuwe gesprekken lokaal zoeken en het genoemde `@file` niet vinden.
 
 De lokale skillcatalogus staat in `dotfiles/agents/skills.json`. De groep
 `workflow` bevat Context7, Headroom, Git-worktrees, code-navigatie, Beads,
-geheugenprocedures en CLI-uitvoer. Home Manager koppelt deze aan
-`~/.agents/skills/` en aan de skillmappen van Codex, Copilot en OpenCode. De
-overige lokale skills krijgen de bestaande clientspecifieke koppelingen.
+geheugenprocedures en CLI-uitvoer. Home Manager koppelt alle geselecteerde
+skills aan `~/.agents/skills/` en aan de skillmappen van Codex, Copilot en
+OpenCode.
 
 De basisinstructies bevatten de toolvoorkeuren, geheugen- en proxyregels,
 commitstijl en worktreebasis. Voorwaardelijke verwijzingen laden de procedures

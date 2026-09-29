@@ -1,15 +1,15 @@
 # Gedeelde agent-skills
 
-Home Manager koppelt elke geselecteerde skill afzonderlijk naar de vlakke
-skillmappen van Codex, Copilot en OpenCode. De geïmporteerde selecties staan in
-`pkgs/awesome-copilot-skills/skills.nix`, `pkgs/matt-pocock-skills/skills.nix`
-en `pkgs/pstack-skills/skills.nix`, plus `pkgs/polars-skills/skills.nix`. Zet
-een skill daar op `true` of `false`; `modules/home/dotfiles.nix` verzorgt alleen
-de koppelingen en de overige lokale groepen. Dubbele skillnamen geven een
-evaluatiefout: schakel eerst de andere variant uit. Codex gebruikt daarnaast
-zijn ingebouwde system-skills uit `~/.codex/skills/.system`. Deze worden hier
-niet gekopieerd of naar Copilot en OpenCode gekoppeld. Pi is niet aan deze
-selectie gekoppeld.
+Home Manager koppelt elke geselecteerde skill afzonderlijk naar
+`~/.agents/skills` en de vlakke skillmappen van Codex, Copilot en OpenCode. De
+geïmporteerde selecties staan in `pkgs/awesome-copilot-skills/skills.nix`,
+`pkgs/matt-pocock-skills/skills.nix` en `pkgs/pstack-skills/skills.nix`, plus
+`pkgs/polars-skills/skills.nix`. Zet een skill daar op `true` of `false`;
+`modules/home/dotfiles.nix` verzorgt alleen de koppelingen en de overige lokale
+groepen. Dubbele skillnamen geven een evaluatiefout: schakel eerst de andere
+variant uit. Codex gebruikt daarnaast zijn ingebouwde system-skills uit
+`~/.codex/skills/.system`. Deze worden hier niet gekopieerd of naar Copilot en
+OpenCode gekoppeld. Pi is niet aan deze selectie gekoppeld.
 
 Ponytail is voor Codex ook als volledige plugin beschikbaar. Home Manager
 plaatst de gepinde bron in `~/plugins/ponytail`, voegt hem toe aan de
@@ -22,11 +22,10 @@ marketplace-items blijven behouden.
 
 `skills.json` bevat onder `aliases` de vaste korte mapnamen, bijvoorbeeld
 `blender-materials` → `bmat`, `database-refactor` → `dbref` en
-`postgresql-optimization` → `pgopt`. Codex, Copilot en OpenCode gebruiken
-dezelfde aliassen; de gedeelde workflowlinks onder `~/.agents/skills` ook. De
-bronmappen blijven behouden; het `name`-veld in `SKILL.md` gebruikt dezelfde
-korte alias. Nieuwe skills zonder alias gebruiken hun bronnaam totdat je een
-korte naam toevoegt. Dubbele linknamen geven een evaluatiefout.
+`postgresql-optimization` → `pgopt`. Alle vier skillmappen gebruiken dezelfde
+aliassen. De bronmappen blijven behouden; het `name`-veld in `SKILL.md` gebruikt
+dezelfde korte alias. Nieuwe skills zonder alias gebruiken hun bronnaam totdat
+je een korte naam toevoegt. Dubbele linknamen geven een evaluatiefout.
 
 Home Manager vervangt de oude links bij de volgende activatie. Verwijzingen in
 de gedeelde instructies gebruiken de korte paden. De aparte ingang
@@ -108,8 +107,8 @@ vergelijkingsscript zijn verwijderd.
 [`Austin1serb/agents-md`](https://github.com/Austin1serb/agents-md/blob/main/agent-skills/interview-me.md).
 Die repository publiceert geen licentie en is niet letterlijk gekopieerd.
 
-Koppel de bronverzameling niet ook aan `~/.agents/skills`: dat kan dezelfde
-skills dubbel beschikbaar maken.
+Koppel de volledige bronverzameling niet als extra map aan `~/.agents/skills`:
+Home Manager koppelt de geselecteerde skills daar al afzonderlijk.
 
 `audio-notify` speelt een geluid bij vragen aan de gebruiker en bij het afronden
 van een taak. De gedeelde `AGENTS.md` verwijst naar de skill via

@@ -170,9 +170,7 @@ in {
         then throw "Duplicate skill names or aliases: each enabled skill needs a unique link name."
         else links;
       sharedCodexSkills = mkSkillLinks "codex" skillEntries;
-      sharedWorkflowSkills = mkSkillLinks "agents" (builtins.filter
-        (skill: builtins.elem skill.name workflowSkills)
-        skillEntries);
+      sharedAgentSkills = mkSkillLinks "agents" skillEntries;
       copilotSkills = mkSkillLinks "copilot" skillEntries;
       opencodeSkills = mkSkillLinks "config/opencode" skillEntries;
     in
@@ -253,7 +251,7 @@ in {
           "rsync-bitvavo" = {source = mk "${dot}/scripts/rsync-bitvavo";};
         }
         // sharedCodexSkills
-        // sharedWorkflowSkills
+        // sharedAgentSkills
         // copilotSkills
         // opencodeSkills);
 
