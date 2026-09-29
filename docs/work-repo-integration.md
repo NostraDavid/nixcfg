@@ -91,8 +91,8 @@ The portable module already owns these Home Manager file paths:
 
 - Shell: `.bashrc`, `.bash_profile`, `.bash_aliases`, `.bash_aliases-common`,
   `.inputrc`, and `.tmux.conf`.
-- Git: `.gitconfig`, `.git-templates`, and `.config/git/` entries for
-  `attributes`, `commit-template`, `common.conf`, `hooks`, and `ignore`.
+- Git: `.gitconfig` and `.config/git/` entries for `attributes`,
+  `commit-template`, `common.conf`, `hooks`, and `ignore`.
 - Editors: `.config/nvim/` and `.vimrc`.
 - Other CLI configuration: `.config/bat/config`, `.config/btop/btop.conf`,
   `.config/fastfetch/`, `.config/ghostty/config.ghostty`,

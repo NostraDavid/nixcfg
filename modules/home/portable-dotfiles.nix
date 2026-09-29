@@ -27,7 +27,6 @@ in {
     ".oxfmtrc.json".source = mk "${dot}/oxfmt-0.68.0/.oxfmtrc.json";
     ".oxlintrc.json".source = mk "${dot}/oxlint-1.85.0/.oxlintrc.json";
     ".rubocop.yml".source = mk "${dot}/ruby-3.3.8/.rubocop.yml";
-    ".git-templates".source = mk "${dot}/git-templates/.git-templates";
     ".gitconfig".source = mk "${dot}/git-2.49.0/.gitconfig";
     ".vimrc".source = mk "${dot}/vim-9.1.1336/.vimrc";
   };
