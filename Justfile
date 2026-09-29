@@ -6,18 +6,20 @@ audient_mic_source := "alsa_input.usb-Audient_Audient_iD4-00.HiFi__Mic__source"
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-# Show available recipes and their parameters.
+# Show grouped recipes.
+[private]
 default:
-  @just --list
+    @just --list --unsorted
 
-import 'just/format.just'
-import 'just/lint.just'
+import 'just/bootstrap.just'
+import 'just/maintenance.just'
 import 'just/nixos.just'
 import 'just/packages.just'
 import 'just/cachix.just'
 import 'just/audio.just'
 import 'just/proxmox.just'
 import 'just/proxmox-lab.just'
-import 'just/maintenance.just'
-import 'just/security.just'
 import 'just/containers.just'
+import 'just/security.just'
+import 'just/format.just'
+import 'just/lint.just'
