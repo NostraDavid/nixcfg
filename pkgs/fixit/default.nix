@@ -1,36 +1,56 @@
 {
   lib,
-  rustPlatform,
-  fetchFromGitHub,
-  nix-update-script,
-}:
-rustPlatform.buildRustPackage rec {
-  pname = "fixit";
-  version = "1.0.0";
-
-  src = fetchFromGitHub {
-    owner = "eugene-babichenko";
-    repo = "fixit";
-    rev = "v${version}";
-    # Fill this with the real hash after the first build attempt.
-    sha256 = "sha256-Vl1nO9VcQF40m0MZ19SoxeC8mK24qzewamuFSiUyUWE=";
+  stdenvNoCC,
+  fetchurl,
+  versionCheckHook,
+}: let
+  assets = {
+    x86_64-linux = {
+      target = "x86_64-unknown-linux-musl";
+      hash = "sha256-IMWalOOGcyEZuoj7UcchLgKWSTFmjIEUwM1aWymuaXE=";
+    };
+    aarch64-linux = {
+      target = "aarch64-unknown-linux-musl";
+      hash = "sha256-9vmgkJ+Nm2exvVXLKoErNb7gSSvTRtIm7m1poJ9jkr0=";
+    };
+    x86_64-darwin = {
+      target = "x86_64-apple-darwin";
+      hash = "sha256-EaUpZVPgoZSOsJ3sixJKEbwygqn5DAdKzFrsqRCrPFI=";
+    };
+    aarch64-darwin = {
+      target = "aarch64-apple-darwin";
+      hash = "sha256-RUPHrGKEMayx21nJDGnuBo8sFxinQk9VoiENduoHnL4=";
+    };
   };
+  asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported fixit platform: ${stdenvNoCC.hostPlatform.system}");
+in
+  stdenvNoCC.mkDerivation (finalAttrs: {
+    pname = "fixit";
+    version = "1.0.0";
 
-  cargoHash = "sha256-VIvC65tJh0UUyr94wfDUg3En8SHBay+oMkkbK1QtiYI=";
+    src = fetchurl {
+      url = "https://github.com/eugene-babichenko/fixit/releases/download/v${finalAttrs.version}/fixit-v${finalAttrs.version}-${asset.target}.tar.gz";
+      inherit (asset) hash;
+    };
 
-  # Tests rely on integration with terminal emulators/multiplexers.
-  doCheck = false;
+    dontUnpack = true;
+    dontBuild = true;
+    installPhase = ''
+      runHook preInstall
+      mkdir -p "$out/bin"
+      tar -xzf "$src" -C "$out/bin"
+      runHook postInstall
+    '';
 
-  passthru.updateScript = nix-update-script {
-    extraArgs = ["--flake"];
-  };
+    doInstallCheck = true;
+    nativeInstallCheckInputs = [versionCheckHook];
 
-  meta = with lib; {
-    description = "A utility to fix mistakes in your commands (fast CLI, inspired by The Fuck).";
-    homepage = "https://github.com/eugene-babichenko/fixit";
-    license = licenses.mit;
-    mainProgram = "fixit";
-    maintainers = [];
-    platforms = platforms.linux ++ platforms.darwin;
-  };
-}
+    meta = {
+      description = "A utility to fix mistakes in your commands";
+      homepage = "https://github.com/eugene-babichenko/fixit";
+      license = lib.licenses.mit;
+      mainProgram = "fixit";
+      platforms = builtins.attrNames assets;
+      sourceProvenance = [lib.sourceTypes.binaryNativeCode];
+    };
+  })

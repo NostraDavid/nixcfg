@@ -1,40 +1,56 @@
 {
-  fetchFromGitHub,
+  fetchurl,
   lib,
-  nix-update-script,
-  rustPlatform,
-}:
-rustPlatform.buildRustPackage (finalAttrs: {
-  pname = "dockerfile-roast";
-  version = "1.7.0";
-
-  src = fetchFromGitHub {
-    owner = "immanuwell";
-    repo = "dockerfile-roast";
-    rev = finalAttrs.version;
-    hash = "sha256-K5QrUwGVt8x5yF/dBPUmfpLy8lGmv3CZrDGxn83upfc=";
+  stdenvNoCC,
+  versionCheckHook,
+}: let
+  assets = {
+    x86_64-linux = {
+      name = "droast-linux-x86_64";
+      hash = "sha256-ytuWOgQLouaGQa92T3lOXU+zNxu5uSJV+lAnBgsI6m4=";
+    };
+    aarch64-linux = {
+      name = "droast-linux-arm64";
+      hash = "sha256-CADoDRH2aGFfyHdQ9YgJtWvtyoPsbYpTnapW9C2mS8M=";
+    };
+    x86_64-darwin = {
+      name = "droast-macos-x86_64";
+      hash = "sha256-+B74umwvANI9cgDaTbIpSIttB0cjDEt/82Nrq1KU2ok=";
+    };
+    aarch64-darwin = {
+      name = "droast-macos-arm64";
+      hash = "sha256-Xk/Ld/0afq3Vbh30YMUemoQq5oq6pME7I/hx7paMgZU=";
+    };
   };
+  asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported dockerfile-roast platform: ${stdenvNoCC.hostPlatform.system}");
+in
+  stdenvNoCC.mkDerivation (finalAttrs: {
+    pname = "dockerfile-roast";
+    version = "1.7.0";
 
-  cargoHash = "sha256-bFG4/c294XQ9oFUPtF8A/dKIOjj1WDK3s7nEHeuDLIU=";
+    src = fetchurl {
+      url = "https://github.com/immanuwell/dockerfile-roast/releases/download/${finalAttrs.version}/${asset.name}";
+      inherit (asset) hash;
+    };
 
-  # Four discovery tests in the 1.4.8 release expect 13 fixtures, but find 14.
-  doCheck = false;
+    dontUnpack = true;
+    dontBuild = true;
+    installPhase = ''
+      runHook preInstall
+      install -Dm755 "$src" "$out/bin/droast"
+      runHook postInstall
+    '';
 
-  passthru.updateScript = nix-update-script {
-    extraArgs = [
-      "--flake"
-      "--url=https://github.com/immanuwell/dockerfile-roast"
-      "--use-github-releases"
-      "--version-regex=^(\\d+\\.\\d+\\.\\d+)$"
-    ];
-  };
+    doInstallCheck = true;
+    nativeInstallCheckInputs = [versionCheckHook];
 
-  meta = {
-    description = "Opinionated Dockerfile linter";
-    homepage = "https://github.com/immanuwell/dockerfile-roast";
-    changelog = "https://github.com/immanuwell/dockerfile-roast/releases/tag/${finalAttrs.version}";
-    license = lib.licenses.mit;
-    mainProgram = "droast";
-    platforms = lib.platforms.linux ++ lib.platforms.darwin;
-  };
-})
+    meta = {
+      description = "Opinionated Dockerfile linter";
+      homepage = "https://github.com/immanuwell/dockerfile-roast";
+      changelog = "https://github.com/immanuwell/dockerfile-roast/releases/tag/${finalAttrs.version}";
+      license = lib.licenses.mit;
+      mainProgram = "droast";
+      platforms = builtins.attrNames assets;
+      sourceProvenance = [lib.sourceTypes.binaryNativeCode];
+    };
+  })
