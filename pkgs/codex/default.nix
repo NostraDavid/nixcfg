@@ -9,12 +9,10 @@
   bubblewrap,
   clang,
   cmake,
-  coreutils,
   curl,
   gitMinimal,
   libclang,
   libcap,
-  makeWrapper,
   nix-update-script,
   pkg-config,
   openssl,
@@ -98,7 +96,6 @@ in
       curl
       gitMinimal
       installShellFiles
-      makeWrapper
       pkg-config
     ];
 
@@ -134,23 +131,42 @@ in
     # the future once this software stabilizes.
     doCheck = false;
 
-    postInstall = lib.optionalString installShellCompletions ''
-      installShellCompletion --cmd codex \
-        --bash <($out/bin/codex completion bash) \
-        --fish <($out/bin/codex completion fish) \
-        --zsh <($out/bin/codex completion zsh)
-    '';
+    postInstall = ''
+      # Codex 0.157+ requires the canonical package layout for daemon startup.
+      mkdir -p "$out/codex-resources" "$out/codex-path"
+      ${lib.optionalString stdenv.hostPlatform.isLinux ''
+        install -Dm755 ${bubblewrap}/bin/bwrap "$out/codex-resources/bwrap"
+      ''}
+      install -Dm755 ${ripgrep}/bin/rg "$out/codex-path/rg"
+      install -Dm644 /dev/stdin "$out/codex-package.json" <<EOF
+      {
+        "layoutVersion": 1,
+        "version": "${finalAttrs.version}",
+        "target": "${stdenv.hostPlatform.rust.rustcTarget}",
+        "variant": "codex",
+        "entrypoint": "bin/codex",
+        "resourcesDir": "codex-resources",
+        "pathDir": "codex-path"
+      }
+      EOF
 
-    postFixup = ''
-      wrapProgram $out/bin/codex \
-        --run 'volatile_dir="/tmp/$USER-codex"; ${coreutils}/bin/install -d -m 700 "$volatile_dir"' \
-        --prefix PATH : ${lib.makeBinPath ([ripgrep] ++ lib.optionals stdenv.hostPlatform.isLinux [bubblewrap])}
+      ${lib.optionalString installShellCompletions ''
+        installShellCompletion --cmd codex \
+          --bash <($out/bin/codex completion bash) \
+          --fish <($out/bin/codex completion fish) \
+          --zsh <($out/bin/codex completion zsh)
+      ''}
     '';
 
     doInstallCheck = true;
     nativeInstallCheckInputs = [versionCheckHook];
     preInstallCheck = ''
       test -x "$out/bin/codex-code-mode-host"
+      test -f "$out/codex-package.json"
+      test -x "$out/codex-path/rg"
+      ${lib.optionalString stdenv.hostPlatform.isLinux ''
+        test -x "$out/codex-resources/bwrap"
+      ''}
     '';
 
     passthru = {
