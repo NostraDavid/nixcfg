@@ -117,10 +117,22 @@ in {
       '';
 
       codexBrowserRuntime = lib.hm.dag.entryAfter ["agentMemoryClients" "blenderMcpClient" "linkGeneration"] ''
+        for plugin in browser chrome; do
+          cache="$HOME/.codex/plugins/cache/openai-bundled/$plugin/${local.chatgpt.version}"
+          if [ -L "$cache" ]; then
+            $DRY_RUN_CMD rm "$cache"
+          fi
+          if [ ! -f "$cache/scripts/browser-service.mjs" ]; then
+            $DRY_RUN_CMD mkdir -p "$cache"
+            $DRY_RUN_CMD cp -R --no-preserve=mode,ownership \
+              "${local.chatgpt}/lib/chatgpt/resources/plugins/openai-bundled/plugins/$plugin/." "$cache/"
+          fi
+        done
+
         $DRY_RUN_CMD sed -i -E \
           -e 's#/nix/store/[a-z0-9]+-chatgpt-[0-9.]+/lib/chatgpt/resources#${local.chatgpt}/lib/chatgpt/resources#g' \
           -e 's#(BROWSER_USE_CODEX_APP_VERSION = ")[^"]+#\1${local.chatgpt.version}#' \
-          -e 's#/home/[^/]+/[.]codex/plugins/cache/openai-bundled/browser/[0-9.]+/scripts/browser-service.mjs#${local.chatgpt}/lib/chatgpt/resources/plugins/openai-bundled/plugins/browser/scripts/browser-service.mjs#g' \
+          -e 's#(/home/[^/]+/[.]codex/plugins/cache/openai-bundled/browser/)[0-9.]+(/scripts/browser-service.mjs)#\1${local.chatgpt.version}\2#g' \
           "$HOME/.codex/config.toml"
       '';
     };
