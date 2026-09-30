@@ -5,6 +5,7 @@
 
 - @~/.agents/instructions/batch-instructions.md
 - @~/.agents/instructions/qartez.md
+- @~/.agents/instructions/semble.md
 - @~/.agents/instructions/memory.md
 - @~/.agents/instructions/cli-proxy-policy.md
 - @~/.agents/instructions/commit-style.md
