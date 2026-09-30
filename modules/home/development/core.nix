@@ -39,6 +39,7 @@
       unstable.uv # Python project and package manager
     ]
     ++ lib.optionals stable.stdenv.hostPlatform.isLinux [
+      stable.bubblewrap # Linux sandbox for coding agents
       stable.ghostty # Primary terminal emulator
       stable.wl-clipboard # Wayland clipboard integration for Neovim
       stable.xclip # X11 clipboard fallback when Wayland is not active
