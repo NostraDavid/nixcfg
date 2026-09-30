@@ -24,8 +24,6 @@
 in {
   nixcfg.plasma.taskbarScreens = [0 1];
 
-  home.packages = [local.unsloth];
-
   programs = {
     plasma = {
       kwin.effects.zoom = {
@@ -90,30 +88,43 @@ in {
     };
   };
 
-  home.activation.codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    codex_dir="$HOME/.codex"
-    volatile_dir="/tmp/$USER-codex"
+  home = {
+    packages = [local.unsloth];
+    activation = {
+      codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        codex_dir="$HOME/.codex"
+        volatile_dir="/tmp/$USER-codex"
 
-    $DRY_RUN_CMD mkdir -p "$codex_dir" "$volatile_dir"
-    $DRY_RUN_CMD chmod 700 "$volatile_dir"
+        $DRY_RUN_CMD mkdir -p "$codex_dir" "$volatile_dir"
+        $DRY_RUN_CMD chmod 700 "$volatile_dir"
 
-    for name in logs_2.sqlite logs_2.sqlite-shm logs_2.sqlite-wal; do
-      link="$codex_dir/$name"
-      target="$volatile_dir/$name"
+        for name in logs_2.sqlite logs_2.sqlite-shm logs_2.sqlite-wal; do
+          link="$codex_dir/$name"
+          target="$volatile_dir/$name"
 
-      if [ -L "$link" ] && [ "$(${stable.coreutils}/bin/readlink "$link")" != "$target" ]; then
-        $DRY_RUN_CMD rm -f "$link"
-      fi
+          if [ -L "$link" ] && [ "$(${stable.coreutils}/bin/readlink "$link")" != "$target" ]; then
+            $DRY_RUN_CMD rm -f "$link"
+          fi
 
-      if [ -e "$link" ] && [ ! -L "$link" ]; then
-        $DRY_RUN_CMD rm -f "$link"
-      fi
+          if [ -e "$link" ] && [ ! -L "$link" ]; then
+            $DRY_RUN_CMD rm -f "$link"
+          fi
 
-      if [ ! -L "$link" ]; then
-        $DRY_RUN_CMD ln -s "$target" "$link"
-      fi
-    done
-  '';
+          if [ ! -L "$link" ]; then
+            $DRY_RUN_CMD ln -s "$target" "$link"
+          fi
+        done
+      '';
+
+      codexBrowserRuntime = lib.hm.dag.entryAfter ["agentMemoryClients" "blenderMcpClient" "linkGeneration"] ''
+        $DRY_RUN_CMD sed -i -E \
+          -e 's#/nix/store/[a-z0-9]+-chatgpt-[0-9.]+/lib/chatgpt/resources#${local.chatgpt}/lib/chatgpt/resources#g' \
+          -e 's#(BROWSER_USE_CODEX_APP_VERSION = ")[^"]+#\1${local.chatgpt.version}#' \
+          -e 's#/home/[^/]+/[.]codex/plugins/cache/openai-bundled/browser/[0-9.]+/scripts/browser-service.mjs#${local.chatgpt}/lib/chatgpt/resources/plugins/openai-bundled/plugins/browser/scripts/browser-service.mjs#g' \
+          "$HOME/.codex/config.toml"
+      '';
+    };
+  };
 
   systemd.user.services.ydotoold = {
     Unit = {
