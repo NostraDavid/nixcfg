@@ -2,6 +2,7 @@
 {
   inputs,
   lib,
+  local,
   stable,
   ...
 }: let
@@ -22,6 +23,8 @@
   };
 in {
   nixcfg.plasma.taskbarScreens = [0 1];
+
+  home.packages = [local.unsloth];
 
   programs = {
     plasma = {
