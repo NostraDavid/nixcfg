@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Git Branch"
+  short_description: "Review branch changes and code risks"
+  default_prompt: "Use $review-git-branch to compare this branch with its base and review the changes."

@@ -14,6 +14,12 @@ this `SKILL.md`; the shared installation is `~/.agents/audio-notify/`.
 | Ask the user for information, a choice, clarification, or approval               | `question`       |
 | Deliver a completed task, such as a requested plan, analysis, or verified change | `done`           |
 
+Every invocation, including muted ones, appends a timestamp, repository name,
+and message to `$XDG_STATE_HOME/audio-notify/notifications.log`, or
+`~/.local/state/audio-notify/notifications.log` when `XDG_STATE_HOME` is
+unset or empty. The log stays on the machine until removed; avoid putting
+sensitive details in notification messages.
+
 For a question, run the command immediately before sending the question or
 calling an input tool that may wait for a reply. A batch of questions needs one
 notification. This also applies to asynchronous input tools.
@@ -56,7 +62,7 @@ replies free of this prefix. It requires an executable `say` and `timeout` on
 `say` dispatcher and its eSpeak NG, MBROLA, and Piper backends under
 `~/.local/bin`. `notify.sh` selects the Piper backend explicitly; it uses the
 Dutch `nl_NL-pim-medium` model and keeps selected English terms in English.
-Playback gets ten seconds to finish, followed by a one-second kill grace period.
+Playback gets thirty seconds to finish, followed by a one-second kill grace period.
 A successful command does not prove that the user heard it.
 
 If unsandboxed execution is unavailable or rejected, or playback still fails,

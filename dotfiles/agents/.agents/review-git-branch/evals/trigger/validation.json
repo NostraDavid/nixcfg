@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "validation-positive-dev-diff",
+      "purpose": "Held-out base branch wording.",
+      "query": "Look at what changed on my branch since dev and tell me whether the change is safe and tested.",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "validation-positive-commit-range",
+      "purpose": "Held-out commit-range wording.",
+      "query": "Review the commits between the merge base and HEAD, then report actionable findings with file evidence.",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "validation-positive-branch-bugs",
+      "purpose": "Held-out informal branch review.",
+      "query": "Can you check this PR diff for bugs, security problems, and missing tests before I merge it?",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "validation-positive-named-ref",
+      "purpose": "Held-out arbitrary base revision.",
+      "query": "Compare the current branch with the named base revision release/2026.07 and review the resulting changes.",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "validation-negative-ci-debug",
+      "purpose": "CI-debugging boundary.",
+      "query": "Debug the failing CI job and make the pipeline green.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "validation-negative-refactor",
+      "purpose": "Refactor boundary.",
+      "query": "Refactor this module to reduce duplication while preserving behavior.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "validation-negative-readme",
+      "purpose": "Documentation review boundary.",
+      "query": "Review this README for clarity and onboarding quality.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "validation-negative-architecture",
+      "purpose": "Architecture boundary.",
+      "query": "Evaluate this application's architecture and propose better service boundaries.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    }
+  ]
+}
