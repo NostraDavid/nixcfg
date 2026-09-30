@@ -1,0 +1,502 @@
+model_context_window = 872000
+model = "gpt-6-sol"
+model_reasoning_effort = "high"
+personality = "pragmatic"
+service_tier = "default"
+
+[desktop]
+ambient-suggestions-enabled = true
+conversationDetailMode = "STEPS_PROSE"
+followUpQueueMode = "queue"
+keepRemoteControlAwakeWhilePluggedIn = true
+
+[features]
+apps = false
+hooks = true
+js_repl = false
+terminal_resize_reflow = true
+
+[features.multi_agent_v2]
+enabled = true
+wait_agent_enabled = true
+min_wait_timeout_ms = 10000
+default_wait_timeout_ms = 300000
+max_wait_timeout_ms = 3600000
+
+[marketplaces]
+
+[marketplaces.openai-bundled]
+source_type = "local"
+source = "/home/david/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/home/david/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[mcp_servers.blender]
+command = "/nix/store/hhky4mmxkd4raldkl4ag00v3fgk4zhyb-blender-mcp-26.04.10/bin/blender-mcp"
+args = ["--transport", "stdio"]
+startup_timeout_sec = 60
+
+[mcp_servers.blender.env]
+BLENDER_MCP_HOST = "127.0.0.1"
+BLENDER_MCP_PORT = "9876"
+
+[mcp_servers.node_repl]
+args = []
+command = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/home/david/.codex:/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/cua_node/lib/node_modules"
+CODEX_HOME = "/home/david/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.924.22138"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/david/.codex/plugins/cache/openai-bundled/browser/26.924.22138/scripts/browser-service.mjs"}'
+CODEX_CLI_PATH = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/codex"
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+
+[mcp_servers.qartez]
+command = "/etc/profiles/per-user/david/bin/qartez"
+
+[mcp_servers.cua_repl]
+command = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/ChatGPT"
+enabled = false
+
+[mcp_servers.agent-memory]
+command = "/nix/store/zwsmbsawwb125hfa3fw32rssfj6963vh-agent-memory/bin/agent-memory"
+args = ["mcp"]
+
+[mcp_servers.headroom]
+command = "/nix/store/nascpn83354948nv0414rf7rdi4jx87s-headroom-ai-0.39.1/bin/headroom"
+args = ["mcp", "serve", "--transport", "stdio"]
+[notice]
+hide_rate_limit_model_nudge = true
+
+[notice.model_migrations]
+"gpt-5.4" = "gpt-5.5"
+
+[plugins]
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."linear@openai-curated"]
+enabled = false
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."ponytail@personal"]
+enabled = true
+
+[tui]
+screen_reader_detection_done = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+"gpt-5.6-sol" = 4
+gpt-6-astra = 4
+
+[hooks.state]
+
+[hooks.state."/home/david/.codex/hooks.json:pre_tool_use:0:0"]
+trusted_hash = "sha256:87a894d369221fa01aae55ba8b6f40d8393dd4273c848d8d3c988881afad4174"
+enabled = true
+
+[hooks.state."/home/david/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:20ea6b322fd652b6753bbbe05b984825a9b463584d2f7d6c52d3b4010dfd6c71"
+
+[hooks.state."/home/david/.codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:d05e2f11ea1b93c457a6dc61056cc8a3cdd833bff2ca10931f8c41d6bcad82f5"
+
+[hooks.state."/home/david/.codex/hooks.json:session_start:1:0"]
+trusted_hash = "sha256:d05e2f11ea1b93c457a6dc61056cc8a3cdd833bff2ca10931f8c41d6bcad82f5"
+
+[hooks.state."/home/david/.codex/hooks.json:session_end:0:0"]
+trusted_hash = "sha256:1c771343bfde09d4022009eeb7e5d139d59b508ff9e513c3715ac16dcccda65e"
+
+[hooks.state."/home/david/.codex/hooks.json:session_start:0:1"]
+trusted_hash = "sha256:ddb35ef2c0d9d3079b2dcd16490edf039dec63f46b647c85caaf4b3ac03dd99c"
+
+[hooks.state."ponytail@personal:hooks/claude-codex-hooks.json:session_start:0:0"]
+trusted_hash = "sha256:5f81d38f47448a1581c08ec877e044d9e04dd6f814dce3f2671f7a8edadd719b"
+enabled = true
+
+[hooks.state."ponytail@personal:hooks/claude-codex-hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:6a6f42bc3b58d6262db38bfd74d7f340fcca2b09cdb134aad365063f0bfefca4"
+enabled = true
+
+[hooks.state."ponytail@personal:hooks/claude-codex-hooks.json:subagent_start:0:0"]
+trusted_hash = "sha256:1423b56c1322f96c8f74c51c1e7ae9a047b904c1fa43ee9165d462fd7a6e70ef"
+
+[shell_environment_policy.set]
+HISTFILE = "/dev/null"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "323bc3e687e17d7e377238d9f4c69111c4d0e6219103b6316d8c52082489533b"
+
+# Trunk-worktrees onder ~/dev, geïnventariseerd op 2026-09-30.
+
+[projects]
+
+[projects."/home/david/data/dev"]
+trust_level = "trusted"
+
+[projects."/home/david/data/Dropbox"]
+trust_level = "trusted"
+
+[projects."/home/david/data/Downloads/whatsapp_export"]
+trust_level = "trusted"
+
+[projects."/home/david/SynologyDrive"]
+trust_level = "trusted"
+
+[projects."/home/david"]
+trust_level = "trusted"
+
+[projects."/home/david/.local/share/Steam/steamapps/common/Windrose"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/t-Bataafsche-Broederschap/tbb/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/nixcfg/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/fitdays/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/data/wow_3.3.5a"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/Thaumatorium/thaumatorium.com/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/wowwg/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ChatGPT/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/wave-function-collapse/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/infinity-fps/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/AUTOMATIC1111/stable-diffusion-webui-assets/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/AUTOMATIC1111/stable-diffusion-webui/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/Eddie-Wang1120/llama.cpp/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/ada/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/annotated_cpp/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/cpp/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/delphi/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/dlang/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/go/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/linux/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/penguin/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/rust/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/samprust/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/sdl/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/HandmadeHero/vulkan/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/BattleCraft/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/Dee/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/HandyNotes_Universal_Explorer/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/TerrainCraft/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/WaveFunctionCollapse/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/algorithms/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/banking_dashboard/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/big-slpp/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/bitvavo-api-upgraded/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/bitvavo-data-product/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/bt/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/crypto-trading-bot-archive/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/crypto_info_site/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/crypto_trading_bot_frontend/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ctb/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/debian-server/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/dotfiles/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/entsoe-ingestion-python/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/entsoe-ingestion-rust/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/entsoe-ingestion/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/family-tree/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/grib_test/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/haemwend/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/homelab/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/huishoudboek/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/impyla/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/kafkaesk/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/linux-timeline/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/mail/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/mirrors-prettier/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ml/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ndat/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ndkb/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ndol/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/normalize-images/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/nostradavid.github.io/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/notes/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/operation-power-forecast/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/pandas-polars-conversion-speed-test/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/playground/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/powershit/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/prime-factorization/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/prog-lang/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/pypatterns/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/rogue/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/rusttt/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/sexp/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/simulating-computer-systems/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/simulating-queues/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/slotsbench/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/tkintering/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/unnamed/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/vimgolf/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/warcraft_credits/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/windows-jupyter-test/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/wotlk-nostradavid-addons/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/wotlk-nostradavid-wtf/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/youtube-vids/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/zk/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/Thaumatorium/Themeautorium/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/Thaumatorium/semantic-override-network/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/Thaumatorium/semanticoverride.net/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/Thaumatorium/thaumatorium.github.io-html/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/Thaumatorium/thaumatorium.github.io/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/agentskills/agentskills/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/benchmarksgame/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/bitvavo/python-bitvavo-api/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/branch-policy/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/crg/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/crowsonkb/k-diffusion/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/dkb/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/erikrose/parsimonious/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/g-truc/glm/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/id-Software/Quake-III-Arena/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/playground/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/private/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/sibr_core/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/t-Bataafsche-Broederschap/tbataafschebroederschap.nl/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/tmp-contour/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/virchau13/automatic1111-webui-nix/trunk"]
+trust_level = "trusted"
