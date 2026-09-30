@@ -17,11 +17,11 @@ outputs.
 
   outputs = {nixcfg, ...}: {
     homeConfigurations."david@mimir2" = nixcfg.lib.mkMimir2 {
-      extraHomeModules = [./home/work.nix];
+      extraHomeModules = [nixcfg.modules.homeManager.workstation ./home/work.nix];
     };
 
     darwinConfigurations.loki = nixcfg.lib.mkLoki {
-      extraHomeModules = [./home/work.nix];
+      extraHomeModules = [nixcfg.modules.homeManager.workstation ./home/work.nix];
     };
   };
 }
@@ -33,10 +33,15 @@ configuration needs one:
 
 ```nix
 darwinConfigurations.loki = nixcfg.lib.mkLoki {
-  extraHomeModules = [./home/work.nix];
+  extraHomeModules = [nixcfg.modules.homeManager.workstation ./home/work.nix];
   extraDarwinModules = [./darwin/loki.nix];
 };
 ```
+
+The opt-in `workstation` module includes the cloud and media tools. Do not add
+`nixcfg.modules.homeManager.cloud` or `mediaTools` alongside it. See
+[Adopt the base workstation module](base-workstation-handoff.md) for the changes
+from `base-nixcfg-update.diff` and the work-repository handoff.
 
 Home Manager modules receive the normal `pkgs`, `lib`, and `config` arguments.
 The builders supply `stable`, `unstable`, `hostname`, and `repoRoot` as extra
@@ -54,8 +59,7 @@ call the functions above to add modules before Nix evaluates each host.
 Create `home/work.nix`:
 
 ```nix
-{pkgs, ...}: {
-  home.packages = [pkgs.gh];
+{
   home.file.".bashrc.work".source = ../dotfiles/bashrc.work;
   home.file.".config/git/identity.conf".source = ../dotfiles/git-2.49.0/identity.conf;
 }
@@ -105,8 +109,9 @@ Remove duplicate mappings for those paths from the work repository before
 applying this flake. Move work-only Bash settings into `~/.bashrc.work` and
 work-only Git settings into `identity.conf`. If a work setting must replace a
 shared file, use `lib.mkForce` on that `home.file` entry in the work module. The
-portable module also installs Git, Git LFS, Neovim, uv, direnv, Node.js 24, and
-common CLI tools; keep only work-specific packages in the work module.
+portable module also installs Git, Git LFS, Neovim, uv, direnv, and Node.js 24.
+The opt-in workstation module adds common workstation tools; keep only
+work-specific packages in the work module.
 
 ## Keep the host contract
 

@@ -6,6 +6,7 @@
     ./forgejo-image.nix
     ./proxy-image.nix
     ./hosts
+    ./workstation.nix
     ./roles
     ./proxmox-lab.nix
   ];
