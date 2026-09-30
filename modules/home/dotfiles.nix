@@ -221,6 +221,7 @@ in {
           ".config/niri/config.kdl" = {source = mk "${dot}/niri-26.04/.config/niri/config.kdl";};
           ".groovylintrc.json" = {source = mk "${dot}/groovy-lint-15.2.0/.groovylintrc.json";};
           ".local/bin/code" = {source = mk "${localBin}/code.sh";};
+          ".local/bin/apply_peacock_color" = {source = mk "${localBin}/apply_peacock_color.py";};
           ".local/bin/generate_gitignore" = {source = mk "${localBin}/generate_gitignore.py";};
           ".local/bin/ide" = {source = mk "${localBin}/ide.py";};
           ".local/bin/pde" = {source = mk "${localBin}/pde.py";};

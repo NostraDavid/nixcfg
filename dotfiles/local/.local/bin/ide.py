@@ -95,6 +95,40 @@ def find_project_picker() -> str:
     )
 
 
+def find_peacock_command() -> str:
+    adjacent = Path(__file__).resolve().with_name("apply_peacock_color.py")
+    if adjacent.exists() and os.access(adjacent, os.X_OK):
+        return str(adjacent)
+
+    command = shutil.which("apply_peacock_color")
+    if command is not None:
+        return command
+
+    raise ReadinessError(
+        "apply_peacock_color executable not found; activate the Home Manager configuration."
+    )
+
+
+def ensure_peacock_settings(target: Path) -> None:
+    command = find_peacock_command()
+    try:
+        proc = sp.run(
+            [command, "apply", "auto", str(target), "--yes"],
+            check=False,
+            text=True,
+            stdout=sp.PIPE,
+            stderr=sp.PIPE,
+            timeout=CLI_LAUNCH_TIMEOUT_SECONDS,
+        )
+    except (OSError, sp.TimeoutExpired) as error:
+        raise ReadinessError(f"Peacock color setup failed: {error}") from error
+
+    if proc.returncode != 0:
+        diagnostic = (proc.stderr or proc.stdout).strip()
+        suffix = f": {diagnostic}" if diagnostic else "."
+        raise ReadinessError(f"Peacock color setup failed{suffix}")
+
+
 def clean_vscode_env() -> dict[str, str]:
     env = os.environ.copy()
     for name in tuple(env):
@@ -282,6 +316,11 @@ def readiness_errors() -> list[str]:
                 suffix = f": {diagnostic}" if diagnostic else "."
                 errors.append(f"project_picker readiness probe failed{suffix}")
 
+    try:
+        find_peacock_command()
+    except ReadinessError as error:
+        errors.append(str(error))
+
     for command in ("fzf", "git"):
         if shutil.which(command) is None:
             errors.append(f"{command} executable not found in PATH.")
@@ -390,6 +429,10 @@ def main() -> int:
         return preview(command, settings_plan=plan_vscode_settings(target))
 
     ensure_vscode_settings(target)
+    try:
+        ensure_peacock_settings(target)
+    except ReadinessError as error:
+        print(error, file=sys.stderr)
     return launch_code(command, env)
 
 
