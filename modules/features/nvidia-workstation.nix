@@ -44,7 +44,7 @@
       };
       systemPackages = [
         stable.android-tools
-        local.say-dictionary.speechEngine
+        local.say-espeak-ng.speechEngine
         stable.flite
         stable.libva-utils
         stable.cudaPackages.cudatoolkit

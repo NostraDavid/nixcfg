@@ -24,7 +24,7 @@
     in {
       home.packages = [
         stable.slack # Work chat; intentionally excluded from lean workstations
-        local.say-dictionary.speechEngine # Matches the compiled pronunciation dictionary
+        local.say-espeak-ng.speechEngine # Matches the compiled pronunciation dictionary
         piperTts # Neural speech synthesis for say-piper-tts
       ];
     };
