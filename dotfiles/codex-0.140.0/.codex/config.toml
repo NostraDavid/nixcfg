@@ -59,7 +59,7 @@ NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunc
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
 BROWSER_USE_CODEX_APP_VERSION = "26.928.21956"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/plugins/openai-bundled/plugins/browser/scripts/browser-service.mjs"}'
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/david/.codex/plugins/cache/openai-bundled/browser/26.928.21956/scripts/browser-service.mjs"}'
 CODEX_CLI_PATH = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/codex"
 
 [mcp_servers.openaiDeveloperDocs]
