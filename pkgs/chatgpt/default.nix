@@ -102,6 +102,14 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postUnpack
   '';
 
+  # autoPatchelf moves PT_INTERP beyond detect-libc's 2 KiB scan. Its
+  # process.report fallback trips Electron's CFI, so use the glibc watcher.
+  # Keep the replacement length unchanged to preserve ASAR offsets.
+  postPatch = ''
+    grep -aFq 'const family = familySync();' usr/lib/chatgpt/resources/app.asar
+    sed -i "s|const family = familySync();|const family = 'glibc'     ;|" usr/lib/chatgpt/resources/app.asar
+  '';
+
   installPhase = ''
     runHook preInstall
     mkdir -p "$out"
