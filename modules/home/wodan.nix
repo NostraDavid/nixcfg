@@ -89,7 +89,7 @@ in {
   };
 
   home = {
-    packages = [local.unsloth];
+    packages = [local.unsloth local.t3code];
     activation = {
       codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
         codex_dir="$HOME/.codex"
