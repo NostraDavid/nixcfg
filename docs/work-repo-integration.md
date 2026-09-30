@@ -43,6 +43,9 @@ The opt-in `workstation` module includes the cloud and media tools. Do not add
 [Adopt the base workstation module](base-workstation-handoff.md) for the changes
 from `base-nixcfg-update.diff` and the work-repository handoff.
 
+For the shared Bash and NDTK changes, follow the
+[work-repository shell handoff](work-repo-shell-toolkit-handoff.md).
+
 Home Manager modules receive the normal `pkgs`, `lib`, and `config` arguments.
 The builders supply `stable`, `unstable`, `hostname`, and `repoRoot` as extra
 arguments. They also supply `inputs`, which refers to this base flake's inputs.
@@ -93,8 +96,8 @@ Nix store.
 
 The portable module already owns these Home Manager file paths:
 
-- Shell: `.bashrc`, `.bash_profile`, `.bash_aliases`, `.bash_aliases-common`,
-  `.inputrc`, and `.tmux.conf`.
+- Shell: `.bashrc`, `.bashrc.d/`, `.bash_profile`, `.bash_aliases`, `.inputrc`,
+  and `.tmux.conf`.
 - Git: `.gitconfig` and `.config/git/` entries for `attributes`,
   `commit-template`, `common.conf`, `hooks`, and `ignore`.
 - Editors: `.config/nvim/` and `.vimrc`.
