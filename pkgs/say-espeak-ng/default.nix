@@ -25,7 +25,7 @@ stdenvNoCC.mkDerivation (finalAttrs: let
       };
   });
 in {
-  pname = "say-dictionary";
+  pname = "say-espeak-ng";
   version = "1.52.0-unstable-2026-09-22";
   src = fetchFromGitHub {
     owner = "espeak-ng";
