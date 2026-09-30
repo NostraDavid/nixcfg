@@ -13,11 +13,15 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import datetime as dt
+import os
 from pathlib import Path
 
 import grab
 
-DEFAULT_REPOS_FILE = Path(__file__).resolve().parent / "repos.dat"
+DEFAULT_REPOS_FILE = (
+    Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
+    / "ndtk/repos.dat"
+)
 
 
 def read_repo_urls(repos_file: Path) -> list[str]:
@@ -140,8 +144,19 @@ def main() -> int:
         return 1
 
     repos_file = args.repos_file.expanduser()
-    if not repos_file.exists():
-        grab.logger.error("repo_list_missing", repos_file=str(repos_file))
+    if not repos_file.is_file():
+        grab.logger.error(
+            "repo_list_missing",
+            repos_file=str(repos_file),
+            hint="Activate Home Manager or supply --repos-file PATH.",
+        )
+        return 1
+    try:
+        all_repos = read_repo_urls(repos_file)
+    except OSError as error:
+        grab.logger.error(
+            "repo_list_unreadable", repos_file=str(repos_file), error=str(error)
+        )
         return 1
 
     target_dir = args.target_dir.expanduser()
@@ -149,7 +164,6 @@ def main() -> int:
     requested_branches = None if args.all_branches else grab.parse_csv(args.branches)
     requested_tags = grab.parse_csv(args.tags)
 
-    all_repos = read_repo_urls(repos_file)
     if not all_repos:
         grab.logger.info("no_repositories_found", repos_file=str(repos_file))
         return 0

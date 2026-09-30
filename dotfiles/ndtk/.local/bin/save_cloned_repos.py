@@ -17,6 +17,10 @@ import structlog as sl
 from structlog.stdlib import get_logger
 
 REMOTE_URL_RE = re.compile(r"^(?:(?:https?|ssh|git|file)://|[^@\s]+@[^:\s]+:)")
+DEFAULT_REPOS_FILE = (
+    Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state")
+    / "ndtk/repos.dat"
+)
 logger = get_logger()
 
 
@@ -42,8 +46,8 @@ def git_markers(search_dir: Path) -> list[Path]:
 
 
 def origin_url(repo_path: Path) -> str:
-    result = subprocess.run(  # noqa: S603 - arguments are constructed by this tool
-        [  # noqa: S607 - Git is intentionally resolved from PATH
+    result = subprocess.run(
+        [
             "git",
             "-C",
             str(repo_path),
@@ -74,7 +78,8 @@ def parse_args() -> argparse.Namespace:
         "repos_file",
         nargs="?",
         type=Path,
-        help="File to write repository URLs to. Defaults to SEARCH_DIR/repos.dat.",
+        default=DEFAULT_REPOS_FILE,
+        help=f"File to write repository URLs to. Defaults to {DEFAULT_REPOS_FILE}.",
     )
     return parser.parse_args()
 
@@ -83,9 +88,7 @@ def main() -> int:
     configure_logging()
     args = parse_args()
     search_dir = args.search_dir.expanduser()
-    repos_file = (
-        args.repos_file.expanduser() if args.repos_file else search_dir / "repos.dat"
-    )
+    repos_file = args.repos_file.expanduser()
 
     if not search_dir.is_dir():
         logger.error("directory_not_found", path=str(search_dir))

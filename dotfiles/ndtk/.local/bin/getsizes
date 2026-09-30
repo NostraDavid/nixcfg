@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+du -h . | sort -rh | head -5
