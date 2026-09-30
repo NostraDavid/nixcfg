@@ -25,7 +25,7 @@
           "mac_hid"
           "thunderbolt"
         ];
-        kernel.sysctl."fs.inotify.max_user_watches" = 1048576;
+        kernel.sysctl."fs.inotify.max_user_watches" = 4194304;
       };
 
       services = {
