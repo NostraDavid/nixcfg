@@ -64,6 +64,7 @@ Create `home/work.nix`:
 ```nix
 {
   home.file.".bashrc.work".source = ../dotfiles/bashrc.work;
+  home.file.".bash_aliases.work".source = ../dotfiles/bash_aliases.work;
   home.file.".config/git/identity.conf".source = ../dotfiles/git-2.49.0/identity.conf;
 }
 ```
@@ -78,6 +79,10 @@ The shared `.bashrc` sources `~/.bashrc.work` when it exists. It does so before
 `~/.bashrc.local`. Non-interactive Bash sessions return before either file is
 sourced. Run the work flake's switch command again after editing this Home
 Manager-managed file.
+
+Create `dotfiles/bash_aliases.work` for work-only aliases. The shared
+`.bash_aliases` sources `~/.bash_aliases.work` when it exists, after defining
+the shared aliases, so work aliases can override them.
 
 Create `dotfiles/git-2.49.0/identity.conf` with the work Git identity, for
 example:
