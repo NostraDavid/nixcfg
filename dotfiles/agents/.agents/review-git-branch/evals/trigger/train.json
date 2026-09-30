@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "queries": [
+    {
+      "id": "train-positive-pr-diff",
+      "purpose": "Explicit pull-request diff review.",
+      "query": "Review this pull request against its base branch and identify correctness, security, and test issues.",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "train-positive-feature-branch",
+      "purpose": "Feature branch comparison.",
+      "query": "Compare my feature branch with origin/main, summarize the semantic changes, and review the diff.",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "train-positive-merge-readiness",
+      "purpose": "Merge-readiness branch review.",
+      "query": "Is this branch ready to merge? Check the branch diff, correctness, security, and whether the tests provide enough evidence.",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "train-positive-dutch",
+      "purpose": "Dutch branch-review phrasing.",
+      "query": "Review deze branch tegen dev en geef de semantische verschillen, bugs, veiligheidsrisico's en teststatus.",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "train-positive-explicit-base",
+      "purpose": "Explicit base revision.",
+      "query": "Review the changes from base revision origin/master to the current branch and cite evidence from the diff.",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "train-positive-change-review",
+      "purpose": "Change-review synonym.",
+      "query": "Do a change review for this branch: first compare it with main, then assess correctness, security, and tests.",
+      "should_trigger": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-generic-code",
+      "purpose": "General code review boundary.",
+      "query": "Review this function for readability and maintainability.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-security",
+      "purpose": "Security-only boundary.",
+      "query": "Perform an OWASP security audit of this web service.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-api-schema",
+      "purpose": "API-schema boundary.",
+      "query": "Validate this OpenAPI schema for compatibility and missing constraints.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-performance",
+      "purpose": "Performance-review boundary.",
+      "query": "Benchmark this PostgreSQL query and diagnose the latency regression.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-twelve-factor",
+      "purpose": "Twelve-Factor boundary.",
+      "query": "Review this service against the Twelve-Factor App methodology.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    },
+    {
+      "id": "train-negative-test-design",
+      "purpose": "Test-design boundary.",
+      "query": "Design positive, negative, and regression tests for this authentication module.",
+      "should_trigger": false,
+      "boundary": true,
+      "fixture": null
+    }
+  ]
+}

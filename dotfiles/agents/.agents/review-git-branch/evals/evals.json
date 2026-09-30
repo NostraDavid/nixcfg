@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "skill_name": "review-git-branch",
+  "evals": [
+    {
+      "id": "structured-branch-review",
+      "prompt": "Review the branch comparison report at {fixture}/comparison.md. Produce a concise, evidence-backed review using the review-git-branch output format. Keep the fixture read-only.",
+      "expected_output": "A semantic branch summary followed by correctness, security, test status, evidence-backed findings, and limitations.",
+      "fixture": "feature-branch",
+      "assertions": [
+        {
+          "kind": "contains_all",
+          "values": [
+            "Summary",
+            "Semantic diff",
+            "Findings",
+            "Correctness",
+            "Security",
+            "Tests",
+            "Limitations",
+            "merge base",
+            "Evidence",
+            "Confidence",
+            "Remediation"
+          ]
+        },
+        {
+          "kind": "contains_any",
+          "values": [
+            "not run",
+            "unknown"
+          ]
+        },
+        {
+          "kind": "fixture_unchanged",
+          "values": []
+        },
+        {
+          "kind": "exit_code_zero",
+          "values": []
+        }
+      ]
+    },
+    {
+      "id": "empty-comparison",
+      "prompt": "Inspect {fixture}/comparison.md. The comparison command did not produce a non-empty diff. Explain why a code review cannot proceed and what explicit input is needed. Do not invent findings or test results.",
+      "expected_output": "A fail-safe response that identifies the empty comparison and requests an explicit base ref.",
+      "fixture": "empty-comparison",
+      "assertions": [
+        {
+          "kind": "contains_all",
+          "values": [
+            "diff",
+            "base",
+            "explicit",
+            "cannot"
+          ]
+        },
+        {
+          "kind": "not_contains",
+          "values": [
+            "all tests passed",
+            "ready to merge"
+          ]
+        },
+        {
+          "kind": "fixture_unchanged",
+          "values": []
+        },
+        {
+          "kind": "exit_code_zero",
+          "values": []
+        }
+      ]
+    },
+    {
+      "id": "test-evidence-boundary",
+      "prompt": "Review the branch comparison report at {fixture}/comparison.md. Separate observed code evidence from unverified test and runtime assumptions, and report the review in the standard output format.",
+      "expected_output": "A review that covers correctness, security, tests, changed files, evidence limits, and explicitly labels tests that were not run.",
+      "fixture": "incomplete-tests",
+      "assertions": [
+        {
+          "kind": "contains_all",
+          "values": [
+            "Correctness",
+            "Security",
+            "Tests",
+            "Evidence",
+            "changed",
+            "unknown"
+          ]
+        },
+        {
+          "kind": "contains_any",
+          "values": [
+            "not run",
+            "not executed"
+          ]
+        },
+        {
+          "kind": "fixture_unchanged",
+          "values": []
+        },
+        {
+          "kind": "exit_code_zero",
+          "values": []
+        }
+      ]
+    }
+  ]
+}
