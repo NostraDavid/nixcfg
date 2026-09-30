@@ -5,10 +5,15 @@ repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 test_root="$(mktemp -d)"
 trap 'rm -rf "${test_root}"' EXIT
 export TEST_REPO="${test_root}/repo"
-mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
-cp "${repo_root}"/scripts/update-{jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
+mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
+cp "${repo_root}"/scripts/update-{acli,jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
+cp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/"
 cp "${repo_root}/pkgs/jpegli/default.nix" "${TEST_REPO}/pkgs/jpegli/"
 cp "${repo_root}/pkgs/semble/default.nix" "${TEST_REPO}/pkgs/semble/"
+export TEST_ACLI_ARCHIVE="${test_root}/acli.tar.gz"
+mkdir -p "${test_root}/acli_2.0.0-stable_linux_amd64"
+touch "${test_root}/acli_2.0.0-stable_linux_amd64/acli"
+tar -C "${test_root}" -czf "${TEST_ACLI_ARCHIVE}" acli_2.0.0-stable_linux_amd64
 export TEST_MAIN_REV
 TEST_MAIN_REV="$(sed -n '/repo = "jpegli"/,/};/s/.*rev = "\([^"]*\)";/\1/p' "${TEST_REPO}/pkgs/jpegli/default.nix")"
 
@@ -24,12 +29,18 @@ fi
 EOF
 cat >"${test_root}/bin/curl" <<'EOF'
 #!/usr/bin/env bash
-printf '{"tag_name":"%s"}\n' "${TEST_RELEASE:-3.3.0}"
+if [[ "$*" == *acli.atlassian.com* ]]; then
+    cp "${TEST_ACLI_ARCHIVE}" "${@: -1}"
+else
+    printf '{"tag_name":"%s"}\n' "${TEST_RELEASE:-3.3.0}"
+fi
 EOF
 cat >"${test_root}/bin/nix" <<'EOF'
 #!/usr/bin/env bash
 if [[ "$1" == store ]]; then
     printf '{"hash":"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="}\n'
+elif [[ "$1" == hash ]]; then
+    printf 'sha256-TESTHASH\n'
 elif [[ "$1" == flake ]]; then
     echo 'updated input' >>"${TEST_REPO}/flake.lock"
     exit "${TEST_FLAKE_FAILURE:-0}"
@@ -40,6 +51,11 @@ fi
 EOF
 chmod +x "${test_root}/bin/"*
 export PATH="${test_root}/bin:${PATH}"
+
+"${TEST_REPO}/scripts/update-acli.sh" >/dev/null
+rg -q 'version = "2.0.0-stable";' "${TEST_REPO}/pkgs/acli/default.nix"
+test "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/acli/default.nix")" -eq 4
+rg -q '^build path:.#acli --no-link --no-write-lock-file$' "${TEST_REPO}/builds.log"
 
 "${TEST_REPO}/scripts/update-jpegli.sh" >/dev/null
 rg -q 'libjpegTurboVersion = "3.3.0";' "${TEST_REPO}/pkgs/jpegli/default.nix"
@@ -52,6 +68,12 @@ sed '/pname = "semble";/,$d' "${TEST_REPO}/pkgs/semble/default.nix" >"${test_roo
 cmp "${test_root}/before" "${test_root}/after"
 
 export TEST_BUILD_FAILURE=1
+cp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/default.nix"
+if "${TEST_REPO}/scripts/update-acli.sh" >/dev/null 2>&1; then
+    echo 'Expected acli build failure' >&2
+    exit 1
+fi
+cmp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/default.nix"
 for package in jpegli semble; do
     cp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
     if "${TEST_REPO}/scripts/update-${package}.sh" >/dev/null 2>&1; then
