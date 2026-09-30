@@ -22,14 +22,8 @@ fi
 output_file=$(mktemp "${TMPDIR:-/tmp}/say-piper-tts.XXXXXX")
 trap 'rm -f "$output_file"' EXIT
 
-# The Dutch Piper voice otherwise applies the wrong phonemization to these
-# terms. Raw phoneme blocks keep English terms in English; the project name is
-# replaced with its Dutch pronunciation.
 pronunciation_fixes() {
-    sed \
-        -e 's/\<nixcfg\>/niks config/g' \
-        -e $'s/\\<scoped\\>/[[sk\u02c8oʊpd]]/g' \
-        -e $'s/\\<message\\>/[[m\u02c8ɛsɪdʒ]]/g'
+    sed -f "${XDG_CONFIG_HOME:-$HOME/.config}/say/piper.sed"
 }
 
 if (($# > 0)); then

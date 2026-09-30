@@ -233,6 +233,7 @@ in {
           ".local/bin/say-espeak-ng" = {source = mk "${localBin}/say-espeak-ng.sh";};
           ".local/bin/say-espeak-ng-mbrola" = {source = mk "${localBin}/say-espeak-ng-mbrola.sh";};
           ".local/bin/say-piper-tts" = {source = mk "${localBin}/say-piper-tts.sh";};
+          ".config/say/piper.sed" = {source = mk "${dot}/say/piper.sed";};
           ".config/say/espeak-ng-data" = {source = "${local.say-dictionary}/share/espeak-ng-data";};
           ".local/share/mbrola/nl2" = {source = "${mbrolaNl2}/data/nl2";};
           ".local/share/piper-voices/en_US-amy-medium.onnx" = {source = mk "${dot}/piper-voices/en_US-amy-medium.onnx";};
