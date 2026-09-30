@@ -1,5 +1,5 @@
 ---
-name: adr
+name: madr
 description: "Maintain an existing ADR collection: discover conventions, create or supersede decisions, repair numbering and indexes, and review decision history. Use for decision-set maintenance rather than an isolated architecture document."
 ---
 
