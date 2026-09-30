@@ -19,7 +19,7 @@ if [[ ! -r "$config" ]]; then
     exit 1
 fi
 
-output_file=$(mktemp --suffix=.wav "${TMPDIR:-/tmp}/say-piper-tts.XXXXXX")
+output_file=$(mktemp "${TMPDIR:-/tmp}/say-piper-tts.XXXXXX")
 trap 'rm -f "$output_file"' EXIT
 
 # The Dutch Piper voice otherwise applies the wrong phonemization to these
@@ -28,8 +28,8 @@ trap 'rm -f "$output_file"' EXIT
 pronunciation_fixes() {
     sed \
         -e 's/\<nixcfg\>/niks config/g' \
-        -e 's/\<scoped\>/[[skˈoʊpd]]/g' \
-        -e 's/\<message\>/[[mˈɛsɪdʒ]]/g'
+        -e $'s/\\<scoped\\>/[[sk\u02c8oʊpd]]/g' \
+        -e $'s/\\<message\\>/[[m\u02c8ɛsɪdʒ]]/g'
 }
 
 if (($# > 0)); then
