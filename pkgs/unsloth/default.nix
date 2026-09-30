@@ -1,7 +1,11 @@
 {
   appimageTools,
+  coreutils,
   fetchurl,
   lib,
+  makeWrapper,
+  sqlite,
+  writeShellScript,
 }: let
   pname = "unsloth";
   version = "0.1.900-beta";
@@ -10,11 +14,24 @@
     hash = "sha256-mjwd+4CENrMcwdxtZbrxUqucIexNqUyBp908Ekr+zZQ=";
   };
   contents = appimageTools.extractType2 {inherit pname version src;};
+  initializeSettings = writeShellScript "unsloth-initialize-settings" ''
+    set -eu
+    umask 077
+    ${coreutils}/bin/mkdir -p "$HOME/.unsloth/studio"
+    ${sqlite}/bin/sqlite3 -bail -cmd '.timeout 5000' \
+      "$HOME/.unsloth/studio/studio.db" < ${./settings.sql}
+  '';
 in
   appimageTools.wrapType2 {
     inherit pname version src;
 
+    nativeBuildInputs = [makeWrapper];
+    extraPkgs = pkgs: [pkgs.nghttp2.lib];
+
     extraInstallCommands = ''
+      mv "$out/bin/unsloth" "$out/bin/unsloth-unwrapped"
+      makeWrapper "$out/bin/unsloth-unwrapped" "$out/bin/unsloth" \
+        --run '${initializeSettings} || exit $?'
       install -Dm644 ${contents}/usr/share/applications/Unsloth.desktop "$out/share/applications/unsloth.desktop"
       substituteInPlace "$out/share/applications/unsloth.desktop" \
         --replace-fail 'Exec=unsloth-studio %u' 'Exec=unsloth %u' \
