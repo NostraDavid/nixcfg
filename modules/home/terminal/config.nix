@@ -1,7 +1,6 @@
 # Shell, prompt, TUI, and terminal-emulator configuration.
 {
   config,
-  pkgs,
   repoRoot,
   ...
 }: {
@@ -11,16 +10,10 @@
     forceAll = builtins.mapAttrs (_: file: file // {force = true;});
   in
     forceAll {
-      ".bash_aliases" = {
-        source = mk "${dot}/bash-5.2.37/${
-          if pkgs.stdenv.hostPlatform.isDarwin
-          then ".bash_aliases-common"
-          else ".bash_aliases"
-        }";
-      };
-      ".bash_aliases-common" = {source = mk "${dot}/bash-5.2.37/.bash_aliases-common";};
+      ".bash_aliases" = {source = mk "${dot}/bash-5.2.37/.bash_aliases";};
       ".bash_profile" = {source = mk "${dot}/bash-5.2.37/.bash_profile";};
       ".bashrc" = {source = mk "${dot}/bash-5.2.37/.bashrc";};
+      ".bashrc.d" = {source = mk "${dot}/bash-5.2.37/bashrc.d";};
       ".config/bat/config" = {source = mk "${dot}/bat-0.25.0/.config/bat/config";};
       ".config/btop/btop.conf" = {source = mk "${dot}/btop-1.4.7/btop.conf";};
       ".config/fastfetch/" = {source = mk "${dot}/fastfetch-2.58.0/.config/fastfetch";};
