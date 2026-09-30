@@ -185,6 +185,7 @@ in {
 
           ## Codex
           ".codex/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
+          ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
           ".codex/hooks.json" = {source = mk "${dot}/codex-0.140.0/.codex/hooks.json";};
           "plugins/ponytail" = {source = local.ponytail-codex;};
           ## pi
