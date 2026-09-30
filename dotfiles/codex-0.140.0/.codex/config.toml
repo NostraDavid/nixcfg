@@ -1,6 +1,6 @@
 model_context_window = 872000
-model = "gpt-6-sol"
-model_reasoning_effort = "high"
+model = "gpt-6.1-sol"
+model_reasoning_effort = "medium"
 personality = "pragmatic"
 service_tier = "default"
 
@@ -44,23 +44,23 @@ BLENDER_MCP_PORT = "9876"
 
 [mcp_servers.node_repl]
 args = []
-command = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/cua_node/bin/node_repl"
+command = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/cua_node/bin/node_repl"
 startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/cua_node/lib/node_modules"
-NODE_REPL_NODE_PATH = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/cua_node/bin/node"
-NODE_REPL_TRUSTED_CODE_PATHS = "/home/david/.codex:/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_MODULE_DIRS = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/home/david/.codex:/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/cua_node/lib/node_modules"
 CODEX_HOME = "/home/david/.codex"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
 BROWSER_USE_TINYSKY_ENABLED = "1"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.924.22138"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/david/.codex/plugins/cache/openai-bundled/browser/26.924.22138/scripts/browser-service.mjs"}'
-CODEX_CLI_PATH = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/resources/codex"
+BROWSER_USE_CODEX_APP_VERSION = "26.928.21956"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/plugins/openai-bundled/plugins/browser/scripts/browser-service.mjs"}'
+CODEX_CLI_PATH = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/codex"
 
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
@@ -69,7 +69,7 @@ url = "https://developers.openai.com/mcp"
 command = "/etc/profiles/per-user/david/bin/qartez"
 
 [mcp_servers.cua_repl]
-command = "/nix/store/nncnbrjj2jk2n4c8l2b9681x3vwvk900-chatgpt-26.924.22138/lib/chatgpt/ChatGPT"
+command = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/ChatGPT"
 enabled = false
 
 [mcp_servers.agent-memory]
@@ -130,6 +130,7 @@ screen_reader_detection_done = true
 "gpt-5.5" = 4
 "gpt-5.6-sol" = 4
 gpt-6-astra = 4
+"gpt-6.1-sol" = 2
 
 [hooks.state]
 
@@ -499,4 +500,7 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/david/dev/virchau13/automatic1111-webui-nix/trunk"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ctb/full-rewrite-v2"]
 trust_level = "trusted"
