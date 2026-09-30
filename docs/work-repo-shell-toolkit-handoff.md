@@ -14,14 +14,16 @@ the files in `.bashrc.d` in a fixed order. Interactive shells load
 Non-interactive shells load only the environment settings.
 
 `.bash_aliases-common` is gone. Shared aliases live in `.bash_aliases`; only
-Linux system commands remain behind a platform check. Shell functions live in
-`.bashrc.d/functions.bash`. The alias file prints one yellow warning when an
-optional `lsd`, `ncdu`, or `project_color` command is missing.
+Linux system commands remain behind a platform check. The shared alias file then
+sources `~/.bash_aliases.work` when it exists, so work aliases can override the
+shared definitions. Shell functions live in `.bashrc.d/functions.bash`. The
+alias file prints one yellow warning when an optional `lsd`, `ncdu`, or
+`project_color` command is missing.
 
 Remove work-repository mappings for the shared Bash files. Keep work-only
-settings in `~/.bashrc.work`, and keep the work Git identity in its existing
-work-owned file. Review work aliases and functions before deleting them: remove
-only definitions now supplied by the base files.
+settings in `~/.bashrc.work`, aliases in `~/.bash_aliases.work`, and the work
+Git identity in its existing work-owned file. Review work aliases and functions
+before deleting them: remove only definitions now supplied by the base files.
 
 ## NDTK commands and data
 

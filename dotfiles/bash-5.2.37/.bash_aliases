@@ -64,3 +64,8 @@ if [[ $OSTYPE == linux* ]]; then
     alias ss-summary='ss --summary'
     alias ss-unix-listen='ss --listening --numeric --unix --processes'
 fi
+
+if [ -f "$HOME/.bash_aliases.work" ]; then
+    # shellcheck source=/dev/null
+    source "$HOME/.bash_aliases.work"
+fi

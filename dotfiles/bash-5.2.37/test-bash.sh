@@ -11,6 +11,10 @@ ln -s managed-bashrc "$tmp/.bashrc"
 ln -s "$root/bashrc.d" "$tmp/.bashrc.d"
 ln -s "$root/.bash_aliases" "$tmp/.bash_aliases"
 ln -s "$root/../ndtk/.local/bin" "$tmp/.local/bin"
+cat >"$tmp/.bash_aliases.work" <<'EOF'
+alias vi='work-vim'
+alias work_only='printf work'
+EOF
 cat >"$tmp/.bashrc.work" <<'EOF'
 printf 'work\n' >> "$HOME/hook-order"
 EOF
@@ -24,6 +28,8 @@ EOF
     [[ $(type -t check_and_activate_venv) == function ]] || exit 1
     [[ $(type -t gitbulk) == file ]] || exit 1
     alias plasma_restart >/dev/null || exit 1
+    [[ ${BASH_ALIASES[vi]} == work-vim ]] || exit 1
+    alias work_only >/dev/null || exit 1
     for name in ff rfc3339 epoch now fix_ssh draw_colors cd_f venv; do
         [[ $(type -t "$name") == function ]] || exit 1
     done
@@ -37,6 +43,8 @@ EOF
 mkdir -p "$tmp/project/.venv/bin"
 printf 'export TEST_VENV_ACTIVE=1\n' >"$tmp/project/.venv/bin/activate"
 (cd "$tmp" && HOME="$tmp" OSTYPE=darwin24 VIRTUAL_ENV='' TERM=dumb HISTFILE=/dev/null bash --noprofile --rcfile "$tmp/.bashrc" -ic '
+    [[ ${BASH_ALIASES[vi]} == work-vim ]] || exit 1
+    alias work_only >/dev/null || exit 1
     for name in gitundo grep sed rg diff l la llo ls sudo cd; do
         alias "$name" >/dev/null || exit 1
     done
@@ -64,6 +72,13 @@ for name in lsd ncdu project_color; do
 done
 warning=$(HOME="$tmp" OSTYPE=darwin24 PATH="$tmp/available-bin" BASH_ENV="$tmp/.bash_aliases" "$bash_bin" --noprofile --norc -c : 2>&1)
 [[ -z $warning ]]
+
+rm "$tmp/.bash_aliases.work"
+# shellcheck disable=SC2016 # The child shell expands BASH_ALIASES.
+HOME="$tmp" PATH="$tmp/available-bin" BASH_ENV="$tmp/.bash_aliases" "$bash_bin" --noprofile --norc -c '
+    [[ ${BASH_ALIASES[vi]} == nvim ]] || exit 1
+    if alias work_only >/dev/null 2>&1; then exit 1; fi
+'
 
 (cd "$tmp" && HOME="$tmp" bash --noprofile -c 'source "$HOME/.bashrc"; [[ $(type -t check_and_activate_venv) != function ]]')
 
