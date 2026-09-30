@@ -23,15 +23,16 @@ import niquests as http
 from dotenv import load_dotenv
 from structlog.stdlib import get_logger
 
-# --- LOAD CONFIG ---
-load_dotenv()
-ORG_URL = os.getenv("AZDO_ORG_URL", "https://dev.azure.com/Thaumatorium/")
-PAT = os.getenv("AZDO_PAT")
+CONFIG_FILE = (
+    Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
+    / "ndtk/azure.env"
+)
+ORG_URL = ""
+API_BASE = ""
+basic_auth = ""
+HEADERS: dict[str, str] = {}
 
 # --- CONSTANTS ---
-API_BASE = f"{ORG_URL.rstrip('/')}/_apis"
-basic_auth = base64.b64encode(f":{PAT}".encode("utf-8")).decode("utf-8") if PAT else ""
-HEADERS = {"Authorization": f"Basic {basic_auth}"} if basic_auth else {}
 PROJECT_ROOT = Path("~/dev").expanduser()
 MAX_WORKERS = 4
 
@@ -52,6 +53,29 @@ RESERVED_WORKTREE_NAMES = {
 }
 
 logger = get_logger()
+
+
+def configure_auth() -> None:
+    global ORG_URL, API_BASE, basic_auth, HEADERS
+    try:
+        load_dotenv(dotenv_path=CONFIG_FILE)
+    except OSError as error:
+        sys.exit(f"Cannot read configuration {CONFIG_FILE}: {error}")
+    missing = [name for name in ("AZDO_ORG_URL", "AZDO_PAT") if not os.getenv(name)]
+    if missing:
+        message = f"Missing settings: {', '.join(missing)}."
+        if not CONFIG_FILE.is_file():
+            message = f"Configuration file missing: {CONFIG_FILE}. {message}"
+        else:
+            message = f"{CONFIG_FILE}: {message}"
+        sys.exit(
+            f"{message} Set them in the environment or copy {CONFIG_FILE}.example "
+            f"to {CONFIG_FILE} and fill in the values."
+        )
+    ORG_URL = os.environ["AZDO_ORG_URL"]
+    API_BASE = f"{ORG_URL.rstrip('/')}/_apis"
+    basic_auth = base64.b64encode(f":{os.environ['AZDO_PAT']}".encode()).decode()
+    HEADERS = {"Authorization": f"Basic {basic_auth}"}
 
 
 def prioritize_repos(repos: list[dict]) -> list[dict]:
@@ -76,6 +100,7 @@ def run_git(
         base += ["-C", str(repo_path)]
     return subprocess.run(
         base + args,
+        check=False,
         timeout=TIMEOUT,
         capture_output=capture,
         text=capture,
@@ -94,6 +119,7 @@ def run_git_with_git_dir(
     base += ["--git-dir", str(git_dir)]
     return subprocess.run(
         base + args,
+        check=False,
         timeout=TIMEOUT,
         capture_output=capture,
         text=capture,
@@ -141,6 +167,7 @@ def parse_args() -> argparse.Namespace:
         description=(
             f"Clone/update Azure DevOps repos using {BARE_REPO_DIR} plus flat branch and tag worktrees."
         ),
+        epilog=f"Configuration: {CONFIG_FILE}. AZDO_ORG_URL and AZDO_PAT environment variables take precedence.",
     )
     parser.add_argument(
         "--protocol",
@@ -359,7 +386,7 @@ def resolve_selected_branches(
         return [default_branch]
 
     if remote_heads:
-        return [sorted(remote_heads)[0]]
+        return [min(remote_heads)]
     return []
 
 
@@ -804,7 +831,7 @@ def summarize(
     failures: list[tuple[str, str]],
     started_at: dt.datetime,
 ):
-    elapsed = dt.datetime.now() - started_at
+    elapsed = dt.datetime.now(dt.UTC) - started_at
     logger.info(
         "summary",
         total=total,
@@ -818,14 +845,13 @@ def summarize(
 
 def main() -> int:
     args = parse_args()
-    if not ORG_URL or not PAT:
-        sys.exit("Missing AZDO_ORG_URL or AZDO_PAT in .env")
+    configure_auth()
 
     root = Path(args.root).expanduser()
     requested_branches = None if args.all_branches else parse_csv(args.branches)
     requested_tags = parse_csv(args.tags)
 
-    started_at = dt.datetime.now()
+    started_at = dt.datetime.now(dt.UTC)
     try:
         projects = get_projects()
     except Exception as e:  # noqa: BLE001

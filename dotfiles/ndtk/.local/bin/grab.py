@@ -179,7 +179,7 @@ def run(
     capture: bool = False,
     timeout: int = TIMEOUT,
 ) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(  # noqa: S603 - callers construct the command arguments
+    return subprocess.run(
         args,
         cwd=cwd,
         check=False,
@@ -396,7 +396,7 @@ def resolve_selected_branches(repo_url: str, branches: list[str] | None) -> list
         return [default_branch]
 
     if remote_heads:
-        return [sorted(remote_heads)[0]]
+        return [min(remote_heads)]
     return []
 
 
@@ -1218,7 +1218,7 @@ def main(argv: list[str] | None = None) -> int:
         for future in concurrent.futures.as_completed(futures):
             try:
                 repo_url, ok, reason = future.result()
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 logger.exception("repo_worker_failed", error=str(exc))
                 return 1
             if not ok:

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -o pipefail
+
+pack_dir=$(git rev-parse --git-path objects/pack) || exit
+shopt -s nullglob
+packs=("$pack_dir"/*.idx)
+if ((${#packs[@]} == 0)); then
+    printf 'No Git pack indexes found\n' >&2
+    exit 1
+fi
+
+git verify-pack -v "${packs[@]}" | sort -k 3 -n | tail -3

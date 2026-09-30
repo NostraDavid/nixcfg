@@ -126,7 +126,7 @@ nodig hebt. Houd die op maximaal twaalf woorden. Je hoort bijvoorbeeld: "biep
 boep. nixcfg. Repositorynaam toegevoegd aan de meldingen.". De naam komt uit de
 gedeelde Git-map; `trunk`, submappen en andere worktrees krijgen zo dezelfde
 projectnaam. Buiten Git vervalt de naam. De toevoeging hoort bij de gesproken
-agentmeldingen. Home Manager koppelt `dotfiles/local/.local/bin/say.sh` aan
+agentmeldingen. Home Manager koppelt `dotfiles/ndtk/.local/bin/say.sh` aan
 `~/.local/bin/say`. Zonder stemnaam gebruikt `say` de Nederlandse eSpeak NG-
 stem; je kunt ook `say espeak-ng-mbrola "tekst"` of `say piper "tekst"` kiezen.
 

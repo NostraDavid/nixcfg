@@ -86,8 +86,14 @@ in {
   home = {
     file = let
       dot = "${repoRoot}/dotfiles";
-      localBin = "${dot}/local/.local/bin";
       mk = path: config.lib.file.mkOutOfStoreSymlink path;
+      binLinks =
+        lib.mapAttrs'
+        (name: _:
+          lib.nameValuePair
+          ".local/bin/${lib.removeSuffix ".py" (lib.removeSuffix ".sh" name)}"
+          {source = mk "${dot}/ndtk/.local/bin/${name}";})
+        (lib.filterAttrs (_: kind: kind == "regular") (builtins.readDir ../../dotfiles/ndtk/.local/bin));
       forceAll = builtins.mapAttrs (_: file: file // {force = true;});
       skillCatalog = builtins.fromJSON (builtins.readFile ../../dotfiles/agents/skills.json);
       skillAlias = name: skillCatalog.aliases.${name} or name;
@@ -219,41 +225,21 @@ in {
           ".config/git/identity.conf" = {source = mk "${dot}/git-2.49.0/.config/git/identity.conf";};
           ".config/i3/config" = {source = mk "${dot}/i3-4.24/.config/i3/config";};
           ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv-0.41.0/.config/mpv/mpv.conf";};
+          ".config/ndtk/azure.env.example" = {source = mk "${dot}/ndtk/.config/ndtk/azure.env.example";};
+          ".config/ndtk/repos.dat" = {source = mk "${dot}/ndtk/.config/ndtk/repos.dat";};
           ".config/niri/config.kdl" = {source = mk "${dot}/niri-26.04/.config/niri/config.kdl";};
-          ".groovylintrc.json" = {source = mk "${dot}/groovy-lint-15.2.0/.groovylintrc.json";};
-          ".local/bin/code" = {source = mk "${localBin}/code.sh";};
-          ".local/bin/apply_peacock_color" = {source = mk "${localBin}/apply_peacock_color.py";};
-          ".local/bin/generate_gitignore" = {source = mk "${localBin}/generate_gitignore.py";};
-          ".local/bin/ide" = {source = mk "${localBin}/ide.py";};
-          ".local/bin/pde" = {source = mk "${localBin}/pde.py";};
-          ".local/bin/folder_stats" = {source = mk "${localBin}/folder_stats.py";};
-          ".local/bin/project_color" = {source = mk "${localBin}/project_color.py";};
-          ".local/bin/project_picker" = {source = mk "${localBin}/project_picker.py";};
-          ".local/bin/say" = {source = mk "${localBin}/say.sh";};
-          ".local/bin/say-espeak-ng" = {source = mk "${localBin}/say-espeak-ng.sh";};
-          ".local/bin/say-espeak-ng-mbrola" = {source = mk "${localBin}/say-espeak-ng-mbrola.sh";};
-          ".local/bin/say-piper-tts" = {source = mk "${localBin}/say-piper-tts.sh";};
-          ".config/say/piper.sed" = {source = mk "${dot}/say/piper.sed";};
           ".config/say/espeak-ng-data" = {source = "${local.say-espeak-ng}/share/espeak-ng-data";};
+          ".config/say/piper.sed" = {source = mk "${dot}/say/piper.sed";};
+          ".groovylintrc.json" = {source = mk "${dot}/groovy-lint-15.2.0/.groovylintrc.json";};
           ".local/share/mbrola/nl2" = {source = "${mbrolaNl2}/data/nl2";};
-          ".local/share/piper-voices/en_US-amy-medium.onnx" = {source = mk "${dot}/piper-voices/en_US-amy-medium.onnx";};
           ".local/share/piper-voices/en_US-amy-medium.onnx.json" = {source = mk "${dot}/piper-voices/en_US-amy-medium.onnx.json";};
-          ".local/share/piper-voices/nl_NL-mls-medium.onnx" = {source = mk "${dot}/piper-voices/nl_NL-mls-medium.onnx";};
+          ".local/share/piper-voices/en_US-amy-medium.onnx" = {source = mk "${dot}/piper-voices/en_US-amy-medium.onnx";};
           ".local/share/piper-voices/nl_NL-mls-medium.onnx.json" = {source = mk "${dot}/piper-voices/nl_NL-mls-medium.onnx.json";};
-          ".local/share/piper-voices/nl_NL-pim-medium.onnx" = {source = mk "${dot}/piper-voices/nl_NL-pim-medium.onnx";};
+          ".local/share/piper-voices/nl_NL-mls-medium.onnx" = {source = mk "${dot}/piper-voices/nl_NL-mls-medium.onnx";};
           ".local/share/piper-voices/nl_NL-pim-medium.onnx.json" = {source = mk "${dot}/piper-voices/nl_NL-pim-medium.onnx.json";};
-          ".local/bin/tmux-login-session" = {source = mk "${localBin}/tmux-login-session";};
-          ".local/bin/venv" = {source = mk "${localBin}/venv.py";};
-          "dev/.env.example" = {source = mk "${dot}/dev/.env.example";};
-          "dev/find-uncommitted.py" = {source = mk "${dot}/dev/find-uncommitted.py";};
-          "dev/get_azure_repos.py" = {source = mk "${dot}/dev/get_azure_repos.py";};
-          "dev/grab.py" = {source = mk "${dot}/dev/grab.py";};
-          "dev/repos.dat" = {source = mk "${dot}/dev/repos.dat";};
-          "dev/restore_repos.py" = {source = mk "${dot}/dev/restore_repos.py";};
-          "dev/save_cloned_repos.py" = {source = mk "${dot}/dev/save_cloned_repos.py";};
-          "dev/update_all_local_repos.py" = {source = mk "${dot}/dev/update_all_local_repos.py";};
-          "rsync-bitvavo" = {source = mk "${localBin}/rsync-bitvavo";};
+          ".local/share/piper-voices/nl_NL-pim-medium.onnx" = {source = mk "${dot}/piper-voices/nl_NL-pim-medium.onnx";};
         }
+        // binLinks
         // sharedCodexSkills
         // sharedAgentSkills
         // copilotSkills
