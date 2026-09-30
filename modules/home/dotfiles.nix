@@ -86,6 +86,7 @@ in {
   home = {
     file = let
       dot = "${repoRoot}/dotfiles";
+      localBin = "${dot}/local/.local/bin";
       mk = path: config.lib.file.mkOutOfStoreSymlink path;
       forceAll = builtins.mapAttrs (_: file: file // {force = true;});
       skillCatalog = builtins.fromJSON (builtins.readFile ../../dotfiles/agents/skills.json);
@@ -219,17 +220,17 @@ in {
           ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv-0.41.0/.config/mpv/mpv.conf";};
           ".config/niri/config.kdl" = {source = mk "${dot}/niri-26.04/.config/niri/config.kdl";};
           ".groovylintrc.json" = {source = mk "${dot}/groovy-lint-15.2.0/.groovylintrc.json";};
-          ".local/bin/code" = {source = mk "${dot}/scripts/code.sh";};
-          ".local/bin/generate_gitignore" = {source = mk "${dot}/scripts/generate_gitignore.py";};
-          ".local/bin/ide" = {source = mk "${dot}/scripts/ide.py";};
-          ".local/bin/pde" = {source = mk "${dot}/scripts/pde.py";};
-          ".local/bin/folder_stats" = {source = mk "${dot}/scripts/folder_stats.py";};
-          ".local/bin/project_color" = {source = mk "${dot}/scripts/project_color.py";};
-          ".local/bin/project_picker" = {source = mk "${dot}/scripts/project_picker.py";};
-          ".local/bin/say" = {source = mk "${dot}/scripts/say.sh";};
-          ".local/bin/say-espeak-ng" = {source = mk "${dot}/scripts/say-espeak-ng.sh";};
-          ".local/bin/say-espeak-ng-mbrola" = {source = mk "${dot}/scripts/say-espeak-ng-mbrola.sh";};
-          ".local/bin/say-piper-tts" = {source = mk "${dot}/scripts/say-piper-tts.sh";};
+          ".local/bin/code" = {source = mk "${localBin}/code.sh";};
+          ".local/bin/generate_gitignore" = {source = mk "${localBin}/generate_gitignore.py";};
+          ".local/bin/ide" = {source = mk "${localBin}/ide.py";};
+          ".local/bin/pde" = {source = mk "${localBin}/pde.py";};
+          ".local/bin/folder_stats" = {source = mk "${localBin}/folder_stats.py";};
+          ".local/bin/project_color" = {source = mk "${localBin}/project_color.py";};
+          ".local/bin/project_picker" = {source = mk "${localBin}/project_picker.py";};
+          ".local/bin/say" = {source = mk "${localBin}/say.sh";};
+          ".local/bin/say-espeak-ng" = {source = mk "${localBin}/say-espeak-ng.sh";};
+          ".local/bin/say-espeak-ng-mbrola" = {source = mk "${localBin}/say-espeak-ng-mbrola.sh";};
+          ".local/bin/say-piper-tts" = {source = mk "${localBin}/say-piper-tts.sh";};
           ".config/say/espeak-ng-data" = {source = "${local.say-dictionary}/share/espeak-ng-data";};
           ".local/share/mbrola/nl2" = {source = "${mbrolaNl2}/data/nl2";};
           ".local/share/piper-voices/en_US-amy-medium.onnx" = {source = mk "${dot}/piper-voices/en_US-amy-medium.onnx";};
@@ -238,8 +239,8 @@ in {
           ".local/share/piper-voices/nl_NL-mls-medium.onnx.json" = {source = mk "${dot}/piper-voices/nl_NL-mls-medium.onnx.json";};
           ".local/share/piper-voices/nl_NL-pim-medium.onnx" = {source = mk "${dot}/piper-voices/nl_NL-pim-medium.onnx";};
           ".local/share/piper-voices/nl_NL-pim-medium.onnx.json" = {source = mk "${dot}/piper-voices/nl_NL-pim-medium.onnx.json";};
-          ".local/bin/tmux-login-session" = {source = mk "${dot}/scripts/tmux-login-session";};
-          ".local/bin/venv" = {source = mk "${dot}/scripts/venv.py";};
+          ".local/bin/tmux-login-session" = {source = mk "${localBin}/tmux-login-session";};
+          ".local/bin/venv" = {source = mk "${localBin}/venv.py";};
           "dev/.env.example" = {source = mk "${dot}/dev/.env.example";};
           "dev/find-uncommitted.py" = {source = mk "${dot}/dev/find-uncommitted.py";};
           "dev/get_azure_repos.py" = {source = mk "${dot}/dev/get_azure_repos.py";};
@@ -248,7 +249,7 @@ in {
           "dev/restore_repos.py" = {source = mk "${dot}/dev/restore_repos.py";};
           "dev/save_cloned_repos.py" = {source = mk "${dot}/dev/save_cloned_repos.py";};
           "dev/update_all_local_repos.py" = {source = mk "${dot}/dev/update_all_local_repos.py";};
-          "rsync-bitvavo" = {source = mk "${dot}/scripts/rsync-bitvavo";};
+          "rsync-bitvavo" = {source = mk "${localBin}/rsync-bitvavo";};
         }
         // sharedCodexSkills
         // sharedAgentSkills

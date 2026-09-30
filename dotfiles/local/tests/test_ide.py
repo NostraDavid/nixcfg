@@ -8,7 +8,7 @@ from pathlib import Path
 from types import ModuleType
 from unittest.mock import Mock, patch
 
-SCRIPT = Path(__file__).resolve().parents[1] / "ide.py"
+SCRIPT = Path(__file__).resolve().parents[1] / ".local/bin/ide.py"
 
 
 def load_ide() -> ModuleType:
