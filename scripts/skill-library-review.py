@@ -17,6 +17,7 @@ import contextlib
 import hashlib
 import io
 import os
+import shutil
 import subprocess as sp
 import sys
 import tempfile
@@ -330,6 +331,33 @@ def cli() -> None:
     configure_logging()
 
 
+@cli.command("check")
+@click.option(
+    "--library-root",
+    type=click.Path(path_type=Path, file_okay=False),
+    default=Path("pdfs"),
+    show_default=True,
+)
+def check_command(library_root: Path) -> None:
+    """Check source access and PDF inspection dependencies."""
+    errors: list[str] = []
+    if not library_root.is_dir():
+        errors.append(f"missing directory: {library_root}")
+    else:
+        has_pdf = any(path.suffix.lower() == ".pdf" for path in library_root.rglob("*"))
+        if has_pdf:
+            errors.extend(
+                f"missing executable: {executable}"
+                for executable in ("pdfinfo", "pdftotext")
+                if shutil.which(executable) is None
+            )
+    if errors:
+        for error in errors:
+            click.echo(error, err=True)
+        raise SystemExit(1)
+    click.echo("OK")
+
+
 @cli.command()
 @click.option(
     "--library-root",
@@ -584,6 +612,13 @@ def test_cli_help_and_entrypoint() -> None:
     )
     assert process.returncode == 0
     assert "Inventory technical books" in process.stdout
+
+
+def test_check_success_is_exactly_ok(tmp_path: Path) -> None:
+    result = CliRunner().invoke(cli, ["check", "--library-root", str(tmp_path)])
+    assert result.exit_code == 0
+    assert result.stdout == "OK\n"
+    assert result.stderr == ""
 
 
 if __name__ == "__main__":
