@@ -25,6 +25,7 @@ RESERVED_WORKTREE_NAMES = {
     "checkouts",
 }
 NEW_WORKTREE_PREFIX = "+ New branch/worktree from"
+PULL_REQUEST_TAG_MARKER = "-PR-"
 
 
 @dataclass(frozen=True)
@@ -38,6 +39,10 @@ class WorktreeChoice:
 
 def sanitize_worktree_name(ref_name: str) -> str:
     return ref_name.strip().replace("/", "-")
+
+
+def is_pull_request_tag(tag: str) -> bool:
+    return PULL_REQUEST_TAG_MARKER in tag
 
 
 def unique_worktree_name(name: str, occupied: set[str], prefix: str) -> str:
@@ -314,6 +319,8 @@ def list_worktrees(
         if not registered_git_dir.exists():
             continue
         for choice in list_registered_worktrees(registered_git_dir):
+            if choice.kind == "detached" and is_pull_request_tag(choice.path.name):
+                continue
             append_choice(choices, seen_labels, choice)
 
     branch_refs = list_branch_refs(bare_dir)
@@ -334,6 +341,8 @@ def list_worktrees(
             )
 
     for tag in tag_refs:
+        if is_pull_request_tag(tag):
+            continue
         path = repo_root / tag_worktree_name(tag, branch_refs)
         label = worktree_label(path, "tag", tag)
         if not legacy:
@@ -361,6 +370,8 @@ def list_worktrees(
         for path in sorted(tags_root.rglob("*")):
             if path.is_dir() and (path / ".git").exists():
                 raw_label = str(path.relative_to(tags_root))
+                if is_pull_request_tag(raw_label):
+                    continue
                 label = worktree_label(path, "tag", raw_label)
                 append_choice(
                     choices,
@@ -368,7 +379,12 @@ def list_worktrees(
                     WorktreeChoice(label, path, "tag", raw_label, False),
                 )
 
-    return choices
+    tag_paths = {choice.path for choice in choices if choice.kind == "tag"}
+    return [
+        choice
+        for choice in choices
+        if choice.kind != "detached" or choice.path not in tag_paths
+    ]
 
 
 def find_active_worktree(
@@ -467,6 +483,26 @@ def resolve_branch_name(bare_dir: Path, branch_label: str) -> str | None:
     return None
 
 
+def set_branch_upstream(bare_dir: Path, target: Path, branch: str) -> bool:
+    if not remote_branch_exists(bare_dir, branch):
+        return True
+
+    upstream_proc = run(
+        [
+            "git",
+            "-C",
+            str(target),
+            "branch",
+            "--set-upstream-to",
+            f"origin/{branch}",
+            branch,
+        ],
+    )
+    if upstream_proc.returncode != 0:
+        print(upstream_proc.stderr or upstream_proc.stdout, end="", file=sys.stderr)
+    return upstream_proc.returncode == 0
+
+
 def ensure_worktree(
     repo_root: Path,
     choice: WorktreeChoice,
@@ -474,14 +510,16 @@ def ensure_worktree(
     dry_run: bool = False,
 ) -> bool:
     target = choice.path
+    bare_dir = repo_root / BARE_REPO_DIR
     if (target / ".git").exists():
-        return True
+        if dry_run or choice.kind != "branch" or not bare_dir.exists():
+            return True
+        return set_branch_upstream(bare_dir, target, choice.ref)
     if target.exists():
         return False
     if not choice.can_create:
         return False
 
-    bare_dir = repo_root / BARE_REPO_DIR
     if not bare_dir.exists():
         return False
 
@@ -523,22 +561,7 @@ def ensure_worktree(
     if choice.kind != "branch":
         return True
 
-    branch = choice.ref
-    upstream_proc = run(
-        [
-            "git",
-            "-C",
-            str(target),
-            "branch",
-            "--set-upstream-to",
-            f"origin/{branch}",
-            branch,
-        ],
-    )
-    if upstream_proc.returncode != 0:
-        print(upstream_proc.stderr or upstream_proc.stdout, end="", file=sys.stderr)
-
-    return True
+    return set_branch_upstream(bare_dir, target, choice.ref)
 
 
 def create_worktree_from_branch(
