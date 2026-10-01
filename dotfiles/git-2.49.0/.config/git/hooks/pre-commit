@@ -2,14 +2,43 @@
 
 set -euo pipefail
 
-repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
-config="${repo_root}/.pre-commit-config.yaml"
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+dev_root="${HOME}/dev/"
 
-[[ -f "${config}" ]] || exit 0
-
-if ! command -v prek >/dev/null 2>&1; then
-  printf '%s\n' "prek is required for ${repo_root}; enter the repository dev shell or install prek." >&2
-  exit 1
+if [[ -z "$repo_root" || "$repo_root" != "$dev_root"* ]]; then
+    exit 0
 fi
 
-exec prek -C "${repo_root}" --config "${config}" run --stage pre-commit
+branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+origin_url="$(git config --get remote.origin.url 2>/dev/null || true)"
+
+if [[ -n "$branch" && "$branch" != "HEAD" ]]; then
+    if [[ "$branch" == "master" || "$branch" == "main" ]]; then
+        echo "You can't commit directly to $branch"
+        echo "Create a feature branch first."
+        exit 1
+    fi
+
+    if [[ -n "$origin_url" ]] && [[ "$origin_url" =~ (bitbucket\.alfa\.local|tennet\.ghe\.com|dev\.azure\.com|visualstudio\.com) ]]; then
+        if ! [[ "$branch" =~ ^[Ss][Oo][Cc][Mm]-[0-9]{3,4}-[A-Za-z0-9_-]+$ ]]; then
+            echo "Invalid branch name '$branch'. Expected:"
+            echo "SOCM-1234-short-description_with_underscores"
+            echo "socm-1234-short-description_with_underscores"
+            exit 1
+        fi
+    fi
+fi
+
+if ! command -v prek >/dev/null 2>&1; then
+    exit 0
+fi
+
+if [[ -f "prek.toml" ]]; then
+    exec prek run --stage pre-commit
+fi
+
+if [[ -f ".pre-commit-config.yaml" || -f ".pre-commit-config.yml" ]]; then
+    exec prek run --stage pre-commit
+fi
+
+exit 0
