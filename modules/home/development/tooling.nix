@@ -13,11 +13,13 @@
 in {
   home.packages =
     [
+      litellmProxy # LiteLLM with the proxy extra
       stable.alejandra # Nix formatter
       stable.bash-language-server # Bash LSP
       stable.cachix # Binary cache CLI
       stable.cloc # Count lines of code
       stable.deadnix # Detect unused Nix code
+      stable.forgejo-cli # Forgejo CLI
       stable.gcc # C and C++ compiler toolchain
       stable.gcc-unwrapped # Provides libstdc++ for Python native extensions
       stable.gh # GitHub CLI used by repository scripts
@@ -39,7 +41,6 @@ in {
       stable.pyrefly # Python type checker
       stable.python3Packages.jupytext # Represent notebooks as text
       stable.python3Packages.scalene # Python profiler
-      litellmProxy # LiteLLM with the proxy extra
       stable.ruff # Python linter and formatter
       stable.selene # Fast Lua linter/static analyzer
       stable.shellcheck # Shell script analyzer
@@ -49,10 +50,10 @@ in {
       stable.statix # Nix static analyzer
       stable.stylua # Lua formatter used by conform.nvim
       stable.taplo # TOML formatter and LSP
-      unstable.ty # Python type checker
       stable.vscode-langservers-extracted # HTML, CSS, JSON and ESLint language servers
       stable.yaml-language-server # YAML LSP
       stable.zuban # Mypy-compatible Python language server
+      unstable.ty # Python type checker
     ]
     ++ lib.optionals (stable.stdenv.hostPlatform.system == "x86_64-linux") [local.semble];
 }
