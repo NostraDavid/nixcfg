@@ -228,8 +228,8 @@ in {
           ".config/ndtk/azure.env.example" = {source = mk "${dot}/ndtk/.config/ndtk/azure.env.example";};
           ".config/ndtk/repos.dat" = {source = mk "${dot}/ndtk/.config/ndtk/repos.dat";};
           ".config/niri/config.kdl" = {source = mk "${dot}/niri-26.04/.config/niri/config.kdl";};
-          ".config/say/espeak-ng-data" = {source = "${local.say-espeak-ng}/share/espeak-ng-data";};
-          ".config/say/piper.sed" = {source = mk "${dot}/say/piper.sed";};
+          ".config/say/espeak-ng-data" = {source = "${local.espeak-ng}/share/espeak-ng-data";};
+          ".config/say/piper.sed" = {source = mk "${dot}/espeak-ng-1.52.0/piper.sed";};
           ".groovylintrc.json" = {source = mk "${dot}/groovy-lint-15.2.0/.groovylintrc.json";};
           ".local/share/mbrola/nl2" = {source = "${mbrolaNl2}/data/nl2";};
           ".local/share/piper-voices/en_US-amy-medium.onnx.json" = {source = mk "${dot}/piper-voices/en_US-amy-medium.onnx.json";};
