@@ -6,10 +6,6 @@
       ],
       "command": "agent-memory"
     },
-    "qartez": {
-      "args": [],
-      "command": "qartez"
-    },
     "headroom": {
       "args": [
         "mcp",
@@ -18,6 +14,10 @@
         "stdio"
       ],
       "command": "headroom"
+    },
+    "qartez": {
+      "args": [],
+      "command": "qartez"
     }
   }
 }
