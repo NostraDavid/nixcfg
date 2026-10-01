@@ -8,6 +8,15 @@
   forceAll = builtins.mapAttrs (_: file: file // {force = true;});
 in {
   home.file = forceAll {
+    "AGENTS.md".source = mk "${dot}/agents/instructions/AGENTS.md";
+    ".agents/instructions".source = mk "${dot}/agents/instructions";
+    ".agents/audio-notify".source = mk "${dot}/agents/.agents/audio-notify";
+    ".codex/AGENTS.md".source = config.home.file."AGENTS.md".source;
+    ".pi/agent/AGENTS.md".source = config.home.file."AGENTS.md".source;
+    ".claude/CLAUDE.md".source = config.home.file."AGENTS.md".source;
+    ".copilot/copilot-instructions.md".source = config.home.file."AGENTS.md".source;
+    ".copilot/instructions/eu-ai-act.instructions.md".source = mk "${dot}/agents/instructions/eu-ai-act.md";
+    ".config/opencode/AGENTS.md".source = config.home.file."AGENTS.md".source;
     ".config/cloc/options.txt".source = mk "${dot}/cloc-2.08/.config/cloc/options.txt";
     ".config/dprint/dprint.jsonc".source = mk "${dot}/dprint-0.55.2/.config/dprint/dprint.jsonc";
     ".config/git/attributes".source = mk "${dot}/git-2.49.0/.config/git/attributes";

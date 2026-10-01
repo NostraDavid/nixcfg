@@ -1,20 +1,7 @@
 # AGENTS.md
 
-- Before asking the user a question or handing over a completed task, follow
-  @~/.agents/audio-notify/SKILL.md
+Before starting work, read and follow `~/.agents/instructions/shared.md` for the
+common rules used by the base and work configurations.
 
-- @~/.agents/instructions/batch-instructions.md
-- @~/.agents/instructions/qartez.md
-- @~/.agents/instructions/semble.md
-- @~/.agents/instructions/memory.md
-- @~/.agents/instructions/cli-proxy-policy.md
-- @~/.agents/instructions/commit-style.md
-- @~/.agents/instructions/worktrees.md
-
-- When external library documentation is needed, use the `c7` skill at
-  `~/.agents/skills/c7/SKILL.md`.
-- When large raw outputs need compression or compressed details need retrieval,
-  use the `hr` skill at `~/.agents/skills/hr/SKILL.md`.
-
-- When tracking work in a repository configured for Beads, use
-  `~/.agents/skills/beads/SKILL.md`.
+Repository-specific instructions below take precedence over shared instructions
+when they conflict.

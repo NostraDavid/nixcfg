@@ -121,6 +121,45 @@ portable module also installs Git, Git LFS, Neovim, uv, direnv, and Node.js 24.
 The opt-in workstation module adds common workstation tools; keep only
 work-specific packages in the work module.
 
+## Override agent instructions
+
+The portable module installs the base instruction directory at
+`~/.agents/instructions`. Both configurations use its `shared.md`. To add work
+rules, create an `AGENTS.md` in the work repository:
+
+```markdown
+# AGENTS.md
+
+Read and follow ~/.agents/instructions/shared.md before starting work.
+
+Repository-specific instructions below take precedence over shared instructions
+when they conflict.
+
+## Work rules
+
+Add the work repository's instructions here.
+```
+
+In `home/work.nix`, override the entrypoint's source. Adjust the checkout path
+to the work repository's actual location:
+
+```nix
+{config, lib, ...}: {
+  home.file."AGENTS.md".source = lib.mkForce (
+    config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/work/nixcfg/trunk/AGENTS.md"
+  );
+}
+```
+
+Codex, Claude, Pi, OpenCode, and Copilot follow this source automatically. Keep
+`~/.agents/instructions` linked to the base checkout. The out-of-store link
+allows Qartez to inject its marked section into the work-owned `AGENTS.md`. Keep
+that section out of `shared.md` and exclude it when comparing the manually
+maintained instructions between repositories. Changes to the shared rules belong
+in the base repository. Agent skills and MCP configuration remain separate from
+these instruction files.
+
 ## Keep the host contract
 
 The builders fix these values:

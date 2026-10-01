@@ -187,36 +187,23 @@ in {
       forceAll ({
           # cli-proxies
 
-          ## Generic
-          "AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
-          ".agents/instructions" = {source = mk "${dot}/agents/instructions";};
-          ".agents/audio-notify" = {source = mk "${dot}/agents/.agents/audio-notify";};
-
           ## Codex
-          ".codex/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
           ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
           ".codex/hooks.json" = {source = mk "${dot}/codex-0.140.0/.codex/hooks.json";};
           "plugins/ponytail" = {source = local.ponytail-codex;};
-          ## pi
-          ".pi/agent/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
-
           ## Claude
           ".claude/skills/ctx".source = "${namedSkills}/ctx";
           ".pi/agent/skills/ctx".source = "${namedSkills}/ctx";
           ".claude/settings.json" = {source = mk "${dot}/claude-2.1.191/.claude/settings.json";};
-          ".claude/CLAUDE.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
           ## Copilot
           ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/hooks/cli-proxy.json";};
-          ".copilot/copilot-instructions.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
-          ".copilot/instructions/eu-ai-act.instructions.md" = {source = mk "${dot}/agents/instructions/eu-ai-act.md";};
           ".copilot/mcp-config.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/mcp-config.json";};
           ".copilot/prompts" = {source = mk "${dot}/copilot-1.0.65/.copilot/prompts";};
           ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/settings.json";};
 
           ## OpenCode
           ".config/opencode/opencode.jsonc" = {source = mk "${dot}/opencode-1.18.4/.config/opencode/opencode.jsonc";};
-          ".config/opencode/AGENTS.md" = {source = mk "${dot}/agents/instructions/AGENTS.md";};
 
           ## Shared MCP
           ".config/mcp/mcp.json" = {source = mk "${dot}/mcp/.config/mcp/mcp.json";};
