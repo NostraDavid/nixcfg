@@ -2,20 +2,20 @@
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
-#     "opentelemetry-api>=1.36.0",
-#     "opentelemetry-sdk>=1.36.0",
-#     "structlog>=26.1.0",
+#     "click==8.4.2",
+#     "structlog==26.1.0",
 # ]
 # ///
 
 from __future__ import annotations
 
-import argparse
 import concurrent.futures
 import datetime as dt
 import os
+import shutil
 from pathlib import Path
 
+import click
 import grab
 
 DEFAULT_REPOS_FILE = (
@@ -48,127 +48,161 @@ def read_repo_urls(repos_file: Path) -> list[str]:
     return urls
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description=(
-            f"Restore the explicit repository list from repos.dat using the same {grab.BARE_REPO_DIR} plus flat branch/tag worktree layout as grab.py. grab.py discovers GitHub personal and org repositories through gh; restore_repos.py restores the fixed list, including non-GitHub remotes."
-        ),
-    )
-    parser.add_argument(
-        "target_dir",
-        nargs="?",
-        type=Path,
-        default=Path.home() / "dev",
-        help="Directory to sync repositories into. Defaults to ~/dev.",
-    )
-    parser.add_argument(
-        "--repos-file",
-        type=Path,
-        default=DEFAULT_REPOS_FILE,
-        help=f"Repository list to restore. Defaults to {DEFAULT_REPOS_FILE}.",
-    )
-    parser.add_argument(
-        "-j",
-        "--jobs",
-        type=int,
-        help="Number of parallel jobs. Defaults to JOBS, otherwise min(cpu_count, 8).",
-    )
-    parser.add_argument(
-        "--branches",
-        default=",".join(grab.DEFAULT_BRANCHES),
-        help=(
-            "Comma-separated branch names for flat worktrees (used only when --no-all-branches is set)."
-        ),
-    )
-    parser.add_argument(
-        "--all-branches",
-        action="store_true",
-        default=True,
-        help="Track all remote branches as flat worktrees (default: enabled).",
-    )
-    parser.add_argument(
-        "--no-all-branches",
-        action="store_false",
-        dest="all_branches",
-        help="Only track branches listed in --branches.",
-    )
-    parser.add_argument(
-        "--tags",
-        default="",
-        help="Comma-separated tag names for detached flat worktrees.",
-    )
-    parser.add_argument(
-        "--all-tags",
-        action="store_true",
-        default=True,
-        help="Track all remote tags as detached flat worktrees (default: enabled).",
-    )
-    parser.add_argument(
-        "--no-all-tags",
-        action="store_false",
-        dest="all_tags",
-        help="Only track tags listed in --tags.",
-    )
-    parser.add_argument(
-        "--worktrees",
-        action="store_true",
-        default=True,
-        help="Sync flat branch and tag worktrees (default: enabled).",
-    )
-    parser.add_argument(
-        "--no-worktrees",
-        action="store_false",
-        dest="worktrees",
-        help="Disable worktree sync and only update worktree.git repositories.",
-    )
-    parser.add_argument(
-        "--prune-worktrees",
-        action="store_true",
-        help="Remove stale flat worktrees not in target set.",
-    )
-    parser.add_argument(
-        "--fetch-timeout",
-        type=int,
-        default=grab.DEFAULT_FETCH_TIMEOUT,
-        help=(
-            f"Timeout in seconds for 'git fetch' per repository. Default: {grab.DEFAULT_FETCH_TIMEOUT}."
-        ),
-    )
-    return parser.parse_args()
+@click.group()
+def cli() -> None:
+    """Restore a fixed repository list, including non-GitHub remotes."""
 
 
-def main() -> int:
+@cli.command("check")
+@click.option(
+    "--repos-file",
+    type=click.Path(path_type=Path, dir_okay=False),
+    default=DEFAULT_REPOS_FILE,
+    show_default=True,
+)
+def check_command(repos_file: Path) -> None:
+    """Check Git and the configured repository inventory."""
+    errors: list[str] = []
+    if shutil.which("git") is None:
+        errors.append("missing executable: git")
+    if not repos_file.expanduser().is_file():
+        errors.append(f"missing repository list: {repos_file.expanduser()}")
+    if errors:
+        raise click.ClickException("\n".join(errors))
+    click.echo("OK")
+
+
+@cli.command("restore")
+@click.argument(
+    "target_dir",
+    required=False,
+    type=click.Path(path_type=Path, file_okay=False),
+    default=Path.home() / "dev",
+)
+@click.option(
+    "--repos-file",
+    type=click.Path(path_type=Path, dir_okay=False),
+    default=DEFAULT_REPOS_FILE,
+    show_default=True,
+    help="Repository list to restore.",
+)
+@click.option(
+    "-j",
+    "--jobs",
+    type=int,
+    help="Number of parallel jobs. Defaults to JOBS, otherwise min(cpu_count, 8).",
+)
+@click.option(
+    "--branches",
+    default=",".join(grab.DEFAULT_BRANCHES),
+    help=(
+        "Comma-separated branch names for flat worktrees (used only when --no-all-branches is set)."
+    ),
+)
+@click.option(
+    "--all-branches/--no-all-branches",
+    default=True,
+    help="Track all remote branches as flat worktrees (default: enabled).",
+)
+@click.option(
+    "--tags",
+    default="",
+    help="Comma-separated tag names for detached flat worktrees.",
+)
+@click.option(
+    "--all-tags/--no-all-tags",
+    default=True,
+    help="Track all remote tags as detached flat worktrees (default: enabled).",
+)
+@click.option(
+    "--worktrees/--no-worktrees",
+    default=True,
+    help="Sync flat branch and tag worktrees (default: enabled).",
+)
+@click.option(
+    "--prune-worktrees",
+    is_flag=True,
+    help="Remove stale flat worktrees not in target set.",
+)
+@click.option(
+    "--fetch-timeout",
+    type=int,
+    default=grab.DEFAULT_FETCH_TIMEOUT,
+    show_default=True,
+    help="Timeout in seconds for 'git fetch' per repository.",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    help="Read the inventory and validate remotes without cloning, fetching, or writing.",
+)
+@click.pass_context
+def restore_command(
+    ctx: click.Context,
+    target_dir: Path,
+    repos_file: Path,
+    jobs: int | None,
+    branches: str,
+    all_branches: bool,
+    tags: str,
+    all_tags: bool,
+    worktrees: bool,
+    prune_worktrees: bool,
+    fetch_timeout: int,
+    dry_run: bool,
+) -> None:
+    """Restore repositories from the configured inventory."""
+    ctx.exit(
+        run_restore(
+            target_dir,
+            repos_file,
+            jobs,
+            branches,
+            all_branches,
+            tags,
+            all_tags,
+            worktrees,
+            prune_worktrees,
+            fetch_timeout,
+            dry_run,
+        )
+    )
+
+
+def run_restore(
+    target_dir: Path,
+    repos_file: Path,
+    jobs: int | None,
+    branches: str,
+    all_branches: bool,
+    tags: str,
+    all_tags: bool,
+    worktrees: bool,
+    prune_worktrees: bool,
+    fetch_timeout: int,
+    dry_run: bool,
+) -> int:
     grab.configure_logging()
-    args = parse_args()
     if not grab.require("git"):
         return 1
 
-    repos_file = args.repos_file.expanduser()
-    if not repos_file.is_file():
-        grab.logger.error(
-            "repo_list_missing",
-            repos_file=str(repos_file),
-            hint="Activate Home Manager or supply --repos-file PATH.",
-        )
-        return 1
-    try:
-        all_repos = read_repo_urls(repos_file)
-    except OSError as error:
-        grab.logger.error(
-            "repo_list_unreadable", repos_file=str(repos_file), error=str(error)
-        )
+    repos_file = repos_file.expanduser()
+    if not repos_file.exists():
+        grab.logger.error("repo_list_missing", repos_file=str(repos_file))
         return 1
 
-    target_dir = args.target_dir.expanduser()
-    target_dir.mkdir(parents=True, exist_ok=True)
-    requested_branches = None if args.all_branches else grab.parse_csv(args.branches)
-    requested_tags = grab.parse_csv(args.tags)
+    target_dir = target_dir.expanduser()
+    if not dry_run:
+        target_dir.mkdir(parents=True, exist_ok=True)
+    requested_branches = None if all_branches else grab.parse_csv(branches)
+    requested_tags = grab.parse_csv(tags)
 
+    all_repos = read_repo_urls(repos_file)
     if not all_repos:
         grab.logger.info("no_repositories_found", repos_file=str(repos_file))
         return 0
 
-    jobs = grab.detect_jobs(args.jobs)
+    jobs = grab.detect_jobs(jobs)
     started_at = dt.datetime.now(dt.UTC)
     grab.logger.info(
         "restore_started",
@@ -187,10 +221,11 @@ def main() -> int:
                 target_dir,
                 requested_branches,
                 requested_tags,
-                args.all_tags,
-                args.worktrees,
-                args.prune_worktrees,
-                args.fetch_timeout,
+                all_tags,
+                worktrees,
+                prune_worktrees,
+                fetch_timeout,
+                dry_run,
             )
             for repo_url in all_repos
         ]
@@ -216,4 +251,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    cli()

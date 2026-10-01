@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.14"
-# dependencies = ["structlog>=26.1.0"]
+# dependencies = ["click==8.4.2", "pytest==9.1.1", "pytest-cov==7.1.0", "structlog==26.1.0"]
 # ///
 """Check shared commands against temporary repositories, without network access."""
 
@@ -12,7 +12,9 @@ import sys
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
+from click.testing import CliRunner
 
 BIN = Path(__file__).resolve().parents[1] / ".local/bin"
 
@@ -114,18 +116,10 @@ class MigrationTests(unittest.TestCase):
             worktree = root / "worktree"
             git("-C", str(repo), "worktree", "add", "-b", "feature", str(worktree))
             (worktree / "untracked.txt").write_text("local\n")
-            self.assertIn(worktree / ".git", scanner.git_dirs(root))
-            with (
-                patch.object(scanner, "parse_args", return_value=Mock(search_dir=root)),
-                patch.object(scanner, "logger") as logger,
-            ):
-                self.assertEqual(scanner.main(), 0)
-                self.assertIn(
-                    unittest.mock.call(
-                        "repo_has_uncommitted_changes", repo=str(worktree)
-                    ),
-                    logger.warning.call_args_list,
-                )
+            self.assertIn(worktree, scanner.repo_paths(root))
+            result = CliRunner().invoke(scanner.cli, ["scan", str(root)])
+            self.assertEqual(result.exit_code, 0, result.output)
+            self.assertIn(f"uncommitted\t{worktree}", result.stdout)
             git(
                 "-C",
                 str(repo),
@@ -135,9 +129,10 @@ class MigrationTests(unittest.TestCase):
                 "https://user:secret@example.test/team/repo.git",
             )
             inventory = root / "state/repos.dat"
-            args = Mock(search_dir=root, repos_file=inventory, dry_run=False)
-            with patch.object(saver, "parse_args", return_value=args):
-                self.assertEqual(saver.main(), 0)
+            result = CliRunner().invoke(
+                saver.cli, ["save", str(root), "--output", str(inventory)]
+            )
+            self.assertEqual(result.exit_code, 0, result.output)
             self.assertEqual(
                 inventory.read_text(), "https://example.test/team/repo.git\n"
             )
@@ -146,12 +141,10 @@ class MigrationTests(unittest.TestCase):
                 "git@example.test:team/repo.git",
             )
             before = inventory.read_bytes()
-            args.dry_run = True
-            with (
-                patch.object(saver, "parse_args", return_value=args),
-                patch("builtins.print"),
-            ):
-                self.assertEqual(saver.main(), 0)
+            result = CliRunner().invoke(
+                saver.cli, ["save", str(root), "--output", str(inventory), "--dry-run"]
+            )
+            self.assertEqual(result.exit_code, 0, result.output)
             self.assertEqual(inventory.read_bytes(), before)
             committed_time = int(git("-C", str(repo), "log", "-1", "--format=%ct"))
             tracked.write_text("dirty\n")
