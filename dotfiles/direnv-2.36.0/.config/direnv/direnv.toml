@@ -1,0 +1,7 @@
+[global]
+# Nix + nix-direnv can produce noisy environment diffs on each reload.
+hide_env_diff = true
+# Keep .envrc evaluation non-interactive so shells never hang on stdin.
+disable_stdin = true
+# Give normal flake/dev-shell evaluation a little room before warning.
+warn_timeout = "15s"
