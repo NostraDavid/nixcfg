@@ -2,9 +2,7 @@
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
-#     "opentelemetry-api>=1.36.0",
-#     "opentelemetry-sdk>=1.36.0",
-#     "structlog>=26.1.0",
+#     "structlog==26.1.0",
 # ]
 # ///
 
@@ -24,16 +22,13 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import urlparse
 
-import structlog as logging
-from opentelemetry import trace
-from opentelemetry.sdk.resources import Resource
-from opentelemetry.sdk.trace import ReadableSpan, TracerProvider
-from opentelemetry.sdk.trace.export import (
-    SimpleSpanProcessor,
-    SpanExporter,
-    SpanExportResult,
-)
-from opentelemetry.trace import Span, Status, StatusCode
+import structlog as sl
+import structlog.contextvars as cv
+import structlog.stdlib as log
+
+# Load the shared module installed by Home Manager.
+sys.path.insert(0, str(Path.home() / ".local" / "bin"))
+from repo_timestamps import ensure_dprint_config_link, refresh_repository_tree  # noqa: E402
 
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
@@ -49,13 +44,11 @@ RESERVED_WORKTREE_NAMES = {
     "checkouts",
 }
 
-logger = logging.stdlib.get_logger(__name__)
-tracer = trace.get_tracer(__name__)
+logger = log.get_logger(__name__)
 
 
 @dataclass
 class RepoTrace:
-    span: Span
     repo_url: str
     repo: str
     started_monotonic: float = field(default_factory=time.monotonic)
@@ -74,68 +67,22 @@ class RepoTrace:
         self.warnings.append(message)
 
     def finish(self, ok: bool, reason: str) -> None:
-        self.span.set_attribute("grab.repo", self.repo)
-        self.span.set_attribute("grab.repo_url", self.repo_url)
-        self.span.set_attribute("grab.ok", ok)
-        self.span.set_attribute("grab.reason", reason)
-        self.span.set_attribute(
-            "grab.elapsed_ms",
-            round((time.monotonic() - self.started_monotonic) * 1000),
+        emit = logger.info if ok else logger.error
+        emit(
+            "repo_sync",
+            repo=self.repo,
+            repo_url=self.repo_url,
+            ok=ok,
+            reason=reason,
+            elapsed_ms=round((time.monotonic() - self.started_monotonic) * 1000),
+            worktrees_enabled=self.worktrees_enabled,
+            prune_worktrees=self.prune_worktrees,
+            fetch_timeout_seconds=self.fetch_timeout_seconds,
+            branches=self.branches_selected,
+            tags=self.tags_selected,
+            actions=self.actions,
+            warnings=self.warnings,
         )
-        self.span.set_attribute("grab.worktrees_enabled", self.worktrees_enabled)
-        self.span.set_attribute("grab.prune_worktrees", self.prune_worktrees)
-        self.span.set_attribute(
-            "grab.fetch_timeout_seconds", self.fetch_timeout_seconds
-        )
-        self.span.set_attribute("grab.branches", self.branches_selected)
-        self.span.set_attribute("grab.tags", self.tags_selected)
-        self.span.set_attribute("grab.actions", self.actions)
-        self.span.set_attribute("grab.warnings", self.warnings)
-        if ok:
-            self.span.set_status(Status(StatusCode.OK))
-        else:
-            self.span.set_status(Status(StatusCode.ERROR, reason))
-
-
-class RepoSummarySpanExporter(SpanExporter):
-    def export(self, spans: list[ReadableSpan]) -> SpanExportResult:
-        for span in spans:
-            if span.name != "repo.sync":
-                continue
-
-            attrs = span.attributes
-            status_ok = attrs.get("grab.ok", False)
-            log = logger.info if status_ok else logger.error
-            context = span.context
-            log(
-                "repo_sync",
-                trace_id=f"{context.trace_id:032x}",
-                span_id=f"{context.span_id:016x}",
-                repo=attrs.get("grab.repo"),
-                repo_url=attrs.get("grab.repo_url"),
-                ok=status_ok,
-                reason=attrs.get("grab.reason"),
-                elapsed_ms=attrs.get("grab.elapsed_ms"),
-                worktrees_enabled=attrs.get("grab.worktrees_enabled"),
-                prune_worktrees=attrs.get("grab.prune_worktrees"),
-                fetch_timeout_seconds=attrs.get("grab.fetch_timeout_seconds"),
-                branches=list(attrs.get("grab.branches", ())),
-                tags=list(attrs.get("grab.tags", ())),
-                actions=list(attrs.get("grab.actions", ())),
-                warnings=list(attrs.get("grab.warnings", ())),
-            )
-        return SpanExportResult.SUCCESS
-
-    def shutdown(self) -> None:
-        return None
-
-
-def configure_tracing() -> None:
-    provider = TracerProvider(resource=Resource.create({"service.name": "grab.py"}))
-    provider.add_span_processor(SimpleSpanProcessor(RepoSummarySpanExporter()))
-    trace.set_tracer_provider(provider)
-    global tracer
-    tracer = trace.get_tracer("grab.py")
 
 
 def finish_repo_trace(
@@ -154,12 +101,15 @@ def succeed_repo_trace(trace_ctx: RepoTrace, reason: str) -> tuple[str, bool, st
 
 
 def configure_logging() -> None:
-    logging.configure(
+    sl.configure(
         processors=[
-            logging.processors.TimeStamper(fmt="iso"),
-            logging.processors.add_log_level,
-            logging.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
+            cv.merge_contextvars,
+            sl.processors.TimeStamper(fmt="iso"),
+            sl.processors.add_log_level,
+            sl.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
         ],
+        wrapper_class=sl.make_filtering_bound_logger("debug"),
+        logger_factory=sl.PrintLoggerFactory(file=sys.stderr),
     )
 
 
@@ -177,7 +127,7 @@ def run(
     capture: bool = False,
     timeout: int = TIMEOUT,
 ) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
+    return subprocess.run(  # noqa: S603 - callers construct the command arguments
         args,
         cwd=cwd,
         check=False,
@@ -260,6 +210,10 @@ def sanitize_worktree_name(ref_name: str) -> str:
     return ref_name.strip().replace("/", "-")
 
 
+def is_pull_request_tag(tag: str) -> bool:
+    return "-PR-" in tag
+
+
 def unique_worktree_name(name: str, occupied: set[str], prefix: str) -> str:
     candidate = name
     while candidate in occupied or candidate in RESERVED_WORKTREE_NAMES:
@@ -299,6 +253,17 @@ def repo_path_part(repo_url: str) -> str:
 def repo_is_bare_repo(repo_path: Path) -> bool:
     proc = run_git(["rev-parse", "--is-bare-repository"], repo_path, capture=True)
     return proc.returncode == 0 and proc.stdout.strip() == "true"
+
+
+def set_repo_mtime_to_latest_commit(repo_root: Path, bare_dir: Path) -> None:
+    stats = refresh_repository_tree(repo_root, bare_dir=bare_dir)
+    logger.info(
+        "repo_timestamps_updated",
+        repo_root=str(repo_root),
+        files=stats.files_updated,
+        directories=stats.directories_updated,
+        worktrees=stats.worktrees_scanned,
+    )
 
 
 def cleanup_partial(repo_path: Path, trace: RepoTrace | None = None) -> None:
@@ -453,8 +418,8 @@ def initialize_empty_remote_repo(repo_url: str, trace: RepoTrace) -> tuple[bool,
 def resolve_selected_tags(repo_url: str, tags: list[str], all_tags: bool) -> list[str]:
     remote_tags = list_remote_tags(repo_url)
     if all_tags:
-        return sorted(remote_tags)
-    return [tag for tag in tags if tag in remote_tags]
+        return [tag for tag in sorted(remote_tags) if not is_pull_request_tag(tag)]
+    return [tag for tag in tags if tag in remote_tags and not is_pull_request_tag(tag)]
 
 
 def ensure_fetch_refspecs(
@@ -620,6 +585,9 @@ def ensure_branch_worktrees(
                 return False, f"branch worktree add {branch}: {reason}", expected
             trace.add_action(f"branch worktree added: {branch}")
 
+        if ensure_dprint_config_link(target):
+            trace.add_action(f"dprint config linked: {branch}")
+
         set_upstream = run_git(
             ["branch", "--set-upstream-to", f"origin/{branch}", branch],
             repo_path=target,
@@ -683,6 +651,9 @@ def ensure_tag_worktrees(
                 return False, f"tag worktree add {tag}: {reason}", expected
             trace.add_action(f"tag worktree added: {tag}")
 
+        if ensure_dprint_config_link(target):
+            trace.add_action(f"dprint config linked: {tag}")
+
         if worktree_is_dirty(target):
             trace.add_warning(f"tag update skipped (dirty worktree): {tag}")
             continue
@@ -709,6 +680,8 @@ def prune_stale_worktrees(
     existing = list_worktree_paths(bare_dir)
     for worktree_path in sorted(existing):
         if worktree_path in expected_paths:
+            continue
+        if is_pull_request_tag(worktree_path.name):
             continue
         if (
             worktree_path.parent != repo_root
@@ -765,11 +738,11 @@ def clone_or_update_repo(
     sync_worktrees: bool,
     prune_worktrees_flag: bool,
     fetch_timeout: int,
+    dry_run: bool = False,
 ) -> tuple[str, bool, str]:
     org_and_repo = repo_path_part(repo_url)
-    with tracer.start_as_current_span("repo.sync") as span:
+    with cv.bound_contextvars(repo=org_and_repo, repo_url=repo_url):
         trace_ctx = RepoTrace(
-            span=span,
             repo_url=repo_url,
             repo=org_and_repo,
             worktrees_enabled=sync_worktrees,
@@ -777,11 +750,26 @@ def clone_or_update_repo(
             fetch_timeout_seconds=fetch_timeout,
         )
         repo_root = target_dir / org_and_repo
+        bare_dir = repo_root / BARE_REPO_DIR
+        if dry_run:
+            if bare_dir.exists() and not repo_is_bare_repo(bare_dir):
+                return fail_repo_trace(
+                    trace_ctx, f"{bare_dir} exists but is not a bare git repo"
+                )
+            remote_heads = list_remote_heads(repo_url)
+            if remote_heads is None:
+                return fail_repo_trace(trace_ctx, "unable to list remote branches")
+            selected_branches = resolve_selected_branches(repo_url, requested_branches)
+            selected_tags = resolve_selected_tags(repo_url, requested_tags, all_tags)
+            trace_ctx.branches_selected = selected_branches
+            trace_ctx.tags_selected = selected_tags
+            action = "update" if bare_dir.exists() else "clone"
+            trace_ctx.add_action(f"would {action} {bare_dir}")
+            return succeed_repo_trace(trace_ctx, f"dry-run: would {action}")
+
         ok, reason = maybe_migrate_legacy_bare_repo(repo_root, trace_ctx)
         if not ok:
             return fail_repo_trace(trace_ctx, reason)
-
-        bare_dir = repo_root / BARE_REPO_DIR
 
         if bare_dir.exists():
             if not repo_is_bare_repo(bare_dir):
@@ -871,6 +859,7 @@ def clone_or_update_repo(
             return fail_repo_trace(trace_ctx, head_reason)
 
         if not sync_worktrees:
+            set_repo_mtime_to_latest_commit(repo_root, bare_dir)
             return succeed_repo_trace(trace_ctx, f"{BARE_REPO_DIR} updated")
 
         expected_paths: set[Path] = set()
@@ -899,6 +888,7 @@ def clone_or_update_repo(
         if prune_worktrees_flag:
             prune_stale_worktrees(bare_dir, repo_root, expected_paths, trace_ctx)
 
+        set_repo_mtime_to_latest_commit(repo_root, bare_dir)
         return succeed_repo_trace(trace_ctx, "updated")
 
 
@@ -1026,6 +1016,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
             f"Timeout in seconds for 'git fetch' per repository. Default: {DEFAULT_FETCH_TIMEOUT}."
         ),
     )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Discover repositories and validate remote selections without writing or fetching.",
+    )
     return parser.parse_args(argv)
 
 
@@ -1151,6 +1146,43 @@ def run_tests(argv: list[str]) -> int:
                 "release",
             ]
 
+        def test_clone_or_update_dry_run_never_runs_git(self) -> None:
+            with (
+                tempfile.TemporaryDirectory() as tmp_dir,
+                mock.patch(f"{__name__}.list_remote_heads", return_value={"main"}),
+                mock.patch(
+                    f"{__name__}.resolve_selected_branches",
+                    return_value=["main"],
+                ),
+                mock.patch(f"{__name__}.resolve_selected_tags", return_value=[]),
+                mock.patch(f"{__name__}.run_git") as run_git_mock,
+            ):
+                _url, ok, reason = clone_or_update_repo(
+                    "git@example.test:team/repo.git",
+                    Path(tmp_dir),
+                    ["main"],
+                    [],
+                    False,
+                    True,
+                    False,
+                    DEFAULT_FETCH_TIMEOUT,
+                    True,
+                )
+
+            assert ok
+            assert reason == "dry-run: would clone"
+            run_git_mock.assert_not_called()
+
+        def test_repo_mtime_uses_latest_commit_timestamp(self) -> None:
+            with (
+                tempfile.TemporaryDirectory() as tmp_dir,
+                mock.patch(f"{__name__}.refresh_repository_tree") as refresh_mock,
+            ):
+                repo_root = Path(tmp_dir)
+                bare_dir = repo_root / BARE_REPO_DIR
+                set_repo_mtime_to_latest_commit(repo_root, bare_dir)
+                refresh_mock.assert_called_once_with(repo_root, bare_dir=bare_dir)
+
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(GrabTests)
     runner = unittest.TextTestRunner(verbosity=2 if args.verbose else 1)
     result = runner.run(suite)
@@ -1159,17 +1191,29 @@ def run_tests(argv: list[str]) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
+    if argv == ["check"]:
+        errors = [
+            f"missing executable: {name}"
+            for name in ("git", "gh")
+            if shutil.which(name) is None
+        ]
+        if errors:
+            for error in errors:
+                print(error, file=sys.stderr)
+            return 1
+        print("OK")
+        return 0
     if argv and argv[0] == "tests":
         return run_tests(argv[1:])
 
     configure_logging()
-    configure_tracing()
     args = parse_args(argv)
     if not require("gh"):
         return 1
 
     target_dir = args.target_dir.expanduser()
-    target_dir.mkdir(parents=True, exist_ok=True)
+    if not args.dry_run:
+        target_dir.mkdir(parents=True, exist_ok=True)
     requested_branches = None if args.all_branches else parse_csv(args.branches)
     requested_tags = parse_csv(args.tags)
 
@@ -1210,13 +1254,14 @@ def main(argv: list[str] | None = None) -> int:
                 args.worktrees,
                 args.prune_worktrees,
                 args.fetch_timeout,
+                args.dry_run,
             )
             for repo_url in all_repos
         ]
         for future in concurrent.futures.as_completed(futures):
             try:
                 repo_url, ok, reason = future.result()
-            except Exception as exc:
+            except Exception as exc:  # noqa: BLE001
                 logger.exception("repo_worker_failed", error=str(exc))
                 return 1
             if not ok:

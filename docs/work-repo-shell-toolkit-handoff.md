@@ -32,16 +32,32 @@ Personal command sources moved from `dotfiles/local/.local/bin/` and
 Azure example moved to `dotfiles/ndtk/.config/ndtk/`. The commands use these
 default paths:
 
-| Purpose                                 | Path                            |
-| --------------------------------------- | ------------------------------- |
-| Repository list for `restore_repos`     | `~/.config/ndtk/repos.dat`      |
-| Azure settings for `get_azure_repos`    | `~/.config/ndtk/azure.env`      |
-| Generated list from `save_cloned_repos` | `~/.local/state/ndtk/repos.dat` |
+| Purpose                                                 | Path                       |
+| ------------------------------------------------------- | -------------------------- |
+| Repository list for `restore_repos`                     | `~/.config/ndtk/repos.dat` |
+| Azure settings for `get_azure_repos`                    | `~/.config/ndtk/azure.env` |
+| Generated list from `save_cloned_repos save SEARCH_DIR` | `SEARCH_DIR/repos.dat`     |
 
 The old Wodan mapping put the repository scripts, `repos.dat`, and the Azure
 example under `~/dev/`. It no longer does. `restore_repos` now reads the curated
-list from XDG config, while `save_cloned_repos` writes a separate generated list
-under XDG state.
+list from XDG config, while `save_cloned_repos save SEARCH_DIR` writes a
+separate generated list to `SEARCH_DIR/repos.dat`. Use `--output` to choose
+another path, including the previous XDG state location.
+
+The base scripts now use the rewritten work implementations. Update existing
+commands to use `find-uncommitted scan PATH`, `save_cloned_repos save PATH`,
+`restore_repos restore PATH`, and
+`update_all_local_repos update --project PATH`. Their `unit-test`, `tests`, and
+`test` commands run local tests.
+
+The work migration removes seven duplicate scripts and points their command
+links and compatibility aliases at base. Keep the importable `grab.py` and
+`repo_timestamps.py` aliases in `~/.local/bin/`. Keep the provider-discovery
+scripts and private repository lists in the work configuration.
+
+Set `NDTK_BITBUCKET_HOST` and `NDTK_AZURE_USERNAME` in the work profile's
+`home.sessionVariables`. The base defaults are `bitbucket.org` and `git`. An
+explicit username in a remote URL takes precedence over the Azure default.
 
 `get_azure_repos` now reads `~/.config/ndtk/azure.env` explicitly instead of
 loading a `.env` file from the current directory. If the work host has Azure
@@ -61,8 +77,9 @@ import Wodan's full dotfiles module just to obtain NDTK.
 ## Apply and check
 
 1. Commit and push the base changes, then update the work flake's `nixcfg`
-   input. The work flake cannot use uncommitted base changes from its GitHub
-   input.
+   input. To test local base changes before publishing them, add
+   `--override-input nixcfg path:/home/david/nixcfg --no-write-lock-file` to the
+   work build and switch commands. The GitHub input requires published changes.
 2. Remove conflicting work-owned Bash mappings and add any needed NDTK mappings.
    Evaluate and switch both hosts using the commands in
    [the work integration guide](work-repo-integration.md#check-and-apply-the-work-flake).

@@ -2,28 +2,40 @@
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
-#     "structlog>=26.1.0",
+#     "click==8.4.2",
+#     "pytest==9.1.1",
+#     "pytest-cov==7.1.0",
+#     "structlog==26.1.0",
 # ]
 # ///
 
-import argparse
+"""Save credential-free origin URLs for locally cloned Git repositories."""
+
+import contextlib
+import io
 import os
 import re
-import subprocess
+import shutil
+import subprocess as sp
 import sys
 import tempfile
+from collections.abc import Callable
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
+import click
+import pytest
 import structlog as sl
-from structlog.stdlib import get_logger
+import structlog.stdlib as log
+from click.testing import CliRunner
 
+logger = log.get_logger(__name__)
+OriginReader = Callable[[Path], str | None]
 REMOTE_URL_RE = re.compile(r"^(?:(?:https?|ssh|git|file)://|[^@\s]+@[^:\s]+:)")
-DEFAULT_REPOS_FILE = (
-    Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state")
-    / "ndtk/repos.dat"
-)
-logger = get_logger()
+
+
+class SaveReposError(Exception):
+    """Report an expected repository inventory failure."""
 
 
 def configure_logging() -> None:
@@ -33,36 +45,33 @@ def configure_logging() -> None:
             sl.processors.add_log_level,
             sl.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
         ],
+        wrapper_class=sl.make_filtering_bound_logger("debug"),
+        logger_factory=sl.PrintLoggerFactory(file=sys.stderr),
+        cache_logger_on_first_use=False,
     )
 
 
-def git_markers(search_dir: Path) -> list[Path]:
-    result: list[Path] = []
-    for root, dirs, files in os.walk(search_dir):
-        if ".git" in dirs:
-            result.append(Path(root) / ".git")
-            dirs.remove(".git")
-        if ".git" in files:
-            result.append(Path(root) / ".git")
-    return result
+def repo_paths(search_dir: Path) -> list[Path]:
+    paths: list[Path] = []
+    for root, directories, files in os.walk(search_dir):
+        if ".git" in directories:
+            paths.append(Path(root))
+            directories.remove(".git")
+        elif ".git" in files:
+            paths.append(Path(root))
+    return sorted(paths)
 
 
-def origin_url(repo_path: Path) -> str:
-    result = subprocess.run(
-        [
-            "git",
-            "-C",
-            str(repo_path),
-            "remote",
-            "get-url",
-            "origin",
-        ],
+def origin_url(repo_path: Path) -> str | None:
+    result = sp.run(  # noqa: S603 - fixed executable and argument vector
+        ["git", "-C", str(repo_path), "remote", "get-url", "origin"],  # noqa: S607
         check=False,
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.DEVNULL,
+        capture_output=True,
+        timeout=30,
     )
-    return result.stdout.strip() if result.returncode == 0 else ""
+    value = result.stdout.strip()
+    return value if result.returncode == 0 and value else None
 
 
 def without_credentials(url: str) -> str:
@@ -75,6 +84,15 @@ def without_credentials(url: str) -> str:
     host = f"[{hostname}]" if ":" in hostname else hostname
     netloc = f"{host}:{parts.port}" if parts.port is not None else host
     return urlunsplit((parts.scheme, netloc, parts.path, parts.query, parts.fragment))
+
+
+def collect_urls(search_dir: Path, reader: OriginReader = origin_url) -> list[str]:
+    urls: set[str] = set()
+    for repo_path in repo_paths(search_dir):
+        value = reader(repo_path)
+        if value and REMOTE_URL_RE.match(value):
+            urls.add(without_credentials(value))
+    return sorted(urls, key=str.casefold)
 
 
 def atomic_write(path: Path, content: str) -> None:
@@ -93,63 +111,172 @@ def atomic_write(path: Path, content: str) -> None:
         temporary.unlink(missing_ok=True)
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Save origin URLs for git repositories found under a directory.",
-    )
-    parser.add_argument(
-        "search_dir",
-        nargs="?",
-        type=Path,
-        default=Path.home() / "dev",
-        help="Directory to scan for git repositories. Defaults to ~/dev.",
-    )
-    parser.add_argument(
-        "repos_file",
-        nargs="?",
-        type=Path,
-        default=DEFAULT_REPOS_FILE,
-        help=f"File to write repository URLs to. Defaults to {DEFAULT_REPOS_FILE}.",
-    )
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Print URLs without writing."
-    )
-    return parser.parse_args()
+@click.group()
+def cli() -> None:
+    """Inventory origins beneath a local project directory."""
 
 
-def main() -> int:
+@cli.command("check")
+@click.option(
+    "--search-dir",
+    type=click.Path(path_type=Path, file_okay=False),
+    default=Path.home() / "dev",
+    show_default=True,
+)
+def check_command(search_dir: Path) -> None:
+    """Check Git and read access to the inventory root."""
+    errors: list[str] = []
+    root = search_dir.expanduser()
+    if shutil.which("git") is None:
+        errors.append("missing executable: git")
+    if not root.is_dir():
+        errors.append(f"missing directory: {root}")
+    elif not os.access(root, os.R_OK | os.X_OK):
+        errors.append(f"directory is not readable: {root}")
+    if errors:
+        for error in errors:
+            click.echo(error, err=True)
+        raise SystemExit(1)
+    click.echo("OK")
+
+
+@cli.command("save")
+@click.argument(
+    "search_dir",
+    type=click.Path(path_type=Path, exists=True, file_okay=False),
+    default=Path.home() / "dev",
+)
+@click.option(
+    "--output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    help="Destination file; defaults to SEARCH_DIR/repos.dat.",
+)
+@click.option("--dry-run", is_flag=True, help="Print the inventory without writing it.")
+@click.option(
+    "--yes", is_flag=True, help="Overwrite an existing inventory without confirmation."
+)
+def save_command(
+    search_dir: Path, output: Path | None, dry_run: bool, yes: bool
+) -> None:
+    """Discover origins and save one sanitized URL per line."""
     configure_logging()
-    args = parse_args()
-    search_dir = args.search_dir.expanduser()
-    repos_file = args.repos_file.expanduser()
-
-    if not search_dir.is_dir():
-        logger.error("directory_not_found", path=str(search_dir))
-        return 1
-
-    logger.info("scan_started", path=str(search_dir))
-
-    urls = {
-        without_credentials(url)
-        for gitdir in git_markers(search_dir)
-        if (url := origin_url(gitdir.parent)) and REMOTE_URL_RE.search(url)
-    }
-
-    content = "".join(f"{url}\n" for url in sorted(urls, key=str.casefold))
-    if args.dry_run:
-        print(content, end="")
-        return 0
-    repos_file.parent.mkdir(parents=True, exist_ok=True)
+    destination = output.expanduser() if output else search_dir / "repos.dat"
+    urls = collect_urls(search_dir.expanduser())
+    content = "".join(f"{url}\n" for url in urls)
+    if dry_run:
+        click.echo(content, nl=False)
+        return
+    if destination.exists() and not yes:
+        click.confirm(f"Replace {destination}?", abort=True)
     try:
-        atomic_write(repos_file, content)
+        atomic_write(destination, content)
     except OSError as error:
-        logger.error("repo_list_write_failed", path=str(repos_file), reason=str(error))
-        return 1
+        raise click.ClickException(f"cannot write {destination}: {error}") from error
+    click.echo(f"saved {len(urls)} repository URL(s) to {destination}")
 
-    count = len(urls)
-    logger.info("repos_saved", count=count, path=str(repos_file))
-    return 0
+
+def compact_pytest_output(output: str) -> str:
+    lines = [
+        line
+        for line in output.splitlines()
+        if not (line.startswith("=") and " tests coverage " in line)
+        and not (line.startswith("_") and " coverage: platform " in line)
+    ]
+    return "\n".join(lines).strip() + "\n"
+
+
+@click.command(name="unit-test")
+def unit_test_command() -> None:
+    """Run embedded tests and report line and branch coverage."""
+    with tempfile.TemporaryDirectory(prefix="save-repos-coverage-") as directory:
+        config = Path(directory) / ".coveragerc"
+        config.write_text(
+            os.linesep.join(
+                (
+                    "[run]",
+                    "patch = subprocess",
+                    "include =",
+                    f"    {Path(__file__).resolve().as_posix()}",
+                    "",
+                )
+            ),
+            encoding="utf-8",
+        )
+        previous = os.environ.get("COVERAGE_FILE")
+        os.environ["COVERAGE_FILE"] = str(Path(directory) / ".coverage")
+        captured = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(captured):
+                result = pytest.main(
+                    [
+                        "--cov",
+                        "--cov-branch",
+                        "--cov-config",
+                        str(config),
+                        "--cov-report=term-missing",
+                        "-p",
+                        "no:cacheprovider",
+                        __file__,
+                        "-q",
+                    ]
+                )
+        finally:
+            if previous is None:
+                os.environ.pop("COVERAGE_FILE", None)
+            else:
+                os.environ["COVERAGE_FILE"] = previous
+    click.echo(compact_pytest_output(captured.getvalue()), nl=False)
+    raise SystemExit(result)
+
+
+cli.add_command(unit_test_command)
+
+
+def test_without_credentials() -> None:
+    assert (
+        without_credentials("https://user:secret@example.test/repo.git")
+        == "https://example.test/repo.git"
+    )
+    assert (
+        without_credentials("git@example.test:team/repo.git")
+        == "git@example.test:team/repo.git"
+    )
+
+
+def test_collect_urls(tmp_path: Path) -> None:
+    first, second = tmp_path / "a", tmp_path / "b"
+    (first / ".git").mkdir(parents=True)
+    second.mkdir()
+    (second / ".git").write_text("gitdir: elsewhere", encoding="utf-8")
+    values = {
+        first: "https://user:secret@example.test/z.git",
+        second: "git@example.test:a.git",
+    }
+    assert collect_urls(tmp_path, values.get) == [
+        "git@example.test:a.git",
+        "https://example.test/z.git",
+    ]
+
+
+def test_save_dry_run(tmp_path: Path) -> None:
+    result = CliRunner().invoke(cli, ["save", str(tmp_path), "--dry-run"])
+    assert result.exit_code == 0
+    assert not (tmp_path / "repos.dat").exists()
+
+
+def test_help() -> None:
+    result = CliRunner().invoke(cli, ["--help"])
+    assert result.exit_code == 0
+    assert "save" in result.stdout
+    assert "unit-test" in result.stdout
+
+
+def test_check_success_is_exactly_ok(tmp_path: Path) -> None:
+    result = CliRunner().invoke(cli, ["check", "--search-dir", str(tmp_path)])
+    assert result.exit_code == 0
+    assert result.stdout == "OK\n"
+    assert result.stderr == ""
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    cli()

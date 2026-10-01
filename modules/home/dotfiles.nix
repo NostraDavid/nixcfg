@@ -96,6 +96,7 @@ in {
         (lib.filterAttrs (_: kind: kind == "regular") (builtins.readDir ../../dotfiles/ndtk/.local/bin))
         // {
           ".local/bin/repo_timestamps.py".source = mk "${dot}/ndtk/.local/bin/repo_timestamps.py";
+          ".local/bin/grab.py".source = mk "${dot}/ndtk/.local/bin/grab.py";
         };
       forceAll = builtins.mapAttrs (_: file: file // {force = true;});
       skillCatalog = builtins.fromJSON (builtins.readFile ../../dotfiles/agents/skills.json);

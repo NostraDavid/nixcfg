@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.14"
-# dependencies = ["dotenv", "niquests", "structlog"]
+# dependencies = ["dotenv", "niquests", "structlog", "click", "pytest", "pytest-cov", "stamina"]
 # ///
 
 """Run directly to check repository commands without accessing remote services."""
@@ -29,6 +29,9 @@ def check() -> None:
     with tempfile.TemporaryDirectory(prefix="ndtk-test-") as directory:
         root = Path(directory)
         env = dict(os.environ)
+        env["UV_CACHE_DIR"] = subprocess.check_output(
+            ["uv", "cache", "dir"], text=True
+        ).strip()
         for key in ("AZDO_PAT", "AZDO_ORG_URL", "PYTHON_DOTENV_DISABLED"):
             env.pop(key, None)
         env["XDG_CONFIG_HOME"] = str(root / "config")
@@ -55,12 +58,14 @@ def check() -> None:
         for name in SCRIPTS:
             result = run(name, "--help")
             assert result.returncode == 0, (name, result.stderr)
-        assert str(config / "repos.dat") in run("restore_repos", "--help").stdout
+        assert "--repos-file" in run("restore_repos", "restore", "--help").stdout
         state_file = root / "state/ndtk/repos.dat"
-        assert str(state_file) in run("save_cloned_repos", "--help").stdout
+        assert (
+            "SEARCH_DIR/repos.dat" in run("save_cloned_repos", "save", "--help").stdout
+        )
 
         target = root / "checkout"
-        result = run("restore_repos", str(target))
+        result = run("restore_repos", "restore", str(target))
         assert result.returncode == 1, result.stderr
         assert str(config / "repos.dat") in result.stdout + result.stderr
         assert not target.exists()
@@ -100,30 +105,37 @@ def check() -> None:
 
         repos_file = config / "repos.dat"
         repos_file.write_text("# Empty list\n")
-        assert run("restore_repos", str(target)).returncode == 0
+        assert run("restore_repos", "restore", str(target)).returncode == 0
         scan = root / "scan"
         scan.mkdir()
-        result = run("save_cloned_repos", str(scan))
+        result = run("save_cloned_repos", "save", str(scan))
         assert result.returncode == 0, result.stderr
-        assert state_file.read_text() == ""
+        assert (scan / "repos.dat").read_text() == ""
+        assert not state_file.exists()
         assert repos_file.read_text() == "# Empty list\n"
         explicit = root / "inventory.dat"
-        assert run("save_cloned_repos", str(scan), str(explicit)).returncode == 0
+        assert (
+            run(
+                "save_cloned_repos", "save", str(scan), "--output", str(explicit)
+            ).returncode
+            == 0
+        )
         assert explicit.is_file()
         assert (
-            run("restore_repos", "--repos-file", str(explicit), str(target)).returncode
+            run(
+                "restore_repos", "restore", "--repos-file", str(explicit), str(target)
+            ).returncode
             == 0
         )
 
         env["XDG_CONFIG_HOME"] = ""
         env["XDG_STATE_HOME"] = ""
+        env["HOME"] = str(root / "home")
+        result = run("restore_repos", "check")
+        assert result.returncode == 1, result.stderr
+        assert str(root / "home/.config/ndtk/repos.dat") in result.stderr, result.stderr
         assert (
-            str(Path.home() / ".config/ndtk/repos.dat")
-            in run("restore_repos", "--help").stdout
-        )
-        assert (
-            str(Path.home() / ".local/state/ndtk/repos.dat")
-            in run("save_cloned_repos", "--help").stdout
+            "SEARCH_DIR/repos.dat" in run("save_cloned_repos", "save", "--help").stdout
         )
     print("ok")
 
