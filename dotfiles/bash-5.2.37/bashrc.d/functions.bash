@@ -21,6 +21,36 @@ function now() {
     date +%s
 }
 
+# markdownlint does not automatically honor the XDG config location.
+function markdownlint_f() {
+    local config_path="${XDG_CONFIG_HOME:-$HOME/.config}/markdownlint/config.yaml"
+    local err_file filtered_file status=0
+    command -v markdownlint >/dev/null 2>&1 || {
+        echo 'markdownlint is not installed.' >&2
+        return 1
+    }
+    err_file=$(mktemp) || return 1
+    filtered_file=$(mktemp) || {
+        rm -f "$err_file"
+        return 1
+    }
+
+    if [[ -f $config_path ]]; then
+        command markdownlint --config "$config_path" "$@" 2>"$err_file" || status=$?
+    else
+        command markdownlint "$@" 2>"$err_file" || status=$?
+    fi
+
+    command grep -Ev 'CHANGELOG\.md:.*MD024' "$err_file" >"$filtered_file" || true
+    cat "$filtered_file" >&2
+
+    if [[ $status -eq 1 && -s $err_file && ! -s $filtered_file ]]; then
+        status=0
+    fi
+    rm -f "$err_file" "$filtered_file"
+    return "$status"
+}
+
 # == draw all bash colors ==
 function draw_colors() {
     for x in {0..8}; do

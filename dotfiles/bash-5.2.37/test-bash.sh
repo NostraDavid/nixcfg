@@ -22,15 +22,16 @@ cat >"$tmp/.bashrc.local" <<'EOF'
 printf 'local\n' >> "$HOME/hook-order"
 EOF
 
-(cd "$tmp" && HOME="$tmp" TERM=dumb HISTFILE=/dev/null bash --noprofile --rcfile "$tmp/.bashrc" -ic '
+(cd "$tmp" && HOME="$tmp" COLORTERM='' TERM=dumb HISTFILE=/dev/null bash --noprofile --rcfile "$tmp/.bashrc" -ic '
     [[ $HISTCONTROL == erasedups:ignoredups:ignorespace ]] || exit 1
     [[ $(type -t path_prepend) == function ]] || exit 1
     [[ $(type -t check_and_activate_venv) == function ]] || exit 1
     [[ $(type -t gitbulk) == file ]] || exit 1
+    [[ $COLORTERM == truecolor ]] || exit 1
     alias plasma_restart >/dev/null || exit 1
     [[ ${BASH_ALIASES[vi]} == work-vim ]] || exit 1
     alias work_only >/dev/null || exit 1
-    for name in ff rfc3339 epoch now fix_ssh draw_colors cd_f venv; do
+    for name in ff rfc3339 epoch now fix_ssh draw_colors cd_f venv markdownlint_f; do
         [[ $(type -t "$name") == function ]] || exit 1
     done
     alias cd | grep -q cd_f
@@ -45,7 +46,7 @@ printf 'export TEST_VENV_ACTIVE=1\n' >"$tmp/project/.venv/bin/activate"
 (cd "$tmp" && HOME="$tmp" OSTYPE=darwin24 VIRTUAL_ENV='' TERM=dumb HISTFILE=/dev/null bash --noprofile --rcfile "$tmp/.bashrc" -ic '
     [[ ${BASH_ALIASES[vi]} == work-vim ]] || exit 1
     alias work_only >/dev/null || exit 1
-    for name in gitundo grep sed rg diff l la llo ls sudo cd; do
+    for name in gitundo grep sed rg diff l la llo lll ls sudo cd cd.. .. get_filetypes getsizes dsa dka markdownlint; do
         alias "$name" >/dev/null || exit 1
     done
     for name in ff now draw_colors cd_f; do
@@ -77,6 +78,8 @@ rm "$tmp/.bash_aliases.work"
 # shellcheck disable=SC2016 # The child shell expands BASH_ALIASES.
 HOME="$tmp" PATH="$tmp/available-bin" BASH_ENV="$tmp/.bash_aliases" "$bash_bin" --noprofile --norc -c '
     [[ ${BASH_ALIASES[vi]} == nvim ]] || exit 1
+    [[ ${BASH_ALIASES[grep]} == "grep --color=auto" ]] || exit 1
+    [[ ${BASH_ALIASES[ll]} == "lsd --all --icon=never --human-readable --group-dirs=first --long --classify" ]] || exit 1
     if alias work_only >/dev/null 2>&1; then exit 1; fi
 '
 
@@ -96,3 +99,46 @@ if (cd "$tmp/empty" && "$root/../ndtk/.local/bin/gitbulk") >"$tmp/no-pack" 2>&1;
     exit 1
 fi
 grep -q 'No Git pack indexes found' "$tmp/no-pack"
+
+# Check global config selection and retain failures unrelated to CHANGELOG MD024.
+cat >"$tmp/available-bin/markdownlint" <<'EOF'
+#!/usr/bin/env bash
+printf '%s\n' "$@" >"$MARKDOWNLINT_TEST_ARGS"
+printf '%s' "$MARKDOWNLINT_TEST_STDERR" >&2
+exit "$MARKDOWNLINT_TEST_STATUS"
+EOF
+chmod +x "$tmp/available-bin/markdownlint"
+mkdir -p "$tmp/xdg config/markdownlint"
+printf '{}\n' >"$tmp/xdg config/markdownlint/config.yaml"
+export MARKDOWNLINT_TEST_ARGS="$tmp/markdownlint-args"
+export MARKDOWNLINT_TEST_STDERR=$'CHANGELOG.md:3 MD024 Duplicate heading\n'
+export MARKDOWNLINT_TEST_STATUS=1
+(
+    export HOME="$tmp" XDG_CONFIG_HOME="$tmp/xdg config" PATH="$tmp/available-bin:$PATH"
+    # shellcheck source=bashrc.d/functions.bash
+    source "$root/bashrc.d/functions.bash"
+    markdownlint_f 'file with spaces.md' 2>"$tmp/markdownlint-stderr"
+    [[ ! -s $tmp/markdownlint-stderr ]]
+    [[ $(cat "$MARKDOWNLINT_TEST_ARGS") == $'--config\n'"$XDG_CONFIG_HOME/markdownlint/config.yaml"$'\nfile with spaces.md' ]]
+
+    MARKDOWNLINT_TEST_STDERR+=$'README.md:5 MD013 Line too long\n'
+    status=0
+    markdownlint_f README.md 2>"$tmp/markdownlint-stderr" || status=$?
+    [[ $status == 1 ]]
+    [[ $(cat "$tmp/markdownlint-stderr") == 'README.md:5 MD013 Line too long' ]]
+
+    MARKDOWNLINT_TEST_STDERR=
+    MARKDOWNLINT_TEST_STATUS=2
+    status=0
+    markdownlint_f README.md || status=$?
+    [[ $status == 2 ]]
+
+    MARKDOWNLINT_TEST_STATUS=0
+    unset XDG_CONFIG_HOME
+    markdownlint_f README.md
+    [[ $(cat "$MARKDOWNLINT_TEST_ARGS") == README.md ]]
+    COLORTERM=24bit
+    # shellcheck source=bashrc.d/environment.bash
+    source "$root/bashrc.d/environment.bash"
+    [[ $COLORTERM == 24bit ]]
+)
