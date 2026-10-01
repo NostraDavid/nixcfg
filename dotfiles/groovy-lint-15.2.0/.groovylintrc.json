@@ -1,17 +1,20 @@
 {
-  "extends": "recommended",
+  "extends": "recommended-jenkinsfile",
   "rules": {
     "CompileStatic": {
       "enabled": false
     },
-    "DuplicateStringLiteral": "off",
-    "LineLength": "off",
     "MethodReturnTypeRequired": "off",
-    "NestedBlockDepth": "off",
     "NoDef": "off",
-    "formatting.Indentation": {
-      "spacesPerIndentLevel": 4,
+    "dry.DuplicateStringLiteral": {
+      "duplicateStringMinimumLength": 8,
       "severity": "info"
-    }
+    },
+    "formatting.Indentation": {
+      "severity": "info",
+      "spacesPerIndentLevel": 4
+    },
+    "formatting.LineLength": "off",
+    "size.NestedBlockDepth": "off"
   }
 }
