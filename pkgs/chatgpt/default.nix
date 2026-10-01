@@ -32,6 +32,7 @@
   nspr,
   nss,
   pango,
+  python3,
   stdenv,
   systemd,
   vulkan-loader,
@@ -51,6 +52,7 @@ stdenv.mkDerivation (finalAttrs: {
     autoPatchelfHook
     dpkg
     makeWrapper
+    python3
   ];
 
   buildInputs = [
@@ -108,6 +110,32 @@ stdenv.mkDerivation (finalAttrs: {
   postPatch = ''
     grep -aFq 'const family = familySync();' usr/lib/chatgpt/resources/app.asar
     sed -i "s|const family = familySync();|const family = 'glibc'     ;|" usr/lib/chatgpt/resources/app.asar
+
+    # Node's recursive copy preserves the Nix store's read-only mode. The
+    # local Work executor must rewrite its copied MCP configuration.
+    python3 - <<'PY'
+    import mmap
+
+    with open("usr/lib/chatgpt/resources/app.asar", "r+b") as file, mmap.mmap(file.fileno(), 0) as archive:
+        start = archive.find(b"async function el({executorPluginRoot:")
+        assert start >= 0, "executor plugin initializer not found"
+        end = archive.find(b"async function tl(", start)
+        assert end > start, "executor plugin initializer boundary not found"
+        before = archive[start:end]
+        after = before.replace(
+            b"let n=await nl({useWsl:!1,resourcesPath:t});",
+            b"let n=await nl({useWsl:!1,resourcesPath:t}),f=b.default,p=S.default;",
+        ).replace(
+            b"process.platform!==`win32`&&(n.command=S.default.join(e,S.default.relative(n.cwd,n.command)))",
+            b"n.command=S.default.join(e,S.default.relative(n.cwd,n.command))",
+        ).replace(b"b.default.", b"f.").replace(b"S.default.", b"p.").replace(
+            b"await f.writeFile(p.join(e,`.mcp.json`),",
+            b"await f.chmod(p.join(e,`.mcp.json`),384),await f.writeFile(p.join(e,`.mcp.json`),",
+        )
+        assert b"await f.chmod(" in after, "executor permissions patch did not apply"
+        assert len(after) <= len(before), "executor permissions patch changes ASAR offsets"
+        archive[start:end] = after.ljust(len(before))
+    PY
   '';
 
   installPhase = ''
