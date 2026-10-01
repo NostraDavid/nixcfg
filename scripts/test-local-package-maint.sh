@@ -36,7 +36,7 @@ for package in fixit dockerfile-roast jsongrep mdschema gigatoken; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 
-for package in say-espeak-ng sqlline tamzen-otf; do
+for package in espeak-ng sqlline tamzen-otf; do
     if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
         printf '%s must have a locally updatable version: %s\n' "${package}" "${reason}" >&2
         exit 1
