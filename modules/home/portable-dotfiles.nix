@@ -18,6 +18,7 @@ in {
     ".copilot/instructions/eu-ai-act.instructions.md".source = mk "${dot}/agents/instructions/eu-ai-act.md";
     ".config/opencode/AGENTS.md".source = config.home.file."AGENTS.md".source;
     ".config/cloc/options.txt".source = mk "${dot}/cloc-2.08/.config/cloc/options.txt";
+    ".config/direnv/direnv.toml".source = mk "${dot}/direnv-2.36.0/.config/direnv/direnv.toml";
     ".config/dprint/dprint.jsonc".source = mk "${dot}/dprint-0.55.2/.config/dprint/dprint.jsonc";
     ".config/git/attributes".source = mk "${dot}/git-2.49.0/.config/git/attributes";
     ".config/git/commit-template".source = mk "${dot}/git-2.49.0/.config/git/commit-template";
