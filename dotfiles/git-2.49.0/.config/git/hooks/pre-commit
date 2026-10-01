@@ -12,20 +12,18 @@ fi
 branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
 origin_url="$(git config --get remote.origin.url 2>/dev/null || true)"
 
-if [[ -n "$branch" && "$branch" != "HEAD" ]]; then
+if [[ -n "$branch" && "$branch" != "HEAD" && "$origin_url" =~ (bitbucket|\.ghe\.com|dev\.azure\.com|visualstudio\.com) ]]; then
     if [[ "$branch" == "master" || "$branch" == "main" ]]; then
         echo "You can't commit directly to $branch"
         echo "Create a feature branch first."
         exit 1
     fi
 
-    if [[ -n "$origin_url" ]] && [[ "$origin_url" =~ (bitbucket\.alfa\.local|tennet\.ghe\.com|dev\.azure\.com|visualstudio\.com) ]]; then
-        if ! [[ "$branch" =~ ^[Ss][Oo][Cc][Mm]-[0-9]{3,4}-[A-Za-z0-9_-]+$ ]]; then
-            echo "Invalid branch name '$branch'. Expected:"
-            echo "SOCM-1234-short-description_with_underscores"
-            echo "socm-1234-short-description_with_underscores"
-            exit 1
-        fi
+    if ! [[ "$branch" =~ ^[Ss][Oo][Cc][Mm]-[0-9]{3,4}-[A-Za-z0-9_-]+$ ]]; then
+        echo "Invalid branch name '$branch'. Expected:"
+        echo "SOCM-1234-short-description_with_underscores"
+        echo "socm-1234-short-description_with_underscores"
+        exit 1
     fi
 fi
 
