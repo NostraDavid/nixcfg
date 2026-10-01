@@ -42,10 +42,8 @@ DEFAULT_INITIAL_BRANCH = "master"
 DEFAULT_FETCH_TIMEOUT = 300
 TIMEOUT = 300
 BARE_REPO_DIR = "worktree.git"
-LEGACY_BARE_REPO_DIR = "bare.git"
 RESERVED_WORKTREE_NAMES = {
     BARE_REPO_DIR,
-    LEGACY_BARE_REPO_DIR,
     "branches",
     "tags",
     "checkouts",
