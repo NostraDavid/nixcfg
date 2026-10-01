@@ -1,32 +1,40 @@
 #!/usr/bin/env bash
 
+alias .......='cd ../../../../../../'
+alias ......='cd ../../../../../'
+alias .....='cd ../../../../'
+alias ....='cd ../../../'
+alias ...='cd ../../'
+alias ..='cd ..'
+alias cd..='cd ..'
+alias cd=cd_f
+alias diff='diff --color=auto'
+alias dka='docker rm -f $(docker ps -aq)'
+alias dsa='docker stop $(docker ps -a -q)'
+alias egrep='grep -E --color=auto'
+alias fgrep='fgrep --color=auto'
+alias get_filetypes='find . -type f -iname ".*" | file -f - >out.txt'
+alias getsizes='du -h . | sort -rh | head -5'
 alias gitfilebranch='git log --oneline --branches --'
 alias gitrev='git rev-list --objects --all | grep'
 alias gitsize='git count-objects -v'
 alias gitundo='git reset --soft HEAD~1'
-alias vi='nvim'
-alias ...='cd ../../'
-alias ....='cd ../../../'
-alias .....='cd ../../../../'
-alias ......='cd ../../../../../'
-alias .......='cd ../../../../../../'
-
-alias egrep='grep -E --color=auto'
-alias fgrep='fgrep --color=auto'
-alias grep='grep -E --color=auto'
-alias sed='sed -E'
-alias rg='rg -S'
-alias diff='diff --color=auto'
+alias grep='grep --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
+alias largest_files='git ls-files -z | xargs -0 wc -l | sort -nr'
+alias lll='ls -alFh --color=auto --group-directories-first --time-style=long-iso --human-readable --show-control-chars --indicator-style=slash'
 alias llo='ls -alhF'
 alias ls='ls --color=auto'
+alias markdownlint=markdownlint_f
+alias rg='rg -S'
+alias sed='sed -E'
 alias sudo='sudo '
-alias cd=cd_f
+alias vi='nvim'
 
 missing_alias_commands=
 if command -v lsd >/dev/null 2>&1; then
-    alias ll='lsd -lha --group-dirs first --header --blocks permission,user,group,size,date,name --icon=never --color=auto --classify'
+    alias ll='lsd --all --icon=never --human-readable --group-dirs=first --long --classify'
 else
     missing_alias_commands+=' lsd'
 fi

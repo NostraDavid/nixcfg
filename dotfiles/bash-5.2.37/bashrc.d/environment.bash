@@ -76,6 +76,7 @@ fi
 
 # make ls output iso8601
 export TIME_STYLE=long-iso
+export COLORTERM="${COLORTERM:-truecolor}"
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
