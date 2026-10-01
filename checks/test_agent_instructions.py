@@ -154,6 +154,38 @@ class AgentInstructions(unittest.TestCase):
                 with self.subTest(document=document, target=target):
                     self.assertTrue(target.is_file(), f"Missing reference: {target}")
 
+    def test_shared_instructions_and_work_override(self):
+        work_links = json.loads(Path(os.environ["WORK_AGENT_LINKS"]).read_text())
+        self.assertNotEqual(self.links["AGENTS.md"], work_links["AGENTS.md"])
+        for links in [self.links, work_links]:
+            for entrypoint in [
+                ".codex/AGENTS.md",
+                ".pi/agent/AGENTS.md",
+                ".claude/CLAUDE.md",
+                ".copilot/copilot-instructions.md",
+                ".config/opencode/AGENTS.md",
+            ]:
+                with self.subTest(entrypoint=entrypoint, source=links["AGENTS.md"]):
+                    self.assertEqual(links[entrypoint], links["AGENTS.md"])
+            self.assertTrue(
+                os.readlink(links[".agents/instructions"]).endswith(
+                    "/dotfiles/agents/instructions"
+                )
+            )
+            self.assertTrue(
+                os.readlink(links[".agents/audio-notify"]).endswith(
+                    "/dotfiles/agents/.agents/audio-notify"
+                )
+            )
+        base = self.source / "instructions" / "AGENTS.md"
+        work = Path(work_links["AGENTS.md"])
+        for document in [base, work]:
+            self.assertIn("~/.agents/instructions/shared.md", document.read_text())
+        self.assertNotIn(
+            "<!-- qartez-mcp-instructions -->",
+            (self.source / "instructions" / "shared.md").read_text(),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

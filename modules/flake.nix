@@ -218,6 +218,17 @@ in {
     checks.agent-instructions = import ../checks/agent-instructions.nix {
       pkgs = stable;
       homeFiles = self.nixosConfigurations.wodan.config.home-manager.users.david.home.file;
+      workHomeFiles =
+        (mkMimir2 {
+          extraHomeModules = [
+            ({lib, ...}: {
+              home.file."AGENTS.md".source = lib.mkForce (stable.writeText "test-agent-instructions-override.md" ''
+                Read and follow ~/.agents/instructions/shared.md before starting work.
+                Work-specific instructions take precedence when they conflict.
+              '');
+            })
+          ];
+        }).config.home.file;
     };
 
     packages =
