@@ -230,6 +230,7 @@ in {
           ".config/niri/config.kdl" = {source = mk "${dot}/niri-26.04/.config/niri/config.kdl";};
           ".config/say/espeak-ng-data" = {source = "${local.espeak-ng}/share/espeak-ng-data";};
           ".config/say/piper.sed" = {source = mk "${dot}/espeak-ng-1.52.0/piper.sed";};
+          ".config/sqlline/default-args" = {source = mk "${dot}/sqlline-1.12.0/.config/sqlline/default-args";};
           ".groovylintrc.json" = {source = mk "${dot}/groovy-lint-15.2.0/.groovylintrc.json";};
           ".local/share/mbrola/nl2" = {source = "${mbrolaNl2}/data/nl2";};
           ".local/share/piper-voices/en_US-amy-medium.onnx.json" = {source = mk "${dot}/piper-voices/en_US-amy-medium.onnx.json";};

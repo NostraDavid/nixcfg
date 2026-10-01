@@ -1,0 +1,15 @@
+# One SQLLine argument per line.
+# CLI arguments you pass manually still win because they are appended later.
+
+-d
+com.cloudera.impala.jdbc.Driver
+--color=true
+--colorScheme=dracula
+--fastConnect=true
+--incremental=true
+--showWarnings=true
+--showNestedErrs=true
+--autosave=true
+--outputformat=table
+--maxColumnWidth=120
+--headerInterval=25
