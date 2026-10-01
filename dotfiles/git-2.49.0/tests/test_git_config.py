@@ -55,18 +55,24 @@ class GitConfigTests(unittest.TestCase):
     def test_pre_commit_branch_rules_and_config_formats(self) -> None:
         hook = str(CONFIG / "hooks/pre-commit")
         self.executable(self.bin / "prek", 'printf "%s\\n" "$*"; exit 7')
-        for branch in ("main", "master"):
-            self.git("symbolic-ref", "HEAD", f"refs/heads/{branch}")
-            result = self.run_command(hook)
-            self.assertEqual(result.returncode, 1)
-            self.assertIn("Create a feature branch", result.stdout)
+        for origin in (None, "git@github.com:NostraDavid/nixcfg.git"):
+            if origin is not None:
+                self.git("config", "remote.origin.url", origin)
+            for branch in ("main", "master"):
+                self.git("symbolic-ref", "HEAD", f"refs/heads/{branch}")
+                self.assertEqual(self.run_command(hook).returncode, 0)
         for origin in (
-            "https://bitbucket.alfa.local/team/repo.git",
-            "git@tennet.ghe.com:team/repo.git",
+            "https://bitbucket.example.com/team/repo.git",
+            "git@company.ghe.com:team/repo.git",
             "https://dev.azure.com/team/repo",
             "https://team.visualstudio.com/repo",
         ):
             self.git("config", "remote.origin.url", origin)
+            for branch in ("main", "master"):
+                self.git("symbolic-ref", "HEAD", f"refs/heads/{branch}")
+                result = self.run_command(hook)
+                self.assertEqual(result.returncode, 1)
+                self.assertIn("Create a feature branch", result.stdout)
             self.git("symbolic-ref", "HEAD", "refs/heads/feature")
             self.assertEqual(self.run_command(hook).returncode, 1)
             for branch in (
