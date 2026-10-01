@@ -65,12 +65,14 @@ def test_folder_count_counts_regular_files_in_non_git_directories() -> None:
         (root / "alpha/__pycache__/cache.pyc").touch()
         (root / "beta/one.txt").touch()
         (root / "outside.txt").touch()
+        (root / "alpha/nested/__pycache__").mkdir(parents=True)
+        (root / "alpha/nested/__pycache__/nested.pyc").touch()
         (root / "alpha/link.txt").symlink_to(root / "outside.txt")
 
         result = run(FOLDER_COUNT, root)
 
     assert result.returncode == 0, result.stderr
-    assert "3 alpha/" in result.stdout
+    assert result.stdout == "2 alpha/\n1 beta/\n"
     assert "1 beta/" in result.stdout
     assert "outside.txt" not in result.stdout
 
@@ -84,16 +86,25 @@ def test_folder_count_honors_git_ignores_and_excludes_symlinks() -> None:
         (root / "alpha/one.txt").touch()
         (root / "alpha/two.txt").touch()
         (root / "alpha/ignored/secret.txt").touch()
+        (root / "alpha/__pycache__").mkdir()
+        (root / "alpha/__pycache__/cache.pyc").touch()
         (root / "beta/one.txt").touch()
+        (root / "alpha/nested/__pycache__").mkdir(parents=True)
+        (root / "alpha/nested/__pycache__/nested.pyc").touch()
         (root / "alpha/link.txt").symlink_to(root / "beta/one.txt")
 
         git = shutil.which("git")
         assert git is not None
         subprocess.run([git, "init", "-q"], cwd=root, check=True)  # noqa: S603
+        subprocess.run(
+            [git, "add", "alpha/one.txt", "alpha/__pycache__/cache.pyc"],
+            cwd=root,
+            check=True,
+        )  # noqa: S603
 
         result = run(FOLDER_COUNT, root)
 
     assert result.returncode == 0, result.stderr
-    assert "2 alpha/" in result.stdout
+    assert result.stdout == "2 alpha/\n1 beta/\n"
     assert "1 beta/" in result.stdout
     assert "secret.txt" not in result.stdout
