@@ -76,6 +76,21 @@ def find_code_command() -> list[str]:
         ):
             return [str(electron), str(cli)]
 
+        try:
+            probe = sp.run(  # noqa: S603 - executable candidate comes from PATH.
+                [str(candidate), "--version"],
+                check=False,
+                env=clean_vscode_env(),
+                text=True,
+                capture_output=True,
+                timeout=CLI_PROBE_TIMEOUT_SECONDS,
+            )
+        except (OSError, sp.TimeoutExpired):
+            continue
+
+        if probe.returncode == 0:
+            return [str(candidate)]
+
     raise ReadinessError(
         "VS Code CLI executable not found; install VS Code in the user profile."
     )
@@ -129,10 +144,14 @@ def ensure_peacock_settings(target: Path) -> None:
         raise ReadinessError(f"Peacock color setup failed{suffix}")
 
 
-def clean_vscode_env() -> dict[str, str]:
+def clean_vscode_env(
+    *, electron_cli: bool = False, preserve_vscode_ipc_hook_cli: bool = False
+) -> dict[str, str]:
     env = os.environ.copy()
     for name in tuple(env):
         if name.startswith("VSCODE_"):
+            if preserve_vscode_ipc_hook_cli and name == "VSCODE_IPC_HOOK_CLI":
+                continue
             env.pop(name)
 
     for name in (
@@ -150,7 +169,8 @@ def clean_vscode_env() -> dict[str, str]:
         "phases",
     ):
         env.pop(name, None)
-    env["ELECTRON_RUN_AS_NODE"] = "1"
+    if electron_cli:
+        env["ELECTRON_RUN_AS_NODE"] = "1"
     return env
 
 
@@ -280,7 +300,7 @@ def readiness_errors() -> list[str]:
             probe = sp.run(
                 [*code_command, "--version"],
                 check=False,
-                env=clean_vscode_env(),
+                env=clean_vscode_env(electron_cli=len(code_command) == 2),
                 text=True,
                 stdout=sp.PIPE,
                 stderr=sp.PIPE,
@@ -381,7 +401,9 @@ def main() -> int:
     except ReadinessError as error:
         print(error, file=sys.stderr)
         return 1
-    env = clean_vscode_env()
+    env = clean_vscode_env(
+        electron_cli=len(code_command) == 2, preserve_vscode_ipc_hook_cli=True
+    )
 
     if args.no_picker:
         direct_args = [normalize_code_arg(arg) for arg in args.query]

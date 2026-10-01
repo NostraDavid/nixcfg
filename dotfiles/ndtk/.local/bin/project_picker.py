@@ -13,6 +13,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 DEV_ROOT = Path.home() / "dev"
+USERS_ROOT = Path.home() / "users"
+SEARCH_ROOTS = (DEV_ROOT, USERS_ROOT)
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
 BARE_REPO_DIR = "worktree.git"
@@ -84,9 +86,8 @@ def require(command: str) -> None:
 
 
 def discover_repos(dev_root: Path) -> list[tuple[str, Path]]:
-    if not dev_root.exists():
-        print(f"Development directory not found: {dev_root}", file=sys.stderr)
-        raise SystemExit(1)
+    if not dev_root.is_dir():
+        return []
 
     repos: list[tuple[str, Path]] = []
     seen: set[Path] = set()
@@ -99,6 +100,27 @@ def discover_repos(dev_root: Path) -> list[tuple[str, Path]]:
             label = str(repo_root.relative_to(dev_root))
             repos.append((label, repo_root))
             seen.add(repo_root)
+
+    return repos
+
+
+def discover_all_repos(search_roots: tuple[Path, ...]) -> list[tuple[str, Path]]:
+    repos: list[tuple[str, Path]] = []
+    seen: set[Path] = set()
+
+    for root_index, root in enumerate(search_roots):
+        for label, repo_root in discover_repos(root):
+            if repo_root in seen:
+                continue
+            seen.add(repo_root)
+            if root_index:
+                label = f"{root.name}/{label}"
+            repos.append((label, repo_root))
+
+    if not any(root.is_dir() for root in search_roots):
+        roots = ", ".join(str(root) for root in search_roots)
+        print(f"Development directories not found: {roots}", file=sys.stderr)
+        raise SystemExit(1)
 
     return repos
 
@@ -642,9 +664,16 @@ def resolve_worktree_query(
     if not worktree_query:
         return None
 
+    worktree_cache: dict[Path, list[WorktreeChoice]] = {}
+
+    def repo_worktrees(repo_root: Path) -> list[WorktreeChoice]:
+        if repo_root not in worktree_cache:
+            worktree_cache[repo_root] = list_worktrees(repo_root)
+        return worktree_cache[repo_root]
+
     def repo_matches(repo_root: Path) -> list[Path]:
         matches: list[Path] = []
-        for choice in list_worktrees(repo_root):
+        for choice in repo_worktrees(repo_root):
             label = choice.label
             aliases = {
                 label.strip("/"),
@@ -664,9 +693,40 @@ def resolve_worktree_query(
         if len(matches) == 1:
             return matches[0]
 
+    # A repo query only needs worktree lookups for matching repositories. If no
+    # repo label matches, retain the global scan because the query may be a
+    # worktree or ref alias instead.
+    terms = [term.casefold() for term in worktree_query.split() if term]
+    matching_repos = [
+        (label, repo_root)
+        for label, repo_root in repos
+        if terms and all(term in label.casefold() for term in terms)
+    ]
+    if len(matching_repos) > 1 and terms:
+        namespace_matches = [
+            (label, repo_root)
+            for label, repo_root in matching_repos
+            if Path(label).parts and Path(label).parts[0].casefold() == terms[0]
+        ]
+        if len(namespace_matches) == 1:
+            matching_repos = namespace_matches
+
+    if len(matching_repos) == 1:
+        _, repo_root = matching_repos[0]
+        trunk_matches = {
+            choice.path
+            for choice in repo_worktrees(repo_root)
+            if choice.kind == "branch"
+            and choice.path.name == "trunk"
+            and choice.path.exists()
+        }
+        if len(trunk_matches) == 1:
+            return next(iter(trunk_matches))
+        return None
+
     matches: list[Path] = []
     seen: set[Path] = set()
-    for _, repo_root in repos:
+    for _, repo_root in matching_repos or repos:
         for path in repo_matches(repo_root):
             if path in seen:
                 continue
@@ -697,7 +757,7 @@ def main() -> int:
     require("fzf")
     require("git")
 
-    repos = discover_repos(DEV_ROOT)
+    repos = discover_all_repos(SEARCH_ROOTS)
     direct_match = resolve_worktree_query(repos, " ".join(args.query), Path.cwd())
     if direct_match is not None:
         print(direct_match)

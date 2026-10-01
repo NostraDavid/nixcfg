@@ -43,10 +43,12 @@ def run_git(
 
 def git_dirs(search_dir: Path) -> list[Path]:
     result: list[Path] = []
-    for root, dirs, _files in os.walk(search_dir):
+    for root, dirs, files in os.walk(search_dir):
         if ".git" in dirs:
             result.append(Path(root) / ".git")
             dirs.remove(".git")
+        elif ".git" in files:
+            result.append(Path(root) / ".git")
     return result
 
 
@@ -78,8 +80,15 @@ def main() -> int:
     for gitdir in git_dirs(search_dir):
         repo_path = gitdir.parent
 
-        diff = run_git(repo_path, ["diff", "--quiet", "--ignore-submodules", "HEAD"])
-        if diff.returncode != 0:
+        status = run_git(
+            repo_path, ["status", "--porcelain", "--ignore-submodules"], capture=True
+        )
+        if status.returncode != 0:
+            logger.error(
+                "repo_scan_failed", repo=str(repo_path), reason=status.stderr.strip()
+            )
+            return 1
+        if status.stdout:
             logger.warning("repo_has_uncommitted_changes", repo=str(repo_path))
             run_git(repo_path, ["status", "-s"])
             continue

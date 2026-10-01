@@ -93,7 +93,10 @@ in {
           lib.nameValuePair
           ".local/bin/${lib.removeSuffix ".py" (lib.removeSuffix ".sh" name)}"
           {source = mk "${dot}/ndtk/.local/bin/${name}";})
-        (lib.filterAttrs (_: kind: kind == "regular") (builtins.readDir ../../dotfiles/ndtk/.local/bin));
+        (lib.filterAttrs (_: kind: kind == "regular") (builtins.readDir ../../dotfiles/ndtk/.local/bin))
+        // {
+          ".local/bin/repo_timestamps.py".source = mk "${dot}/ndtk/.local/bin/repo_timestamps.py";
+        };
       forceAll = builtins.mapAttrs (_: file: file // {force = true;});
       skillCatalog = builtins.fromJSON (builtins.readFile ../../dotfiles/agents/skills.json);
       skillAlias = name: skillCatalog.aliases.${name} or name;
