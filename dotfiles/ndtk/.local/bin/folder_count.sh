@@ -13,13 +13,13 @@ folder_count() {
 
         if ((git_worktree)); then
             while IFS= read -r -d '' file; do
-                if [[ -f "$file" && ! -L "$file" ]]; then
+                if [[ -f "$file" && ! -L "$file" && "/$file" != */__pycache__/* ]]; then
                     count=$((count + 1))
                 fi
             done < <(git ls-files -z --cached --others --exclude-standard -- "$dir")
         else
             while IFS= read -r -d '' file; do
-                if [[ -f "$file" && ! -L "$file" ]]; then
+                if [[ -f "$file" && ! -L "$file" && "/$file" != */__pycache__/* ]]; then
                     count=$((count + 1))
                 fi
             done < <(find "./$dir" -type f -print0)
