@@ -18,10 +18,8 @@ SEARCH_ROOTS = (DEV_ROOT, USERS_ROOT)
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
 BARE_REPO_DIR = "worktree.git"
-LEGACY_BARE_REPO_DIR = "bare.git"
 RESERVED_WORKTREE_NAMES = {
     BARE_REPO_DIR,
-    LEGACY_BARE_REPO_DIR,
     "branches",
     "tags",
     "checkouts",
@@ -90,16 +88,12 @@ def discover_repos(dev_root: Path) -> list[tuple[str, Path]]:
         return []
 
     repos: list[tuple[str, Path]] = []
-    seen: set[Path] = set()
-    for dirname in (BARE_REPO_DIR, LEGACY_BARE_REPO_DIR):
-        for bare_dir in sorted(dev_root.glob(f"*/*/{dirname}")):
-            repo_root = bare_dir.parent
-            if not repo_root.is_dir() or repo_root in seen:
-                continue
-
-            label = str(repo_root.relative_to(dev_root))
-            repos.append((label, repo_root))
-            seen.add(repo_root)
+    for bare_dir in sorted(dev_root.glob(f"*/*/{BARE_REPO_DIR}")):
+        if not bare_dir.is_dir():
+            continue
+        repo_root = bare_dir.parent
+        label = str(repo_root.relative_to(dev_root))
+        repos.append((label, repo_root))
 
     return repos
 
@@ -123,18 +117,6 @@ def discover_all_repos(search_roots: tuple[Path, ...]) -> list[tuple[str, Path]]
         raise SystemExit(1)
 
     return repos
-
-
-def git_dir_for_repo(repo_root: Path) -> tuple[Path | None, bool]:
-    bare_dir = repo_root / BARE_REPO_DIR
-    if bare_dir.exists():
-        return bare_dir, False
-
-    legacy_bare_dir = repo_root / LEGACY_BARE_REPO_DIR
-    if legacy_bare_dir.exists():
-        return legacy_bare_dir, True
-
-    return None, False
 
 
 def find_current_repo_root(
@@ -332,22 +314,18 @@ def list_worktrees(
     choices: list[WorktreeChoice] = []
     seen_labels: set[str] = set()
 
-    bare_dir, legacy = git_dir_for_repo(repo_root)
-    if bare_dir is None:
+    bare_dir = repo_root / BARE_REPO_DIR
+    if not bare_dir.is_dir():
         return choices
 
-    for dirname in (BARE_REPO_DIR, LEGACY_BARE_REPO_DIR):
-        registered_git_dir = repo_root / dirname
-        if not registered_git_dir.exists():
+    for choice in list_registered_worktrees(bare_dir):
+        if choice.kind == "detached" and is_pull_request_tag(choice.path.name):
             continue
-        for choice in list_registered_worktrees(registered_git_dir):
-            if choice.kind == "detached" and is_pull_request_tag(choice.path.name):
-                continue
-            append_choice(choices, seen_labels, choice)
+        append_choice(choices, seen_labels, choice)
 
     branch_refs = list_branch_refs(bare_dir)
     tag_refs = list_tag_refs(bare_dir)
-    if not legacy and not branch_refs and not tag_refs and refresh_empty:
+    if not branch_refs and not tag_refs and refresh_empty:
         fetch_remote_refs(bare_dir)
         branch_refs = list_branch_refs(bare_dir)
         tag_refs = list_tag_refs(bare_dir)
@@ -355,24 +333,22 @@ def list_worktrees(
     for branch in branch_refs:
         path = repo_root / branch_worktree_name(branch)
         label = worktree_label(path, "branch", branch)
-        if not legacy:
-            append_choice(
-                choices,
-                seen_labels,
-                WorktreeChoice(label, path, "branch", branch, True),
-            )
+        append_choice(
+            choices,
+            seen_labels,
+            WorktreeChoice(label, path, "branch", branch, True),
+        )
 
     for tag in tag_refs:
         if is_pull_request_tag(tag):
             continue
         path = repo_root / tag_worktree_name(tag, branch_refs)
         label = worktree_label(path, "tag", tag)
-        if not legacy:
-            append_choice(
-                choices,
-                seen_labels,
-                WorktreeChoice(label, path, "tag", tag, True),
-            )
+        append_choice(
+            choices,
+            seen_labels,
+            WorktreeChoice(label, path, "tag", tag, True),
+        )
 
     branches_root = repo_root / "branches"
     if branches_root.exists():

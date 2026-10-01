@@ -53,6 +53,7 @@ class WorktreeListingTests(unittest.TestCase):
             tree = git("hash-object", "-t", "tree", "--stdin", input_text="")
             commit = git("commit-tree", tree, "-m", "Initial commit")
             git("update-ref", "refs/heads/master", commit)
+            git("update-ref", "refs/remotes/origin/feature", commit)
             git("worktree", "add", str(repo_root / "trunk"), "master")
             for tag in ("v1.0", "v1.1", "feature-PR-123"):
                 git("tag", "-a", tag, commit, "-m", tag)
@@ -60,11 +61,16 @@ class WorktreeListingTests(unittest.TestCase):
             git("worktree", "add", "--detach", str(repo_root / "scratch"), commit)
 
             choices = project_picker.list_worktrees(repo_root)
+            feature = next(choice for choice in choices if choice.ref == "feature")
+            self.assertTrue(feature.can_create)
+            self.assertFalse(feature.path.exists())
+            self.assertEqual(project_picker.list_worktrees(repo_root / "missing"), [])
 
         self.assertCountEqual(
             [(choice.path.name, choice.kind, choice.ref) for choice in choices],
             [
                 ("trunk", "branch", "master"),
+                ("feature", "branch", "feature"),
                 ("v1.0", "tag", "v1.0"),
                 ("v1.1", "tag", "v1.1"),
                 ("scratch", "detached", commit),

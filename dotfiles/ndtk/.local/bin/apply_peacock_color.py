@@ -58,7 +58,7 @@ DARK_FOREGROUND = "#15202b"
 def project_name(path: Path) -> str:
     current = path.resolve()
     while True:
-        if (current / "worktree.git").is_dir() or (current / "bare.git").is_dir():
+        if (current / "worktree.git").is_dir():
             return current.name
         if current.parent == current:
             return path.name

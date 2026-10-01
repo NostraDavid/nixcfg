@@ -43,10 +43,8 @@ ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
 DEFAULT_BRANCHES = ("main", "master", "dev")
 BARE_REPO_DIR = "worktree.git"
-LEGACY_BARE_REPO_DIR = "bare.git"
 RESERVED_WORKTREE_NAMES = {
     BARE_REPO_DIR,
-    LEGACY_BARE_REPO_DIR,
     "branches",
     "tags",
     "checkouts",
