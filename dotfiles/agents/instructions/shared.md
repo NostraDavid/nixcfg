@@ -28,6 +28,11 @@ searches are too broad.
 `~/.agents/instructions/memory.md` to retrieve prior project context and save
 durable decisions to the configured memory backend.
 
+### Application configuration
+
+`~/.agents/instructions/application-configuration.md` to choose dotfiles for
+application settings and Home Manager for links and integrations.
+
 ### Commits and working checkout
 
 `~/.agents/instructions/commit-style.md` to write commit messages with the
