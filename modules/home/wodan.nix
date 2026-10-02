@@ -122,12 +122,13 @@ in {
           if [ -L "$cache" ]; then
             $DRY_RUN_CMD rm "$cache"
           fi
-          if [ ! -f "$cache/scripts/browser-service.mjs" ] || [ ! -f "$cache/scripts/browser-client.mjs" ]; then
-            $DRY_RUN_CMD mkdir -p "$cache"
-            $DRY_RUN_CMD cp -R --no-preserve=mode,ownership \
-              "${local.chatgpt}/lib/chatgpt/resources/plugins/openai-bundled/plugins/$plugin/." "$cache/"
+          if [ -d "$cache" ]; then
+            $DRY_RUN_CMD ${stable.coreutils}/bin/chmod -R u+w "$cache"
           fi
-          $DRY_RUN_CMD ${stable.findutils}/bin/find "$cache" -type d -exec ${stable.coreutils}/bin/chmod u+w '{}' +
+          $DRY_RUN_CMD mkdir -p "$cache"
+          $DRY_RUN_CMD cp -R --preserve=mode --no-preserve=ownership \
+            "${local.chatgpt}/lib/chatgpt/resources/plugins/openai-bundled/plugins/$plugin/." "$cache/"
+          $DRY_RUN_CMD ${stable.coreutils}/bin/chmod -R u+w "$cache"
         done
 
         # The Browser service must resolve inside CODEX_HOME's trusted code path.
