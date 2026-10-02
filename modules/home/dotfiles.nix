@@ -200,7 +200,6 @@ in {
           ## Copilot
           ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/hooks/cli-proxy.json";};
           ".copilot/mcp-config.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/mcp-config.json";};
-          ".copilot/prompts" = {source = mk "${dot}/copilot-1.0.65/.copilot/prompts";};
           ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/settings.json";};
 
           ## OpenCode
