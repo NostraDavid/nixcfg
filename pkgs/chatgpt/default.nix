@@ -5,6 +5,7 @@
   atk,
   autoPatchelfHook,
   cairo,
+  coreutils,
   cups,
   dbus,
   dpkg,
@@ -134,6 +135,18 @@ stdenv.mkDerivation (finalAttrs: {
         )
         assert b"await f.chmod(" in after, "executor permissions patch did not apply"
         assert len(after) <= len(before), "executor permissions patch changes ASAR offsets"
+        archive[start:end] = after.ljust(len(before))
+
+        # Marketplace materialization edits copied plugin metadata and removes
+        # disabled skills. Node's cp preserves immutable Nix-store permissions.
+        start = archive.find(b"async function Nne(e,t){")
+        assert start >= 0, "marketplace copy helper not found"
+        end = archive.find(b"async function us(", start)
+        assert end > start, "marketplace copy helper boundary not found"
+        before = archive[start:end]
+        assert b"await b.default.cp(e,t," in before, "marketplace copy helper changed"
+        after = b'async function Nne(e,t){await une(`${coreutils}/bin/cp`,[`-R`,`--`,e+`/.`,t]);await une(`${coreutils}/bin/chmod`,[`-R`,`u+w`,`--`,t])}'
+        assert len(after) <= len(before), "marketplace permissions patch changes ASAR offsets"
         archive[start:end] = after.ljust(len(before))
     PY
   '';
