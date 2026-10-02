@@ -41,6 +41,14 @@
 - Result:
 - Evidence:
 
+## Scale and resource use
+
+- Production input size and complexity:
+- Access pattern and data structure:
+- Growth limits and cleanup:
+- External operations as a function of input size:
+- Input control and worst-case limits:
+
 ## Limitations
 
 - Missing repository, runtime, or test evidence:
