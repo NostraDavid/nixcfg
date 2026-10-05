@@ -100,4 +100,25 @@ output="$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.
 [[ "${output}" == *"fixture upstream connection failed"* ]]
 [[ "${output}" != *"No newer versions found"* ]]
 
+# Exercise the real bulk recipe, including failures and its colour escapes.
+just_bin="$(command -v just)"
+mkdir -p "${test_root}/bin"
+cat >"${test_root}/scripts/local-package-maint.sh" <<'EOF'
+#!/usr/bin/env bash
+printf 'good\nbad\ngood2\n'
+EOF
+cat >"${test_root}/bin/just" <<'EOF'
+#!/usr/bin/env bash
+printf '%s\n' "$2" >>"${BULK_UPDATE_LOG}"
+[[ "$2" != bad ]]
+EOF
+chmod +x "${test_root}/scripts/local-package-maint.sh" "${test_root}/bin/just"
+status=0
+output="$(PATH="${test_root}/bin:${PATH}" BULK_UPDATE_LOG="${test_root}/bulk.log" \
+    "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" pkg-update-all 2>&1)" || status=$?
+[[ "${status}" -eq 1 ]]
+[[ "$(cat "${test_root}/bulk.log")" == $'good\nbad\ngood2' ]]
+[[ "${output}" == *$'\033[1m\033[31mPackages with failed updates:\033[0m'* ]]
+[[ "${output}" == *$'\n  bad\n'* ]]
+
 printf 'Package maintenance regression checks passed.\n'
