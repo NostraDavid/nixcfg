@@ -11,7 +11,6 @@ in
     chmod -R u+w "$out"
   '').overrideAttrs (_: {
     inherit version;
-    passthru.updateSkipReason = "bundled with the ponytail-skills flake input";
     meta = {
       description = "Ponytail Codex plugin with skills and lifecycle hooks";
       homepage = "https://github.com/DietrichGebert/ponytail";

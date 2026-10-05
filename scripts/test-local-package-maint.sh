@@ -32,8 +32,15 @@ done
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
 rg -q -- '--use-github-releases' scripts/update-codex.sh
-for package in fixit dockerfile-roast jsongrep mdschema gigatoken; do
+for package in fixit dockerfile-roast jsongrep mdschema gigatoken pico-8-font ponytail-codex; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
+done
+for package in pico-8-font ponytail-codex; do
+    list_packages | rg -x "${package}" >/dev/null
+    if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
+        printf '%s must be updatable: %s\n' "${package}" "${reason}" >&2
+        exit 1
+    fi
 done
 
 for package in espeak-ng sqlline tamzen-otf; do
@@ -46,7 +53,7 @@ for package in espeak-ng sqlline tamzen-otf; do
 done
 
 # Generated outputs have no independent upstream package to update.
-if list_packages | rg -q '^(forgejo-lab-image|proxmox-lab|pico-8-font)$'; then
+if list_packages | rg -q '^(forgejo-lab-image|proxmox-lab)$'; then
     echo 'Generated and explicitly managed packages must not be included in bulk updates' >&2
     exit 1
 fi

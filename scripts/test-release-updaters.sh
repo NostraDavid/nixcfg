@@ -6,7 +6,13 @@ test_root="$(mktemp -d)"
 trap 'rm -rf "${test_root}"' EXIT
 export TEST_REPO="${test_root}/repo"
 mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
+mkdir -p "${TEST_REPO}/pkgs/"{pico-8-font,ponytail-skills,ponytail-codex}
 cp "${repo_root}"/scripts/update-{acli,jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
+cp "${repo_root}"/scripts/update-{pico-8-font,ponytail-skills,ponytail-codex}.sh "${TEST_REPO}/scripts/"
+for package in pico-8-font ponytail-skills ponytail-codex; do
+    cp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/"
+done
+cp "${repo_root}/flake.nix" "${TEST_REPO}/flake.nix"
 cp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/"
 cp "${repo_root}/pkgs/jpegli/default.nix" "${TEST_REPO}/pkgs/jpegli/"
 cp "${repo_root}/pkgs/semble/default.nix" "${TEST_REPO}/pkgs/semble/"
@@ -38,7 +44,9 @@ EOF
 cat >"${test_root}/bin/nix" <<'EOF'
 #!/usr/bin/env bash
 if [[ "$1" == store ]]; then
-    printf '{"hash":"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="}\n'
+    printf '{"hash":"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=","storePath":"/test/font.ttf"}\n'
+elif [[ "$1" == eval ]]; then
+    printf 'https://example.invalid/pico-8.ttf'
 elif [[ "$1" == hash ]]; then
     printf 'sha256-TESTHASH\n'
 elif [[ "$1" == flake ]]; then
@@ -48,6 +56,10 @@ else
     printf '%s\n' "$*" >>"${TEST_REPO}/builds.log"
     exit "${TEST_BUILD_FAILURE:-0}"
 fi
+EOF
+cat >"${test_root}/bin/fc-scan" <<'EOF'
+#!/usr/bin/env bash
+if [[ "${TEST_INVALID_FONT:-0}" == 0 ]]; then printf 'PICO-8'; fi
 EOF
 chmod +x "${test_root}/bin/"*
 export PATH="${test_root}/bin:${PATH}"
@@ -106,4 +118,24 @@ cmp "${test_root}/flake.lock.before" "${TEST_REPO}/flake.lock"
 export TEST_FLAKE_FAILURE=0
 bash "${TEST_REPO}/scripts/update-flake-package.sh" skills skills >/dev/null
 rg -q '^updated input$' "${TEST_REPO}/flake.lock"
+
+"${TEST_REPO}/scripts/update-pico-8-font.sh" >/dev/null
+rg -q 'hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";' "${TEST_REPO}/pkgs/pico-8-font/default.nix"
+rg -q '^build .#pico-8-font --no-link$' "${TEST_REPO}/builds.log"
+for failure in build font; do
+    cp "${repo_root}/pkgs/pico-8-font/default.nix" "${TEST_REPO}/pkgs/pico-8-font/default.nix"
+    export TEST_BUILD_FAILURE=0 TEST_INVALID_FONT=0
+    if [[ "${failure}" == build ]]; then TEST_BUILD_FAILURE=1; else TEST_INVALID_FONT=1; fi
+    if "${TEST_REPO}/scripts/update-pico-8-font.sh" >/dev/null 2>&1; then
+        echo "Expected font updater ${failure} failure" >&2
+        exit 1
+    fi
+    cmp "${repo_root}/pkgs/pico-8-font/default.nix" "${TEST_REPO}/pkgs/pico-8-font/default.nix"
+done
+export TEST_BUILD_FAILURE=0 TEST_INVALID_FONT=0
+"${TEST_REPO}/scripts/update-ponytail-codex.sh" >/dev/null
+for package in ponytail-skills ponytail-codex; do
+    rg -q 'version = "0.10.0";' "${TEST_REPO}/pkgs/${package}/default.nix"
+    rg -q "^build .#${package} --no-link$" "${TEST_REPO}/builds.log"
+done
 echo 'Release updater regression checks passed.'

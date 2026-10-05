@@ -12,13 +12,11 @@ stdenvNoCC.mkDerivation {
   src = fetchurl {
     name = "pico-8.ttf";
     url = "https://drive.usercontent.google.com/download?id=1orWXqd0x6Hf-MWf_RNRYgSRZ2Zr-E_Gv&export=download";
-    sha256 = "0fvdna10gzr634zi4dzzkfq3yp42mkcvyv813rbpy0rcav6vpmp8";
+    hash = "sha256-6Na7zVYsA39XHgFtv9msglw/sJv/NxI/GSb/B4KybTs=";
   };
 
   dontUnpack = true;
   dontBuild = true;
-
-  passthru.updateSkipReason = "manual upstream download; no versioned release feed";
 
   installPhase = ''
     runHook preInstall
