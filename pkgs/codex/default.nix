@@ -9,18 +9,18 @@
   assets = {
     x86_64-linux = {
       target = "x86_64-unknown-linux-musl";
-      hash = "sha256-ni0ppxO5RHiyQN7C8Q4RMkzQX6123EPnxjm9+KEzems=";
+      hash = "sha256-T8xHq1f1L/dTY5Uah2EUbNEMgoi9hv7UVIfbsgSha3E=";
     };
     aarch64-darwin = {
       target = "aarch64-apple-darwin";
-      hash = "sha256-OKr23OYwmf0QmIlI0Du8bAR0JTrvaWH8vmD40VSzkQE=";
+      hash = "sha256-AH30G2B9u8jSBLl0bOf+0tTObIE/RMMs7uVBdcp5ZSU=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported Codex platform: ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "codex";
-    version = "0.159.2";
+    version = "0.160.0";
 
     src = fetchurl {
       url = "https://github.com/openai/codex/releases/download/rust-v${finalAttrs.version}/codex-package-${asset.target}.tar.gz";
