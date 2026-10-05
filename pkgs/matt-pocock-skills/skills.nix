@@ -7,7 +7,6 @@
   handoff = true;
   prototype = true;
   research = true;
-  resolving-merge-conflicts = true;
   to-spec = true;
   writing-for-agents = true;
 

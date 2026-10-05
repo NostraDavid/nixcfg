@@ -13,17 +13,17 @@ stdenvNoCC.mkDerivation (finalAttrs: let
     "aarch64-linux" = {
       platform = "linux";
       arch = "arm64";
-      hash = "sha256-zeKlmUZlV2sGXQVAWqC4mriyi0mBIlPwpNPf4HqWzIw=";
+      hash = "sha256-r7OGW03fJ+So6J6uWYSWMuS+wXVDRLENdO70MyRW+lo=";
     };
     "x86_64-darwin" = {
       platform = "darwin";
       arch = "amd64";
-      hash = "sha256-skOufBhNGkz/3D+qVjOvesiWPTG/Wk7p0GudTWh/7QQ=";
+      hash = "sha256-bML5SErq5//yd2V+yLT4gobVaWtzfgMJIkOy+8HbasI=";
     };
     "aarch64-darwin" = {
       platform = "darwin";
       arch = "arm64";
-      hash = "sha256-QRJdta2SiSWezeR31mIxgQhqzQgz1BQsUu38F/ks4wk=";
+      hash = "sha256-KRJr24BysSZwny08yqxYHNf5G2KvqpBGrpwdQ7LluTk=";
     };
   };
   srcInfo = srcBySystem.${stdenvNoCC.hostPlatform.system}

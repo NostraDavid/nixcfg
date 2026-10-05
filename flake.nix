@@ -51,7 +51,7 @@
       flake = false;
     };
     matt-pocock-skills = {
-      url = "github:mattpocock/skills/v1.2.3";
+      url = "github:mattpocock/skills/v1.3.1";
       flake = false;
     };
     polars-skills = {
@@ -59,7 +59,7 @@
       flake = false;
     };
     ponytail-skills = {
-      url = "github:DietrichGebert/ponytail/v4.10.0";
+      url = "github:DietrichGebert/ponytail/v4.12.0";
       flake = false;
     };
     pstack-skills = {

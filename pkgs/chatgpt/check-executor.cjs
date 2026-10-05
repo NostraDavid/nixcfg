@@ -29,12 +29,12 @@ const { promisify } = require("node:util");
     };
     const [, main] = Object.entries(files).find(([name]) => /^main-.*\.js$/.test(name));
     const text = await readSource(main);
-    const start = text.indexOf("async function el({executorPluginRoot:");
-    const end = text.indexOf("async function tl(", start);
+    const start = text.indexOf("async function Yc({executorPluginRoot:");
+    const end = text.indexOf("async function Xc(", start);
     assert.ok(start >= 0 && end > start, "executor initializer not found");
     code = text.slice(start, end);
-    const copyStart = text.indexOf("async function Nne(e,t)");
-    const copyEnd = text.indexOf("async function us(", copyStart);
+    const copyStart = text.indexOf("async function Tne(e,t)");
+    const copyEnd = text.indexOf("async function vs(", copyStart);
     assert.ok(copyStart >= 0 && copyEnd > copyStart, "marketplace copy helper not found");
     copyCode = text.slice(copyStart, copyEnd);
   } finally {
@@ -48,10 +48,10 @@ const { promisify } = require("node:util");
     await fs.mkdir(src);
     await fs.writeFile(path.join(src, ".mcp.json"), "{}", { mode: 0o444 });
     await fs.writeFile(path.join(src, "server.js"), "");
-    const initialize = new Function("b", "S", "r", "nl", `${code}; return el;`)(
+    const initialize = new Function("b", "S", "r", "Zc", `${code}; return Yc;`)(
       { default: fs },
       { default: path },
-      { Dn: "local" },
+      { An: "local" },
       async () => ({ cwd: src, command: path.join(src, "server.js"), env: {} }),
     );
     for (let i = 0; i < 2; i++) {
@@ -73,7 +73,7 @@ const { promisify } = require("node:util");
     await fs.symlink("executable", path.join(pluginSource, "link"));
     await fs.chmod(path.join(pluginSource, ".codex-plugin"), 0o555);
     await fs.chmod(pluginSource, 0o555);
-    const copyPlugin = new Function("b", "P", "une", `${copyCode}; return Nne;`)(
+    const copyPlugin = new Function("b", "P", "nne", `${copyCode}; return Tne;`)(
       { default: fs },
       { default: process },
       promisify(execFile),

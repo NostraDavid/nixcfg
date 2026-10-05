@@ -8,26 +8,26 @@
   assets = {
     x86_64-linux = {
       target = "x86_64-unknown-linux-musl";
-      hash = "sha256-vCuJArDZx5bILvRfFq4jB+F3V6/spe4VYjWj3HvaX4k=";
+      hash = "sha256-UCjTsZqPCZDTD+yfuwfjJ4K8VpjmGPsYYarYqcy6TrU=";
     };
     aarch64-linux = {
       target = "aarch64-unknown-linux-gnu";
-      hash = "sha256-0cxJ36LNRD/DJiVES1n+YWtsgEeMyiEJhRGDRxdN11g=";
+      hash = "sha256-jW0arZ5ptCSB7acDlQfR9+6TaY+HcTzs2HPSh8GTFjI=";
     };
     x86_64-darwin = {
       target = "x86_64-apple-darwin";
-      hash = "sha256-rCPiACSrPHHn9QBp+LNBkK7BstjwwswZg0A5s9rHM3M=";
+      hash = "sha256-vTnIFT9BRzWDYMfcUWZagTHMnuFvgfaalAL/pQC+PMI=";
     };
     aarch64-darwin = {
       target = "aarch64-apple-darwin";
-      hash = "sha256-/lR2GplQJm46eN22aor14GclEWnaMGoojgdR3mPYNv4=";
+      hash = "sha256-iBfYtxr8AqyL8G6yS8xBwwZZKrc1to6P7p2xug3ny1k=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported rtk platform: ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "rtk";
-    version = "0.50.0";
+    version = "0.51.0";
 
     src = fetchurl {
       url = "https://github.com/rtk-ai/rtk/releases/download/v${finalAttrs.version}/rtk-${asset.target}.tar.gz";
