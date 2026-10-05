@@ -77,7 +77,7 @@ command = "/nix/store/zwsmbsawwb125hfa3fw32rssfj6963vh-agent-memory/bin/agent-me
 args = ["mcp"]
 
 [mcp_servers.headroom]
-command = "/nix/store/nascpn83354948nv0414rf7rdi4jx87s-headroom-ai-0.39.1/bin/headroom"
+command = "/nix/store/bw84day28jx4cpz4r0cm9fn3mid2jcvn-headroom-ai-0.39.1/bin/headroom"
 args = ["mcp", "serve", "--transport", "stdio"]
 [notice]
 hide_rate_limit_model_nudge = true
