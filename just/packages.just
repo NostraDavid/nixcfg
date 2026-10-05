@@ -27,14 +27,14 @@ pkg-update package:
 [group('packages')]
 pkg-update-all:
   @packages="$(./scripts/local-package-maint.sh packages)" || exit $?; \
-  red="$$(printf '\033[31m')"; reset="$$(printf '\033[0m')"; bold="$$(printf '\033[1m')"; failures=(); \
+  red="$(printf '\033[31m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=(); \
   for package in $packages; do \
     if ! just pkg-update "$package"; then \
       failures+=("$package"); \
     fi; \
   done; \
   if [ ${#failures[@]} -gt 0 ]; then \
-    printf '%s%sPackages with failed updates:%s\n' "$$bold" "$$red" "$$reset" >&2; \
+    printf '%s%sPackages with failed updates:%s\n' "$bold" "$red" "$reset" >&2; \
     printf '  %s\n' "${failures[@]}" >&2; \
     exit 1; \
   fi
