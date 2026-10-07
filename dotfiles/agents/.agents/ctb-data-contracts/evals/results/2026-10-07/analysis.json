@@ -1,0 +1,123 @@
+{
+  "model_settings": {
+    "model": "gpt-6.1-sol",
+    "model_reasoning_effort": "medium"
+  },
+  "cli_version": "codex-cli 0.160.0",
+  "completed_model_runs": 110,
+  "positive_activation": {
+    "passed": 40,
+    "attempts": 40,
+    "success_rate": 1.0,
+    "median_seconds": 37.9655,
+    "input_tokens": 3485287,
+    "cached_input_tokens": 2919424,
+    "output_tokens": 42185
+  },
+  "negative_activation": {
+    "passed": 40,
+    "attempts": 40,
+    "success_rate": 1.0,
+    "median_seconds": 17.7395,
+    "input_tokens": 1161266,
+    "cached_input_tokens": 1006592,
+    "output_tokens": 15222
+  },
+  "task_with_skill": {
+    "passed": 15,
+    "attempts": 15,
+    "success_rate": 1.0,
+    "median_seconds": 50.986,
+    "input_tokens": 1796841,
+    "cached_input_tokens": 1517184,
+    "output_tokens": 23074
+  },
+  "task_without_skill": {
+    "passed": 14,
+    "attempts": 15,
+    "success_rate": 0.9333333333333333,
+    "median_seconds": 54.271,
+    "input_tokens": 1970492,
+    "cached_input_tokens": 1645184,
+    "output_tokens": 26380
+  },
+  "protected_fixture_mutations": 0,
+  "execution_failures": 0,
+  "billing_cost_usd": null,
+  "per_task": {
+    "t01-generate": {
+      "with_skill": {
+        "passed": 5,
+        "attempts": 5,
+        "success_rate": 1.0,
+        "median_seconds": 60.997,
+        "input_tokens": 559196,
+        "cached_input_tokens": 450048,
+        "output_tokens": 9511
+      },
+      "without_skill": {
+        "passed": 4,
+        "attempts": 5,
+        "success_rate": 0.8,
+        "median_seconds": 74.029,
+        "input_tokens": 886811,
+        "cached_input_tokens": 725504,
+        "output_tokens": 12864
+      }
+    },
+    "t02-incompatible-change": {
+      "with_skill": {
+        "passed": 5,
+        "attempts": 5,
+        "success_rate": 1.0,
+        "median_seconds": 45.358,
+        "input_tokens": 642186,
+        "cached_input_tokens": 538368,
+        "output_tokens": 6563
+      },
+      "without_skill": {
+        "passed": 5,
+        "attempts": 5,
+        "success_rate": 1.0,
+        "median_seconds": 37.672,
+        "input_tokens": 446962,
+        "cached_input_tokens": 369408,
+        "output_tokens": 5520
+      }
+    },
+    "t03-wrong-checkout": {
+      "with_skill": {
+        "passed": 5,
+        "attempts": 5,
+        "success_rate": 1.0,
+        "median_seconds": 48.276,
+        "input_tokens": 595459,
+        "cached_input_tokens": 528768,
+        "output_tokens": 7000
+      },
+      "without_skill": {
+        "passed": 5,
+        "attempts": 5,
+        "success_rate": 1.0,
+        "median_seconds": 54.271,
+        "input_tokens": 636719,
+        "cached_input_tokens": 550272,
+        "output_tokens": 7996
+      }
+    }
+  },
+  "grading_note": "Original owner-only-team assertion rejected valid customProperties.owner metadata. Original raw records were retained; all 30 task artifacts were regraded, including full scalar type/nullability checks from the predefined runtime-agreement criterion. One baseline artifact omits non-nullability for quality/freshness.",
+  "limits": [
+    "Synthetic CTB fixtures, not production data.",
+    "One configured model/runtime; other clients not measured.",
+    "Small task set and sequential case/arm scheduling; timing is descriptive, not a causal performance claim."
+  ],
+  "gates": {
+    "minimum_five_attempts": true,
+    "activation_recall": true,
+    "negative_specificity": true,
+    "task_success": true,
+    "not_below_baseline": true,
+    "no_protected_mutations": true
+  }
+}
