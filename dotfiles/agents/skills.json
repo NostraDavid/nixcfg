@@ -30,6 +30,7 @@
     "code-navigation",
     "beads",
     "agent-memory",
+    "mcporter",
     "cli-output"
   ],
   "aliases": {
@@ -78,6 +79,7 @@
     "landmark-fit-repair": "landmark",
     "linux-performance": "perf",
     "manage-adrs": "madr",
+    "mcporter": "mcporter",
     "mascot-logo-reconstruction": "mascot",
     "multiview-constraint-solver": "mvsolve",
     "multiview-fit-loop": "mvfit",
@@ -119,7 +121,6 @@
     "reference-to-3d": "ref3d",
     "reliability-engineering": "sre",
     "research": "res",
-    "resolving-merge-conflicts": "merge",
     "review-git-branch": "review-git-branch",
     "review-twelve-factor-app": "12factor",
     "secure-software-design": "secdesign",
