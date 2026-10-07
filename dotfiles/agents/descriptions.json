@@ -94,6 +94,7 @@
     "mvsolve": "Check whether multiple orthographic references can describe one rigid Blender model. Resolve conflicting silhouettes, proportions, part counts, and depths; establish canonical constraints before reconstruction.",
     "nav": "Choose code navigation tools for symbols, cross-file impact, and structural searches or rewrites with ast-grep.",
     "mcporter": "Discover and call MCP tools from the terminal with mcporter when a task needs CLI access to MCP servers or an agent lacks a native MCP connection.",
+    "ctb-data-contracts": "Draft, review, and validate Bitol ODCS contracts and ODPS products in CTB, including runtime-schema agreement, product references, and compatibility. Exclude trading advice and unrelated API contracts.",
     "needs": "Plan customer or stakeholder research, analyze interviews, and uncover workflows, needs, or requirements before choosing solutions. Exclude current-user prompt clarification, formal specification writing, and endorsement of already-decided ideas.",
     "notify": "Speak a notification with say before asking the user a question or handing over a completed task, including a finished plan or verified change. Apply at these moments regardless of the task domain.",
     "openai-docs": "Find current official guidance on Codex, ChatGPT, OpenAI APIs, models, pricing, configuration, and troubleshooting. Use for OpenAI product questions, including questions about this coding agent. Exclude generic software tasks.",

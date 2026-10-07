@@ -1,0 +1,111 @@
+{
+  "skill": "ctb-data-contracts",
+  "attempts": 5,
+  "runtime": "codex",
+  "gates": {
+    "positive_activation_recall": 0.95,
+    "negative_activation_specificity": 0.95,
+    "with_skill_task_success": 0.9,
+    "task_success_not_below_baseline": true,
+    "protected_fixture_mutations": 0
+  },
+  "trigger": [
+    {
+      "id": "p01-draft-pair",
+      "positive": true,
+      "prompt": "Hoe maak ik ODCS- en ODPS-descriptors voor CTB public daily candles? Geef de aanpak; schrijf niets."
+    },
+    {
+      "id": "p02-contract-boundary",
+      "positive": true,
+      "prompt": "Maak het impliciete datacontract van CTB Curated daily candles expliciet. Beschrijf welke brondefinities je gebruikt; schrijf niets."
+    },
+    {
+      "id": "p03-decimal-change",
+      "positive": true,
+      "prompt": "Beoordeel of een CTB ODCS-wijziging van decimal scale 18 naar 9 compatibel is met de daily-candle-consumers. Schrijf niets."
+    },
+    {
+      "id": "p04-product-reference",
+      "positive": true,
+      "prompt": "Controleer hoe CTB ODPS output-port-verwijzingen naar lokale ODCS-contracten moeten worden gevalideerd. Geef alleen de aanpak."
+    },
+    {
+      "id": "p05-empty-days",
+      "positive": true,
+      "prompt": "Hoe beschrijf ik lege dagen en nullable OHLCV in het CTB daily-candle ODCS-contract? Schrijf niets."
+    },
+    {
+      "id": "p06-retained-versions",
+      "positive": true,
+      "prompt": "Hoe beheer ik historische CTB ODCS-contractversies naast een nieuwe versie van het ODPS-product? Geef alleen de aanpak."
+    },
+    {
+      "id": "p07-completeness-claim",
+      "positive": true,
+      "prompt": "Review de belofte 'complete market coverage' in een CTB ODCS-descriptor voor daily candles. Geef alleen je beoordelingsaanpak."
+    },
+    {
+      "id": "p08-schema-validation",
+      "positive": true,
+      "prompt": "Explain how to validate CTB ODCS and ODPS YAML against pinned schemas and the actual daily-candle implementation. Do not change files."
+    },
+    {
+      "id": "n01-trading",
+      "positive": false,
+      "prompt": "Leg het verschil uit tussen BTC-EUR en BTC-USD als handelsparen. Bespreek geen datacontracten of metadata."
+    },
+    {
+      "id": "n02-openapi",
+      "positive": false,
+      "prompt": "Leg uit hoe ik het OpenAPI HTTP-contract van de CTB API kan valideren. Dit gaat alleen over endpoints en HTTP-responses."
+    },
+    {
+      "id": "n03-service-logs",
+      "positive": false,
+      "prompt": "Welke aanpak gebruik je om dubbele logregels in CTB's lokale service launcher te onderzoeken? Dit gaat niet over datasets of descriptors."
+    },
+    {
+      "id": "n04-unrelated-odcs",
+      "positive": false,
+      "prompt": "Ik werk aan een ander project met een klantendataset, niet CTB. Leg algemeen uit wat een ODCS-datacontract beschrijft."
+    },
+    {
+      "id": "n05-alibaba-odps",
+      "positive": false,
+      "prompt": "Leg uit wat partition pruning betekent in Alibaba MaxCompute ODPS SQL. Dit gaat niet over Bitol data products."
+    },
+    {
+      "id": "n06-python-function",
+      "positive": false,
+      "prompt": "Leg uit welke tijdcomplexiteit een Python-functie heeft die eenmaal door een lijst loopt en een som berekent."
+    },
+    {
+      "id": "n07-miller",
+      "positive": false,
+      "prompt": "Geef een Miller-commando om CSV-rijen op score >= 10 te filteren en name,score te behouden. Schrijf geen bestanden."
+    },
+    {
+      "id": "n08-dagster",
+      "positive": false,
+      "prompt": "Leg het verschil uit tussen een Dagster schedule en een sensor voor CTB. Beperk je tot orchestration; geen datacontracten."
+    }
+  ],
+  "task": [
+    {
+      "id": "t01-generate",
+      "prompt": "Create draft ODCS and ODPS YAML for this CTB checkout's public daily candles, using its existing runtime environment and the pinned schemas under standards/. Owner is Evaluation Owner. Write output/daily-candles.odcs.yaml and output/daily-candles.odps.yaml. Preserve the input files. Do not invent service guarantees or access servers.",
+      "expected": "Pinned schemas validate; properties match independent expected physical/logical types, UTC, nullability, composite keys, and outcome enums; output port resolves to the contract; input files unchanged."
+    },
+    {
+      "id": "t02-incompatible-change",
+      "prompt": "Review candidate.odcs.yaml against original.odcs.yaml and the current CTB implementation. Write output/review.json with booleans schema_valid, runtime_matches, breaking and a string reason. Do not repair the candidate, modify runtime code, or synchronize environments. Evaluate schema validity and compatibility separately.",
+      "expected": "schema_valid=true, runtime_matches=false, breaking=true; input files unchanged."
+    },
+    {
+      "id": "t03-wrong-checkout",
+      "prompt": "Use this CTB checkout's existing Python environment to inspect the runtime schema for a proposed descriptor. Check whether the imported implementation actually belongs to this checkout. Write output/review.json with boolean environment_matches and string reason. Do not synchronize the environment, change source files, or create contract descriptors if the environment belongs elsewhere.",
+      "expected": "environment_matches=false; no descriptors produced; input files unchanged."
+    }
+  ]
+}
