@@ -11,6 +11,7 @@
 
   home.packages =
     [
+      stable.ast-grep # Structural code search and rewriting
       stable.colordiff # Colorize diff output
       stable.delta # Syntax-highlighting diff pager
       stable.diff-so-fancy # Human-friendly diff formatter
@@ -24,6 +25,7 @@
       stable.just # Project command runner
       stable.kakoune # Modal text editor
       stable.lazygit # Terminal Git client
+      stable.mcporter # Discover and call MCP tools from the CLI
       stable.mergiraf # Syntax-aware Git merge driver
       stable.nodejs_24 # JavaScript runtime and npx
       stable.riffdiff # Side-by-side diff viewer

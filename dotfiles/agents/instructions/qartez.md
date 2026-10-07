@@ -1,5 +1,6 @@
 # Code navigation preferences
 
-Use Qartez first for semantic code navigation, Serena as its fallback, and `rg`
-for exact text. For cross-file analysis, semantic edits, or structural
-discovery, follow `~/.agents/skills/nav/SKILL.md`.
+Use Qartez first for symbols and cross-file relationships, Serena as its
+fallback, `rg` for exact text, and `ast-grep` for structural code patterns and
+rewrites. For cross-file analysis, semantic edits, or structural discovery,
+follow `~/.agents/skills/nav/SKILL.md`.

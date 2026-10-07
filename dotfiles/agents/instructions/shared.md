@@ -15,6 +15,22 @@ preserving errors and essential output.
 `~/.agents/instructions/shell-command-history.md` to run shell commands with
 `login: false` and keep them out of shell history.
 
+### Tabular data in shell commands
+
+For one-off CSV or TSV filtering, field selection, aggregation, and format
+conversion, use Miller (`mlr`) when available. Select the input and output
+formats explicitly. Quote expressions with single quotes to preserve `$field`
+references. Write output to a separate file to preserve the input.
+
+```bash
+mlr --csv filter '$score >= 10' then cut -f name,score input.csv
+mlr --itsv --ojson cat input.tsv
+```
+
+Check `mlr --help` and `mlr VERB --help` for the installed version. If `mlr` is
+unavailable, use the task's existing data tools. Keep Python analyses in the
+existing Python workflow.
+
 ### Code navigation
 
 `~/.agents/instructions/qartez.md` to choose code navigation tools and their
@@ -49,6 +65,11 @@ check, human oversight, or approval before sharing sensitive data.
 ## Conditional skills
 
 Read and follow each skill when its condition applies.
+
+### MCP from the terminal
+
+When a task needs MCP tools from a terminal or script, or the agent lacks a
+native MCP connection, follow `~/.agents/skills/mcporter/SKILL.md`.
 
 ### Audio notifications
 
