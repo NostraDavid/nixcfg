@@ -112,6 +112,7 @@
           };
         }
         ./cachix.nix
+        ./internal-pki.nix
         module
       ];
       specialArgs = {

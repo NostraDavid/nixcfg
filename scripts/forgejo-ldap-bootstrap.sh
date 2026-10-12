@@ -7,7 +7,7 @@ if [[ $# -gt 1 || ($# -eq 1 && $1 != --check) ]]; then
 fi
 
 repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
-ca_cert="$repo_root/hosts/wodan/certs/freeipa.crt"
+ca_cert="$repo_root/certs/freeipa.crt"
 ldap_url='ldaps://ldap.powerlan.empire'
 users_base='cn=users,cn=accounts,dc=powerlan,dc=empire'
 group_dn='cn=grp-forgejo-user,cn=groups,cn=accounts,dc=powerlan,dc=empire'
