@@ -85,7 +85,7 @@ just freeipa-proxmox-reader-bootstrap
 Het wachtwoord staat daarna in
 `~/.local/state/nixcfg/proxmox-ldap-bind-password` met mode `0600`. De nieuwe
 OpenTofu-state bevat dit geheim ook en moet daarom privé blijven. Installeer de
-publieke FreeIPA-CA uit `hosts/wodan/certs/freeipa.crt` op de Proxmox-host als
+publieke FreeIPA-CA uit `certs/freeipa.crt` op de Proxmox-host als
 `/etc/pve/priv/freeipa-ca.crt` voordat de realm wordt aangemaakt.
 
 ```bash

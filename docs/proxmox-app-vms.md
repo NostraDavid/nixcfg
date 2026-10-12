@@ -307,14 +307,17 @@ curl --fail --cacert forgejo-ca.crt \
 
 De checks voor cache en database moeten allebei `pass` melden. Importeer
 `forgejo-ca.crt` in de vertrouwde CA's van de client of browser voordat je
-Forgejo via de browser gebruikt. De publieke CA-sleutel blijft op VM 111.
+Forgejo via de browser gebruikt. De publieke CA-sleutel blijft op VM 111. De
+geverifieerde rootcertificaten staan centraal in `certs/`. Volg
+[Interne certificaten vertrouwen](internal-pki.md) voor NixOS, Debian, Android
+en LDAP-containers.
 
 ## Forgejo en FreeIPA
 
 FreeIPA draait op `ldap.powerlan.empire` (`192.168.2.101`). De niet-POSIX-groep
 `grp-forgejo-user` bepaalt wie via LDAP in Forgejo mag inloggen. Momenteel zijn
 `nostradavid` en `poweremperor` lid. De Forgejo-VM vertrouwt de FreeIPA-CA uit
-`hosts/wodan/certs/freeipa.crt`, zodat LDAPS op poort 636 wordt gecontroleerd.
+`certs/freeipa.crt`, zodat LDAPS op poort 636 wordt gecontroleerd.
 
 Controleer de verbinding en maak daarna een beperkt LDAP-systeemaccount plus
 Forgejo-aanmeldbron aan vanaf het werkstation:
