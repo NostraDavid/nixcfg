@@ -81,12 +81,15 @@ _: {
 
     fonts.packages = [
       local.creep2 # creep2
+      local.fixedsys # Fixedsys Excelsior with programming ligatures
       local.pico-8-font # PICO-8
       local.tamzen-otf # Tamzen7x14 OTF, TamzenForPowerline7x14 OTF; also 5x9, 6x12, 7x13, 8x15, 8x16, 10x20
       stable.anakron # ANAKRON, ANAKRON Nerd Font Mono
       stable.cozette # CozetteVector, CozetteCrossedSevenVector
       stable.creep # creep
       stable.kirsch # kirsch, Kirsch Nerd Font Mono
+      stable.monocraft # Monocraft
+      stable.nerd-fonts.bigblue-terminal # BigBlue Terminal Nerd Font
       stable.nerd-fonts.departure-mono # DepartureMono Nerd Font Mono
       stable.nerd-fonts.gohufont # GohuFont 11 Nerd Font Mono, GohuFont 14 Nerd Font Mono
       stable.nerd-fonts.jetbrains-mono # JetBrainsMono Nerd Font Mono
@@ -97,6 +100,7 @@ _: {
       stable.spleen # Spleen 6x12, Spleen 8x16, Spleen 12x24, Spleen 16x32, Spleen 32x64 (OTF)
       stable.tamzen # Tamzen, TamzenForPowerline (bitmap; aliases above prefer OTF)
       stable.terminus_font_ttf # Terminus (TTF)
+      stable.ultimate-oldschool-pc-font-pack # IBM PC, CGA, EGA, VGA, DOS and BIOS fonts
     ];
 
     hardware.graphics = {
