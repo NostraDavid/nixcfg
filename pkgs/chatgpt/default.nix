@@ -41,12 +41,12 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "chatgpt";
-  version = "26.930.51102";
+  version = "26.1007.21434";
 
   # The latest URL is mutable; pin the versioned pool artifact instead.
   src = fetchurl {
     url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${finalAttrs.version}_amd64.deb";
-    hash = "sha256-Y3w8lLxQ+O4zoV4uKOx/kqeH8JQ+cA7+ERvAvw1IE7Q=";
+    hash = "sha256-J2tTQcPXSyYdOtUhBvf6ft3gaEHkdn/ipAy1QJmx8+0=";
   };
 
   nativeBuildInputs = [
@@ -118,18 +118,18 @@ stdenv.mkDerivation (finalAttrs: {
     import mmap
 
     with open("usr/lib/chatgpt/resources/app.asar", "r+b") as file, mmap.mmap(file.fileno(), 0) as archive:
-        start = archive.find(b"async function Yc({executorPluginRoot:")
+        start = archive.find(b"async function Zc({executorPluginRoot:")
         assert start >= 0, "executor plugin initializer not found"
-        end = archive.find(b"async function Xc(", start)
+        end = archive.find(b"async function Qc(", start)
         assert end > start, "executor plugin initializer boundary not found"
         before = archive[start:end]
         after = before.replace(
-            b"let n=await Zc({useWsl:!1,resourcesPath:t});",
-            b"let n=await Zc({useWsl:!1,resourcesPath:t}),f=b.default,p=S.default;",
+            b"let n=await $c({useWsl:!1,resourcesPath:t});",
+            b"let n=await $c({useWsl:!1,resourcesPath:t}),f=x.default,p=C.default;",
         ).replace(
-            b"process.platform!==`win32`&&(n.command=S.default.join(e,S.default.relative(n.cwd,n.command)))",
-            b"n.command=S.default.join(e,S.default.relative(n.cwd,n.command))",
-        ).replace(b"b.default.", b"f.").replace(b"S.default.", b"p.").replace(
+            b"process.platform!==`win32`&&(n.command=C.default.join(e,C.default.relative(n.cwd,n.command)))",
+            b"n.command=C.default.join(e,C.default.relative(n.cwd,n.command))",
+        ).replace(b"x.default.", b"f.").replace(b"C.default.", b"p.").replace(
             b"await f.writeFile(p.join(e,`.mcp.json`),",
             b"await f.chmod(p.join(e,`.mcp.json`),384),await f.writeFile(p.join(e,`.mcp.json`),",
         )
@@ -139,13 +139,13 @@ stdenv.mkDerivation (finalAttrs: {
 
         # Marketplace materialization edits copied plugin metadata and removes
         # disabled skills. Node's cp preserves immutable Nix-store permissions.
-        start = archive.find(b"async function Tne(e,t){")
+        start = archive.find(b"async function Qne(e,t){")
         assert start >= 0, "marketplace copy helper not found"
-        end = archive.find(b"async function vs(", start)
+        end = archive.find(b"async function bs(", start)
         assert end > start, "marketplace copy helper boundary not found"
         before = archive[start:end]
-        assert b"await b.default.cp(e,t," in before, "marketplace copy helper changed"
-        after = b'async function Tne(e,t){await nne(`${coreutils}/bin/cp`,[`-R`,`--`,e+`/.`,t]);await nne(`${coreutils}/bin/chmod`,[`-R`,`u+w`,`--`,t])}'
+        assert b"await x.default.cp(e,t," in before, "marketplace copy helper changed"
+        after = b'async function Qne(e,t){await kne(`${coreutils}/bin/cp`,[`-R`,`--`,e+`/.`,t]);await kne(`${coreutils}/bin/chmod`,[`-R`,`u+w`,`--`,t])}'
         assert len(after) <= len(before), "marketplace permissions patch changes ASAR offsets"
         archive[start:end] = after.ljust(len(before))
     PY

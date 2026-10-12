@@ -7,26 +7,26 @@
   assets = {
     x86_64-linux = {
       target = "linux_x86_64";
-      hash = "sha256-ZlRzfyWG4nYTjf0xAUyueIpNV1xQXklFKcCM6pZZfts=";
+      hash = "sha256-TTXjrP1fDGJTZnSJx/JjpkFOHKVYKFytRc14f/Zoniw=";
     };
     aarch64-linux = {
       target = "linux_arm64";
-      hash = "sha256-ljb61YVmHbmAGHhktAJmRPBiK1SOXfe8gupbj1N2CaI=";
+      hash = "sha256-niEPWy2l5pSrkcu8uLGxkEQhL7kThg4AenbXq0uLLNs=";
     };
     x86_64-darwin = {
       target = "darwin_x86_64";
-      hash = "sha256-SkuucmHsLURktKNh3MGy1rCGBN1iUJBC/pJm2KoRguc=";
+      hash = "sha256-jJQooXjcPLzduEBH3Z/0+UTOjb2NoRr6m6t5R/m61/g=";
     };
     aarch64-darwin = {
       target = "darwin_arm64";
-      hash = "sha256-QNkEnKVD3n/P/nKqvoBG1MKljJzTAOF+FOkS4kJc9rM=";
+      hash = "sha256-eBy9EA/ESBg9Oz0Z8FUMTnRgbMlJGosHDaQl+064piM=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported bitbucket-cli platform: ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "bitbucket-cli";
-    version = "0.32.1";
+    version = "0.33.0";
 
     src = fetchurl {
       url = "https://github.com/avivsinai/bitbucket-cli/releases/download/v${finalAttrs.version}/bkt_${finalAttrs.version}_${asset.target}.tar.gz";

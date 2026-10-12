@@ -89,7 +89,7 @@ in {
   };
 
   home = {
-    packages = [local.unsloth local.t3code];
+    packages = [local.unsloth local.t3code local.pi-desktop];
     activation = {
       codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
         codex_dir="$HOME/.codex"

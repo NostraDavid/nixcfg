@@ -9,11 +9,11 @@ _: {
     extra-substituters = [
       "https://thaumatorium.cachix.org?priority=1"
       "https://pi.cachix.org?priority=2"
-      "https://cache.nixos-cuda.org?priority=3"
       "https://devenv.cachix.org?priority=4"
       "https://nix-community.cachix.org?priority=5"
       "https://numtide.cachix.org?priority=6"
       "https://cache.nixos.org?priority=7"
+      "https://cache.nixos-cuda.org?priority=1000"
     ];
     extra-trusted-public-keys = [
       "thaumatorium.cachix.org-1:KbOXBN34Tv0AeoRRhvBKoZHUfgmOALmfyQWeRE6MITo="

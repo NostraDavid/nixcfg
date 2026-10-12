@@ -36,12 +36,12 @@
 in
   python3Packages.buildPythonApplication rec {
     pname = "python-voiceio";
-    version = "0.9.11";
+    version = "1.9.2";
     pyproject = true;
 
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/45/20/8f44cd8457497b228c5b83338ca1dff00c52c4cba727a8d5b780a6472155/python_voiceio-0.9.11.tar.gz";
-      hash = "sha256-ab94xyEOlRZLeLawSC4bt/4uKGvxkUmwuWN4oISeN/0=";
+      url = "https://files.pythonhosted.org/packages/ef/08/b97ddaee353a046730a626a1aca576fdd3215dd4823316a0babb8e36bb83/python_voiceio-1.9.2.tar.gz";
+      hash = "sha256-siAHL46EoEcvPwnMPvUAgtyxzYMoifAjbYYBIS5rNw8=";
     };
 
     build-system = with python3Packages; [
@@ -63,21 +63,9 @@ in
     ];
     pythonImportsCheck = ["voiceio"];
 
-    postPatch = ''
-      substituteInPlace voiceio/typers/ibus.py \
-        --replace-fail 'for path in ("/usr/bin/python3", "/usr/bin/python"):' \
-          'for path in ("${systemPython}/bin/python3",):' \
-        --replace-fail 'return "/usr/bin/python3"' \
-          'return "${systemPython}/bin/python3"'
-      substituteInPlace voiceio/tray/__init__.py \
-        --replace-fail 'for py in ["/usr/bin/python3"]:' \
-          'for py in ["${systemPython}/bin/python3"]:' \
-        --replace-fail 'if not shutil.which("/usr/bin/python3"):' \
-          'if not shutil.which("${systemPython}/bin/python3"):'
-    '';
-
     postFixup = ''
       wrapProgram $out/bin/voiceio \
+        --set-default VOICEIO_SYSTEM_PYTHON ${systemPython}/bin/python3 \
         --prefix PATH : ${
         lib.makeBinPath [
           ibus

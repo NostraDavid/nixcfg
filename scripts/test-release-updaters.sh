@@ -7,6 +7,9 @@ trap 'rm -rf "${test_root}"' EXIT
 export TEST_REPO="${test_root}/repo"
 mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
 mkdir -p "${TEST_REPO}/pkgs/"{pico-8-font,ponytail-skills,ponytail-codex}
+mkdir -p "${TEST_REPO}/pkgs/codex"
+cp "${repo_root}/scripts/update-codex.sh" "${TEST_REPO}/scripts/"
+cp "${repo_root}/pkgs/codex/default.nix" "${TEST_REPO}/pkgs/codex/"
 cp "${repo_root}"/scripts/update-{acli,jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
 cp "${repo_root}"/scripts/update-{pico-8-font,ponytail-skills,ponytail-codex}.sh "${TEST_REPO}/scripts/"
 for package in pico-8-font ponytail-skills ponytail-codex; do
@@ -40,6 +43,20 @@ if [[ "$*" == *acli.atlassian.com* ]]; then
 else
     printf '{"tag_name":"%s"}\n' "${TEST_RELEASE:-3.3.0}"
 fi
+EOF
+cat >"${test_root}/bin/gh" <<'EOF'
+#!/usr/bin/env bash
+[[ "$1" == api ]]
+if [[ "$2" == repos/openai/codex/releases/latest ]]; then
+    printf '{"tag_name":"%s","assets":[' "${TEST_CODEX_RELEASE:-rust-v0.200.0}"
+    printf '{"name":"codex-package-x86_64-unknown-linux-musl.tar.gz","digest":"sha256:%064d"}' 0
+    if [[ "${TEST_CODEX_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"codex-package-aarch64-apple-darwin.tar.gz","digest":"sha256:%064d"}' 1
+    fi
+    printf ']}\n'
+    exit
+fi
+printf '{"tag_name":"%s"}\n' "${TEST_RELEASE:-3.3.0}"
 EOF
 cat >"${test_root}/bin/nix" <<'EOF'
 #!/usr/bin/env bash
@@ -79,6 +96,21 @@ sed '/pname = "semble";/,$d' "${repo_root}/pkgs/semble/default.nix" >"${test_roo
 sed '/pname = "semble";/,$d' "${TEST_REPO}/pkgs/semble/default.nix" >"${test_root}/after"
 cmp "${test_root}/before" "${test_root}/after"
 
+"${TEST_REPO}/scripts/update-codex.sh" >/dev/null
+rg -q 'version = "0.200.0";' "${TEST_REPO}/pkgs/codex/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/codex/default.nix")" -eq 2 ]]
+for failure in tag asset; do
+    cp "${repo_root}/pkgs/codex/default.nix" "${TEST_REPO}/pkgs/codex/"
+    export TEST_CODEX_RELEASE=rust-v0.200.0 TEST_CODEX_MISSING_ASSET=0
+    if [[ "$failure" == tag ]]; then TEST_CODEX_RELEASE=rust-v0.200.0-alpha; else TEST_CODEX_MISSING_ASSET=1; fi
+    if "${TEST_REPO}/scripts/update-codex.sh" >/dev/null 2>&1; then
+        echo "Expected Codex ${failure} failure" >&2
+        exit 1
+    fi
+    cmp "${repo_root}/pkgs/codex/default.nix" "${TEST_REPO}/pkgs/codex/default.nix"
+done
+export TEST_CODEX_RELEASE=rust-v0.200.0 TEST_CODEX_MISSING_ASSET=0
+
 export TEST_BUILD_FAILURE=1
 cp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/default.nix"
 if "${TEST_REPO}/scripts/update-acli.sh" >/dev/null 2>&1; then
@@ -86,7 +118,7 @@ if "${TEST_REPO}/scripts/update-acli.sh" >/dev/null 2>&1; then
     exit 1
 fi
 cmp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/default.nix"
-for package in jpegli semble; do
+for package in jpegli semble codex; do
     cp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
     if "${TEST_REPO}/scripts/update-${package}.sh" >/dev/null 2>&1; then
         echo "Expected ${package} build failure" >&2

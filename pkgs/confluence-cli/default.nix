@@ -6,11 +6,11 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "confluence-cli";
-  version = "2.27.4";
+  version = "2.29.1";
 
   src = fetchurl {
     url = "https://registry.npmjs.org/confluence-cli/-/confluence-cli-${finalAttrs.version}.tgz";
-    hash = "sha256-4oqag6kZjkjftaPutsvzeQkTLGBJhIeQUAdL1y0jf/E=";
+    hash = "sha256-AC1z3MHa+CC6VTbCj8zivsMGVDuVW1L7BlFUAgFjTW0=";
   };
   sourceRoot = "package";
 
@@ -18,7 +18,7 @@ buildNpmPackage (finalAttrs: {
     ${nodejs}/bin/node -e 'const fs = require("fs"); const pkg = require("./package.json"); delete pkg.devDependencies; fs.writeFileSync("package.json", JSON.stringify(pkg))'
   '';
 
-  npmDepsHash = "sha256-XsV/6DH38h1QKA493oiGIOCv+oO9GUNba74J+1qtE84=";
+  npmDepsHash = "sha256-UQjT4ZPzT5+FQp/URvuuq/yg08QHtIZ+ezYxzgF1zRE=";
   npmConfigProduction = true;
   npmFlags = ["--omit=dev"];
   dontNpmBuild = true;

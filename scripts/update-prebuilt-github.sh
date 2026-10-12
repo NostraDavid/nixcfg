@@ -22,7 +22,7 @@ snip) repo=edouard-claude/snip ;;
     ;;
 esac
 
-release="$(curl -fsSL "https://api.github.com/repos/${repo}/releases/latest")"
+release="$(gh api "repos/${repo}/releases/latest")"
 tag="$(jq -er '.tag_name' <<<"$release")"
 version="${tag#v}"
 [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {

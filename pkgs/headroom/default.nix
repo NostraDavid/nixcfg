@@ -6,7 +6,7 @@
   unstable,
 }: let
   py = unstable.python313Packages;
-  version = "0.39.1";
+  version = "0.40.0";
 
   mcp = py.buildPythonPackage {
     pname = "mcp";
@@ -66,8 +66,8 @@ in
     format = "wheel";
 
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/60/fc/8411d3188a485f6e3a227da08d5140bdcc62a07e8a85c73ab1e9a822bf09/headroom_ai-0.39.1-cp310-abi3-manylinux_2_28_x86_64.whl";
-      hash = "sha256-6duyJIOgiNmaRmxQan13+gSJv4xbGf6zUBCsW9Jcl6Q=";
+      url = "https://files.pythonhosted.org/packages/03/1c/383f4a2d33ad18d40869037ca6221e1db24bc4da5e92befe70793220b138/headroom_ai-0.40.0-cp310-abi3-manylinux_2_28_x86_64.whl";
+      hash = "sha256-SbbYoByOzrW56aZ1cg7V5Msk5GcoJkJlOqx/L9j69H8=";
     };
 
     nativeBuildInputs = [
@@ -103,6 +103,7 @@ in
       trafilatura
       transformers
       tree-sitter
+      truststore
       uvicorn
       watchdog
       websockets
