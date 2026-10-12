@@ -3,7 +3,7 @@
   runCommand,
   src,
 }: let
-  version = "4.12.0";
+  version = "5.1.0";
 in
   (runCommand "ponytail-codex-${version}" {} ''
     mkdir -p "$out"

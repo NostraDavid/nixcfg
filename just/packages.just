@@ -1,7 +1,8 @@
 # Update flake inputs in flake.lock.
 [group('packages')]
 update:
-  @inputs="$(nix flake metadata --no-write-lock-file --json | jq -r '.locks.nodes.root.inputs | keys[]')"; \
+  @source ./scripts/github-auth.sh; \
+  inputs="$(nix flake metadata --no-write-lock-file --json | jq -r '.locks.nodes.root.inputs | keys[]')"; \
   first=true; \
   while IFS= read -r input; do \
     if [ "$first" = false ]; then sleep "{{flake_update_delay_seconds}}"; fi; \
@@ -13,7 +14,8 @@ update:
 # Update nixpkgs and home-manager flake inputs in flake.lock.
 [group('packages')]
 update-nix:
-  @for input in nixpkgs home-manager; do \
+  @source ./scripts/github-auth.sh; \
+  for input in nixpkgs home-manager; do \
     {{nix_clean_env}} nix flake update --option http-connections 1 "$input"; \
     if [ "$input" = nixpkgs ]; then sleep "{{flake_update_delay_seconds}}"; fi; \
   done

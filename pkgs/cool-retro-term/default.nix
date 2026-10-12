@@ -36,26 +36,14 @@ stdenv.mkDerivation rec {
     qt6Packages.qtshadertools
   ];
 
-  # Ensure QMLTermWidget installs into $out so wrapping can find it.
-  qmakeFlags = ["QT_INSTALL_QML=${placeholder "out"}/lib/qt-6/qml"];
+  postPatch = ''
+    substituteInPlace qmltermwidget/qmltermwidget.pro \
+      --replace-fail 'INSTALL_DIR = $$[QT_INSTALL_QML]' 'INSTALL_DIR = /lib/qt-6/qml' \
+      --replace-fail 'INSTALLS += target qmldir assets colorschemes colorschemes2 kblayouts kblayouts2 scrollbar' \
+        'INSTALLS += target qmldir assets'
+  '';
 
   installFlags = ["INSTALL_ROOT=$(out)"];
-
-  postInstall = ''
-    # qmake installs QML modules to the absolute QT_INSTALL_QML prefix; with
-    # INSTALL_ROOT this ends up under $out/nix/store/.../lib/qt-6/qml.
-    # Move the module into $out so wrapQtAppsHook can find it.
-    if [ -d "$out/nix/store" ]; then
-      shopt -s nullglob
-      for qml_root in "$out"/nix/store/*-qtbase-*/lib/qt-6/qml; do
-        if [ -d "$qml_root/QMLTermWidget" ]; then
-          mkdir -p "$out/lib/qt-6/qml"
-          cp -a "$qml_root/QMLTermWidget" "$out/lib/qt-6/qml/"
-        fi
-      done
-      rm -rf "$out/nix"
-    fi
-  '';
 
   preFixup =
     ''
@@ -68,6 +56,16 @@ stdenv.mkDerivation rec {
     '';
 
   passthru.updateScript = ../../scripts/update-cool-retro-term.sh;
+
+  doInstallCheck = true;
+  installCheckPhase = ''
+    runHook preInstallCheck
+    test -x "$out/bin/cool-retro-term"
+    test -f "$out/lib/qt-6/qml/QMLTermWidget/qmldir"
+    test -f "$out/lib/qt-6/qml/QMLTermWidget/color-schemes/historic/vim.schema"
+    test -d "$out/lib/qt-6/qml/QMLTermWidget/kb-layouts/historic"
+    runHook postInstallCheck
+  '';
 
   passthru.tests.test = nixosTests.terminal-emulators.cool-retro-term;
 

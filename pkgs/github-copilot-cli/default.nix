@@ -8,14 +8,14 @@
 }:
 buildNpmPackage (finalAttrs: {
   pname = "github-copilot-cli";
-  version = "1.0.91";
+  version = "1.0.95";
 
   src = fetchzip {
     url = "https://registry.npmjs.org/@github/copilot/-/copilot-${finalAttrs.version}.tgz";
-    hash = "sha256-LAbz5MG8O3QJP5c0p/6aM7EFNEGlsk6iLy/EQpgudjQ=";
+    hash = "sha256-gbXJPuqRG7YlqknZhIS5mWIcZtr9tzVkLxf2CshpGg4=";
   };
 
-  npmDepsHash = "sha256-3ZUKOyJeYcW87z31peZj2XauuIbyNvEtvyMRW3G+FeI=";
+  npmDepsHash = "sha256-MvQZgf8Ahi7O1zZ6iTaEu2r8z/X7gRNAwqs6iDs8ZQo=";
 
   npmConfigProduction = true;
   npmConfigOptional = false;

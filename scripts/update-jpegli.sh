@@ -4,7 +4,7 @@ set -euo pipefail
 
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 pkg_file="${repo_root}/pkgs/jpegli/default.nix"
-version="$(curl --fail --silent --show-error https://api.github.com/repos/libjpeg-turbo/libjpeg-turbo/releases/latest | jq -er '.tag_name')"
+version="$(gh api repos/libjpeg-turbo/libjpeg-turbo/releases/latest | jq -er '.tag_name')"
 [[ "${version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || {
     echo "Unexpected libjpeg-turbo release tag: ${version}" >&2
     exit 1

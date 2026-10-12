@@ -31,7 +31,7 @@ done
 [[ "$(update_mode "${repo_root}" creep2)" == embedded-nix-update ]]
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
-rg -q -- '--use-github-releases' scripts/update-codex.sh
+rg -q -- 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
 for package in fixit dockerfile-roast jsongrep mdschema gigatoken pico-8-font ponytail-codex; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
@@ -70,6 +70,7 @@ test_root="$(mktemp -d)"
 trap 'rm -rf "${test_root}"' EXIT
 mkdir -p "${test_root}/scripts" "${test_root}/pkgs/fixture"
 cp scripts/local-package-maint.sh "${test_root}/scripts/"
+cp scripts/github-auth.sh "${test_root}/scripts/"
 cat >"${test_root}/flake.nix" <<EOF
 {
   outputs = _: {
@@ -94,11 +95,42 @@ output="$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.
 [[ "${status}" -eq 19 ]]
 [[ "${output}" == *"fixture upstream connection failed"* ]]
 [[ "${output}" != *"Skipping update"* ]]
+[[ "${output}" != *"retrying"* ]]
 status=0
 output="$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" list fixture 2>&1)" || status=$?
 [[ "${status}" -eq 1 ]]
 [[ "${output}" == *"fixture upstream connection failed"* ]]
 [[ "${output}" != *"No newer versions found"* ]]
+
+# Temporary HTTP failures retry, but stop after three attempts.
+mkdir -p "${test_root}/bin"
+cat >"${test_root}/bin/gh" <<'EOF'
+#!/usr/bin/env bash
+[[ "$*" == 'auth token' ]]
+printf 'fixture-github-token\n'
+EOF
+chmod +x "${test_root}/bin/gh"
+cat >"${test_root}/scripts/update-fixture.sh" <<'EOF'
+#!/usr/bin/env bash
+[[ "${GITHUB_TOKEN:-}" == fixture-github-token ]] || exit 20
+[[ "${NIX_CONFIG:-}" == *'extra-access-tokens = github.com=fixture-github-token'* ]] || exit 20
+attempts="$(dirname "$0")/attempts"
+echo attempt >>"${attempts}"
+if [[ "${FIXTURE_ALWAYS_FAIL:-0}" == 1 || "$(wc -l <"${attempts}")" -lt 3 ]]; then
+    echo 'urllib.error.HTTPError: HTTP Error 504: Gateway Timeout' >&2
+    exit 19
+fi
+echo 'fixture update complete.'
+EOF
+output="$(PATH="${test_root}/bin:${PATH}" GITHUB_TOKEN= NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" update fixture 2>&1)"
+[[ "$(wc -l <"${test_root}/scripts/attempts")" -eq 3 ]]
+[[ "${output}" == *"fixture update complete."* ]]
+[[ "${output}" != *fixture-github-token* ]]
+rm "${test_root}/scripts/attempts"
+status=0
+output="$(PATH="${test_root}/bin:${PATH}" GITHUB_TOKEN= FIXTURE_ALWAYS_FAIL=1 NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" update fixture 2>&1)" || status=$?
+[[ "${status}" -eq 19 ]]
+[[ "$(wc -l <"${test_root}/scripts/attempts")" -eq 3 ]]
 
 # Exercise the real bulk recipe, including failures and its colour escapes.
 just_bin="$(command -v just)"
@@ -120,5 +152,23 @@ output="$(PATH="${test_root}/bin:${PATH}" BULK_UPDATE_LOG="${test_root}/bulk.log
 [[ "$(cat "${test_root}/bulk.log")" == $'good\nbad\ngood2' ]]
 [[ "${output}" == *$'\033[1m\033[31mPackages with failed updates:\033[0m'* ]]
 [[ "${output}" == *$'\n  bad\n'* ]]
+
+# Both flake-update recipes must authenticate before any Nix request.
+cat >"${test_root}/bin/nix" <<'EOF'
+#!/usr/bin/env bash
+[[ "${GITHUB_TOKEN:-}" == fixture-github-token ]] || exit 20
+[[ "${NIX_CONFIG:-}" == *'extra-access-tokens = github.com=fixture-github-token'* ]] || exit 20
+if [[ "$*" == *'flake metadata'* ]]; then
+    printf '{"locks":{"nodes":{"root":{"inputs":{"nixpkgs":"nixpkgs"}}}}}\n'
+else
+    printf '%s\n' "${*: -1}" >>"${FLAKE_UPDATE_LOG}"
+fi
+EOF
+chmod +x "${test_root}/bin/nix"
+for recipe in update update-nix; do
+    PATH="${test_root}/bin:${PATH}" GITHUB_TOKEN= FLAKE_UPDATE_LOG="${test_root}/flake-updates.log" \
+        "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" "${recipe}" >/dev/null
+done
+[[ "$(cat "${test_root}/flake-updates.log")" == $'nixpkgs\nnixpkgs\nhome-manager' ]]
 
 printf 'Package maintenance regression checks passed.\n'

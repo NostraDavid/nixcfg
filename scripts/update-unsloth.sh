@@ -3,7 +3,7 @@ set -euo pipefail
 
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 pkg_file="${repo_root}/pkgs/unsloth/default.nix"
-release="$(curl -fsSL 'https://api.github.com/repos/unslothai/unsloth/releases?per_page=100' |
+release="$(gh api 'repos/unslothai/unsloth/releases?per_page=100' |
     jq -cer 'first(.[] | select(any(.assets[]; .name == "Unsloth-Desktop-Linux.AppImage")))')"
 tag="$(jq -er '.tag_name' <<<"$release")"
 version="${tag#v}"

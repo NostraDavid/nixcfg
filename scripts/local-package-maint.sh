@@ -5,6 +5,9 @@ set -euo pipefail
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 cd "${repo_root}"
 
+# shellcheck source=scripts/github-auth.sh
+source "${repo_root}/scripts/github-auth.sh"
+
 system="${NIX_SYSTEM:-$(nix eval --impure --raw --expr 'builtins.currentSystem')}"
 flake_packages=".#packages.${system}"
 export NIX_CONFIG=$'warn-dirty = false\n'"${NIX_CONFIG:-}"
@@ -450,7 +453,7 @@ main() {
 
     case "${command}" in
     update)
-        local tmpdir update_log skip_reason status
+        local tmpdir update_log skip_reason status attempt
         if [[ $# -ne 1 ]]; then
             usage >&2
             exit 1
@@ -462,13 +465,21 @@ main() {
         fi
         tmpdir="$(mktemp -d)"
         update_log="${tmpdir}/update.log"
-        if run_update "${repo_root}" "$1" >"${update_log}" 2>&1; then
-            emit_log_file "${update_log}"
-            rm -rf "${tmpdir}"
-            exit 0
-        else
-            status=$?
-        fi
+        for attempt in 1 2 3; do
+            if run_update "${repo_root}" "$1" >"${update_log}" 2>&1; then
+                emit_log_file "${update_log}"
+                rm -rf "${tmpdir}"
+                exit 0
+            else
+                status=$?
+            fi
+            if [[ "${attempt}" -eq 3 ]] || ! rg -q 'HTTP( Error)?[ :]+(429|5[0-9]{2})|requested URL returned error: (429|5[0-9]{2})' "${update_log}"; then
+                break
+            fi
+            emit_log_file "${update_log}" stderr
+            print_warning "Temporary HTTP failure updating $1; retrying (attempt $((attempt + 1))/3)."
+            sleep "${attempt}"
+        done
         print_error "Update failed for $1: $(summarize_failure "${update_log}")"
         emit_log_file "${update_log}" stderr
         rm -rf "${tmpdir}"
