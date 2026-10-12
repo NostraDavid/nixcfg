@@ -14,7 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "infra/freeipa/policy.toml"
-CA = ROOT / "hosts/wodan/certs/freeipa.crt"
+CA = ROOT / "certs/freeipa.crt"
 DOMAIN = "dc=powerlan,dc=empire"
 GROUP_BASE = f"cn=groups,cn=accounts,{DOMAIN}"
 USER_BASE = f"cn=users,cn=accounts,{DOMAIN}"

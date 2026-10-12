@@ -39,6 +39,16 @@
 !checks/
 !codd/
 
+# Only public internal CA certificates and their verification metadata.
+!certs/
+certs/*
+!certs/freeipa.crt
+!certs/forgejo-ca.crt
+!certs/SHA256SUMS
+!certs/fingerprints.txt
+!certs/index.html
+!certs/VERSION
+
 # OpenTofu/Terraform local state and secrets
 infra/**/.terraform/
 infra/**/*.tfstate

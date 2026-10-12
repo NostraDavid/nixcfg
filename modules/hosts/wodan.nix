@@ -54,7 +54,6 @@
       };
 
       security.pki.certificateFiles = [
-        ../../hosts/wodan/certs/freeipa.crt
         ../../hosts/wodan/certs/pihole.crt
         ../../hosts/wodan/certs/proxmox.crt
       ];

@@ -74,8 +74,6 @@
           '';
         };
       };
-      security.pki.certificateFiles = [../../hosts/wodan/certs/freeipa.crt];
-
       nixcfg.forgejo = {
         enable = true;
         domain = "forgejo.powerlan.empire";
