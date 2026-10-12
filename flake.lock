@@ -314,6 +314,23 @@
         "type": "github"
       }
     },
+    "nixos-vex": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791738312,
+        "narHash": "sha256-wm5vgWV+i1pvs140Lv4le+5cjXZONPyo9pn4JP5VJqM=",
+        "owner": "datosh",
+        "repo": "nixos-vex",
+        "rev": "6c6bbba6d30cf474dcf102d555ed8f8957b14c39",
+        "type": "github"
+      },
+      "original": {
+        "owner": "datosh",
+        "repo": "nixos-vex",
+        "rev": "6c6bbba6d30cf474dcf102d555ed8f8957b14c39",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1791662279,
@@ -519,6 +536,7 @@
         "matt-pocock-skills": "matt-pocock-skills",
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
+        "nixos-vex": "nixos-vex",
         "nixpkgs": "nixpkgs",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",

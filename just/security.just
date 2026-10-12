@@ -1,4 +1,12 @@
 [group('security')]
+security-vex host=default_host out_dir="reports/security":
+  @./scripts/security-report.sh vex "{{host}}" "{{out_dir}}"
+
+[group('security')]
+security-report host=default_host out_dir="reports/security":
+  @./scripts/security-report.sh report "{{host}}" "{{out_dir}}"
+
+[group('security')]
 security-target host=default_host:
   @target="$(nix build --no-link --print-out-paths .#nixosConfigurations.\"{{host}}\".config.system.build.toplevel)"; \
   if [ -z "$target" ]; then echo "Failed to resolve NixOS system path" >&2; exit 1; fi; \

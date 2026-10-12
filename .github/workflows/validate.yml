@@ -39,6 +39,13 @@ jobs:
             '
       - name: Evaluate the flake
         run: nix flake check --no-build
+      - name: Test advisory security reporting
+        run: |
+          nix shell \
+            .#legacyPackages.x86_64-linux.python3 \
+            .#legacyPackages.x86_64-linux.jq \
+            --command python3 checks/test-security-report.py
+          nix eval --impure --json --file checks/vex.nix
       - name: Reject insecure package exceptions
         run: |
           if grep -R --include='*.nix' -n 'permittedInsecurePackages' .; then
@@ -60,19 +67,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v20
-      - name: Generate and scan Wodan SBOM
+      - name: Generate raw and advisory Wodan security reports
         run: |
           nix shell \
             .#legacyPackages.x86_64-linux.just \
+            .#legacyPackages.x86_64-linux.jq \
             .#legacyPackages.x86_64-linux.sbomnix \
             .#legacyPackages.x86_64-linux.osv-scanner \
             .#legacyPackages.x86_64-linux.grype \
             .#legacyPackages.x86_64-linux.vulnix \
             --command bash -e -c '
-              just security-sbom wodan reports/security
-              just security-osv wodan reports/security
-              just security-grype wodan reports/security critical
-              just security-vulnix wodan true
+              just security-report wodan reports/security
             '
       - name: Upload security reports
         if: always()

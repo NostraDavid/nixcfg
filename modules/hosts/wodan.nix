@@ -5,14 +5,21 @@
 }: {
   flake.nixosConfigurations.wodan = mkHost {
     hostname = "wodan";
-    module = {stable, ...}: {
+    module = {
+      inputs,
+      stable,
+      ...
+    }: {
       imports = with config.flake.modules.nixos; [
         ../../hosts/wodan/hardware-configuration.nix
         full-workstation
         nvidia-workstation
         wodan-home
         proxmox-lab-host
+        (inputs.nixos-vex + "/modules")
       ];
+
+      nixosVex.strict = false;
 
       system.stateVersion = "25.05";
 
