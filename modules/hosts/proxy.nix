@@ -17,6 +17,42 @@
         text = builtins.readFile ../../scripts/lab-initialize-disk.sh;
       };
       backendCaCert = "/srv/proxy/backend-root.crt";
+      certificateFiles = ["freeipa.crt" "forgejo-ca.crt" "SHA256SUMS" "fingerprints.txt"];
+      bundleVersion = let
+        version = lib.removeSuffix "\n" (builtins.readFile ../../certs/VERSION);
+      in
+        assert lib.assertMsg
+        (builtins.match "(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)" version != null)
+        "certs/VERSION must contain stable SemVer: MAJOR.MINOR.PATCH."; version;
+      certificateRelease = pkgs.runCommand "powerlan-ca-release" {nativeBuildInputs = [pkgs.zip];} ''
+        mkdir -p "$out"
+        cd "$out"
+        cp ${../../certs/freeipa.crt} freeipa.crt
+        cp ${../../certs/forgejo-ca.crt} forgejo-ca.crt
+        cp ${../../certs/fingerprints.txt} fingerprints.txt
+        cat freeipa.crt forgejo-ca.crt > powerlan-ca.pem
+        printf '%s\n' '${bundleVersion}' > version.txt
+        sha256sum freeipa.crt forgejo-ca.crt powerlan-ca.pem fingerprints.txt version.txt > SHA256SUMS
+        touch -t 198001010000 ./*
+        zip -X -0 powerlan-ca.zip freeipa.crt forgejo-ca.crt powerlan-ca.pem fingerprints.txt version.txt SHA256SUMS
+        sha256sum powerlan-ca.zip > powerlan-ca.zip.sha256
+      '';
+      certificateSite = pkgs.linkFarm "internal-ca-site" (
+        [
+          {
+            name = "index.html";
+            path = pkgs.writeText "internal-ca-index.html" (builtins.replaceStrings
+              ["@FINGERPRINTS@" "@BUNDLE_VERSION@"]
+              [(builtins.readFile ../../certs/fingerprints.txt) bundleVersion]
+              (builtins.readFile ../../certs/index.html));
+          }
+        ]
+        ++ map (name: {
+          inherit name;
+          path = ../../certs + "/${name}";
+        })
+        certificateFiles
+      );
     in {
       imports = [config.flake.modules.nixos.proxmox-guest];
 
@@ -56,6 +92,28 @@
           dataDir = "/srv/proxy/caddy";
           globalConfig = "skip_install_trust";
           virtualHosts = {
+            "http://192.168.2.111".extraConfig = ''
+              @latest path /powerlan-ca-latest.zip /powerlan-ca-latest.pem
+              header @latest Cache-Control no-store
+              redir /powerlan-ca-latest.zip /releases/${bundleVersion}/powerlan-ca.zip 302
+              redir /powerlan-ca-latest.pem /releases/${bundleVersion}/powerlan-ca.pem 302
+              @certificates path /freeipa.crt /forgejo-ca.crt
+              header @certificates {
+                Content-Type application/x-x509-ca-cert
+                Content-Disposition attachment
+              }
+              handle /releases/* {
+                @versioned not path /releases/
+                header @versioned Cache-Control "public, max-age=31536000, immutable"
+                header /releases/ Cache-Control no-store
+                root * /srv/proxy/certificates
+                file_server browse
+              }
+              handle {
+                root * ${certificateSite}
+                file_server
+              }
+            '';
             "forgejo.powerlan.empire".extraConfig = ''
               tls internal
               reverse_proxy https://192.168.2.110:8443 {
@@ -75,6 +133,38 @@
       };
 
       systemd.services = {
+        certificate-releases = {
+          description = "Preserve immutable public CA bundles on the proxy state disk";
+          wantedBy = ["multi-user.target"];
+          requiredBy = ["caddy.service"];
+          before = ["caddy.service"];
+          requires = ["srv-proxy.mount"];
+          after = ["srv-proxy.mount"];
+          unitConfig.AssertPathIsMountPoint = "/srv/proxy";
+          restartTriggers = [certificateRelease];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+          };
+          path = [pkgs.coreutils];
+          script = ''
+            install -d -m 0755 /srv/proxy/certificates/releases
+            destination=/srv/proxy/certificates/releases/${bundleVersion}
+            if [ -d "$destination" ]; then
+              if ! ${pkgs.diffutils}/bin/cmp -s ${certificateRelease}/powerlan-ca.zip.sha256 "$destination/powerlan-ca.zip.sha256"; then
+                echo 'Bundle contents changed: bump certs/VERSION before publishing.' >&2
+                exit 1
+              fi
+            else
+              staging=$(mktemp -d /srv/proxy/certificates/.release.XXXXXXXX)
+              trap 'rm -rf "$staging"' EXIT
+              install -m 0644 ${certificateRelease}/* "$staging/"
+              chmod 0755 "$staging"
+              mv -T "$staging" "$destination"
+              trap - EXIT
+            fi
+          '';
+        };
         proxy-data-init = {
           description = "Initialize only the designated, zero-filled proxy data disk";
           requiredBy = ["srv-proxy.mount"];

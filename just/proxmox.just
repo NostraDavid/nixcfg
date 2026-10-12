@@ -36,6 +36,28 @@ deploy-forgejo target="david@192.168.2.110":
 deploy-proxy target="david@192.168.2.111":
   @just app-vm-deploy proxy "{{target}}"
 
+# Verify the shared CA files and their inclusion in every NixOS host.
+[group('proxmox')]
+internal-pki-check:
+  @cd certs && sha256sum -c SHA256SUMS
+  @openssl verify -CAfile certs/freeipa.crt certs/freeipa.crt
+  @openssl verify -CAfile certs/forgejo-ca.crt certs/forgejo-ca.crt
+  @openssl x509 -in certs/freeipa.crt -checkend 0 -noout
+  @openssl x509 -in certs/forgejo-ca.crt -checkend 0 -noout
+  @nix eval --json path:.#nixosConfigurations --apply 'hosts: builtins.mapAttrs (_: host: let files = map builtins.baseNameOf host.config.security.pki.certificateFiles; in assert builtins.elem "freeipa.crt" files; assert builtins.elem "forgejo-ca.crt" files; true) hosts'
+
+# Verify the deployed CA page and byte-for-byte downloads.
+[group('proxmox')]
+internal-pki-site-check:
+  @for file in freeipa.crt forgejo-ca.crt fingerprints.txt SHA256SUMS; do cmp "certs/$file" <(curl --fail --silent --show-error "http://192.168.2.111/$file"); done
+  @curl --fail --silent --show-error http://192.168.2.111/ | grep 'Interne certificaten' >/dev/null
+  @test "$(curl --silent --output /dev/null --write-out '%{http_code}' http://192.168.2.111/root.key)" = 404
+
+# Verify versioned bundles, PEM trust, retries and retained releases.
+[group('proxmox')]
+internal-pki-bundle-check:
+  @python3 checks/test-internal-pki-bundle.py
+
 # Check the Forgejo/FreeIPA LDAP prerequisites without changing accounts.
 [group('proxmox')]
 forgejo-ldap-check:
