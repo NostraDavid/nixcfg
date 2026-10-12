@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PowerLAN · Interne certificaten</title>
+    <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, sans-serif;
+      color: #172c40;
+      background: #f2f5f7;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+    }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 56px 24px;
+    }
+    .eyebrow {
+      color: #526f82;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 14px 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: -0.04em;
+    }
+    .intro {
+      max-width: 650px;
+      color: #526779;
+      line-height: 1.7;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: 20px;
+      margin: 32px 0;
+    }
+    article {
+      padding: 28px;
+      background: white;
+      border: 1px solid #dce4e9;
+      border-radius: 16px;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.35rem;
+    }
+    p, li {
+      line-height: 1.65;
+    }
+    article p {
+      color: #526779;
+    }
+    .download {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      background: #164b65;
+      color: white;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    a {
+      color: #164b65;
+      text-underline-offset: 3px;
+    }
+    a:focus-visible {
+      outline: 3px solid #d99128;
+      outline-offset: 4px;
+    }
+    section {
+      margin-top: 36px;
+    }
+    .notice {
+      padding: 16px 20px;
+      background: #fff4dc;
+      border-left: 4px solid #d99128;
+      border-radius: 4px;
+    }
+    pre {
+      padding: 20px;
+      background: #e5edf2;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 0.8rem;
+      line-height: 1.8;
+    }
+    code {
+      overflow-wrap: anywhere;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #dce4e9;
+      color: #526779;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 480px) {
+      main {
+        padding: 32px 18px;
+      }
+      article {
+        padding: 22px;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="eyebrow">PowerLAN / netwerkbeheer</div>
+      <h1>Interne certificaten</h1>
+      <p class="intro">
+        Installeer deze publieke CA-certificaten op je apparaat om de certificaten van Forgejo en
+        FreeIPA te vertrouwen.
+      </p>
+      <article>
+        <h2>Alles in één download</h2>
+        <p>
+          Versie <code>@BUNDLE_VERSION@</code>. Beide publieke CA's, een PEM-bundel, fingerprints en
+          checksums in één ZIP.
+        </p>
+        <a class="download" href="/releases/@BUNDLE_VERSION@/powerlan-ca.zip" download
+        >Download certificatenbundle (ZIP)</a>
+        <p>
+          <a href="/powerlan-ca-latest.zip" download>Vaste link naar nieuwste ZIP</a> ·
+          <a href="/powerlan-ca-latest.pem" download>Nieuwste PEM-bundel</a> ·
+          <a href="/releases/@BUNDLE_VERSION@/powerlan-ca.zip.sha256">ZIP-checksum</a> ·
+          <a href="/releases/">Alle versies</a>
+        </p>
+        <p>
+          Versies volgen SemVer: MAJOR.MINOR.PATCH. Eerdere versies blijven bewaard; gebruik voor
+          nieuwe installaties de nieuwste versie.
+        </p>
+      </article>
+      <div class="cards">
+        <article>
+          <h2>Forgejo</h2>
+          <p>Voor Git via HTTPS en de webinterface van <code>forgejo.powerlan.empire</code>.</p>
+          <a class="download" href="/forgejo-ca.crt" download>Download Forgejo-CA</a>
+        </article>
+        <article>
+          <h2>FreeIPA / LDAP</h2>
+          <p>Voor LDAPS, StartTLS en de webinterface van <code>ldap.powerlan.empire</code>.</p>
+          <a class="download" href="/freeipa.crt" download>Download FreeIPA-CA</a>
+        </article>
+      </div>
+      <p class="notice">
+        Controleer vóór installatie de fingerprint via een vertrouwd apparaat of bij je beheerder.
+        Deze downloadpagina gebruikt HTTP, zodat je haar ook zonder geïnstalleerde CA kunt openen.
+      </p>
+      <section aria-labelledby="installatie">
+        <h2 id="installatie">Installeren op je apparaat</h2>
+        <ol>
+          <li>Download het benodigde certificaat en controleer de fingerprint.</li>
+          <li>
+            <strong>Android:</strong> zoek in Instellingen naar certificaten installeren en kies
+            <strong>CA-certificaat</strong>. De menunamen verschillen per toestel. Sommige apps
+            vereisen een eigen CA-import. Pak de ZIP eerst uit en installeer de twee CA's
+            afzonderlijk.
+          </li>
+          <li>
+            <strong>Debian:</strong> volg de <a href="#debian">terminalcommando's hieronder</a>
+            om beide CA's uit de nieuwste bundel te installeren.
+          </li>
+          <li>
+            <strong>NixOS:</strong> de gedeelde PowerLAN-configuratie bevat beide CA's. Activeer de
+            bijgewerkte configuratie op je machine.
+          </li>
+        </ol>
+      </section>
+      <section aria-labelledby="debian">
+        <h2 id="debian">Debian: installeren via de terminal</h2>
+        <p>
+          Voer beide blokken in dezelfde terminal uit. Je hebt sudo-rechten nodig. Gebruik de twee
+          losse .crt-bestanden voor de systeemopslag.
+        </p>
+        <h3>1. Downloaden en controleren</h3>
+        <p>
+          De checksum wordt opgehaald van dezelfde vaste versie als de ZIP, ook als er ondertussen
+          een nieuwe bundel verschijnt.
+        </p>
+        <pre id="debian-download"><code>sudo apt-get update &amp;&amp; sudo apt-get install -y ca-certificates curl unzip openssl
+workdir=$(mktemp -d) &amp;&amp; cd "$workdir" &amp;&amp;
+bundle_url=$(curl -fsSL -o powerlan-ca.zip -w '%{url_effective}' http://192.168.2.111/powerlan-ca-latest.zip) &amp;&amp;
+curl -fsSL -o powerlan-ca.zip.sha256 "$bundle_url.sha256" &amp;&amp;
+sha256sum -c powerlan-ca.zip.sha256 &amp;&amp;
+unzip -p powerlan-ca.zip freeipa.crt &gt; freeipa.crt &amp;&amp;
+unzip -p powerlan-ca.zip forgejo-ca.crt &gt; forgejo-ca.crt &amp;&amp;
+openssl x509 -in freeipa.crt -noout -fingerprint -sha256 &amp;&amp;
+openssl x509 -in forgejo-ca.crt -noout -fingerprint -sha256</code></pre>
+        <p class="notice">
+          Ga pas verder nadat je beide fingerprints hebt vergeleken via een vertrouwd apparaat of je
+          beheerder. Een checksum van dezelfde HTTP-server controleert de overdracht, niet de
+          identiteit van de CA.
+        </p>
+        <h3>2. Installeren en testen</h3>
+        <pre id="debian-install"><code>sudo install -d -m 0755 /usr/local/share/ca-certificates/powerlan &amp;&amp;
+sudo install -m 0644 freeipa.crt forgejo-ca.crt /usr/local/share/ca-certificates/powerlan/ &amp;&amp;
+sudo update-ca-certificates &amp;&amp;
+curl --fail https://forgejo.powerlan.empire/api/healthz</code></pre>
+        <p>
+          De cache- en databasecontrole moeten beide <code>pass</code> melden. Dit behoudt de
+          bestaande vertrouwde CA's. Herstart toepassingen die hun certificaatopslag in het geheugen
+          bewaren.
+        </p>
+      </section>
+      <section aria-labelledby="fingerprints">
+        <h2 id="fingerprints">SHA-256-fingerprints</h2>
+        <pre>@FINGERPRINTS@</pre>
+        <p>
+          <a href="/fingerprints.txt">Fingerprints als tekst</a> · <a href="/SHA256SUMS" download
+          >Bestandschecksums downloaden</a>
+        </p>
+      </section>
+      <footer>Deze pagina bevat uitsluitend publieke certificaten en controlegegevens.</footer>
+    </main>
+  </body>
+</html>
