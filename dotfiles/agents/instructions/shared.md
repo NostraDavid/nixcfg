@@ -15,6 +15,11 @@ preserving errors and essential output.
 `~/.agents/instructions/shell-command-history.md` to run shell commands with
 `login: false` and keep them out of shell history.
 
+### CLI availability
+
+For agent-relevant CLI choices and availability, see
+[cli-tools.md](cli-tools.md) (`ast-grep`, `mlr`, `plocate`).
+
 ### Tabular data in shell commands
 
 For one-off CSV or TSV filtering, field selection, aggregation, and format
