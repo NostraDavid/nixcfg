@@ -160,14 +160,15 @@
   "docker.extension.enableComposeLanguageServer": false,
   "dprint.experimentalLsp": true,
   "dprint.path": "/etc/profiles/per-user/david/bin/dprint",
+  "dprint.useGlobalConfig": true,
   "editor.aiStats.enabled": true,
   "editor.bracketPairColorization.enabled": true,
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-  "editor.codeLensFontFamily": "'GohuFont 11 Nerd Font Mono', 'JetBrainsMono NF', monospace",
+  "editor.codeLensFontFamily": "'Iosevka Nerd Font', 'JetBrainsMono NF', monospace",
   "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorStyle": "block",
-  "editor.fontFamily": "'GohuFont 11 Nerd Font Mono', 'JetBrainsMono NF', monospace",
+  "editor.fontFamily": "'Iosevka Nerd Font', 'JetBrainsMono NF', monospace",
   "editor.fontLigatures": true,
   "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.inlineSuggest.enabled": true,
@@ -220,9 +221,9 @@
   "files.associations": {
     "**/SKILL.md": "markdown",
     "*.jsonl": "json",
+    "*.just": "just",
     "*.mako": "jinja-py",
-    ".env": "dotenv",
-    "*.just": "just"
+    ".env": "dotenv"
   },
   "files.exclude": {
     "**/*.egg-info": true,
@@ -399,7 +400,7 @@
   "terminal.integrated.defaultProfile.linux": "tmux",
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.enableMultiLinePasteWarning": "never",
-  "terminal.integrated.fontFamily": "'GohuFont 11 Nerd Font Mono', 'JetBrainsMono NF', monospace",
+  "terminal.integrated.fontFamily": "'Iosevka Nerd Font', 'JetBrainsMono NF', monospace",
   "terminal.integrated.persistentSessionScrollback": 1000,
   "terminal.integrated.profiles.linux": {
     "bash": {
