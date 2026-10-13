@@ -201,6 +201,7 @@ in {
           ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/hooks/cli-proxy.json";};
           ".copilot/mcp-config.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/mcp-config.json";};
           ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/settings.json";};
+          ".local/share/vscode/agent-plugins/databricks".source = local.databricks-agent-skills;
 
           ## OpenCode
           ".config/opencode/opencode.jsonc" = {source = mk "${dot}/opencode-1.18.4/.config/opencode/opencode.jsonc";};

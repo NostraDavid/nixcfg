@@ -42,6 +42,10 @@
       url = "github:github/awesome-copilot";
       flake = false;
     };
+    databricks-agent-skills = {
+      url = "github:databricks/databricks-agent-skills";
+      flake = false;
+    };
     blender-mcp-skills = {
       url = "github:vinhelysia/blender-mcp";
       flake = false;

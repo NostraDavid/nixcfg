@@ -140,6 +140,10 @@
       "approveResponse": false
     }
   },
+  "chat.pluginLocations": {
+    "~/.local/share/vscode/agent-plugins/databricks": true
+  },
+  "chat.plugins.enabled": true,
   "chat.useClaudeHooks": true,
   "chat.viewSessions.orientation": "stacked",
   "chatgpt.localeOverride": "Dutch",

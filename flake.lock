@@ -145,6 +145,22 @@
         "type": "github"
       }
     },
+    "databricks-agent-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791795085,
+        "narHash": "sha256-l41EfDJOTu/ySPCRIRnw2QQoPdVGnXkTnGVGogxomqM=",
+        "owner": "databricks",
+        "repo": "databricks-agent-skills",
+        "rev": "f774134a8cc679459f0d7a52cfca54a4ed7c5efd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "databricks",
+        "repo": "databricks-agent-skills",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -530,6 +546,7 @@
         "blender-reference-skills": "blender-reference-skills",
         "cc-blender-skills": "cc-blender-skills",
         "codex-desktop-linux": "codex-desktop-linux",
+        "databricks-agent-skills": "databricks-agent-skills",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "home-manager-unstable": "home-manager-unstable",
