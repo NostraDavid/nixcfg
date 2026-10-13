@@ -292,6 +292,7 @@ load_plugins {
 // Default: $SHELL
 //
 // default_shell "fish"
+default_shell "/run/current-system/sw/bin/bash"
 
 // Choose the path to override cwd that zellij will use for opening new panes
 //
