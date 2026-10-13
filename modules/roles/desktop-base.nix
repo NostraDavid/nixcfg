@@ -92,6 +92,7 @@ _: {
       stable.nerd-fonts.bigblue-terminal # BigBlue Terminal Nerd Font
       stable.nerd-fonts.departure-mono # DepartureMono Nerd Font Mono
       stable.nerd-fonts.gohufont # GohuFont 11 Nerd Font Mono, GohuFont 14 Nerd Font Mono
+      stable.nerd-fonts.iosevka # Iosevka Nerd Font, Iosevka Nerd Font Mono
       stable.nerd-fonts.jetbrains-mono # JetBrainsMono Nerd Font Mono
       stable.nerd-fonts.profont # ProFontWindows Nerd Font Mono, ProFont IIx Nerd Font Mono
       stable.nerd-fonts.proggy-clean-tt # ProggyClean Nerd Font Mono
