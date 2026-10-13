@@ -1,15 +1,13 @@
-# Update flake inputs in flake.lock.
+# Update all flake inputs, including inputs nested under other inputs.
 [group('packages')]
 update:
   @source ./scripts/github-auth.sh; \
-  inputs="$(nix flake metadata --no-write-lock-file --json | jq -r '.locks.nodes.root.inputs | keys[]')"; \
-  first=true; \
-  while IFS= read -r input; do \
-    if [ "$first" = false ]; then sleep "{{flake_update_delay_seconds}}"; fi; \
-    printf 'Updating flake input: %s\n' "$input"; \
-    {{nix_clean_env}} nix flake update --option http-connections 1 "$input"; \
-    first=false; \
-  done <<< "$inputs"
+  {{nix_clean_env}} nix flake update --option http-connections 1; \
+  nested_inputs="$(jq -r 'def paths($node; $prefix; $seen): . as $lock | ($lock.nodes[$node].inputs // {} | to_entries[]) as $input | select($input.value | type == "string") | ($prefix + [$input.key]) as $path | (if ($path | length) > 1 then ($path | join("/")) else empty end), (if ($seen | index($input.value)) == null then paths($input.value; $path; $seen + [$input.value]) else empty end); paths("root"; []; ["root"])' flake.lock | sort -u)"; \
+  if [[ -n "$nested_inputs" ]]; then \
+    mapfile -t nested_input_paths <<< "$nested_inputs"; \
+    {{nix_clean_env}} nix flake update --option http-connections 1 "${nested_input_paths[@]}"; \
+  fi
 
 # Update nixpkgs and home-manager flake inputs in flake.lock.
 [group('packages')]
