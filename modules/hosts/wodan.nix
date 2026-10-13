@@ -7,6 +7,7 @@
     hostname = "wodan";
     module = {
       inputs,
+      lib,
       stable,
       ...
     }: {
@@ -29,13 +30,19 @@
           "ath12k"
           "battery"
           "btusb"
+          "jfs"
           "mac_hid"
           "thunderbolt"
         ];
+        # JFS is unused; block explicit loads as well as filesystem autoloading.
+        extraModprobeConfig = ''
+          install jfs ${stable.coreutils}/bin/false
+        '';
         kernel.sysctl."fs.inotify.max_user_watches" = 4194304;
       };
 
       services = {
+        openssh.enable = lib.mkForce false;
         xserver.xkb.options = "caps:escape_shifted_compose,lv3:ralt_switch_multikey,compose:ralt,compose:rctrl,mod_led:compose,grp:win_space_toggle";
         xrdp = {
           enable = true;
