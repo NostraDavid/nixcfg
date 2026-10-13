@@ -27,9 +27,9 @@
       stable.mold # Fast linker
       stable.mosh # Mobile shell
       stable.nix-update # Update Nix package versions and hashes
-      stable.opencode # LLM Agent
       stable.rustscan # Network mapper
       stable.watchexec # Run commands in response to file changes
+      unstable.opencode # LLM Agent
       unstable.python313Packages.pynvim # Python support for Neovim
     ]
     ++ lib.optionals stable.stdenv.isLinux [
