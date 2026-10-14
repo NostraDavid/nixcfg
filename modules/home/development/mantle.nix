@@ -50,7 +50,6 @@
       local.mdschema # A declarative schema-based Markdown validator
       local.photogimp # Photoshop-like defaults for GIMP
       local.ptk # python-token-killer
-      local.qartez # Semantic code intelligence MCP server
       local.tiktoken # Tokenizer for OpenAI models
       local.vscode
       local.xdgctl # TUI for managing XDG default applications

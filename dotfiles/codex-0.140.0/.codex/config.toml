@@ -66,7 +66,8 @@ CODEX_CLI_PATH = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.219
 url = "https://developers.openai.com/mcp"
 
 [mcp_servers.qartez]
-command = "/etc/profiles/per-user/david/bin/qartez"
+command = "/bin/sh"
+args = ["-c", 'exec "$HOME/.local/bin/qartez" "$@"', "qartez"]
 
 [mcp_servers.cua_repl]
 command = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/ChatGPT"
