@@ -16,7 +16,7 @@ import shutil
 from pathlib import Path
 
 import click
-import grab
+import get_github_repos
 
 DEFAULT_REPOS_FILE = (
     Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
@@ -35,7 +35,7 @@ def read_repo_urls(repos_file: Path) -> list[str]:
         if not line or line.startswith("#"):
             continue
         if line in seen:
-            grab.logger.warning(
+            get_github_repos.logger.warning(
                 "repo_list_duplicate_skipped",
                 repos_file=str(repos_file),
                 line=line_number,
@@ -94,7 +94,7 @@ def check_command(repos_file: Path) -> None:
 )
 @click.option(
     "--branches",
-    default=",".join(grab.DEFAULT_BRANCHES),
+    default=",".join(get_github_repos.DEFAULT_BRANCHES),
     help=(
         "Comma-separated branch names for flat worktrees (used only when --no-all-branches is set)."
     ),
@@ -127,7 +127,7 @@ def check_command(repos_file: Path) -> None:
 @click.option(
     "--fetch-timeout",
     type=int,
-    default=grab.DEFAULT_FETCH_TIMEOUT,
+    default=get_github_repos.DEFAULT_FETCH_TIMEOUT,
     show_default=True,
     help="Timeout in seconds for 'git fetch' per repository.",
 )
@@ -182,29 +182,31 @@ def run_restore(
     fetch_timeout: int,
     dry_run: bool,
 ) -> int:
-    grab.configure_logging()
-    if not grab.require("git"):
+    get_github_repos.configure_logging()
+    if not get_github_repos.require("git"):
         return 1
 
     repos_file = repos_file.expanduser()
     if not repos_file.exists():
-        grab.logger.error("repo_list_missing", repos_file=str(repos_file))
+        get_github_repos.logger.error("repo_list_missing", repos_file=str(repos_file))
         return 1
 
     target_dir = target_dir.expanduser()
     if not dry_run:
         target_dir.mkdir(parents=True, exist_ok=True)
-    requested_branches = None if all_branches else grab.parse_csv(branches)
-    requested_tags = grab.parse_csv(tags)
+    requested_branches = None if all_branches else get_github_repos.parse_csv(branches)
+    requested_tags = get_github_repos.parse_csv(tags)
 
     all_repos = read_repo_urls(repos_file)
     if not all_repos:
-        grab.logger.info("no_repositories_found", repos_file=str(repos_file))
+        get_github_repos.logger.info(
+            "no_repositories_found", repos_file=str(repos_file)
+        )
         return 0
 
-    jobs = grab.detect_jobs(jobs)
+    jobs = get_github_repos.detect_jobs(jobs)
     started_at = dt.datetime.now(dt.UTC)
-    grab.logger.info(
+    get_github_repos.logger.info(
         "restore_started",
         repos_file=str(repos_file),
         target_dir=str(target_dir),
@@ -216,7 +218,7 @@ def run_restore(
     with concurrent.futures.ThreadPoolExecutor(max_workers=jobs) as executor:
         futures = [
             executor.submit(
-                grab.clone_or_update_repo,
+                get_github_repos.clone_or_update_repo,
                 repo_url,
                 target_dir,
                 requested_branches,
@@ -233,15 +235,15 @@ def run_restore(
             try:
                 repo_url, ok, reason = future.result()
             except Exception as exc:  # noqa: BLE001
-                grab.logger.exception("repo_worker_failed", error=str(exc))
+                get_github_repos.logger.exception("repo_worker_failed", error=str(exc))
                 return 1
             if not ok:
                 failed[repo_url] = reason
 
     for repo_url, reason in sorted(failed.items()):
-        grab.logger.error("repo_failed", repo_url=repo_url, reason=reason)
+        get_github_repos.logger.error("repo_failed", repo_url=repo_url, reason=reason)
 
-    grab.logger.info(
+    get_github_repos.logger.info(
         "restore_complete",
         total=len(all_repos),
         failed=len(failed),

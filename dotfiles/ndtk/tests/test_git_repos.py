@@ -18,7 +18,7 @@ BIN = Path(__file__).resolve().parents[1] / ".local/bin"
 SCRIPTS = (
     "find-uncommitted",
     "get_azure_repos",
-    "grab",
+    "get_github_repos",
     "restore_repos",
     "save_cloned_repos",
     "update_all_local_repos",

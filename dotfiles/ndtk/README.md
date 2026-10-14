@@ -19,7 +19,7 @@ The rewritten commands include local tests:
 
 - `find-uncommitted unit-test`
 - `save_cloned_repos unit-test`
-- `grab tests`
+- `get_github_repos tests`
 - `update_all_local_repos test`
 
 The updater reads `NDTK_BITBUCKET_HOST` for the throttled Bitbucket host,

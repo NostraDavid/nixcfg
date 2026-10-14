@@ -365,7 +365,7 @@ def resolve_selected_branches(repo_url: str, branches: list[str] | None) -> list
 
 def initialize_empty_remote_repo(repo_url: str, trace: RepoTrace) -> tuple[bool, str]:
     repo_name = Path(repo_path_part(repo_url)).name
-    with tempfile.TemporaryDirectory(prefix=f"grab-{repo_name}-") as tmp:
+    with tempfile.TemporaryDirectory(prefix=f"get_github_repos-{repo_name}-") as tmp:
         tmp_path = Path(tmp)
         init_proc = run_git(
             ["init", "--initial-branch", DEFAULT_INITIAL_BRANCH],
@@ -1030,12 +1030,12 @@ def run_tests(argv: list[str]) -> int:
 
     parser = argparse.ArgumentParser(
         prog=f"{Path(sys.argv[0]).name} tests",
-        description="Run grab.py self-tests.",
+        description="Run get_github_repos.py self-tests.",
     )
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)
 
-    class GrabTests(unittest.TestCase):
+    class GetGithubReposTests(unittest.TestCase):
         def test_gh_api_paginated_uses_get_paginate_and_slurp(self) -> None:
             with mock.patch(
                 f"{__name__}.gh_json",
@@ -1183,7 +1183,7 @@ def run_tests(argv: list[str]) -> int:
                 set_repo_mtime_to_latest_commit(repo_root, bare_dir)
                 refresh_mock.assert_called_once_with(repo_root, bare_dir=bare_dir)
 
-    suite = unittest.defaultTestLoader.loadTestsFromTestCase(GrabTests)
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(GetGithubReposTests)
     runner = unittest.TextTestRunner(verbosity=2 if args.verbose else 1)
     result = runner.run(suite)
     return 0 if result.wasSuccessful() else 1
