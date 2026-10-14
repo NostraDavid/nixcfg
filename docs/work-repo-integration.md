@@ -99,6 +99,13 @@ the personal Git identity on either work host. Set the work credential helper in
 the work configuration if needed. Keep tokens and passwords out of Git and the
 Nix store.
 
+Branch naming is enforced by the shared
+[`pre-commit` hook](../dotfiles/git-2.49.0/.config/git/hooks/pre-commit). For
+work remotes under `~/dev`, it rejects commits on `main` and `master` and
+requires `SOCM-1234-description` or `socm-123-description_with_underscores`. The
+ticket number has three or four digits; the description allows letters, digits,
+dashes, and underscores. Personal repositories can use `main` and `master`.
+
 The portable module already owns these Home Manager file paths:
 
 - Shell: `.bashrc`, `.bashrc.d/`, `.bash_profile`, `.bash_aliases`, `.inputrc`,

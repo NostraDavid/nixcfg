@@ -73,9 +73,18 @@ class GitConfigTests(unittest.TestCase):
                 result = self.run_command(hook)
                 self.assertEqual(result.returncode, 1)
                 self.assertIn("Create a feature branch", result.stdout)
-            self.git("symbolic-ref", "HEAD", "refs/heads/feature")
-            self.assertEqual(self.run_command(hook).returncode, 1)
             for branch in (
+                "feature",
+                "SOCM-12-description",
+                "SOCM-12345-description",
+                "SOCM-1234-",
+                "SOCM-1234-description.with.period",
+            ):
+                self.git("symbolic-ref", "HEAD", f"refs/heads/{branch}")
+                self.assertEqual(self.run_command(hook).returncode, 1)
+            for branch in (
+                "SOCM-1234-somerandomestring-with-dashes-only",
+                "SOCM-123-description",
                 "SOCM-1234-description_with_underscores",
                 "socm-123-description",
             ):
