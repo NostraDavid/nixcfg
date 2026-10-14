@@ -1,6 +1,7 @@
 # Zet een skill op true of false om hem voor alle clients aan of uit te zetten.
 {
   # true
+  create-specification = true;
   postgresql-code-review = true;
   postgresql-optimization = true;
   refactor = true;
@@ -14,7 +15,6 @@
   create-architectural-decision-record = false;
   agent-owasp-compliance = false;
   create-readme = false;
-  create-specification = false;
   gdpr-compliant = true;
   drawio = false;
 

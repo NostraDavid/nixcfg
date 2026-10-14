@@ -7,6 +7,7 @@
   handoff = true;
   prototype = true;
   research = true;
+  setup-matt-pocock-skills = true;
   to-spec = true;
   writing-for-agents = true;
 
@@ -18,7 +19,6 @@
   grill-with-docs = false;
   implement = false;
   improve-codebase-architecture = false;
-  setup-matt-pocock-skills = false;
   tdd = false;
   teach = false;
   to-questionnaire = false;

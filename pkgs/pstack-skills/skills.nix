@@ -2,6 +2,7 @@
 {
   # true
   architect = true;
+  arena = true; # dependency van architect
   bro = true;
   how = true;
   principle-boundary-discipline = true;
@@ -30,7 +31,6 @@
   why = true;
 
   # false
-  arena = false;
   automate-me = false;
   blast-radius = false;
   create-verification-skill = false;
