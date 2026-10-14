@@ -12,6 +12,7 @@
       while IFS= read -r -d "" file; do
         sed -i \
           -e '/^allowed-tools:/d' \
+          -e 's/mcp__blender_official__//g' \
           -e 's/mcp__blender__//g' \
           -e 's/get_scene_info/get_objects_summary/g' \
           -e 's/get_object_info/get_object_detail_summary/g' \

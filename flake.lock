@@ -111,11 +111,11 @@
     "cc-blender-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1777631671,
-        "narHash": "sha256-A2BoLYMcIeF4Wq+HZOUZfPHhRKJV9yOIB0KYIOY1hV8=",
+        "lastModified": 1791819525,
+        "narHash": "sha256-pvbF5xmNsYeR+ortMe1LjLRSCBhaIHwQoqrQs4vHjvE=",
         "owner": "RobLe3",
         "repo": "cc-blender-skill",
-        "rev": "11016c9a5847897491dde935c346571bd7548e3d",
+        "rev": "a2634b588e80265e796aa53f8ab178d75105c2af",
         "type": "github"
       },
       "original": {
