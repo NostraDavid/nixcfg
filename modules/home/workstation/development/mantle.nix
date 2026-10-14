@@ -17,7 +17,6 @@ in
       [unstable.rtk unstable.snip]
       ++ lib.optionals isX86Linux [
         local.pi-coding-agent
-        local.qartez
       ];
   }
   // lib.optionalAttrs isX86Linux {
