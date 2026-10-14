@@ -1,20 +1,6 @@
 {
   "scope": "Static clause checks and manually reviewed activation examples; not measured model activation.",
   "skills": {
-    "b3d": {
-      "original_description": "Drive Blender from natural language. Converts plain-English requests (\"model a sword and render it with cinematic lighting\", \"make this glass look frosted\", \"set up three-point lighting\", \"export this scene as glTF for the web\") into Blender Python code executed via the Blender MCP server. Acts as the orchestrator that picks and chain-loads specialised sub-skills (bmesh, bmat, blight, bcam, brender, banim, bexp, wire3d, bflow, bsync, refine). Use this skill whenever the user wants Claude to do anything in Blender, including creating geometry, applying materials, lighting a scene, framing a camera, rendering, animating, or exporting. Make sure to invoke this skill even if the user does not say \"Blender\" — also covers requests like \"create a 3D model of...\", \"render this...\", \"make a glTF from...\", \"set up a scene with...\", or any 3D-creation task. Requires the official Blender Lab MCP extension running on port 9876.",
-      "required_patterns": [
-        "any Blender task",
-        "even when Blender is not named"
-      ],
-      "positive_prompts": [
-        "Make this glass frosted.",
-        "Create a 3D model of a chair."
-      ],
-      "negative_prompts": [
-        "Review a SQL query."
-      ]
-    },
     "polars": {
       "original_description": "Write fast, idiomatic Polars in Python using the lazy API, and answer natural-language questions about data in one shot. Use this skill whenever a task involves loading, querying, transforming, aggregating, joining, or analyzing tabular data (CSV, Parquet, NDJSON, or DataFrames). top-k, trends, period-over-period, distributions, time series, share-of-total, or writing, debugging, or speeding up Polars code, or translating pandas to Polars. Applies even when the user doesn't say \"Polars,\" and is the default for Python data work when no dataframe library is specified. Covers expressions, window functions, group-bys, joins, the streaming engine for larger-than-memory data, and pandas migration. Not for Polars Cloud, On-Prem, distributed, or GPU workloads.\n",
       "required_patterns": [
@@ -73,31 +59,6 @@
       ],
       "negative_prompts": [
         "Run this mechanical migration unattended."
-      ]
-    },
-    "bdoc": {
-      "original_description": "Use when work depends on Blender Manual or Blender Python API facts: bpy scripting, operators, add-ons and extensions; actions, F-curves, keyframes and animation; materials, shader nodes, textures and images; cameras, lights and rendering; linked libraries and append/link; and panels, properties and operators. Routes to six area sub-skills. Not for other DCC tools or non-Blender Python.",
-      "required_patterns": [
-        "Exclude.*other 3D tools.*non-Blender Python"
-      ],
-      "positive_prompts": [
-        "Look up Blender driver behavior."
-      ],
-      "negative_prompts": [
-        "Explain a generic Python list operation."
-      ]
-    },
-    "bsync": {
-      "original_description": "Harmonize multiple Blender skills into a coherent pipeline with clear activation precedence, handoff artifacts, dependency gates, and conflict-resolution rules. Use when a Blender task spans several skills, when reference-locked work conflicts with generic production workflow, after adding/updating skills, or when repeated failures indicate skill interference or missing inter/intra-play.",
-      "required_patterns": [
-        "skill additions or updates",
-        "repeated workflow failures"
-      ],
-      "positive_prompts": [
-        "Reconcile these Blender skills after their update."
-      ],
-      "negative_prompts": [
-        "Update an unrelated SQL skill."
       ]
     },
     "pgopt": {

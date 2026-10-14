@@ -104,7 +104,7 @@ in {
       workflowSkills = skillCatalog.workflow;
       mbrolaNl2 = stable.mbrola-voices.override {languages = ["nl2"];};
       localSkills = skillCatalog.local ++ workflowSkills;
-      importedSkills = [local.awesome-copilot-skills local.blender-mcp-skills local.blender-reference-skills local.cc-blender-skills local.matt-pocock-skills local.polars-skills local.ponytail-skills local.pstack-skills];
+      importedSkills = [local.awesome-copilot-skills local.matt-pocock-skills local.polars-skills local.ponytail-skills local.pstack-skills];
       namedSkills =
         stable.runCommand "short-skill-names" {
           nativeBuildInputs = [(stable.python3.withPackages (ps: [ps.pyyaml]))];
