@@ -16,38 +16,6 @@
         "type": "github"
       }
     },
-    "blender-mcp-skills": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1783853815,
-        "narHash": "sha256-p+OZ97DcdM/qimXAz52egV/TE0g3MM1ZhhV+tXo2XNg=",
-        "owner": "vinhelysia",
-        "repo": "blender-mcp",
-        "rev": "a23c7fc4ca0a62ee09f3ee1f0edc0cb11191ceb2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vinhelysia",
-        "repo": "blender-mcp",
-        "type": "github"
-      }
-    },
-    "blender-reference-skills": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1782115229,
-        "narHash": "sha256-mVMoEX3+wolXs6OxZ05cx/4AlTVpr781f5OOdQa45v0=",
-        "owner": "LevyBytes",
-        "repo": "AI-SKILL-blender",
-        "rev": "59dda21f52824ddfb1a3fe07ad843fc0cdc23334",
-        "type": "github"
-      },
-      "original": {
-        "owner": "LevyBytes",
-        "repo": "AI-SKILL-blender",
-        "type": "github"
-      }
-    },
     "bun2nix": {
       "inputs": {
         "flake-parts": [
@@ -105,22 +73,6 @@
         "owner": "nix-community",
         "ref": "2.1.0",
         "repo": "bun2nix",
-        "type": "github"
-      }
-    },
-    "cc-blender-skills": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1791819525,
-        "narHash": "sha256-pvbF5xmNsYeR+ortMe1LjLRSCBhaIHwQoqrQs4vHjvE=",
-        "owner": "RobLe3",
-        "repo": "cc-blender-skill",
-        "rev": "a2634b588e80265e796aa53f8ab178d75105c2af",
-        "type": "github"
-      },
-      "original": {
-        "owner": "RobLe3",
-        "repo": "cc-blender-skill",
         "type": "github"
       }
     },
@@ -542,9 +494,6 @@
     "root": {
       "inputs": {
         "awesome-copilot-skills": "awesome-copilot-skills",
-        "blender-mcp-skills": "blender-mcp-skills",
-        "blender-reference-skills": "blender-reference-skills",
-        "cc-blender-skills": "cc-blender-skills",
         "codex-desktop-linux": "codex-desktop-linux",
         "databricks-agent-skills": "databricks-agent-skills",
         "flake-parts": "flake-parts",
