@@ -5,10 +5,10 @@
   nix-update-script,
 }: let
   pname = "pi-desktop";
-  version = "0.18.0";
+  version = "0.20.1";
   src = fetchurl {
     url = "https://github.com/vastsa/PI-Desktop/releases/download/v${version}/PI-Desktop-${version}-linux-x86_64.AppImage";
-    hash = "sha256-CGVK8CtJY5fg0OSTz6Jwb13PXbRDoAeL8tIMHQKZCYE=";
+    hash = "sha256-mm6hho9rzxestRyQcNnSqpRXPGb1GtZvsVoda6C7n+A=";
   };
   contents = appimageTools.extractType2 {inherit pname version src;};
 in
