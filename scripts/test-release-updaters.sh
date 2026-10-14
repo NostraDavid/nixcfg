@@ -8,6 +8,10 @@ export TEST_REPO="${test_root}/repo"
 mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
 mkdir -p "${TEST_REPO}/pkgs/"{pico-8-font,ponytail-skills,ponytail-codex}
 mkdir -p "${TEST_REPO}/pkgs/codex"
+mkdir -p "${TEST_REPO}/pkgs/qartez"
+cp "${repo_root}/pkgs/qartez/default.nix" "${TEST_REPO}/pkgs/qartez/"
+cp "${repo_root}/scripts/update-prebuilt-github.sh" "${TEST_REPO}/scripts/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-qartez.sh"
 cp "${repo_root}/scripts/update-codex.sh" "${TEST_REPO}/scripts/"
 cp "${repo_root}/pkgs/codex/default.nix" "${TEST_REPO}/pkgs/codex/"
 cp "${repo_root}"/scripts/update-{acli,jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
@@ -47,6 +51,15 @@ EOF
 cat >"${test_root}/bin/gh" <<'EOF'
 #!/usr/bin/env bash
 [[ "$1" == api ]]
+if [[ "$2" == repos/kuberstar/qartez-mcp/releases/latest ]]; then
+    printf '{"tag_name":"%s","assets":[' "${TEST_QARTEZ_RELEASE:-v0.12.0}"
+    printf '{"name":"qartez-0.12.0-x86_64-unknown-linux-gnu.tar.xz","digest":"sha256:%064d"}' 0
+    if [[ "${TEST_QARTEZ_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"qartez-0.12.0-aarch64-apple-darwin.tar.xz","digest":"sha256:%064d"}' 1
+    fi
+    printf ']}\n'
+    exit
+fi
 if [[ "$2" == repos/openai/codex/releases/latest ]]; then
     printf '{"tag_name":"%s","assets":[' "${TEST_CODEX_RELEASE:-rust-v0.200.0}"
     printf '{"name":"codex-package-x86_64-unknown-linux-musl.tar.gz","digest":"sha256:%064d"}' 0
@@ -80,6 +93,26 @@ if [[ "${TEST_INVALID_FONT:-0}" == 0 ]]; then printf 'PICO-8'; fi
 EOF
 chmod +x "${test_root}/bin/"*
 export PATH="${test_root}/bin:${PATH}"
+
+"${TEST_REPO}/scripts/update-qartez.sh" >/dev/null
+rg -q 'version = "0.12.0";' "${TEST_REPO}/pkgs/qartez/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/qartez/default.nix")" -eq 2 ]]
+rg -q '^build .#qartez --no-link$' "${TEST_REPO}/builds.log"
+for failure in tag asset build; do
+    cp "${repo_root}/pkgs/qartez/default.nix" "${TEST_REPO}/pkgs/qartez/"
+    export TEST_QARTEZ_RELEASE=v0.12.0 TEST_QARTEZ_MISSING_ASSET=0 TEST_BUILD_FAILURE=0
+    case "$failure" in
+    tag) TEST_QARTEZ_RELEASE=v0.12.0-alpha ;;
+    asset) TEST_QARTEZ_MISSING_ASSET=1 ;;
+    build) TEST_BUILD_FAILURE=1 ;;
+    esac
+    if "${TEST_REPO}/scripts/update-qartez.sh" >/dev/null 2>&1; then
+        echo "Expected Qartez ${failure} failure" >&2
+        exit 1
+    fi
+    cmp "${repo_root}/pkgs/qartez/default.nix" "${TEST_REPO}/pkgs/qartez/default.nix"
+done
+unset TEST_QARTEZ_RELEASE TEST_QARTEZ_MISSING_ASSET TEST_BUILD_FAILURE
 
 "${TEST_REPO}/scripts/update-acli.sh" >/dev/null
 rg -q 'version = "2.0.0-stable";' "${TEST_REPO}/pkgs/acli/default.nix"

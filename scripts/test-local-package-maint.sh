@@ -32,7 +32,7 @@ done
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
 rg -q -- 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
-for package in fixit dockerfile-roast jsongrep mdschema gigatoken pico-8-font ponytail-codex; do
+for package in fixit dockerfile-roast jsongrep mdschema gigatoken pico-8-font ponytail-codex qartez; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 for package in pico-8-font ponytail-codex; do
@@ -154,6 +154,7 @@ output="$(PATH="${test_root}/bin:${PATH}" BULK_UPDATE_LOG="${test_root}/bulk.log
 [[ "${output}" == *$'\n  bad\n'* ]]
 
 # Both flake-update recipes must authenticate before any Nix request.
+printf '{"nodes":{"root":{"inputs":{"nixpkgs":"nixpkgs"}}}}\n' >"${test_root}/flake.lock"
 cat >"${test_root}/bin/nix" <<'EOF'
 #!/usr/bin/env bash
 [[ "${GITHUB_TOKEN:-}" == fixture-github-token ]] || exit 20
@@ -161,7 +162,7 @@ cat >"${test_root}/bin/nix" <<'EOF'
 if [[ "$*" == *'flake metadata'* ]]; then
     printf '{"locks":{"nodes":{"root":{"inputs":{"nixpkgs":"nixpkgs"}}}}}\n'
 else
-    printf '%s\n' "${*: -1}" >>"${FLAKE_UPDATE_LOG}"
+    printf '%s\n' "$*" >>"${FLAKE_UPDATE_LOG}"
 fi
 EOF
 chmod +x "${test_root}/bin/nix"
@@ -169,6 +170,6 @@ for recipe in update update-nix; do
     PATH="${test_root}/bin:${PATH}" GITHUB_TOKEN= FLAKE_UPDATE_LOG="${test_root}/flake-updates.log" \
         "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" "${recipe}" >/dev/null
 done
-[[ "$(cat "${test_root}/flake-updates.log")" == $'nixpkgs\nnixpkgs\nhome-manager' ]]
+[[ "$(cat "${test_root}/flake-updates.log")" == $'flake update --option http-connections 1\nflake update --option http-connections 1 nixpkgs\nflake update --option http-connections 1 home-manager' ]]
 
 printf 'Package maintenance regression checks passed.\n'

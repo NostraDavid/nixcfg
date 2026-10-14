@@ -5,6 +5,7 @@ repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 package="$(basename "$0" .sh)"
 package="${package#update-}"
 pkg_file="${repo_root}/pkgs/${package}/default.nix"
+systems=(x86_64-linux aarch64-linux x86_64-darwin aarch64-darwin)
 
 case "$package" in
 fixit) repo=eugene-babichenko/fixit ;;
@@ -14,6 +15,10 @@ dockerfile-roast) repo=immanuwell/dockerfile-roast ;;
 jsongrep) repo=micahkepe/jsongrep ;;
 mdschema) repo=jackchuka/mdschema ;;
 outlook-cli) repo=rvben/outlook-cli ;;
+qartez)
+    repo=kuberstar/qartez-mcp
+    systems=(x86_64-linux aarch64-darwin)
+    ;;
 rtk) repo=rtk-ai/rtk ;;
 snip) repo=edouard-claude/snip ;;
 *)
@@ -36,7 +41,7 @@ trap 'cp "$backup" "$pkg_file"' ERR
 trap 'rm -f "$backup"' EXIT
 
 sed -i -E "s/version = \"[^\"]+\";/version = \"${version}\";/" "$pkg_file"
-for system in x86_64-linux aarch64-linux x86_64-darwin aarch64-darwin; do
+for system in "${systems[@]}"; do
     case "$system" in
     x86_64-linux)
         rust=x86_64-unknown-linux-musl
@@ -75,6 +80,7 @@ for system in x86_64-linux aarch64-linux x86_64-darwin aarch64-darwin; do
     jsongrep) asset="jsongrep-${version}-${rust}.tar.gz" ;;
     mdschema) asset="mdschema_${version}_${go}.tar.gz" ;;
     outlook-cli) asset="outlook-v${version}-${rust}.tar.gz" ;;
+    qartez) asset="qartez-${version}-${rust/musl/gnu}.tar.xz" ;;
     rtk) asset="rtk-${rtk_target}.tar.gz" ;;
     snip) asset="snip_${version}_${go}.tar.gz" ;;
     esac
