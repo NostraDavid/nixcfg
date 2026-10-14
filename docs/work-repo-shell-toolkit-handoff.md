@@ -51,9 +51,10 @@ commands to use `find-uncommitted scan PATH`, `save_cloned_repos save PATH`,
 `test` commands run local tests.
 
 The work migration removes seven duplicate scripts and points their command
-links and compatibility aliases at base. Keep the importable `grab.py` and
-`repo_timestamps.py` aliases in `~/.local/bin/`. Keep the provider-discovery
-scripts and private repository lists in the work configuration.
+links and compatibility aliases at base. Keep the importable
+`get_github_repos.py` and `repo_timestamps.py` aliases in `~/.local/bin/`. Keep
+the provider-discovery scripts and private repository lists in the work
+configuration.
 
 Set `NDTK_BITBUCKET_HOST` and `NDTK_AZURE_USERNAME` in the work profile's
 `home.sessionVariables`. The base defaults are `bitbucket.org` and `git`. An
