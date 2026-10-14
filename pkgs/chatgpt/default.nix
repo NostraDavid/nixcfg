@@ -41,12 +41,12 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "chatgpt";
-  version = "26.1007.21434";
+  version = "26.1007.71326";
 
   # The latest URL is mutable; pin the versioned pool artifact instead.
   src = fetchurl {
     url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${finalAttrs.version}_amd64.deb";
-    hash = "sha256-J2tTQcPXSyYdOtUhBvf6ft3gaEHkdn/ipAy1QJmx8+0=";
+    hash = "sha256-DgBrSTFxL1qQ1M0ElyxuC1M87c39srUZRtW5NnRx9VY=";
   };
 
   nativeBuildInputs = [
@@ -116,17 +116,22 @@ stdenv.mkDerivation (finalAttrs: {
     # local Work executor must rewrite its copied MCP configuration.
     python3 - <<'PY'
     import mmap
+    import re
 
     with open("usr/lib/chatgpt/resources/app.asar", "r+b") as file, mmap.mmap(file.fileno(), 0) as archive:
-        start = archive.find(b"async function Zc({executorPluginRoot:")
-        assert start >= 0, "executor plugin initializer not found"
-        end = archive.find(b"async function Qc(", start)
+        initializer = re.search(rb"async function [\w$]+\(\{executorPluginRoot:", archive)
+        assert initializer is not None, "executor plugin initializer not found"
+        start = initializer.start()
+        end = archive.find(b"async function ", initializer.end())
         assert end > start, "executor plugin initializer boundary not found"
         before = archive[start:end]
-        after = before.replace(
-            b"let n=await $c({useWsl:!1,resourcesPath:t});",
-            b"let n=await $c({useWsl:!1,resourcesPath:t}),f=x.default,p=C.default;",
-        ).replace(
+        after, count = re.subn(
+            rb"(let n=await [\w$]+\(\{useWsl:!1,resourcesPath:t\}\));",
+            rb"\1,f=x.default,p=C.default;",
+            before,
+        )
+        assert count == 1, "executor definition lookup changed"
+        after = after.replace(
             b"process.platform!==`win32`&&(n.command=C.default.join(e,C.default.relative(n.cwd,n.command)))",
             b"n.command=C.default.join(e,C.default.relative(n.cwd,n.command))",
         ).replace(b"x.default.", b"f.").replace(b"C.default.", b"p.").replace(
@@ -139,13 +144,18 @@ stdenv.mkDerivation (finalAttrs: {
 
         # Marketplace materialization edits copied plugin metadata and removes
         # disabled skills. Node's cp preserves immutable Nix-store permissions.
-        start = archive.find(b"async function Qne(e,t){")
-        assert start >= 0, "marketplace copy helper not found"
-        end = archive.find(b"async function bs(", start)
+        helper = re.search(
+            rb"async function ([\w$]+)\(e,t\)\{if\([\w$]+\.default\.platform===`darwin`\)\{await ([\w$]+)\(`/usr/bin/ditto`",
+            archive,
+        )
+        assert helper is not None, "marketplace copy helper not found"
+        start = helper.start()
+        end = archive.find(b"async function ", helper.end())
         assert end > start, "marketplace copy helper boundary not found"
         before = archive[start:end]
         assert b"await x.default.cp(e,t," in before, "marketplace copy helper changed"
-        after = b'async function Qne(e,t){await kne(`${coreutils}/bin/cp`,[`-R`,`--`,e+`/.`,t]);await kne(`${coreutils}/bin/chmod`,[`-R`,`u+w`,`--`,t])}'
+        name, runner = helper.groups()
+        after = b'async function ' + name + b'(e,t){await ' + runner + b'(`${coreutils}/bin/cp`,[`-R`,`--`,e+`/.`,t]);await ' + runner + b'(`${coreutils}/bin/chmod`,[`-R`,`u+w`,`--`,t])}'
         assert len(after) <= len(before), "marketplace permissions patch changes ASAR offsets"
         archive[start:end] = after.ljust(len(before))
     PY
