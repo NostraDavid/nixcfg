@@ -12,6 +12,24 @@ mkdir -p "${TEST_REPO}/pkgs/qartez"
 cp "${repo_root}/pkgs/qartez/default.nix" "${TEST_REPO}/pkgs/qartez/"
 cp "${repo_root}/scripts/update-prebuilt-github.sh" "${TEST_REPO}/scripts/"
 ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-qartez.sh"
+mkdir -p "${TEST_REPO}/pkgs/orca-ide"
+cp "${repo_root}/pkgs/orca-ide/default.nix" "${TEST_REPO}/pkgs/orca-ide/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-orca-ide.sh"
+mkdir -p "${TEST_REPO}/pkgs/emdash"
+cp "${repo_root}/pkgs/emdash/default.nix" "${TEST_REPO}/pkgs/emdash/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-emdash.sh"
+mkdir -p "${TEST_REPO}/pkgs/paseo-desktop"
+cp "${repo_root}/pkgs/paseo-desktop/default.nix" "${TEST_REPO}/pkgs/paseo-desktop/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-paseo-desktop.sh"
+mkdir -p "${TEST_REPO}/pkgs/agent-orchestrator"
+cp "${repo_root}/pkgs/agent-orchestrator/default.nix" "${TEST_REPO}/pkgs/agent-orchestrator/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-agent-orchestrator.sh"
+mkdir -p "${TEST_REPO}/pkgs/kandev"
+cp "${repo_root}/pkgs/kandev/default.nix" "${TEST_REPO}/pkgs/kandev/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-kandev.sh"
+mkdir -p "${TEST_REPO}/pkgs/superset"
+cp "${repo_root}/pkgs/superset/default.nix" "${TEST_REPO}/pkgs/superset/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-superset.sh"
 cp "${repo_root}/scripts/update-codex.sh" "${TEST_REPO}/scripts/"
 cp "${repo_root}/pkgs/codex/default.nix" "${TEST_REPO}/pkgs/codex/"
 cp "${repo_root}"/scripts/update-{acli,jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
@@ -53,6 +71,69 @@ EOF
 cat >"${test_root}/bin/gh" <<'EOF'
 #!/usr/bin/env bash
 [[ "$1" == api ]]
+if [[ "$2" == repos/superset-sh/superset/releases/latest ]]; then
+    printf '{"tag_name":"%s","assets":[' "${TEST_SUPERSET_RELEASE:-desktop-v2.0.0}"
+    printf '{"name":"superset-2.0.0-x86_64.AppImage","digest":"sha256:%064d"},' 0
+    printf '{"name":"Superset-2.0.0-mac.zip","digest":"sha256:%064d"}' 1
+    if [[ "${TEST_SUPERSET_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"Superset-2.0.0-arm64-mac.zip","digest":"sha256:%064d"}' 2
+    fi
+    printf ']}\n'
+    exit
+fi
+if [[ "$2" == repos/kdlbs/kandev/releases/latest ]]; then
+    printf '{"tag_name":"v2.0.0","assets":['
+    printf '{"name":"kandev-desktop-linux-x64-Kandev_2.0.0_amd64.AppImage","digest":"sha256:%064d"},' 0
+    printf '{"name":"kandev-desktop-linux-arm64-Kandev_2.0.0_aarch64.AppImage","digest":"sha256:%064d"},' 1
+    printf '{"name":"kandev-desktop-macos-x64-Kandev.app.tar.gz","digest":"sha256:%064d"}' 2
+    if [[ "${TEST_KANDEV_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"kandev-desktop-macos-arm64-Kandev.app.tar.gz","digest":"sha256:%064d"}' 3
+    fi
+    printf ']}\n'
+    exit
+fi
+if [[ "$2" == repos/OrchestratorInc/agent-orchestrator/releases/latest ]]; then
+    printf '{"tag_name":"v2.0.0","assets":['
+    printf '{"name":"agent-orchestrator-linux-x64.AppImage","digest":"sha256:%064d"},' 0
+    printf '{"name":"agent-orchestrator-darwin-x64.zip","digest":"sha256:%064d"}' 1
+    if [[ "${TEST_AO_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"agent-orchestrator-darwin-arm64.zip","digest":"sha256:%064d"}' 2
+    fi
+    printf ']}\n'
+    exit
+fi
+if [[ "$2" == repos/getpaseo/paseo/releases/latest ]]; then
+    printf '{"tag_name":"v2.0.0","assets":['
+    printf '{"name":"Paseo-x86_64.AppImage","digest":"sha256:%064d"},' 0
+    printf '{"name":"Paseo-2.0.0-x64.zip","digest":"sha256:%064d"}' 1
+    if [[ "${TEST_PASEO_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"Paseo-2.0.0-arm64.zip","digest":"sha256:%064d"}' 2
+    fi
+    printf ']}\n'
+    exit
+fi
+if [[ "$2" == repos/generalaction/emdash/releases/latest ]]; then
+    printf '{"tag_name":"v2.0.0","assets":['
+    printf '{"name":"emdash-x86_64.AppImage","digest":"sha256:%064d"},' 0
+    printf '{"name":"emdash-arm64.AppImage","digest":"sha256:%064d"},' 1
+    printf '{"name":"emdash-x64.zip","digest":"sha256:%064d"}' 2
+    if [[ "${TEST_EMDASH_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"emdash-arm64.zip","digest":"sha256:%064d"}' 3
+    fi
+    printf ']}\n'
+    exit
+fi
+if [[ "$2" == repos/stablyai/orca/releases/latest ]]; then
+    printf '{"tag_name":"v2.0.0","assets":['
+    printf '{"name":"orca-linux.AppImage","digest":"sha256:%064d"},' 0
+    printf '{"name":"orca-linux-arm64.AppImage","digest":"sha256:%064d"},' 1
+    printf '{"name":"Orca-2.0.0-mac.zip","digest":"sha256:%064d"}' 2
+    if [[ "${TEST_ORCA_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"Orca-2.0.0-arm64-mac.zip","digest":"sha256:%064d"}' 3
+    fi
+    printf ']}\n'
+    exit
+fi
 if [[ "$2" == repos/kuberstar/qartez-mcp/releases/latest ]]; then
     printf '{"tag_name":"%s","assets":[' "${TEST_QARTEZ_RELEASE:-v0.12.0}"
     printf '{"name":"qartez-0.12.0-x86_64-unknown-linux-gnu.tar.xz","digest":"sha256:%064d"}' 0
@@ -115,6 +196,77 @@ for failure in tag asset build; do
     cmp "${repo_root}/pkgs/qartez/default.nix" "${TEST_REPO}/pkgs/qartez/default.nix"
 done
 unset TEST_QARTEZ_RELEASE TEST_QARTEZ_MISSING_ASSET TEST_BUILD_FAILURE
+
+"${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null
+rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/orca-ide/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/orca-ide/default.nix")" -eq 4 ]]
+rg -q '^build .#orca-ide --no-link$' "${TEST_REPO}/builds.log"
+cp "${repo_root}/pkgs/orca-ide/default.nix" "${TEST_REPO}/pkgs/orca-ide/"
+if TEST_ORCA_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null 2>&1; then
+    echo 'Expected Orca missing asset failure' >&2
+    exit 1
+fi
+cmp "${repo_root}/pkgs/orca-ide/default.nix" "${TEST_REPO}/pkgs/orca-ide/default.nix"
+
+"${TEST_REPO}/scripts/update-emdash.sh" >/dev/null
+rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/emdash/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/emdash/default.nix")" -eq 4 ]]
+rg -q '^build .#emdash --no-link$' "${TEST_REPO}/builds.log"
+cp "${repo_root}/pkgs/emdash/default.nix" "${TEST_REPO}/pkgs/emdash/"
+if TEST_EMDASH_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-emdash.sh" >/dev/null 2>&1; then
+    echo 'Expected Emdash missing asset failure' >&2
+    exit 1
+fi
+cmp "${repo_root}/pkgs/emdash/default.nix" "${TEST_REPO}/pkgs/emdash/default.nix"
+
+"${TEST_REPO}/scripts/update-paseo-desktop.sh" >/dev/null
+rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/paseo-desktop/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/paseo-desktop/default.nix")" -eq 3 ]]
+rg -q '^build .#paseo-desktop --no-link$' "${TEST_REPO}/builds.log"
+cp "${repo_root}/pkgs/paseo-desktop/default.nix" "${TEST_REPO}/pkgs/paseo-desktop/"
+if TEST_PASEO_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-paseo-desktop.sh" >/dev/null 2>&1; then
+    echo 'Expected Paseo missing asset failure' >&2
+    exit 1
+fi
+cmp "${repo_root}/pkgs/paseo-desktop/default.nix" "${TEST_REPO}/pkgs/paseo-desktop/default.nix"
+
+"${TEST_REPO}/scripts/update-agent-orchestrator.sh" >/dev/null
+rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/agent-orchestrator/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/agent-orchestrator/default.nix")" -eq 3 ]]
+rg -q '^build .#agent-orchestrator --no-link$' "${TEST_REPO}/builds.log"
+cp "${repo_root}/pkgs/agent-orchestrator/default.nix" "${TEST_REPO}/pkgs/agent-orchestrator/"
+if TEST_AO_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-agent-orchestrator.sh" >/dev/null 2>&1; then
+    echo 'Expected Agent Orchestrator missing asset failure' >&2
+    exit 1
+fi
+cmp "${repo_root}/pkgs/agent-orchestrator/default.nix" "${TEST_REPO}/pkgs/agent-orchestrator/default.nix"
+
+"${TEST_REPO}/scripts/update-kandev.sh" >/dev/null
+rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/kandev/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/kandev/default.nix")" -eq 4 ]]
+rg -q '^build .#kandev --no-link$' "${TEST_REPO}/builds.log"
+cp "${repo_root}/pkgs/kandev/default.nix" "${TEST_REPO}/pkgs/kandev/"
+if TEST_KANDEV_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-kandev.sh" >/dev/null 2>&1; then
+    echo 'Expected Kandev missing asset failure' >&2
+    exit 1
+fi
+cmp "${repo_root}/pkgs/kandev/default.nix" "${TEST_REPO}/pkgs/kandev/default.nix"
+
+"${TEST_REPO}/scripts/update-superset.sh" >/dev/null
+rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/superset/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/superset/default.nix")" -eq 3 ]]
+rg -q '^build .#superset --no-link$' "${TEST_REPO}/builds.log"
+for failure in asset tag; do
+    cp "${repo_root}/pkgs/superset/default.nix" "${TEST_REPO}/pkgs/superset/"
+    export TEST_SUPERSET_RELEASE=desktop-v2.0.0 TEST_SUPERSET_MISSING_ASSET=0
+    if [[ "$failure" == tag ]]; then TEST_SUPERSET_RELEASE=v2.0.0; else TEST_SUPERSET_MISSING_ASSET=1; fi
+    if "${TEST_REPO}/scripts/update-superset.sh" >/dev/null 2>&1; then
+        echo "Expected Superset ${failure} failure" >&2
+        exit 1
+    fi
+    cmp "${repo_root}/pkgs/superset/default.nix" "${TEST_REPO}/pkgs/superset/default.nix"
+done
+unset TEST_SUPERSET_RELEASE TEST_SUPERSET_MISSING_ASSET
 
 "${TEST_REPO}/scripts/update-acli.sh" >/dev/null
 rg -q 'version = "2.0.0-stable";' "${TEST_REPO}/pkgs/acli/default.nix"
