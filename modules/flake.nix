@@ -98,6 +98,8 @@
       inherit system;
       modules = [
         ({pkgs, ...}: {
+          environment.systemPackages = [pkgs.mc];
+
           # Keep package-source qualifiers readable without rebuilding or
           # re-aliasing the configured NixOS package set in every module.
           _module.args = {
