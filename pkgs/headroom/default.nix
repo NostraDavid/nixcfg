@@ -6,7 +6,7 @@
   unstable,
 }: let
   py = unstable.python313Packages;
-  version = "0.40.0";
+  version = "0.41.0";
 
   mcp = py.buildPythonPackage {
     pname = "mcp";
@@ -66,8 +66,8 @@ in
     format = "wheel";
 
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/03/1c/383f4a2d33ad18d40869037ca6221e1db24bc4da5e92befe70793220b138/headroom_ai-0.40.0-cp310-abi3-manylinux_2_28_x86_64.whl";
-      hash = "sha256-SbbYoByOzrW56aZ1cg7V5Msk5GcoJkJlOqx/L9j69H8=";
+      url = "https://files.pythonhosted.org/packages/e5/37/dfd7a44720ffb0d233384d1337efaf211e4e975dd5880fee57facb83c841/headroom_ai-0.41.0-cp310-abi3-manylinux_2_28_x86_64.whl";
+      hash = "sha256-9NteURmnOvPtlSscEMr/JDCDHYmesX2ZWidXSubmswY=";
     };
 
     nativeBuildInputs = [
