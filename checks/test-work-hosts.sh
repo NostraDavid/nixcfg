@@ -21,6 +21,20 @@ cat >"$tmp/flake.nix" <<EOF
       extraHomeModules = [{home.sessionVariables.NIXCFG_EXTENSION_PROBE = "yes";}];
       extraDarwinModules = [{environment.variables.NIXCFG_EXTENSION_PROBE = "yes";}];
     };
+    darwinConfigurations.workLoki = nixcfg.lib.mkLoki {
+      username = "work";
+      homeDirectory = "/Users/work-custom";
+      hostname = "work-loki";
+      extraHomeModules = [
+        ({hostname, repoRoot, ...}: {
+          home.sessionVariables.NIXCFG_EXTENSION_HOSTNAME = hostname;
+          home.sessionVariables.NIXCFG_EXTENSION_REPO_ROOT = repoRoot;
+        })
+      ];
+    };
+    darwinConfigurations.derivedHome = nixcfg.lib.mkLoki {
+      username = "alice";
+    };
   };
 }
 EOF
@@ -33,3 +47,10 @@ fi
 test "$(nix eval --raw "path:$tmp#homeConfigurations.\"david@mimir2\".config.home.sessionVariables.NIXCFG_EXTENSION_PROBE")" = yes
 test "$(nix eval --raw "path:$tmp#darwinConfigurations.loki.config.home-manager.users.david.home.sessionVariables.NIXCFG_EXTENSION_PROBE")" = yes
 test "$(nix eval --raw "path:$tmp#darwinConfigurations.loki.config.environment.variables.NIXCFG_EXTENSION_PROBE")" = yes
+test "$(nix eval --raw "path:$tmp#darwinConfigurations.workLoki.config.networking.hostName")" = work-loki
+test "$(nix eval --raw "path:$tmp#darwinConfigurations.workLoki.config.system.primaryUser")" = work
+test "$(nix eval --raw "path:$tmp#darwinConfigurations.workLoki.config.users.users.work.home")" = /Users/work-custom
+test "$(nix eval --raw "path:$tmp#darwinConfigurations.workLoki.config.home-manager.users.work.home.homeDirectory")" = /Users/work-custom
+test "$(nix eval --raw "path:$tmp#darwinConfigurations.workLoki.config.home-manager.users.work.home.sessionVariables.NIXCFG_EXTENSION_HOSTNAME")" = work-loki
+test "$(nix eval --raw "path:$tmp#darwinConfigurations.workLoki.config.home-manager.users.work.home.sessionVariables.NIXCFG_EXTENSION_REPO_ROOT")" = /Users/work-custom/nixcfg
+test "$(nix eval --raw "path:$tmp#darwinConfigurations.derivedHome.config.home-manager.users.alice.home.homeDirectory")" = /Users/alice
