@@ -13,7 +13,7 @@ end
 config.front_end = "OpenGL"
 config.enable_wayland = false
 
-config.default_prog = { "tmux" }
+config.default_prog = { "bash", "--login", "-c", "exec zellij" }
 -- config.font = wezterm.font("JetBrainsMono Nerd Font")
 -- config.font = wezterm.font("scientifica")
 config.font = wezterm.font("Spleen")
