@@ -11,7 +11,6 @@
   '';
   python = stable.python3.withPackages (p: [p.tomlkit]);
   configureClients = stable.writeText "configure-agent-memory.py" ''
-    import json
     import os
     from pathlib import Path
     import shutil
@@ -24,7 +23,6 @@
     command = ${builtins.toJSON "${memory}/bin/agent-memory"}
     for relative, section, loads, dumps in [
         (".codex/config.toml", "mcp_servers", tomlkit.loads, tomlkit.dumps),
-        (".claude.json", "mcpServers", json.loads, lambda value: json.dumps(value, indent=2) + "\n"),
     ]:
         path = (home / relative).resolve()
         original = path.read_text() if path.exists() else ""

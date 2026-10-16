@@ -195,9 +195,9 @@ in {
           ".codex/config.toml" = {source = mk "${dot}/codex-0.140.0/.codex/config.toml";};
           ".codex/hooks.json" = {source = mk "${dot}/codex-0.140.0/.codex/hooks.json";};
           "plugins/ponytail" = {source = local.ponytail-codex;};
-          ## Claude
-          ".claude/skills/ctx".source = "${namedSkills}/ctx";
+          ## Pi
           ".pi/agent/skills/ctx".source = "${namedSkills}/ctx";
+          # VS Code also reads these Claude-format hooks via chat.useClaudeHooks.
           ".claude/settings.json" = {source = mk "${dot}/claude-2.1.191/.claude/settings.json";};
 
           ## Copilot

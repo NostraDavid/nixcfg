@@ -161,7 +161,6 @@ class AgentInstructions(unittest.TestCase):
             for entrypoint in [
                 ".codex/AGENTS.md",
                 ".pi/agent/AGENTS.md",
-                ".claude/CLAUDE.md",
                 ".copilot/copilot-instructions.md",
                 ".config/opencode/AGENTS.md",
             ]:

@@ -43,8 +43,8 @@ adds the lab and media-production tools.
 
 - Context/output: `ctx`, `ctx7`, `headroom`, `agent-memory`, `engram`, `engrim`,
   `rtk`, and `snip`; `mcporter` is in `portable-cli`.
-- Other installed coding-agent CLIs: `codex`, `claude`, `copilot`, `opencode`,
-  and `pi`; invoke only when a task calls for them.
+- Other installed coding-agent CLIs: `codex`, `copilot`, `opencode`, and `pi`;
+  invoke only when a task calls for them.
 - Infrastructure tasks: `podman`, `podman-compose`, `kubectl`, `helm`, `tofu`,
   `k3d`, and `k3s`.
 - PDF/media tasks: `pdftotext`, `pdfinfo`, `pdftoppm`, `ffmpeg`, `magick`, and
