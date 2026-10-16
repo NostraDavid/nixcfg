@@ -72,6 +72,18 @@ The base flake already exports `homeConfigurations."david@mimir2"` and
 `darwinConfigurations.loki` for use without a work layer. In the work flake,
 call the functions above to add modules before Nix evaluates each host.
 
+### macOS modifier keys
+
+`mkLoki` imports `modules/darwin-keyboard.nix`, which swaps both left and right
+Command and Control keys system-wide, including in terminals. Physical Ctrl+C
+sends Cmd+C. To interrupt a terminal process, press physical Cmd+C instead. The
+mapping applies during a switch and is restored at login after a reboot.
+
+This swaps modifier keys only. Shortcuts such as Alt+Tab and word navigation
+retain their macOS behavior. If the last keyboard is disconnected, macOS can
+clear the mapping. Apply the work flake again or log in again to restore it. See
+[Apple's key remapping documentation](https://developer.apple.com/library/archive/technotes/tn2450/_index.html).
+
 ## Put work settings in the work repository
 
 Create `home/work.nix`:
