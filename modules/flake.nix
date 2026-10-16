@@ -171,7 +171,7 @@
           ({pkgs, ...}: {
             nixpkgs = {
               config = nixpkgsConfig;
-              overlays = [(_final: _prev: {inherit (unstable) bashInteractive;})];
+              overlays = [(_final: _prev: {inherit (pkgsFor system) bashInteractive;})];
             };
             environment.shells = [pkgs.bashInteractive];
             networking.hostName = hostname;
