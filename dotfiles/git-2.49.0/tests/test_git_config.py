@@ -19,7 +19,11 @@ class GitConfigTests(unittest.TestCase):
         self.bin = self.home / "bin"
         self.bin.mkdir()
         self.env = {
-            **os.environ,
+            **{
+                key: value
+                for key, value in os.environ.items()
+                if not key.startswith("GIT_")
+            },
             "HOME": str(self.home),
             "PATH": f"{self.bin}:{os.environ['PATH']}",
             "GIT_CONFIG_GLOBAL": str(CONFIG / "common.conf"),
@@ -126,13 +130,11 @@ class GitConfigTests(unittest.TestCase):
         self.assertEqual(result.returncode, 7)
         self.assertIn("pre-push origin https://github.com/team/repo.git", result.stdout)
 
-    def test_aliases_set_upstream_bootstrap_and_preserve_failures(self) -> None:
+    def test_aliases_set_upstream_and_preserve_failures(self) -> None:
         self.git("update-ref", "refs/remotes/origin/feature", "HEAD")
         self.git("config", "remote.origin.url", str(self.repo))
         self.git("config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*")
         self.executable(self.bin / "fzf", "cat >/dev/null; echo feature")
-        bootstrap = self.home / "dev/bootstrap_repo_local_configs.sh"
-        self.executable(bootstrap, 'printf "%s\\n" "$PWD|$*" >> "$HOME/bootstrap.log"')
         self.git("co", "feature")
         self.assertEqual(
             self.git("rev-parse", "--abbrev-ref", "feature@{upstream}"),
@@ -141,20 +143,20 @@ class GitConfigTests(unittest.TestCase):
         self.git("branch", "other")
         worktree = self.home / "other"
         self.git("wta", "other", str(worktree))
-        log = (self.home / "bootstrap.log").read_text()
-        self.assertIn(f"{self.repo}|\n", log)
-        self.assertIn(f"{self.repo}|{worktree}\n", log)
+        self.assertEqual(
+            self.git("-C", str(worktree), "branch", "--show-current"), "other"
+        )
         result = self.run_command("git", "wta", "missing", str(self.home / "missing"))
         self.assertNotEqual(result.returncode, 0)
-        self.assertEqual((self.home / "bootstrap.log").read_text(), log)
         self.git("wtinit", str(self.repo), str(self.home / "clone"), "feature")
-        self.assertIn(
-            f"{self.home / 'clone'}|trunk\n", (self.home / "bootstrap.log").read_text()
+        trunk = self.home / "clone/trunk"
+        self.assertEqual(
+            self.git("-C", str(trunk), "branch", "--show-current"), "feature"
         )
-        bootstrap.unlink()
-        self.git("co", "feature")
-        self.git("branch", "without-bootstrap")
-        self.git("wta", "without-bootstrap", str(self.home / "without-bootstrap"))
+        self.assertEqual(
+            self.git("-C", str(trunk), "rev-parse", "--abbrev-ref", "@{upstream}"),
+            "origin/feature",
+        )
 
 
 if __name__ == "__main__":
