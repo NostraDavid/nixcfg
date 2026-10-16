@@ -10,6 +10,14 @@ const { promisify } = require("node:util");
   const archive = await fs.open(process.argv[2], "r");
   let code;
   let copyCode;
+  let initializerName;
+  let fsModule;
+  let pathModule;
+  let definitionName;
+  let hostModule;
+  let hostProperty;
+  let copyName;
+  let runnerName;
   try {
     const prefix = Buffer.alloc(16);
     await archive.read(prefix, 0, prefix.length, 0);
@@ -29,14 +37,25 @@ const { promisify } = require("node:util");
     };
     const [, main] = Object.entries(files).find(([name]) => /^main-.*\.js$/.test(name));
     const text = await readSource(main);
-    const start = text.indexOf("async function Zc({executorPluginRoot:");
-    const end = text.indexOf("async function Qc(", start);
+    const initializer = /async function ([\w$]+)\(\{executorPluginRoot:/.exec(text);
+    assert.ok(initializer, "executor initializer not found");
+    const start = initializer.index;
+    const end = text.indexOf("async function ", start + initializer[0].length);
     assert.ok(start >= 0 && end > start, "executor initializer not found");
     code = text.slice(start, end);
-    const copyStart = text.indexOf("async function Qne(e,t)");
-    const copyEnd = text.indexOf("async function bs(", copyStart);
+    initializerName = initializer[1];
+    const modules = /f=([\w$]+)\.default,p=([\w$]+)\.default/.exec(code);
+    assert.ok(modules, "executor aliases were not patched");
+    [, fsModule, pathModule] = modules;
+    definitionName = /let n=await ([\w$]+)\(/.exec(code)[1];
+    [, hostModule, hostProperty] = /CODEX_APP_TOOLS_CALLER_HOST_ID:([\w$]+)\.([\w$]+)/.exec(code);
+    const copy = /async function ([\w$]+)\(e,t\)\{await ([\w$]+)\(`[^`]+\/bin\/cp`/.exec(text);
+    assert.ok(copy, "marketplace copy helper not found");
+    const copyStart = copy.index;
+    const copyEnd = text.indexOf("async function ", copyStart + copy[0].length);
     assert.ok(copyStart >= 0 && copyEnd > copyStart, "marketplace copy helper not found");
     copyCode = text.slice(copyStart, copyEnd);
+    [, copyName, runnerName] = copy;
   } finally {
     await archive.close();
   }
@@ -48,10 +67,16 @@ const { promisify } = require("node:util");
     await fs.mkdir(src);
     await fs.writeFile(path.join(src, ".mcp.json"), "{}", { mode: 0o444 });
     await fs.writeFile(path.join(src, "server.js"), "");
-    const initialize = new Function("x", "C", "r", "$c", `${code}; return Zc;`)(
+    const initialize = new Function(
+      fsModule,
+      pathModule,
+      hostModule,
+      definitionName,
+      `${code}; return ${initializerName};`,
+    )(
       { default: fs },
       { default: path },
-      { ki: "local" },
+      { [hostProperty]: "local" },
       async () => ({ cwd: src, command: path.join(src, "server.js"), env: {} }),
     );
     for (let i = 0; i < 2; i++) {
@@ -73,9 +98,7 @@ const { promisify } = require("node:util");
     await fs.symlink("executable", path.join(pluginSource, "link"));
     await fs.chmod(path.join(pluginSource, ".codex-plugin"), 0o555);
     await fs.chmod(pluginSource, 0o555);
-    const copyPlugin = new Function("x", "P", "kne", `${copyCode}; return Qne;`)(
-      { default: fs },
-      { default: process },
+    const copyPlugin = new Function(runnerName, `${copyCode}; return ${copyName};`)(
       promisify(execFile),
     );
     try {

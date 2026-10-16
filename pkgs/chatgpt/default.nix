@@ -32,6 +32,7 @@
   mesa,
   nspr,
   nss,
+  nodejs,
   pango,
   python3,
   stdenv,
@@ -41,12 +42,12 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "chatgpt";
-  version = "26.1007.71326";
+  version = "26.1013.31256";
 
   # The latest URL is mutable; pin the versioned pool artifact instead.
   src = fetchurl {
     url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${finalAttrs.version}_amd64.deb";
-    hash = "sha256-DgBrSTFxL1qQ1M0ElyxuC1M87c39srUZRtW5NnRx9VY=";
+    hash = "sha256-cMzyub94CY57u/3b8e4Zao/dQr63538W3UL6ujZAMyQ=";
   };
 
   nativeBuildInputs = [
@@ -125,16 +126,20 @@ stdenv.mkDerivation (finalAttrs: {
         end = archive.find(b"async function ", initializer.end())
         assert end > start, "executor plugin initializer boundary not found"
         before = archive[start:end]
+        fs_alias = re.search(rb"await ([\w$]+)\.default\.cp\(n\.cwd,e,", before)
+        path_alias = re.search(rb"n\.command=([\w$]+)\.default\.join\(e,", before)
+        assert fs_alias is not None and path_alias is not None, "executor module aliases not found"
+        fs_module, path_module = fs_alias.group(1), path_alias.group(1)
         after, count = re.subn(
             rb"(let n=await [\w$]+\(\{useWsl:!1,resourcesPath:t\}\));",
-            rb"\1,f=x.default,p=C.default;",
+            rb"\1,f=" + fs_module + b".default,p=" + path_module + b".default;",
             before,
         )
         assert count == 1, "executor definition lookup changed"
         after = after.replace(
-            b"process.platform!==`win32`&&(n.command=C.default.join(e,C.default.relative(n.cwd,n.command)))",
-            b"n.command=C.default.join(e,C.default.relative(n.cwd,n.command))",
-        ).replace(b"x.default.", b"f.").replace(b"C.default.", b"p.").replace(
+            b"process.platform!==`win32`&&(n.command=" + path_module + b".default.join(e," + path_module + b".default.relative(n.cwd,n.command)))",
+            b"n.command=" + path_module + b".default.join(e," + path_module + b".default.relative(n.cwd,n.command))",
+        ).replace(fs_module + b".default.", b"f.").replace(path_module + b".default.", b"p.").replace(
             b"await f.writeFile(p.join(e,`.mcp.json`),",
             b"await f.chmod(p.join(e,`.mcp.json`),384),await f.writeFile(p.join(e,`.mcp.json`),",
         )
@@ -153,7 +158,7 @@ stdenv.mkDerivation (finalAttrs: {
         end = archive.find(b"async function ", helper.end())
         assert end > start, "marketplace copy helper boundary not found"
         before = archive[start:end]
-        assert b"await x.default.cp(e,t," in before, "marketplace copy helper changed"
+        assert re.search(rb"await [\w$]+\.default\.cp\(e,t,", before), "marketplace copy helper changed"
         name, runner = helper.groups()
         after = b'async function ' + name + b'(e,t){await ' + runner + b'(`${coreutils}/bin/cp`,[`-R`,`--`,e+`/.`,t]);await ' + runner + b'(`${coreutils}/bin/chmod`,[`-R`,`u+w`,`--`,t])}'
         assert len(after) <= len(before), "marketplace permissions patch changes ASAR offsets"
@@ -166,6 +171,14 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p "$out"
     cp -R --no-preserve=ownership usr/. "$out/"
     runHook postInstall
+  '';
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [nodejs];
+  installCheckPhase = ''
+    runHook preInstallCheck
+    node ${./check-executor.cjs} "$out/lib/chatgpt/resources/app.asar"
+    runHook postInstallCheck
   '';
 
   # Electron dlopens libGL, so autoPatchelfHook cannot discover this dependency.
