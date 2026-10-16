@@ -163,7 +163,7 @@ class RustGroup(click.Group):
         pieces: list[str] = []
         pieces.append(
             _style_body(
-                "update_all_local_repos: Fast local git fetcher with optional branch worktree sync."
+                "repos local: Fast local git fetcher with optional branch worktree sync."
             )
         )
         pieces.append("")
@@ -1480,7 +1480,7 @@ def main(
     context_settings={"help_option_names": ["-h", "--help"]},
     help="Fast git fetcher with optional worktree sync.",
     epilog=(
-        "update_all_local_repos.py update\nupdate_all_local_repos.py update --prune-missing\nupdate_all_local_repos.py update --prune-tag-worktrees\nupdate_all_local_repos.py update --project ~/users --dry-run -vv"
+        "repos local update\nrepos local update --prune-missing\nrepos local update --prune-tag-worktrees\nrepos local update --project ~/users --dry-run -vv"
     ),
 )
 @click.option(
@@ -2265,4 +2265,4 @@ def test_command(verbose: int) -> None:
 
 
 if __name__ == "__main__":
-    cli()
+    cli(prog_name="repos local")

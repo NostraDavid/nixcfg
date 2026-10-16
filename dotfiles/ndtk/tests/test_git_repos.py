@@ -17,11 +17,9 @@ from unittest.mock import patch
 BIN = Path(__file__).resolve().parents[1] / ".local/bin"
 SCRIPTS = (
     "find-uncommitted",
-    "get_azure_repos",
-    "get_github_repos",
+    "repos",
     "restore_repos",
     "save_cloned_repos",
-    "update_all_local_repos",
 )
 
 
@@ -42,7 +40,15 @@ def check() -> None:
         commands = root / "bin"
         commands.mkdir()
         for name in SCRIPTS:
-            (commands / name).symlink_to(BIN / f"{name}.py")
+            suffix = ".sh" if name == "repos" else ".py"
+            (commands / name).symlink_to(BIN / f"{name}{suffix}")
+        env["HOME"] = str(root / "home")
+        helpers = root / "home/.local/bin"
+        helpers.mkdir(parents=True)
+        for provider in ("azure", "github", "local"):
+            (helpers / f"_repos_{provider}.py").symlink_to(
+                BIN / f"_repos_{provider}.py"
+            )
 
         def run(name: str, *args: str) -> subprocess.CompletedProcess[str]:
             return subprocess.run(
@@ -58,6 +64,20 @@ def check() -> None:
         for name in SCRIPTS:
             result = run(name, "--help")
             assert result.returncode == 0, (name, result.stderr)
+        for provider in ("azure", "github", "local"):
+            result = run("repos", provider, "--help")
+            assert result.returncode == 0, (provider, result.stderr)
+            assert f"repos {provider}" in result.stdout
+        result = run("repos", "gitlab")
+        assert result.returncode == 2 and "Unknown provider" in result.stderr
+        assert "--dry-run" in run("repos", "local", "update", "--help").stdout
+        empty = root / "empty"
+        empty.mkdir()
+        result = run("repos", "local", "check", "--project", str(empty))
+        assert result.returncode == 0, result.stderr
+        result = run("repos", "local", "update", "--project", str(empty), "--dry-run")
+        assert result.returncode == 0, result.stderr
+        assert list(empty.iterdir()) == []
         assert "--repos-file" in run("restore_repos", "restore", "--help").stdout
         state_file = root / "state/ndtk/repos.dat"
         assert (
@@ -71,14 +91,14 @@ def check() -> None:
         assert not target.exists()
 
         (root / ".env").write_text("AZDO_PAT=ignored\nAZDO_ORG_URL=ignored\n")
-        result = run("get_azure_repos")
+        result = run("repos", "azure")
         assert result.returncode == 1, result.stderr
         assert str(config / "azure.env") in result.stderr
         assert "AZDO_PAT" in result.stderr and "AZDO_ORG_URL" in result.stderr
         assert "Configuration file missing" in result.stderr
 
         (config / "azure.env").write_text("AZDO_ORG_URL=https://example.test/org/\n")
-        result = run("get_azure_repos")
+        result = run("repos", "azure")
         assert result.returncode == 1, result.stderr
         assert "Missing settings: AZDO_PAT." in result.stderr
         assert "Configuration file missing" not in result.stderr
@@ -87,7 +107,7 @@ def check() -> None:
             "AZDO_ORG_URL=https://example.test/org/\nAZDO_PAT=file-token\n"
         )
         with patch.dict(os.environ, env, clear=True):
-            azure = runpy.run_path(str(BIN / "get_azure_repos.py"))
+            azure = runpy.run_path(str(BIN / "_repos_azure.py"))
             configure = azure["configure_auth"]
             configure()
             assert configure.__globals__["API_BASE"] == "https://example.test/org/_apis"
@@ -127,6 +147,16 @@ def check() -> None:
             ).returncode
             == 0
         )
+
+        helper = helpers / "_repos_github.py"
+        helper.unlink()
+        helper.write_text('#!/bin/sh\nprintf "%s\\n" "$@"\nexit 7\n')
+        helper.chmod(0o755)
+        arguments = ("target with spaces", "--tags", "v1,v2")
+        result = run("repos", "github", *arguments)
+        assert result.returncode == 7
+        assert result.stdout.splitlines() == list(arguments)
+        assert result.stderr == ""
 
         env["XDG_CONFIG_HOME"] = ""
         env["XDG_STATE_HOME"] = ""

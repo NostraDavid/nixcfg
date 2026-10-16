@@ -91,12 +91,15 @@ in {
         lib.mapAttrs'
         (name: _:
           lib.nameValuePair
-          ".local/bin/${lib.removeSuffix ".py" (lib.removeSuffix ".sh" name)}"
+          ".local/bin/${
+            if lib.hasPrefix "_" name
+            then name
+            else lib.removeSuffix ".py" (lib.removeSuffix ".sh" name)
+          }"
           {source = mk "${dot}/ndtk/.local/bin/${name}";})
         (lib.filterAttrs (_: kind: kind == "regular") (builtins.readDir ../../dotfiles/ndtk/.local/bin))
         // {
           ".local/bin/repo_timestamps.py".source = mk "${dot}/ndtk/.local/bin/repo_timestamps.py";
-          ".local/bin/get_github_repos.py".source = mk "${dot}/ndtk/.local/bin/get_github_repos.py";
         };
       forceAll = builtins.mapAttrs (_: file: file // {force = true;});
       skillCatalog = builtins.fromJSON (builtins.readFile ../../dotfiles/agents/skills.json);
