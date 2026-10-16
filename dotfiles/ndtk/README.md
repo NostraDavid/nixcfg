@@ -25,6 +25,13 @@ Every provider supports `help`, `check` for local readiness, and `test` for
 network-free regression tests. Azure's `check` validates configuration and Git
 availability without testing the token against Azure.
 
+Azure Git operations, including worktree creation, allow 300 seconds each by
+default. Azure API requests retain a separate 15-second timeout. Increase the
+clone and fetch limits for large repositories with
+`repos azure clone --clone-timeout 900 --fetch-timeout 900`. A timed-out
+repository is reported as a failure while the other repositories continue. An
+incomplete new clone is removed so that the next run can retry it.
+
 Use `repos local update --project SEARCH_DIR` to update repositories already on
 disk, or add `--dry-run` to preview the updates. `repos local check` verifies
 the local setup.

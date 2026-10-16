@@ -108,6 +108,11 @@ def check() -> None:
             assert tests.returncode == 0, (provider, tests.stderr)
         result = run("repos", "unknown-provider")
         assert result.returncode == 2 and "Unknown provider" in result.stderr
+        for option in ("--clone-timeout", "--fetch-timeout"):
+            for value in ("0", "-1"):
+                result = run("repos", "azure", "clone", option, value)
+                assert result.returncode == 2, (option, value, result.stderr)
+                assert "greater than zero" in result.stderr
         assert "--dry-run" in run("repos", "local", "update", "--help").stdout
         empty = root / "empty"
         empty.mkdir()
