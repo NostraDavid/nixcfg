@@ -461,16 +461,16 @@
     "ponytail-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1791855980,
-        "narHash": "sha256-3GopEvTySUvo0ghGz4CF6xbN7x3kbB/IHEY7Dwr4dls=",
+        "lastModified": 1792156819,
+        "narHash": "sha256-BkYqsoE8G0JmXZ0lv1lM8CsmV7FvAqUyKnH3NPQkjaE=",
         "owner": "DietrichGebert",
         "repo": "ponytail",
-        "rev": "2961b52fc1fe6a5a87c7a959a79512e5c2f3ffe5",
+        "rev": "6f1c2bfff0c837d268929a7c4e490918eb4fab29",
         "type": "github"
       },
       "original": {
         "owner": "DietrichGebert",
-        "ref": "v5.2.0",
+        "ref": "v5.3.1",
         "repo": "ponytail",
         "type": "github"
       }
