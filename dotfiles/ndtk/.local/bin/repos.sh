@@ -7,16 +7,17 @@ azure | github | local)
     shift
     exec "${HOME}/.local/bin/_repos_${provider}.py" "$@"
     ;;
-"" | -h | --help)
+"" | help | -h | --help)
     cat <<'EOF'
-Usage: repos <source> [options]
+Usage: repos <source> <command> [options]
 
 Manage repositories by source:
   azure     Azure DevOps repositories
   github    Personal and organization GitHub repositories
   local     Update repositories already present on disk
 
-Run 'repos <source> --help' for source options.
+Run 'repos <source>' to list its commands.
+Every source supports help, check and test.
 EOF
     ;;
 *)

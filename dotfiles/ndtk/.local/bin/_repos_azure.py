@@ -13,6 +13,7 @@ import argparse
 import base64
 import datetime as dt
 import os
+import shutil
 import subprocess
 import sys
 from concurrent.futures import Future, ThreadPoolExecutor, as_completed
@@ -160,13 +161,29 @@ def get_repos(project_id: str, project_name: str):
     ]
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="repos azure",
         description=(
             f"Clone/update Azure DevOps repos using {BARE_REPO_DIR} plus flat branch and tag worktrees."
         ),
         epilog=f"Configuration: {CONFIG_FILE}. AZDO_ORG_URL and AZDO_PAT environment variables take precedence.",
+    )
+    commands = parser.add_subparsers(dest="command", title="commands")
+    commands.add_parser(
+        "check", help="Check required local setup without network access."
+    )
+    test_parser = commands.add_parser("test", help="Run network-free regression tests.")
+    test_parser.add_argument("-v", "--verbose", action="store_true")
+    help_parser = commands.add_parser(
+        "help", help="Show help for this provider or a command."
+    )
+    help_parser.add_argument(
+        "topic", nargs="?", choices=("clone", "check", "test", "help")
+    )
+    root_parser = parser
+    parser = commands.add_parser(
+        "clone", help="Clone or update repositories and their worktrees."
     )
     parser.add_argument(
         "--protocol",
@@ -246,7 +263,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Remove stale flat worktrees not in target set.",
     )
-    return parser.parse_args()
+    args = root_parser.parse_args(argv)
+    if args.command is None or args.command == "help":
+        topic = getattr(args, "topic", None)
+        (commands.choices[topic] if topic else root_parser).print_help()
+        raise SystemExit(0)
+    return args
 
 
 def select_clone_url(repo: dict[str, str], protocol: str) -> str | None:
@@ -842,9 +864,50 @@ def summarize(
         logger.error("summary_failure", repo_name=repo_name, reason=reason)
 
 
+def run_tests(verbose: bool) -> int:
+    import unittest
+
+    class AzureReposTests(unittest.TestCase):
+        def test_clone_transport_preference_and_fallback(self) -> None:
+            repo = {
+                "remoteUrl": "https://example.test/repo",
+                "sshUrl": "git@example.test:repo",
+            }
+            self.assertEqual(select_clone_url(repo, "http"), repo["remoteUrl"])
+            self.assertEqual(select_clone_url(repo, "ssh"), repo["sshUrl"])
+            self.assertEqual(
+                select_clone_url({"remoteUrl": repo["remoteUrl"]}, "ssh"),
+                repo["remoteUrl"],
+            )
+            self.assertIsNone(select_clone_url({}, "http"))
+
+        def test_csv_removes_blanks_and_duplicates(self) -> None:
+            self.assertEqual(
+                parse_csv(" main, ,main,feature/x "), ["main", "feature/x"]
+            )
+
+        def test_reserved_worktree_name_is_protected(self) -> None:
+            self.assertEqual(branch_worktree_name("master"), "trunk")
+            self.assertEqual(
+                branch_worktree_name("worktree.git"), "branch-worktree.git"
+            )
+
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(AzureReposTests)
+    result = unittest.TextTestRunner(verbosity=2 if verbose else 1).run(suite)
+    return 0 if result.wasSuccessful() else 1
+
+
 def main() -> int:
     args = parse_args()
+    if args.command == "test":
+        return run_tests(args.verbose)
     configure_auth()
+    if args.command == "check":
+        if shutil.which("git") is None:
+            print("missing executable: git", file=sys.stderr)
+            return 1
+        print("OK")
+        return 0
 
     root = Path(args.root).expanduser()
     requested_branches = None if args.all_branches else parse_csv(args.branches)

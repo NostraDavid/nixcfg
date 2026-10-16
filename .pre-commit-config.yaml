@@ -8,6 +8,13 @@ repos:
 
   - repo: local
     hooks:
+      - id: check-repos-providers
+        name: check repos provider interfaces and tests
+        entry: dotfiles/ndtk/tests/test_git_repos.py
+        language: system
+        files: "^(dotfiles/ndtk/\\.local/bin/(repos\\.sh|_repos_.*\\.py)$|dotfiles/ndtk/tests/test_git_repos\\.py$|\\.pre-commit-config\\.yaml$)"
+        pass_filenames: false
+
       - id: check-agent-instructions
         name: check agent instructions and skill links
         entry: just check-agent-instructions

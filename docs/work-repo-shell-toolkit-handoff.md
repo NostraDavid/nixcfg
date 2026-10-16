@@ -53,8 +53,8 @@ commands to use `find-uncommitted scan PATH`, `save_cloned_repos save PATH`,
 `unit-test`, `tests`, and `test` commands run local tests.
 
 The work migration removes seven duplicate scripts and points their command
-links at base. Use `repos github` and `repos azure` for provider discovery and
-synchronization. Keep the internal `_repos_*.py` helpers and
+links at base. Use `repos github clone` and `repos azure clone` for provider
+discovery and synchronization. Keep the internal `_repos_*.py` helpers and
 `repo_timestamps.py` in `~/.local/bin/` for dispatch and imports. Keep private
 repository lists and provider credentials in the work configuration.
 
