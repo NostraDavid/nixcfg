@@ -3,22 +3,30 @@
   lib,
   ...
 }: let
-  taskbarLaunchers = [
-    "preferred://filemanager"
-    "applications:firefox-esr.desktop"
-    "applications:code.desktop"
-    "applications:com.mitchellh.ghostty.desktop"
-    "applications:chatgpt.desktop"
-    "applications:io.missioncenter.MissionCenter.desktop"
-    "applications:org.keepassxc.KeePassXC.desktop"
-    "applications:org.gnome.Evolution.desktop"
-    "applications:steam.desktop"
-    "applications:signal.desktop"
-    "applications:whatpulse.desktop"
-    "applications:spotify.desktop"
-    "applications:io.github.cboxdoerfer.FSearch.desktop"
-    "applications:chromium-browser.desktop"
-  ];
+  taskbarLaunchers =
+    [
+      "preferred://filemanager"
+      "applications:firefox-esr.desktop"
+      "applications:code.desktop"
+      "applications:t3code.desktop"
+    ]
+    ++ config.nixcfg.plasma.extraTaskbarLaunchers
+    ++ [
+      "applications:com.mitchellh.ghostty.desktop"
+      "applications:kitty.desktop"
+      "applications:Alacritty.desktop"
+      "applications:chatgpt.desktop"
+      "applications:io.missioncenter.MissionCenter.desktop"
+      "applications:org.keepassxc.KeePassXC.desktop"
+      "applications:org.gnome.Evolution.desktop"
+      "applications:steam.desktop"
+      "applications:signal.desktop"
+      "applications:legcord.desktop"
+      "applications:whatpulse.desktop"
+      "applications:spotify.desktop"
+      "applications:io.github.cboxdoerfer.FSearch.desktop"
+      "applications:chromium-browser.desktop"
+    ];
   mkBottomPanel = screen: {
     inherit screen;
     location = "bottom";
@@ -60,6 +68,14 @@ in {
     description = "Screen indices that receive the full-workstation Plasma taskbar.";
   };
 
-  config.programs.plasma.panels =
-    map mkBottomPanel config.nixcfg.plasma.taskbarScreens;
+  options.nixcfg.plasma.extraTaskbarLaunchers = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    default = [];
+    description = "Host-specific application launchers added after the shared coding tools.";
+  };
+
+  config = {
+    programs.plasma.panels =
+      map mkBottomPanel config.nixcfg.plasma.taskbarScreens;
+  };
 }

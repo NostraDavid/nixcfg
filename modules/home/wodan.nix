@@ -22,7 +22,18 @@
       };
   };
 in {
-  nixcfg.plasma.taskbarScreens = [0 1];
+  nixcfg.plasma = {
+    taskbarScreens = [0 1];
+    extraTaskbarLaunchers = [
+      "applications:agent-orchestrator.desktop"
+      "applications:Emdash.desktop"
+      "applications:Kandev.desktop"
+      "applications:orca-ide.desktop"
+      "applications:Paseo.desktop"
+      "applications:superset.desktop"
+      "applications:paperclip.desktop"
+    ];
+  };
 
   programs = {
     plasma = {
@@ -89,7 +100,18 @@ in {
   };
 
   home = {
-    packages = [local.unsloth local.t3code local.pi-desktop];
+    packages = [
+      local.agent-orchestrator
+      local.emdash
+      local.kandev
+      local.orca-ide
+      local.paperclip
+      local.paseo-desktop
+      local.pi-desktop
+      local.superset
+      local.t3code
+      local.unsloth
+    ];
     activation = {
       codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
         codex_dir="$HOME/.codex"
