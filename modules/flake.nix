@@ -166,6 +166,7 @@
       modules =
         [
           inputs.home-manager.darwinModules.home-manager
+          ./darwin-keyboard.nix
           ({pkgs, ...}: {
             nixpkgs = {
               config = nixpkgsConfig;
