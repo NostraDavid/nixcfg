@@ -55,11 +55,22 @@ def require(command: str) -> None:
 
 def find_code_command() -> list[str]:
     own_path = Path(__file__).resolve()
-    for path_dir in os.environ.get("PATH", "").split(os.pathsep):
-        if not path_dir:
-            continue
+    candidates = [
+        Path(path_dir) / "code"
+        for path_dir in os.environ.get("PATH", "").split(os.pathsep)
+        if path_dir
+    ]
+    if sys.platform == "darwin":
+        app_cli = Path("Contents/Resources/app/bin/code")
+        candidates.extend(
+            app / app_cli
+            for app in (
+                Path.home() / "Applications/Visual Studio Code.app",
+                Path("/Applications/Visual Studio Code.app"),
+            )
+        )
 
-        candidate = Path(path_dir) / "code"
+    for candidate in candidates:
         if not candidate.exists() or not os.access(candidate, os.X_OK):
             continue
         if candidate.resolve() == own_path:

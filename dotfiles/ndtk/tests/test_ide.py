@@ -7,6 +7,7 @@ import subprocess as sp
 import sys
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import ModuleType
 from unittest.mock import Mock, patch
 
@@ -27,6 +28,35 @@ ide = load_ide()
 
 
 class IdeRoutingTests(unittest.TestCase):
+    def test_find_code_command_falls_back_to_macos_app_bundle(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            path_dir = root / "bin"
+            path_dir.mkdir()
+            path_cli = path_dir / "code"
+            path_cli.write_text("#!/bin/sh\nexit 1\n")
+            path_cli.chmod(0o755)
+            app_cli = (
+                root
+                / "Applications"
+                / "Visual Studio Code.app"
+                / "Contents"
+                / "Resources"
+                / "app"
+                / "bin"
+                / "code"
+            )
+            app_cli.parent.mkdir(parents=True)
+            app_cli.write_text("#!/bin/sh\nprintf '1.0\\n'\n")
+            app_cli.chmod(0o755)
+
+            with (
+                patch.dict(ide.os.environ, {"PATH": str(path_dir)}),
+                patch.object(ide.sys, "platform", "darwin"),
+                patch.object(ide.Path, "home", return_value=root),
+            ):
+                self.assertEqual(ide.find_code_command(), [str(app_cli)])
+
     def test_empty_invocation_selects_worktree(self) -> None:
         picker_result = sp.CompletedProcess(
             args=["project_picker"],
