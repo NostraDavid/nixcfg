@@ -38,8 +38,8 @@ PROJECT_ROOT = Path("~/dev").expanduser()
 MAX_WORKERS = 4
 
 # Timeouts (seconds)
-TIMEOUT = 15
-FETCH_TIMEOUT = 30
+HTTP_TIMEOUT = 15
+GIT_TIMEOUT = 300
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
 DEFAULT_BRANCHES = ("main", "master", "dev")
@@ -91,6 +91,7 @@ def run_git(
     repo_path: Path | None = None,
     capture: bool = False,
     git_configs: list[str] | None = None,
+    timeout: int = GIT_TIMEOUT,
 ) -> subprocess.CompletedProcess[str]:
     base = ["git"]
     for config in git_configs or []:
@@ -100,7 +101,7 @@ def run_git(
     return subprocess.run(
         base + args,
         check=False,
-        timeout=TIMEOUT,
+        timeout=timeout,
         capture_output=capture,
         text=capture,
     )
@@ -119,7 +120,7 @@ def run_git_with_git_dir(
     return subprocess.run(
         base + args,
         check=False,
-        timeout=TIMEOUT,
+        timeout=GIT_TIMEOUT,
         capture_output=capture,
         text=capture,
     )
@@ -146,14 +147,14 @@ def cleanup_partial(repo_path: Path):
 
 def get_projects():
     url = f"{API_BASE}/projects?api-version=7.0"
-    resp = http.get(url, headers=HEADERS, timeout=TIMEOUT)
+    resp = http.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
     return [{"id": p["id"], "name": p["name"]} for p in resp.json()["value"]]
 
 
 def get_repos(project_id: str, project_name: str):
     url = f"{ORG_URL.rstrip('/')}/{quote(project_name)}/_apis/git/repositories?api-version=7.0"
-    resp = http.get(url, headers=HEADERS, timeout=TIMEOUT)
+    resp = http.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
     repos = resp.json()["value"]
     return [
@@ -184,6 +185,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     root_parser = parser
     parser = commands.add_parser(
         "clone", help="Clone or update repositories and their worktrees."
+    )
+    parser.add_argument(
+        "--clone-timeout",
+        type=int,
+        default=GIT_TIMEOUT,
+        help=f"Timeout in seconds per clone (default: {GIT_TIMEOUT}).",
+    )
+    parser.add_argument(
+        "--fetch-timeout",
+        type=int,
+        default=GIT_TIMEOUT,
+        help=f"Timeout in seconds per fetch (default: {GIT_TIMEOUT}).",
     )
     parser.add_argument(
         "--protocol",
@@ -264,6 +277,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Remove stale flat worktrees not in target set.",
     )
     args = root_parser.parse_args(argv)
+    if args.command == "clone" and (args.clone_timeout <= 0 or args.fetch_timeout <= 0):
+        root_parser.error("clone and fetch timeouts must be greater than zero")
     if args.command is None or args.command == "help":
         topic = getattr(args, "topic", None)
         (commands.choices[topic] if topic else root_parser).print_help()
@@ -706,6 +721,9 @@ def clone_or_update_repo(
     all_tags: bool,
     sync_worktrees: bool,
     prune_worktrees_flag: bool,
+    *,
+    clone_timeout: int = GIT_TIMEOUT,
+    fetch_timeout: int = GIT_TIMEOUT,
 ) -> tuple[bool, str]:
     def _repo_identity(url: str) -> str:
         if not url:
@@ -747,11 +765,16 @@ def clone_or_update_repo(
             return False, f"origin url mismatch ({origin_url} != {repo_url})"
     else:
         bare_dir.parent.mkdir(parents=True, exist_ok=True)
-        clone_proc = run_git(
-            ["clone", "--bare", repo_url, str(bare_dir)],
-            capture=True,
-            git_configs=auth_configs,
-        )
+        try:
+            clone_proc = run_git(
+                ["clone", "--bare", repo_url, str(bare_dir)],
+                capture=True,
+                git_configs=auth_configs,
+                timeout=clone_timeout,
+            )
+        except subprocess.TimeoutExpired as error:
+            cleanup_partial(bare_dir)
+            return False, f"timeout during clone (>{error.timeout}s)"
         if clone_proc.returncode != 0:
             reason = (
                 clone_proc.stderr or clone_proc.stdout or "git clone failed"
@@ -799,9 +822,10 @@ def clone_or_update_repo(
             bare_dir,
             capture=True,
             git_configs=auth_configs,
+            timeout=fetch_timeout,
         )
-    except subprocess.TimeoutExpired:
-        return False, f"timeout during fetch (>{FETCH_TIMEOUT}s)"
+    except subprocess.TimeoutExpired as error:
+        return False, f"timeout during fetch (>{error.timeout}s)"
 
     if fetch_proc.returncode != 0:
         reason = (fetch_proc.stderr or fetch_proc.stdout or "git fetch failed").strip()
@@ -865,9 +889,112 @@ def summarize(
 
 
 def run_tests(verbose: bool) -> int:
+    import tempfile
     import unittest
+    from unittest.mock import patch
 
     class AzureReposTests(unittest.TestCase):
+        def test_clone_timeout_cleans_partial_clone(self) -> None:
+            with tempfile.TemporaryDirectory() as directory:
+                repo_root = Path(directory) / "repo"
+                bare_dir = repo_root / BARE_REPO_DIR
+                keep = Path(directory) / "keep.txt"
+                keep.write_text("keep")
+
+                def timeout_clone(args, **kwargs):
+                    bare_dir.mkdir(parents=True)
+                    (bare_dir / "partial").write_text("incomplete")
+                    raise subprocess.TimeoutExpired(
+                        ["git", "-c", "http.extraHeader=never-print-this-token", *args],
+                        kwargs["timeout"],
+                    )
+
+                with patch(f"{__name__}.run_git", side_effect=timeout_clone):
+                    ok, reason = clone_or_update_repo(
+                        "https://example.test/repo",
+                        repo_root,
+                        None,
+                        [],
+                        True,
+                        False,
+                        False,
+                        clone_timeout=42,
+                    )
+                self.assertFalse(ok)
+                self.assertEqual(reason, "timeout during clone (>42s)")
+                self.assertNotIn("never-print-this-token", reason)
+                self.assertFalse(bare_dir.exists())
+                self.assertEqual(keep.read_text(), "keep")
+
+        def test_worker_timeout_does_not_abort_other_repositories(self) -> None:
+            timeout = subprocess.TimeoutExpired(
+                ["git", "-c", "http.extraHeader=never-print-this-token"], 15
+            )
+
+            def process_repo(url, *args, **kwargs):
+                if url.endswith("/bad"):
+                    raise timeout
+                return True, "updated"
+
+            with (
+                tempfile.TemporaryDirectory() as directory,
+                patch.object(
+                    sys, "argv", ["repos azure", "clone", "--root", directory]
+                ),
+                patch(f"{__name__}.configure_auth"),
+                patch(
+                    f"{__name__}.get_projects",
+                    return_value=[{"id": "p", "name": "project"}],
+                ),
+                patch(
+                    f"{__name__}.get_repos",
+                    return_value=[
+                        {"name": "bad", "remoteUrl": "https://example.test/bad"},
+                        {"name": "good", "remoteUrl": "https://example.test/good"},
+                    ],
+                ),
+                patch(
+                    f"{__name__}.clone_or_update_repo",
+                    side_effect=process_repo,
+                ) as worker,
+                patch(f"{__name__}.summarize") as summary,
+            ):
+                self.assertEqual(main(), 1)
+            self.assertEqual(worker.call_count, 2)
+            total, successes, failures, _ = summary.call_args.args
+            self.assertEqual((total, successes), (2, 1))
+            self.assertEqual(failures[0][0], "project/bad")
+            self.assertIn("timeout", failures[0][1])
+            self.assertNotIn("never-print-this-token", failures[0][1])
+
+        def test_worktree_add_uses_long_git_timeout(self) -> None:
+            with (
+                tempfile.TemporaryDirectory() as directory,
+                patch(f"{__name__}.local_branch_exists", return_value=True),
+                patch(f"{__name__}.subprocess.run") as run,
+            ):
+                repo_root = Path(directory) / "repo"
+                run.side_effect = subprocess.TimeoutExpired(
+                    ["git", "worktree", "add"], 300
+                )
+                with self.assertRaises(subprocess.TimeoutExpired):
+                    ensure_branch_worktrees(
+                        repo_root / BARE_REPO_DIR, repo_root, ["feature/gitignore"], []
+                    )
+                self.assertIn("worktree", run.call_args.args[0])
+                self.assertIn("add", run.call_args.args[0])
+                self.assertEqual(run.call_args.kwargs["timeout"], 300)
+
+        def test_git_uses_requested_timeout(self) -> None:
+            with tempfile.TemporaryDirectory() as directory:
+                git = Path(directory) / "git"
+                git.write_text(f"#!{sys.executable}\nimport time\ntime.sleep(2)\n")
+                git.chmod(0o755)
+                with patch.dict(os.environ, {"PATH": directory}):
+                    with self.assertRaises(subprocess.TimeoutExpired) as raised:
+                        run_git(["clone"], capture=True, timeout=1)
+                self.assertEqual(raised.exception.timeout, 1)
+
         def test_clone_transport_preference_and_fallback(self) -> None:
             repo = {
                 "remoteUrl": "https://example.test/repo",
@@ -969,6 +1096,8 @@ def main() -> int:
                             args.all_tags,
                             args.worktrees,
                             args.prune_worktrees,
+                            clone_timeout=args.clone_timeout,
+                            fetch_timeout=args.fetch_timeout,
                         ),
                     )
                 )
@@ -978,7 +1107,15 @@ def main() -> int:
             }
             for task in as_completed(future_map.keys()):
                 repo_name = future_map[task]
-                ok, reason = task.result()
+                try:
+                    ok, reason = task.result()
+                except subprocess.TimeoutExpired as error:
+                    ok, reason = (
+                        False,
+                        f"timeout during Git operation (>{error.timeout}s)",
+                    )
+                except OSError as error:
+                    ok, reason = False, f"Git operation failed: {type(error).__name__}"
                 if ok:
                     successes += 1
                 else:
