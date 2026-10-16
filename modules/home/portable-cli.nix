@@ -9,6 +9,7 @@
     stable.bashInteractive
     stable.bat
     stable.btop
+    stable.mc
     stable.starship
     stable.tmux
   ];
