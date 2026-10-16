@@ -218,6 +218,10 @@ configure Home Manager for user `david` and import the shared CLI module. The
 target and disables GPU integration for this CLI profile. Keep those values in
 the base flake.
 
+On macOS, the system and Home Manager use `bashInteractive` from the pinned
+`nixpkgs-unstable` input. The builder registers
+`/run/current-system/sw/bin/bash` in `/etc/shells` as an allowed login shell.
+
 Both hosts link dotfiles to the local `~/nixcfg` checkout. Clone the base repo
 at the path in the table. The work flake pins the base Nix code in its
 `flake.lock`, while the dotfile links read the local checkout. Keep the checkout
@@ -256,6 +260,7 @@ sudo nix run github:nix-darwin/nix-darwin/nix-darwin-26.05#darwin-rebuild -- swi
 After switching, check that `~/.bashrc` resolves into the local `~/nixcfg`
 checkout, that an interactive Bash session loads `~/.bashrc.work`, and that
 `git config --get user.email` returns the work address. On `loki`, check the
-login shell with `dscl . -read /Users/david UserShell`. If the existing account
-still uses zsh, run `chsh -s /run/current-system/sw/bin/bash` once and open a
-new login session.
+login shell with `dscl . -read "/Users/$(id -un)" UserShell`. If the existing
+account does not use `/run/current-system/sw/bin/bash`, run
+`chsh -s /run/current-system/sw/bin/bash` once and open a new login session. Run
+`echo "$BASH_VERSION"` in that session to check the active Bash version.

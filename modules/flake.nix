@@ -160,6 +160,7 @@
     hostname ? "loki",
   }: let
     system = "aarch64-darwin";
+    unstable = unstableFor system;
   in
     inputs.nix-darwin.lib.darwinSystem {
       inherit system;
@@ -170,7 +171,9 @@
           ({pkgs, ...}: {
             nixpkgs = {
               config = nixpkgsConfig;
+              overlays = [(_final: _prev: {inherit (unstable) bashInteractive;})];
             };
+            environment.shells = [pkgs.bashInteractive];
             networking.hostName = hostname;
             system = {
               primaryUser = username;
@@ -186,11 +189,10 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit inputs;
+                inherit inputs unstable;
                 inherit hostname;
                 repoRoot = "${homeDirectory}/nixcfg";
                 stable = pkgs;
-                unstable = unstableFor system;
               };
               users.${username} = {
                 imports = [config.flake.modules.homeManager.portable-cli] ++ extraHomeModules;
