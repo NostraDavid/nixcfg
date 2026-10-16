@@ -10,6 +10,7 @@
     stable.bat
     stable.btop
     stable.iperf3
+    stable.lsd
     stable.mc
     stable.starship
     stable.tmux
