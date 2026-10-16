@@ -218,9 +218,15 @@ configure Home Manager for user `david` and import the shared CLI module. The
 target and disables GPU integration for this CLI profile. Keep those values in
 the base flake.
 
-On macOS, the system and Home Manager use `bashInteractive` from the pinned
-`nixpkgs-unstable` input. The builder registers
+All hosts use `bashInteractive` from the shared pinned `nixpkgs` input. The
+macOS builder selects Bash from that input alongside its Darwin package set, so
+the system and Home Manager use the same Bash version as Linux. It registers
 `/run/current-system/sw/bin/bash` in `/etc/shells` as an allowed login shell.
+
+On Debian, Home Manager installs Bash but does not change the account's login
+shell. To use Nix Bash for login, ask an administrator to register the absolute
+path to `~/.nix-profile/bin/bash` in `/etc/shells`, then run
+`chsh -s "$HOME/.nix-profile/bin/bash"` and open a new login session.
 
 Both hosts link dotfiles to the local `~/nixcfg` checkout. Clone the base repo
 at the path in the table. The work flake pins the base Nix code in its
