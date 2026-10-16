@@ -219,7 +219,6 @@ in {
           ".config/git/identity.conf" = {source = mk "${dot}/git-2.49.0/.config/git/identity.conf";};
           ".config/i3/config" = {source = mk "${dot}/i3-4.24/.config/i3/config";};
           ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv-0.41.0/.config/mpv/mpv.conf";};
-          ".config/ndtk/azure.env.example" = {source = mk "${dot}/ndtk/.config/ndtk/azure.env.example";};
           ".config/ndtk/repos.dat" = {source = mk "${dot}/ndtk/.config/ndtk/repos.dat";};
           ".config/niri/config.kdl" = {source = mk "${dot}/niri-26.04/.config/niri/config.kdl";};
           ".config/say/espeak-ng-data" = {source = "${local.espeak-ng}/share/espeak-ng-data";};

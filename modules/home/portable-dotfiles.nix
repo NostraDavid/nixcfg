@@ -27,6 +27,7 @@ in {
     ".config/git/ignore".source = mk "${dot}/git-2.49.0/.config/git/ignore";
     ".config/lf/lfrc".source = mk "${dot}/lf-r41/.config/lf/lfrc";
     ".config/markdownlint/config.yaml".source = mk "${dot}/markdownlint-cli-0.48.0/.config/markdownlint/config.yaml";
+    ".config/ndtk/azure.env.example".source = mk "${dot}/ndtk/.config/ndtk/azure.env.example";
     ".config/nix/nix.conf".source = mk "${dot}/nix-2.34.8/.config/nix/nix.conf";
     ".config/nvim/".source = mk "${dot}/neovim-0.11.2/.config/nvim";
     ".config/pip/pip.conf".source = mk "${dot}/pip-25.0.1/.config/pip/pip.conf";
