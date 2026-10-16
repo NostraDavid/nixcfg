@@ -1,3 +1,3 @@
 [terminal.shell]
 program = "bash"
-args = ["--login", "-c", "exec zellij attach --create dev"]
+args = ["--login", "-c", "exec zellij"]

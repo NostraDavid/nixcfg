@@ -1,5 +1,5 @@
 # Start Zellij with the Home Manager login environment.
-command = bash -lc 'exec zellij attach --create dev'
+command = bash -lc 'exec zellij'
 confirm-close-surface = false
 
 # font-family = Spleen
