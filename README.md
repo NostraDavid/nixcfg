@@ -57,6 +57,8 @@ tools separately. Optional local environment variables can live in
 
 ## Notes
 
+- [Pi and Codex feature checklist](docs/pi-codex-parity.md) covers the shared Pi
+  configuration, TypeScript workflow tools, verification, and remaining gaps.
 - `docs/` contains script files with nifty commands.
 - [Wodan security reports and advisory VEX](docs/security-vex.md) explains the
   raw scan gates and configuration-aware comparison reports.

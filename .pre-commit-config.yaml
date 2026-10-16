@@ -8,6 +8,13 @@ repos:
 
   - repo: local
     hooks:
+      - id: check-pi-parity
+        name: check Pi workflow extensions against pinned SDK
+        entry: node --test checks/pi-parity.test.mjs
+        language: system
+        files: "^(dotfiles/pi-[^/]+/|checks/pi-parity\\.test\\.mjs$|modules/home/development/pi\\.nix$|flake\\.lock$)"
+        pass_filenames: false
+
       - id: check-repos-providers
         name: check repos provider interfaces and tests
         entry: dotfiles/ndtk/tests/test_git_repos.py
