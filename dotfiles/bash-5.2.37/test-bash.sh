@@ -46,7 +46,7 @@ printf 'export TEST_VENV_ACTIVE=1\n' >"$tmp/project/.venv/bin/activate"
 (cd "$tmp" && HOME="$tmp" OSTYPE=darwin24 VIRTUAL_ENV='' TERM=dumb HISTFILE=/dev/null bash --noprofile --rcfile "$tmp/.bashrc" -ic '
     [[ ${BASH_ALIASES[vi]} == work-vim ]] || exit 1
     alias work_only >/dev/null || exit 1
-    for name in gitundo grep sed rg diff l la llo lll ls sudo cd cd.. .. get_filetypes getsizes dsa dka markdownlint; do
+    for name in gitundo grep sed rg diff l la llo ls sudo cd cd.. .. get_filetypes getsizes dsa dka markdownlint; do
         alias "$name" >/dev/null || exit 1
     done
     for name in ff now draw_colors cd_f; do

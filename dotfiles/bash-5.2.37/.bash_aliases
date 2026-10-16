@@ -32,7 +32,6 @@ if command -v lsd >/dev/null 2>&1; then
     alias l='lsd --icon=never --classify'
     alias la='lsd --almost-all --icon=never'
     alias ll='lsd --all --icon=never --human-readable --group-dirs=first --long --classify'
-    alias lll='lsd --all --icon=never --human-readable --group-dirs=first --long --classify --date="+%F %R"'
     alias llo='lsd --all --icon=never --human-readable --long --classify'
     alias ls='lsd --color=auto --icon=never'
 else
