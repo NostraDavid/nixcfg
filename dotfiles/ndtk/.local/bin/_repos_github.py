@@ -365,7 +365,7 @@ def resolve_selected_branches(repo_url: str, branches: list[str] | None) -> list
 
 def initialize_empty_remote_repo(repo_url: str, trace: RepoTrace) -> tuple[bool, str]:
     repo_name = Path(repo_path_part(repo_url)).name
-    with tempfile.TemporaryDirectory(prefix=f"get_github_repos-{repo_name}-") as tmp:
+    with tempfile.TemporaryDirectory(prefix=f"repos-github-{repo_name}-") as tmp:
         tmp_path = Path(tmp)
         init_proc = run_git(
             ["init", "--initial-branch", DEFAULT_INITIAL_BRANCH],
@@ -938,6 +938,7 @@ def org_repo_urls(org: str) -> list[str]:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
+        prog="repos github",
         description=(
             f"Clone/update all personal and organization GitHub repositories using {BARE_REPO_DIR} plus flat branch and tag worktrees."
         ),
@@ -1029,8 +1030,8 @@ def run_tests(argv: list[str]) -> int:
     from unittest import mock
 
     parser = argparse.ArgumentParser(
-        prog=f"{Path(sys.argv[0]).name} tests",
-        description="Run get_github_repos.py self-tests.",
+        prog="repos github tests",
+        description="Run GitHub repository synchronization self-tests.",
     )
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)

@@ -35,7 +35,7 @@ default paths:
 | Purpose                                                 | Path                       |
 | ------------------------------------------------------- | -------------------------- |
 | Repository list for `restore_repos`                     | `~/.config/ndtk/repos.dat` |
-| Azure settings for `get_azure_repos`                    | `~/.config/ndtk/azure.env` |
+| Azure settings for `repos azure`                        | `~/.config/ndtk/azure.env` |
 | Generated list from `save_cloned_repos save SEARCH_DIR` | `SEARCH_DIR/repos.dat`     |
 
 The old Wodan mapping put the repository scripts, `repos.dat`, and the Azure
@@ -46,26 +46,24 @@ another path, including the previous XDG state location.
 
 The base scripts now use the rewritten work implementations. Update existing
 commands to use `find-uncommitted scan PATH`, `save_cloned_repos save PATH`,
-`restore_repos restore PATH`, and
-`update_all_local_repos update --project PATH`. Their `unit-test`, `tests`, and
-`test` commands run local tests.
+`restore_repos restore PATH`, and `repos local update --project PATH`. Their
+`unit-test`, `tests`, and `test` commands run local tests.
 
 The work migration removes seven duplicate scripts and points their command
-links and compatibility aliases at base. Keep the importable
-`get_github_repos.py` and `repo_timestamps.py` aliases in `~/.local/bin/`. Keep
-the provider-discovery scripts and private repository lists in the work
-configuration.
+links at base. Use `repos github` and `repos azure` for provider discovery and
+synchronization. Keep the internal `_repos_*.py` helpers and
+`repo_timestamps.py` in `~/.local/bin/` for dispatch and imports. Keep private
+repository lists and provider credentials in the work configuration.
 
 Set `NDTK_BITBUCKET_HOST` and `NDTK_AZURE_USERNAME` in the work profile's
 `home.sessionVariables`. The base defaults are `bitbucket.org` and `git`. An
 explicit username in a remote URL takes precedence over the Azure default.
 
-`get_azure_repos` now reads `~/.config/ndtk/azure.env` explicitly instead of
-loading a `.env` file from the current directory. If the work host has Azure
-settings or a generated repository list, move them to the new paths before
-removing the old files. Keep `azure.env` and its token outside Git. On Wodan,
-`rsync-bitvavo` now runs from `~/.local/bin/`; map it there on a work host if
-needed.
+`repos azure` reads `~/.config/ndtk/azure.env` explicitly instead of loading a
+`.env` file from the current directory. If the work host has Azure settings or a
+generated repository list, move them to the new paths before removing the old
+files. Keep `azure.env` and its token outside Git. On Wodan, `rsync-bitvavo` now
+runs from `~/.local/bin/`; map it there on a work host if needed.
 
 The NDTK bin and config links currently live in Wodan's
 [`dotfiles.nix`](../modules/home/dotfiles.nix). `portable-cli` does not import

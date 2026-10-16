@@ -162,6 +162,7 @@ def get_repos(project_id: str, project_name: str):
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
+        prog="repos azure",
         description=(
             f"Clone/update Azure DevOps repos using {BARE_REPO_DIR} plus flat branch and tag worktrees."
         ),
