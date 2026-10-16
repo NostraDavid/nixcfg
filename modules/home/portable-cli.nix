@@ -9,8 +9,10 @@
     stable.bashInteractive
     stable.bat
     stable.btop
+    stable.iperf3
     stable.mc
     stable.starship
     stable.tmux
+    stable.tree
   ];
 }
