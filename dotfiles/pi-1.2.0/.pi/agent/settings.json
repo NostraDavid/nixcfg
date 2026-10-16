@@ -1,0 +1,17 @@
+{
+  "lastChangelogVersion": "1.2.0",
+  "theme": "dark",
+  "packages": [
+    "npm:@czottmann/pi-tensorx"
+  ],
+  "defaultProvider": "tensorx",
+  "defaultModel": "deepseek/deepseek-v4-flash",
+  "defaultThinkingLevel": "medium",
+  "defaultTools": [
+    "+grep",
+    "+find",
+    "+ls",
+    "+codemode",
+    "+tool_search"
+  ]
+}
