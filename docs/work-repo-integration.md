@@ -38,6 +38,21 @@ darwinConfigurations.loki = nixcfg.lib.mkLoki {
 };
 ```
 
+`mkLoki` also accepts `username`, `homeDirectory`, and `hostname` overrides. It
+defaults to `david`, `/Users/david`, and `loki`. If `homeDirectory` is omitted,
+it follows the selected username as `/Users/<username>`. This avoids duplicating
+the host builder when a Mac uses a different local account or hostname:
+
+```nix
+darwinConfigurations.loki = nixcfg.lib.mkLoki {
+  username = "alice";
+  hostname = "alice-mac";
+  # Optional when the account's home is /Users/alice.
+  homeDirectory = "/Users/alice";
+  extraHomeModules = [nixcfg.modules.homeManager.workstation ./home/work.nix];
+};
+```
+
 The opt-in `workstation` module includes the cloud and media tools. Do not add
 `nixcfg.modules.homeManager.cloud` or `mediaTools` alongside it. See
 [Adopt the base workstation module](base-workstation-handoff.md) for the changes

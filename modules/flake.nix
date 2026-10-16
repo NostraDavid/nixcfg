@@ -155,6 +155,9 @@
   mkLoki = {
     extraDarwinModules ? [],
     extraHomeModules ? [],
+    username ? main-user,
+    homeDirectory ? "/Users/${username}",
+    hostname ? "loki",
   }: let
     system = "aarch64-darwin";
   in
@@ -167,13 +170,13 @@
             nixpkgs = {
               config = nixpkgsConfig;
             };
-            networking.hostName = "loki";
+            networking.hostName = hostname;
             system = {
-              primaryUser = main-user;
+              primaryUser = username;
               stateVersion = 7;
             };
-            users.users.${main-user} = {
-              home = "/Users/${main-user}";
+            users.users.${username} = {
+              home = homeDirectory;
               shell = pkgs.bashInteractive;
             };
             programs.bash.enable = true;
@@ -183,17 +186,16 @@
               useUserPackages = true;
               extraSpecialArgs = {
                 inherit inputs;
-                hostname = "loki";
-                repoRoot = "/Users/${main-user}/nixcfg";
+                inherit hostname;
+                repoRoot = "${homeDirectory}/nixcfg";
                 stable = pkgs;
                 unstable = unstableFor system;
               };
-              users.${main-user} = {
+              users.${username} = {
                 imports = [config.flake.modules.homeManager.portable-cli] ++ extraHomeModules;
                 programs.home-manager.enable = true;
                 home = {
-                  username = main-user;
-                  homeDirectory = "/Users/${main-user}";
+                  inherit username homeDirectory;
                   stateVersion = "25.11";
                 };
               };
