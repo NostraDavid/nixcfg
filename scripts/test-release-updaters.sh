@@ -44,6 +44,8 @@ cat >"${test_root}/bin/curl" <<'EOF'
 #!/usr/bin/env bash
 if [[ "$*" == *acli.atlassian.com* ]]; then
     cp "${TEST_ACLI_ARCHIVE}" "${@: -1}"
+elif [[ "$*" == *pypi.org/pypi/semble/json* ]]; then
+    printf '{"info":{"version":"0.10.0"},"urls":[{"packagetype":"sdist","yanked":false,"url":"https://files.pythonhosted.org/semble-0.10.0.tar.gz"}]}\n'
 else
     printf '{"tag_name":"%s"}\n' "${TEST_RELEASE:-3.3.0}"
 fi
