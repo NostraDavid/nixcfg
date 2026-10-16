@@ -4,7 +4,7 @@
   unstable,
   ...
 }: {
-  imports = [./qartez.nix];
+  imports = [./qartez.nix ./pi.nix];
 
   programs.direnv = {
     enable = true;

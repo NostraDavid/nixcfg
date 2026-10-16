@@ -9,14 +9,6 @@
   imports = [./agent-memory.nix ./headroom.nix];
   nixcfg.agentMemory.provider = "engrim";
 
-  programs.pi.coding-agent = {
-    enable = true;
-    package = local.pi-coding-agent;
-    settings = builtins.fromJSON (
-      builtins.readFile ../../../dotfiles/pi-0.80.3/.pi/agent/settings.json
-    );
-  };
-
   xdg.desktopEntries.code = {
     name = "Visual Studio Code";
     genericName = "Text Editor";
