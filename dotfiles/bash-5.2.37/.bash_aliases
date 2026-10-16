@@ -20,12 +20,7 @@ alias gitrev='git rev-list --objects --all | grep'
 alias gitsize='git count-objects -v'
 alias gitundo='git reset --soft HEAD~1'
 alias grep='grep --color=auto'
-alias l='ls -CF'
-alias la='ls -A'
 alias largest_files='git ls-files -z | xargs -0 wc -l | sort -nr'
-alias lll='ls -alFh --color=auto --group-directories-first --time-style=long-iso --human-readable --show-control-chars --indicator-style=slash'
-alias llo='ls -alhF'
-alias ls='ls --color=auto'
 alias markdownlint=markdownlint_f
 alias rg='rg -S'
 alias sed='sed -E'
@@ -34,7 +29,12 @@ alias vi='nvim'
 
 missing_alias_commands=
 if command -v lsd >/dev/null 2>&1; then
+    alias l='lsd --icon=never --classify'
+    alias la='lsd --almost-all --icon=never'
     alias ll='lsd --all --icon=never --human-readable --group-dirs=first --long --classify'
+    alias lll='lsd --all --icon=never --human-readable --group-dirs=first --long --classify --date="+%F %R"'
+    alias llo='lsd --all --icon=never --human-readable --long --classify'
+    alias ls='lsd --color=auto --icon=never'
 else
     missing_alias_commands+=' lsd'
 fi
