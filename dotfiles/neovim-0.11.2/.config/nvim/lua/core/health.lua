@@ -67,7 +67,6 @@ local groups = {
             { cmd = "austin", purpose = "Python frame stack sampling" },
             { cmd = "scalene", purpose = "Python profiling" },
             { cmd = "ty", purpose = "Astral Python type checking" },
-            { cmd = "claude", purpose = "Claude Code tasks" },
             { cmd = "codex", purpose = "Codex CLI tasks" },
             { cmd = "copilot", purpose = "GitHub Copilot CLI tasks" },
             { cmd = "opencode", purpose = "OpenCode tasks" },

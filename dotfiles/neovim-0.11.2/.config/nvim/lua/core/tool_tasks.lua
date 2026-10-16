@@ -193,16 +193,6 @@ local tasks = {
         end,
     },
     {
-        id = "ai-claude",
-        label = "AI: Claude Code",
-        exe = "claude",
-        project = true,
-        interactive = true,
-        command = function()
-            return "claude"
-        end,
-    },
-    {
         id = "ai-codex",
         label = "AI: Codex CLI",
         exe = "codex",

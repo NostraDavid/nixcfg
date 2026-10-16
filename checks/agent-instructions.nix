@@ -22,7 +22,6 @@
     ".agents/audio-notify"
     ".codex/AGENTS.md"
     ".pi/agent/AGENTS.md"
-    ".claude/CLAUDE.md"
     ".copilot/copilot-instructions.md"
     ".config/opencode/AGENTS.md"
   ];

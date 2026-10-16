@@ -33,27 +33,5 @@
         ]
       }
     ]
-  },
-  "mcpServers": {
-    "qartez": {
-      "args": [],
-      "command": "qartez"
-    },
-    "headroom": {
-      "command": "headroom",
-      "args": [
-        "mcp",
-        "serve",
-        "--transport",
-        "stdio"
-      ]
-    }
-  },
-  "permissions": {
-    "allow": [],
-    "deny": [
-      "Grep",
-      "Glob"
-    ]
   }
 }

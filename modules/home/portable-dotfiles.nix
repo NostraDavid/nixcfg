@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   repoRoot,
   ...
 }: let
@@ -7,13 +8,19 @@
   mk = path: config.lib.file.mkOutOfStoreSymlink path;
   forceAll = builtins.mapAttrs (_: file: file // {force = true;});
 in {
+  home.activation.removeClaudeConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    $DRY_RUN_CMD rm -f \
+      ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json"} \
+      ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json.before-headroom"} \
+      ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json.before-agent-memory"}
+  '';
+
   home.file = forceAll {
     "AGENTS.md".source = mk "${dot}/agents/instructions/AGENTS.md";
     ".agents/instructions".source = mk "${dot}/agents/instructions";
     ".agents/audio-notify".source = mk "${dot}/agents/.agents/audio-notify";
     ".codex/AGENTS.md".source = config.home.file."AGENTS.md".source;
     ".pi/agent/AGENTS.md".source = config.home.file."AGENTS.md".source;
-    ".claude/CLAUDE.md".source = config.home.file."AGENTS.md".source;
     ".copilot/copilot-instructions.md".source = config.home.file."AGENTS.md".source;
     ".copilot/instructions/eu-ai-act.instructions.md".source = mk "${dot}/agents/instructions/eu-ai-act.md";
     ".config/opencode/AGENTS.md".source = config.home.file."AGENTS.md".source;

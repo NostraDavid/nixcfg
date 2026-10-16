@@ -49,7 +49,6 @@
       stable.gofumpt # gofmt alternative; useful for dprint
       stable.openjdk25 # openjdk for nvim-lsp-java
       stable.zed-editor # vscode alternative
-      unstable.claude-code # llm agent
       unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
       unstable.dprint # Extensible code formatter; prettier replacement
       unstable.fastfetch # neofetch alternative

@@ -10,7 +10,6 @@
       stable.basedpyright # Python type checker
       stable.cachix # Cachix CLI
       stable.cargo # Rust package manager
-      stable.claude-code # LLM Agent
       stable.cloc # Count lines of code
       stable.deadnix # Find unused dependencies in Nix projects
       stable.entr # Run commands when files change

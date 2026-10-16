@@ -15,12 +15,6 @@ def configure(home, command):
     for relative, section, loads, dumps in [
         (".codex/config.toml", "mcp_servers", tomlkit.loads, tomlkit.dumps),
         (
-            ".claude.json",
-            "mcpServers",
-            json.loads,
-            lambda value: json.dumps(value, indent=2) + "\n",
-        ),
-        (
             ".config/opencode/opencode.json",
             "mcp",
             json.loads,
