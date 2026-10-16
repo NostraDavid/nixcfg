@@ -11,7 +11,9 @@ The base `portable-cli` module links `~/.bashrc`, `~/.bashrc.d/`,
 `~/.bash_aliases`, and `~/.bash_profile` on both hosts. The main `.bashrc` loads
 the files in `.bashrc.d` in a fixed order. Interactive shells load
 `~/.bashrc.work` before `~/.bashrc.local`, then append the history hooks.
-Non-interactive shells load only the environment settings.
+Non-interactive shells load only the environment settings from `.bashrc`. Login
+shells also load `~/.bash_profile.work` after `/etc/profile` and `~/.bashrc`, if
+the work file exists and is readable.
 
 `.bash_aliases-common` is gone. Shared aliases live in `.bash_aliases`; only
 Linux system commands remain behind a platform check. The shared alias file then
@@ -20,10 +22,11 @@ shared definitions. Shell functions live in `.bashrc.d/functions.bash`. The
 alias file prints one yellow warning when an optional `lsd`, `ncdu`, or
 `project_color` command is missing.
 
-Remove work-repository mappings for the shared Bash files. Keep work-only
-settings in `~/.bashrc.work`, aliases in `~/.bash_aliases.work`, and the work
-Git identity in its existing work-owned file. Review work aliases and functions
-before deleting them: remove only definitions now supplied by the base files.
+Remove work-repository mappings for the shared Bash files. Keep work-only login
+settings in `~/.bash_profile.work`, interactive settings in `~/.bashrc.work`,
+aliases in `~/.bash_aliases.work`, and the work Git identity in its existing
+work-owned file. Review work aliases and functions before deleting them: remove
+only definitions now supplied by the base files.
 
 ## NDTK commands and data
 

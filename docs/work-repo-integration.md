@@ -63,11 +63,18 @@ Create `home/work.nix`:
 
 ```nix
 {
+  home.file.".bash_profile.work".source = ../dotfiles/bash_profile.work;
   home.file.".bashrc.work".source = ../dotfiles/bashrc.work;
   home.file.".bash_aliases.work".source = ../dotfiles/bash_aliases.work;
   home.file.".config/git/identity.conf".source = ../dotfiles/git-2.49.0/identity.conf;
 }
 ```
+
+Create `dotfiles/bash_profile.work` for work-only login settings. The shared
+`.bash_profile` sources `~/.bash_profile.work` after `/etc/profile` and
+`~/.bashrc`, if the work file exists and is readable. This also applies to
+non-interactive login shells. Leave the mapping out if you do not need this
+file.
 
 Create `dotfiles/bashrc.work` for interactive Bash settings, for example:
 
@@ -121,12 +128,13 @@ The portable module already owns these Home Manager file paths:
   `.config/pypoetry/`, and `.config/uv/uv.toml`.
 
 Remove duplicate mappings for those paths from the work repository before
-applying this flake. Move work-only Bash settings into `~/.bashrc.work` and
-work-only Git settings into `identity.conf`. If a work setting must replace a
-shared file, use `lib.mkForce` on that `home.file` entry in the work module. The
-portable module also installs Git, Git LFS, Neovim, uv, direnv, and Node.js 24.
-The opt-in workstation module adds common workstation tools; keep only
-work-specific packages in the work module.
+applying this flake. Move work-only login settings into `~/.bash_profile.work`,
+interactive settings into `~/.bashrc.work`, and Git settings into
+`identity.conf`. If a work setting must replace a shared file, use `lib.mkForce`
+on that `home.file` entry in the work module. The portable module also installs
+Git, Git LFS, Neovim, uv, direnv, and Node.js 24. The opt-in workstation module
+adds common workstation tools; keep only work-specific packages in the work
+module.
 
 ## Override agent instructions
 
