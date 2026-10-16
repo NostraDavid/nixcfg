@@ -20,6 +20,12 @@ in {
 
   home.file = {
     ".pi/agent/extensions/workflow".source = mk "${dot}/extensions/workflow";
+    ".pi/agent/extensions/services".source = mk "${dot}/extensions/services";
+    ".pi/agent/extensions/subagent".source = "${package}/lib/node_modules/@earendil-works/pi-coding-agent/examples/extensions/subagent";
+    ".pi/agent/agents/scout.md".source = mk "${dot}/agents/scout.md";
+    ".pi/agent/agents/planner.md".source = mk "${dot}/agents/planner.md";
+    ".pi/agent/agents/reviewer.md".source = mk "${dot}/agents/reviewer.md";
+    ".pi/agent/agents/worker.md".source = mk "${dot}/agents/worker.md";
     ".pi/agent/prompts/commit.md".source = mk "${dot}/prompts/commit.md";
     ".pi/agent/prompts/test.md".source = mk "${dot}/prompts/test.md";
   };
