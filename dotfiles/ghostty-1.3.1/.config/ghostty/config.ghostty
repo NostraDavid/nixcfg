@@ -38,3 +38,6 @@ window-padding-y = 0
 
 # Use epoll for async backend to avoid high CPU usage on Linux.
 async-backend = epoll
+
+# disable autoupdate (for macOS)
+auto-update = off
