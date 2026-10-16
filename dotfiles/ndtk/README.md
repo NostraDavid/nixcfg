@@ -14,10 +14,16 @@ configuration.
 repositories. `restore_repos restore TARGET_DIR` restores the configured
 inventory.
 
-`repos github [TARGET_DIR]` synchronizes personal and organization GitHub
-repositories. `repos azure --root TARGET_DIR` synchronizes Azure DevOps
+`repos github clone [TARGET_DIR]` synchronizes personal and organization GitHub
+repositories. `repos azure clone --root TARGET_DIR` synchronizes Azure DevOps
 repositories. Both default to `~/dev`. Run `repos github --help` or
-`repos azure --help` for their existing provider-specific options.
+`repos azure --help` to list commands. Run `repos PROVIDER help COMMAND` or
+`repos PROVIDER COMMAND --help` for command options.
+
+`repos PROVIDER` without a command shows help and does not synchronize anything.
+Every provider supports `help`, `check` for local readiness, and `test` for
+network-free regression tests. Azure's `check` validates configuration and Git
+availability without testing the token against Azure.
 
 Use `repos local update --project SEARCH_DIR` to update repositories already on
 disk, or add `--dry-run` to preview the updates. `repos local check` verifies
@@ -25,13 +31,18 @@ the local setup.
 
 To add a provider, add an executable `_repos_PROVIDER.py` helper with its own
 dependency metadata and register the provider in `repos.sh`. Home Manager keeps
-underscore-prefixed helpers importable with their file extensions.
+underscore-prefixed helpers importable with their file extensions. The commit
+hook discovers every `_repos_*.py` helper and checks the shared commands, help
+behavior, rejection of unknown commands, and provider tests. Run
+`./dotfiles/ndtk/tests/test_git_repos.py` from the repository root to run the
+same checks manually.
 
 The rewritten commands include local tests:
 
 - `find-uncommitted unit-test`
 - `save_cloned_repos unit-test`
-- `repos github tests`
+- `repos azure test`
+- `repos github test`
 - `repos local test`
 
 The updater reads `NDTK_BITBUCKET_HOST` for the throttled Bitbucket host,

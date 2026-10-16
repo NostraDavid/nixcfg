@@ -943,6 +943,22 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
             f"Clone/update all personal and organization GitHub repositories using {BARE_REPO_DIR} plus flat branch and tag worktrees."
         ),
     )
+    commands = parser.add_subparsers(dest="command", title="commands")
+    commands.add_parser(
+        "check", help="Check required local setup without network access."
+    )
+    test_parser = commands.add_parser("test", help="Run network-free regression tests.")
+    test_parser.add_argument("-v", "--verbose", action="store_true")
+    help_parser = commands.add_parser(
+        "help", help="Show help for this provider or a command."
+    )
+    help_parser.add_argument(
+        "topic", nargs="?", choices=("clone", "check", "test", "help")
+    )
+    root_parser = parser
+    parser = commands.add_parser(
+        "clone", help="Clone or update repositories and their worktrees."
+    )
     parser.add_argument(
         "target_dir",
         nargs="?",
@@ -1022,19 +1038,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Discover repositories and validate remote selections without writing or fetching.",
     )
-    return parser.parse_args(argv)
+    args = root_parser.parse_args(argv)
+    if args.command is None or args.command == "help":
+        topic = getattr(args, "topic", None)
+        (commands.choices[topic] if topic else root_parser).print_help()
+        raise SystemExit(0)
+    return args
 
 
-def run_tests(argv: list[str]) -> int:
+def run_tests(verbose: bool) -> int:
     import unittest
     from unittest import mock
-
-    parser = argparse.ArgumentParser(
-        prog="repos github tests",
-        description="Run GitHub repository synchronization self-tests.",
-    )
-    parser.add_argument("-v", "--verbose", action="store_true")
-    args = parser.parse_args(argv)
 
     class GetGithubReposTests(unittest.TestCase):
         def test_gh_api_paginated_uses_get_paginate_and_slurp(self) -> None:
@@ -1185,14 +1199,15 @@ def run_tests(argv: list[str]) -> int:
                 refresh_mock.assert_called_once_with(repo_root, bare_dir=bare_dir)
 
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(GetGithubReposTests)
-    runner = unittest.TextTestRunner(verbosity=2 if args.verbose else 1)
+    runner = unittest.TextTestRunner(verbosity=2 if verbose else 1)
     result = runner.run(suite)
     return 0 if result.wasSuccessful() else 1
 
 
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
-    if argv == ["check"]:
+    args = parse_args(argv)
+    if args.command == "check":
         errors = [
             f"missing executable: {name}"
             for name in ("git", "gh")
@@ -1204,11 +1219,10 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         print("OK")
         return 0
-    if argv and argv[0] == "tests":
-        return run_tests(argv[1:])
+    if args.command == "test":
+        return run_tests(args.verbose)
 
     configure_logging()
-    args = parse_args(argv)
     if not require("gh"):
         return 1
 
