@@ -155,6 +155,14 @@ def ensure_peacock_settings(target: Path) -> None:
         raise ReadinessError(f"Peacock color setup failed{suffix}")
 
 
+def ensure_workspace_settings(target: Path) -> None:
+    ensure_vscode_settings(target)
+    try:
+        ensure_peacock_settings(target)
+    except ReadinessError as error:
+        print(error, file=sys.stderr)
+
+
 def clean_vscode_env(
     *, electron_cli: bool = False, preserve_vscode_ipc_hook_cli: bool = False
 ) -> dict[str, str]:
@@ -416,27 +424,32 @@ def main() -> int:
         electron_cli=len(code_command) == 2, preserve_vscode_ipc_hook_cli=True
     )
 
-    if args.no_picker:
-        direct_args = [normalize_code_arg(arg) for arg in args.query]
+    direct_args = (
+        [normalize_code_arg(arg) for arg in args.query]
+        if args.no_picker
+        else resolve_direct_code_args(args.query)
+    )
+    if direct_args is not None:
         command = [*code_command, *direct_args]
         if direct_args:
             command = add_new_window_flag(
                 command,
                 argument_start=len(code_command),
+                skip_when_flags_present=not args.no_picker,
             )
         if args.dry_run:
             return preview(command)
-        return launch_code(command, env)
-
-    direct_args = resolve_direct_code_args(args.query)
-    if direct_args is not None:
-        command = add_new_window_flag(
-            [*code_command, *direct_args],
-            argument_start=len(code_command),
-            skip_when_flags_present=True,
-        )
-        if args.dry_run:
-            return preview(command)
+        for index, arg in enumerate(direct_args):
+            # Option values such as --user-data-dir are not workspace folders.
+            if arg.startswith("-") or (
+                index > 0
+                and direct_args[index - 1].startswith("-")
+                and direct_args[index - 1] not in WINDOW_FLAGS
+            ):
+                continue
+            target = Path(arg)
+            if target.is_dir():
+                ensure_workspace_settings(target)
         return launch_code(command, env)
 
     try:
@@ -461,11 +474,7 @@ def main() -> int:
     if args.dry_run:
         return preview(command, settings_plan=plan_vscode_settings(target))
 
-    ensure_vscode_settings(target)
-    try:
-        ensure_peacock_settings(target)
-    except ReadinessError as error:
-        print(error, file=sys.stderr)
+    ensure_workspace_settings(target)
     return launch_code(command, env)
 
 

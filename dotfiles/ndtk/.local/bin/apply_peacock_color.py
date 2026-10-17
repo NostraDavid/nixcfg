@@ -21,6 +21,12 @@ from project_color import project_color
 
 MANAGED_KEYS = {
     "activityBar.activeBackground",
+    "activityBar.activeBorder",
+    "activityBarTop.activeBackground",
+    "activityBarTop.activeBorder",
+    "activityBarTop.background",
+    "activityBarTop.foreground",
+    "activityBarTop.inactiveForeground",
     "activityBar.background",
     "activityBar.foreground",
     "activityBar.inactiveForeground",
@@ -107,14 +113,23 @@ def peacock_colors(color: str) -> dict[str, str]:
     badge = accent(activity)
     return {
         "activityBar.activeBackground": activity,
+        "activityBar.activeBorder": activity_foreground,
+        "activityBarTop.activeBackground": activity,
+        "activityBarTop.activeBorder": activity_foreground,
+        "activityBarTop.background": activity,
+        "activityBarTop.foreground": activity_foreground,
+        "activityBarTop.inactiveForeground": f"{activity_foreground}99",
         "activityBar.background": activity,
         "activityBar.foreground": activity_foreground,
         "activityBar.inactiveForeground": f"{activity_foreground}99",
         "activityBarBadge.background": badge,
         "activityBarBadge.foreground": foreground(badge),
         "commandCenter.border": f"{title_foreground}99",
+        "commandCenter.foreground": title_foreground,
         "sash.hoverBorder": activity,
         "statusBar.background": color,
+        "statusBar.debuggingBackground": color,
+        "statusBar.debuggingForeground": title_foreground,
         "statusBar.foreground": title_foreground,
         "statusBarItem.hoverBackground": adjust(
             color, -0.1 if is_light(color) else 0.1
@@ -149,6 +164,7 @@ def updated_settings(settings: dict[str, object], color: str) -> dict[str, objec
     customizations.update(peacock_colors(color))
     return {
         "workbench.colorCustomizations": customizations,
+        "peacock.color": color,
         "peacock.remoteColor": color,
         **{
             key: value
