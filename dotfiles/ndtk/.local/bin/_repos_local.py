@@ -9,10 +9,18 @@
 # ]
 # ///
 
-"""Fetch local git repos and optionally sync tag worktrees.
+"""Update local Git checkouts and optionally sync tag worktrees.
 
-This CLI walks a project directory, performs `git fetch` on each repo, and can
-optionally reconcile moved remotes, missing remotes, and top-level tag worktrees.
+Keep existing repositories nearly up to date locally so work can continue when
+their remote source is temporarily unavailable. Fetch branches and tags as well
+as updating checkouts, while preserving local work and reporting conflicts.
+This is not a complete offline mirror: Git LFS objects and submodules are not
+explicitly synchronized.
+
+This CLI fetches each repository and fast-forwards existing branch checkouts to
+their upstream. Local changes, including untracked files, are stashed and restored
+with their index state. Restore conflicts are reported and the stash is retained.
+It can also reconcile moved remotes, missing remotes, and top-level tag worktrees.
 
 Bitbucket calls use a default 6-second throttling delay between network-call
 starts, including retries and the final non-dry-run fetch. This is separate
@@ -163,7 +171,7 @@ class RustGroup(click.Group):
         pieces: list[str] = []
         pieces.append(
             _style_body(
-                "repos local: Fast local git fetcher with optional branch worktree sync."
+                "repos local: Update local checkouts with automatic stash and restore."
             )
         )
         pieces.append("")
@@ -758,6 +766,148 @@ def _prune_repo(
     return True
 
 
+def _update_checkout(
+    repo_path: Path, *, dry_run: bool, upstream: str | None = None
+) -> bool:
+    bare = _run_git(repo_path, ["rev-parse", "--is-bare-repository"], capture=True)
+    if bare.stdout.strip() == "true" or _get_current_branch(repo_path) is None:
+        return True
+    if upstream is None:
+        tracking = _run_git(
+            repo_path,
+            ["rev-parse", "--verify", "--symbolic-full-name", "@{upstream}"],
+            capture=True,
+        )
+        if tracking.returncode != 0:
+            logger.info(
+                "checkout_update_skip", worktree=str(repo_path), reason="no upstream"
+            )
+            return True
+        upstream = tracking.stdout.strip()
+    if dry_run:
+        logger.info(
+            "checkout_update", worktree=str(repo_path), upstream=upstream, dry_run=True
+        )
+        return True
+
+    git_dir = _run_git(repo_path, ["rev-parse", "--absolute-git-dir"], capture=True)
+    status = _run_git(repo_path, ["status", "--porcelain"], capture=True)
+    conflicts = _run_git(
+        repo_path, ["diff", "--name-only", "--diff-filter=U"], capture=True
+    )
+    if (
+        git_dir.returncode != 0
+        or status.returncode != 0
+        or conflicts.returncode != 0
+        or conflicts.stdout.strip()
+        or any(
+            (Path(git_dir.stdout.strip()) / name).exists()
+            for name in (
+                "MERGE_HEAD",
+                "CHERRY_PICK_HEAD",
+                "REVERT_HEAD",
+                "rebase-merge",
+                "rebase-apply",
+            )
+        )
+    ):
+        logger.warning(
+            "checkout_update_failed",
+            worktree=str(repo_path),
+            reason="cannot update checkout with unresolved conflicts or an operation in progress",
+        )
+        return False
+    if (
+        _run_git(
+            repo_path, ["merge-base", "--is-ancestor", upstream, "HEAD"]
+        ).returncode
+        == 0
+    ):
+        return True
+
+    stash = None
+    if status.stdout.strip():
+        previous = _run_git(
+            repo_path, ["rev-parse", "--verify", "refs/stash"], capture=True
+        )
+        saved = _run_git(
+            repo_path,
+            [
+                "stash",
+                "push",
+                "--include-untracked",
+                "--message",
+                f"repos local update: {repo_path}",
+            ],
+            capture=True,
+        )
+        if saved.returncode != 0:
+            logger.warning(
+                "checkout_stash_failed", worktree=str(repo_path), output=saved.stdout
+            )
+            return False
+        stash_ref = _run_git(
+            repo_path, ["rev-parse", "--verify", "refs/stash"], capture=True
+        )
+        if (
+            stash_ref.returncode != 0
+            or stash_ref.stdout.strip() == (previous.stdout or "").strip()
+        ):
+            logger.warning(
+                "checkout_stash_failed",
+                worktree=str(repo_path),
+                reason="could not identify saved stash; leaving checkout unchanged",
+            )
+            return False
+        stash = stash_ref.stdout.strip()
+
+    restored = True
+    try:
+        merged = _run_git(
+            repo_path,
+            ["merge", "--ff-only", "--no-autostash", "--no-overwrite-ignore", upstream],
+            capture=True,
+        )
+        if merged.returncode != 0:
+            logger.warning(
+                "checkout_update_failed", worktree=str(repo_path), output=merged.stdout
+            )
+    finally:
+        if stash is not None:
+            applied = _run_git(
+                repo_path, ["stash", "apply", "--index", stash], capture=True
+            )
+            restored = applied.returncode == 0
+            if restored:
+                # Stashes are shared by worktrees; drop only the entry we restored.
+                entries = _run_git(
+                    repo_path, ["stash", "list", "--format=%H %gd"], capture=True
+                )
+                for entry in (entries.stdout or "").splitlines():
+                    oid, ref = entry.split(" ", 1)
+                    if oid == stash:
+                        dropped = _run_git(
+                            repo_path, ["stash", "drop", ref], capture=True
+                        )
+                        if dropped.returncode != 0:
+                            logger.warning(
+                                "checkout_stash_drop_failed",
+                                worktree=str(repo_path),
+                                stash=stash,
+                                output=dropped.stdout,
+                            )
+                        break
+            else:
+                logger.warning(
+                    "checkout_restore_failed",
+                    worktree=str(repo_path),
+                    stash=stash,
+                    reason="resolve conflicts before continuing; saved changes remain in stash",
+                    output=applied.stdout,
+                )
+    return merged.returncode == 0 and restored
+
+
 def _sync_branch_worktrees(
     repo_path: Path,
     *,
@@ -837,6 +987,10 @@ def _sync_branch_worktrees(
             if not dry_run and ensure_dprint_config_link(target):
                 logger.info("dprint_config_link")
 
+            if dry_run:
+                _update_checkout(target, dry_run=True, upstream=f"origin/{branch}")
+                continue
+
             set_upstream = _run_git(
                 target,
                 ["branch", "--set-upstream-to", f"origin/{branch}", branch],
@@ -848,28 +1002,9 @@ def _sync_branch_worktrees(
                     error=(set_upstream.stdout or "").strip(),
                 )
 
-            if _worktree_is_dirty(target):
-                logger.warning(
-                    "worktree_branch_dirty_skip",
-                    reason="local changes detected; skipping update to avoid data loss",
-                )
-                continue
-
-            if dry_run:
-                logger.info("worktree_branch_update", dry_run=True)
-                continue
-
-            ff_only_proc = _run_git(
-                target, ["merge", "--ff-only", f"origin/{branch}"], capture=True
-            )
-            if ff_only_proc.returncode != 0:
-                logger.warning(
-                    "worktree_branch_update_skipped",
-                    reason=(
-                        ff_only_proc.stdout
-                        or "non-fast-forward; leaving local branch unchanged"
-                    ).strip(),
-                )
+            if not _update_checkout(
+                target, dry_run=dry_run, upstream=f"origin/{branch}"
+            ):
                 continue
 
             logger.info("worktree_branch_update")
@@ -1200,6 +1335,10 @@ def fetch_repo(
     if ok:
         if not dry_run and ensure_dprint_config_link(repo_path):
             logger.info("dprint_config_link")
+        checkout_ok = True
+        for worktree in sorted(_list_worktree_paths(repo_path)):
+            if not _update_checkout(worktree, dry_run=dry_run):
+                checkout_ok = False
         if sync_branch_worktrees:
             _sync_branch_worktrees(
                 repo_path,
@@ -1213,7 +1352,7 @@ def fetch_repo(
                 dry_run=dry_run,
             )
         logger.info("fetch_result", updated=updated, dur_s=dur, lines=line_count)
-        return True, updated, dur, line_count, False
+        return checkout_ok, updated, dur, line_count, False
 
     if prune_missing and _is_missing_remote(output):
         pruned = _prune_repo(
@@ -1472,13 +1611,17 @@ def main(
         dur_s=duration,
         lines=totals["lines"],
     )
+    if totals["failed"]:
+        raise click.ClickException(
+            f"{totals['failed']} repositories failed to update; see warnings above"
+        )
 
 
 @click.group(
     cls=RustGroup,
     invoke_without_command=True,
     context_settings={"help_option_names": ["-h", "--help"]},
-    help="Fast git fetcher with optional worktree sync.",
+    help="Fetch and fast-forward local checkouts with automatic stash and restore.",
     epilog=(
         "repos local update\nrepos local update --prune-missing\nrepos local update --prune-tag-worktrees\nrepos local update --project ~/users --dry-run -vv"
     ),
@@ -1538,7 +1681,7 @@ def check_command(project: Path) -> None:
     click.echo("OK")
 
 
-@cli.command("update", short_help="Fetch repos and reconcile remotes/worktrees.")
+@cli.command("update", short_help="Update checkouts and reconcile remotes/worktrees.")
 @click.option(
     "--project",
     "-p",
@@ -1564,7 +1707,7 @@ def check_command(project: Path) -> None:
     type=click.FloatRange(min=0.1),
     default=DEFAULT_BITBUCKET_TIMEOUT_SECONDS,
     show_default=True,
-    help="Maximum total seconds for each Bitbucket fetch, including pull time",
+    help="Maximum total seconds for each Bitbucket fetch",
 )
 @click.option(
     "--fix-moved/--no-fix-moved",
@@ -1588,7 +1731,7 @@ def check_command(project: Path) -> None:
     "--sync-branch-worktrees/--no-sync-branch-worktrees",
     default=False,
     show_default=True,
-    help="Deprecated legacy branch-worktree sync; normal updates manage only trunk and tags",
+    help="Deprecated creation of missing branch worktrees; existing checkouts always update",
 )
 @click.option(
     "--prune-branch-worktrees/--no-prune-branch-worktrees",
@@ -1639,7 +1782,10 @@ def update(
     dry_run: bool,
     verbose: int,
 ) -> None:
-    """Fetch repos and reconcile moved remotes and tag worktrees."""
+    """Fetch and fast-forward existing branch checkouts, stashing local changes.
+
+    Conflicts are reported and the saved stash is retained for recovery.
+    """
     configure_logging(verbose)
     resolved_project = project.expanduser()
     resolved_trash = (
@@ -1666,6 +1812,213 @@ def update(
         )
     finally:
         clear_contextvars()
+
+
+class TestLocalCheckoutUpdates(unittest.TestCase):
+    def setUp(self) -> None:
+        env = {
+            key: value
+            for key, value in os.environ.items()
+            if not key.startswith("GIT_")
+        }
+        self.enterContext(patch.dict(os.environ, env, clear=True))
+        self.enterContext(patch(f"{__name__}._load_azure_pat", return_value=None))
+        self.enterContext(
+            patch(f"{__name__}.ensure_dprint_config_link", return_value=False)
+        )
+        self.root = Path(self.enterContext(TemporaryDirectory()))
+        self.source = self.root / "source"
+        self.project = self.root / "project"
+        self.project.mkdir()
+        self.repo = self.project / "checkout"
+        self.git(self.root, "init", "-q", "-b", "main", str(self.source))
+        (self.source / "file.txt").write_text("initial\n")
+        self.commit(self.source, "initial")
+        self.git(self.root, "clone", "-q", str(self.source), str(self.repo))
+
+    @staticmethod
+    def git(repo: Path, *args: str) -> str:
+        return subprocess.run(
+            [
+                "git",
+                "-C",
+                str(repo),
+                "-c",
+                "core.hooksPath=/dev/null",
+                "-c",
+                "commit.gpgsign=false",
+                "-c",
+                "user.name=Local check",
+                "-c",
+                "user.email=check@example.invalid",
+                *args,
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+
+    def commit(self, repo: Path, message: str) -> None:
+        self.git(repo, "add", ".")
+        self.git(repo, "commit", "-qm", message)
+
+    def remote_change(self, *, conflict: bool = False) -> str:
+        (self.source / ("file.txt" if conflict else "remote.txt")).write_text(
+            "remote\n"
+        )
+        self.commit(self.source, "remote change")
+        return self.git(self.source, "rev-parse", "HEAD")
+
+    def update(self, *args: str):
+        return CliRunner().invoke(
+            cli, ["update", "--project", str(self.project), *args]
+        )
+
+    def test_dirty_checkout_preserves_index_untracked_and_existing_stash(self) -> None:
+        (self.repo / "file.txt").write_text("older stash\n")
+        self.git(self.repo, "stash", "push", "-qm", "existing stash")
+        previous_stash = self.git(self.repo, "rev-parse", "refs/stash")
+        (self.repo / "file.txt").write_text("staged\n")
+        self.git(self.repo, "add", "file.txt")
+        (self.repo / "file.txt").write_text("unstaged\n")
+        (self.repo / "untracked.txt").write_text("untracked\n")
+        target = self.remote_change()
+        result = self.update()
+        assert result.exit_code == 0, result.output
+        assert self.git(self.repo, "rev-parse", "HEAD") == target
+        assert self.git(self.repo, "show", ":file.txt") == "staged"
+        assert (self.repo / "file.txt").read_text() == "unstaged\n"
+        assert (self.repo / "untracked.txt").read_text() == "untracked\n"
+        assert self.git(self.repo, "rev-parse", "refs/stash") == previous_stash
+
+    def test_conflict_is_reported_and_stash_retained(self) -> None:
+        (self.repo / "file.txt").write_text("local\n")
+        target = self.remote_change(conflict=True)
+        with self.assertLogs(level="WARNING") as logs:
+            result = self.update()
+        assert result.exit_code != 0, result.output
+        assert "checkout_restore_failed" in "\n".join(logs.output)
+        assert str(self.repo) in "\n".join(logs.output)
+        assert self.git(self.repo, "rev-parse", "HEAD") == target
+        assert self.git(self.repo, "show", "refs/stash:file.txt") == "local"
+        assert "file.txt" in self.git(
+            self.repo, "diff", "--name-only", "--diff-filter=U"
+        )
+        stash = self.git(self.repo, "rev-parse", "refs/stash")
+        repeated = self.update()
+        assert repeated.exit_code != 0, repeated.output
+        assert self.git(self.repo, "rev-parse", "refs/stash") == stash
+
+    def test_diverged_branch_restores_changes_and_reports_failure(self) -> None:
+        (self.repo / "local-commit.txt").write_text("committed\n")
+        self.commit(self.repo, "local commit")
+        head = self.git(self.repo, "rev-parse", "HEAD")
+        (self.repo / "file.txt").write_text("local\n")
+        self.remote_change()
+        with self.assertLogs(level="WARNING") as logs:
+            result = self.update()
+        assert result.exit_code != 0, result.output
+        assert "checkout_update_failed" in "\n".join(logs.output)
+        assert self.git(self.repo, "rev-parse", "HEAD") == head
+        assert (self.repo / "file.txt").read_text() == "local\n"
+        assert not self.git(self.repo, "stash", "list")
+
+    def test_existing_branch_worktree_updates_and_detached_tag_stays_fixed(
+        self,
+    ) -> None:
+        linked = self.root / "linked"
+        detached = self.root / "detached"
+        self.git(self.repo, "worktree", "add", "-qb", "feature", str(linked))
+        self.git(linked, "branch", "--set-upstream-to", "origin/main")
+        self.git(self.repo, "worktree", "add", "-q", "--detach", str(detached))
+        old = self.git(detached, "rev-parse", "HEAD")
+        (linked / "file.txt").write_text("linked changes\n")
+        target = self.remote_change()
+        result = self.update()
+        assert result.exit_code == 0, result.output
+        assert self.git(linked, "rev-parse", "HEAD") == target
+        assert (linked / "file.txt").read_text() == "linked changes\n"
+        assert self.git(detached, "rev-parse", "HEAD") == old
+
+    def test_trunk_layout_updates_dirty_checkout(self) -> None:
+        layout = self.project / "layout"
+        layout.mkdir()
+        common = layout / WORKTREE_GIT_DIR_NAME
+        trunk = layout / TRUNK_DIR_NAME
+        self.git(self.root, "clone", "-q", "--bare", str(self.source), str(common))
+        self.git(
+            common,
+            "config",
+            "remote.origin.fetch",
+            "+refs/heads/*:refs/remotes/origin/*",
+        )
+        self.git(common, "fetch", "-q", "origin")
+        self.git(common, "worktree", "add", "-q", str(trunk), "main")
+        self.git(trunk, "branch", "--set-upstream-to", "origin/main")
+        (trunk / "file.txt").write_text("trunk changes\n")
+        target = self.remote_change()
+        result = self.update()
+        assert result.exit_code == 0, result.output
+        assert self.git(trunk, "rev-parse", "HEAD") == target
+        assert (trunk / "file.txt").read_text() == "trunk changes\n"
+        assert not self.git(trunk, "stash", "list")
+
+    def test_untracked_collision_retains_both_versions(self) -> None:
+        (self.repo / "remote.txt").write_text("local untracked\n")
+        self.remote_change()
+        with self.assertLogs(level="WARNING") as logs:
+            result = self.update()
+        assert result.exit_code != 0, result.output
+        assert "checkout_restore_failed" in "\n".join(logs.output)
+        assert (self.repo / "remote.txt").read_text() == "remote\n"
+        assert (
+            self.git(self.repo, "show", "refs/stash^3:remote.txt") == "local untracked"
+        )
+
+    def test_failed_stash_does_not_merge_or_apply_an_existing_stash(self) -> None:
+        (self.repo / "file.txt").write_text("old stash\n")
+        self.git(self.repo, "stash", "push", "-qm", "previous")
+        old_stash = self.git(self.repo, "rev-parse", "refs/stash")
+        head = self.git(self.repo, "rev-parse", "HEAD")
+        (self.repo / "file.txt").write_text("current changes\n")
+        self.remote_change()
+        real_run_git = _run_git
+
+        def fail_stash(repo, args, **kwargs):
+            if args[:2] == ["stash", "push"]:
+                return subprocess.CompletedProcess(args, 1, "stash failed", "")
+            return real_run_git(repo, args, **kwargs)
+
+        with patch(f"{__name__}._run_git", side_effect=fail_stash):
+            result = self.update()
+        assert result.exit_code != 0, result.output
+        assert self.git(self.repo, "rev-parse", "HEAD") == head
+        assert self.git(self.repo, "rev-parse", "refs/stash") == old_stash
+        assert (self.repo / "file.txt").read_text() == "current changes\n"
+
+    def test_ignored_collision_is_preserved_and_reported(self) -> None:
+        self.git(self.repo, "config", "core.excludesFile", str(self.root / "ignore"))
+        (self.root / "ignore").write_text("remote.txt\n")
+        (self.repo / "remote.txt").write_text("ignored local file\n")
+        head = self.git(self.repo, "rev-parse", "HEAD")
+        self.remote_change()
+        with self.assertLogs(level="WARNING"):
+            result = self.update()
+        assert result.exit_code != 0, result.output
+        assert self.git(self.repo, "rev-parse", "HEAD") == head
+        assert (self.repo / "remote.txt").read_text() == "ignored local file\n"
+
+    def test_dry_run_leaves_head_index_worktree_and_stashes_unchanged(self) -> None:
+        head = self.git(self.repo, "rev-parse", "HEAD")
+        (self.repo / "file.txt").write_text("staged\n")
+        self.git(self.repo, "add", "file.txt")
+        self.remote_change()
+        result = self.update("--dry-run")
+        assert result.exit_code == 0, result.output
+        assert self.git(self.repo, "rev-parse", "HEAD") == head
+        assert self.git(self.repo, "show", ":file.txt") == "staged"
+        assert (self.repo / "file.txt").read_text() == "staged\n"
+        assert not self.git(self.repo, "stash", "list")
 
 
 class TestUpdateAllLocalRepos(unittest.TestCase):
@@ -2067,6 +2420,8 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
             ) -> subprocess.CompletedProcess[str]:
                 if args == ["remote", "get-url", "origin"]:
                     return subprocess.CompletedProcess(args, 0, origin, "")
+                if args[0] != "fetch":
+                    return subprocess.CompletedProcess(args, 0, "", "")
                 fetch_envs.append(kwargs.get("env"))
                 if len(fetch_envs) == 1:
                     return subprocess.CompletedProcess(
@@ -2102,6 +2457,8 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
             ) -> subprocess.CompletedProcess[str]:
                 if args == ["remote", "get-url", "origin"]:
                     return subprocess.CompletedProcess(args, 0, origin, "")
+                if args[0] != "fetch":
+                    return subprocess.CompletedProcess(args, 0, "", "")
                 fetch_kwargs.append(kwargs)
                 return subprocess.CompletedProcess(args, 0, "", "")
 
@@ -2130,6 +2487,8 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
             ) -> subprocess.CompletedProcess[str]:
                 if args == ["remote", "get-url", "origin"]:
                     return subprocess.CompletedProcess(args, 0, origin, "")
+                if args[0] != "fetch":
+                    return subprocess.CompletedProcess(args, 0, "", "")
                 fetch_kwargs.append(kwargs)
                 return subprocess.CompletedProcess(args, 0, "", "")
 
@@ -2199,6 +2558,8 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
             ) -> subprocess.CompletedProcess[str]:
                 if args == ["remote", "get-url", "origin"]:
                     return subprocess.CompletedProcess(args, 0, origin, "")
+                if args[0] != "fetch":
+                    return subprocess.CompletedProcess(args, 0, "", "")
                 fetch_calls.append(args)
                 return subprocess.CompletedProcess(args, 0, "", "")
 
