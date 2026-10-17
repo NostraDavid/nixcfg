@@ -201,8 +201,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--protocol",
         choices=("ssh", "http"),
-        default="http",
-        help="Preferred git transport for clone/update URLs (default: http).",
+        default="ssh",
+        help="Preferred git transport for clone/update URLs (default: ssh).",
     )
     parser.add_argument(
         "--http",
@@ -996,6 +996,11 @@ def run_tests(verbose: bool) -> int:
                 self.assertEqual(raised.exception.timeout, 1)
 
         def test_clone_transport_preference_and_fallback(self) -> None:
+            self.assertEqual(parse_args(["clone"]).protocol, "ssh")
+            self.assertEqual(parse_args(["clone", "--http"]).protocol, "http")
+            self.assertEqual(
+                parse_args(["clone", "--protocol", "http"]).protocol, "http"
+            )
             repo = {
                 "remoteUrl": "https://example.test/repo",
                 "sshUrl": "git@example.test:repo",
