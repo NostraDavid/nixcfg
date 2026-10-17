@@ -58,7 +58,17 @@ class PeacockColorTests(unittest.TestCase):
             colors = settings["workbench.colorCustomizations"]
             self.assertEqual(colors["editor.background"], "#222222")
             self.assertEqual(colors["statusBar.background"], expected)
-            self.assertNotIn("peacock.color", settings)
+            self.assertEqual(settings["peacock.color"], expected)
+            self.assertEqual(
+                colors["activityBarTop.background"], colors["activityBar.background"]
+            )
+            self.assertEqual(
+                colors["activityBarTop.foreground"], colors["activityBar.foreground"]
+            )
+            self.assertEqual(colors["statusBar.debuggingBackground"], expected)
+            self.assertEqual(
+                colors["commandCenter.foreground"], colors["titleBar.activeForeground"]
+            )
 
             before = settings_path.read_bytes()
             self.assertEqual(

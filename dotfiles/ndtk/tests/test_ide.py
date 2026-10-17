@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextlib
 import importlib.util
 import io
+import json
 import subprocess as sp
 import sys
 import unittest
@@ -167,6 +168,68 @@ class IdeRoutingTests(unittest.TestCase):
         self.assertEqual(result, 0)
         launch.assert_called_once_with(["code-cli"], {})
 
+    def test_directory_receives_repo_color_for_all_routes(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory) / "example"
+            (root / "worktree.git").mkdir(parents=True)
+            target = root / "trunk"
+            target.mkdir()
+            for route in ("picker", "path", "no-picker"):
+                with (
+                    self.subTest(route=route),
+                    patch.object(
+                        ide,
+                        "parse_args",
+                        return_value=ide.CliArgs(
+                            () if route == "picker" else (str(target),),
+                            False,
+                            False,
+                            route == "no-picker",
+                        ),
+                    ),
+                    patch.object(ide, "find_code_command", return_value=["code-cli"]),
+                    patch.object(ide, "launch_code", return_value=0),
+                    patch.object(
+                        ide, "find_project_picker", return_value="project_picker"
+                    ),
+                    patch.object(
+                        ide,
+                        "run",
+                        return_value=sp.CompletedProcess([], 0, str(target), ""),
+                    ),
+                ):
+                    self.assertEqual(ide.main(), 0)
+                    settings_path = target / ".vscode/settings.json"
+                    self.assertTrue(settings_path.exists())
+                    settings = json.loads(settings_path.read_text())
+                    self.assertIn("peacock.color", settings)
+                    self.assertIn(
+                        "titleBar.activeBackground",
+                        settings["workbench.colorCustomizations"],
+                    )
+                    settings_path.unlink()
+
+    def test_direct_dry_run_and_cli_option_values_do_not_write_settings(self) -> None:
+        with TemporaryDirectory() as directory:
+            target = Path(directory)
+            for query, dry_run in (
+                ((str(target),), True),
+                (("--user-data-dir", str(target)), False),
+            ):
+                with (
+                    self.subTest(query=query),
+                    patch.object(
+                        ide,
+                        "parse_args",
+                        return_value=ide.CliArgs(query, dry_run, False, False),
+                    ),
+                    patch.object(ide, "find_code_command", return_value=["code-cli"]),
+                    patch.object(ide, "launch_code", return_value=0),
+                    contextlib.redirect_stdout(io.StringIO()),
+                ):
+                    self.assertEqual(ide.main(), 0)
+                    self.assertFalse((target / ".vscode").exists())
+
     def test_explicit_path_bypasses_picker(self) -> None:
         launch = Mock(return_value=0)
         target = Path.cwd()
@@ -185,6 +248,7 @@ class IdeRoutingTests(unittest.TestCase):
                 side_effect=AssertionError("picker must not be used"),
             ),
             patch.object(ide, "launch_code", launch),
+            patch.object(ide, "ensure_workspace_settings"),
         ):
             result = ide.main()
 
