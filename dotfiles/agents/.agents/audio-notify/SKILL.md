@@ -1,6 +1,6 @@
 ---
 name: notify
-description: Speak a notification with say before asking the user a question or handing over a completed task, including a finished plan or verified change. Apply at these moments regardless of the task domain.
+description: Speak a notification with say before asking the user a question, reporting a blocked task, or handing over a completed task, including a finished plan or verified change. Apply at these moments regardless of the task domain.
 ---
 
 # Audio notifications
@@ -12,6 +12,7 @@ this `SKILL.md`; the shared installation is `~/.agents/audio-notify/`.
 | Moment                                                                           | Command argument |
 | -------------------------------------------------------------------------------- | ---------------- |
 | Ask the user for information, a choice, clarification, or approval               | `question`       |
+| Report that a blocker prevents further progress                               | `blocked`        |
 | Deliver a completed task, such as a requested plan, analysis, or verified change | `done`           |
 
 Every invocation, including muted ones, appends a timestamp, repository name,
@@ -29,8 +30,15 @@ command immediately before the final handoff. A plan counts when the requested
 deliverable is a plan; an internal plan during implementation does not. If the
 handoff asks for a reply, use `question` alone.
 
+When a blocker prevents further progress, run `blocked` immediately before
+reporting it to the user. Name the blocker in the spoken message and explain
+what is needed to continue in the written reply. If that reply also asks a
+question, use `blocked` alone. Notify once per blocker, then again only if the
+blocker changes.
+
 ```bash
 "$HOME/.agents/audio-notify/scripts/notify.sh" question "Welke stem wil je gebruiken?"
+"$HOME/.agents/audio-notify/scripts/notify.sh" blocked "De taak wacht op toegang tot de server."
 "$HOME/.agents/audio-notify/scripts/notify.sh" done "Repositorynaam toegevoegd aan de meldingen."
 ```
 
@@ -43,7 +51,7 @@ reply. Quote the message as one shell argument.
 Choose the one command matching the event. Invoke it through the available shell
 tool. Only the agent talking to the user plays notifications. Progress updates,
 internal substeps, quoted questions, and subagent messages are silent. An
-incomplete or blocked task does not get a completion sound.
+incomplete task does not get a completion sound; a blocked task gets `blocked`.
 
 In a sandboxed Codex shell, request unsandboxed execution for the notification
 command on the first attempt. The sandbox blocks access to the user's PipeWire

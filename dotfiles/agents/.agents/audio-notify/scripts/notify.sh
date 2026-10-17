@@ -3,12 +3,12 @@ set -euo pipefail
 
 message=${2:-}
 if [[ $# -ne 2 || ! $message =~ [^[:space:]] ]]; then
-    printf 'Usage: %s question|done "short message"\n' "$0" >&2
+    printf 'Usage: %s question|blocked|done "short message"\n' "$0" >&2
     exit 2
 fi
 
 case "$1" in
-question | done) ;;
+question | blocked | done) ;;
 *)
     printf 'Unknown notification event: %s\n' "$1" >&2
     exit 2

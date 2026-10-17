@@ -78,8 +78,9 @@ native MCP connection, follow `~/.agents/skills/mcporter/SKILL.md`.
 
 ### Audio notifications
 
-Before asking the user a question or handing over a completed task, follow
-`~/.agents/audio-notify/SKILL.md` to play the required audio notification.
+Before asking the user a question, reporting a blocked task, or handing over a
+completed task, follow `~/.agents/audio-notify/SKILL.md` to play the required
+audio notification.
 
 ### Library documentation
 
