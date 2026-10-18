@@ -148,7 +148,8 @@ in {
             $DRY_RUN_CMD ${stable.coreutils}/bin/chmod -R u+w "$cache"
           fi
           $DRY_RUN_CMD mkdir -p "$cache"
-          $DRY_RUN_CMD cp -R --preserve=mode --no-preserve=ownership \
+          # Replace cached files so running executables keep their original inode.
+          $DRY_RUN_CMD ${stable.coreutils}/bin/cp -R --remove-destination --preserve=mode --no-preserve=ownership \
             "${local.chatgpt}/lib/chatgpt/resources/plugins/openai-bundled/plugins/$plugin/." "$cache/"
           $DRY_RUN_CMD ${stable.coreutils}/bin/chmod -R u+w "$cache"
         done
