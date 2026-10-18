@@ -7,23 +7,23 @@
   unzip,
 }: let
   pname = "orca-ide";
-  version = "1.4.227";
+  version = "1.4.229";
   assets = {
     x86_64-linux = {
       name = "orca-linux.AppImage";
-      hash = "sha256-Mgrfi8p01AhqMyU5OlknWw82kEbvZCKdLAa/DBcxW4w=";
+      hash = "sha256-Az6Uflnd9PZrdRiIJX3XmPiDRttzCvGG/slKblUdfaA=";
     };
     aarch64-linux = {
       name = "orca-linux-arm64.AppImage";
-      hash = "sha256-RSPsmp14JX4KZnS9FWyHJQe5WTONXOfxAmyYluxgh7E=";
+      hash = "sha256-cBQZ6hozW69tFbmsYq6U9oJs5WN20ILpsZDay+hP4h4=";
     };
     x86_64-darwin = {
       name = "Orca-${version}-mac.zip";
-      hash = "sha256-Ofp9JPcGZZCygIXfJpMj/FdkjiL55yms4lYVl/A3tWM=";
+      hash = "sha256-wYbH1/4V/p7q3WFrZ90WgAw7PYQJzlz9D7HUZKpEVSg=";
     };
     aarch64-darwin = {
       name = "Orca-${version}-arm64-mac.zip";
-      hash = "sha256-fTYd0Xd+LliS0M0eis1+bYyN5lRGRMApolb5aR1cvbk=";
+      hash = "sha256-52+HS6NBqttwa1rdfppPzgHhfXUGdekDuzO2wgK65ic=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};
