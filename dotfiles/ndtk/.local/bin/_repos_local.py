@@ -1540,6 +1540,48 @@ def check_command(project: Path) -> None:
     click.echo("OK")
 
 
+@cli.command("dirty", short_help="List worktrees with uncommitted changes.")
+@click.option(
+    "--project",
+    "-p",
+    type=click.Path(path_type=Path, exists=True, file_okay=False),
+    default=DEFAULT_PROJECT,
+    show_default=True,
+    help="Root directory to scan for Git repositories",
+)
+def dirty_command(project: Path) -> None:
+    """Print checkout paths with staged, unstaged or untracked files. No fetch or updates."""
+    seen: set[Path] = set()
+    failures = 0
+    root = project.expanduser().resolve()
+    repos = [root] if (root / ".git").exists() else _iter_repos(root)
+    for repo in repos:
+        for worktree in sorted(_list_worktree_paths(repo) or {repo}):
+            if worktree in seen or not (worktree / ".git").exists():
+                continue
+            seen.add(worktree)
+            try:
+                status = _run_git(
+                    worktree,
+                    ["--no-optional-locks", "status", "--porcelain"],
+                    capture=True,
+                    check=True,
+                    timeout=30,
+                )
+            except (
+                OSError,
+                subprocess.CalledProcessError,
+                subprocess.TimeoutExpired,
+            ) as error:
+                click.echo(f"Cannot inspect {worktree}: {error}", err=True)
+                failures += 1
+                continue
+            if status.stdout.strip():
+                click.echo(str(worktree))
+    if failures:
+        raise click.ClickException(f"Failed to inspect {failures} checkout(s)")
+
+
 @cli.command("update", short_help="Update checkouts and reconcile remotes/worktrees.")
 @click.option(
     "--project",
@@ -1732,6 +1774,68 @@ class TestLocalCheckoutUpdates(unittest.TestCase):
         return CliRunner().invoke(
             cli, ["update", "--project", str(self.project), *args]
         )
+
+    def test_dirty_command_lists_worktrees_once_without_changing_them(self) -> None:
+        self.git(self.repo, "config", "core.excludesFile", str(self.root / "ignore"))
+        (self.root / "ignore").write_text("ignored.txt\n")
+        (self.repo / "ignored.txt").write_text("ignored\n")
+        (self.repo / "committed.txt").write_text("unpushed\n")
+        self.commit(self.repo, "unpushed commit")
+        clean = CliRunner().invoke(cli, ["dirty", "--project", str(self.project)])
+        assert clean.exit_code == 0, clean.output
+        assert clean.stdout == ""
+        linked = self.project / "dirty tag with spaces"
+        self.git(self.repo, "worktree", "add", "-q", "--detach", str(linked))
+        (self.repo / "file.txt").write_text("staged\n")
+        self.git(self.repo, "add", "file.txt")
+        (self.repo / "file.txt").write_text("unstaged\n")
+        (linked / "untracked.txt").write_text("new\n")
+        head = self.git(self.repo, "rev-parse", "HEAD")
+        index = self.repo / ".git/index"
+        before_index = index.read_bytes()
+        result = CliRunner().invoke(cli, ["dirty", "--project", str(self.project)])
+        assert result.exit_code == 0, result.output
+        assert sorted(result.stdout.splitlines()) == sorted(
+            [str(self.repo), str(linked)]
+        )
+        assert index.read_bytes() == before_index
+        assert self.git(self.repo, "rev-parse", "HEAD") == head
+        assert self.git(self.repo, "show", ":file.txt") == "staged"
+        assert (self.repo / "file.txt").read_text() == "unstaged\n"
+        assert (linked / "untracked.txt").read_text() == "new\n"
+        assert not self.git(self.repo, "stash", "list")
+
+    def test_dirty_command_handles_worktree_git_layout(self) -> None:
+        layout = self.project / "layout"
+        layout.mkdir()
+        common = layout / WORKTREE_GIT_DIR_NAME
+        trunk = layout / TRUNK_DIR_NAME
+        self.git(self.root, "clone", "-q", "--bare", str(self.source), str(common))
+        self.git(common, "worktree", "add", "-q", str(trunk), "main")
+        (trunk / "file.txt").write_text("local\n")
+        result = CliRunner().invoke(cli, ["dirty", "--project", str(self.project)])
+        assert result.exit_code == 0, result.output
+        assert result.stdout.splitlines() == [str(trunk)]
+        direct = CliRunner().invoke(cli, ["dirty", "--project", str(trunk)])
+        assert direct.exit_code == 0, direct.output
+        assert direct.stdout.splitlines() == [str(trunk)]
+
+    def test_dirty_command_reports_errors_and_continues(self) -> None:
+        healthy = self.project / "healthy"
+        self.git(self.root, "clone", "-q", str(self.source), str(healthy))
+        (healthy / "file.txt").write_text("local\n")
+        real_run_git = _run_git
+
+        def fail_status(repo, args, **kwargs):
+            if repo == self.repo and "status" in args:
+                raise subprocess.CalledProcessError(128, ["git", *args])
+            return real_run_git(repo, args, **kwargs)
+
+        with patch(f"{__name__}._run_git", side_effect=fail_status):
+            result = CliRunner().invoke(cli, ["dirty", "--project", str(self.project)])
+        assert result.exit_code == 1, result.output
+        assert result.stdout.splitlines() == [str(healthy)]
+        assert str(self.repo) in result.stderr
 
     def test_dirty_checkout_preserves_index_untracked_and_existing_stash(self) -> None:
         (self.repo / "file.txt").write_text("older stash\n")

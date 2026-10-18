@@ -229,10 +229,14 @@ def check() -> None:
                 assert result.returncode == 2, (option, value, result.stderr)
                 assert "greater than zero" in result.stderr
         assert "--dry-run" in run("repos", "local", "update", "--help").stdout
+        assert "dirty" in run("repos", "local", "--help").stdout
+        assert "--project" in run("repos", "local", "dirty", "--help").stdout
         empty = root / "empty"
         empty.mkdir()
         result = run("repos", "local", "check", "--project", str(empty))
         assert result.returncode == 0, result.stderr
+        dirty = run("repos", "local", "dirty", "--project", str(empty))
+        assert dirty.returncode == 0 and dirty.stdout == "", dirty.stderr
         result = run("repos", "local", "update", "--project", str(empty), "--dry-run")
         assert result.returncode == 0, result.stderr
         assert list(empty.iterdir()) == []

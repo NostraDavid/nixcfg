@@ -52,6 +52,13 @@ commands to use `find-uncommitted scan PATH`, `save_cloned_repos save PATH`,
 `restore_repos restore PATH`, and `repos local update --project PATH`. Their
 `unit-test`, `tests`, and `test` commands run local tests.
 
+Use `repos local dirty` to list checkout paths with staged, unstaged, or
+untracked files. It scans `~/dev` by default; use `--project PATH` to choose
+another root. Linked worktrees, including detached tag checkouts, are inspected
+once each. Ignored files and unpushed commits alone do not make a checkout
+dirty. The command does not fetch, stash, or update repositories; inspection
+failures are reported separately and produce a nonzero exit status.
+
 `repos local update`, `repos github clone`, and `repos azure clone` share the
 checkout updater in `_repo_checkouts.py`. Before a fast-forward, it stashes
 staged, unstaged, and untracked files, then restores the changes and index.
