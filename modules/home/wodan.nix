@@ -25,13 +25,13 @@ in {
   nixcfg.plasma = {
     taskbarScreens = [0 1];
     extraTaskbarLaunchers = [
+      "applications:orca-ide.desktop"
+      "applications:paperclip.desktop"
       "applications:agent-orchestrator.desktop"
       "applications:Emdash.desktop"
       "applications:Kandev.desktop"
-      "applications:orca-ide.desktop"
       "applications:Paseo.desktop"
       "applications:superset.desktop"
-      "applications:paperclip.desktop"
     ];
   };
 

@@ -7,26 +7,24 @@
     [
       "preferred://filemanager"
       "applications:firefox-esr.desktop"
-      "applications:code.desktop"
-      "applications:t3code.desktop"
-    ]
-    ++ config.nixcfg.plasma.extraTaskbarLaunchers
-    ++ [
       "applications:com.mitchellh.ghostty.desktop"
-      "applications:kitty.desktop"
-      "applications:Alacritty.desktop"
       "applications:chatgpt.desktop"
+      "applications:chromium-browser.desktop"
       "applications:io.missioncenter.MissionCenter.desktop"
       "applications:org.keepassxc.KeePassXC.desktop"
-      "applications:org.gnome.Evolution.desktop"
       "applications:steam.desktop"
       "applications:signal.desktop"
       "applications:legcord.desktop"
       "applications:whatpulse.desktop"
       "applications:spotify.desktop"
+      "applications:org.gnome.Evolution.desktop"
       "applications:io.github.cboxdoerfer.FSearch.desktop"
-      "applications:chromium-browser.desktop"
-    ];
+      "applications:kitty.desktop"
+      "applications:Alacritty.desktop"
+      "applications:code.desktop"
+      "applications:t3code.desktop"
+    ]
+    ++ config.nixcfg.plasma.extraTaskbarLaunchers;
   mkBottomPanel = screen: {
     inherit screen;
     location = "bottom";
