@@ -28,6 +28,7 @@ import structlog.stdlib as log
 
 # Load the shared module installed by Home Manager.
 sys.path.insert(0, str(Path.home() / ".local" / "bin"))
+from _repo_checkouts import update_checkout  # noqa: E402
 from repo_timestamps import ensure_dprint_config_link, refresh_repository_tree  # noqa: E402
 
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
@@ -557,6 +558,7 @@ def ensure_branch_worktrees(
     trace: RepoTrace,
 ) -> tuple[bool, str, set[Path]]:
     expected: set[Path] = set()
+    updates_ok = True
 
     for branch in branches:
         target = repo_root / branch_worktree_name(branch)
@@ -598,23 +600,20 @@ def ensure_branch_worktrees(
                 f"branch upstream set failed: {branch}: {(set_upstream.stderr or set_upstream.stdout).strip()}"
             )
 
-        if worktree_is_dirty(target):
-            trace.add_warning(f"branch update skipped (dirty worktree): {branch}")
-            continue
-
-        ff_only_proc = run_git(
-            ["merge", "--ff-only", f"origin/{branch}"],
-            repo_path=target,
-            capture=True,
-        )
-        if ff_only_proc.returncode != 0:
+        if not update_checkout(target, upstream=f"origin/{branch}"):
+            updates_ok = False
             trace.add_warning(
-                f"branch update skipped: {branch}: {(ff_only_proc.stderr or ff_only_proc.stdout or 'non-fast-forward').strip()}"
+                f"branch update failed: {branch}: {target}; see checkout warnings for recovery"
             )
             continue
         trace.add_action(f"branch worktree updated: {branch}")
 
-    return True, "branch worktrees synced", expected
+    reason = (
+        "branch worktrees synced"
+        if updates_ok
+        else "branch checkout update failed; see warnings for worktree and saved stash"
+    )
+    return updates_ok, reason, expected
 
 
 def ensure_tag_worktrees(

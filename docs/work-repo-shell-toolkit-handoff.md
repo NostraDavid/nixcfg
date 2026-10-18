@@ -52,6 +52,15 @@ commands to use `find-uncommitted scan PATH`, `save_cloned_repos save PATH`,
 `restore_repos restore PATH`, and `repos local update --project PATH`. Their
 `unit-test`, `tests`, and `test` commands run local tests.
 
+`repos local update`, `repos github clone`, and `repos azure clone` share the
+checkout updater in `_repo_checkouts.py`. Before a fast-forward, it stashes
+staged, unstaged, and untracked files, then restores the changes and index.
+Existing stashes remain intact. A restore conflict retains the saved stash and
+reports the worktree and stash ID. Failed updates produce a nonzero exit status;
+other branch worktrees and repositories continue. Diverged histories require
+manual resolution. Detached tag worktrees keep their existing safety checks. The
+shared helper is installed automatically as `~/.local/bin/_repo_checkouts.py`.
+
 The work migration removes seven duplicate scripts and points their command
 links at base. Use `repos github clone` and `repos azure clone` for provider
 discovery and synchronization. Keep the internal `_repos_*.py` helpers and

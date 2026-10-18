@@ -24,6 +24,8 @@ import niquests as http
 from dotenv import load_dotenv
 from structlog.stdlib import get_logger
 
+from _repo_checkouts import update_checkout
+
 CONFIG_FILE = (
     Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
     / "ndtk/azure.env"
@@ -502,6 +504,7 @@ def ensure_branch_worktrees(
     git_configs: list[str],
 ) -> tuple[bool, str, set[Path]]:
     expected: set[Path] = set()
+    updates_ok = True
 
     for branch in branches:
         target = repo_root / branch_worktree_name(branch)
@@ -559,32 +562,8 @@ def ensure_branch_worktrees(
                 error=set_upstream.stderr.strip(),
             )
 
-        if worktree_is_dirty(target, git_configs):
-            logger.warning(
-                "worktree_branch_dirty_skip",
-                target=str(target),
-                branch=branch,
-                reason="local changes detected; skipping update to avoid data loss",
-            )
-            continue
-
-        ff_only_proc = run_git(
-            ["merge", "--ff-only", f"origin/{branch}"],
-            repo_path=target,
-            capture=True,
-            git_configs=git_configs,
-        )
-        if ff_only_proc.returncode != 0:
-            logger.warning(
-                "worktree_branch_update_skipped",
-                target=str(target),
-                branch=branch,
-                reason=(
-                    ff_only_proc.stderr
-                    or ff_only_proc.stdout
-                    or "non-fast-forward; leaving local branch unchanged"
-                ).strip(),
-            )
+        if not update_checkout(target, upstream=f"origin/{branch}"):
+            updates_ok = False
             continue
         logger.info(
             "worktree_branch_update",
@@ -592,7 +571,12 @@ def ensure_branch_worktrees(
             branch=branch,
         )
 
-    return True, "branch worktrees synced", expected
+    reason = (
+        "branch worktrees synced"
+        if updates_ok
+        else "branch checkout update failed; see warnings for worktree and saved stash"
+    )
+    return updates_ok, reason, expected
 
 
 def ensure_tag_worktrees(

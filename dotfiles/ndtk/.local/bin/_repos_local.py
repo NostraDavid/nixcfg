@@ -57,6 +57,7 @@ from structlog.stdlib import get_logger  # type: ignore
 
 # Load the shared module installed by Home Manager.
 sys.path.insert(0, str(Path.home() / ".local" / "bin"))
+from _repo_checkouts import update_checkout  # noqa: E402
 from repo_timestamps import ensure_dprint_config_link, refresh_repository_tree  # noqa: E402
 
 DEFAULT_PROJECT = Path("~/dev").expanduser()
@@ -766,148 +767,6 @@ def _prune_repo(
     return True
 
 
-def _update_checkout(
-    repo_path: Path, *, dry_run: bool, upstream: str | None = None
-) -> bool:
-    bare = _run_git(repo_path, ["rev-parse", "--is-bare-repository"], capture=True)
-    if bare.stdout.strip() == "true" or _get_current_branch(repo_path) is None:
-        return True
-    if upstream is None:
-        tracking = _run_git(
-            repo_path,
-            ["rev-parse", "--verify", "--symbolic-full-name", "@{upstream}"],
-            capture=True,
-        )
-        if tracking.returncode != 0:
-            logger.info(
-                "checkout_update_skip", worktree=str(repo_path), reason="no upstream"
-            )
-            return True
-        upstream = tracking.stdout.strip()
-    if dry_run:
-        logger.info(
-            "checkout_update", worktree=str(repo_path), upstream=upstream, dry_run=True
-        )
-        return True
-
-    git_dir = _run_git(repo_path, ["rev-parse", "--absolute-git-dir"], capture=True)
-    status = _run_git(repo_path, ["status", "--porcelain"], capture=True)
-    conflicts = _run_git(
-        repo_path, ["diff", "--name-only", "--diff-filter=U"], capture=True
-    )
-    if (
-        git_dir.returncode != 0
-        or status.returncode != 0
-        or conflicts.returncode != 0
-        or conflicts.stdout.strip()
-        or any(
-            (Path(git_dir.stdout.strip()) / name).exists()
-            for name in (
-                "MERGE_HEAD",
-                "CHERRY_PICK_HEAD",
-                "REVERT_HEAD",
-                "rebase-merge",
-                "rebase-apply",
-            )
-        )
-    ):
-        logger.warning(
-            "checkout_update_failed",
-            worktree=str(repo_path),
-            reason="cannot update checkout with unresolved conflicts or an operation in progress",
-        )
-        return False
-    if (
-        _run_git(
-            repo_path, ["merge-base", "--is-ancestor", upstream, "HEAD"]
-        ).returncode
-        == 0
-    ):
-        return True
-
-    stash = None
-    if status.stdout.strip():
-        previous = _run_git(
-            repo_path, ["rev-parse", "--verify", "refs/stash"], capture=True
-        )
-        saved = _run_git(
-            repo_path,
-            [
-                "stash",
-                "push",
-                "--include-untracked",
-                "--message",
-                f"repos local update: {repo_path}",
-            ],
-            capture=True,
-        )
-        if saved.returncode != 0:
-            logger.warning(
-                "checkout_stash_failed", worktree=str(repo_path), output=saved.stdout
-            )
-            return False
-        stash_ref = _run_git(
-            repo_path, ["rev-parse", "--verify", "refs/stash"], capture=True
-        )
-        if (
-            stash_ref.returncode != 0
-            or stash_ref.stdout.strip() == (previous.stdout or "").strip()
-        ):
-            logger.warning(
-                "checkout_stash_failed",
-                worktree=str(repo_path),
-                reason="could not identify saved stash; leaving checkout unchanged",
-            )
-            return False
-        stash = stash_ref.stdout.strip()
-
-    restored = True
-    try:
-        merged = _run_git(
-            repo_path,
-            ["merge", "--ff-only", "--no-autostash", "--no-overwrite-ignore", upstream],
-            capture=True,
-        )
-        if merged.returncode != 0:
-            logger.warning(
-                "checkout_update_failed", worktree=str(repo_path), output=merged.stdout
-            )
-    finally:
-        if stash is not None:
-            applied = _run_git(
-                repo_path, ["stash", "apply", "--index", stash], capture=True
-            )
-            restored = applied.returncode == 0
-            if restored:
-                # Stashes are shared by worktrees; drop only the entry we restored.
-                entries = _run_git(
-                    repo_path, ["stash", "list", "--format=%H %gd"], capture=True
-                )
-                for entry in (entries.stdout or "").splitlines():
-                    oid, ref = entry.split(" ", 1)
-                    if oid == stash:
-                        dropped = _run_git(
-                            repo_path, ["stash", "drop", ref], capture=True
-                        )
-                        if dropped.returncode != 0:
-                            logger.warning(
-                                "checkout_stash_drop_failed",
-                                worktree=str(repo_path),
-                                stash=stash,
-                                output=dropped.stdout,
-                            )
-                        break
-            else:
-                logger.warning(
-                    "checkout_restore_failed",
-                    worktree=str(repo_path),
-                    stash=stash,
-                    reason="resolve conflicts before continuing; saved changes remain in stash",
-                    output=applied.stdout,
-                )
-    return merged.returncode == 0 and restored
-
-
 def _sync_branch_worktrees(
     repo_path: Path,
     *,
@@ -988,7 +847,7 @@ def _sync_branch_worktrees(
                 logger.info("dprint_config_link")
 
             if dry_run:
-                _update_checkout(target, dry_run=True, upstream=f"origin/{branch}")
+                update_checkout(target, dry_run=True, upstream=f"origin/{branch}")
                 continue
 
             set_upstream = _run_git(
@@ -1002,7 +861,7 @@ def _sync_branch_worktrees(
                     error=(set_upstream.stdout or "").strip(),
                 )
 
-            if not _update_checkout(
+            if not update_checkout(
                 target, dry_run=dry_run, upstream=f"origin/{branch}"
             ):
                 continue
@@ -1337,7 +1196,7 @@ def fetch_repo(
             logger.info("dprint_config_link")
         checkout_ok = True
         for worktree in sorted(_list_worktree_paths(repo_path)):
-            if not _update_checkout(worktree, dry_run=dry_run):
+            if not update_checkout(worktree, dry_run=dry_run):
                 checkout_ok = False
         if sync_branch_worktrees:
             _sync_branch_worktrees(
@@ -1982,14 +1841,14 @@ class TestLocalCheckoutUpdates(unittest.TestCase):
         head = self.git(self.repo, "rev-parse", "HEAD")
         (self.repo / "file.txt").write_text("current changes\n")
         self.remote_change()
-        real_run_git = _run_git
+        from _repo_checkouts import _run_git as real_run_git
 
         def fail_stash(repo, args, **kwargs):
             if args[:2] == ["stash", "push"]:
                 return subprocess.CompletedProcess(args, 1, "stash failed", "")
             return real_run_git(repo, args, **kwargs)
 
-        with patch(f"{__name__}._run_git", side_effect=fail_stash):
+        with patch("_repo_checkouts._run_git", side_effect=fail_stash):
             result = self.update()
         assert result.exit_code != 0, result.output
         assert self.git(self.repo, "rev-parse", "HEAD") == head
