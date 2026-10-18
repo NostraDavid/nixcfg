@@ -5,7 +5,9 @@ Gebruik de publieke rootcertificaten uit `certs/` voor interne diensten:
 - `freeipa.crt` voor `ldap.powerlan.empire`, inclusief LDAPS en StartTLS.
 - `forgejo-ca.crt` voor `forgejo.powerlan.empire` via proxy-VM 111.
 
-Download beide certificaten via <http://192.168.2.111/>. Deze pagina werkt
+Na installatie van de Forgejo-CA is de website beveiligd bereikbaar via
+<https://192.168.2.111/>. Gebruik bij de eerste installatie
+<http://192.168.2.111/> om beide certificaten te downloaden. Deze pagina werkt
 zonder vooraf geïnstalleerde CA. Vergelijk de fingerprints via een
 onafhankelijk, vertrouwd kanaal; de HTTP-pagina zelf bewijst niet wie het
 certificaat uitgeeft. De proxy serveert alleen de twee publieke CA's, de
@@ -69,40 +71,86 @@ andere openstaande configuratiewijzigingen.
 
 ## Debian
 
-Voer deze blokken in dezelfde terminal uit met sudo-rechten. De download en
-checksum worden aan dezelfde versie gekoppeld, ook tijdens een nieuwe uitrol.
+Voer dit hele blok uit in een Bash-terminal als je eigen gebruiker. Het
+downloadt de ZIP en beide `.crt`-bestanden naar `~/Downloads`, werkt het
+systeemvertrouwen bij en toont een keuzemenu voor bestaande Firefox-profielen.
+Alleen de pakketinstallatie en de systeemopslag gebruiken sudo.
 
-### Downloaden en controleren
-
-```bash
-sudo apt-get update && sudo apt-get install -y ca-certificates curl unzip openssl
-workdir=$(mktemp -d) && cd "$workdir" &&
-bundle_url=$(curl -fsSL -o powerlan-ca.zip -w '%{url_effective}' http://192.168.2.111/powerlan-ca-latest.zip) &&
-curl -fsSL -o powerlan-ca.zip.sha256 "$bundle_url.sha256" &&
-sha256sum -c powerlan-ca.zip.sha256 &&
-unzip -p powerlan-ca.zip freeipa.crt > freeipa.crt &&
-unzip -p powerlan-ca.zip forgejo-ca.crt > forgejo-ca.crt &&
-openssl x509 -in freeipa.crt -noout -fingerprint -sha256 &&
-openssl x509 -in forgejo-ca.crt -noout -fingerprint -sha256
-```
-
-Vergelijk beide fingerprints via een onafhankelijk, vertrouwd apparaat of je
-beheerder voordat je installeert. De checksum van dezelfde HTTP-server
+Vergelijk de getoonde fingerprints via een onafhankelijk, vertrouwd apparaat of
+je beheerder voordat je `ja` typt. Een checksum van dezelfde HTTP-server
 controleert de overdracht, niet de identiteit van de CA.
 
-### Installeren en testen
+Het menu zoekt in `~/.mozilla/firefox`, de standaardmap van Firefox en Firefox
+ESR op Debian. Aangepaste profielmappen en Snap- of Flatpak-installaties worden
+niet automatisch gevonden. Je kunt de Firefox-import overslaan. Herhaal het blok
+voor andere profielen die je ook wilt bijwerken.
 
 ```bash
-sudo install -d -m 0755 /usr/local/share/ca-certificates/powerlan &&
-sudo install -m 0644 freeipa.crt forgejo-ca.crt /usr/local/share/ca-certificates/powerlan/ &&
-sudo update-ca-certificates &&
+bash <<'POWERLAN'
+set -euo pipefail
+
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl unzip openssl libnss3-tools
+mkdir -p "$HOME/Downloads"
+cd "$HOME/Downloads"
+
+bundle_url=$(curl -fsSL -o powerlan-ca.zip -w '%{url_effective}' http://192.168.2.111/powerlan-ca-latest.zip)
+curl -fsSL -o powerlan-ca.zip.sha256 "$bundle_url.sha256"
+sha256sum -c powerlan-ca.zip.sha256
+unzip -p powerlan-ca.zip freeipa.crt > freeipa.crt
+unzip -p powerlan-ca.zip forgejo-ca.crt > forgejo-ca.crt
+openssl x509 -in freeipa.crt -noout -fingerprint -sha256
+openssl x509 -in forgejo-ca.crt -noout -fingerprint -sha256
+
+read -r -p 'Vergelijk beide fingerprints via een vertrouwd apparaat. Kloppen ze? Typ ja: ' bevestiging </dev/tty
+if [[ "$bevestiging" != ja ]]; then
+  echo 'Afgebroken; er zijn geen certificaten geïnstalleerd.'
+  exit 1
+fi
+
+sudo install -d -m 0755 /usr/local/share/ca-certificates/powerlan
+sudo install -m 0644 freeipa.crt forgejo-ca.crt /usr/local/share/ca-certificates/powerlan/
+sudo update-ca-certificates
 curl --fail https://forgejo.powerlan.empire/api/healthz
+
+firefox_profiles=()
+# shortcut: scans ~/.mozilla/firefox only; use profiles.ini if custom profile locations are needed.
+if [[ -d "$HOME/.mozilla/firefox" ]]; then
+  while IFS= read -r -d '' cert_db; do
+    firefox_profiles+=("${cert_db%/cert9.db}")
+  done < <(find "$HOME/.mozilla/firefox" -mindepth 2 -maxdepth 2 -type f -name cert9.db -print0 | sort -z)
+fi
+
+if (( ${#firefox_profiles[@]} == 0 )); then
+  echo 'Debian is bijgewerkt. Geen Firefox-profielen gevonden onder ~/.mozilla/firefox.'
+  echo 'Start Firefox eenmaal om een profiel te maken en voer dit blok daarna opnieuw uit.'
+  exit 0
+fi
+
+PS3='Kies het nummer van je Firefox-profiel: '
+firefox_profile=''
+select firefox_profile in "${firefox_profiles[@]}" 'Firefox-import overslaan'; do
+  case "$firefox_profile" in
+    'Firefox-import overslaan') exit 0 ;;
+    '') echo 'Kies een geldig nummer.' ;;
+    *) break ;;
+  esac
+done </dev/tty
+[[ -n "$firefox_profile" ]] || { echo 'Geen profiel gekozen; Firefox-import afgebroken.'; exit 1; }
+
+read -r -p 'Sluit Firefox volledig af en druk daarna op Enter: ' bevestiging </dev/tty
+certutil -A -d "sql:$firefox_profile" -n 'Powerlan FreeIPA CA' -t 'C,,' -i "$HOME/Downloads/freeipa.crt"
+certutil -A -d "sql:$firefox_profile" -n 'Powerlan Forgejo CA' -t 'C,,' -i "$HOME/Downloads/forgejo-ca.crt"
+certutil -L -d "sql:$firefox_profile" -n 'Powerlan FreeIPA CA'
+certutil -L -d "sql:$firefox_profile" -n 'Powerlan Forgejo CA'
+echo 'Klaar. Start Firefox opnieuw en open https://forgejo.powerlan.empire/.'
+POWERLAN
 ```
 
-De cache- en databasecontrole moeten beide `pass` melden. Dit behoudt de
-bestaande vertrouwde CA's. Herstart toepassingen die hun certificaatopslag in
-het geheugen bewaren. Houd één PEM-certificaat per `.crt`-bestand, zoals in de
-ZIP. Zie de [Debian-documentatie][debian].
+Sluit Firefox volledig af wanneer daarom wordt gevraagd. Start Firefox na de
+import opnieuw; alleen een tabblad vernieuwen is niet genoeg. De cache- en
+databasecontrole moeten beide `pass` melden. Bestaande vertrouwde CA's blijven
+behouden. Zie de [Debian-documentatie][debian].
 
 ### Debian LDAP-client
 

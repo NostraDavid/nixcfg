@@ -53,6 +53,28 @@
         })
         certificateFiles
       );
+      certificateSiteConfig = ''
+        @latest path /powerlan-ca-latest.zip /powerlan-ca-latest.pem
+        header @latest Cache-Control no-store
+        redir /powerlan-ca-latest.zip /releases/${bundleVersion}/powerlan-ca.zip 302
+        redir /powerlan-ca-latest.pem /releases/${bundleVersion}/powerlan-ca.pem 302
+        @certificates path /freeipa.crt /forgejo-ca.crt
+        header @certificates {
+          Content-Type application/x-x509-ca-cert
+          Content-Disposition attachment
+        }
+        handle /releases/* {
+          @versioned not path /releases/
+          header @versioned Cache-Control "public, max-age=31536000, immutable"
+          header /releases/ Cache-Control no-store
+          root * /srv/proxy/certificates
+          file_server browse
+        }
+        handle {
+          root * ${certificateSite}
+          file_server
+        }
+      '';
     in {
       imports = [config.flake.modules.nixos.proxmox-guest];
 
@@ -92,28 +114,8 @@
           dataDir = "/srv/proxy/caddy";
           globalConfig = "skip_install_trust";
           virtualHosts = {
-            "http://192.168.2.111".extraConfig = ''
-              @latest path /powerlan-ca-latest.zip /powerlan-ca-latest.pem
-              header @latest Cache-Control no-store
-              redir /powerlan-ca-latest.zip /releases/${bundleVersion}/powerlan-ca.zip 302
-              redir /powerlan-ca-latest.pem /releases/${bundleVersion}/powerlan-ca.pem 302
-              @certificates path /freeipa.crt /forgejo-ca.crt
-              header @certificates {
-                Content-Type application/x-x509-ca-cert
-                Content-Disposition attachment
-              }
-              handle /releases/* {
-                @versioned not path /releases/
-                header @versioned Cache-Control "public, max-age=31536000, immutable"
-                header /releases/ Cache-Control no-store
-                root * /srv/proxy/certificates
-                file_server browse
-              }
-              handle {
-                root * ${certificateSite}
-                file_server
-              }
-            '';
+            "http://192.168.2.111".extraConfig = certificateSiteConfig;
+            "https://192.168.2.111".extraConfig = "tls internal\n" + certificateSiteConfig;
             "forgejo.powerlan.empire".extraConfig = ''
               tls internal
               reverse_proxy https://192.168.2.110:8443 {
