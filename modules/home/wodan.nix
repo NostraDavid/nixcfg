@@ -4,8 +4,20 @@
   lib,
   local,
   stable,
+  unstable,
   ...
 }: let
+  mcpServers = {
+    nixos.command = lib.getExe unstable.mcp-nixos;
+    playwright = {
+      command = lib.getExe unstable.playwright-mcp;
+      args = ["--headless" "--isolated" "--executable-path" (lib.getExe stable.chromium)];
+    };
+    chrome-devtools = {
+      command = lib.getExe local.chrome-devtools-mcp;
+      args = ["--headless" "--isolated" "--executable-path" (lib.getExe stable.chromium) "--no-usage-statistics" "--no-performance-crux"];
+    };
+  };
   inline = {
     codexDesktopSafe = let
       codexDesktop = inputs.codex-desktop-linux.packages.${stable.stdenv.hostPlatform.system}.codex-desktop;
@@ -102,6 +114,7 @@ in {
   home = {
     packages = [
       local.agent-orchestrator
+      local.chrome-devtools-mcp
       local.emdash
       local.kandev
       local.orca-ide
@@ -111,8 +124,55 @@ in {
       local.superset
       local.t3code
       local.unsloth
+      unstable.mcp-nixos
+      unstable.playwright-mcp
     ];
     activation = {
+      wodanMcpClients = lib.hm.dag.entryAfter ["headroomClients" "blenderMcpClient" "linkGeneration"] ''
+        $DRY_RUN_CMD ${stable.python3.withPackages (p: [p.tomlkit])}/bin/python - "$HOME" ${lib.escapeShellArg (builtins.toJSON mcpServers)} <<'PY'
+        import json
+        import os
+        from pathlib import Path
+        import shutil
+        import sys
+        import tempfile
+        import tomlkit
+
+        home = Path(sys.argv[1])
+        servers = json.loads(sys.argv[2])
+        for relative, loads, dumps in [
+            (".codex/config.toml", tomlkit.loads, tomlkit.dumps),
+            (".config/opencode/opencode.json", json.loads, lambda value: json.dumps(value, indent=2) + "\n"),
+        ]:
+            path = home / relative
+            original = path.read_text() if path.exists() else ""
+            document = loads(original) if original else {}
+            if relative.endswith(".toml"):
+                document.setdefault("mcp_servers", {}).update(servers)
+            else:
+                document.setdefault("mcp", {}).update({
+                    name: {"type": "local", "command": [server["command"], *server.get("args", [])], "enabled": True}
+                    for name, server in servers.items()
+                })
+            updated = dumps(document)
+            if updated == original:
+                continue
+            path.parent.mkdir(parents=True, exist_ok=True)
+            backup = path.with_name(path.name + ".before-wodan-mcp")
+            if path.exists() and not backup.exists():
+                shutil.copy2(path, backup)
+            fd, temporary = tempfile.mkstemp(dir=path.parent)
+            try:
+                with os.fdopen(fd, "w") as stream:
+                    stream.write(updated)
+                # Replace symlinks locally rather than editing shared dotfiles.
+                os.replace(temporary, path)
+            finally:
+                if os.path.exists(temporary):
+                    os.unlink(temporary)
+        PY
+      '';
+
       codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
         codex_dir="$HOME/.codex"
         volatile_dir="/tmp/$USER-codex"
