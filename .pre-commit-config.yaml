@@ -66,6 +66,13 @@ repos:
         language: system
         files: "(\\.py$|^dotfiles/git-2.49.0/\\.config/git/hooks/commit-msg$)"
 
+      - id: check-ruff-config
+        name: check Python lint rules after Ruff configuration changes
+        entry: just lint-ruff
+        language: system
+        files: "^ruff\\.toml$"
+        pass_filenames: false
+
       - id: lint-shellcheck
         name: lint shell (shellcheck, local)
         entry: just lint-shellcheck-files

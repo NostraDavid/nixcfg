@@ -21,10 +21,9 @@ from pathlib import Path
 from urllib.parse import quote
 
 import niquests as http
+from _repo_checkouts import update_checkout
 from dotenv import load_dotenv
 from structlog.stdlib import get_logger
-
-from _repo_checkouts import update_checkout
 
 CONFIG_FILE = (
     Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")

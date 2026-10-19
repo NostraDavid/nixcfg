@@ -8,6 +8,7 @@
 !.pre-commit-config.yaml
 !stylua.toml
 !selene.toml
+!ruff.toml
 !vim.yml
 !README.md
 !AGENTS.md

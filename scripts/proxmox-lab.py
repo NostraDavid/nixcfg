@@ -8,7 +8,6 @@ import http.cookiejar
 import ipaddress
 import json
 import os
-from pathlib import Path
 import secrets
 import shlex
 import shutil
@@ -19,6 +18,7 @@ import time
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 CONFIG = json.loads(Path(os.environ["PROXMOX_LAB_CONFIG"]).read_text())
 REPO = Path.cwd()

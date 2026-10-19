@@ -1,10 +1,9 @@
 import os
-from pathlib import Path
 import subprocess
+from pathlib import Path
 
 import fontforge
 import psMat
-
 
 for source in sorted((Path(os.environ["src"]) / "bdf").glob("Tamzen*.bdf")):
     properties = source.read_text().splitlines()

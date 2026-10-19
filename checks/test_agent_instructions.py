@@ -7,8 +7,8 @@ import runpy
 import unittest
 from pathlib import Path
 
-import yaml
 import tiktoken
+import yaml
 
 
 def shared_target(source, target):

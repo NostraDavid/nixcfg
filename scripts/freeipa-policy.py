@@ -8,9 +8,9 @@ import stat
 import subprocess
 import sys
 import tempfile
-import tomllib
 from pathlib import Path
 
+import tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "infra/freeipa/policy.toml"

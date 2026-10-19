@@ -3,11 +3,11 @@
 import hashlib
 import importlib.util
 import json
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import time
+from pathlib import Path
 
 IMAGE = Path(sys.argv[1]).resolve()
 CONTROLLER = Path(sys.argv[2]).resolve()

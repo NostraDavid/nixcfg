@@ -6,7 +6,6 @@ from pathlib import Path
 
 import ptk
 
-
 CONTENT_TYPES = ("dict", "list", "code", "log", "diff", "text")
 
 

@@ -1,7 +1,7 @@
 """Fast-forward checkouts while preserving staged, unstaged and untracked changes."""
 
-from pathlib import Path
 import subprocess
+from pathlib import Path
 
 from structlog.stdlib import get_logger
 

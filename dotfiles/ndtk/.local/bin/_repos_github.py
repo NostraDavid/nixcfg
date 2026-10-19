@@ -29,7 +29,10 @@ import structlog.stdlib as log
 # Load the shared module installed by Home Manager.
 sys.path.insert(0, str(Path.home() / ".local" / "bin"))
 from _repo_checkouts import update_checkout  # noqa: E402
-from repo_timestamps import ensure_dprint_config_link, refresh_repository_tree  # noqa: E402
+from repo_timestamps import (  # noqa: E402
+    ensure_dprint_config_link,
+    refresh_repository_tree,
+)
 
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"

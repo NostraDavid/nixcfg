@@ -6,7 +6,6 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-
 script = Path(__file__).resolve().parents[1] / "scripts/freeipa-policy.py"
 spec = importlib.util.spec_from_file_location("freeipa_policy", script)
 policy = importlib.util.module_from_spec(spec)

@@ -2,10 +2,10 @@
 
 import json
 import os
-from pathlib import Path
 import shutil
 import sys
 import tempfile
+from pathlib import Path
 
 import tomlkit
 

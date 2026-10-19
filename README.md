@@ -63,6 +63,14 @@ compatibility pairs, and explicit major versions such as Node 24, JDK 17/25,
 PostgreSQL 17, and Helm 3 retain their existing package sources. Local release
 packages retain their explicit pins.
 
+VS Code uses Ruff from the environment rather than its bundled binary. The
+repository's `ruff.toml` shares lint rules with the CLI, selects all stable
+rules, and documents exceptions for this script repository. Import sorting,
+correctness, and security checks remain enabled. Type annotations are required;
+docstrings are optional for now, and assertions are allowed in tests. New stable
+rules become active when Ruff is updated. Fixes are opt-in, and unsafe fixes are
+disabled unless explicitly requested on the CLI.
+
 After changing package sources, activate the relevant NixOS or Home Manager
 configuration and restart the editor's language servers.
 

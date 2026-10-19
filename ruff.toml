@@ -1,0 +1,75 @@
+# Match the existing hook scope when Ruff runs from an editor or a directory.
+extend-exclude = ["dotfiles/agents/.agents"]
+extend-include = ["dotfiles/git-2.49.0/.config/git/hooks/commit-msg"]
+force-exclude = true
+
+# Fixes stay opt-in, and unsafe fixes require an explicit CLI override.
+fix = false
+unsafe-fixes = false
+preview = false
+
+[lint]
+# New stable rules become active when the pinned Ruff version changes.
+select = ["ALL"]
+ignore = [
+  # Ruff format owns indentation, quotes and trailing commas.
+  "W191",
+  "E111",
+  "E114",
+  "E117",
+  "Q000",
+  "Q001",
+  "Q002",
+  "Q003",
+  "COM812",
+  "COM819",
+  "ISC001",
+  "ISC002",
+  # The formatter leaves some URLs, command strings and comments longer than 88.
+  "E501",
+  # Docstrings are optional for now; type annotations remain required by ANN.
+  "D",
+  # There is no per-file copyright-banner policy.
+  "CPY001",
+  # These are standalone scripts, not importable namespace packages.
+  "INP001",
+  # Some scripts are invoked by Python or packaged wrappers rather than exec().
+  "EXE001",
+  # Printing is normal CLI output; pprint debugging remains checked by T203.
+  "T201",
+  # Extracting exception messages into variables/classes adds no useful context.
+  "EM101",
+  "EM102",
+  "TRY003",
+  # Extra helpers and else blocks are not required solely for exception layout.
+  "TRY300",
+  "TRY301",
+  # Boolean parameters and literal comparisons are acceptable in small scripts.
+  "FBT",
+  "PLR2004",
+  # Retain the existing unittest suite and compound smoke-test assertions.
+  "PT009",
+  "PT018",
+  "PT027",
+  # CLI frameworks can inspect annotations and their imports at runtime.
+  "TC001",
+  "TC002",
+  "TC003",
+]
+
+[lint.flake8-bugbear]
+# Typer deliberately declares argument/option metadata in function defaults.
+extend-immutable-calls = ["typer.Argument", "typer.Option"]
+
+[lint.per-file-ignores]
+# Assertions are the test runner's failure mechanism.
+"checks/**" = ["S101"]
+"**/tests/**" = ["S101"]
+"pkgs/**/check-*.py" = ["S101"]
+"pkgs/**/test-*.py" = ["S101"]
+# These commands also contain embedded self-tests.
+"dotfiles/ndtk/.local/bin/_repos_{github,local}.py" = ["S101"]
+"dotfiles/ndtk/.local/bin/{find-uncommitted,generate_gitignore,project_picker,save_cloned_repos}.py" = [
+  "S101",
+]
+"scripts/skill-library-review.py" = ["S101"]

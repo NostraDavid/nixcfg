@@ -58,7 +58,10 @@ from structlog.stdlib import get_logger  # type: ignore
 # Load the shared module installed by Home Manager.
 sys.path.insert(0, str(Path.home() / ".local" / "bin"))
 from _repo_checkouts import update_checkout  # noqa: E402
-from repo_timestamps import ensure_dprint_config_link, refresh_repository_tree  # noqa: E402
+from repo_timestamps import (  # noqa: E402
+    ensure_dprint_config_link,
+    refresh_repository_tree,
+)
 
 DEFAULT_PROJECT = Path("~/dev").expanduser()
 DEFAULT_ENV_FILE = Path("~/dev/.env").expanduser()
