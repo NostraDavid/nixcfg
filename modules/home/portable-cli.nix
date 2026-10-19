@@ -7,6 +7,7 @@
   imports = [
     ./terminal/config.nix
     ./development/core.nix
+    ./darwin-speech.nix
     ./portable-dotfiles.nix
   ];
 

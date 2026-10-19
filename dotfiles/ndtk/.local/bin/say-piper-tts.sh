@@ -34,11 +34,13 @@ fi
 
 if [[ -n "${SAY_PIPER_TTS_PLAYER:-}" ]]; then
     "$SAY_PIPER_TTS_PLAYER" "$output_file"
+elif command -v afplay >/dev/null 2>&1; then
+    afplay "$output_file"
 elif command -v pw-play >/dev/null 2>&1 && pw-play "$output_file" 2>/dev/null; then
     :
 elif command -v ffplay >/dev/null 2>&1; then
     ffplay -nodisp -autoexit -loglevel error "$output_file"
 else
-    printf 'say-piper-tts: geen audio-player gevonden (pw-play of ffplay).\n' >&2
+    printf 'say-piper-tts: geen audio-player gevonden (afplay, pw-play of ffplay).\n' >&2
     exit 1
 fi
