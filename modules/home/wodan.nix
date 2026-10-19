@@ -115,6 +115,7 @@ in {
     packages = [
       local.agent-orchestrator
       local.chrome-devtools-mcp
+      local.dbhub
       local.emdash
       local.kandev
       local.orca-ide
