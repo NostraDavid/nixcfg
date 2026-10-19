@@ -114,6 +114,7 @@ in {
   home = {
     packages = [
       local.agent-orchestrator
+      local.bend
       local.chrome-devtools-mcp
       local.dbhub
       local.emdash
