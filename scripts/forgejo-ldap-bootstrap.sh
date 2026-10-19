@@ -44,7 +44,7 @@ fi
 
 umask 077
 temp_dir=$(mktemp -d /tmp/forgejo-ldap.XXXXXXXXXX)
-trap 'rm -rf -- "$temp_dir"' EXIT
+trap 'rm -rf "$temp_dir"' EXIT
 password_file="$temp_dir/ldap-bind-password"
 
 if ssh -o BatchMode=yes "$forgejo_target" "sudo test -s $secret_path"; then

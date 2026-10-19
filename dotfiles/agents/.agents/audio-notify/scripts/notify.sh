@@ -17,9 +17,9 @@ esac
 
 repository=''
 if git_dir=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null); then
-    repository=$(dirname -- "$git_dir")
+    repository=$(dirname "$git_dir")
     if [[ ${repository##*/} == trunk ]]; then
-        repository=$(dirname -- "$repository")
+        repository=$(dirname "$repository")
     fi
     repository=${repository##*/}
 fi
@@ -30,9 +30,9 @@ log_file=$log_dir/notifications.log
 (
     umask 077
     mkdir -p -- "$log_dir"
-    chmod 700 -- "$log_dir"
+    chmod 700 "$log_dir"
     : >>"$log_file"
-    chmod 600 -- "$log_file"
+    chmod 600 "$log_file"
     printf '%s\t%s\t%s\n' "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$repository" "$message" >>"$log_file"
 )
 

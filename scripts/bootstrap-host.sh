@@ -43,7 +43,7 @@ command_exists nixos-generate-config ||
 command_exists nix || die "the nix command is unavailable"
 
 script_dir="$(CDPATH='' cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(dirname -- "${script_dir}")"
+repo_root="$(dirname "${script_dir}")"
 hosts_index="${repo_root}/modules/hosts/default.nix"
 host_module="${repo_root}/modules/hosts/${hostname}.nix"
 hardware_dir="${repo_root}/hosts/${hostname}"
@@ -71,11 +71,11 @@ fi
 [[ "${state_version}" =~ ^[0-9]{2}\.[0-9]{2}$ ]] ||
     die "could not determine a NixOS state version from /etc/os-release"
 
-mkdir -p -- "${hardware_dir}"
+mkdir -p "${hardware_dir}"
 printf 'Generating hardware configuration for %s...\n' "${hostname}"
 if ! nixos-generate-config --show-hardware-config >"${hardware_config}"; then
-    rm -f -- "${hardware_config}"
-    rmdir -- "${hardware_dir}" 2>/dev/null || true
+    rm -f "${hardware_config}"
+    rmdir "${hardware_dir}" 2>/dev/null || true
     die "hardware configuration generation failed"
 fi
 
@@ -111,13 +111,13 @@ ${imports}
 EOF
 
 index_tmp="$(mktemp "${repo_root}/.bootstrap-host-index.XXXXXX")"
-trap 'rm -f -- "${index_tmp}"' EXIT
+trap 'rm -f "${index_tmp}"' EXIT
 awk -v new_import="    ./${hostname}.nix" '
 	/^  ];$/ && !added { print new_import; added = 1 }
 	{ print }
 	END { if (!added) exit 1 }
 ' "${hosts_index}" >"${index_tmp}" || die "could not update ${hosts_index}"
-mv -- "${index_tmp}" "${hosts_index}"
+mv "${index_tmp}" "${hosts_index}"
 
 if command_exists alejandra; then
     alejandra "${host_module}" "${hardware_config}" "${hosts_index}" >/dev/null

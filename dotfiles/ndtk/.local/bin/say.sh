@@ -2,7 +2,7 @@
 set -euo pipefail
 
 script_path="$(readlink -f -- "$0")"
-script_dir="$(cd -- "$(dirname -- "$script_path")" && pwd)"
+script_dir="$(cd "$(dirname "$script_path")" && pwd)"
 
 usage() {
     cat <<'EOF'

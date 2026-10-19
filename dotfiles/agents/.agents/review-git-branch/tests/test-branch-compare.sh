@@ -78,7 +78,7 @@ assert_contains "$report" 'new.txt:1: trailing whitespace.'
 patch_dir=$(sed -n 's/^- Patch output directory: //p' <<<"$report")
 assert_contains "$(cat "$patch_dir/flake.lock.patch")" 'changed lock'
 assert_contains "$(cat "$patch_dir/new.txt.patch")" 'new content'
-rm -- "$repo/new.txt"
+rm "$repo/new.txt"
 report=$(bash "$script" --repo "$repo" --base dev)
 assert_contains "$report" $'tracked\tM\tflake.lock'
 

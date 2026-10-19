@@ -183,7 +183,7 @@ write_patch_file() {
     local path=$1
     local patch_file="$patch_output_dir/$path.patch"
 
-    mkdir -p -- "$(dirname -- "$patch_file")"
+    mkdir -p "$(dirname "$patch_file")"
     if git ls-files --error-unmatch -- ":(literal)$path" >/dev/null 2>&1; then
         git --no-pager diff \
             --no-ext-diff \

@@ -31,7 +31,7 @@ done
 [[ "$(update_mode "${repo_root}" creep2)" == embedded-nix-update ]]
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
-rg -q -- 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
+rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
 for package in fixit dockerfile-roast jsongrep mdschema gigatoken pico-8-font ponytail-codex qartez; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
