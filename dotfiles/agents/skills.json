@@ -112,6 +112,7 @@
     "to-spec": "spec",
     "unslop": "unslop",
     "why": "why",
+    "worktrunk": "worktrunk",
     "writing-for-agents": "agentwrite"
   }
 }

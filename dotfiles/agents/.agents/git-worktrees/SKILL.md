@@ -5,6 +5,10 @@ description: Create, reuse, or hand off an isolated Git worktree when the user r
 
 # Git-worktrees
 
+Gebruik Worktrunk (`wt`) voor worktreebeheer. Raadpleeg de skill `worktrunk`
+voor commando's, configuratie en hooks. De map- en branchafspraken hieronder
+blijven leidend; inspecteer `wt config show` voordat je een worktree aanmaakt.
+
 Repositories zijn ingedeeld met een aparte checkout voor de gebruiker genaamd
 `trunk`, eventueel met daarnaast worktrees voor agents:
 

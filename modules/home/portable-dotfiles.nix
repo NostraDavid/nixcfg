@@ -8,6 +8,8 @@
   mk = path: config.lib.file.mkOutOfStoreSymlink path;
   forceAll = builtins.mapAttrs (_: file: file // {force = true;});
 in {
+  imports = [./development/worktrunk.nix];
+
   home.activation.removeClaudeConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
     $DRY_RUN_CMD rm -f \
       ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json"} \

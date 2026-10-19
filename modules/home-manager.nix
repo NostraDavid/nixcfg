@@ -15,6 +15,7 @@
     extraSpecialArgs = {inherit inputs;};
     users.${main-user} = {
       imports = [
+        ./home/development/worktrunk.nix
         inputs.plasma-manager.homeModules.plasma-manager
         inputs.codex-desktop-linux.homeManagerModules.default
       ];

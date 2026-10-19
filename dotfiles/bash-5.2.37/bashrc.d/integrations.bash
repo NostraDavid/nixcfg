@@ -10,6 +10,11 @@ fi
 # == direnv ==
 eval "$(direnv hook bash)"
 
+# == Worktrunk worktree switching ==
+if command -v wt >/dev/null 2>&1; then
+    eval "$(wt config shell init bash)"
+fi
+
 # == starship prompt ==
 if [ -n "$use_starship_prompt" ]; then
     eval "$(starship init bash)"
