@@ -1,4 +1,5 @@
 {
+  lib,
   stable,
   unstable,
   ...
@@ -8,6 +9,13 @@
     ./development/core.nix
     ./portable-dotfiles.nix
   ];
+
+  home.file = lib.optionalAttrs stable.stdenv.hostPlatform.isDarwin {
+    ".local/bin/timeout".source = "${unstable.coreutils}/bin/timeout";
+    ".local/bin/gtimeout".source = stable.writeShellScript "gtimeout" ''
+      exec ${unstable.coreutils}/bin/timeout "$@"
+    '';
+  };
 
   home.packages = [
     (stable.callPackage ../../pkgs/opencode-v2 {})
