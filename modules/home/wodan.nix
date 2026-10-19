@@ -122,12 +122,20 @@ in {
       local.paperclip
       local.paseo-desktop
       local.pi-desktop
+      local.playwright-cli
       local.superset
       local.t3code
       local.unsloth
       unstable.mcp-nixos
       unstable.playwright-mcp
     ];
+    file = lib.genAttrs [
+      ".agents/skills/playwright-cli"
+      ".codex/skills/playwright-cli"
+      ".copilot/skills/playwright-cli"
+      ".config/opencode/skills/playwright-cli"
+    ] (_: {source = "${local.playwright-cli}/share/skills/playwright-cli";});
+
     activation = {
       wodanMcpClients = lib.hm.dag.entryAfter ["headroomClients" "blenderMcpClient" "linkGeneration"] ''
         $DRY_RUN_CMD ${stable.python3.withPackages (p: [p.tomlkit])}/bin/python - "$HOME" ${lib.escapeShellArg (builtins.toJSON mcpServers)} <<'PY'
