@@ -31,9 +31,9 @@ in {
   inherit fixture;
   activation = fixture.config.home.activation.karabinerProfile.data;
   checks = {
-    casks = assert map (cask: cask.name) mac.homebrew.casks == ["karabiner-elements" "alt-tab"]; true;
+    packages = assert builtins.all (configuration: builtins.any (p: (p.pname or "") == "karabiner-elements-installer" && flake.inputs.nixpkgs.lib.versionAtLeast p.version "16.0.0") configuration.environment.systemPackages && builtins.any (p: (p.pname or "") == "alt-tab-macos" && flake.inputs.nixpkgs.lib.versionAtLeast p.version "11.9.2") configuration.environment.systemPackages) [mac work]; true;
     migration = assert mac.system.keyboard.enableKeyMapping && mac.system.keyboard.userKeyMapping == []; assert !(mac.launchd.user.agents ? keyboard-mapping); true;
-    homebrew = assert mac.nix-homebrew.enable && mac.nix-homebrew.user == "david"; assert work.nix-homebrew.user == "work"; true;
+    homebrew = assert mac.homebrew.casks == [] && work.homebrew.casks == []; assert mac.nix-homebrew.user == "david" && work.nix-homebrew.user == "work"; true;
     profile = assert profile.selected; assert count profile.complex_modifications.rules == count community.rules - 2; true;
     shortcuts = assert hasArrow "control" && hasArrow "command"; assert !(builtins.any (m: (m.from.key_code or "") == "tab" && builtins.elem "option" (m.from.modifiers.mandatory or [])) manipulators); true;
     autostart = assert mac.launchd.user.agents.alt-tab.serviceConfig.RunAtLoad; true;

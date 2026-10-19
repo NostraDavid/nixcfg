@@ -1,16 +1,21 @@
 # Windows-style keyboard shortcuts on Loki
 
-Loki installs Karabiner-Elements and AltTab through Homebrew, including the
-official signed Karabiner installer and its virtual keyboard driver.
-nix-homebrew manages Homebrew itself and can migrate an existing installation.
-Unrelated Homebrew packages are retained. BetterTouchTool is not installed.
+Loki installs pinned Karabiner-Elements and AltTab releases through local Nix
+packages. The Karabiner package preserves the official signed installer and its
+virtual keyboard driver. Activation verifies the installer signature, removes
+only the Homebrew casks `karabiner-elements` and `alt-tab`, and installs
+Karabiner through macOS Installer when its installed version differs. It
+preserves user settings and unrelated Homebrew packages. `nix-homebrew` still
+manages Homebrew itself for those unrelated packages. BetterTouchTool is not
+installed.
 
 The
 [Windows Keyboard for Mac community edition](https://github.com/Fuzzy-and-Fluffy/windows-keyboard-for-mac)
 is pinned through the `karabiner-rules` flake input. It requires **macOS 15 or
 newer and Karabiner-Elements 16 or newer**, and applies to all keyboards,
-including the built-in MacBook keyboard. Homebrew casks follow their upstream
-releases; their versions are not pinned by `flake.lock`.
+including the built-in MacBook keyboard. Versions and source hashes are pinned
+in `pkgs/karabiner-elements-installer/default.nix` and
+`pkgs/alt-tab-macos/default.nix`.
 
 ## Activate on the Mac
 
@@ -19,6 +24,12 @@ From the checkout that defines your Loki configuration, run:
 ```bash
 sudo darwin-rebuild switch --flake .#loki
 ```
+
+The first activation may request your password for Homebrew's uninstall steps.
+It uses no `--zap`, so application preferences remain. AltTab starts from its
+Nix store path; Karabiner installs to its required native macOS locations. The
+Karabiner installation is a system side effect, so activate the desired Nix
+generation to reconcile its installed version after a rollback.
 
 The activation clears the previous global `hidutil` Control/Command swap and
 removes its login agent. Karabiner provides the Windows shortcut translations.

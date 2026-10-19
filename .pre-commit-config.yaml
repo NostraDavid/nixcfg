@@ -36,6 +36,13 @@ repos:
         files: "^(flake\\.(nix|lock)$|modules/(flake\\.nix|darwin-keyboard\\.nix|home/(darwin-keyboard\\.nix|karabiner-profile\\.jq))$|checks/(loki-keyboard\\.nix|test-loki-keyboard\\.sh)$|dotfiles/vscode-[^/]+/\\.config/Code/User/keybindings\\.json$)"
         pass_filenames: false
 
+      - id: check-darwin-app-migration
+        name: check Homebrew to Nix application migration
+        entry: bash scripts/test-migrate-darwin-apps.sh
+        language: system
+        files: "^(scripts/(test-)?migrate-darwin-apps\\.sh|modules/darwin-keyboard\\.nix|pkgs/(karabiner-elements-installer|alt-tab-macos)/)"
+        pass_filenames: false
+
       - id: check-opencode-v2
         name: check OpenCode v2 configuration and service
         entry: bash checks/test-opencode-v2.sh
