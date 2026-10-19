@@ -52,6 +52,11 @@
       };
 
       systemd.user.services = {
+        # dbus-broker v37 can disable SIGHUP reloads after inotify exhaustion.
+        dbus-broker.serviceConfig = {
+          Type = "notify";
+          ExecReload = "${stable.systemd}/bin/busctl --user call org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus ReloadConfig";
+        };
         podman = {
           enable = true;
           wantedBy = ["default.target"];
