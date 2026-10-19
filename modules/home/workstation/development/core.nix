@@ -26,7 +26,6 @@
       unstable.mdp # Markdown pager
       unstable.mermaid-cli # Mermaid renderer
       unstable.nix-update # Update Nix package versions and hashes
-      unstable.opencode # LLM Agent
       unstable.python313Packages.pynvim # Python support for Neovim
       unstable.rustscan # Network mapper
       unstable.watchexec # Run commands in response to file changes

@@ -40,6 +40,7 @@
       local.gigatoken # Fast tokenization for OpenAI models
       local.jsongrep # JSONPath-inspired query language over JSON documents
       local.mdschema # A declarative schema-based Markdown validator
+      local.opencode-v2-desktop # OpenCode v2 desktop client
       local.photogimp # Photoshop-like defaults for GIMP
       local.ptk # python-token-killer
       local.tiktoken # Tokenizer for OpenAI models
@@ -52,8 +53,6 @@
       unstable.fastfetch # neofetch alternative
       unstable.github-copilot-cli
       unstable.gofumpt # gofmt alternative; useful for dprint
-      unstable.opencode # llm agent
-      unstable.opencode-desktop # llm agent for desktop
       unstable.oxlint # js linter
       unstable.rtk # Compress CLI output for coding agents
       unstable.snip # Limit command output for coding agents

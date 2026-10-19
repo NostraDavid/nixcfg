@@ -5,6 +5,12 @@ repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 test_root="$(mktemp -d)"
 trap 'rm -rf "${test_root}"' EXIT
 export TEST_REPO="${test_root}/repo"
+mkdir -p "${TEST_REPO}/pkgs/"{opencode-v2,opencode-v2-desktop} "${TEST_REPO}/scripts"
+cp "${repo_root}/scripts/update-opencode-v2.sh" "${TEST_REPO}/scripts/"
+ln -s update-opencode-v2.sh "${TEST_REPO}/scripts/update-opencode-v2-desktop.sh"
+for package in opencode-v2 opencode-v2-desktop; do
+    cp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/"
+done
 mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
 mkdir -p "${TEST_REPO}/pkgs/"{pico-8-font,ponytail-skills,ponytail-codex}
 mkdir -p "${TEST_REPO}/pkgs/codex"
@@ -62,6 +68,17 @@ cat >"${test_root}/bin/curl" <<'EOF'
 #!/usr/bin/env bash
 if [[ "$*" == *acli.atlassian.com* ]]; then
     cp "${TEST_ACLI_ARCHIVE}" "${@: -1}"
+elif [[ "$*" == *opencode.ai/update/api/latest/cli/npm* ]]; then
+    printf '{"version":"%s","metadata":{"package":"@opencode/cli"}}\n' "${TEST_OPENCODE_RELEASE:-2.1.0}"
+elif [[ "$*" == *registry.npmjs.org/@opencode%2fcli-* ]]; then
+    target="${@: -1}"
+    version="${target##*/}"
+    target="${target#https://registry.npmjs.org/@opencode%2fcli-}"
+    target="${target%/*}"
+    if [[ "${TEST_OPENCODE_MISSING_TARGET:-}" == "$target" ]]; then exit 22; fi
+    hash="sha512-$(printf '%086s' '' | tr ' ' A)=="
+    if [[ "${TEST_OPENCODE_BAD_HASH:-0}" == 1 ]]; then hash=invalid; fi
+    printf '{"name":"@opencode/cli-%s","version":"%s","dist":{"integrity":"%s"}}\n' "$target" "$version" "$hash"
 elif [[ "$*" == *pypi.org/pypi/semble/json* ]]; then
     printf '{"info":{"version":"0.10.0"},"urls":[{"packagetype":"sdist","yanked":false,"url":"https://files.pythonhosted.org/semble-0.10.0.tar.gz"}]}\n'
 else
@@ -157,6 +174,7 @@ EOF
 cat >"${test_root}/bin/nix" <<'EOF'
 #!/usr/bin/env bash
 if [[ "$1" == store ]]; then
+    if [[ "$*" == *opencode.ai/files/bin/* && "${TEST_OPENCODE_MISSING_DESKTOP:-0}" == 1 ]]; then exit 1; fi
     printf '{"hash":"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=","storePath":"/test/font.ttf"}\n'
 elif [[ "$1" == eval ]]; then
     printf 'https://example.invalid/pico-8.ttf'
@@ -176,6 +194,49 @@ if [[ "${TEST_INVALID_FONT:-0}" == 0 ]]; then printf 'PICO-8'; fi
 EOF
 chmod +x "${test_root}/bin/"*
 export PATH="${test_root}/bin:${PATH}"
+
+"${TEST_REPO}/scripts/update-opencode-v2.sh" --dry-run >/dev/null
+for package in opencode-v2 opencode-v2-desktop; do
+    cmp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
+done
+test ! -e "${TEST_REPO}/builds.log"
+"${TEST_REPO}/scripts/update-opencode-v2.sh" >/dev/null
+for package in opencode-v2 opencode-v2-desktop; do
+    rg -q 'version = "2.1.0";' "${TEST_REPO}/pkgs/${package}/default.nix"
+done
+test "$(rg -c 'hash = "sha512-A{86}==";' "${TEST_REPO}/pkgs/opencode-v2/default.nix")" = 4
+rg -q 'hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";' "${TEST_REPO}/pkgs/opencode-v2-desktop/default.nix"
+rg -q '^build path:.#opencode-v2 path:.#opencode-v2-desktop --no-link --no-write-lock-file$' "${TEST_REPO}/builds.log"
+cp "${TEST_REPO}/builds.log" "${test_root}/builds.before"
+"${TEST_REPO}/scripts/update-opencode-v2.sh" >/dev/null
+cmp "${test_root}/builds.before" "${TEST_REPO}/builds.log"
+for failure in major target integrity desktop build; do
+    for package in opencode-v2 opencode-v2-desktop; do
+        cp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
+        printf '# existing user changes\n' >>"${TEST_REPO}/pkgs/${package}/default.nix"
+        cp "${TEST_REPO}/pkgs/${package}/default.nix" "${test_root}/${package}.before"
+    done
+    export TEST_OPENCODE_RELEASE=2.1.0 TEST_OPENCODE_MISSING_TARGET='' TEST_OPENCODE_BAD_HASH=0 TEST_OPENCODE_MISSING_DESKTOP=0 TEST_BUILD_FAILURE=0
+    case "$failure" in
+    major) TEST_OPENCODE_RELEASE=3.0.0 ;;
+    target) TEST_OPENCODE_MISSING_TARGET=darwin-arm64 ;;
+    integrity) TEST_OPENCODE_BAD_HASH=1 ;;
+    desktop) TEST_OPENCODE_MISSING_DESKTOP=1 ;;
+    build) TEST_BUILD_FAILURE=1 ;;
+    esac
+    if "${TEST_REPO}/scripts/update-opencode-v2.sh" >/dev/null 2>&1; then
+        echo "Expected OpenCode $failure failure" >&2
+        exit 1
+    fi
+    for package in opencode-v2 opencode-v2-desktop; do
+        cmp "${test_root}/${package}.before" "${TEST_REPO}/pkgs/${package}/default.nix"
+    done
+done
+unset TEST_OPENCODE_RELEASE TEST_OPENCODE_MISSING_TARGET TEST_OPENCODE_BAD_HASH TEST_OPENCODE_MISSING_DESKTOP TEST_BUILD_FAILURE
+TEST_OPENCODE_RELEASE=3.0.0 "${TEST_REPO}/scripts/update-opencode-v2-desktop.sh" 2.1.0 >/dev/null
+for package in opencode-v2 opencode-v2-desktop; do
+    rg -q 'version = "2.1.0";' "${TEST_REPO}/pkgs/${package}/default.nix"
+done
 
 "${TEST_REPO}/scripts/update-qartez.sh" >/dev/null
 rg -q 'version = "0.12.0";' "${TEST_REPO}/pkgs/qartez/default.nix"

@@ -36,6 +36,20 @@ repos:
         files: "^(flake\\.(nix|lock)$|modules/(flake\\.nix|darwin-keyboard\\.nix|home/(darwin-keyboard\\.nix|karabiner-profile\\.jq))$|checks/(loki-keyboard\\.nix|test-loki-keyboard\\.sh)$|dotfiles/vscode-[^/]+/\\.config/Code/User/keybindings\\.json$)"
         pass_filenames: false
 
+      - id: check-opencode-v2
+        name: check OpenCode v2 configuration and service
+        entry: bash checks/test-opencode-v2.sh
+        language: system
+        files: "^(pkgs/opencode-v2/|checks/test-opencode-v2\\.sh$|dotfiles/opencode-2[^/]+/|modules/home/(portable-cli|development/mantle|workstation/development/core)\\.nix$)"
+        pass_filenames: false
+
+      - id: check-release-updaters
+        name: check package release updaters
+        entry: bash scripts/test-release-updaters.sh
+        language: system
+        files: "^scripts/(update-opencode-v2(-desktop)?|test-release-updaters)\\.sh$"
+        pass_filenames: false
+
       - id: check-alejandra
         name: check Nix formatting (alejandra, local)
         entry: just check-alejandra-files

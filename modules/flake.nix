@@ -98,7 +98,13 @@
       inherit system;
       modules = [
         ({pkgs, ...}: {
-          environment.systemPackages = [pkgs.cmux-tui pkgs.iperf3 pkgs.mc pkgs.tree];
+          environment.systemPackages = [
+            pkgs.cmux-tui
+            pkgs.iperf3
+            pkgs.mc
+            pkgs.opencode-v2
+            pkgs.tree
+          ];
 
           # Keep package-source qualifiers readable without rebuilding or
           # re-aliasing the configured NixOS package set in every module.

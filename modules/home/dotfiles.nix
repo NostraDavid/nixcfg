@@ -207,7 +207,7 @@ in {
           ".local/share/vscode/agent-plugins/databricks".source = local.databricks-agent-skills;
 
           ## OpenCode
-          ".config/opencode/opencode.jsonc" = {source = mk "${dot}/opencode-1.18.4/.config/opencode/opencode.jsonc";};
+          ".config/opencode/opencode.jsonc" = {source = mk "${dot}/opencode-2.0.32/.config/opencode/opencode.jsonc";};
 
           ## Shared MCP
           ".config/mcp/mcp.json" = {source = mk "${dot}/mcp/.config/mcp/mcp.json";};

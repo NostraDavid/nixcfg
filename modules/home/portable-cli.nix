@@ -10,6 +10,7 @@
   ];
 
   home.packages = [
+    (stable.callPackage ../../pkgs/opencode-v2 {})
     (
       if stable.stdenv.hostPlatform.isDarwin
       then unstable.cmux

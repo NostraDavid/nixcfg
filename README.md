@@ -83,6 +83,8 @@ manifest when updating.
 
 ## Notes
 
+- [OpenCode v2](docs/opencode-v2.md) covers the pinned CLI on all machines, the
+  Linux desktop package, configuration compatibility, and migration checks.
 - [Windows-style shortcuts on Loki](docs/loki-windows-shortcuts.md) covers
   Karabiner-Elements, AltTab, macOS permissions, and VS Code terminal bindings.
 - [Pi and Codex feature checklist](docs/pi-codex-parity.md) covers the shared Pi
