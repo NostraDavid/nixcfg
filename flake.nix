@@ -13,6 +13,11 @@
       url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    karabiner-rules = {
+      url = "github:pqrs-org/KE-complex_modifications";
+      flake = false;
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";

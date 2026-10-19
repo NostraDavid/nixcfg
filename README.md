@@ -76,6 +76,8 @@ configuration and restart the editor's language servers.
 
 ## Notes
 
+- [Windows-style shortcuts on Loki](docs/loki-windows-shortcuts.md) covers
+  Karabiner-Elements, AltTab, macOS permissions, and VS Code terminal bindings.
 - [Pi and Codex feature checklist](docs/pi-codex-parity.md) covers the shared Pi
   configuration, TypeScript workflow tools, verification, and remaining gaps.
 - `docs/` contains script files with nifty commands.

@@ -167,6 +167,7 @@
       modules =
         [
           inputs.home-manager.darwinModules.home-manager
+          inputs.nix-homebrew.darwinModules.nix-homebrew
           ./darwin-keyboard.nix
           ({pkgs, ...}: {
             nixpkgs = {
@@ -196,7 +197,12 @@
                 stable = pkgs;
               };
               users.${username} = {
-                imports = [config.flake.modules.homeManager.portable-cli] ++ extraHomeModules;
+                imports =
+                  [
+                    config.flake.modules.homeManager.portable-cli
+                    ./home/darwin-keyboard.nix
+                  ]
+                  ++ extraHomeModules;
                 programs.home-manager.enable = true;
                 home = {
                   inherit username homeDirectory;

@@ -29,6 +29,13 @@ repos:
         files: "^(dotfiles/agents/|modules/home/dotfiles\\.nix$|modules/flake\\.nix$|checks/)"
         pass_filenames: false
 
+      - id: check-loki-keyboard
+        name: check Loki keyboard profile and migration
+        entry: bash checks/test-loki-keyboard.sh
+        language: system
+        files: "^(flake\\.(nix|lock)$|modules/(flake\\.nix|darwin-keyboard\\.nix|home/(darwin-keyboard\\.nix|karabiner-profile\\.jq))$|checks/(loki-keyboard\\.nix|test-loki-keyboard\\.sh)$|dotfiles/vscode-[^/]+/\\.config/Code/User/keybindings\\.json$)"
+        pass_filenames: false
+
       - id: check-alejandra
         name: check Nix formatting (alejandra, local)
         entry: just check-alejandra-files

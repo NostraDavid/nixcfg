@@ -256,5 +256,31 @@
     "key": "alt+p",
     "command": "workbench.action.unpinEditor",
     "when": "activeEditorIsPinned"
+  },
+  {
+    "key": "cmd+c",
+    "command": "workbench.action.terminal.sendSequence",
+    "when": "isMac && terminalFocus",
+    "args": {
+      "text": "\u0003"
+    }
+  },
+  {
+    "key": "cmd+shift+c",
+    "command": "workbench.action.terminal.copySelection",
+    "when": "isMac && terminalFocus"
+  },
+  {
+    "key": "cmd+shift+v",
+    "command": "workbench.action.terminal.paste",
+    "when": "isMac && terminalFocus"
+  },
+  {
+    "key": "cmd+v",
+    "command": "workbench.action.terminal.sendSequence",
+    "when": "isMac && terminalFocus",
+    "args": {
+      "text": "\u0016"
+    }
   }
 ]
