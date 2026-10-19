@@ -27,6 +27,7 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  cmux = assert lib.all (host: builtins.elem host.pkgs.cmux-tui.outPath (map (p: p.outPath) host.config.environment.systemPackages)) (builtins.attrValues flake.nixosConfigurations); assert builtins.elem stable.cmux-tui.outPath (map (p: p.outPath) mimir2.home.packages); assert builtins.elem (unstableFor "aarch64-darwin").cmux.outPath (map (p: p.outPath) loki.home.packages); true;
   wodan = checkSources "x86_64-linux" wodan (core ++ builtins.filter (name: name != "opentofu") workstation ++ ["lua-language-server" "sqruff"]);
   debian = checkSources "x86_64-linux" mimir2 core;
   macos = checkSources "aarch64-darwin" loki core;

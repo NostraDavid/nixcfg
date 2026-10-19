@@ -10,6 +10,11 @@
   ];
 
   home.packages = [
+    (
+      if stable.stdenv.hostPlatform.isDarwin
+      then unstable.cmux
+      else stable.cmux-tui
+    )
     stable.bashInteractive
     stable.iperf3
     stable.mc

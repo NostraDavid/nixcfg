@@ -74,6 +74,13 @@ disabled unless explicitly requested on the CLI.
 After changing package sources, activate the relevant NixOS or Home Manager
 configuration and restart the editor's language servers.
 
+cmux is installed on all configured machines: the native GUI from unstable on
+macOS, and the official [cmux TUI](https://cmux.com/docs/tui) on Linux,
+including servers and the portable Debian profile. Both provide the `cmux`
+command, with different interfaces. The local `cmux-tui` package pins an
+upstream binary by commit and checksum; refresh it from the official release
+manifest when updating.
+
 ## Notes
 
 - [Windows-style shortcuts on Loki](docs/loki-windows-shortcuts.md) covers
