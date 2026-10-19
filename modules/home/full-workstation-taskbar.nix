@@ -8,7 +8,8 @@
       "preferred://filemanager"
       "applications:firefox-esr.desktop"
       "applications:code.desktop"
-      "applications:com.mitchellh.ghostty.desktop"
+      "applications:com.mitchellh.ghostty.desktop" # generic terminal
+      "applications:kitty.desktop" # cmux host
       "applications:chatgpt.desktop"
       "applications:chromium-browser.desktop"
       "applications:io.missioncenter.MissionCenter.desktop"
@@ -20,7 +21,6 @@
       "applications:spotify.desktop"
       "applications:org.gnome.Evolution.desktop"
       "applications:io.github.cboxdoerfer.FSearch.desktop"
-      "applications:kitty.desktop"
       "applications:Alacritty.desktop"
       "applications:t3code.desktop"
     ]
