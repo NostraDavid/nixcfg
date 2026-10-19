@@ -1,13 +1,17 @@
-{stable, ...}: {
+{
+  stable,
+  unstable,
+  ...
+}: {
   home.packages = [
     stable.dotnet-sdk # .NET development kit
     stable.exfatprogs # ExFAT FS utilities
-    stable.helm # Kubernetes package manager
-    stable.k3d # k3s in docker
+    stable.kubernetes-helm # Kubernetes package manager (Helm 3)
     stable.k3s # kubes (includes kubectl)
     stable.postgresql # for psql; there's pgcli for shared
-    stable.redpanda-client # Kafka alternative
-    stable.sqruff # SQL formatter and linter
-    stable.vimgolf # Vim golfing
+    unstable.k3d # k3s in docker
+    unstable.redpanda-client # Kafka alternative
+    unstable.sqruff # SQL formatter and linter
+    unstable.vimgolf # Vim golfing
   ];
 }

@@ -1,16 +1,17 @@
 {
   lib,
   stable,
+  unstable,
   ...
 }: {
   home.packages =
     [
       stable.curl
       stable.dnsutils # `dig` + `nslookup`
-      stable.doggo # DNS lookup tool
       stable.nmap # Network mapper
       stable.rsync
       stable.wget
+      unstable.doggo # DNS lookup tool
     ]
     ++ lib.optionals stable.stdenv.isLinux [
       stable.dnstop # DNS traffic analyzer

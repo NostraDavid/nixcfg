@@ -1,4 +1,8 @@
-{stable, ...}: {
+{
+  stable,
+  unstable,
+  ...
+}: {
   imports = [
     ./terminal/config.nix
     ./development/core.nix
@@ -7,13 +11,13 @@
 
   home.packages = [
     stable.bashInteractive
-    stable.bat
-    stable.btop
     stable.iperf3
-    stable.lsd
     stable.mc
-    stable.starship
-    stable.tmux
-    stable.tree
+    unstable.bat
+    unstable.btop
+    unstable.lsd
+    unstable.starship
+    unstable.tmux
+    unstable.tree
   ];
 }

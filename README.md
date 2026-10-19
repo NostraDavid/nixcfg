@@ -55,6 +55,17 @@ NixOS install. Home Manager installs day-to-day tools; CI obtains its validation
 tools separately. Optional local environment variables can live in
 `.envrc.local`.
 
+Standalone development tools, formatters, linters, language servers,
+vulnerability scanners, and modern CLI utilities follow the pinned unstable
+package set. CI uses the same packages through
+`legacyPackages.x86_64-linux.unstable`. System components, compiler/runtime
+compatibility pairs, and explicit major versions such as Node 24, JDK 17/25,
+PostgreSQL 17, and Helm 3 retain their existing package sources. Local release
+packages retain their explicit pins.
+
+After changing package sources, activate the relevant NixOS or Home Manager
+configuration and restart the editor's language servers.
+
 ## Notes
 
 - [Pi and Codex feature checklist](docs/pi-codex-parity.md) covers the shared Pi

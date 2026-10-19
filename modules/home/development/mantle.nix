@@ -46,19 +46,19 @@
       local.vscode
       local.xdgctl # TUI for managing XDG default applications
       local.yafc # Yet Another Ftp Client
-      stable.gofumpt # gofmt alternative; useful for dprint
       stable.openjdk25 # openjdk for nvim-lsp-java
-      stable.zed-editor # vscode alternative
       unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
       unstable.dprint # Extensible code formatter; prettier replacement
       unstable.fastfetch # neofetch alternative
       unstable.github-copilot-cli
+      unstable.gofumpt # gofmt alternative; useful for dprint
       unstable.opencode # llm agent
       unstable.opencode-desktop # llm agent for desktop
       unstable.oxlint # js linter
       unstable.rtk # Compress CLI output for coding agents
       unstable.snip # Limit command output for coding agents
       unstable.witr # Why is this running?
+      unstable.zed-editor # vscode alternative
       unstable.zigfetch # neofetch alternative
     ];
 

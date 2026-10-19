@@ -4,17 +4,17 @@
   ...
 }: {
   home.packages = [
-    stable.csvkit # CSV toolkit
-    stable.duckdb # Analytical SQL database
-    stable.jq # JSON processor
     stable.libxml2 # Provides xmllint
-    stable.miller # Stream processor for tabular data
-    stable.parquet-tools # Inspect Apache Parquet files
-    stable.pgcli # Interactive PostgreSQL client
-    stable.sqlite # Embedded SQL database and CLI
-    stable.visidata # Interactive terminal tool for tabular data
-    stable.xq-xml # XML processor with jq-style queries
-    stable.yq-go # YAML processor
+    unstable.csvkit # CSV toolkit
+    unstable.duckdb # Analytical SQL database
+    unstable.jq # JSON processor
+    unstable.miller # Stream processor for tabular data
+    unstable.parquet-tools # Inspect Apache Parquet files
+    unstable.pgcli # Interactive PostgreSQL client
+    unstable.sqlite # Embedded SQL database and CLI
+    unstable.visidata # Interactive terminal tool for tabular data
+    unstable.xq-xml # XML processor with jq-style queries
+    unstable.yq-go # YAML processor
     unstable.zsv # CSV viewer and slicer
   ];
 }

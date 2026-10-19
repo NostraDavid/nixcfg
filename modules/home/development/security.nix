@@ -1,10 +1,10 @@
-{stable, ...}: {
+{unstable, ...}: {
   home.packages = [
-    stable.grype # Scan artifacts and container images for vulnerabilities
-    stable.osv-detector # Detect vulnerable open-source dependencies
-    stable.osv-scanner # Scan projects and lockfiles against OSV
-    stable.sbomnix # Generate SBOMs for Nix closures
-    stable.syft # Generate and convert software bills of materials
-    stable.vulnix # Scan Nix closures for known vulnerabilities
+    unstable.grype # Scan artifacts and container images for vulnerabilities
+    unstable.osv-detector # Detect vulnerable open-source dependencies
+    unstable.osv-scanner # Scan projects and lockfiles against OSV
+    unstable.sbomnix # Generate SBOMs for Nix closures
+    unstable.syft # Generate and convert software bills of materials
+    unstable.vulnix # Scan Nix closures for known vulnerabilities
   ];
 }

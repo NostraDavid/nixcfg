@@ -388,7 +388,6 @@
   "python.testing.unittestEnabled": false,
   "redhat.telemetry.enabled": false,
   "remote.autoForwardPortsSource": "hybrid",
-  "ruff.importStrategy": "useBundled",
   "ruff.nativeServer": "on",
   "search.exclude": {
     "**/.tox": true,

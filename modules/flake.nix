@@ -218,10 +218,11 @@ in {
 
   perSystem = {system, ...}: let
     stable = pkgsFor system;
+    unstable = unstableFor system;
   in {
     _module.args.pkgs = stable;
 
-    legacyPackages = stable;
+    legacyPackages = stable // {inherit unstable;};
 
     checks.agent-instructions = import ../checks/agent-instructions.nix {
       pkgs = stable;
@@ -257,9 +258,9 @@ in {
     devShells.default = stable.mkShell {
       # Tools needed before the first Home Manager activation.
       packages = [
-        stable.git
-        stable.git-lfs
-        stable.just
+        unstable.git
+        unstable.git-lfs
+        unstable.just
       ];
 
       shellHook = ''

@@ -8,33 +8,35 @@
 
   programs.direnv = {
     enable = true;
+    package = unstable.direnv;
     nix-direnv.enable = true;
+    nix-direnv.package = unstable.nix-direnv;
   };
 
   home.packages =
     [
-      stable.ast-grep # Structural code search and rewriting
-      stable.colordiff # Colorize diff output
-      stable.delta # Syntax-highlighting diff pager
-      stable.diff-so-fancy # Human-friendly diff formatter
-      stable.difftastic # Syntax-aware diff tool
-      stable.fd # Fast file finder
-      stable.fzf # Fuzzy finder
-      stable.git # Version control
-      stable.git-lfs # Git Large File Storage
-      stable.helix # Modal text editor
-      stable.jujutsu # Version control system
-      stable.just # Project command runner
-      stable.kakoune # Modal text editor
-      stable.lazygit # Terminal Git client
-      stable.mcporter # Discover and call MCP tools from the CLI
-      stable.mergiraf # Syntax-aware Git merge driver
       stable.nodejs_24 # JavaScript runtime and npx
-      stable.riffdiff # Side-by-side diff viewer
-      stable.ripgrep # Fast recursive text search
-      stable.tree-sitter # Parser tooling used by Neovim
+      unstable.ast-grep # Structural code search and rewriting
+      unstable.colordiff # Colorize diff output
+      unstable.delta # Syntax-highlighting diff pager
       unstable.devenv # Development environment manager | using unstable for 2.x
+      unstable.diff-so-fancy # Human-friendly diff formatter
+      unstable.difftastic # Syntax-aware diff tool
+      unstable.fd # Fast file finder
+      unstable.fzf # Fuzzy finder
+      unstable.git # Version control
+      unstable.git-lfs # Git Large File Storage
+      unstable.helix # Modal text editor
+      unstable.jujutsu # Version control system
+      unstable.just # Project command runner
+      unstable.kakoune # Modal text editor
+      unstable.lazygit # Terminal Git client
+      unstable.mcporter # Discover and call MCP tools from the CLI
+      unstable.mergiraf # Syntax-aware Git merge driver
       unstable.neovim # Primary editor
+      unstable.riffdiff # Side-by-side diff viewer
+      unstable.ripgrep # Fast recursive text search
+      unstable.tree-sitter # Parser tooling used by Neovim
       unstable.uv # Python project and package manager
     ]
     ++ lib.optionals stable.stdenv.hostPlatform.isLinux [
