@@ -7,6 +7,7 @@
     [
       "preferred://filemanager"
       "applications:firefox-esr.desktop"
+      "applications:code.desktop"
       "applications:com.mitchellh.ghostty.desktop"
       "applications:chatgpt.desktop"
       "applications:chromium-browser.desktop"
@@ -21,7 +22,6 @@
       "applications:io.github.cboxdoerfer.FSearch.desktop"
       "applications:kitty.desktop"
       "applications:Alacritty.desktop"
-      "applications:code.desktop"
       "applications:t3code.desktop"
     ]
     ++ config.nixcfg.plasma.extraTaskbarLaunchers;
