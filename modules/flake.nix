@@ -174,6 +174,7 @@
               overlays = [(_final: _prev: {inherit (pkgsFor system) bashInteractive;})];
             };
             environment.shells = [pkgs.bashInteractive];
+            environment.systemPackages = [unstable.rectangle];
             networking.hostName = hostname;
             system = {
               primaryUser = username;
