@@ -5,6 +5,14 @@
 }: let
   rev = "6dc229ca0c47ea12babc0c22ffceae59e81d5109";
   assets = {
+    aarch64-darwin = {
+      target = "aarch64-apple-darwin";
+      hash = "sha256-E1Q+fgRHPJl1RAwFiNoDKtL5qo2HP6Tpd+c0FuKhZ0c=";
+    };
+    x86_64-darwin = {
+      target = "x86_64-apple-darwin";
+      hash = "sha256-/+e8AoKxG9PE1bYobWxU6s7mw5Uyrb8tduDxpPcv45k=";
+    };
     x86_64-linux = {
       target = "x86_64-unknown-linux-musl";
       hash = "sha256-uC5zdPlKq0tHQGVF0KO1JPE08AhRq/Y2S7UVymcLLqI=";
@@ -26,6 +34,8 @@ in
 
     dontUnpack = true;
     dontBuild = true;
+    # Preserve the upstream Mach-O signature.
+    dontStrip = stdenvNoCC.hostPlatform.isDarwin;
     installPhase = ''
       runHook preInstall
       install -Dm755 "$src" "$out/bin/cmux"

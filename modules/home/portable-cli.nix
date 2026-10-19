@@ -17,23 +17,21 @@
     '';
   };
 
-  home.packages = [
-    (stable.callPackage ../../pkgs/opencode-v2 {})
-    (
-      if stable.stdenv.hostPlatform.isDarwin
-      then unstable.cmux
-      else stable.cmux-tui
-    )
-    stable.bashInteractive
-    stable.iperf3
-    stable.mc
-    unstable.bat
-    unstable.btop
-    unstable.hurl
-    unstable.lsd
-    unstable.sqruff
-    unstable.starship
-    unstable.tmux
-    unstable.tree
-  ];
+  home.packages =
+    [
+      (stable.callPackage ../../pkgs/opencode-v2 {})
+      (lib.hiPrio (stable.callPackage ../../pkgs/cmux-tui {}))
+      stable.bashInteractive
+      stable.iperf3
+      stable.mc
+      unstable.bat
+      unstable.btop
+      unstable.hurl
+      unstable.lsd
+      unstable.sqruff
+      unstable.starship
+      unstable.tmux
+      unstable.tree
+    ]
+    ++ lib.optionals stable.stdenv.hostPlatform.isDarwin [unstable.cmux];
 }
