@@ -24,6 +24,7 @@
 
       programs.home-manager.enable = true;
       home = {
+        packages = [unstable.hurl unstable.sqruff];
         username = main-user;
         homeDirectory = "/home/${main-user}";
         stateVersion = "25.05";

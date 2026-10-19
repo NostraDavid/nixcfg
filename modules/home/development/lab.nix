@@ -11,7 +11,6 @@
     stable.postgresql # for psql; there's pgcli for shared
     unstable.k3d # k3s in docker
     unstable.redpanda-client # Kafka alternative
-    unstable.sqruff # SQL formatter and linter
     unstable.vimgolf # Vim golfing
   ];
 }

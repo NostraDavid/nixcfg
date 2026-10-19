@@ -21,7 +21,9 @@
     stable.mc
     unstable.bat
     unstable.btop
+    unstable.hurl
     unstable.lsd
+    unstable.sqruff
     unstable.starship
     unstable.tmux
     unstable.tree
