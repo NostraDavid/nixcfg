@@ -223,11 +223,14 @@ def check() -> None:
             assert tests.returncode == 0, (provider, tests.stderr)
         result = run("repos", "unknown-provider")
         assert result.returncode == 2 and "Unknown provider" in result.stderr
-        for option in ("--clone-timeout", "--fetch-timeout"):
+        for option in ("--clone-timeout", "--fetch-timeout", "--workers"):
             for value in ("0", "-1"):
                 result = run("repos", "azure", "clone", option, value)
                 assert result.returncode == 2, (option, value, result.stderr)
                 assert "greater than zero" in result.stderr
+        result = run("repos", "azure", "clone", "--workers", "invalid")
+        assert result.returncode == 2 and "invalid int value" in result.stderr
+        assert "--workers" in run("repos", "azure", "clone", "--help").stdout
         assert "--dry-run" in run("repos", "local", "update", "--help").stdout
         assert "dirty" in run("repos", "local", "--help").stdout
         assert "--project" in run("repos", "local", "dirty", "--help").stdout

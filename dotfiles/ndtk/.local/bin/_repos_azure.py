@@ -36,7 +36,7 @@ HEADERS: dict[str, str] = {}
 
 # --- CONSTANTS ---
 PROJECT_ROOT = Path("~/dev").expanduser()
-MAX_WORKERS = 4
+DEFAULT_WORKERS = 1
 
 # Timeouts (seconds)
 HTTP_TIMEOUT = 15
@@ -188,6 +188,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "clone", help="Clone or update repositories and their worktrees."
     )
     parser.add_argument(
+        "--workers",
+        type=int,
+        default=DEFAULT_WORKERS,
+        help=f"Maximum parallel repository updates per project (default: {DEFAULT_WORKERS}).",
+    )
+    parser.add_argument(
         "--clone-timeout",
         type=int,
         default=GIT_TIMEOUT,
@@ -278,6 +284,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Remove stale flat worktrees not in target set.",
     )
     args = root_parser.parse_args(argv)
+    if args.command == "clone" and args.workers <= 0:
+        root_parser.error("workers must be greater than zero")
     if args.command == "clone" and (args.clone_timeout <= 0 or args.fetch_timeout <= 0):
         root_parser.error("clone and fetch timeouts must be greater than zero")
     if args.command is None or args.command == "help":
@@ -877,6 +885,11 @@ def run_tests(verbose: bool) -> int:
     from unittest.mock import patch
 
     class AzureReposTests(unittest.TestCase):
+        def test_workers_default_and_override(self) -> None:
+            self.assertEqual(parse_args(["clone"]).workers, 1)
+            self.assertEqual(parse_args(["clone", "--workers", "1"]).workers, 1)
+            self.assertEqual(parse_args(["clone", "--workers", "8"]).workers, 8)
+
         def test_clone_timeout_cleans_partial_clone(self) -> None:
             with tempfile.TemporaryDirectory() as directory:
                 repo_root = Path(directory) / "repo"
@@ -922,8 +935,13 @@ def run_tests(verbose: bool) -> int:
             with (
                 tempfile.TemporaryDirectory() as directory,
                 patch.object(
-                    sys, "argv", ["repos azure", "clone", "--root", directory]
+                    sys,
+                    "argv",
+                    ["repos azure", "clone", "--root", directory, "--workers", "2"],
                 ),
+                patch(
+                    f"{__name__}.ThreadPoolExecutor", wraps=ThreadPoolExecutor
+                ) as pool,
                 patch(f"{__name__}.configure_auth"),
                 patch(
                     f"{__name__}.get_projects",
@@ -943,6 +961,7 @@ def run_tests(verbose: bool) -> int:
                 patch(f"{__name__}.summarize") as summary,
             ):
                 self.assertEqual(main(), 1)
+            pool.assert_called_once_with(max_workers=2)
             self.assertEqual(worker.call_count, 2)
             total, successes, failures, _ = summary.call_args.args
             self.assertEqual((total, successes), (2, 1))
@@ -1058,7 +1077,7 @@ def main() -> int:
         project_dir.mkdir(parents=True, exist_ok=True)
 
         tasks: list[tuple[str, Future[tuple[bool, str]]]] = []
-        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        with ThreadPoolExecutor(max_workers=args.workers) as executor:
             for repo in repos:
                 repo_name = repo["name"]
                 clone_url = select_clone_url(repo, args.protocol)

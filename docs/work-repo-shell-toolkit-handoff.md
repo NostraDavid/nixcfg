@@ -78,6 +78,10 @@ Set `NDTK_BITBUCKET_HOST` and `NDTK_AZURE_USERNAME` in the work profile's
 `home.sessionVariables`. The base defaults are `bitbucket.org` and `git`. An
 explicit username in a remote URL takes precedence over the Azure default.
 
+Use `repos azure clone --workers 8` to control parallel repository updates
+within each project. The default is one worker, processing repositories one at a
+time. The option requires a positive integer.
+
 `repos azure` reads `~/.config/ndtk/azure.env` explicitly instead of loading a
 `.env` file from the current directory. If the work host has Azure settings or a
 generated repository list, move them to the new paths before removing the old
