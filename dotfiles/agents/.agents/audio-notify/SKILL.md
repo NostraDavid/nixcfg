@@ -1,6 +1,6 @@
 ---
 name: notify
-description: Speak a notification with say before asking the user a question, reporting a blocked task, or handing over a completed task, including a finished plan or verified change. Apply at these moments regardless of the task domain.
+description: Speak a Dutch notification with say before asking the user a question, reporting a blocker, or handing over completed work. Apply regardless of task domain or conversation language.
 ---
 
 # Audio notifications
@@ -42,8 +42,13 @@ blocker changes.
 "$HOME/.agents/audio-notify/scripts/notify.sh" done "Repositorynaam toegevoegd aan de meldingen."
 ```
 
-Always supply a short, task-specific message as the second argument. Use one
-sentence of at most twelve words. For completion, name what was finished and,
+Always write the spoken message in Dutch, regardless of the conversation
+language. Translate any proposed message into Dutch before passing it to
+`notify.sh`; `say` uses a Dutch voice and does not translate text. Keep proper
+names, command names, and code identifiers unchanged.
+
+Supply a short, task-specific message as the second argument. Use one sentence
+of at most twelve words. For completion, name what was finished and,
 when useful, its result or the user's next step. For a question, name the input
 needed. Keep file lists, commit hashes, and technical details in the written
 reply. Quote the message as one shell argument.
