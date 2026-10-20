@@ -225,9 +225,11 @@ in {
 
   _module.args = {inherit mkHost mkMimir2 mkLoki;};
 
-  flake.lib = {inherit mkMimir2 mkLoki;};
-
-  flake.overlays.default = overlay-local;
+  flake = {
+    lib = {inherit mkMimir2 mkLoki;};
+    overlays.default = overlay-local;
+    packages.aarch64-darwin.video-explainer = (pkgsFor "aarch64-darwin").video-explainer;
+  };
 
   perSystem = {system, ...}: let
     stable = pkgsFor system;
@@ -252,6 +254,19 @@ in {
           ];
         }).config.home.file;
     };
+
+    checks.video-explainer =
+      stable.runCommand "video-explainer-check" {
+        nativeBuildInputs = [stable.video-explainer stable.ffmpeg];
+      } ''
+        export HOME="$TMPDIR/home"
+        mkdir -p "$HOME"
+        video-explainer check
+        video-explainer unit-test
+        video-explainer render ${../checks/fixtures/video-explainer}/manifest.json --output "$TMPDIR/render"
+        mkdir -p "$out"
+        cp -R "$TMPDIR/render/." "$out/"
+      '';
 
     packages =
       mkLocal stable

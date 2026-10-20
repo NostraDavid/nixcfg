@@ -22,7 +22,8 @@
     "skill-review",
     "software-architecture-design",
     "test-design",
-    "tiger-style"
+    "tiger-style",
+    "video-explainer"
   ],
   "workflow": [
     "context7",
@@ -111,6 +112,7 @@
     "tiger-style": "tiger",
     "to-spec": "spec",
     "unslop": "unslop",
+    "video-explainer": "video",
     "why": "why",
     "worktrunk": "worktrunk",
     "writing-for-agents": "agentwrite"

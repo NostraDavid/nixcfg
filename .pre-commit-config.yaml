@@ -8,6 +8,13 @@ repos:
 
   - repo: local
     hooks:
+      - id: check-video-explainer
+        name: check video renderer logic
+        entry: dotfiles/agents/.agents/video-explainer/scripts/render.py unit-test
+        language: system
+        files: "^(dotfiles/agents/\\.agents/video-explainer/|pkgs/video-explainer/|checks/fixtures/video-explainer/|\\.pre-commit-config\\.yaml$)"
+        pass_filenames: false
+
       - id: check-pi-parity
         name: check Pi workflow extensions against pinned SDK
         entry: node --test checks/pi-parity.test.mjs

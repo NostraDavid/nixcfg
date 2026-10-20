@@ -158,7 +158,10 @@
         "how.*why"
       ],
       "positive_prompts": [
-        "Explain this unfinished subsystem so I understand it."
+        "Explain this unfinished subsystem so I understand it.",
+        "Help me understand how a worktree shares history but keeps files separate.",
+        "Explain the effect of changing these inputs with an interactive example.",
+        "Teach this mechanism; choose a video if motion makes it clearer."
       ],
       "negative_prompts": [
         "Give only a one-line completion status."
@@ -175,6 +178,23 @@
       ],
       "negative_prompts": [
         "Publish from Desktop without a request or accepted offer."
+      ]
+    },
+    "video": {
+      "original_description": "Create narrated explanatory animations with a local Manim, Piper and FFmpeg pipeline. Use for video explainers or when motion and narration improve understanding. Exclude general video editing and publication.",
+      "required_patterns": [
+        "narrated explanatory animations",
+        "Manim.*Piper.*FFmpeg",
+        "Exclude general video editing and publication"
+      ],
+      "positive_prompts": [
+        "Create a Dutch animation explaining Git worktrees.",
+        "Use a narrated video to show how the mechanism moves."
+      ],
+      "negative_prompts": [
+        "Trim the first ten seconds from this recording.",
+        "Publish this movie to YouTube.",
+        "Answer this arithmetic question in one sentence."
       ]
     }
   }

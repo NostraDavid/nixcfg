@@ -1,6 +1,7 @@
 {
   lib,
   linkFarm,
+  applyPatches,
   src,
 }: let
   skillNames = builtins.attrNames (lib.filterAttrs (_: enabled: enabled) (import ./skills.nix));
@@ -8,7 +9,16 @@
     path = "${src}/pstack/skills/${name}";
   in
     assert lib.assertMsg (builtins.pathExists "${path}/SKILL.md") "Missing pstack-skills skill: ${name}"; {
-      inherit name path;
+      inherit name;
+      path =
+        if name == "teach"
+        then
+          applyPatches {
+            name = "teach-skill";
+            src = path;
+            patches = [./teach.patch];
+          }
+        else path;
     })
   skillNames;
 in

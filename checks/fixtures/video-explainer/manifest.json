@@ -1,0 +1,14 @@
+{
+  "source": "scenes.py",
+  "language": "nl",
+  "scenes": [
+    {
+      "scene": "SharedHistory",
+      "narration": "Een Git-worktree is een extra werkmap bij dezelfde repository. De werkmappen delen de commits."
+    },
+    {
+      "scene": "SeparateFiles",
+      "narration": "Bestanden kun je in elke werkmap afzonderlijk wijzigen. Hier verandert alleen de tweede werkmap."
+    }
+  ]
+}
