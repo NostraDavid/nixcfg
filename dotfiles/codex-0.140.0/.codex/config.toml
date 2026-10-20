@@ -33,15 +33,6 @@ source = "/home/david/.codex/.tmp/bundled-marketplaces/openai-bundled"
 source_type = "local"
 source = "/home/david/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
-[mcp_servers.blender]
-command = "/nix/store/hhky4mmxkd4raldkl4ag00v3fgk4zhyb-blender-mcp-26.04.10/bin/blender-mcp"
-args = ["--transport", "stdio"]
-startup_timeout_sec = 60
-
-[mcp_servers.blender.env]
-BLENDER_MCP_HOST = "127.0.0.1"
-BLENDER_MCP_PORT = "9876"
-
 [mcp_servers.node_repl]
 args = []
 command = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/cua_node/bin/node_repl"

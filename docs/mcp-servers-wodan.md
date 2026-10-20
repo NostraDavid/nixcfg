@@ -27,11 +27,11 @@ DBHub-pakket.
 
 De gecontroleerde lokale configuraties bevatten deze servernamen:
 
-| Configuratie                       | Servernamen                                                                                                 |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `~/.codex/config.toml`             | agent-memory, blender, chrome-devtools, headroom, nixos, node_repl, openaiDeveloperDocs, playwright, qartez |
-| `~/.config/opencode/opencode.json` | chrome-devtools, engram, headroom, nixos, playwright, qartez                                                |
-| `~/.config/mcp/mcp.json`           | agent-memory, headroom, qartez                                                                              |
+| Configuratie                       | Servernamen                                                                                        |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `~/.codex/config.toml`             | agent-memory, chrome-devtools, headroom, nixos, node_repl, openaiDeveloperDocs, playwright, qartez |
+| `~/.config/opencode/opencode.json` | chrome-devtools, engram, headroom, nixos, playwright, qartez                                       |
+| `~/.config/mcp/mcp.json`           | agent-memory, headroom, qartez                                                                     |
 
 Deze lijsten tonen configuratieverschillen. Ze bewijzen geen fout, aliasgedrag
 of geslaagde verbinding. Ook Pi heeft configuratie in de repository via

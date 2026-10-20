@@ -167,7 +167,7 @@ in {
       dbhubLocalDatabase = lib.hm.dag.entryAfter ["writeBoundary"] ''
         $DRY_RUN_CMD ${stable.coreutils}/bin/install -d -m 700 ${lib.escapeShellArg "${config.xdg.dataHome}/dbhub"}
       '';
-      wodanMcpClients = lib.hm.dag.entryAfter ["dbhubLocalDatabase" "headroomClients" "blenderMcpClient" "linkGeneration"] ''
+      wodanMcpClients = lib.hm.dag.entryAfter ["dbhubLocalDatabase" "headroomClients" "linkGeneration"] ''
         $DRY_RUN_CMD ${stable.python3.withPackages (p: [p.tomlkit])}/bin/python - "$HOME" ${lib.escapeShellArg (builtins.toJSON (mcpServers // {dbhub = dbhubServer;}))} <<'PY'
         import json
         import os
@@ -230,7 +230,7 @@ in {
         done
       '';
 
-      codexBrowserRuntime = lib.hm.dag.entryAfter ["agentMemoryClients" "blenderMcpClient" "linkGeneration"] ''
+      codexBrowserRuntime = lib.hm.dag.entryAfter ["agentMemoryClients" "linkGeneration"] ''
         for plugin in browser chrome; do
           cache="$HOME/.codex/plugins/cache/openai-bundled/$plugin/${local.chatgpt.version}"
           if [ -L "$cache" ]; then

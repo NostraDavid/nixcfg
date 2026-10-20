@@ -33,7 +33,7 @@ repos:
         name: check Pi workflow extensions against pinned SDK
         entry: node --test checks/pi-parity.test.mjs
         language: system
-        files: "^(dotfiles/pi-[^/]+/|checks/(pi-parity\\.test\\.mjs$|fixtures/pi-mcp-server\\.mjs$)|modules/home/(development/(pi|qartez|agent-memory|headroom)|media/blender-mcp)\\.nix$|flake\\.lock$)"
+        files: "^(dotfiles/pi-[^/]+/|checks/(pi-parity\\.test\\.mjs$|fixtures/pi-mcp-server\\.mjs$)|modules/home/development/(pi|qartez|agent-memory|headroom)\\.nix$|flake\\.lock$)"
         pass_filenames: false
 
       - id: check-repos-providers

@@ -4,8 +4,6 @@
   unstable,
   ...
 }: {
-  imports = [./blender-mcp.nix];
-
   home.packages = [
     local.photorec # image recovery
     local.voiceio # Local push-to-talk voice dictation
