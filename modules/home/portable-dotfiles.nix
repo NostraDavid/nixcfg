@@ -26,6 +26,7 @@ in {
     ".copilot/copilot-instructions.md".source = config.home.file."AGENTS.md".source;
     ".copilot/instructions/eu-ai-act.instructions.md".source = mk "${dot}/agents/instructions/eu-ai-act.md";
     ".config/opencode/AGENTS.md".source = config.home.file."AGENTS.md".source;
+    ".config/opencode/cli.json".source = mk "${dot}/opencode-2.0.32/.config/opencode/cli.json";
     ".config/cloc/options.txt".source = mk "${dot}/cloc-2.08/.config/cloc/options.txt";
     ".config/direnv/direnv.toml".source = mk "${dot}/direnv-2.36.0/.config/direnv/direnv.toml";
     ".config/dprint/dprint.jsonc".source = mk "${dot}/dprint-0.55.2/.config/dprint/dprint.jsonc";

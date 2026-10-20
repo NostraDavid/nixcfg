@@ -184,8 +184,10 @@ newly installed binary or changed configuration, including removed MCP servers.
 Reopening the client alone can reuse the service's cached configuration. Run
 `opencode debug config` after the restart to verify the loaded configuration.
 `opencode --standalone` uses a private server instead. Terminal-client
-preferences move to `~/.config/opencode/cli.json` on first startup; Nix does not
-overwrite that writable client-owned file.
+preferences move from legacy `tui.json` files to `~/.config/opencode/cli.json`
+on first startup. Home Manager links this writable file to
+`dotfiles/opencode-2.0.32/.config/opencode/cli.json`, so changes made in the TUI
+also update the checkout. Both personal and work profiles use this client file.
 
 Verify models and credentials, agent selection, MCP connectivity, permissions,
 and a disposable session before relying on the migration for ongoing work. For
