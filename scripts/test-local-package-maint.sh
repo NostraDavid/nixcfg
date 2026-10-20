@@ -10,7 +10,7 @@ cd "${repo_root}"
 source <(sed '$d' scripts/local-package-maint.sh)
 
 # These bundles must reach their flake updater, even with unstable versions.
-for package in awesome-copilot-skills matt-pocock-skills pi-coding-agent-bun polars-skills ponytail-skills pstack-skills; do
+for package in awesome-copilot-skills databricks-agent-skills matt-pocock-skills pi-coding-agent-bun polars-skills ponytail-skills pstack-skills; do
     if [[ "${package}" == polars-skills ]]; then
         [[ "$(package_version "${repo_root}" "${package}")" =~ ^0\.[0-9]+\.[0-9]+$ ]]
     elif [[ "${package}" == matt-pocock-skills || "${package}" == ponytail-skills ]]; then
@@ -32,10 +32,10 @@ done
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
 rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
-for package in fixit dockerfile-roast jsongrep mdschema gigatoken pico-8-font ponytail-codex qartez; do
+for package in cmux-tui fixit dockerfile-roast jsongrep mdschema gigatoken pico-8-font ponytail-codex qartez; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
-for package in pico-8-font ponytail-codex; do
+for package in cmux-tui pico-8-font ponytail-codex; do
     list_packages | rg -x "${package}" >/dev/null
     if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
         printf '%s must be updatable: %s\n' "${package}" "${reason}" >&2

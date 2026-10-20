@@ -6,7 +6,47 @@ tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 nix eval --impure --json --file "$root/checks/loki-mcp.nix" checks
 nix eval --impure --json --file "$root/checks/loki-mcp.nix" servers >"$tmp/servers.json"
+nix eval --impure --json --file "$root/checks/loki-mcp.nix" profileServers >"$tmp/profile-servers.json"
 python=$(nix build --impure --file "$root/checks/loki-mcp.nix" python --no-link --print-out-paths)
+wodan_scripts=$(nix build --impure --file "$root/checks/loki-mcp.nix" wodanScripts --no-link --print-out-paths)
+wodan_launchers=$(nix build --impure --file "$root/checks/loki-mcp.nix" wodanLaunchers --no-link --print-out-paths)
+mkdir -p "$tmp/wodan/.codex"
+cp "$root/dotfiles/codex-0.140.0/.codex/config.toml" "$tmp/wodan/.codex/config.toml"
+cat >>"$tmp/wodan/.codex/config.toml" <<'EOF'
+
+[mcp_servers.node_repl.env]
+CUSTOM_KEEP = "fixture-value"
+NODE_REPL_NODE_PATH = "/nix/store/old-runtime/node"
+EOF
+for pass in first second; do
+    for writer in headroomClients mcpClients; do
+        sed "s#/home/david#${tmp}/wodan#g" "$wodan_scripts/$writer" | HOME="$tmp/wodan" DRY_RUN_CMD="" bash
+    done
+    if [[ "$pass" == first ]]; then
+        cp "$tmp/wodan/.codex/config.toml" "$tmp/wodan-first.toml"
+    else
+        cmp "$tmp/wodan-first.toml" "$tmp/wodan/.codex/config.toml"
+    fi
+done
+"$python/bin/python" - "$tmp/wodan/.codex/config.toml" <<'PY'
+from pathlib import Path
+import sys
+import tomllib
+
+servers = tomllib.loads(Path(sys.argv[1]).read_text())["mcp_servers"]
+assert len(servers) == 10
+assert "/nix/store/" not in str(servers)
+assert servers["node_repl"]["env"] == {"CUSTOM_KEEP": "fixture-value"}
+assert servers["node_repl"]["command"].endswith("/.local/bin/codex-mcp-node-repl")
+assert not servers["cua_repl"]["enabled"]
+PY
+# Separate launchers retain the browser bridge only for Codex.
+rg -q 'export NODE_REPL_TRUSTED_SERVICES=' "$wodan_launchers/codex-mcp-node-repl"
+rg -q '/.codex/plugins/cache/openai-bundled/browser/' "$wodan_launchers/codex-mcp-node-repl"
+if rg -q 'TRUSTED_SERVICES|BROWSER_USE_' "$wodan_launchers/opencode-mcp-node-repl"; then
+    echo 'OpenCode Node REPL must remain independent of the Codex browser bridge' >&2
+    exit 1
+fi
 "$python/bin/python" - "$root" "$tmp" <<'PY'
 import json
 import os
@@ -17,15 +57,32 @@ import sys
 import tomllib
 
 root, tmp = map(Path, sys.argv[1:])
-configure = runpy.run_path(root / "modules/home/loki-mcp-clients.py")["configure"]
+configure = runpy.run_path(root / "modules/home/mcp-clients.py")["configure"]
 servers = json.loads((tmp / "servers.json").read_text())
 servers["node_repl"]["startup_timeout_sec"] = 120
+# Every physical host must produce the same eight local MCP registrations.
+profiles = json.loads((tmp / "profile-servers.json").read_text())
+assert set(profiles) == {"wodan", "frigg", "donar", "bragi", "loki", "david@mimir2"}
+for name, entries in profiles.items():
+    assert set(entries) == set(servers), name
+    fixture_home = tmp / "profiles" / name
+    configure(fixture_home, entries)
+    registered = tomllib.loads((fixture_home / ".codex/config.toml").read_text())["mcp_servers"]
+    assert all(registered[key]["command"] == value["command"] for key, value in entries.items()), name
+    assert "/nix/store/" not in str(registered), name
+
 home = tmp / "home"
 codex = home / ".codex/config.toml"
 opencode = home / ".config/opencode/opencode.jsonc"
 codex.parent.mkdir(parents=True)
 opencode.parent.mkdir(parents=True)
 codex.write_text('model = "existing-model"\n[mcp_servers.custom]\ncommand = "custom-server"\n')
+with codex.open("a") as stream:
+    stream.write('[mcp_servers.engram]\ncommand = "old-name"\n[mcp_servers.engrim]\ncommand = "old-name"\n[mcp_servers.lean-ctx]\ncommand = "old-name"\n')
+databases = [home / f".local/share/{backend}/fixture.db" for backend in ("engram", "engrim")]
+for path in databases:
+    path.parent.mkdir(parents=True)
+    path.write_text("preserve-existing-database")
 original = '{\n// Keep work authentication and providers\n"providers":{"work":{"settings":{"apiKey":"{env:WORK_KEY}"}}},"mcp":{"servers":{"custom":{"type":"remote","url":"https://example.invalid"}}}}'
 source = tmp / "user-config.jsonc"
 source.write_text(original)
@@ -35,16 +92,34 @@ assert source.read_text() == original
 assert not opencode.is_symlink()
 assert tomllib.loads(codex.read_text())["model"] == "existing-model"
 assert set(tomllib.loads(codex.read_text())["mcp_servers"]) == {*servers, "custom"}
+assert all(path.read_text() == "preserve-existing-database" for path in databases)
 config = json.loads(opencode.read_text())
 assert config["providers"]["work"]["settings"]["apiKey"] == "{env:WORK_KEY}"
 assert set(config["mcp"]["servers"]) == {*servers, "custom"}
 assert config["mcp"]["servers"]["node_repl"]["timeout"]["startup"] == 120000
 (tmp / "native.jsonc").write_text(json.dumps({"update": "disable", "mcp": config["mcp"]}))
-assert opencode.with_name(opencode.name + ".before-loki-mcp").read_text() == original
+assert opencode.with_name(opencode.name + ".before-mcp").read_text() == original
 assert opencode.stat().st_mode & 0o777 == 0o600
 first = (codex.read_bytes(), opencode.read_bytes())
 configure(home, servers)
 assert first == (codex.read_bytes(), opencode.read_bytes())
+
+# Upgrading the backing executable must not rewrite either client configuration.
+link = home / ".local/bin/fixture-mcp"
+link.parent.mkdir(parents=True)
+fixture = {"fixture": {"command": str(link)}}
+configure(home, fixture)
+before = [(path.read_bytes(), path.stat().st_mtime_ns) for path in (codex, opencode)]
+for version in ("old", "new"):
+    executable = tmp / version
+    executable.write_text(f"#!/bin/sh\nprintf '%s\\n' {version}\n")
+    executable.chmod(0o755)
+    link.unlink(missing_ok=True)
+    link.symlink_to(executable)
+    configure(home, fixture)
+    assert before == [(path.read_bytes(), path.stat().st_mtime_ns) for path in (codex, opencode)]
+    assert subprocess.check_output([link], text=True).strip() == version
+
 opencode.write_text('{broken')
 try:
     configure(home, servers)
@@ -53,6 +128,31 @@ except ValueError:
 else:
     raise AssertionError("Malformed user configuration must be rejected")
 assert opencode.read_text() == '{broken'
+
+# Native dotfiles must work with a different username, a space in HOME and no PATH lookup.
+portable_home = tmp / "other user"
+bin_dir = portable_home / ".local/bin"
+bin_dir.mkdir(parents=True)
+expected = {"agent-memory": ["mcp"], "headroom": ["mcp", "serve", "--transport", "stdio"], "qartez": [], "node_repl": []}
+commands = {"agent-memory": "agent-memory", "headroom": "headroom", "qartez": "qartez", "node_repl": "opencode-mcp-node-repl"}
+for command in commands.values():
+    executable = bin_dir / command
+    executable.write_text('#!/bin/sh\nfor arg do printf "%s\\n" "$arg"; done\n')
+    executable.chmod(0o755)
+documents = [
+    ("dotfiles/copilot-1.0.65/.copilot/mcp-config.json", "mcpServers"),
+    ("dotfiles/mcp/.config/mcp/mcp.json", "mcpServers"),
+    ("dotfiles/vscode-1.106.2/.config/Code/User/mcp.json", "servers"),
+]
+for relative, key in documents:
+    entries = json.loads((root / relative).read_text())[key]
+    for name, server in entries.items():
+        result = subprocess.check_output([server["command"], *server.get("args", [])], env=dict(os.environ, HOME=str(portable_home), PATH="/nonexistent"), text=True)
+        assert result.splitlines() == expected[name], (relative, name, result)
+for name, server in tomllib.loads((root / "dotfiles/codex-0.140.0/.codex/config.toml").read_text())["mcp_servers"].items():
+    if server.get("enabled", True) and "command" in server:
+        result = subprocess.check_output([server["command"], *server.get("args", [])], env=dict(os.environ, HOME=str(portable_home), PATH="/nonexistent"), text=True)
+        assert result.splitlines() == expected[name], name
 
 # Exercise the real launcher against a native-app fixture, including spaces.
 launcher = tmp / "node-repl.sh"

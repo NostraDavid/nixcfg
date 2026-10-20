@@ -8,6 +8,13 @@ repos:
 
   - repo: local
     hooks:
+      - id: check-module-map
+        name: check module map analysis
+        entry: python3 checks/test-module-map.py
+        language: system
+        files: "^(scripts/module(_map\\.py|-graph\\.nix|-map\\.html)|checks/test-module-map\\.py|\\.pre-commit-config\\.yaml)$"
+        pass_filenames: false
+
       - id: check-nix-index
         name: check initial nix-index generation
         entry: bash checks/test-nix-index.sh
@@ -23,10 +30,10 @@ repos:
         pass_filenames: false
 
       - id: check-loki-mcp
-        name: check Loki MCP clients and native launcher
+        name: check stable MCP launchers and client configuration
         entry: bash checks/test-loki-mcp.sh
         language: system
-        files: "^(modules/home/loki-(mcp|node-repl)|checks/(loki-mcp\\.nix|test-loki-mcp\\.sh)|pkgs/(headroom|dbhub)/|modules/home/development/agent-memory\\.nix$|modules/flake\\.nix$)"
+        files: '^(modules/(home/(mcp\.nix|mcp-clients\.py|codex-mcp\.nix|loki-node-repl\.sh|wodan\.nix|portable-cli\.nix|development/(agent-memory|headroom|qartez)\.nix|development/headroom-clients\.py)|home-manager\.nix|hosts/(frigg|bragi)\.nix|flake\.nix)|checks/(loki-mcp\.nix|test-loki-mcp\.sh)|pkgs/(headroom|dbhub)/.*|dotfiles/(codex-[^/]+/\.codex/config\.toml|copilot-[^/]+/\.copilot/mcp-config\.json|mcp/\.config/mcp/mcp\.json|vscode-[^/]+/\.config/Code/User/mcp\.json|opencode-[^/]+/\.config/opencode/opencode\.jsonc))$'
         pass_filenames: false
 
       - id: check-video-explainer
@@ -82,7 +89,7 @@ repos:
         name: check package release updaters
         entry: bash scripts/test-release-updaters.sh
         language: system
-        files: "^scripts/(update-opencode-v2(-desktop)?|update-headroom|test-release-updaters)\\.sh$"
+        files: "^scripts/(update-opencode-v2(-desktop)?|update-headroom|update-cmux-tui|update-databricks-agent-skills|test-release-updaters)\\.sh$"
         pass_filenames: false
 
       - id: check-alejandra

@@ -4,10 +4,10 @@
   lib,
 }: let
   pname = "opencode-desktop";
-  version = "2.0.32";
+  version = "2.1.0";
   src = fetchurl {
     url = "https://opencode.ai/files/bin/${version}/opencode-desktop-linux-x86_64.AppImage";
-    hash = "sha256-A081bi6Ha8WTjxVc7vGAI4xAUYy2rMieMDflUbBAMJM=";
+    hash = "sha256-kNwQGraIKnESZ1B1a65macd4+Er0vyRX5cqYePPeHxI=";
   };
   contents = appimageTools.extractType2 {inherit pname version src;};
 in

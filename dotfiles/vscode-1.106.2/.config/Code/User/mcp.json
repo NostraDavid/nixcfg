@@ -22,24 +22,34 @@
   "servers": {
     "agent-memory": {
       "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/agent-memory\" \"$@\"",
+        "agent-memory",
         "mcp"
       ],
-      "command": "agent-memory",
+      "command": "/bin/sh",
       "type": "stdio"
     },
     "qartez": {
-      "args": [],
-      "command": "qartez",
+      "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/qartez\" \"$@\"",
+        "qartez"
+      ],
+      "command": "/bin/sh",
       "type": "stdio"
     },
     "headroom": {
       "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/headroom\" \"$@\"",
+        "headroom",
         "mcp",
         "serve",
         "--transport",
         "stdio"
       ],
-      "command": "headroom",
+      "command": "/bin/sh",
       "env": {},
       "type": "stdio"
     }

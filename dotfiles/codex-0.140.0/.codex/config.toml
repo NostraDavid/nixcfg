@@ -34,24 +34,9 @@ source_type = "local"
 source = "/home/david/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [mcp_servers.node_repl]
-args = []
-command = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/cua_node/bin/node_repl"
+command = "/bin/sh"
+args = ["-c", 'exec "$HOME/.local/bin/opencode-mcp-node-repl" "$@"', "node-repl"]
 startup_timeout_sec = 120
-
-[mcp_servers.node_repl.env]
-NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/cua_node/lib/node_modules"
-NODE_REPL_NODE_PATH = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/cua_node/bin/node"
-NODE_REPL_TRUSTED_CODE_PATHS = "/home/david/.codex:/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/cua_node/lib/node_modules"
-CODEX_HOME = "/home/david/.codex"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
-BROWSER_USE_TINYSKY_ENABLED = "1"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.928.21956"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/david/.codex/plugins/cache/openai-bundled/browser/26.928.21956/scripts/browser-service.mjs"}'
-CODEX_CLI_PATH = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/resources/codex"
 
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
@@ -61,16 +46,25 @@ command = "/bin/sh"
 args = ["-c", 'exec "$HOME/.local/bin/qartez" "$@"', "qartez"]
 
 [mcp_servers.cua_repl]
-command = "/nix/store/50lxx6gc2k1rhcrmxiz4fm7y1k0q5lvp-chatgpt-26.928.21956/lib/chatgpt/ChatGPT"
+command = "/bin/sh"
+args = ["-c", 'exec "$HOME/.local/bin/cua-repl" "$@"', "cua-repl"]
 enabled = false
 
 [mcp_servers.agent-memory]
-command = "/nix/store/zwsmbsawwb125hfa3fw32rssfj6963vh-agent-memory/bin/agent-memory"
-args = ["mcp"]
+command = "/bin/sh"
+args = ["-c", 'exec "$HOME/.local/bin/agent-memory" "$@"', "agent-memory", "mcp"]
 
 [mcp_servers.headroom]
-command = "/nix/store/qsm1afkpia2k792sixf50q0lazwy32hq-headroom-ai-0.41.0/bin/headroom"
-args = ["mcp", "serve", "--transport", "stdio"]
+command = "/bin/sh"
+args = [
+  "-c",
+  'exec "$HOME/.local/bin/headroom" "$@"',
+  "headroom",
+  "mcp",
+  "serve",
+  "--transport",
+  "stdio",
+]
 [notice]
 hide_rate_limit_model_nudge = true
 

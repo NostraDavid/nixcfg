@@ -1,39 +1,11 @@
 # Home-manager programs specific to wodan.
 {
-  config,
   inputs,
   lib,
   local,
   stable,
-  unstable,
   ...
 }: let
-  dbhubServer = {
-    command = lib.getExe local.dbhub;
-    args = ["--transport" "stdio" "--config" "${config.xdg.configHome}/dbhub/local.toml"];
-  };
-  mcpServers = {
-    nixos.command = lib.getExe unstable.mcp-nixos;
-    playwright = {
-      command = lib.getExe unstable.playwright-mcp;
-      args = ["--headless" "--isolated" "--executable-path" (lib.getExe stable.chromium)];
-    };
-    chrome-devtools = {
-      command = lib.getExe local.chrome-devtools-mcp;
-      args = ["--headless" "--isolated" "--executable-path" (lib.getExe stable.chromium) "--no-usage-statistics" "--no-performance-crux"];
-    };
-  };
-  opencodeMcpWrappers = lib.mapAttrsToList (name: server:
-    stable.writeShellScriptBin "opencode-mcp-${name}" ''
-      exec ${lib.escapeShellArg server.command} ${lib.escapeShellArgs (server.args or [])} "$@"
-    '')
-  mcpServers;
-  opencodeNodeRepl = stable.writeShellScriptBin "opencode-mcp-node-repl" ''
-    export NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS=1000
-    export NODE_REPL_NODE_MODULE_DIRS="${local.chatgpt}/lib/chatgpt/resources/cua_node/lib/node_modules"
-    export NODE_REPL_NODE_PATH="${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node"
-    exec "${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node_repl" "$@"
-  '';
   inline = {
     codexDesktopSafe = let
       codexDesktop = inputs.codex-desktop-linux.packages.${stable.stdenv.hostPlatform.system}.codex-desktop;
@@ -50,6 +22,7 @@
       };
   };
 in {
+  imports = [./codex-mcp.nix];
   nixcfg.plasma = {
     taskbarScreens = [0 1];
     extraTaskbarLaunchers = [
@@ -64,7 +37,6 @@ in {
   };
 
   programs = {
-    pi.coding-agent.mcp.mcpServers.dbhub = dbhubServer;
     plasma = {
       kwin.effects.zoom = {
         enable = true;
@@ -120,12 +92,6 @@ in {
 
   xdg = {
     configFile = {
-      "dbhub/local.toml".text = ''
-        [[sources]]
-        id = "local"
-        description = "Local SQLite sandbox"
-        dsn = "sqlite://${config.xdg.dataHome}/dbhub/local.sqlite"
-      '';
       "codex-desktop/settings.json".text = builtins.toJSON {
         codex-linux-prompt-window-enabled = false;
         codex-linux-system-tray-enabled = false;
@@ -135,76 +101,31 @@ in {
   };
 
   home = {
-    packages =
-      [
-        local.agent-orchestrator
-        local.bend
-        local.chrome-devtools-mcp
-        local.dbhub
-        local.emdash
-        local.kandev
-        local.orca-ide
-        local.paperclip
-        local.paseo-desktop
-        local.pi-desktop
-        local.playwright-cli
-        local.superset
-        local.t3code
-        local.unsloth
-        unstable.mcp-nixos
-        unstable.playwright-mcp
-        opencodeNodeRepl
-      ]
-      ++ opencodeMcpWrappers;
-    file = lib.genAttrs [
-      ".agents/skills/playwright-cli"
-      ".codex/skills/playwright-cli"
-      ".copilot/skills/playwright-cli"
-      ".config/opencode/skills/playwright-cli"
-    ] (_: {source = "${local.playwright-cli}/share/skills/playwright-cli";});
+    packages = [
+      local.agent-orchestrator
+      local.bend
+      local.emdash
+      local.kandev
+      local.orca-ide
+      local.paperclip
+      local.paseo-desktop
+      local.pi-desktop
+      local.playwright-cli
+      local.superset
+      local.t3code
+      local.unsloth
+    ];
+    file =
+      lib.genAttrs [
+        ".agents/skills/playwright-cli"
+        ".codex/skills/playwright-cli"
+        ".copilot/skills/playwright-cli"
+        ".config/opencode/skills/playwright-cli"
+      ] (_: {source = "${local.playwright-cli}/share/skills/playwright-cli";})
+      // {
+      };
 
     activation = {
-      dbhubLocalDatabase = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        $DRY_RUN_CMD ${stable.coreutils}/bin/install -d -m 700 ${lib.escapeShellArg "${config.xdg.dataHome}/dbhub"}
-      '';
-      wodanMcpClients = lib.hm.dag.entryAfter ["dbhubLocalDatabase" "headroomClients" "linkGeneration"] ''
-        $DRY_RUN_CMD ${stable.python3.withPackages (p: [p.tomlkit])}/bin/python - "$HOME" ${lib.escapeShellArg (builtins.toJSON (mcpServers // {dbhub = dbhubServer;}))} <<'PY'
-        import json
-        import os
-        from pathlib import Path
-        import shutil
-        import sys
-        import tempfile
-        import tomlkit
-
-        home = Path(sys.argv[1])
-        servers = json.loads(sys.argv[2])
-        for relative, loads, dumps in [
-            (".codex/config.toml", tomlkit.loads, tomlkit.dumps),
-        ]:
-            path = home / relative
-            original = path.read_text() if path.exists() else ""
-            document = loads(original) if original else {}
-            document.setdefault("mcp_servers", {}).update(servers)
-            updated = dumps(document)
-            if updated == original:
-                continue
-            path.parent.mkdir(parents=True, exist_ok=True)
-            backup = path.with_name(path.name + ".before-wodan-mcp")
-            if path.exists() and not backup.exists():
-                shutil.copy2(path, backup)
-            fd, temporary = tempfile.mkstemp(dir=path.parent)
-            try:
-                with os.fdopen(fd, "w") as stream:
-                    stream.write(updated)
-                # Replace symlinks locally rather than editing shared dotfiles.
-                os.replace(temporary, path)
-            finally:
-                if os.path.exists(temporary):
-                    os.unlink(temporary)
-        PY
-      '';
-
       codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
         codex_dir="$HOME/.codex"
         volatile_dir="/tmp/$USER-codex"
@@ -228,31 +149,6 @@ in {
             $DRY_RUN_CMD ln -s "$target" "$link"
           fi
         done
-      '';
-
-      codexBrowserRuntime = lib.hm.dag.entryAfter ["agentMemoryClients" "linkGeneration"] ''
-        for plugin in browser chrome; do
-          cache="$HOME/.codex/plugins/cache/openai-bundled/$plugin/${local.chatgpt.version}"
-          if [ -L "$cache" ]; then
-            $DRY_RUN_CMD rm "$cache"
-          fi
-          if [ -d "$cache" ]; then
-            $DRY_RUN_CMD ${stable.coreutils}/bin/chmod -R u+w "$cache"
-          fi
-          $DRY_RUN_CMD mkdir -p "$cache"
-          # Replace cached files so running executables keep their original inode.
-          $DRY_RUN_CMD ${stable.coreutils}/bin/cp -R --remove-destination --preserve=mode --no-preserve=ownership \
-            "${local.chatgpt}/lib/chatgpt/resources/plugins/openai-bundled/plugins/$plugin/." "$cache/"
-          $DRY_RUN_CMD ${stable.coreutils}/bin/chmod -R u+w "$cache"
-        done
-
-        # The Browser service must resolve inside CODEX_HOME's trusted code path.
-        $DRY_RUN_CMD sed -i -E \
-          -e 's#/nix/store/[a-z0-9]+-chatgpt-[0-9.]+/lib/chatgpt/resources#${local.chatgpt}/lib/chatgpt/resources#g' \
-          -e 's#(BROWSER_USE_CODEX_APP_VERSION = ")[^"]+#\1${local.chatgpt.version}#' \
-          -e 's#/nix/store/[a-z0-9]+-chatgpt-[0-9.]+/lib/chatgpt/resources/plugins/openai-bundled/plugins/browser/scripts/browser-service.mjs#/home/david/.codex/plugins/cache/openai-bundled/browser/${local.chatgpt.version}/scripts/browser-service.mjs#g' \
-          -e 's#(/home/[^/]+/[.]codex/plugins/cache/openai-bundled/browser/)[0-9.]+(/scripts/browser-service.mjs)#\1${local.chatgpt.version}\2#g' \
-          "$HOME/.codex/config.toml"
       '';
     };
   };

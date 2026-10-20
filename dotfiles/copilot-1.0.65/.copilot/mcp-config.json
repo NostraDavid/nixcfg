@@ -2,17 +2,24 @@
   "mcpServers": {
     "agent-memory": {
       "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/agent-memory\" \"$@\"",
+        "agent-memory",
         "mcp"
       ],
-      "command": "agent-memory",
+      "command": "/bin/sh",
       "tools": [
         "*"
       ],
       "type": "local"
     },
     "qartez": {
-      "args": [],
-      "command": "qartez",
+      "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/qartez\" \"$@\"",
+        "qartez"
+      ],
+      "command": "/bin/sh",
       "tools": [
         "*"
       ],
@@ -20,12 +27,15 @@
     },
     "headroom": {
       "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/headroom\" \"$@\"",
+        "headroom",
         "mcp",
         "serve",
         "--transport",
         "stdio"
       ],
-      "command": "headroom",
+      "command": "/bin/sh",
       "tools": [
         "*"
       ],

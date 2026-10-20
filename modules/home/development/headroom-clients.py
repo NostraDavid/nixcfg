@@ -7,49 +7,29 @@ import sys
 import tempfile
 from pathlib import Path
 
-import tomlkit
 
-
-def configure(home: Path, command: str) -> None:
-    server = {"command": command, "args": ["mcp", "serve", "--transport", "stdio"]}
-    for relative, section, loads, dumps in [
-        (".codex/config.toml", "mcp_servers", tomlkit.loads, tomlkit.dumps),
-        (
-            ".pi/agent/settings.json",
-            None,
-            json.loads,
-            lambda value: json.dumps(value, indent=2) + "\n",
-        ),
-    ]:
-        path = home / relative
-        if not path.exists() and section is None:
-            continue
+def configure(home: Path) -> None:
+    path = home / ".pi/agent/settings.json"
+    if path.exists():
         path = path.resolve()
-        original = path.read_text() if path.exists() else ""
-        document = loads(original) if original else {}
-        if section is None:
-            document["packages"] = [
-                p for p in document.get("packages", []) if p != "npm:pi-lean-ctx"
-            ]
-        else:
-            servers = document.setdefault(section, {})
-            servers.pop("lean-ctx", None)
-            servers["headroom"] = dict(server)
-        updated = dumps(document)
-        if updated == original:
-            continue
-        path.parent.mkdir(parents=True, exist_ok=True)
-        backup = path.with_name(path.name + ".before-headroom")
-        if path.exists() and not backup.exists():
-            shutil.copy2(path, backup)
-        fd, temporary = tempfile.mkstemp(dir=path.parent)
-        temporary = Path(temporary)
-        try:
-            with os.fdopen(fd, "w") as stream:
-                stream.write(updated)
-            temporary.replace(path)
-        finally:
-            temporary.unlink(missing_ok=True)
+        original = path.read_text()
+        document = json.loads(original)
+        document["packages"] = [
+            p for p in document.get("packages", []) if p != "npm:pi-lean-ctx"
+        ]
+        updated = json.dumps(document, indent=2) + "\n"
+        if updated != original:
+            backup = path.with_name(path.name + ".before-headroom")
+            if not backup.exists():
+                shutil.copy2(path, backup)
+            fd, temporary = tempfile.mkstemp(dir=path.parent)
+            temporary = Path(temporary)
+            try:
+                with os.fdopen(fd, "w") as stream:
+                    stream.write(updated)
+                temporary.replace(path)
+            finally:
+                temporary.unlink(missing_ok=True)
 
     # Move generated integrations out of client discovery; retain user data.
     for relative in [
@@ -74,4 +54,4 @@ def configure(home: Path, command: str) -> None:
 
 
 if __name__ == "__main__":
-    configure(Path(sys.argv[1]), sys.argv[2])
+    configure(Path(sys.argv[1]))

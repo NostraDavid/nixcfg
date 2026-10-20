@@ -5,6 +5,7 @@
   ...
 }: {
   imports = [
+    ./mcp.nix
     ./nix-index.nix
     ./terminal/config.nix
     ./development/core.nix
@@ -22,9 +23,6 @@
   home.packages =
     [
       (stable.callPackage ../../pkgs/opencode-v2 {})
-      (stable.callPackage ../../pkgs/chrome-devtools-mcp {})
-      unstable.mcp-nixos
-      unstable.playwright-mcp
       (lib.hiPrio (stable.callPackage ../../pkgs/cmux-tui {}))
       stable.bashInteractive
       stable.iperf3

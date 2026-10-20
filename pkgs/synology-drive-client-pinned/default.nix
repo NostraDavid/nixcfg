@@ -4,16 +4,16 @@
   synology-drive-client,
   nautilus,
 }: let
-  version = "4.2.0-20058";
+  version = "4.2.1-20062";
   baseUrl = "https://global.synologydownload.com/download/Utility/SynologyDriveClient";
   buildNumber = lib.last (lib.splitString "-" version);
   linuxSrc = fetchurl {
     url = "${baseUrl}/${version}/Ubuntu/Installer/synology-drive-client-${buildNumber}.x86_64.deb";
-    hash = "sha256-QwAx/fWhLmVc5c/GuWTZtcvd3rzNvz+mtWYFRsuR+Z0=";
+    hash = "sha256-4LU72OLmZvvwgHObova5NYascIf13kuRvAE+ii38QPU=";
   };
   darwinSrc = fetchurl {
     url = "${baseUrl}/${version}/Mac/Installer/synology-drive-client-${buildNumber}.dmg";
-    hash = "sha256-oFkyG1ip3+ff9hhRapD4a/Hj+ZrKcEWudIKr4OMtYJQ=";
+    hash = "sha256-JWB7za62cytVMRNlJlhYeb8M5J1q8CgeNELB0AMHxE0=";
   };
 in
   synology-drive-client.overrideAttrs (old: {

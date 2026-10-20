@@ -9,44 +9,6 @@
   memory = stable.writeShellScriptBin "agent-memory" ''
     exec ${lib.getExe local.${provider}} "$@"
   '';
-  python = stable.python3.withPackages (p: [p.tomlkit]);
-  configureClients = stable.writeText "configure-agent-memory.py" ''
-    import os
-    from pathlib import Path
-    import shutil
-    import sys
-    import tempfile
-    import tomlkit
-
-    home = Path(sys.argv[1])
-    # Clients started outside a shell also need an absolute executable path.
-    command = ${builtins.toJSON "${memory}/bin/agent-memory"}
-    for relative, section, loads, dumps in [
-        (".codex/config.toml", "mcp_servers", tomlkit.loads, tomlkit.dumps),
-    ]:
-        path = (home / relative).resolve()
-        original = path.read_text() if path.exists() else ""
-        document = loads(original) if original else {}
-        servers = document.setdefault(section, {})
-        servers.pop("engram", None)
-        servers.pop("engrim", None)
-        servers["agent-memory"] = {"command": command, "args": ["mcp"]}
-        updated = dumps(document)
-        if updated == original:
-            continue
-        path.parent.mkdir(parents=True, exist_ok=True)
-        backup = path.with_name(path.name + ".before-agent-memory")
-        if path.exists() and not backup.exists():
-            shutil.copy2(path, backup)
-        fd, temporary = tempfile.mkstemp(dir=path.parent)
-        try:
-            with os.fdopen(fd, "w") as stream:
-                stream.write(updated)
-            os.replace(temporary, path)
-        finally:
-            if os.path.exists(temporary):
-                os.unlink(temporary)
-  '';
 in {
   options.nixcfg.agentMemory.provider = lib.mkOption {
     type = lib.types.enum ["engram" "engrim"];
@@ -55,24 +17,23 @@ in {
   };
 
   config = {
-    home.packages =
-      (
-        if stable.stdenv.hostPlatform.isLinux
-        then [local.engram local.engrim local.ctx]
-        else [local.${provider}]
-      )
-      ++ [memory];
+    home = {
+      packages =
+        (
+          if stable.stdenv.hostPlatform.isLinux
+          then [local.engram local.engrim local.ctx]
+          else [local.${provider}]
+        )
+        ++ [memory];
+      file.".local/bin/agent-memory".source = "${memory}/bin/agent-memory";
+    };
     xdg.configFile."agent-memory/provider".text = provider + "\n";
 
     programs.pi.coding-agent.mcp.mcpServers.agent-memory = {
-      command = "${memory}/bin/agent-memory";
+      command = "${config.home.homeDirectory}/.local/bin/agent-memory";
       args = ["mcp"];
       description = "Shared durable project memory";
     };
-
-    home.activation.agentMemoryClients = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      $DRY_RUN_CMD ${python}/bin/python ${configureClients} ${lib.escapeShellArg config.home.homeDirectory}
-    '';
 
     systemd.user.services.ctx-history = lib.mkIf stable.stdenv.hostPlatform.isLinux {
       Unit.Description = "Index local coding-agent history for CTX";

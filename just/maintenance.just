@@ -1,3 +1,14 @@
+# Rebuild the offline module diagrams and the reviewable usage snapshot.
+[group('maintenance')]
+module-map:
+  @nix shell --inputs-from . nixpkgs#python3 nixpkgs#graphviz --command python3 scripts/module_map.py generate
+
+# Fail if the committed module map no longer matches evaluated imports.
+[group('maintenance')]
+module-map-check:
+  @python3 checks/test-module-map.py
+  @python3 scripts/module_map.py check
+
 # Show filesystem and Nix store usage quickly.
 [group('maintenance')]
 space:

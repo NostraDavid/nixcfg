@@ -7,6 +7,7 @@
     hostname = "bragi";
     module = {
       lib,
+      main-user,
       stable,
       ...
     }: {
@@ -16,6 +17,7 @@
         hyprland
         keyboard
       ];
+      home-manager.users.${main-user}.imports = [../home/codex-mcp.nix];
 
       nix.settings = {
         cores = 10;

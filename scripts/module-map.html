@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>nixcfg · Module map</title>
+    <link rel="icon" href="data:,">
+    <style>
+    :root {
+      color-scheme: light;
+      font: 15px/1.55 system-ui, sans-serif;
+      color: #243848;
+      background: #f3f6f8;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+    }
+    header {
+      background: #163f52;
+      color: #fff;
+      padding: 28px 4vw;
+    }
+    header p {
+      color: #d3e3eb;
+      margin: 5px 0 0;
+      max-width: 850px;
+    }
+    h1 {
+      font-size: 28px;
+      margin: 0;
+      letter-spacing: -0.6px;
+    }
+    main {
+      margin: 24px 4vw;
+    }
+    h2 {
+      font-size: 19px;
+      margin: 0 0 12px;
+    }
+    h3 {
+      font-size: 15px;
+    }
+    button, input, select {
+      font: inherit;
+    }
+    button, select, input[type="search"] {
+      border: 1px solid #bdccd6;
+      border-radius: 6px;
+      background: white;
+      padding: 8px 12px;
+      color: inherit;
+    }
+    button {
+      cursor: pointer;
+    }
+    button[aria-pressed="true"] {
+      background: #163f52;
+      color: white;
+      border-color: #163f52;
+    }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 3px solid #12877a;
+      outline-offset: 3px;
+    }
+    a {
+      color: #166279;
+    }
+    .stats {
+      display: flex;
+      gap: 14px;
+      margin: 0 0 20px;
+      flex-wrap: wrap;
+    }
+    .stat, .card {
+      background: white;
+      border: 1px solid #d9e2e8;
+      border-radius: 9px;
+    }
+    .stat {
+      flex: 1;
+      min-width: 180px;
+      padding: 14px 20px;
+      color: #637886;
+    }
+    .stat strong {
+      display: block;
+      font-size: 27px;
+      color: #163f52;
+    }
+    .toolbar {
+      display: flex;
+      align-items: end;
+      gap: 14px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+    .toolbar label {
+      display: grid;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .toolbar input[type="search"] {
+      min-width: 260px;
+    }
+    nav {
+      display: flex;
+      gap: 6px;
+      margin-right: auto;
+    }
+    .card {
+      padding: 18px;
+      min-width: 0;
+    }
+    .muted {
+      color: #637886;
+      font-size: 13px;
+    }
+    #diagram {
+      height: 68vh;
+      min-height: 420px;
+      overflow: auto;
+      background: #fff;
+    }
+    #diagram svg {
+      height: auto;
+      max-width: none;
+    }
+    #diagram .node {
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    #diagram .node.selected path, #diagram .node.selected polygon {
+      stroke: #d58314;
+      stroke-width: 3px;
+    }
+    .table-scroll {
+      overflow: auto;
+      max-height: 70vh;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid #e2e9ee;
+      padding: 9px 11px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #f2f6f9;
+      z-index: 1;
+      white-space: nowrap;
+    }
+    tbody tr:hover {
+      background: #f5f9fa;
+    }
+    .path {
+      font: 12px/1.55 ui-monospace, monospace;
+      white-space: nowrap;
+    }
+    td button {
+      font-size: 12px;
+      padding: 2px 7px;
+    }
+    #matrix td:not(:first-child) {
+      text-align: center;
+    }
+    #matrix td:first-child, #matrix th:first-child {
+      position: sticky;
+      left: 0;
+      background: white;
+    }
+    #matrix th:first-child {
+      background: #f2f6f9;
+      z-index: 2;
+    }
+    .warning {
+      background: #fff8eb;
+      border-left: 3px solid #d58314;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+    }
+    .badge {
+      font-size: 11px;
+      border-radius: 4px;
+      padding: 2px 5px;
+      background: #e7eff8;
+      white-space: nowrap;
+    }
+    footer {
+      margin-top: 20px;
+      color: #637886;
+      font-size: 12px;
+    }
+    @media (max-width: 900px) {
+      #diagram {
+        min-height: 340px;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>nixcfg / Module map</h1>
+      <p>
+        Which configurations import which modules, how those imports connect, and where to review
+        the module boundaries.
+      </p>
+    </header>
+    <main>
+      <div class="stats" id="stats"></div>
+      <div class="toolbar">
+        <nav aria-label="Views">
+          <button data-view="graph" aria-pressed="true">Diagram</button>
+          <button data-view="matrix" aria-pressed="false">Machine matrix</button>
+          <button data-view="review" aria-pressed="false">Review candidates</button>
+        </nav>
+        <label>Find a module<input
+            type="search"
+            id="search"
+            placeholder="e.g. headroom, workstation, feed-sync"
+          ></label>
+      </div>
+      <section id="graph">
+        <div class="toolbar">
+          <label>Configuration<select id="context"></select></label>
+          <label>Diagram zoom<input
+              type="range"
+              id="zoom"
+              min="50"
+              max="400"
+              value="150"
+              step="any"
+            ></label>
+          <span class="muted" id="context-info"></span>
+        </div>
+        <div class="card"><div id="diagram" aria-label="Module import diagram"></div></div>
+      </section>
+      <section id="matrix" hidden class="card">
+        <h2>Machine-module matrix</h2>
+        <p class="muted">
+          S = system · H = Home Manager · I = flake wiring. Select a cell to open its diagram.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      <section id="review" hidden>
+        <div class="warning">
+          These are review signals, not automatic deletion or merge recommendations. Imported
+          modules can contain disabled options. External consumers and ordinary helper imports may
+          not appear here.
+        </div>
+        <div class="card">
+          <h2>Files outside evaluated module graphs</h2>
+          <div id="unobserved"></div>
+        </div>
+        <div class="card" style="margin-top: 18px">
+          <h2>Possible absorption</h2>
+          <p class="muted">
+            At most 60 source lines, one observed local importer, and exactly the same evaluated
+            consumers. Check public exports and ownership before merging.
+          </p>
+          <div id="candidates"></div>
+        </div>
+        <div class="card" style="margin-top: 18px">
+          <h2>Wiring and optional profiles</h2>
+          <p class="muted">
+            These files are reachable only through flake registration or an optional profile. This
+            does not make them dead code.
+          </p>
+          <div id="optional"></div>
+        </div>
+      </section>
+      <footer>
+        Generated from evaluated Nix graphs · Local repository modules only · Includes system and
+        embedded Home Manager imports · Optional profiles are not deployed machines · Regenerate:
+        <code>just module-map</code> · Verify: <code>just module-map-check</code> · No network
+        connection is needed to view this report.
+      </footer>
+    </main>
+    <script id="module-map-data" type="application/json">
+    "__MODULE_MAP_DATA__"
+    </script>
+    <script>
+    const { report, diagrams } = JSON.parse(document.getElementById("module-map-data").textContent);
+    const selector = document.getElementById("context");
+    const search = document.getElementById("search");
+    const diagram = document.getElementById("diagram");
+    const zoom = document.getElementById("zoom");
+    let scale = Number(zoom.value);
+    let selected;
+    function element(tag, text, className) {
+      const node = document.createElement(tag);
+      if (text !== undefined) node.textContent = text;
+      if (className) node.className = className;
+      return node;
+    }
+    function sourceLink(path) {
+      const link = element("a", path, "path");
+      link.href = "../../" + path;
+      return link;
+    }
+    function showView(name) {
+      for (const view of ["graph", "matrix", "review"]) {
+        document.getElementById(view).hidden = view !== name;
+      }
+      for (const button of document.querySelectorAll("[data-view]")) {
+        button.setAttribute("aria-pressed", String(button.dataset.view === name));
+      }
+    }
+    for (const button of document.querySelectorAll("[data-view]")) {
+      button.onclick = () => showView(button.dataset.view);
+    }
+    for (
+      const [count, label] of [
+        [
+          report.contexts.filter(c => !["optional", "wiring"].includes(c.kind)).length,
+          "shipped configurations",
+        ],
+        [report.modules.length, "local Nix source files"],
+        [
+          report.modules.filter(m => m.status === "unobserved").length,
+          "files outside the evaluated graphs",
+        ],
+        [report.modules.filter(m => m.merge_into).length, "possible absorption candidates"],
+      ]
+    ) {
+      const card = element("div", undefined, "stat");
+      card.append(element("strong", String(count)), element("span", label));
+      document.getElementById("stats").append(card);
+    }
+    for (const item of report.contexts) {
+      const option = element("option", item.label + " · " + item.kind);
+      option.value = item.id;
+      selector.append(option);
+    }
+    selector.value = report.contexts.find(c => c.label === "wodan")?.id ?? report.contexts[0].id;
+    function filter() {
+      const query = search.value.toLowerCase();
+      for (const row of document.querySelectorAll("tbody tr")) {
+        row.hidden = !row.textContent.toLowerCase().includes(query);
+      }
+      for (const node of diagram.querySelectorAll(".node")) {
+        const index = Number(node.id.slice(1));
+        const module = /^n[0-9]+$/.test(node.id) ? report.modules[index] : undefined;
+        node.style.opacity = !query || !module || module.path.toLowerCase().includes(query)
+          ? "1"
+          : ".18";
+        node.classList.toggle("selected", Boolean(module && module.path === selected));
+      }
+    }
+    function selectModule(path) {
+      selected = path;
+      filter();
+    }
+    function showDiagram() {
+      const item = report.contexts.find(c => c.id === selector.value);
+      diagram.innerHTML = diagrams[item.id];
+      diagram.querySelector("svg").style.width = zoom.value + "%";
+      for (const node of diagram.querySelectorAll(".node")) {
+        if (!/^n[0-9]+$/.test(node.id)) continue;
+        node.setAttribute("tabindex", "0");
+        node.setAttribute("role", "button");
+        node.setAttribute("aria-label", report.modules[Number(node.id.slice(1))].path);
+        node.onkeydown = event => {
+          if (["Enter", " "].includes(event.key)) {
+            event.preventDefault();
+            selectModule(report.modules[Number(node.id.slice(1))].path);
+          }
+        };
+      }
+      document.getElementById("context-info").textContent =
+        `${item.modules.length} local files · ${item.edges.length} import edges · ${item.disabled.length} disabled files`;
+      filter();
+    }
+    selector.onchange = showDiagram;
+    function setZoom(value, x = diagram.clientWidth / 2, y = diagram.clientHeight / 2) {
+      const next = Math.min(Number(zoom.max), Math.max(Number(zoom.min), value));
+      const ratio = next / scale;
+      scale = next;
+      zoom.value = String(scale);
+      diagram.querySelector("svg").style.width = scale + "%";
+      diagram.scrollLeft = (diagram.scrollLeft + x) * ratio - x;
+      diagram.scrollTop = (diagram.scrollTop + y) * ratio - y;
+    }
+    zoom.oninput = () => setZoom(Number(zoom.value));
+    diagram.addEventListener("wheel", event => {
+      if (!event.deltaY) return;
+      event.preventDefault();
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? diagram.clientHeight : 1;
+      const bounds = diagram.getBoundingClientRect();
+      setZoom(
+        scale * Math.exp(-event.deltaY * unit / 500),
+        event.clientX - bounds.left,
+        event.clientY - bounds.top,
+      );
+    }, { passive: false });
+    search.oninput = filter;
+    diagram.onclick = event => {
+      const node = event.target.closest(".node");
+      if (node && /^n[0-9]+$/.test(node.id)) {
+        selectModule(report.modules[Number(node.id.slice(1))].path);
+      }
+    };
+    const heading = element("tr");
+    heading.append(element("th", "Module"), ...report.contexts.map(c => element("th", c.label)));
+    document.querySelector("#matrix thead").append(heading);
+    for (const module of report.modules) {
+      const row = element("tr");
+      const first = element("td");
+      first.append(sourceLink(module.path));
+      row.append(first);
+      for (const item of report.contexts) {
+        const cell = element("td");
+        const layers = Object.entries(item.layers).filter(([, paths]) =>
+          paths.includes(module.path)
+        );
+        if (layers.length) {
+          const symbols = [
+            ...new Set(
+              layers.map(([name]) => name === "system" ? "S" : name === "flake" ? "I" : "H"),
+            ),
+          ].sort().join("/");
+          const button = element("button", symbols);
+          button.title = `${module.path} in ${item.label}`;
+          button.onclick = () => {
+            selector.value = item.id;
+            showView("graph");
+            showDiagram();
+            selectModule(module.path);
+          };
+          cell.append(button);
+        } else cell.textContent = "·";
+        row.append(cell);
+      }
+      document.querySelector("#matrix tbody").append(row);
+    }
+    function reviewTable(id, modules, columns) {
+      if (!modules.length) {
+        document.getElementById(id).append(element("p", "None observed.", "muted"));
+        return;
+      }
+      const table = element("table");
+      const head = element("thead"), heading = element("tr");
+      heading.append(element("th", "Module"), ...columns.map(([label]) => element("th", label)));
+      head.append(heading);
+      const body = element("tbody");
+      for (const module of modules) {
+        const row = element("tr"), first = element("td");
+        first.append(sourceLink(module.path));
+        row.append(first, ...columns.map(([, key]) => element("td", String(module[key]))));
+        body.append(row);
+      }
+      table.append(head, body);
+      const scroll = element("div", undefined, "table-scroll");
+      scroll.append(table);
+      document.getElementById(id).append(scroll);
+    }
+    reviewTable("unobserved", report.modules.filter(m => m.status === "unobserved"), [[
+      "Lines",
+      "lines",
+    ]]);
+    reviewTable("candidates", report.modules.filter(m => m.merge_into), [["Lines", "lines"], [
+      "Only observed importer",
+      "merge_into",
+    ]]);
+    reviewTable(
+      "optional",
+      report.modules.filter(m => ["wiring-only", "optional-only", "disabled"].includes(m.status)),
+      [["Status", "status"]],
+    );
+    showDiagram();
+    </script>
+  </body>
+</html>

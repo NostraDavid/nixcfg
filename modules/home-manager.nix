@@ -8,6 +8,8 @@
   unstable,
   ...
 }: {
+  # Preserve provenance when imported with explicit arguments.
+  _file = __curPos.file;
   home-manager = {
     backupFileExtension = "hm.bak";
     useGlobalPkgs = true;
@@ -15,6 +17,7 @@
     extraSpecialArgs = {inherit inputs;};
     users.${main-user} = {
       imports = [
+        ./home/mcp.nix
         ./home/nix-index.nix
         ./home/development/worktrunk.nix
         inputs.plasma-manager.homeModules.plasma-manager

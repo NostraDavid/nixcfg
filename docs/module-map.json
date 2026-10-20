@@ -1,0 +1,4645 @@
+{
+  "contexts": [
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "flake.nix",
+          "modules/default.nix"
+        ],
+        [
+          "modules/default.nix",
+          "modules/features/default.nix"
+        ],
+        [
+          "modules/default.nix",
+          "modules/flake.nix"
+        ],
+        [
+          "modules/default.nix",
+          "modules/forgejo-image.nix"
+        ],
+        [
+          "modules/default.nix",
+          "modules/hosts/default.nix"
+        ],
+        [
+          "modules/default.nix",
+          "modules/proxmox-lab.nix"
+        ],
+        [
+          "modules/default.nix",
+          "modules/proxy-image.nix"
+        ],
+        [
+          "modules/default.nix",
+          "modules/roles/default.nix"
+        ],
+        [
+          "modules/default.nix",
+          "modules/workstation.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/browsers.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/communication.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/containers.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/desktop-apps.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/development.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/dotfiles.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/gaming.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/homepage.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/hyprland.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/i3.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/keyboard.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/laptop.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/media.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/niri.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/nvidia-workstation.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/plasma.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/selfhosted-apps.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/terminal.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/whatpulse.nix"
+        ],
+        [
+          "modules/features/default.nix",
+          "modules/features/wodan-home.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/apps.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/bragi.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/donar.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/forgejo-lab.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/forgejo.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/frigg.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/homepage.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/loki.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/mimir2.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/proxy.nix"
+        ],
+        [
+          "modules/hosts/default.nix",
+          "modules/hosts/wodan.nix"
+        ],
+        [
+          "modules/roles/default.nix",
+          "modules/roles/desktop-base.nix"
+        ],
+        [
+          "modules/roles/default.nix",
+          "modules/roles/desktop.nix"
+        ],
+        [
+          "modules/roles/default.nix",
+          "modules/roles/full-workstation.nix"
+        ],
+        [
+          "modules/roles/default.nix",
+          "modules/roles/i3-workstation.nix"
+        ],
+        [
+          "modules/roles/default.nix",
+          "modules/roles/kde-workstation.nix"
+        ],
+        [
+          "modules/roles/default.nix",
+          "modules/roles/proxmox-guest.nix"
+        ],
+        [
+          "modules/roles/default.nix",
+          "modules/roles/workstation-base.nix"
+        ]
+      ],
+      "id": "wiring:Flake wiring",
+      "kind": "wiring",
+      "label": "Flake wiring",
+      "layers": {
+        "flake": [
+          "flake.nix",
+          "modules/default.nix",
+          "modules/features/browsers.nix",
+          "modules/features/communication.nix",
+          "modules/features/containers.nix",
+          "modules/features/default.nix",
+          "modules/features/desktop-apps.nix",
+          "modules/features/development.nix",
+          "modules/features/dotfiles.nix",
+          "modules/features/gaming.nix",
+          "modules/features/homepage.nix",
+          "modules/features/hyprland.nix",
+          "modules/features/i3.nix",
+          "modules/features/keyboard.nix",
+          "modules/features/laptop.nix",
+          "modules/features/media.nix",
+          "modules/features/niri.nix",
+          "modules/features/nvidia-workstation.nix",
+          "modules/features/plasma.nix",
+          "modules/features/selfhosted-apps.nix",
+          "modules/features/terminal.nix",
+          "modules/features/whatpulse.nix",
+          "modules/features/wodan-home.nix",
+          "modules/flake.nix",
+          "modules/forgejo-image.nix",
+          "modules/hosts/apps.nix",
+          "modules/hosts/bragi.nix",
+          "modules/hosts/default.nix",
+          "modules/hosts/donar.nix",
+          "modules/hosts/forgejo-lab.nix",
+          "modules/hosts/forgejo.nix",
+          "modules/hosts/frigg.nix",
+          "modules/hosts/homepage.nix",
+          "modules/hosts/loki.nix",
+          "modules/hosts/mimir2.nix",
+          "modules/hosts/proxy.nix",
+          "modules/hosts/wodan.nix",
+          "modules/proxmox-lab.nix",
+          "modules/proxy-image.nix",
+          "modules/roles/default.nix",
+          "modules/roles/desktop-base.nix",
+          "modules/roles/desktop.nix",
+          "modules/roles/full-workstation.nix",
+          "modules/roles/i3-workstation.nix",
+          "modules/roles/kde-workstation.nix",
+          "modules/roles/proxmox-guest.nix",
+          "modules/roles/workstation-base.nix",
+          "modules/workstation.nix"
+        ]
+      },
+      "modules": [
+        "flake.nix",
+        "modules/default.nix",
+        "modules/features/browsers.nix",
+        "modules/features/communication.nix",
+        "modules/features/containers.nix",
+        "modules/features/default.nix",
+        "modules/features/desktop-apps.nix",
+        "modules/features/development.nix",
+        "modules/features/dotfiles.nix",
+        "modules/features/gaming.nix",
+        "modules/features/homepage.nix",
+        "modules/features/hyprland.nix",
+        "modules/features/i3.nix",
+        "modules/features/keyboard.nix",
+        "modules/features/laptop.nix",
+        "modules/features/media.nix",
+        "modules/features/niri.nix",
+        "modules/features/nvidia-workstation.nix",
+        "modules/features/plasma.nix",
+        "modules/features/selfhosted-apps.nix",
+        "modules/features/terminal.nix",
+        "modules/features/whatpulse.nix",
+        "modules/features/wodan-home.nix",
+        "modules/flake.nix",
+        "modules/forgejo-image.nix",
+        "modules/hosts/apps.nix",
+        "modules/hosts/bragi.nix",
+        "modules/hosts/default.nix",
+        "modules/hosts/donar.nix",
+        "modules/hosts/forgejo-lab.nix",
+        "modules/hosts/forgejo.nix",
+        "modules/hosts/frigg.nix",
+        "modules/hosts/homepage.nix",
+        "modules/hosts/loki.nix",
+        "modules/hosts/mimir2.nix",
+        "modules/hosts/proxy.nix",
+        "modules/hosts/wodan.nix",
+        "modules/proxmox-lab.nix",
+        "modules/proxy-image.nix",
+        "modules/roles/default.nix",
+        "modules/roles/desktop-base.nix",
+        "modules/roles/desktop.nix",
+        "modules/roles/full-workstation.nix",
+        "modules/roles/i3-workstation.nix",
+        "modules/roles/kde-workstation.nix",
+        "modules/roles/proxmox-guest.nix",
+        "modules/roles/workstation-base.nix",
+        "modules/workstation.nix"
+      ],
+      "roots": [
+        "flake.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/selfhosted-apps.nix",
+          "modules/selfhosted-apps.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/proxmox-vm.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-locale.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-nix.nix"
+        ]
+      ],
+      "id": "NixOS:apps",
+      "kind": "NixOS",
+      "label": "apps",
+      "layers": {
+        "system": [
+          "modules/cachix.nix",
+          "modules/features/selfhosted-apps.nix",
+          "modules/internal-pki.nix",
+          "modules/proxmox-vm.nix",
+          "modules/roles/proxmox-guest.nix",
+          "modules/selfhosted-apps.nix",
+          "modules/server-locale.nix",
+          "modules/server-nix.nix",
+          "servers/apps/hardware-configuration.nix"
+        ]
+      },
+      "modules": [
+        "modules/cachix.nix",
+        "modules/features/selfhosted-apps.nix",
+        "modules/internal-pki.nix",
+        "modules/proxmox-vm.nix",
+        "modules/roles/proxmox-guest.nix",
+        "modules/selfhosted-apps.nix",
+        "modules/server-locale.nix",
+        "modules/server-nix.nix",
+        "servers/apps/hardware-configuration.nix"
+      ],
+      "roots": [
+        "modules/cachix.nix",
+        "modules/features/selfhosted-apps.nix",
+        "modules/internal-pki.nix",
+        "modules/roles/proxmox-guest.nix",
+        "servers/apps/hardware-configuration.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/keyboard.nix",
+          "modules/home/keyboard.nix"
+        ],
+        [
+          "modules/features/keyboard.nix",
+          "modules/keyboard.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/development/worktrunk.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/mcp.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/nix-index.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/boot.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/home-manager.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/i18n.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/location.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/storage_optimization.nix"
+        ]
+      ],
+      "id": "NixOS:bragi",
+      "kind": "NixOS",
+      "label": "bragi",
+      "layers": {
+        "home:david": [
+          "modules/features/keyboard.nix",
+          "modules/home-manager.nix",
+          "modules/home/codex-mcp.nix",
+          "modules/home/development/agent-memory.nix",
+          "modules/home/development/headroom.nix",
+          "modules/home/development/pi.nix",
+          "modules/home/development/qartez.nix",
+          "modules/home/development/worktrunk.nix",
+          "modules/home/keyboard.nix",
+          "modules/home/mcp.nix",
+          "modules/home/nix-index.nix"
+        ],
+        "system": [
+          "hosts/bragi/hardware-configuration.nix",
+          "modules/boot.nix",
+          "modules/cachix.nix",
+          "modules/features/hyprland.nix",
+          "modules/features/keyboard.nix",
+          "modules/home-manager.nix",
+          "modules/i18n.nix",
+          "modules/internal-pki.nix",
+          "modules/keyboard.nix",
+          "modules/location.nix",
+          "modules/roles/desktop-base.nix",
+          "modules/storage_optimization.nix"
+        ]
+      },
+      "modules": [
+        "hosts/bragi/hardware-configuration.nix",
+        "modules/boot.nix",
+        "modules/cachix.nix",
+        "modules/features/hyprland.nix",
+        "modules/features/keyboard.nix",
+        "modules/home-manager.nix",
+        "modules/home/codex-mcp.nix",
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/headroom.nix",
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix",
+        "modules/home/development/worktrunk.nix",
+        "modules/home/keyboard.nix",
+        "modules/home/mcp.nix",
+        "modules/home/nix-index.nix",
+        "modules/i18n.nix",
+        "modules/internal-pki.nix",
+        "modules/keyboard.nix",
+        "modules/location.nix",
+        "modules/roles/desktop-base.nix",
+        "modules/storage_optimization.nix"
+      ],
+      "roots": [
+        "hosts/bragi/hardware-configuration.nix",
+        "modules/cachix.nix",
+        "modules/features/hyprland.nix",
+        "modules/features/keyboard.nix",
+        "modules/home/codex-mcp.nix",
+        "modules/internal-pki.nix",
+        "modules/roles/desktop-base.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/browsers.nix",
+          "modules/home/browsers.nix"
+        ],
+        [
+          "modules/features/communication.nix",
+          "modules/home/communication.nix"
+        ],
+        [
+          "modules/features/containers.nix",
+          "modules/home/containers.nix"
+        ],
+        [
+          "modules/features/desktop-apps.nix",
+          "modules/home/desktop-apps.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/core.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/gamedev-forge.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/lab.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/mantle.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/security.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/tooling.nix"
+        ],
+        [
+          "modules/features/dotfiles.nix",
+          "modules/home/dotfiles.nix"
+        ],
+        [
+          "modules/features/gaming.nix",
+          "modules/home/gaming.nix"
+        ],
+        [
+          "modules/features/keyboard.nix",
+          "modules/home/keyboard.nix"
+        ],
+        [
+          "modules/features/keyboard.nix",
+          "modules/keyboard.nix"
+        ],
+        [
+          "modules/features/media.nix",
+          "modules/home/media/apps.nix"
+        ],
+        [
+          "modules/features/media.nix",
+          "modules/home/media/production.nix"
+        ],
+        [
+          "modules/features/media.nix",
+          "modules/home/media/tools.nix"
+        ],
+        [
+          "modules/features/plasma.nix",
+          "modules/home/plasma.nix"
+        ],
+        [
+          "modules/features/terminal.nix",
+          "modules/home/terminal/config.nix"
+        ],
+        [
+          "modules/features/terminal.nix",
+          "modules/home/terminal/packages.nix"
+        ],
+        [
+          "modules/features/whatpulse.nix",
+          "modules/home/whatpulse.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/development/worktrunk.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/mcp.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/nix-index.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/development/mantle.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/development/mantle.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/dotfiles.nix",
+          "modules/home/portable-dotfiles.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/development/worktrunk.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/archives.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/data.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/network.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/shell.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/system.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/boot.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/home-manager.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/i18n.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/location.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/storage_optimization.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/communication.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/development.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/gaming.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/media.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/whatpulse.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/home/full-workstation-taskbar.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/roles/kde-workstation.nix"
+        ],
+        [
+          "modules/roles/kde-workstation.nix",
+          "modules/features/plasma.nix"
+        ],
+        [
+          "modules/roles/kde-workstation.nix",
+          "modules/roles/workstation-base.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/browsers.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/communication.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/containers.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/desktop-apps.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/development.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/dotfiles.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/keyboard.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/media.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/terminal.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/roles/desktop-base.nix"
+        ]
+      ],
+      "id": "NixOS:donar",
+      "kind": "NixOS",
+      "label": "donar",
+      "layers": {
+        "home:david": [
+          "modules/features/browsers.nix",
+          "modules/features/communication.nix",
+          "modules/features/containers.nix",
+          "modules/features/desktop-apps.nix",
+          "modules/features/development.nix",
+          "modules/features/dotfiles.nix",
+          "modules/features/gaming.nix",
+          "modules/features/keyboard.nix",
+          "modules/features/media.nix",
+          "modules/features/plasma.nix",
+          "modules/features/terminal.nix",
+          "modules/features/whatpulse.nix",
+          "modules/home-manager.nix",
+          "modules/home/browsers.nix",
+          "modules/home/communication.nix",
+          "modules/home/containers.nix",
+          "modules/home/desktop-apps.nix",
+          "modules/home/development/agent-memory.nix",
+          "modules/home/development/core.nix",
+          "modules/home/development/gamedev-forge.nix",
+          "modules/home/development/headroom.nix",
+          "modules/home/development/lab.nix",
+          "modules/home/development/mantle.nix",
+          "modules/home/development/pi.nix",
+          "modules/home/development/qartez.nix",
+          "modules/home/development/security.nix",
+          "modules/home/development/tooling.nix",
+          "modules/home/development/worktrunk.nix",
+          "modules/home/dotfiles.nix",
+          "modules/home/full-workstation-taskbar.nix",
+          "modules/home/gaming.nix",
+          "modules/home/keyboard.nix",
+          "modules/home/mcp.nix",
+          "modules/home/media/apps.nix",
+          "modules/home/media/production.nix",
+          "modules/home/media/tools.nix",
+          "modules/home/nix-index.nix",
+          "modules/home/plasma.nix",
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/terminal/archives.nix",
+          "modules/home/terminal/config.nix",
+          "modules/home/terminal/data.nix",
+          "modules/home/terminal/network.nix",
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/shell.nix",
+          "modules/home/terminal/system.nix",
+          "modules/home/whatpulse.nix",
+          "modules/roles/full-workstation.nix"
+        ],
+        "system": [
+          "hosts/donar/hardware-configuration.nix",
+          "modules/boot.nix",
+          "modules/cachix.nix",
+          "modules/features/browsers.nix",
+          "modules/features/communication.nix",
+          "modules/features/containers.nix",
+          "modules/features/desktop-apps.nix",
+          "modules/features/development.nix",
+          "modules/features/dotfiles.nix",
+          "modules/features/gaming.nix",
+          "modules/features/keyboard.nix",
+          "modules/features/laptop.nix",
+          "modules/features/media.nix",
+          "modules/features/plasma.nix",
+          "modules/features/terminal.nix",
+          "modules/features/whatpulse.nix",
+          "modules/home-manager.nix",
+          "modules/i18n.nix",
+          "modules/internal-pki.nix",
+          "modules/keyboard.nix",
+          "modules/location.nix",
+          "modules/roles/desktop-base.nix",
+          "modules/roles/full-workstation.nix",
+          "modules/roles/kde-workstation.nix",
+          "modules/roles/workstation-base.nix",
+          "modules/storage_optimization.nix"
+        ]
+      },
+      "modules": [
+        "hosts/donar/hardware-configuration.nix",
+        "modules/boot.nix",
+        "modules/cachix.nix",
+        "modules/features/browsers.nix",
+        "modules/features/communication.nix",
+        "modules/features/containers.nix",
+        "modules/features/desktop-apps.nix",
+        "modules/features/development.nix",
+        "modules/features/dotfiles.nix",
+        "modules/features/gaming.nix",
+        "modules/features/keyboard.nix",
+        "modules/features/laptop.nix",
+        "modules/features/media.nix",
+        "modules/features/plasma.nix",
+        "modules/features/terminal.nix",
+        "modules/features/whatpulse.nix",
+        "modules/home-manager.nix",
+        "modules/home/browsers.nix",
+        "modules/home/communication.nix",
+        "modules/home/containers.nix",
+        "modules/home/desktop-apps.nix",
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/core.nix",
+        "modules/home/development/gamedev-forge.nix",
+        "modules/home/development/headroom.nix",
+        "modules/home/development/lab.nix",
+        "modules/home/development/mantle.nix",
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix",
+        "modules/home/development/security.nix",
+        "modules/home/development/tooling.nix",
+        "modules/home/development/worktrunk.nix",
+        "modules/home/dotfiles.nix",
+        "modules/home/full-workstation-taskbar.nix",
+        "modules/home/gaming.nix",
+        "modules/home/keyboard.nix",
+        "modules/home/mcp.nix",
+        "modules/home/media/apps.nix",
+        "modules/home/media/production.nix",
+        "modules/home/media/tools.nix",
+        "modules/home/nix-index.nix",
+        "modules/home/plasma.nix",
+        "modules/home/portable-dotfiles.nix",
+        "modules/home/terminal/archives.nix",
+        "modules/home/terminal/config.nix",
+        "modules/home/terminal/data.nix",
+        "modules/home/terminal/network.nix",
+        "modules/home/terminal/packages.nix",
+        "modules/home/terminal/shell.nix",
+        "modules/home/terminal/system.nix",
+        "modules/home/whatpulse.nix",
+        "modules/i18n.nix",
+        "modules/internal-pki.nix",
+        "modules/keyboard.nix",
+        "modules/location.nix",
+        "modules/roles/desktop-base.nix",
+        "modules/roles/full-workstation.nix",
+        "modules/roles/kde-workstation.nix",
+        "modules/roles/workstation-base.nix",
+        "modules/storage_optimization.nix"
+      ],
+      "roots": [
+        "hosts/donar/hardware-configuration.nix",
+        "modules/cachix.nix",
+        "modules/features/laptop.nix",
+        "modules/internal-pki.nix",
+        "modules/roles/full-workstation.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/proxmox-vm.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-locale.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-nix.nix"
+        ]
+      ],
+      "id": "NixOS:forgejo",
+      "kind": "NixOS",
+      "label": "forgejo",
+      "layers": {
+        "system": [
+          "modules/cachix.nix",
+          "modules/forgejo.nix",
+          "modules/internal-pki.nix",
+          "modules/proxmox-vm.nix",
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-locale.nix",
+          "modules/server-nix.nix"
+        ]
+      },
+      "modules": [
+        "modules/cachix.nix",
+        "modules/forgejo.nix",
+        "modules/internal-pki.nix",
+        "modules/proxmox-vm.nix",
+        "modules/roles/proxmox-guest.nix",
+        "modules/server-locale.nix",
+        "modules/server-nix.nix"
+      ],
+      "roots": [
+        "modules/cachix.nix",
+        "modules/forgejo.nix",
+        "modules/internal-pki.nix",
+        "modules/roles/proxmox-guest.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [],
+      "id": "NixOS:forgejo-lab",
+      "kind": "NixOS",
+      "label": "forgejo-lab",
+      "layers": {
+        "system": [
+          "modules/cachix.nix",
+          "modules/forgejo.nix",
+          "modules/internal-pki.nix",
+          "modules/server-locale.nix",
+          "modules/server-nix.nix"
+        ]
+      },
+      "modules": [
+        "modules/cachix.nix",
+        "modules/forgejo.nix",
+        "modules/internal-pki.nix",
+        "modules/server-locale.nix",
+        "modules/server-nix.nix"
+      ],
+      "roots": [
+        "modules/cachix.nix",
+        "modules/forgejo.nix",
+        "modules/internal-pki.nix",
+        "modules/server-locale.nix",
+        "modules/server-nix.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/browsers.nix",
+          "modules/home/browsers.nix"
+        ],
+        [
+          "modules/features/communication.nix",
+          "modules/home/communication.nix"
+        ],
+        [
+          "modules/features/containers.nix",
+          "modules/home/containers.nix"
+        ],
+        [
+          "modules/features/desktop-apps.nix",
+          "modules/home/desktop-apps.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/core.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/mantle.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/security.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/tooling.nix"
+        ],
+        [
+          "modules/features/dotfiles.nix",
+          "modules/home/dotfiles.nix"
+        ],
+        [
+          "modules/features/keyboard.nix",
+          "modules/home/keyboard.nix"
+        ],
+        [
+          "modules/features/keyboard.nix",
+          "modules/keyboard.nix"
+        ],
+        [
+          "modules/features/media.nix",
+          "modules/home/media/apps.nix"
+        ],
+        [
+          "modules/features/media.nix",
+          "modules/home/media/tools.nix"
+        ],
+        [
+          "modules/features/plasma.nix",
+          "modules/home/plasma.nix"
+        ],
+        [
+          "modules/features/terminal.nix",
+          "modules/home/terminal/config.nix"
+        ],
+        [
+          "modules/features/terminal.nix",
+          "modules/home/terminal/packages.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/development/worktrunk.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/mcp.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/nix-index.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/development/mantle.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/development/mantle.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/dotfiles.nix",
+          "modules/home/portable-dotfiles.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/development/worktrunk.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/archives.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/data.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/network.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/shell.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/system.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/boot.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/home-manager.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/i18n.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/location.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/storage_optimization.nix"
+        ],
+        [
+          "modules/roles/kde-workstation.nix",
+          "modules/features/plasma.nix"
+        ],
+        [
+          "modules/roles/kde-workstation.nix",
+          "modules/roles/workstation-base.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/browsers.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/communication.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/containers.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/desktop-apps.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/development.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/dotfiles.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/keyboard.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/media.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/terminal.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/roles/desktop-base.nix"
+        ]
+      ],
+      "id": "NixOS:frigg",
+      "kind": "NixOS",
+      "label": "frigg",
+      "layers": {
+        "home:david": [
+          "modules/features/browsers.nix",
+          "modules/features/communication.nix",
+          "modules/features/containers.nix",
+          "modules/features/desktop-apps.nix",
+          "modules/features/development.nix",
+          "modules/features/dotfiles.nix",
+          "modules/features/keyboard.nix",
+          "modules/features/media.nix",
+          "modules/features/plasma.nix",
+          "modules/features/terminal.nix",
+          "modules/home-manager.nix",
+          "modules/home/browsers.nix",
+          "modules/home/codex-mcp.nix",
+          "modules/home/communication.nix",
+          "modules/home/containers.nix",
+          "modules/home/desktop-apps.nix",
+          "modules/home/development/agent-memory.nix",
+          "modules/home/development/core.nix",
+          "modules/home/development/headroom.nix",
+          "modules/home/development/mantle.nix",
+          "modules/home/development/pi.nix",
+          "modules/home/development/qartez.nix",
+          "modules/home/development/security.nix",
+          "modules/home/development/tooling.nix",
+          "modules/home/development/worktrunk.nix",
+          "modules/home/dotfiles.nix",
+          "modules/home/keyboard.nix",
+          "modules/home/mcp.nix",
+          "modules/home/media/apps.nix",
+          "modules/home/media/tools.nix",
+          "modules/home/nix-index.nix",
+          "modules/home/plasma.nix",
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/terminal/archives.nix",
+          "modules/home/terminal/config.nix",
+          "modules/home/terminal/data.nix",
+          "modules/home/terminal/network.nix",
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/shell.nix",
+          "modules/home/terminal/system.nix"
+        ],
+        "system": [
+          "hosts/frigg/hardware-configuration.nix",
+          "modules/boot.nix",
+          "modules/cachix.nix",
+          "modules/features/browsers.nix",
+          "modules/features/communication.nix",
+          "modules/features/containers.nix",
+          "modules/features/desktop-apps.nix",
+          "modules/features/development.nix",
+          "modules/features/dotfiles.nix",
+          "modules/features/keyboard.nix",
+          "modules/features/laptop.nix",
+          "modules/features/media.nix",
+          "modules/features/plasma.nix",
+          "modules/features/terminal.nix",
+          "modules/home-manager.nix",
+          "modules/i18n.nix",
+          "modules/internal-pki.nix",
+          "modules/keyboard.nix",
+          "modules/location.nix",
+          "modules/roles/desktop-base.nix",
+          "modules/roles/kde-workstation.nix",
+          "modules/roles/workstation-base.nix",
+          "modules/storage_optimization.nix"
+        ]
+      },
+      "modules": [
+        "hosts/frigg/hardware-configuration.nix",
+        "modules/boot.nix",
+        "modules/cachix.nix",
+        "modules/features/browsers.nix",
+        "modules/features/communication.nix",
+        "modules/features/containers.nix",
+        "modules/features/desktop-apps.nix",
+        "modules/features/development.nix",
+        "modules/features/dotfiles.nix",
+        "modules/features/keyboard.nix",
+        "modules/features/laptop.nix",
+        "modules/features/media.nix",
+        "modules/features/plasma.nix",
+        "modules/features/terminal.nix",
+        "modules/home-manager.nix",
+        "modules/home/browsers.nix",
+        "modules/home/codex-mcp.nix",
+        "modules/home/communication.nix",
+        "modules/home/containers.nix",
+        "modules/home/desktop-apps.nix",
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/core.nix",
+        "modules/home/development/headroom.nix",
+        "modules/home/development/mantle.nix",
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix",
+        "modules/home/development/security.nix",
+        "modules/home/development/tooling.nix",
+        "modules/home/development/worktrunk.nix",
+        "modules/home/dotfiles.nix",
+        "modules/home/keyboard.nix",
+        "modules/home/mcp.nix",
+        "modules/home/media/apps.nix",
+        "modules/home/media/tools.nix",
+        "modules/home/nix-index.nix",
+        "modules/home/plasma.nix",
+        "modules/home/portable-dotfiles.nix",
+        "modules/home/terminal/archives.nix",
+        "modules/home/terminal/config.nix",
+        "modules/home/terminal/data.nix",
+        "modules/home/terminal/network.nix",
+        "modules/home/terminal/packages.nix",
+        "modules/home/terminal/shell.nix",
+        "modules/home/terminal/system.nix",
+        "modules/i18n.nix",
+        "modules/internal-pki.nix",
+        "modules/keyboard.nix",
+        "modules/location.nix",
+        "modules/roles/desktop-base.nix",
+        "modules/roles/kde-workstation.nix",
+        "modules/roles/workstation-base.nix",
+        "modules/storage_optimization.nix"
+      ],
+      "roots": [
+        "hosts/frigg/hardware-configuration.nix",
+        "modules/cachix.nix",
+        "modules/features/laptop.nix",
+        "modules/home/codex-mcp.nix",
+        "modules/internal-pki.nix",
+        "modules/roles/kde-workstation.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/homepage.nix",
+          "modules/homepage-container.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/proxmox-vm.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-locale.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-nix.nix"
+        ]
+      ],
+      "id": "NixOS:homepage",
+      "kind": "NixOS",
+      "label": "homepage",
+      "layers": {
+        "system": [
+          "modules/cachix.nix",
+          "modules/features/homepage.nix",
+          "modules/homepage-container.nix",
+          "modules/internal-pki.nix",
+          "modules/proxmox-vm.nix",
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-locale.nix",
+          "modules/server-nix.nix",
+          "servers/homepage/hardware-configuration.nix"
+        ]
+      },
+      "modules": [
+        "modules/cachix.nix",
+        "modules/features/homepage.nix",
+        "modules/homepage-container.nix",
+        "modules/internal-pki.nix",
+        "modules/proxmox-vm.nix",
+        "modules/roles/proxmox-guest.nix",
+        "modules/server-locale.nix",
+        "modules/server-nix.nix",
+        "servers/homepage/hardware-configuration.nix"
+      ],
+      "roots": [
+        "modules/cachix.nix",
+        "modules/features/homepage.nix",
+        "modules/internal-pki.nix",
+        "modules/roles/proxmox-guest.nix",
+        "servers/homepage/hardware-configuration.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/proxmox-vm.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-locale.nix"
+        ],
+        [
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-nix.nix"
+        ]
+      ],
+      "id": "NixOS:proxy",
+      "kind": "NixOS",
+      "label": "proxy",
+      "layers": {
+        "system": [
+          "modules/cachix.nix",
+          "modules/internal-pki.nix",
+          "modules/proxmox-vm.nix",
+          "modules/roles/proxmox-guest.nix",
+          "modules/server-locale.nix",
+          "modules/server-nix.nix"
+        ]
+      },
+      "modules": [
+        "modules/cachix.nix",
+        "modules/internal-pki.nix",
+        "modules/proxmox-vm.nix",
+        "modules/roles/proxmox-guest.nix",
+        "modules/server-locale.nix",
+        "modules/server-nix.nix"
+      ],
+      "roots": [
+        "modules/cachix.nix",
+        "modules/internal-pki.nix",
+        "modules/roles/proxmox-guest.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/browsers.nix",
+          "modules/home/browsers.nix"
+        ],
+        [
+          "modules/features/communication.nix",
+          "modules/home/communication.nix"
+        ],
+        [
+          "modules/features/containers.nix",
+          "modules/home/containers.nix"
+        ],
+        [
+          "modules/features/desktop-apps.nix",
+          "modules/home/desktop-apps.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/core.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/gamedev-forge.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/lab.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/mantle.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/security.nix"
+        ],
+        [
+          "modules/features/development.nix",
+          "modules/home/development/tooling.nix"
+        ],
+        [
+          "modules/features/dotfiles.nix",
+          "modules/home/dotfiles.nix"
+        ],
+        [
+          "modules/features/gaming.nix",
+          "modules/home/gaming.nix"
+        ],
+        [
+          "modules/features/keyboard.nix",
+          "modules/home/keyboard.nix"
+        ],
+        [
+          "modules/features/keyboard.nix",
+          "modules/keyboard.nix"
+        ],
+        [
+          "modules/features/media.nix",
+          "modules/home/media/apps.nix"
+        ],
+        [
+          "modules/features/media.nix",
+          "modules/home/media/production.nix"
+        ],
+        [
+          "modules/features/media.nix",
+          "modules/home/media/tools.nix"
+        ],
+        [
+          "modules/features/plasma.nix",
+          "modules/home/plasma.nix"
+        ],
+        [
+          "modules/features/terminal.nix",
+          "modules/home/terminal/config.nix"
+        ],
+        [
+          "modules/features/terminal.nix",
+          "modules/home/terminal/packages.nix"
+        ],
+        [
+          "modules/features/whatpulse.nix",
+          "modules/home/whatpulse.nix"
+        ],
+        [
+          "modules/features/wodan-home.nix",
+          "modules/home/wodan.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/development/worktrunk.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/mcp.nix"
+        ],
+        [
+          "modules/home-manager.nix",
+          "modules/home/nix-index.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/development/mantle.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/development/mantle.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/dotfiles.nix",
+          "modules/home/portable-dotfiles.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/development/worktrunk.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/archives.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/data.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/network.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/shell.nix"
+        ],
+        [
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/system.nix"
+        ],
+        [
+          "modules/home/wodan.nix",
+          "modules/home/codex-mcp.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/boot.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/home-manager.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/i18n.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/location.nix"
+        ],
+        [
+          "modules/roles/desktop-base.nix",
+          "modules/storage_optimization.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/communication.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/development.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/gaming.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/media.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/features/whatpulse.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/home/full-workstation-taskbar.nix"
+        ],
+        [
+          "modules/roles/full-workstation.nix",
+          "modules/roles/kde-workstation.nix"
+        ],
+        [
+          "modules/roles/kde-workstation.nix",
+          "modules/features/plasma.nix"
+        ],
+        [
+          "modules/roles/kde-workstation.nix",
+          "modules/roles/workstation-base.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/browsers.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/communication.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/containers.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/desktop-apps.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/development.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/dotfiles.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/keyboard.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/media.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/features/terminal.nix"
+        ],
+        [
+          "modules/roles/workstation-base.nix",
+          "modules/roles/desktop-base.nix"
+        ]
+      ],
+      "id": "NixOS:wodan",
+      "kind": "NixOS",
+      "label": "wodan",
+      "layers": {
+        "home:david": [
+          "modules/features/browsers.nix",
+          "modules/features/communication.nix",
+          "modules/features/containers.nix",
+          "modules/features/desktop-apps.nix",
+          "modules/features/development.nix",
+          "modules/features/dotfiles.nix",
+          "modules/features/gaming.nix",
+          "modules/features/keyboard.nix",
+          "modules/features/media.nix",
+          "modules/features/plasma.nix",
+          "modules/features/terminal.nix",
+          "modules/features/whatpulse.nix",
+          "modules/features/wodan-home.nix",
+          "modules/home-manager.nix",
+          "modules/home/browsers.nix",
+          "modules/home/codex-mcp.nix",
+          "modules/home/communication.nix",
+          "modules/home/containers.nix",
+          "modules/home/desktop-apps.nix",
+          "modules/home/development/agent-memory.nix",
+          "modules/home/development/core.nix",
+          "modules/home/development/gamedev-forge.nix",
+          "modules/home/development/headroom.nix",
+          "modules/home/development/lab.nix",
+          "modules/home/development/mantle.nix",
+          "modules/home/development/pi.nix",
+          "modules/home/development/qartez.nix",
+          "modules/home/development/security.nix",
+          "modules/home/development/tooling.nix",
+          "modules/home/development/worktrunk.nix",
+          "modules/home/dotfiles.nix",
+          "modules/home/full-workstation-taskbar.nix",
+          "modules/home/gaming.nix",
+          "modules/home/keyboard.nix",
+          "modules/home/mcp.nix",
+          "modules/home/media/apps.nix",
+          "modules/home/media/production.nix",
+          "modules/home/media/tools.nix",
+          "modules/home/nix-index.nix",
+          "modules/home/plasma.nix",
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/terminal/archives.nix",
+          "modules/home/terminal/config.nix",
+          "modules/home/terminal/data.nix",
+          "modules/home/terminal/network.nix",
+          "modules/home/terminal/packages.nix",
+          "modules/home/terminal/shell.nix",
+          "modules/home/terminal/system.nix",
+          "modules/home/whatpulse.nix",
+          "modules/home/wodan.nix",
+          "modules/roles/full-workstation.nix"
+        ],
+        "system": [
+          "hosts/wodan/hardware-configuration.nix",
+          "modules/boot.nix",
+          "modules/cachix.nix",
+          "modules/features/browsers.nix",
+          "modules/features/communication.nix",
+          "modules/features/containers.nix",
+          "modules/features/desktop-apps.nix",
+          "modules/features/development.nix",
+          "modules/features/dotfiles.nix",
+          "modules/features/gaming.nix",
+          "modules/features/keyboard.nix",
+          "modules/features/media.nix",
+          "modules/features/nvidia-workstation.nix",
+          "modules/features/plasma.nix",
+          "modules/features/terminal.nix",
+          "modules/features/whatpulse.nix",
+          "modules/features/wodan-home.nix",
+          "modules/home-manager.nix",
+          "modules/i18n.nix",
+          "modules/internal-pki.nix",
+          "modules/keyboard.nix",
+          "modules/location.nix",
+          "modules/proxmox-lab.nix",
+          "modules/roles/desktop-base.nix",
+          "modules/roles/full-workstation.nix",
+          "modules/roles/kde-workstation.nix",
+          "modules/roles/workstation-base.nix",
+          "modules/storage_optimization.nix"
+        ]
+      },
+      "modules": [
+        "hosts/wodan/hardware-configuration.nix",
+        "modules/boot.nix",
+        "modules/cachix.nix",
+        "modules/features/browsers.nix",
+        "modules/features/communication.nix",
+        "modules/features/containers.nix",
+        "modules/features/desktop-apps.nix",
+        "modules/features/development.nix",
+        "modules/features/dotfiles.nix",
+        "modules/features/gaming.nix",
+        "modules/features/keyboard.nix",
+        "modules/features/media.nix",
+        "modules/features/nvidia-workstation.nix",
+        "modules/features/plasma.nix",
+        "modules/features/terminal.nix",
+        "modules/features/whatpulse.nix",
+        "modules/features/wodan-home.nix",
+        "modules/home-manager.nix",
+        "modules/home/browsers.nix",
+        "modules/home/codex-mcp.nix",
+        "modules/home/communication.nix",
+        "modules/home/containers.nix",
+        "modules/home/desktop-apps.nix",
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/core.nix",
+        "modules/home/development/gamedev-forge.nix",
+        "modules/home/development/headroom.nix",
+        "modules/home/development/lab.nix",
+        "modules/home/development/mantle.nix",
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix",
+        "modules/home/development/security.nix",
+        "modules/home/development/tooling.nix",
+        "modules/home/development/worktrunk.nix",
+        "modules/home/dotfiles.nix",
+        "modules/home/full-workstation-taskbar.nix",
+        "modules/home/gaming.nix",
+        "modules/home/keyboard.nix",
+        "modules/home/mcp.nix",
+        "modules/home/media/apps.nix",
+        "modules/home/media/production.nix",
+        "modules/home/media/tools.nix",
+        "modules/home/nix-index.nix",
+        "modules/home/plasma.nix",
+        "modules/home/portable-dotfiles.nix",
+        "modules/home/terminal/archives.nix",
+        "modules/home/terminal/config.nix",
+        "modules/home/terminal/data.nix",
+        "modules/home/terminal/network.nix",
+        "modules/home/terminal/packages.nix",
+        "modules/home/terminal/shell.nix",
+        "modules/home/terminal/system.nix",
+        "modules/home/whatpulse.nix",
+        "modules/home/wodan.nix",
+        "modules/i18n.nix",
+        "modules/internal-pki.nix",
+        "modules/keyboard.nix",
+        "modules/location.nix",
+        "modules/proxmox-lab.nix",
+        "modules/roles/desktop-base.nix",
+        "modules/roles/full-workstation.nix",
+        "modules/roles/kde-workstation.nix",
+        "modules/roles/workstation-base.nix",
+        "modules/storage_optimization.nix"
+      ],
+      "roots": [
+        "hosts/wodan/hardware-configuration.nix",
+        "modules/cachix.nix",
+        "modules/features/nvidia-workstation.nix",
+        "modules/features/wodan-home.nix",
+        "modules/internal-pki.nix",
+        "modules/proxmox-lab.nix",
+        "modules/roles/full-workstation.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/terminal.nix",
+          "modules/home/portable-cli.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/darwin-speech.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/development/core.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/mcp.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/nix-index.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/portable-dotfiles.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/terminal/config.nix"
+        ],
+        [
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/development/worktrunk.nix"
+        ]
+      ],
+      "id": "Darwin:loki",
+      "kind": "Darwin",
+      "label": "loki",
+      "layers": {
+        "home:david": [
+          "modules/features/terminal.nix",
+          "modules/home/darwin-keyboard.nix",
+          "modules/home/darwin-speech.nix",
+          "modules/home/development/agent-memory.nix",
+          "modules/home/development/core.nix",
+          "modules/home/development/headroom.nix",
+          "modules/home/development/pi.nix",
+          "modules/home/development/qartez.nix",
+          "modules/home/development/worktrunk.nix",
+          "modules/home/mcp.nix",
+          "modules/home/nix-index.nix",
+          "modules/home/portable-cli.nix",
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/terminal/config.nix"
+        ],
+        "system": [
+          "modules/darwin-keyboard.nix"
+        ]
+      },
+      "modules": [
+        "modules/darwin-keyboard.nix",
+        "modules/features/terminal.nix",
+        "modules/home/darwin-keyboard.nix",
+        "modules/home/darwin-speech.nix",
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/core.nix",
+        "modules/home/development/headroom.nix",
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix",
+        "modules/home/development/worktrunk.nix",
+        "modules/home/mcp.nix",
+        "modules/home/nix-index.nix",
+        "modules/home/portable-cli.nix",
+        "modules/home/portable-dotfiles.nix",
+        "modules/home/terminal/config.nix"
+      ],
+      "roots": [
+        "modules/darwin-keyboard.nix",
+        "modules/features/terminal.nix",
+        "modules/home/darwin-keyboard.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/terminal.nix",
+          "modules/home/portable-cli.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/darwin-speech.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/development/core.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/mcp.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/nix-index.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/portable-dotfiles.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/terminal/config.nix"
+        ],
+        [
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/development/worktrunk.nix"
+        ]
+      ],
+      "id": "Home Manager:david@mimir2",
+      "kind": "Home Manager",
+      "label": "david@mimir2",
+      "layers": {
+        "home:david": [
+          "modules/features/terminal.nix",
+          "modules/home/darwin-speech.nix",
+          "modules/home/development/agent-memory.nix",
+          "modules/home/development/core.nix",
+          "modules/home/development/headroom.nix",
+          "modules/home/development/pi.nix",
+          "modules/home/development/qartez.nix",
+          "modules/home/development/worktrunk.nix",
+          "modules/home/mcp.nix",
+          "modules/home/nix-index.nix",
+          "modules/home/portable-cli.nix",
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/terminal/config.nix"
+        ],
+        "system": []
+      },
+      "modules": [
+        "modules/features/terminal.nix",
+        "modules/home/darwin-speech.nix",
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/core.nix",
+        "modules/home/development/headroom.nix",
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix",
+        "modules/home/development/worktrunk.nix",
+        "modules/home/mcp.nix",
+        "modules/home/nix-index.nix",
+        "modules/home/portable-cli.nix",
+        "modules/home/portable-dotfiles.nix",
+        "modules/home/terminal/config.nix"
+      ],
+      "roots": [
+        "modules/features/terminal.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/terminal.nix",
+          "modules/home/portable-cli.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/darwin-speech.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/development/core.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/mcp.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/nix-index.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/portable-dotfiles.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/terminal/config.nix"
+        ],
+        [
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/development/worktrunk.nix"
+        ],
+        [
+          "modules/home/workstation/default.nix",
+          "modules/home/workstation/development/default.nix"
+        ],
+        [
+          "modules/home/workstation/default.nix",
+          "modules/home/workstation/media-tools.nix"
+        ],
+        [
+          "modules/home/workstation/default.nix",
+          "modules/home/workstation/terminal/default.nix"
+        ],
+        [
+          "modules/home/workstation/development/default.nix",
+          "modules/home/workstation/development/mantle.nix"
+        ],
+        [
+          "modules/home/workstation/development/default.nix",
+          "modules/home/workstation/development/packages.nix"
+        ],
+        [
+          "modules/home/workstation/development/mantle.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/workstation/development/mantle.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/development/cloud.nix"
+        ],
+        [
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/workstation/development/core.nix"
+        ],
+        [
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/workstation/development/security.nix"
+        ],
+        [
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/workstation/development/tooling.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/default.nix",
+          "modules/home/workstation/terminal/packages.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/archives.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/data.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/network.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/shell.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/system.nix"
+        ],
+        [
+          "modules/workstation.nix",
+          "modules/home/workstation/default.nix"
+        ]
+      ],
+      "id": "optional:mimir2 + workstation",
+      "kind": "optional",
+      "label": "mimir2 + workstation",
+      "layers": {
+        "home:david": [
+          "modules/features/terminal.nix",
+          "modules/home/darwin-speech.nix",
+          "modules/home/development/agent-memory.nix",
+          "modules/home/development/cloud.nix",
+          "modules/home/development/core.nix",
+          "modules/home/development/headroom.nix",
+          "modules/home/development/pi.nix",
+          "modules/home/development/qartez.nix",
+          "modules/home/development/worktrunk.nix",
+          "modules/home/mcp.nix",
+          "modules/home/nix-index.nix",
+          "modules/home/portable-cli.nix",
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/terminal/config.nix",
+          "modules/home/workstation/default.nix",
+          "modules/home/workstation/development/core.nix",
+          "modules/home/workstation/development/default.nix",
+          "modules/home/workstation/development/mantle.nix",
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/workstation/development/security.nix",
+          "modules/home/workstation/development/tooling.nix",
+          "modules/home/workstation/media-tools.nix",
+          "modules/home/workstation/terminal/archives.nix",
+          "modules/home/workstation/terminal/data.nix",
+          "modules/home/workstation/terminal/default.nix",
+          "modules/home/workstation/terminal/network.nix",
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/shell.nix",
+          "modules/home/workstation/terminal/system.nix",
+          "modules/workstation.nix"
+        ],
+        "system": []
+      },
+      "modules": [
+        "modules/features/terminal.nix",
+        "modules/home/darwin-speech.nix",
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/cloud.nix",
+        "modules/home/development/core.nix",
+        "modules/home/development/headroom.nix",
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix",
+        "modules/home/development/worktrunk.nix",
+        "modules/home/mcp.nix",
+        "modules/home/nix-index.nix",
+        "modules/home/portable-cli.nix",
+        "modules/home/portable-dotfiles.nix",
+        "modules/home/terminal/config.nix",
+        "modules/home/workstation/default.nix",
+        "modules/home/workstation/development/core.nix",
+        "modules/home/workstation/development/default.nix",
+        "modules/home/workstation/development/mantle.nix",
+        "modules/home/workstation/development/packages.nix",
+        "modules/home/workstation/development/security.nix",
+        "modules/home/workstation/development/tooling.nix",
+        "modules/home/workstation/media-tools.nix",
+        "modules/home/workstation/terminal/archives.nix",
+        "modules/home/workstation/terminal/data.nix",
+        "modules/home/workstation/terminal/default.nix",
+        "modules/home/workstation/terminal/network.nix",
+        "modules/home/workstation/terminal/packages.nix",
+        "modules/home/workstation/terminal/shell.nix",
+        "modules/home/workstation/terminal/system.nix",
+        "modules/workstation.nix"
+      ],
+      "roots": [
+        "modules/features/terminal.nix",
+        "modules/workstation.nix"
+      ]
+    },
+    {
+      "disabled": [],
+      "edges": [
+        [
+          "modules/features/terminal.nix",
+          "modules/home/portable-cli.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/development/core.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/agent-memory.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/headroom.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/pi.nix"
+        ],
+        [
+          "modules/home/mcp.nix",
+          "modules/home/development/qartez.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/darwin-speech.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/development/core.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/mcp.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/nix-index.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/portable-dotfiles.nix"
+        ],
+        [
+          "modules/home/portable-cli.nix",
+          "modules/home/terminal/config.nix"
+        ],
+        [
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/development/worktrunk.nix"
+        ],
+        [
+          "modules/home/workstation/default.nix",
+          "modules/home/workstation/development/default.nix"
+        ],
+        [
+          "modules/home/workstation/default.nix",
+          "modules/home/workstation/media-tools.nix"
+        ],
+        [
+          "modules/home/workstation/default.nix",
+          "modules/home/workstation/terminal/default.nix"
+        ],
+        [
+          "modules/home/workstation/development/default.nix",
+          "modules/home/workstation/development/mantle.nix"
+        ],
+        [
+          "modules/home/workstation/development/default.nix",
+          "modules/home/workstation/development/packages.nix"
+        ],
+        [
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/development/cloud.nix"
+        ],
+        [
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/workstation/development/core.nix"
+        ],
+        [
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/workstation/development/security.nix"
+        ],
+        [
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/workstation/development/tooling.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/default.nix",
+          "modules/home/workstation/terminal/packages.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/archives.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/data.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/network.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/shell.nix"
+        ],
+        [
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/system.nix"
+        ],
+        [
+          "modules/workstation.nix",
+          "modules/home/workstation/default.nix"
+        ]
+      ],
+      "id": "optional:loki + workstation",
+      "kind": "optional",
+      "label": "loki + workstation",
+      "layers": {
+        "home:david": [
+          "modules/features/terminal.nix",
+          "modules/home/darwin-keyboard.nix",
+          "modules/home/darwin-speech.nix",
+          "modules/home/development/agent-memory.nix",
+          "modules/home/development/cloud.nix",
+          "modules/home/development/core.nix",
+          "modules/home/development/headroom.nix",
+          "modules/home/development/pi.nix",
+          "modules/home/development/qartez.nix",
+          "modules/home/development/worktrunk.nix",
+          "modules/home/mcp.nix",
+          "modules/home/nix-index.nix",
+          "modules/home/portable-cli.nix",
+          "modules/home/portable-dotfiles.nix",
+          "modules/home/terminal/config.nix",
+          "modules/home/workstation/default.nix",
+          "modules/home/workstation/development/core.nix",
+          "modules/home/workstation/development/default.nix",
+          "modules/home/workstation/development/mantle.nix",
+          "modules/home/workstation/development/packages.nix",
+          "modules/home/workstation/development/security.nix",
+          "modules/home/workstation/development/tooling.nix",
+          "modules/home/workstation/media-tools.nix",
+          "modules/home/workstation/terminal/archives.nix",
+          "modules/home/workstation/terminal/data.nix",
+          "modules/home/workstation/terminal/default.nix",
+          "modules/home/workstation/terminal/network.nix",
+          "modules/home/workstation/terminal/packages.nix",
+          "modules/home/workstation/terminal/shell.nix",
+          "modules/home/workstation/terminal/system.nix",
+          "modules/workstation.nix"
+        ],
+        "system": [
+          "modules/darwin-keyboard.nix"
+        ]
+      },
+      "modules": [
+        "modules/darwin-keyboard.nix",
+        "modules/features/terminal.nix",
+        "modules/home/darwin-keyboard.nix",
+        "modules/home/darwin-speech.nix",
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/cloud.nix",
+        "modules/home/development/core.nix",
+        "modules/home/development/headroom.nix",
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix",
+        "modules/home/development/worktrunk.nix",
+        "modules/home/mcp.nix",
+        "modules/home/nix-index.nix",
+        "modules/home/portable-cli.nix",
+        "modules/home/portable-dotfiles.nix",
+        "modules/home/terminal/config.nix",
+        "modules/home/workstation/default.nix",
+        "modules/home/workstation/development/core.nix",
+        "modules/home/workstation/development/default.nix",
+        "modules/home/workstation/development/mantle.nix",
+        "modules/home/workstation/development/packages.nix",
+        "modules/home/workstation/development/security.nix",
+        "modules/home/workstation/development/tooling.nix",
+        "modules/home/workstation/media-tools.nix",
+        "modules/home/workstation/terminal/archives.nix",
+        "modules/home/workstation/terminal/data.nix",
+        "modules/home/workstation/terminal/default.nix",
+        "modules/home/workstation/terminal/network.nix",
+        "modules/home/workstation/terminal/packages.nix",
+        "modules/home/workstation/terminal/shell.nix",
+        "modules/home/workstation/terminal/system.nix",
+        "modules/workstation.nix"
+      ],
+      "roots": [
+        "modules/darwin-keyboard.nix",
+        "modules/features/terminal.nix",
+        "modules/home/darwin-keyboard.nix",
+        "modules/workstation.nix"
+      ]
+    }
+  ],
+  "generator": "911625e57c2d0bf124fce6127b18ca9c4ea5a710a256a08f352ee7640a76ad3a",
+  "modules": [
+    {
+      "children": [
+        "modules/default.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 77,
+      "merge_into": null,
+      "parents": [],
+      "path": "flake.nix",
+      "sha256": "3919c9595b424d62bdb3d9029b3cfd60761bd66ba0ad35db7daed477903151d1",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi"
+      ],
+      "lines": 49,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/bragi/hardware-configuration.nix",
+      "sha256": "d714e91b8f8c4cf90a62387e5c5a6fe3c2f27c2ac6168949c4a685c0e35cbded",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar"
+      ],
+      "lines": 41,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/donar/hardware-configuration.nix",
+      "sha256": "3428018f334fdf503e9f9fb6f9565ae2837cea86c42a7e7c5af77f8c7caef807",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:frigg"
+      ],
+      "lines": 51,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/frigg/hardware-configuration.nix",
+      "sha256": "1de507d465165888df48a3c8303936356da60d1f7a30256f040d0946a4c70df0",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:wodan"
+      ],
+      "lines": 83,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/wodan/hardware-configuration.nix",
+      "sha256": "1320a08333400dc30ea104b669575dd67469bfddc468a2631616ff267edb6f84",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 38,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/desktop-base.nix"
+      ],
+      "path": "modules/boot.nix",
+      "sha256": "afea73acab263e8d69814f1f45abba7e9e08c8389690d3ea453cec41511efc7a",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:apps",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:frigg",
+        "NixOS:homepage",
+        "NixOS:proxy",
+        "NixOS:wodan"
+      ],
+      "lines": 35,
+      "merge_into": null,
+      "parents": [],
+      "path": "modules/cachix.nix",
+      "sha256": "484ae36f3d797fb6229b9af09ebd9157304b0be26419f63252980433b92cd57b",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "Darwin:loki",
+        "optional:loki + workstation"
+      ],
+      "lines": 39,
+      "merge_into": null,
+      "parents": [],
+      "path": "modules/darwin-keyboard.nix",
+      "sha256": "b226c808b81499971976a919bc277091aff091b17d85e18ecab3a3fbb017abe6",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/features/default.nix",
+        "modules/flake.nix",
+        "modules/forgejo-image.nix",
+        "modules/hosts/default.nix",
+        "modules/proxmox-lab.nix",
+        "modules/proxy-image.nix",
+        "modules/roles/default.nix",
+        "modules/workstation.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 13,
+      "merge_into": null,
+      "parents": [
+        "flake.nix"
+      ],
+      "path": "modules/default.nix",
+      "sha256": "f36ac3ea859341e6ae4367e95e005dd9e877164bffbbcd8a9754bd8b844cca08",
+      "status": "wiring-only"
+    },
+    {
+      "children": [
+        "modules/home/browsers.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 10,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/features/browsers.nix",
+      "sha256": "093585f73ba46b45e32b7ed024072405b9db70d12009ab0d290ad49e2086a7fa",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/communication.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 32,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/full-workstation.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/features/communication.nix",
+      "sha256": "6ba987172947d29bb2f8876b6accceecd5bd430eca2735538c3bd434d44954fd",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/containers.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 8,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/features/containers.nix",
+      "sha256": "0b5e592d9e82b372bbc3908270a27c678fdce0008903125dff2f4a656efb0471",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/features/browsers.nix",
+        "modules/features/communication.nix",
+        "modules/features/containers.nix",
+        "modules/features/desktop-apps.nix",
+        "modules/features/development.nix",
+        "modules/features/dotfiles.nix",
+        "modules/features/gaming.nix",
+        "modules/features/homepage.nix",
+        "modules/features/hyprland.nix",
+        "modules/features/i3.nix",
+        "modules/features/keyboard.nix",
+        "modules/features/laptop.nix",
+        "modules/features/media.nix",
+        "modules/features/niri.nix",
+        "modules/features/nvidia-workstation.nix",
+        "modules/features/plasma.nix",
+        "modules/features/selfhosted-apps.nix",
+        "modules/features/terminal.nix",
+        "modules/features/whatpulse.nix",
+        "modules/features/wodan-home.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 24,
+      "merge_into": null,
+      "parents": [
+        "modules/default.nix"
+      ],
+      "path": "modules/features/default.nix",
+      "sha256": "24da53e0f201a5f14f657b2451b1aea15f380567b44fb43ec7a44a9c0e103847",
+      "status": "wiring-only"
+    },
+    {
+      "children": [
+        "modules/home/desktop-apps.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 10,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/features/desktop-apps.nix",
+      "sha256": "b4dfd0c68ca5dd712a00029d667f88ae65ead290cbc80d4cdff4b347564234f8",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/development/core.nix",
+        "modules/home/development/gamedev-forge.nix",
+        "modules/home/development/lab.nix",
+        "modules/home/development/mantle.nix",
+        "modules/home/development/security.nix",
+        "modules/home/development/tooling.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 41,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/full-workstation.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/features/development.nix",
+      "sha256": "ae028c9b4e72b846f2b9a38dc2efc020e2e6f897e2616bfb0cebb7bc4d63a977",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/dotfiles.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 8,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/features/dotfiles.nix",
+      "sha256": "6cf086b4cf112fc2fbcacf27bf4f17487386893ed4614f39be9075dc8b257f80",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/gaming.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "lines": 17,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/full-workstation.nix"
+      ],
+      "path": "modules/features/gaming.nix",
+      "sha256": "c353c3094fdb5e4e52d7da6139d397a8ab2f22831d0f888b816ffcfd9b2776c7",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/homepage-container.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:homepage"
+      ],
+      "lines": 3,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix"
+      ],
+      "path": "modules/features/homepage.nix",
+      "sha256": "78fec4849d5156e82e27ee32f60e976a119ed0551239569cd6ff1a5b56cb89ba",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:bragi"
+      ],
+      "lines": 23,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix"
+      ],
+      "path": "modules/features/hyprland.nix",
+      "sha256": "11b5b01aafbe1816946a60e215113fcd2cfccca6b763782fce1bd433be7f0484",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 65,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix"
+      ],
+      "path": "modules/features/i3.nix",
+      "sha256": "0311d05c573e2833d7e344d2970e64b36ccbed67f3315cc119350c2b3a4962ef",
+      "status": "wiring-only"
+    },
+    {
+      "children": [
+        "modules/home/keyboard.nix",
+        "modules/keyboard.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 9,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/features/keyboard.nix",
+      "sha256": "a05b9b1dceaf10987401d7e7bee629c647fd8e70e474c287bc1202d9ea3d28d4",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg"
+      ],
+      "lines": 34,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix"
+      ],
+      "path": "modules/features/laptop.nix",
+      "sha256": "f173fdd65c0cb012cf6d246c530eb2b1edd07bb8789e11febb4fd42c926ed1d1",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/media/apps.nix",
+        "modules/home/media/production.nix",
+        "modules/home/media/tools.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 19,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/full-workstation.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/features/media.nix",
+      "sha256": "fe19500337ab9b65f6f2fc2554372615e196aea18a619ed6121d3ea24c4fb417",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 35,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix"
+      ],
+      "path": "modules/features/niri.nix",
+      "sha256": "ad68006c8c358344bde89196f2d44a830ae04fc61195903c5f303f4c685ab12f",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:wodan"
+      ],
+      "lines": 70,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix"
+      ],
+      "path": "modules/features/nvidia-workstation.nix",
+      "sha256": "59af187a99ebfff0e257c4339bb7700fc2cb26fa1cf3fe56ec2cb440c92ccfe9",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/plasma.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 18,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/kde-workstation.nix"
+      ],
+      "path": "modules/features/plasma.nix",
+      "sha256": "906eab4788dfe410da97a72d6768ee3a3bead852fcf3dd77f8257a35a78dffcc",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/selfhosted-apps.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:apps"
+      ],
+      "lines": 3,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix"
+      ],
+      "path": "modules/features/selfhosted-apps.nix",
+      "sha256": "c27565599c69b13d519d802d3e0a7cfe1ed9dec70058dbceaecd0d75fbbba747",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/portable-cli.nix",
+        "modules/home/terminal/config.nix",
+        "modules/home/terminal/packages.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 24,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/features/terminal.nix",
+      "sha256": "2333853f1b6d4d186ed7e78c6278e9fd2012af1151e16fd9016e7056d2719851",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/whatpulse.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "lines": 51,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix",
+        "modules/roles/full-workstation.nix"
+      ],
+      "path": "modules/features/whatpulse.nix",
+      "sha256": "70d4e0cc1890de3a745af01ab169a588dcf6531535a3a5948518c2008374f745",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/wodan.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:wodan"
+      ],
+      "lines": 8,
+      "merge_into": null,
+      "parents": [
+        "modules/features/default.nix"
+      ],
+      "path": "modules/features/wodan-home.nix",
+      "sha256": "257e01359b80ad80c2b134741c1efbde92eb1cdb67872935aa2794b3889197c4",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [],
+      "lines": 41,
+      "merge_into": null,
+      "parents": [],
+      "path": "modules/feed-sync.nix",
+      "sha256": "c52379c65a33cffb1827c267dc08295a563bd55bf5d30e6732be3e5ba66f81ce",
+      "status": "unobserved"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 338,
+      "merge_into": null,
+      "parents": [
+        "modules/default.nix"
+      ],
+      "path": "modules/flake.nix",
+      "sha256": "b42651f15601ada1241ac67a84dce066094751f94dad14186ea7141b870d1e85",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 20,
+      "merge_into": null,
+      "parents": [
+        "modules/default.nix"
+      ],
+      "path": "modules/forgejo-image.nix",
+      "sha256": "53af36eddac1569584da4644f8d8421831ed5dabd16a7ab543636daac9008597",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab"
+      ],
+      "lines": 155,
+      "merge_into": null,
+      "parents": [],
+      "path": "modules/forgejo.nix",
+      "sha256": "b13ed8cfa97b4ae8482ead5ade1ec3922416463eb51d04fd60792a8180209dd9",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/development/worktrunk.nix",
+        "modules/home/mcp.nix",
+        "modules/home/nix-index.nix"
+      ],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 48,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/desktop-base.nix"
+      ],
+      "path": "modules/home-manager.nix",
+      "sha256": "4d53a54cbb3e54d242c41bbe8754af1fdf8b4e7ea952edbbca6dc76360bdf051",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 50,
+      "merge_into": null,
+      "parents": [
+        "modules/features/browsers.nix"
+      ],
+      "path": "modules/home/browsers.nix",
+      "sha256": "f90c77e1ebdbedd7016df3734d010cbd9ccc7a0f015f38b809096f0721cb3cc7",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 61,
+      "merge_into": null,
+      "parents": [
+        "modules/home/wodan.nix"
+      ],
+      "path": "modules/home/codex-mcp.nix",
+      "sha256": "81ce96f8803c9d2891bc45db5e779b33c643bc0760fa910c0d18f9f72bb05390",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 10,
+      "merge_into": null,
+      "parents": [
+        "modules/features/communication.nix"
+      ],
+      "path": "modules/home/communication.nix",
+      "sha256": "6ae54a988286621b80076ee704fc2377657edb86f07c2ec6751079301c09f1e0",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 15,
+      "merge_into": null,
+      "parents": [
+        "modules/features/containers.nix"
+      ],
+      "path": "modules/home/containers.nix",
+      "sha256": "044510f389156ea6ec5810477ecc7f21e6541c44529b40e6d7608359e401dfd9",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "Darwin:loki",
+        "optional:loki + workstation"
+      ],
+      "lines": 57,
+      "merge_into": null,
+      "parents": [],
+      "path": "modules/home/darwin-keyboard.nix",
+      "sha256": "10b6a6376a85e3d582ae51de192796fa74442d6b31bfe6c36d4e50b72fb9b43b",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 31,
+      "merge_into": "modules/home/portable-cli.nix",
+      "parents": [
+        "modules/home/portable-cli.nix"
+      ],
+      "path": "modules/home/darwin-speech.nix",
+      "sha256": "eb97786ab670ffbed7c679eb738e6ccb4c503e6d52b530c1017eb6ff16bd02e8",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 21,
+      "merge_into": null,
+      "parents": [
+        "modules/features/desktop-apps.nix"
+      ],
+      "path": "modules/home/desktop-apps.nix",
+      "sha256": "98b9c62952dceaf2dd2f7b2166e4eef7f29f2023232976ab396102fb4e0c45ab",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 52,
+      "merge_into": null,
+      "parents": [
+        "modules/home/development/mantle.nix",
+        "modules/home/mcp.nix",
+        "modules/home/workstation/development/mantle.nix"
+      ],
+      "path": "modules/home/development/agent-memory.nix",
+      "sha256": "b3440439bba7a5cb45723099b86d1c5a000144527c3788979fd4649737101d35",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 13,
+      "merge_into": "modules/home/workstation/development/packages.nix",
+      "parents": [
+        "modules/home/workstation/development/packages.nix"
+      ],
+      "path": "modules/home/development/cloud.nix",
+      "sha256": "9b304155954bc3d0c6e03b691e505d06a228b90e128e77d302cb2c40a02b8a4e",
+      "status": "optional-only"
+    },
+    {
+      "children": [
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix"
+      ],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 51,
+      "merge_into": null,
+      "parents": [
+        "modules/features/development.nix",
+        "modules/home/portable-cli.nix"
+      ],
+      "path": "modules/home/development/core.nix",
+      "sha256": "32bfacc8f9cbf4f733bc4d20ec5845e68925787c2cedcd5a4c746caadf38adfc",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "lines": 14,
+      "merge_into": null,
+      "parents": [
+        "modules/features/development.nix"
+      ],
+      "path": "modules/home/development/gamedev-forge.nix",
+      "sha256": "0171a842fafea98bd93ce083b6cc2d7260218dc3f262727b2a33ab22135896d7",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 25,
+      "merge_into": null,
+      "parents": [
+        "modules/home/development/mantle.nix",
+        "modules/home/mcp.nix",
+        "modules/home/workstation/development/mantle.nix"
+      ],
+      "path": "modules/home/development/headroom.nix",
+      "sha256": "f012713f19d7ed2f22b40a6f936fe161303e018f62b9a07379c97cf402a06f6e",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "lines": 16,
+      "merge_into": null,
+      "parents": [
+        "modules/features/development.nix"
+      ],
+      "path": "modules/home/development/lab.nix",
+      "sha256": "096cdcf97fa706382efaf806d0eca73211148cfb46927921561d50d527cf3fa6",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/headroom.nix"
+      ],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 76,
+      "merge_into": null,
+      "parents": [
+        "modules/features/development.nix"
+      ],
+      "path": "modules/home/development/mantle.nix",
+      "sha256": "8ec52a2917978bf3dcb54b74f0c19dddd369d6fa7fcfe224cfd66616f8e9bbb1",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 38,
+      "merge_into": null,
+      "parents": [
+        "modules/home/development/core.nix",
+        "modules/home/mcp.nix"
+      ],
+      "path": "modules/home/development/pi.nix",
+      "sha256": "792e3fa22bd029ea235b4b05845afd7c9d01f7da0c2d21770482ca3df01dfc40",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 29,
+      "merge_into": null,
+      "parents": [
+        "modules/home/development/core.nix",
+        "modules/home/mcp.nix"
+      ],
+      "path": "modules/home/development/qartez.nix",
+      "sha256": "3668a4d6f51a6843f1aca7fffa3744c262e35561f315548501d0341f27103816",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 10,
+      "merge_into": null,
+      "parents": [
+        "modules/features/development.nix"
+      ],
+      "path": "modules/home/development/security.nix",
+      "sha256": "77e6b811013de2eb4dca2f89591e1ae0a29261c0030a00880fbe416b97edaeae",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 59,
+      "merge_into": null,
+      "parents": [
+        "modules/features/development.nix"
+      ],
+      "path": "modules/home/development/tooling.nix",
+      "sha256": "7b1269c825eb142f48883f9329230135c57513fc9f7dc07bc1ec8cec03c0e967",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 24,
+      "merge_into": null,
+      "parents": [
+        "modules/home-manager.nix",
+        "modules/home/portable-dotfiles.nix"
+      ],
+      "path": "modules/home/development/worktrunk.nix",
+      "sha256": "f11a3e7b40bce3fd98d9406d4da3b9ef1846a38f648908db63fd8163fbfe23fa",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/portable-dotfiles.nix"
+      ],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 256,
+      "merge_into": null,
+      "parents": [
+        "modules/features/dotfiles.nix"
+      ],
+      "path": "modules/home/dotfiles.nix",
+      "sha256": "2fa81d583696c4eef3ef8c7287665b54900aae4ecba21a006a0f8c41a77ef28a",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "lines": 79,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/full-workstation.nix"
+      ],
+      "path": "modules/home/full-workstation-taskbar.nix",
+      "sha256": "08604a03493b6756b2b68070b2e3c5d97026aa54a4a2ae62498e8b3d52069971",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "lines": 211,
+      "merge_into": null,
+      "parents": [
+        "modules/features/gaming.nix"
+      ],
+      "path": "modules/home/gaming.nix",
+      "sha256": "be0e8132458312a26c3d8c7cba27ac0a559813f4b059c62e8bcdafeb68e09183",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 11,
+      "merge_into": null,
+      "parents": [
+        "modules/features/keyboard.nix"
+      ],
+      "path": "modules/home/keyboard.nix",
+      "sha256": "42e00bc44fffa46b3f2a46a65d608704a243564ea63ff475ed2b762b5ccbbc9e",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/headroom.nix",
+        "modules/home/development/pi.nix",
+        "modules/home/development/qartez.nix"
+      ],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 102,
+      "merge_into": null,
+      "parents": [
+        "modules/home-manager.nix",
+        "modules/home/portable-cli.nix"
+      ],
+      "path": "modules/home/mcp.nix",
+      "sha256": "07be7d83ad33248e54eb9bea57b9264d6773960ae33ea0ad08dcd870dd3344cc",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 39,
+      "merge_into": null,
+      "parents": [
+        "modules/features/media.nix"
+      ],
+      "path": "modules/home/media/apps.nix",
+      "sha256": "bb61999ab402c0998245ccf579270db1326a6ed9c848ba2239753496f7e1e382",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "lines": 21,
+      "merge_into": null,
+      "parents": [
+        "modules/features/media.nix"
+      ],
+      "path": "modules/home/media/production.nix",
+      "sha256": "8bf0799e9351fe5f6e00fd71350230aff0009d1083bab034cbb66f79cf400d7d",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 31,
+      "merge_into": null,
+      "parents": [
+        "modules/features/media.nix"
+      ],
+      "path": "modules/home/media/tools.nix",
+      "sha256": "19eed6b8d0538d5d1a41ed7643329dceb0aad07d8f7ed9c3216872f778629616",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 22,
+      "merge_into": null,
+      "parents": [
+        "modules/home-manager.nix",
+        "modules/home/portable-cli.nix"
+      ],
+      "path": "modules/home/nix-index.nix",
+      "sha256": "832be70ad0a47ff08005abf3843573eceef71306ec89d2b6a1061a6480d8f5ca",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 398,
+      "merge_into": null,
+      "parents": [
+        "modules/features/plasma.nix"
+      ],
+      "path": "modules/home/plasma.nix",
+      "sha256": "5f0c026518676ac4612aa3fd933b94414e838a936e2ef7def85dfa573adfb42b",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/darwin-speech.nix",
+        "modules/home/development/core.nix",
+        "modules/home/mcp.nix",
+        "modules/home/nix-index.nix",
+        "modules/home/portable-dotfiles.nix",
+        "modules/home/terminal/config.nix"
+      ],
+      "contexts": [
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 46,
+      "merge_into": null,
+      "parents": [
+        "modules/features/terminal.nix"
+      ],
+      "path": "modules/home/portable-cli.nix",
+      "sha256": "bb39edbcb598972692db3c8428e86e927c9aba8b9bb5ed45f01d8e437866910d",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/development/worktrunk.nix"
+      ],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 54,
+      "merge_into": null,
+      "parents": [
+        "modules/home/dotfiles.nix",
+        "modules/home/portable-cli.nix"
+      ],
+      "path": "modules/home/portable-dotfiles.nix",
+      "sha256": "dbdffaf67842a1ae7c0ed8c15a1d82f5fbe33f09f4ad99d248a0a46e95a5e0e7",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 16,
+      "merge_into": "modules/home/terminal/packages.nix",
+      "parents": [
+        "modules/home/terminal/packages.nix"
+      ],
+      "path": "modules/home/terminal/archives.nix",
+      "sha256": "a82fae268b050da08cb08ae2cca372c2c4b3d305de74f658e6c89f2cb70d4504",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 32,
+      "merge_into": null,
+      "parents": [
+        "modules/features/terminal.nix",
+        "modules/home/portable-cli.nix"
+      ],
+      "path": "modules/home/terminal/config.nix",
+      "sha256": "2fdf868b590b63279f06f5298d236d2f0dfc84288f1de79415155e5a3282a4cc",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 20,
+      "merge_into": "modules/home/terminal/packages.nix",
+      "parents": [
+        "modules/home/terminal/packages.nix"
+      ],
+      "path": "modules/home/terminal/data.nix",
+      "sha256": "8bbc40b98eb69620d1dcdcc8f11603d73662d32823b1517b1e58d1620b7ed9da",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 20,
+      "merge_into": "modules/home/terminal/packages.nix",
+      "parents": [
+        "modules/home/terminal/packages.nix"
+      ],
+      "path": "modules/home/terminal/network.nix",
+      "sha256": "e7d70acd6ef071cc0dc17b3a6ce47eb7299dd83f4cdab452c49c2c802b8727e8",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/terminal/archives.nix",
+        "modules/home/terminal/data.nix",
+        "modules/home/terminal/network.nix",
+        "modules/home/terminal/shell.nix",
+        "modules/home/terminal/system.nix"
+      ],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 9,
+      "merge_into": null,
+      "parents": [
+        "modules/features/terminal.nix"
+      ],
+      "path": "modules/home/terminal/packages.nix",
+      "sha256": "8c380a93c483dc35040f3f2dbd99565d785df59a5334107a4c167c0f62244c7b",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 39,
+      "merge_into": "modules/home/terminal/packages.nix",
+      "parents": [
+        "modules/home/terminal/packages.nix"
+      ],
+      "path": "modules/home/terminal/shell.nix",
+      "sha256": "75452b8c9a8b5a62c76255d0783c306d88b88222394723d054c408be8a4274c6",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 25,
+      "merge_into": "modules/home/terminal/packages.nix",
+      "parents": [
+        "modules/home/terminal/packages.nix"
+      ],
+      "path": "modules/home/terminal/system.nix",
+      "sha256": "a3a0bad250da52097367fd1c8a1587174840ca039c9282b1b612e0b27d04d31b",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "lines": 11,
+      "merge_into": null,
+      "parents": [
+        "modules/features/whatpulse.nix"
+      ],
+      "path": "modules/home/whatpulse.nix",
+      "sha256": "298330b8f5a82fc9d1b784fa5fda3a79cbed42bef821e9d4e6a197946492c141",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/codex-mcp.nix"
+      ],
+      "contexts": [
+        "NixOS:wodan"
+      ],
+      "lines": 168,
+      "merge_into": null,
+      "parents": [
+        "modules/features/wodan-home.nix"
+      ],
+      "path": "modules/home/wodan.nix",
+      "sha256": "159abc8213bb104042194f8007e6602af32e33a2c6251d663f93b2c1f84d73bc",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/workstation/development/default.nix",
+        "modules/home/workstation/media-tools.nix",
+        "modules/home/workstation/terminal/default.nix"
+      ],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 7,
+      "merge_into": null,
+      "parents": [
+        "modules/workstation.nix"
+      ],
+      "path": "modules/home/workstation/default.nix",
+      "sha256": "55391a47b10b335bdecde0a12d05c4829fa6c92e4fc6fa7f070650b906a8828f",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 37,
+      "merge_into": "modules/home/workstation/development/packages.nix",
+      "parents": [
+        "modules/home/workstation/development/packages.nix"
+      ],
+      "path": "modules/home/workstation/development/core.nix",
+      "sha256": "12a31f28a62d0bb8eceb3ba90e4661a780f8727ce02ccfc4673b8c748153b9b4",
+      "status": "optional-only"
+    },
+    {
+      "children": [
+        "modules/home/workstation/development/mantle.nix",
+        "modules/home/workstation/development/packages.nix"
+      ],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 6,
+      "merge_into": "modules/home/workstation/default.nix",
+      "parents": [
+        "modules/home/workstation/default.nix"
+      ],
+      "path": "modules/home/workstation/development/default.nix",
+      "sha256": "195913aa11095ef62a1edd74cc6812cd9163a487bcd5a128a17ad3fb0fadd12e",
+      "status": "optional-only"
+    },
+    {
+      "children": [
+        "modules/home/development/agent-memory.nix",
+        "modules/home/development/headroom.nix"
+      ],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 24,
+      "merge_into": "modules/home/workstation/development/default.nix",
+      "parents": [
+        "modules/home/workstation/development/default.nix"
+      ],
+      "path": "modules/home/workstation/development/mantle.nix",
+      "sha256": "e8597661154ac8825ef8b9d96596b464595637192e4596d691abcc36cfb57d49",
+      "status": "optional-only"
+    },
+    {
+      "children": [
+        "modules/home/development/cloud.nix",
+        "modules/home/workstation/development/core.nix",
+        "modules/home/workstation/development/security.nix",
+        "modules/home/workstation/development/tooling.nix"
+      ],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 8,
+      "merge_into": "modules/home/workstation/development/default.nix",
+      "parents": [
+        "modules/home/workstation/development/default.nix"
+      ],
+      "path": "modules/home/workstation/development/packages.nix",
+      "sha256": "0a0ede87d789b92408fd650f7346fae233ff42efad49c06b114fb5d1a40edbec",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 9,
+      "merge_into": "modules/home/workstation/development/packages.nix",
+      "parents": [
+        "modules/home/workstation/development/packages.nix"
+      ],
+      "path": "modules/home/workstation/development/security.nix",
+      "sha256": "bbad7df15e4f1457b430853af8bffccb67cb00cf6aaa4cdc4ad368335f765e87",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 30,
+      "merge_into": "modules/home/workstation/development/packages.nix",
+      "parents": [
+        "modules/home/workstation/development/packages.nix"
+      ],
+      "path": "modules/home/workstation/development/tooling.nix",
+      "sha256": "810461bf6388224e31aa7b32f040a040bf11f5f9357689daea351fc203f65d8b",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 15,
+      "merge_into": "modules/home/workstation/default.nix",
+      "parents": [
+        "modules/home/workstation/default.nix"
+      ],
+      "path": "modules/home/workstation/media-tools.nix",
+      "sha256": "0d42166e52875a6e432851e1c63d2098bc2cde1193c50879c9335e7c0d4636f1",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 11,
+      "merge_into": "modules/home/workstation/terminal/packages.nix",
+      "parents": [
+        "modules/home/workstation/terminal/packages.nix"
+      ],
+      "path": "modules/home/workstation/terminal/archives.nix",
+      "sha256": "026ec06c0f8f4dedefcb23d8bbe767137469748116141be9446f4811de657b4d",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 36,
+      "merge_into": "modules/home/workstation/terminal/packages.nix",
+      "parents": [
+        "modules/home/workstation/terminal/packages.nix"
+      ],
+      "path": "modules/home/workstation/terminal/data.nix",
+      "sha256": "4a5810116eb2d4053ffbc5506cb46e8db0f2f444decc91b9b3cc3921ad2e62b1",
+      "status": "optional-only"
+    },
+    {
+      "children": [
+        "modules/home/workstation/terminal/packages.nix"
+      ],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 5,
+      "merge_into": "modules/home/workstation/default.nix",
+      "parents": [
+        "modules/home/workstation/default.nix"
+      ],
+      "path": "modules/home/workstation/terminal/default.nix",
+      "sha256": "1569af4de3000f152cd47699f0c9f7b51ce451919831b1ada6786e40ae0cbcd3",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 24,
+      "merge_into": "modules/home/workstation/terminal/packages.nix",
+      "parents": [
+        "modules/home/workstation/terminal/packages.nix"
+      ],
+      "path": "modules/home/workstation/terminal/network.nix",
+      "sha256": "baf6936377e89328598925fa34035b8086b20432082d7e122df32a3f8a2a6bf3",
+      "status": "optional-only"
+    },
+    {
+      "children": [
+        "modules/home/workstation/terminal/archives.nix",
+        "modules/home/workstation/terminal/data.nix",
+        "modules/home/workstation/terminal/network.nix",
+        "modules/home/workstation/terminal/shell.nix",
+        "modules/home/workstation/terminal/system.nix"
+      ],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 9,
+      "merge_into": "modules/home/workstation/terminal/default.nix",
+      "parents": [
+        "modules/home/workstation/terminal/default.nix"
+      ],
+      "path": "modules/home/workstation/terminal/packages.nix",
+      "sha256": "8c380a93c483dc35040f3f2dbd99565d785df59a5334107a4c167c0f62244c7b",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 32,
+      "merge_into": "modules/home/workstation/terminal/packages.nix",
+      "parents": [
+        "modules/home/workstation/terminal/packages.nix"
+      ],
+      "path": "modules/home/workstation/terminal/shell.nix",
+      "sha256": "9acef41c81a4d1498fe31b0316c19eba52c3eb9a02a694820c1ef36b469bfc8f",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 27,
+      "merge_into": "modules/home/workstation/terminal/packages.nix",
+      "parents": [
+        "modules/home/workstation/terminal/packages.nix"
+      ],
+      "path": "modules/home/workstation/terminal/system.nix",
+      "sha256": "e374e3e2f7afc6db7bed73609f3be373b0a5da656c273a561e9b2c46ba9776c9",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:homepage"
+      ],
+      "lines": 56,
+      "merge_into": null,
+      "parents": [
+        "modules/features/homepage.nix"
+      ],
+      "path": "modules/homepage-container.nix",
+      "sha256": "fca2b7923169177624196033fb438a6e8e378dedf197d795c39ea10cb7203861",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 26,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/apps.nix",
+      "sha256": "fc8ef9f29f50150a2f91bcf18ab1534a712376262815d8ca69b3fe9d46c65098",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 46,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/bragi.nix",
+      "sha256": "d4c8635b1ad73fe8b782b5fab6b1e6dabe403275624ec2d11c9605fc554f1e7a",
+      "status": "wiring-only"
+    },
+    {
+      "children": [
+        "modules/hosts/apps.nix",
+        "modules/hosts/bragi.nix",
+        "modules/hosts/donar.nix",
+        "modules/hosts/forgejo-lab.nix",
+        "modules/hosts/forgejo.nix",
+        "modules/hosts/frigg.nix",
+        "modules/hosts/homepage.nix",
+        "modules/hosts/loki.nix",
+        "modules/hosts/mimir2.nix",
+        "modules/hosts/proxy.nix",
+        "modules/hosts/wodan.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 15,
+      "merge_into": null,
+      "parents": [
+        "modules/default.nix"
+      ],
+      "path": "modules/hosts/default.nix",
+      "sha256": "7042ae6e64528b5fa9de8e30d60e72c9eacd666f777c7f795e22c80cbded60c1",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 73,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/donar.nix",
+      "sha256": "57b2dfdb5cb31c931d56d886ac6f1fe24498bf63503082a2e2be8bed1008024f",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 70,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/forgejo-lab.nix",
+      "sha256": "c59ebb69a28674eeaca764dc3f58972af7deef2c6677970641885e6401e26175",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 105,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/forgejo.nix",
+      "sha256": "0baa181a2fdc9bd2545745cf5a048c4085756021bc59c5b26fefaf4e6e3a8b39",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 36,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/frigg.nix",
+      "sha256": "3fbef3c271bcccae08a2d205b309af092546e34a263fc184b8045c2bdf48e8fb",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 26,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/homepage.nix",
+      "sha256": "6274088d235ad19777165c7950b1265eccd3c636b54a8dc4bcb373940ec00b53",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 3,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/loki.nix",
+      "sha256": "b483e38d1d1301938a649c7011a010ed2e5f9b0f2eca892ec8db07501b75e3e6",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 3,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/mimir2.nix",
+      "sha256": "108bb80b19f282e03525189efe91ce03f6885a45c90de4347a7d16e4d99a67a0",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 240,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/proxy.nix",
+      "sha256": "fc374d040dbd9b9b0df2df2e1577fa4bf8799523c91fe342e93f4bdaa1ac530c",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 81,
+      "merge_into": null,
+      "parents": [
+        "modules/hosts/default.nix"
+      ],
+      "path": "modules/hosts/wodan.nix",
+      "sha256": "33aa532b11e3d2992aa08920252ac6de64e22cd969f8cd01b3cfe60cff063e8a",
+      "status": "wiring-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 43,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/desktop-base.nix"
+      ],
+      "path": "modules/i18n.nix",
+      "sha256": "c16ad27a806c0ba2d38233546a786bdf616b5980cdaa4927427846240e550189",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:apps",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:frigg",
+        "NixOS:homepage",
+        "NixOS:proxy",
+        "NixOS:wodan"
+      ],
+      "lines": 6,
+      "merge_into": null,
+      "parents": [],
+      "path": "modules/internal-pki.nix",
+      "sha256": "3fa1f5dad1236a88af6f25d7b622c04f991cca4db36cc3654fdcfd73ff6f021a",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 7,
+      "merge_into": null,
+      "parents": [
+        "modules/features/keyboard.nix"
+      ],
+      "path": "modules/keyboard.nix",
+      "sha256": "b1c8eb657e88aa297cbc2e396b28230f5a6d543785aae8e4c0ff533f830d3509",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 7,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/desktop-base.nix"
+      ],
+      "path": "modules/location.nix",
+      "sha256": "bee466b8b043644caf7af74ef9d13c1462420bff6bdc071e3ea043712e6d4730",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:wodan"
+      ],
+      "lines": 105,
+      "merge_into": null,
+      "parents": [
+        "modules/default.nix"
+      ],
+      "path": "modules/proxmox-lab.nix",
+      "sha256": "68543ee28df066f48ef6743f9ead4caf9df884e9dad79a02f06c5e283574d6ab",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:apps",
+        "NixOS:forgejo",
+        "NixOS:homepage",
+        "NixOS:proxy"
+      ],
+      "lines": 58,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/proxmox-guest.nix"
+      ],
+      "path": "modules/proxmox-vm.nix",
+      "sha256": "b163d59d9dcbd56a694cd5504786d7b2ba2c7e963ae8bc7a1927852677211d0a",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 20,
+      "merge_into": null,
+      "parents": [
+        "modules/default.nix"
+      ],
+      "path": "modules/proxy-image.nix",
+      "sha256": "75f54207530a7d77eef2e85330e2f63e7ac281309ea5131301dc8aef4aace2cc",
+      "status": "wiring-only"
+    },
+    {
+      "children": [
+        "modules/roles/desktop-base.nix",
+        "modules/roles/desktop.nix",
+        "modules/roles/full-workstation.nix",
+        "modules/roles/i3-workstation.nix",
+        "modules/roles/kde-workstation.nix",
+        "modules/roles/proxmox-guest.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 11,
+      "merge_into": null,
+      "parents": [
+        "modules/default.nix"
+      ],
+      "path": "modules/roles/default.nix",
+      "sha256": "f6e467cb311891f90604cd26570838efdd6ebbe53fe601d2676cd677d52467a8",
+      "status": "wiring-only"
+    },
+    {
+      "children": [
+        "modules/boot.nix",
+        "modules/home-manager.nix",
+        "modules/i18n.nix",
+        "modules/location.nix",
+        "modules/storage_optimization.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 97,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/default.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "path": "modules/roles/desktop-base.nix",
+      "sha256": "680a914b901a00cc2f3e4dc4417ef8fdfe60b8e169808a9d33d58af78cd4af2f",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 17,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/default.nix"
+      ],
+      "path": "modules/roles/desktop.nix",
+      "sha256": "95d120469de11997134f636cab1a89ac25ed15b46228b7d8da9e7ffe904078ac",
+      "status": "wiring-only"
+    },
+    {
+      "children": [
+        "modules/features/communication.nix",
+        "modules/features/development.nix",
+        "modules/features/gaming.nix",
+        "modules/features/media.nix",
+        "modules/features/whatpulse.nix",
+        "modules/home/full-workstation-taskbar.nix",
+        "modules/roles/kde-workstation.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "lines": 32,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/default.nix"
+      ],
+      "path": "modules/roles/full-workstation.nix",
+      "sha256": "96fd034ac76267034a57875f3d52486c759dd32f0a2ec6977d0683400497cfdf",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Flake wiring"
+      ],
+      "lines": 8,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/default.nix"
+      ],
+      "path": "modules/roles/i3-workstation.nix",
+      "sha256": "503ab76b52a5a7fb271390dd2d5728fd8ae6a2ce0287b8f0984ba0c46462bd05",
+      "status": "wiring-only"
+    },
+    {
+      "children": [
+        "modules/features/plasma.nix",
+        "modules/roles/workstation-base.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 37,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/default.nix",
+        "modules/roles/full-workstation.nix"
+      ],
+      "path": "modules/roles/kde-workstation.nix",
+      "sha256": "9ab58d8d39137d70b6fc04d17cc47848ce2bf6ddf4488b734bc6cded3e9737fa",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/proxmox-vm.nix",
+        "modules/server-locale.nix",
+        "modules/server-nix.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:apps",
+        "NixOS:forgejo",
+        "NixOS:homepage",
+        "NixOS:proxy"
+      ],
+      "lines": 9,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/default.nix"
+      ],
+      "path": "modules/roles/proxmox-guest.nix",
+      "sha256": "13b532f4c1345a3779f2ae321029a29bd08c0350092fff6891f73f766e70c698",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/features/browsers.nix",
+        "modules/features/communication.nix",
+        "modules/features/containers.nix",
+        "modules/features/desktop-apps.nix",
+        "modules/features/development.nix",
+        "modules/features/dotfiles.nix",
+        "modules/features/keyboard.nix",
+        "modules/features/media.nix",
+        "modules/features/terminal.nix",
+        "modules/roles/desktop-base.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 80,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/default.nix",
+        "modules/roles/kde-workstation.nix"
+      ],
+      "path": "modules/roles/workstation-base.nix",
+      "sha256": "af4042f1bb637a5e54edb3f76243d6b096d91825b00d692dc4d785d67ccdf377",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:apps"
+      ],
+      "lines": 177,
+      "merge_into": null,
+      "parents": [
+        "modules/features/selfhosted-apps.nix"
+      ],
+      "path": "modules/selfhosted-apps.nix",
+      "sha256": "a4c97679d02a25bde0a799e2c3c6489d778b01227e8ac776dcbc5a04aaf3b940",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:apps",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:homepage",
+        "NixOS:proxy"
+      ],
+      "lines": 8,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/proxmox-guest.nix"
+      ],
+      "path": "modules/server-locale.nix",
+      "sha256": "59589900fa26e9b5ed5aace78c7e397a3db5b3f523473f06e880987c5d7066aa",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:apps",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:homepage",
+        "NixOS:proxy"
+      ],
+      "lines": 22,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/proxmox-guest.nix"
+      ],
+      "path": "modules/server-nix.nix",
+      "sha256": "d85a53dc29ab296cbedfd570a8947abd05feeb678adcbaffeb663ef8c7e7176a",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "lines": 17,
+      "merge_into": null,
+      "parents": [
+        "modules/roles/desktop-base.nix"
+      ],
+      "path": "modules/storage_optimization.nix",
+      "sha256": "26e16c0b001f14e1173197b67f08ab2e244c8a23fbaa15eb6623b92b3576d779",
+      "status": "used"
+    },
+    {
+      "children": [
+        "modules/home/workstation/default.nix"
+      ],
+      "contexts": [
+        "wiring:Flake wiring",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "lines": 7,
+      "merge_into": null,
+      "parents": [
+        "modules/default.nix"
+      ],
+      "path": "modules/workstation.nix",
+      "sha256": "7129baf5702d500a33961bea72342ddda6523416e6223ac64d3d8e50e058e32e",
+      "status": "optional-only"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:apps"
+      ],
+      "lines": 18,
+      "merge_into": null,
+      "parents": [],
+      "path": "servers/apps/hardware-configuration.nix",
+      "sha256": "27836110f010e1d8345feb860a7207f6948117666a76cb9bf4b42d21c78bfaa4",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:homepage"
+      ],
+      "lines": 18,
+      "merge_into": null,
+      "parents": [],
+      "path": "servers/homepage/hardware-configuration.nix",
+      "sha256": "27836110f010e1d8345feb860a7207f6948117666a76cb9bf4b42d21c78bfaa4",
+      "status": "used"
+    }
+  ],
+  "schema": 1
+}

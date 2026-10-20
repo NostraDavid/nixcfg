@@ -78,6 +78,43 @@
     import inputs.nixpkgs-unstable {
       inherit system;
       config = nixpkgsConfig;
+      overlays = [
+        (_final: prev: {
+          # Structured wrapper arguments must contain one argument per element.
+          sbomnix = prev.sbomnix.overrideAttrs (old: {
+            makeWrapperArgs = prev.lib.concatMap (prev.lib.splitString " ") old.makeWrapperArgs;
+          });
+          pythonPackagesExtensions =
+            prev.pythonPackagesExtensions
+            ++ [
+              (_pyFinal: pyPrev: {
+                diff-cover = pyPrev.diff-cover.overridePythonAttrs (old: {
+                  # Pygments no longer escapes quotes in highlighted HTML text.
+                  postPatch =
+                    (old.postPatch or "")
+                    + ''
+                      substituteInPlace tests/fixtures/{pycodestyle,pyflakes,pylint}_violations_report.html \
+                        --replace-fail '&quot;' '"'
+                    '';
+                });
+                # sphinxHook reads a space-separated string, not a structured array.
+                reuse = pyPrev.reuse.overridePythonAttrs (_old: {
+                  sphinxBuilders = "html man";
+                });
+                # sqliteschema and SimpleSQLite still require typepy < 2.
+                typepy = pyPrev.typepy.overridePythonAttrs (_old: {
+                  version = "1.3.5";
+                  src = prev.fetchFromGitHub {
+                    owner = "thombashi";
+                    repo = "typepy";
+                    tag = "v1.3.5";
+                    hash = "sha256-K1XezKOlE4HxSNVM9Y9qAagem3bQlh3K2adzPK4qa/0=";
+                  };
+                });
+              })
+            ];
+        })
+      ];
     };
   pkgsFor = system:
     import inputs.nixpkgs {
@@ -208,7 +245,6 @@
                   [
                     config.flake.modules.homeManager.portable-cli
                     ./home/darwin-keyboard.nix
-                    ./home/loki-mcp.nix
                   ]
                   ++ extraHomeModules;
                 programs.home-manager.enable = true;
@@ -228,7 +264,7 @@ in {
   _module.args = {inherit mkHost mkMimir2 mkLoki;};
 
   flake = {
-    lib = {inherit mkMimir2 mkLoki;};
+    lib = {inherit mkMimir2 mkLoki unstableFor;};
     overlays.default = overlay-local;
     packages.aarch64-darwin.video-explainer = (pkgsFor "aarch64-darwin").video-explainer;
   };

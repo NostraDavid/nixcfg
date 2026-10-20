@@ -69,8 +69,9 @@ const expectedServers = ["agent-memory", "chrome-devtools", "dbhub", "headroom",
 assert.deepEqual(Object.keys(config.mcp.servers).sort(), expectedServers);
 for (const server of Object.values(config.mcp.servers)) assert.equal(server.disabled, false);
 assert.equal(config.mcp.servers.openaiDeveloperDocs.url, "https://developers.openai.com/mcp");
-assert.equal(config.mcp.servers.node_repl.command[0], "opencode-mcp-node-repl");
-assert.deepEqual(config.mcp.servers.dbhub.command.slice(0, 4), ["dbhub", "--transport", "stdio", "--config"]);
+assert.ok(config.mcp.servers.node_repl.command[0].endsWith("/.local/bin/opencode-mcp-node-repl"));
+assert.ok(config.mcp.servers.dbhub.command[0].endsWith("/.local/bin/dbhub"));
+assert.deepEqual(config.mcp.servers.dbhub.command.slice(1, 4), ["--transport", "stdio", "--config"]);
 assert.ok(config.mcp.servers.dbhub.command[4].endsWith("/.config/dbhub/local.toml"));
 JS
 

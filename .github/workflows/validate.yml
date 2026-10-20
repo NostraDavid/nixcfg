@@ -17,6 +17,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v20
+      - name: Check and render the module map
+        run: |
+          # shellcheck disable=SC2016
+          nix shell --inputs-from . nixpkgs#python3 nixpkgs#graphviz nixpkgs#just \
+            --command bash -e -c '
+              status=0
+              just module-map-check || status=$?
+              just module-map
+              exit "$status"
+            '
+      - name: Upload the offline module map
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: module-map
+          path: reports/module-map
+          if-no-files-found: warn
       - name: Run project hooks, formatting and lint
         run: |
           nix shell \

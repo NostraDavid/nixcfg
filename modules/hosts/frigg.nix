@@ -25,7 +25,10 @@
       };
       systemd.services.nix-daemon.serviceConfig.CPUQuota = "400%";
 
-      home-manager.users.${main-user}.home.packages = [local.chatgpt local.t3code];
+      home-manager.users.${main-user} = {
+        imports = [../home/codex-mcp.nix];
+        home.packages = [local.chatgpt local.t3code];
+      };
 
       system.stateVersion = "25.05";
     };

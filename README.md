@@ -12,6 +12,13 @@ The repository uses flake-parts modules to compose NixOS, Debian Home Manager,
 and nix-darwin configurations. Host composition lives in `modules/hosts/`;
 generated NixOS hardware configuration remains in `hosts/` and `servers/`.
 
+[The generated module map](docs/module-map.md) shows imports per machine,
+optional workstation profiles, unobserved files, and possible absorption
+candidates. Run `just module-map` to create the offline interactive diagrams at
+`reports/module-map/index.html`. Run `just module-map-check` after module
+changes; CI checks the snapshot and uploads the HTML as the `module-map`
+artifact.
+
 ## Usage
 
 ```bash
