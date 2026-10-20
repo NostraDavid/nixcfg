@@ -4085,7 +4085,7 @@
       ]
     }
   ],
-  "generator": "f6c5704e58eb4d1b66be9664b1db9050554a6ea90d94359c37a6329e6f4fa56f",
+  "generator": "bb8157aa37d8faa9cbcb57bc691aef22ab47a5f05b646afda1261564743da00d",
   "modules": [
     {
       "children": [],
@@ -4099,11 +4099,11 @@
         "Home Manager:mimir2"
       ],
       "kind": "feature",
-      "lines": 9,
+      "lines": 10,
       "merge_into": null,
       "parents": [],
       "path": "features/annotation/default.nix",
-      "sha256": "1ea1d2123ea8a4029deaeca2f251948d6fd21f8c13607846059e25f234f16e71",
+      "sha256": "71af672883551e1329446135d415c034dbaaeafc055cc9ef0ff19a539e75557a",
       "status": "used"
     },
     {
@@ -7068,6 +7068,7 @@
   "schema": 1,
   "software": [
     {
+      "kind": "virtual",
       "name": "apps",
       "packages": [
         {
@@ -7503,6 +7504,7 @@
       ]
     },
     {
+      "kind": "physical",
       "name": "bragi",
       "packages": [
         {
@@ -7779,6 +7781,11 @@
           "name": "kmod",
           "origin": "system",
           "version": "31"
+        },
+        {
+          "name": "ksnip",
+          "origin": "home:david",
+          "version": "1.10.1-unstable-2026-02-27"
         },
         {
           "name": "less",
@@ -8173,6 +8180,7 @@
       ]
     },
     {
+      "kind": "physical",
       "name": "donar",
       "packages": [
         {
@@ -9314,6 +9322,11 @@
           "name": "kservice",
           "origin": "system",
           "version": "6.26.0"
+        },
+        {
+          "name": "ksnip",
+          "origin": "home:david",
+          "version": "1.10.1-unstable-2026-02-27"
         },
         {
           "name": "ksystemstats",
@@ -11003,6 +11016,7 @@
       ]
     },
     {
+      "kind": "virtual",
       "name": "forgejo",
       "packages": [
         {
@@ -11433,6 +11447,7 @@
       ]
     },
     {
+      "kind": "virtual",
       "name": "forgejo-lab",
       "packages": [
         {
@@ -11848,6 +11863,7 @@
       ]
     },
     {
+      "kind": "physical",
       "name": "frigg",
       "packages": [
         {
@@ -12919,6 +12935,11 @@
           "name": "kservice",
           "origin": "system",
           "version": "6.26.0"
+        },
+        {
+          "name": "ksnip",
+          "origin": "home:david",
+          "version": "1.10.1-unstable-2026-02-27"
         },
         {
           "name": "ksystemstats",
@@ -14418,6 +14439,7 @@
       ]
     },
     {
+      "kind": "virtual",
       "name": "homepage",
       "packages": [
         {
@@ -14853,6 +14875,7 @@
       ]
     },
     {
+      "kind": "physical",
       "name": "loki",
       "packages": [
         {
@@ -15081,6 +15104,11 @@
           "version": "16.3.0"
         },
         {
+          "name": "ksnip",
+          "origin": "home:david",
+          "version": "1.10.1-unstable-2026-02-27"
+        },
+        {
           "name": "lazygit",
           "origin": "home:david",
           "version": "0.66.2"
@@ -15273,6 +15301,7 @@
       ]
     },
     {
+      "kind": "physical",
       "name": "mimir2",
       "packages": [
         {
@@ -15471,6 +15500,11 @@
           "version": "0.49.1"
         },
         {
+          "name": "ksnip",
+          "origin": "home:david",
+          "version": "1.10.1-unstable-2026-02-27"
+        },
+        {
           "name": "lazygit",
           "origin": "home:david",
           "version": "0.66.2"
@@ -15648,6 +15682,7 @@
       ]
     },
     {
+      "kind": "virtual",
       "name": "proxy",
       "packages": [
         {
@@ -16073,6 +16108,7 @@
       ]
     },
     {
+      "kind": "physical",
       "name": "wodan",
       "packages": [
         {
@@ -17249,6 +17285,11 @@
           "name": "kservice",
           "origin": "system",
           "version": "6.26.0"
+        },
+        {
+          "name": "ksnip",
+          "origin": "home:david",
+          "version": "1.10.1-unstable-2026-02-27"
         },
         {
           "name": "ksystemstats",

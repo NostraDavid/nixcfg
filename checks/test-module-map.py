@@ -82,6 +82,71 @@ class ModuleMapTests(unittest.TestCase):
             {"system", "home:david"},
         )
 
+    def test_software_kind_comes_from_evaluated_host_source(self) -> None:
+        self.raw["software"] = [{"name": "fixture", "packages": []}]
+        for kind in ("physical", "virtual"):
+            with self.subTest(kind=kind):
+                path = f"hosts/{kind}/fixture/default.nix"
+                (self.root / path).parent.mkdir(parents=True, exist_ok=True)
+                (self.root / path).write_text("{}\n")
+                self.raw["compositions"] = [
+                    {
+                        "name": "fixture",
+                        "kind": "NixOS",
+                        "nodes": [{"id": "host-fixture", "file": path}],
+                        "edges": [],
+                    }
+                ]
+                report = module_map.analyze(self.raw, self.root)
+                self.assertEqual(report["software"][0]["kind"], kind)
+
+    def circle_report(self) -> module_map.Report:
+        report = module_map.analyze(self.raw, self.root)
+        report["software"] = [
+            {"name": name, "kind": "physical", "packages": []}
+            for name, *_rest in module_map.CIRCLES
+        ]
+        return report
+
+    def test_six_circles_label_every_represented_membership(self) -> None:
+        layout = module_map.physical_circle_layout(self.circle_report())
+        self.assertEqual(len(layout["sets"]), 6)
+        self.assertEqual(len(layout["regions"]), 23)
+        for region in layout["regions"]:
+            with self.subTest(mask=region["mask"]):
+                mask = 0
+                for index, (_name, x, y, radius) in enumerate(layout["sets"]):
+                    distance_squared = (region["x"] - x) ** 2 + (-region["y"] - y) ** 2
+                    self.assertNotAlmostEqual(distance_squared, radius**2)
+                    if distance_squared < radius**2:
+                        mask |= 1 << index
+                self.assertEqual(mask, region["mask"])
+
+    def test_circle_layout_preserves_all_occupied_combinations(self) -> None:
+        report = self.circle_report()
+        masks = (1, 2, 6, 8, 32, 34, 36, 37, 38, 39, 42, 47, 54, 55, 62, 63)
+        for mask in masks:
+            for index, machine in enumerate(report["software"]):
+                if mask & (1 << index):
+                    machine["packages"].append({"name": f"package-{mask}"})
+        layout = module_map.physical_circle_layout(report)
+        self.assertEqual(set(layout["groups"]), set(masks))
+        self.assertEqual(sum(layout["counts"].values()), len(masks))
+        self.assertEqual(layout["extra_empty_masks"], [4, 5, 7, 10, 33, 40, 46])
+
+    def test_circle_layout_rejects_an_unrepresented_combination(self) -> None:
+        report = self.circle_report()
+        for index in (0, 3):
+            report["software"][index]["packages"] = [{"name": "bragi-and-loki-only"}]
+        with self.assertRaisesRegex(ValueError, r"occupied combinations \[9\]"):
+            module_map.physical_circle_layout(report)
+
+    def test_circle_layout_rejects_changed_physical_hosts(self) -> None:
+        report = self.circle_report()
+        report["software"].append({"name": "extra", "kind": "physical", "packages": []})
+        with self.assertRaisesRegex(ValueError, "changed physical hosts"):
+            module_map.physical_circle_layout(report)
+
     def test_removed_import_becomes_unobserved(self) -> None:
         before = module_map.analyze(self.raw, self.root)
         self.raw["machines"][0]["system"] = self.raw["machines"][0]["system"][:1]
@@ -209,7 +274,7 @@ class ModuleMapTests(unittest.TestCase):
         self.assertIn("annotation", module_map.composition_dot(report["contexts"][1]))
 
     def test_embedded_data_cannot_close_script_tag(self) -> None:
-        report = module_map.analyze(self.raw, self.root)
+        report = self.circle_report()
         report["contexts"][0]["label"] = "</script><script>unsafe()</script>"
         (self.root / "scripts/module-map.html").write_text(
             '<script type="application/json">"__MODULE_MAP_DATA__"</script>'

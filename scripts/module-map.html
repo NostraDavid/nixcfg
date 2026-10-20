@@ -137,6 +137,19 @@
       stroke: #d58314;
       stroke-width: 3px;
     }
+    .venn-region {
+      cursor: pointer;
+    }
+    .venn-region[aria-pressed="true"] circle,
+    .venn-region:hover circle,
+    .venn-region:focus-visible circle {
+      fill: #e7bd54;
+    }
+    .venn-region[aria-pressed="true"] text,
+    .venn-region:hover text,
+    .venn-region:focus-visible text {
+      font-weight: 600;
+    }
     .table-scroll {
       overflow: auto;
       max-height: 70vh;
@@ -266,24 +279,41 @@
       <section id="software" hidden class="card">
         <h2>Software overlap</h2>
         <p class="muted">
-          Configured system and Home Manager packages, plus Homebrew brews and casks. Compare three
-          machines by package name; versions may differ. This is not a runtime scan. Dependencies,
-          service-only packages and manually installed software are outside this inventory. Circle
-          sizes are schematic, not proportional to package counts.
+          Configured system and Home Manager packages, plus Homebrew brews and casks. Compare all
+          physical machines in one Venn diagram, or choose three machines to compare. Membership
+          uses package names; versions may differ. Dependencies, service-only packages and manual
+          installs are outside this inventory. This is not a runtime scan. Region areas are
+          schematic, not proportional to package counts.
         </p>
+        <div class="toolbar">
+          <label>Comparison<select id="software-mode">
+              <option value="physical">All physical machines · Venn diagram</option>
+              <option value="venn">Three-machine Venn diagram</option>
+            </select></label>
+          <span id="software-summary" class="muted"></span>
+        </div>
         <div id="software-selectors" class="toolbar"></div>
+        <div id="software-legend" class="toolbar"></div>
         <svg
           id="venn"
           viewBox="0 0 720 510"
-          role="img"
-          aria-label="Software overlap for three selected machines"
+          role="group"
+          aria-label="Software overlap Venn diagram"
           style="width: 100%; max-height: 60vh"
         >
-          <circle cx="270" cy="185" r="150" fill="#289fba" fill-opacity=".25" stroke="#16738c" />
-          <circle cx="450" cy="185" r="150" fill="#d59b34" fill-opacity=".25" stroke="#ad7516" />
-          <circle cx="360" cy="320" r="150" fill="#9c74bb" fill-opacity=".25" stroke="#775399" />
+          <g id="venn-three">
+            <circle cx="270" cy="185" r="150" fill="#289fba" fill-opacity=".25" stroke="#16738c" />
+            <circle cx="450" cy="185" r="150" fill="#d59b34" fill-opacity=".25" stroke="#ad7516" />
+            <circle cx="360" cy="320" r="150" fill="#9c74bb" fill-opacity=".25" stroke="#775399" />
+          </g>
+          <g id="venn-six"></g>
           <g id="venn-labels" text-anchor="middle" fill="#163f52" font-size="17"></g>
         </svg>
+        <p id="six-venn-note" class="muted" hidden>
+          Gray zeroes are empty combinations. A combination may have disconnected parts; its count
+          is shown once. <a href="../../docs/software-overlap-circles.md"
+          >Circle-layout validation</a>.
+        </p>
         <div id="software-regions" class="toolbar" aria-label="Select an overlap region"></div>
         <p id="software-selection"></p>
         <label>Find software <input
@@ -343,7 +373,9 @@
     "__MODULE_MAP_DATA__"
     </script>
     <script>
-    const { report, diagrams } = JSON.parse(document.getElementById("module-map-data").textContent);
+    const { report, diagrams, vennSix } = JSON.parse(
+      document.getElementById("module-map-data").textContent,
+    );
     const selector = document.getElementById("context");
     const scope = document.getElementById("scope");
     const search = document.getElementById("search");
@@ -556,10 +588,12 @@
     );
     const software = report.software ?? [];
     const softwareSelectors = [];
-    let softwareRegion = 7;
+    const softwareMode = document.getElementById("software-mode");
+    let softwareMachines = [];
+    let softwareRegion = 0;
     let softwareGroups = {};
     function regionName(mask) {
-      return softwareSelectors.filter((_, i) => mask & (1 << i)).map(s => s.value).join(" + ");
+      return softwareMachines.filter((_, i) => mask & (1 << i)).map(m => m.name).join(" + ");
     }
     function showSoftwarePackages() {
       const names = softwareGroups[softwareRegion] ?? [];
@@ -568,13 +602,16 @@
       body.replaceChildren();
       document.getElementById("software-selection").textContent = `${
         regionName(softwareRegion)
-      } only, relative to these three machines: ${names.length} packages`;
-      for (const button of document.querySelectorAll("#software-regions button")) {
+      } only, relative to these ${softwareMachines.length} machines: ${names.length} packages`;
+      for (
+        const button of document.querySelectorAll(
+          "#software-regions button, #venn-six [data-mask]",
+        )
+      ) {
         button.setAttribute("aria-pressed", String(Number(button.dataset.mask) === softwareRegion));
       }
       for (const name of names.filter(n => n.toLowerCase().includes(query))) {
-        const details = softwareSelectors.flatMap(select => {
-          const machine = software.find(m => m.name === select.value);
+        const details = softwareMachines.flatMap(machine => {
           return machine.packages.filter(p => p.name === name)
             .map(p => `${machine.name}: ${p.version || "unversioned"} [${p.origin}]`);
         });
@@ -596,17 +633,117 @@
           );
         }
       });
-      const machines = softwareSelectors.map(s => software.find(m => m.name === s.value));
+      const physical = softwareMode.value === "physical";
+      const machines = physical
+        ? vennSix.sets.map(([name]) => software.find(m => m.name === name))
+        : softwareSelectors.map(s => software.find(m => m.name === s.value));
+      softwareMachines = machines;
+      const fullMask = 2 ** machines.length - 1;
+      if (!softwareRegion || softwareRegion > fullMask) softwareRegion = fullMask;
       const sets = machines.map(m => new Set(m.packages.map(p => p.name)));
-      softwareGroups = Object.fromEntries(Array.from({ length: 7 }, (_, i) => [i + 1, []]));
+      softwareGroups = Object.fromEntries(Array.from({ length: fullMask }, (_, i) => [i + 1, []]));
       for (const name of [...new Set(sets.flatMap(set => [...set]))].sort()) {
         const mask = sets.reduce((bits, set, i) => bits | (set.has(name) ? 1 << i : 0), 0);
         softwareGroups[mask].push(name);
       }
+      document.getElementById("software-selectors").style.display = physical ? "none" : "";
+      const svg = document.getElementById("venn");
+      svg.setAttribute("viewBox", physical ? "-1.65 -1.3 2.95 2.9" : "0 0 720 510");
+      svg.style.maxHeight = physical ? "none" : "60vh";
+      document.getElementById("venn-three").style.display = physical ? "none" : "";
+      document.getElementById("venn-six").style.display = physical ? "" : "none";
+      document.getElementById("software-legend").style.display = physical ? "" : "none";
+      document.getElementById("six-venn-note").hidden = !physical;
+      const overlaps = Object.entries(softwareGroups).filter(([, names]) => names.length)
+        .sort((a, b) => b[1].length - a[1].length || Number(a[0]) - Number(b[0]));
+      document.getElementById("software-summary").textContent = `${machines.length} machines · ${
+        overlaps.reduce((total, [, names]) => total + names.length, 0)
+      } package names · ${overlaps.length} nonempty overlaps`;
       const labels = document.getElementById("venn-labels");
       const buttons = document.getElementById("software-regions");
       labels.replaceChildren();
       buttons.replaceChildren();
+      if (physical) {
+        const drawing = document.getElementById("venn-six");
+        const legend = document.getElementById("software-legend");
+        drawing.replaceChildren();
+        legend.replaceChildren();
+        const colors = ["#2878b5", "#b86512", "#258046", "#8557ac", "#bf4050", "#148485"];
+        const svgNode = (tag, attributes) => {
+          const node = document.createElementNS("http://www.w3.org/2000/svg", tag);
+          for (const [key, value] of Object.entries(attributes)) {
+            node.setAttribute(key, String(value));
+          }
+          return node;
+        };
+        machines.forEach((machine, i) => {
+          const [, x, y, r] = vennSix.sets[i];
+          drawing.append(svgNode("circle", {
+            "data-host": machine.name,
+            cx: x,
+            cy: -y,
+            r,
+            fill: colors[i],
+            "fill-opacity": .10,
+            stroke: colors[i],
+            "stroke-width": .007,
+          }));
+          const label = element("span", machine.name, "badge");
+          label.style.borderBottom = `3px solid ${colors[i]}`;
+          label.style.fontSize = "14px";
+          legend.append(label);
+        });
+        for (const region of vennSix.regions) {
+          const names = softwareGroups[region.mask];
+          const title = `${regionName(region.mask)} only: ${names.length} packages`;
+          const marker = svgNode("g", {
+            transform: `translate(${region.x},${region.y})`,
+            "data-mask": region.mask,
+            class: "venn-region",
+            tabindex: 0,
+            role: "button",
+            "aria-label": title,
+          });
+          const tooltip = svgNode("title", {});
+          tooltip.textContent = title;
+          marker.append(tooltip);
+          if (names.length) {
+            marker.append(svgNode("circle", {
+              r: .032 + .01 * String(names.length).length,
+              fill: "white",
+              stroke: "#34495e",
+              "stroke-width": .003,
+            }));
+          }
+          const text = svgNode("text", {
+            "text-anchor": "middle",
+            "dominant-baseline": "central",
+            "font-size": names.length ? .045 : .035,
+            fill: names.length ? "#243848" : "#667988",
+          });
+          text.textContent = String(names.length);
+          marker.append(text);
+          const choose = () => {
+            softwareRegion = region.mask;
+            showSoftwarePackages();
+          };
+          marker.onkeydown = event => {
+            if (["Enter", " "].includes(event.key)) {
+              event.preventDefault();
+              choose();
+            }
+          };
+          drawing.append(marker);
+          if (names.length) {
+            const button = element("button", title);
+            button.dataset.mask = String(region.mask);
+            button.onclick = choose;
+            buttons.append(button);
+          }
+        }
+        showSoftwarePackages();
+        return;
+      }
       const positions = {
         1: [205, 160],
         2: [515, 160],
@@ -662,8 +799,31 @@
         label.append(select);
         document.getElementById("software-selectors").append(label);
       }
+      softwareMode.onchange = () => {
+        softwareRegion = 0;
+        showSoftware();
+      };
       document.getElementById("software-search").oninput = showSoftwarePackages;
       document.getElementById("venn").onclick = event => {
+        if (softwareMode.value === "physical") {
+          const marker = event.target.closest("[data-mask]");
+          const svg = event.currentTarget;
+          const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(
+            svg.getScreenCTM().inverse(),
+          );
+          const mask = marker
+            ? Number(marker.dataset.mask)
+            : vennSix.sets.reduce(
+              (bits, [, x, y, r], i) =>
+                bits | ((point.x - x) ** 2 + (point.y + y) ** 2 < r * r ? 1 << i : 0),
+              0,
+            );
+          if (mask) {
+            softwareRegion = mask;
+            showSoftwarePackages();
+          }
+          return;
+        }
         const svg = event.currentTarget;
         const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(
           svg.getScreenCTM().inverse(),

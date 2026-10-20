@@ -43,24 +43,26 @@ A failed evaluation stops generation; partial results never replace the snapshot
 
 ## Software overlap
 
-The HTML software tab compares any three machines in a Venn diagram, with searchable package names, versions and installation sources.
+The HTML software tab shows all six physical machines as overlapping circles, with clickable counts for every occupied host combination and zero labels for additional empty combinations.
+Circle areas are schematic, not proportional to package counts. A combination may have disconnected parts; its count is shown once. See [the circle-layout validation](software-overlap-circles.md).
+A separate three-machine Venn view supports arbitrary machine comparisons. Both views have searchable package names, versions and installation sources.
 Membership uses package names, so different versions can overlap. Counts deduplicate system and home installations of the same name.
 This inventory evaluates system packages, Home Manager packages and Homebrew brews and casks. It does not scan running machines.
-Dependencies, service-only packages, manual installations and external work profiles are excluded. Circle areas are schematic.
+Dependencies, service-only packages, manual installations and external work profiles are excluded. Diagram areas are schematic.
 
 | Machine | Unique configured package names |
 | --- | ---: |
 | apps | 85 |
-| bragi | 130 |
-| donar | 545 |
+| bragi | 131 |
+| donar | 546 |
 | forgejo | 84 |
 | forgejo-lab | 81 |
-| frigg | 495 |
+| frigg | 496 |
 | homepage | 85 |
-| loki | 82 |
-| mimir2 | 74 |
+| loki | 83 |
+| mimir2 | 75 |
 | proxy | 83 |
-| wodan | 560 |
+| wodan | 561 |
 
 ## Entry points
 

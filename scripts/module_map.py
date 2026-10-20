@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import subprocess as sp
 import sys
 from pathlib import Path
@@ -222,6 +223,18 @@ def analyze(graphs: Graphs, root: Path) -> Report:
         "software": [
             {
                 "name": machine["name"],
+                "kind": next(
+                    (
+                        node["file"].split("/")[1]
+                        for composition in graphs.get("compositions", [])
+                        if composition["name"] == machine["name"]
+                        for node in composition["nodes"]
+                        if node["file"].startswith(
+                            ("hosts/physical/", "hosts/virtual/")
+                        )
+                    ),
+                    "unknown",
+                ),
                 "packages": [
                     {"name": name, "version": version, "origin": origin}
                     for name, version, origin in sorted(
@@ -313,10 +326,12 @@ def markdown(report: Report) -> str:
         "",
         "## Software overlap",
         "",
-        "The HTML software tab compares any three machines in a Venn diagram, with searchable package names, versions and installation sources.",
+        "The HTML software tab shows all six physical machines as overlapping circles, with clickable counts for every occupied host combination and zero labels for additional empty combinations.",
+        "Circle areas are schematic, not proportional to package counts. A combination may have disconnected parts; its count is shown once. See [the circle-layout validation](software-overlap-circles.md).",
+        "A separate three-machine Venn view supports arbitrary machine comparisons. Both views have searchable package names, versions and installation sources.",
         "Membership uses package names, so different versions can overlap. Counts deduplicate system and home installations of the same name.",
         "This inventory evaluates system packages, Home Manager packages and Homebrew brews and casks. It does not scan running machines.",
-        "Dependencies, service-only packages, manual installations and external work profiles are excluded. Circle areas are schematic.",
+        "Dependencies, service-only packages, manual installations and external work profiles are excluded. Diagram areas are schematic.",
         "",
         "| Machine | Unique configured package names |",
         "| --- | ---: |",
@@ -398,6 +413,129 @@ def markdown(report: Report) -> str:
     return "\n".join(rows) + "\n"
 
 
+# shortcut: validated six-host layout; revise it when new hosts or unsupported combinations appear.
+CIRCLES = [
+    ("bragi", -0.70, 0.30, 0.80),
+    ("donar", 0.15, 0.00, 1.00),
+    ("frigg", -0.26, 0.20, 0.95),
+    ("loki", 0.35, -0.65, 0.80),
+    ("mimir2", 0.08, 0.10, 0.35),
+    ("wodan", 0.00, -0.15, 1.05),
+]
+LABELS = {
+    1: (-1.3189, 0.4986),
+    2: (0.7788, 0.6702),
+    4: (-0.1940, 1.0462),
+    5: (-0.9508, 0.5916),
+    6: (0.2295, 0.9364),
+    7: (-0.2210, 0.9019),
+    8: (0.6621, -1.1862),
+    10: (1.0590, -0.3465),
+    32: (-0.5701, -0.8714),
+    33: (-0.9974, -0.4238),
+    34: (0.7999, 0.3284),
+    36: (-0.7469, -0.5526),
+    37: (-0.8799, 0.2846),
+    38: (0.3435, 0.6056),
+    39: (-0.4583, 0.4056),
+    40: (0.3639, -1.0539),
+    42: (0.4887, -0.7009),
+    46: (-0.0503, -0.4935),
+    47: (-0.2183, -0.2229),
+    54: (0.2264, 0.2687),
+    55: (-0.0661, 0.2200),
+    62: (0.2082, -0.0321),
+    63: (-0.1020, -0.0946),
+}
+
+
+def membership(point: tuple[float, float]) -> tuple[int, float]:
+    distances = [r - math.hypot(point[0] - x, point[1] - y) for _, x, y, r in CIRCLES]
+    return sum(1 << i for i, d in enumerate(distances) if d > 0), min(
+        map(abs, distances)
+    )
+
+
+def arc_angles() -> list[list[float]]:
+    angles: list[list[float]] = [[] for _ in CIRCLES]
+    for i, (_, x, y, r) in enumerate(CIRCLES):
+        for j in range(i):
+            _, u, v, s = CIRCLES[j]
+            distance = math.hypot(u - x, v - y)
+            if abs(r - s) < distance < r + s:
+                angle = math.atan2(v - y, u - x)
+                offset = math.acos(
+                    (r * r + distance * distance - s * s) / (2 * r * distance)
+                )
+                for theta in (angle - offset, angle + offset):
+                    px, py = x + r * math.cos(theta), y + r * math.sin(theta)
+                    angles[i].append(theta % math.tau)
+                    angles[j].append(math.atan2(py - v, px - u) % math.tau)
+    return angles
+
+
+def geometric_memberships() -> set[int]:
+    """Sample both faces adjacent to every circle arc between crossings."""
+    found = set()
+    for i, ((_, x, y, r), intersections) in enumerate(
+        zip(CIRCLES, arc_angles(), strict=True)
+    ):
+        angles = sorted(intersections) or [0.0]
+        for k, start in enumerate(angles):
+            end = angles[k + 1] if k + 1 < len(angles) else angles[0] + math.tau
+            theta = (start + end) / 2
+            dx, dy = math.cos(theta), math.sin(theta)
+            px, py = x + r * dx, y + r * dy
+            clearance = min(
+                abs(math.hypot(px - u, py - v) - s)
+                for j, (_, u, v, s) in enumerate(CIRCLES)
+                if j != i
+            )
+            epsilon = min(r / 10, clearance / 3)
+            for sign in (-1, 1):
+                mask, _ = membership(
+                    (px + sign * epsilon * dx, py + sign * epsilon * dy)
+                )
+                found.add(mask)
+    return found - {0}
+
+
+def physical_circle_layout(report: Report) -> dict:
+    """Validate every occupied software group before publishing its circle layout."""
+    machines = {m["name"]: m for m in report["software"] if m["kind"] == "physical"}
+    if set(machines) != {c[0] for c in CIRCLES}:
+        raise ValueError("Review the software circle layout for changed physical hosts")
+    sets = [{p["name"] for p in machines[name]["packages"]} for name, *_rest in CIRCLES]
+    groups: dict[int, list[str]] = {}
+    for package in set.union(*sets):
+        mask = sum(1 << i for i, names in enumerate(sets) if package in names)
+        groups.setdefault(mask, []).append(package)
+    represented = geometric_memberships()
+    if represented != LABELS.keys():
+        raise ValueError("Label each circle combination, including empty combinations")
+    missing = groups.keys() - represented
+    if missing:
+        raise ValueError(
+            f"Update the circle layout: occupied combinations {sorted(missing)} have no region"
+        )
+    clearances = {}
+    for mask, point in LABELS.items():
+        actual, clearance = membership(point)
+        if actual != mask or clearance <= 1e-6:
+            raise ValueError(f"Invalid interior circle label for {mask}")
+        clearances[mask] = clearance
+    return {
+        "sets": CIRCLES,
+        "regions": [{"mask": mask, "x": x, "y": -y} for mask, (x, y) in LABELS.items()],
+        "groups": {mask: sorted(names) for mask, names in groups.items()},
+        "counts": {mask: len(groups.get(mask, [])) for mask in LABELS},
+        "extra_empty_masks": sorted(represented - groups.keys()),
+        "minimum_occupied_clearance": min(
+            (clearances[m] for m in groups), default=None
+        ),
+    }
+
+
 def render_html(report: Report, root: Path) -> str:
     diagrams = {}
     for item in report["contexts"]:
@@ -410,7 +548,12 @@ def render_html(report: Report, root: Path) -> str:
             diagrams[item["id"] + ":composition"] = svg[svg.index("<svg") :]
     template = (root / "scripts/module-map.html").read_text()
     data = json.dumps(
-        {"report": report, "diagrams": diagrams}, separators=(",", ":")
+        {
+            "report": report,
+            "diagrams": diagrams,
+            "vennSix": physical_circle_layout(report),
+        },
+        separators=(",", ":"),
     ).replace("<", "\\u003c")
     return template.replace('"__MODULE_MAP_DATA__"', data)
 
@@ -455,6 +598,7 @@ def main() -> int:
         )
     )
     report = analyze(raw, root)
+    physical_circle_layout(report)
     snapshot = root / "docs/module-map.json"
     serialized = json.dumps(report, indent=2, sort_keys=True) + "\n"
     document = markdown(report)
