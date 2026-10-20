@@ -2456,7 +2456,7 @@
       ]
     }
   ],
-  "generator": "911625e57c2d0bf124fce6127b18ca9c4ea5a710a256a08f352ee7640a76ad3a",
+  "generator": "b13a89cea5f159729010217058c10dd9a779b86a10ee5d9cc9964c9c0bbe2017",
   "modules": [
     {
       "children": [
@@ -3008,16 +3008,6 @@
       "path": "modules/features/wodan-home.nix",
       "sha256": "257e01359b80ad80c2b134741c1efbde92eb1cdb67872935aa2794b3889197c4",
       "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [],
-      "lines": 41,
-      "merge_into": null,
-      "parents": [],
-      "path": "modules/feed-sync.nix",
-      "sha256": "c52379c65a33cffb1827c267dc08295a563bd55bf5d30e6732be3e5ba66f81ce",
-      "status": "unobserved"
     },
     {
       "children": [],
