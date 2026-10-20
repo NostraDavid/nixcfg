@@ -201,12 +201,14 @@
                 inherit hostname;
                 repoRoot = "${homeDirectory}/nixcfg";
                 stable = pkgs;
+                local = mkLocal (pkgsFor system);
               };
               users.${username} = {
                 imports =
                   [
                     config.flake.modules.homeManager.portable-cli
                     ./home/darwin-keyboard.nix
+                    ./home/loki-mcp.nix
                   ]
                   ++ extraHomeModules;
                 programs.home-manager.enable = true;
