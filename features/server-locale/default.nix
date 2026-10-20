@@ -1,9 +1,14 @@
 _: {
   den.aspects.server-locale = {
-    nixos = {
-      imports = [
-        ./_nixos.nix
-      ];
-    };
+    nixos.imports = [
+      {
+        i18n = {
+          defaultLocale = "en_US.UTF-8";
+          supportedLocales = [
+            "en_US.UTF-8/UTF-8"
+          ];
+        };
+      }
+    ];
   };
 }

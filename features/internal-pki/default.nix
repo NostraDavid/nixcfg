@@ -1,9 +1,12 @@
 _: {
   den.aspects.internal-pki = {
-    nixos = {
-      imports = [
-        ./_nixos.nix
-      ];
-    };
+    nixos.imports = [
+      {
+        security.pki.certificateFiles = [
+          ../../certs/freeipa.crt
+          ../../certs/forgejo-ca.crt
+        ];
+      }
+    ];
   };
 }

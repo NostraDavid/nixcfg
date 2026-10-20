@@ -53,16 +53,8 @@
       "disabled": [],
       "edges": [
         [
-          "features/boot/default.nix",
-          "features/boot/_nixos.nix"
-        ],
-        [
           "features/browsers/default.nix",
           "features/browsers/_home.nix"
-        ],
-        [
-          "features/cachix/default.nix",
-          "features/cachix/_nixos.nix"
         ],
         [
           "features/codex-browser/default.nix",
@@ -95,10 +87,6 @@
         [
           "features/desktop-apps/default.nix",
           "features/desktop-apps/_home.nix"
-        ],
-        [
-          "features/desktop-runtime/default.nix",
-          "features/desktop-runtime/_nixos.nix"
         ],
         [
           "features/development/default.nix",
@@ -153,52 +141,12 @@
           "features/gaming/_home.nix"
         ],
         [
-          "features/gaming/default.nix",
-          "features/gaming/_nixos.nix"
-        ],
-        [
-          "features/homepage/default.nix",
-          "features/homepage/_nixos.nix"
-        ],
-        [
-          "features/hyprland/default.nix",
-          "features/hyprland/_nixos.nix"
-        ],
-        [
-          "features/i18n/default.nix",
-          "features/i18n/_nixos.nix"
-        ],
-        [
           "features/i3/default.nix",
           "features/i3/_home.nix"
         ],
         [
-          "features/i3/default.nix",
-          "features/i3/_nixos.nix"
-        ],
-        [
-          "features/internal-pki/default.nix",
-          "features/internal-pki/_nixos.nix"
-        ],
-        [
-          "features/kde-runtime/default.nix",
-          "features/kde-runtime/_nixos.nix"
-        ],
-        [
           "features/keyboard/default.nix",
           "features/keyboard/_home.nix"
-        ],
-        [
-          "features/keyboard/default.nix",
-          "features/keyboard/_nixos.nix"
-        ],
-        [
-          "features/laptop/default.nix",
-          "features/laptop/_nixos.nix"
-        ],
-        [
-          "features/location/default.nix",
-          "features/location/_nixos.nix"
         ],
         [
           "features/mcp/default.nix",
@@ -237,48 +185,20 @@
           "features/niri/_home.nix"
         ],
         [
-          "features/niri/default.nix",
-          "features/niri/_nixos.nix"
-        ],
-        [
           "features/nix-index/default.nix",
           "features/nix-index/_home.nix"
-        ],
-        [
-          "features/nvidia-workstation/default.nix",
-          "features/nvidia-workstation/_nixos.nix"
         ],
         [
           "features/plasma/default.nix",
           "features/plasma/_home.nix"
         ],
         [
-          "features/plasma/default.nix",
-          "features/plasma/_nixos.nix"
-        ],
-        [
           "features/portable-runtime/default.nix",
           "features/portable-runtime/_home.nix"
         ],
         [
-          "features/proxmox-vm/default.nix",
-          "features/proxmox-vm/_nixos.nix"
-        ],
-        [
           "features/selfhosted-apps/default.nix",
           "features/selfhosted-apps/_nixos.nix"
-        ],
-        [
-          "features/server-locale/default.nix",
-          "features/server-locale/_nixos.nix"
-        ],
-        [
-          "features/server-nix/default.nix",
-          "features/server-nix/_nixos.nix"
-        ],
-        [
-          "features/storage-optimization/default.nix",
-          "features/storage-optimization/_nixos.nix"
         ],
         [
           "features/terminal/default.nix",
@@ -293,20 +213,12 @@
           "features/whatpulse/_home.nix"
         ],
         [
-          "features/whatpulse/default.nix",
-          "features/whatpulse/_nixos.nix"
-        ],
-        [
           "features/workstation-extra/default.nix",
           "features/workstation-extra/_default.nix"
         ],
         [
           "features/workstation-extra/default.nix",
           "features/workstation-extra/_media-tools.nix"
-        ],
-        [
-          "features/workstation-runtime/default.nix",
-          "features/workstation-runtime/_nixos.nix"
         ]
       ],
       "id": "wiring:Registered Den aspects",
@@ -315,11 +227,9 @@
       "layers": {
         "flake": [
           "features/annotation/default.nix",
-          "features/boot/_nixos.nix",
           "features/boot/default.nix",
           "features/browsers/_home.nix",
           "features/browsers/default.nix",
-          "features/cachix/_nixos.nix",
           "features/cachix/default.nix",
           "features/codex-browser/_home.nix",
           "features/codex-browser/default.nix",
@@ -336,7 +246,6 @@
           "features/darwin-speech/default.nix",
           "features/desktop-apps/_home.nix",
           "features/desktop-apps/default.nix",
-          "features/desktop-runtime/_nixos.nix",
           "features/desktop-runtime/default.nix",
           "features/development/_cloud.nix",
           "features/development/_core.nix",
@@ -355,27 +264,17 @@
           "features/full-workstation-apps/_home.nix",
           "features/full-workstation-apps/default.nix",
           "features/gaming/_home.nix",
-          "features/gaming/_nixos.nix",
           "features/gaming/default.nix",
-          "features/homepage/_nixos.nix",
           "features/homepage/default.nix",
-          "features/hyprland/_nixos.nix",
           "features/hyprland/default.nix",
-          "features/i18n/_nixos.nix",
           "features/i18n/default.nix",
           "features/i3/_home.nix",
-          "features/i3/_nixos.nix",
           "features/i3/default.nix",
-          "features/internal-pki/_nixos.nix",
           "features/internal-pki/default.nix",
-          "features/kde-runtime/_nixos.nix",
           "features/kde-runtime/default.nix",
           "features/keyboard/_home.nix",
-          "features/keyboard/_nixos.nix",
           "features/keyboard/default.nix",
-          "features/laptop/_nixos.nix",
           "features/laptop/default.nix",
-          "features/location/_nixos.nix",
           "features/location/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
@@ -388,39 +287,30 @@
           "features/media/_tools.nix",
           "features/media/default.nix",
           "features/niri/_home.nix",
-          "features/niri/_nixos.nix",
           "features/niri/default.nix",
           "features/nix-index/_home.nix",
           "features/nix-index/default.nix",
           "features/nixos-base/default.nix",
-          "features/nvidia-workstation/_nixos.nix",
           "features/nvidia-workstation/default.nix",
           "features/plasma/_home.nix",
-          "features/plasma/_nixos.nix",
           "features/plasma/default.nix",
           "features/portable-runtime/_home.nix",
           "features/portable-runtime/default.nix",
-          "features/proxmox-vm/_nixos.nix",
           "features/proxmox-vm/default.nix",
           "features/selfhosted-apps/_nixos.nix",
           "features/selfhosted-apps/default.nix",
-          "features/server-locale/_nixos.nix",
           "features/server-locale/default.nix",
-          "features/server-nix/_nixos.nix",
           "features/server-nix/default.nix",
-          "features/storage-optimization/_nixos.nix",
           "features/storage-optimization/default.nix",
           "features/terminal/_config.nix",
           "features/terminal/_packages.nix",
           "features/terminal/default.nix",
           "features/whatpulse/_home.nix",
-          "features/whatpulse/_nixos.nix",
           "features/whatpulse/default.nix",
           "features/window-management/default.nix",
           "features/workstation-extra/_default.nix",
           "features/workstation-extra/_media-tools.nix",
           "features/workstation-extra/default.nix",
-          "features/workstation-runtime/_nixos.nix",
           "features/workstation-runtime/default.nix",
           "hosts/physical/bragi/default.nix",
           "hosts/physical/donar/default.nix",
@@ -447,11 +337,9 @@
       },
       "modules": [
         "features/annotation/default.nix",
-        "features/boot/_nixos.nix",
         "features/boot/default.nix",
         "features/browsers/_home.nix",
         "features/browsers/default.nix",
-        "features/cachix/_nixos.nix",
         "features/cachix/default.nix",
         "features/codex-browser/_home.nix",
         "features/codex-browser/default.nix",
@@ -468,7 +356,6 @@
         "features/darwin-speech/default.nix",
         "features/desktop-apps/_home.nix",
         "features/desktop-apps/default.nix",
-        "features/desktop-runtime/_nixos.nix",
         "features/desktop-runtime/default.nix",
         "features/development/_cloud.nix",
         "features/development/_core.nix",
@@ -487,27 +374,17 @@
         "features/full-workstation-apps/_home.nix",
         "features/full-workstation-apps/default.nix",
         "features/gaming/_home.nix",
-        "features/gaming/_nixos.nix",
         "features/gaming/default.nix",
-        "features/homepage/_nixos.nix",
         "features/homepage/default.nix",
-        "features/hyprland/_nixos.nix",
         "features/hyprland/default.nix",
-        "features/i18n/_nixos.nix",
         "features/i18n/default.nix",
         "features/i3/_home.nix",
-        "features/i3/_nixos.nix",
         "features/i3/default.nix",
-        "features/internal-pki/_nixos.nix",
         "features/internal-pki/default.nix",
-        "features/kde-runtime/_nixos.nix",
         "features/kde-runtime/default.nix",
         "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix",
         "features/keyboard/default.nix",
-        "features/laptop/_nixos.nix",
         "features/laptop/default.nix",
-        "features/location/_nixos.nix",
         "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
@@ -520,39 +397,30 @@
         "features/media/_tools.nix",
         "features/media/default.nix",
         "features/niri/_home.nix",
-        "features/niri/_nixos.nix",
         "features/niri/default.nix",
         "features/nix-index/_home.nix",
         "features/nix-index/default.nix",
         "features/nixos-base/default.nix",
-        "features/nvidia-workstation/_nixos.nix",
         "features/nvidia-workstation/default.nix",
         "features/plasma/_home.nix",
-        "features/plasma/_nixos.nix",
         "features/plasma/default.nix",
         "features/portable-runtime/_home.nix",
         "features/portable-runtime/default.nix",
-        "features/proxmox-vm/_nixos.nix",
         "features/proxmox-vm/default.nix",
         "features/selfhosted-apps/_nixos.nix",
         "features/selfhosted-apps/default.nix",
-        "features/server-locale/_nixos.nix",
         "features/server-locale/default.nix",
-        "features/server-nix/_nixos.nix",
         "features/server-nix/default.nix",
-        "features/storage-optimization/_nixos.nix",
         "features/storage-optimization/default.nix",
         "features/terminal/_config.nix",
         "features/terminal/_packages.nix",
         "features/terminal/default.nix",
         "features/whatpulse/_home.nix",
-        "features/whatpulse/_nixos.nix",
         "features/whatpulse/default.nix",
         "features/window-management/default.nix",
         "features/workstation-extra/_default.nix",
         "features/workstation-extra/_media-tools.nix",
         "features/workstation-extra/default.nix",
-        "features/workstation-runtime/_nixos.nix",
         "features/workstation-runtime/default.nix",
         "hosts/physical/bragi/default.nix",
         "hosts/physical/donar/default.nix",
@@ -718,7 +586,16 @@
         ]
       },
       "disabled": [],
-      "edges": [],
+      "edges": [
+        [
+          "features/selfhosted-apps/default.nix",
+          "features/selfhosted-apps/_nixos.nix"
+        ],
+        [
+          "hosts/virtual/apps/default.nix",
+          "hosts/virtual/apps/hardware-configuration.nix"
+        ]
+      ],
       "id": "NixOS:apps",
       "kind": "NixOS",
       "label": "apps",
@@ -735,32 +612,39 @@
           "profiles/proxmox-guest.nix"
         ],
         "system": [
-          "features/cachix/_nixos.nix",
-          "features/internal-pki/_nixos.nix",
-          "features/proxmox-vm/_nixos.nix",
+          "features/cachix/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/proxmox-vm/default.nix",
           "features/selfhosted-apps/_nixos.nix",
-          "features/server-locale/_nixos.nix",
-          "features/server-nix/_nixos.nix",
+          "features/selfhosted-apps/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "hosts/virtual/apps/default.nix",
           "hosts/virtual/apps/hardware-configuration.nix"
         ]
       },
       "modules": [
-        "features/cachix/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/proxmox-vm/_nixos.nix",
+        "features/cachix/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/proxmox-vm/default.nix",
         "features/selfhosted-apps/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix",
+        "features/selfhosted-apps/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/apps/default.nix",
         "hosts/virtual/apps/hardware-configuration.nix"
       ],
       "roots": [
-        "features/cachix/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/proxmox-vm/_nixos.nix",
-        "features/selfhosted-apps/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix",
-        "hosts/virtual/apps/hardware-configuration.nix"
+        "features/cachix/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/proxmox-vm/default.nix",
+        "features/selfhosted-apps/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/apps/default.nix"
       ]
     },
     {
@@ -949,7 +833,48 @@
         ]
       },
       "disabled": [],
-      "edges": [],
+      "edges": [
+        [
+          "features/codex-browser/default.nix",
+          "features/codex-browser/_home.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_worktrunk.nix"
+        ],
+        [
+          "features/keyboard/default.nix",
+          "features/keyboard/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_agent-memory.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_headroom.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_pi.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_qartez.nix"
+        ],
+        [
+          "features/nix-index/default.nix",
+          "features/nix-index/_home.nix"
+        ],
+        [
+          "hosts/physical/bragi/default.nix",
+          "hosts/physical/bragi/hardware-configuration.nix"
+        ]
+      ],
       "id": "NixOS:bragi",
       "kind": "NixOS",
       "label": "bragi",
@@ -976,70 +901,86 @@
           "profiles/interactive.nix"
         ],
         "home:david": [
+          "features/annotation/default.nix",
           "features/codex-browser/_home.nix",
+          "features/codex-browser/default.nix",
+          "features/common-tooling/default.nix",
           "features/dotfiles/_worktrunk.nix",
+          "features/dotfiles/default.nix",
           "features/keyboard/_home.nix",
+          "features/keyboard/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
           "features/mcp/_qartez.nix",
-          "features/nix-index/_home.nix"
+          "features/mcp/default.nix",
+          "features/nix-index/_home.nix",
+          "features/nix-index/default.nix",
+          "hosts/physical/bragi/default.nix"
         ],
         "system": [
-          "features/boot/_nixos.nix",
-          "features/cachix/_nixos.nix",
-          "features/desktop-runtime/_nixos.nix",
-          "features/hyprland/_nixos.nix",
-          "features/i18n/_nixos.nix",
-          "features/internal-pki/_nixos.nix",
-          "features/keyboard/_nixos.nix",
-          "features/location/_nixos.nix",
-          "features/storage-optimization/_nixos.nix",
+          "features/boot/default.nix",
+          "features/cachix/default.nix",
+          "features/desktop-runtime/default.nix",
+          "features/hyprland/default.nix",
+          "features/i18n/default.nix",
+          "features/internal-pki/default.nix",
+          "features/keyboard/default.nix",
+          "features/location/default.nix",
+          "features/nixos-base/default.nix",
+          "features/storage-optimization/default.nix",
+          "hosts/physical/bragi/default.nix",
           "hosts/physical/bragi/hardware-configuration.nix"
         ]
       },
       "modules": [
-        "features/boot/_nixos.nix",
-        "features/cachix/_nixos.nix",
+        "features/annotation/default.nix",
+        "features/boot/default.nix",
+        "features/cachix/default.nix",
         "features/codex-browser/_home.nix",
-        "features/desktop-runtime/_nixos.nix",
+        "features/codex-browser/default.nix",
+        "features/common-tooling/default.nix",
+        "features/desktop-runtime/default.nix",
         "features/dotfiles/_worktrunk.nix",
-        "features/hyprland/_nixos.nix",
-        "features/i18n/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
+        "features/dotfiles/default.nix",
+        "features/hyprland/default.nix",
+        "features/i18n/default.nix",
+        "features/internal-pki/default.nix",
         "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix",
-        "features/location/_nixos.nix",
+        "features/keyboard/default.nix",
+        "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
         "features/mcp/_qartez.nix",
+        "features/mcp/default.nix",
         "features/nix-index/_home.nix",
-        "features/storage-optimization/_nixos.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
+        "features/storage-optimization/default.nix",
+        "hosts/physical/bragi/default.nix",
         "hosts/physical/bragi/hardware-configuration.nix"
       ],
       "roots": [
-        "features/boot/_nixos.nix",
-        "features/cachix/_nixos.nix",
-        "features/codex-browser/_home.nix",
-        "features/desktop-runtime/_nixos.nix",
-        "features/dotfiles/_worktrunk.nix",
-        "features/hyprland/_nixos.nix",
-        "features/i18n/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix",
-        "features/location/_nixos.nix",
-        "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
-        "features/mcp/_home.nix",
-        "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
-        "features/nix-index/_home.nix",
-        "features/storage-optimization/_nixos.nix",
-        "hosts/physical/bragi/hardware-configuration.nix"
+        "features/annotation/default.nix",
+        "features/boot/default.nix",
+        "features/cachix/default.nix",
+        "features/codex-browser/default.nix",
+        "features/common-tooling/default.nix",
+        "features/desktop-runtime/default.nix",
+        "features/dotfiles/default.nix",
+        "features/hyprland/default.nix",
+        "features/i18n/default.nix",
+        "features/internal-pki/default.nix",
+        "features/keyboard/default.nix",
+        "features/location/default.nix",
+        "features/mcp/default.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
+        "features/storage-optimization/default.nix",
+        "hosts/physical/bragi/default.nix"
       ]
     },
     {
@@ -1442,8 +1383,116 @@
       "disabled": [],
       "edges": [
         [
+          "features/browsers/default.nix",
+          "features/browsers/_home.nix"
+        ],
+        [
+          "features/communication/default.nix",
+          "features/communication/_home.nix"
+        ],
+        [
+          "features/communication/default.nix",
+          "features/communication/_work.nix"
+        ],
+        [
+          "features/containers/default.nix",
+          "features/containers/_home.nix"
+        ],
+        [
+          "features/desktop-apps/default.nix",
+          "features/desktop-apps/_home.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_core.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_gamedev-forge.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_lab.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_mantle.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_security.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_tooling.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_portable-dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_worktrunk.nix"
+        ],
+        [
           "features/full-workstation-apps/_home.nix",
           "features/full-workstation-apps/_taskbar.nix"
+        ],
+        [
+          "features/full-workstation-apps/default.nix",
+          "features/full-workstation-apps/_home.nix"
+        ],
+        [
+          "features/gaming/default.nix",
+          "features/gaming/_home.nix"
+        ],
+        [
+          "features/keyboard/default.nix",
+          "features/keyboard/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_agent-memory.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_headroom.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_pi.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_qartez.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_apps.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_production.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_tools.nix"
+        ],
+        [
+          "features/nix-index/default.nix",
+          "features/nix-index/_home.nix"
+        ],
+        [
+          "features/plasma/default.nix",
+          "features/plasma/_home.nix"
         ],
         [
           "features/terminal/_packages.nix",
@@ -1464,6 +1513,22 @@
         [
           "features/terminal/_packages.nix",
           "features/terminal/_system.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_config.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_packages.nix"
+        ],
+        [
+          "features/whatpulse/default.nix",
+          "features/whatpulse/_home.nix"
+        ],
+        [
+          "hosts/physical/donar/default.nix",
+          "hosts/physical/donar/hardware-configuration.nix"
         ]
       ],
       "id": "NixOS:donar",
@@ -1507,34 +1572,49 @@
           "profiles/workstation-base.nix"
         ],
         "home:david": [
+          "features/annotation/default.nix",
           "features/browsers/_home.nix",
+          "features/browsers/default.nix",
+          "features/common-tooling/default.nix",
           "features/communication/_home.nix",
           "features/communication/_work.nix",
+          "features/communication/default.nix",
           "features/containers/_home.nix",
+          "features/containers/default.nix",
           "features/desktop-apps/_home.nix",
+          "features/desktop-apps/default.nix",
           "features/development/_core.nix",
           "features/development/_gamedev-forge.nix",
           "features/development/_lab.nix",
           "features/development/_mantle.nix",
           "features/development/_security.nix",
           "features/development/_tooling.nix",
+          "features/development/default.nix",
           "features/dotfiles/_dotfiles.nix",
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
+          "features/dotfiles/default.nix",
           "features/full-workstation-apps/_home.nix",
           "features/full-workstation-apps/_taskbar.nix",
+          "features/full-workstation-apps/default.nix",
           "features/gaming/_home.nix",
+          "features/gaming/default.nix",
           "features/keyboard/_home.nix",
+          "features/keyboard/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
           "features/mcp/_qartez.nix",
+          "features/mcp/default.nix",
           "features/media/_apps.nix",
           "features/media/_production.nix",
           "features/media/_tools.nix",
+          "features/media/default.nix",
           "features/nix-index/_home.nix",
+          "features/nix-index/default.nix",
           "features/plasma/_home.nix",
+          "features/plasma/default.nix",
           "features/terminal/_archives.nix",
           "features/terminal/_config.nix",
           "features/terminal/_data.nix",
@@ -1542,67 +1622,85 @@
           "features/terminal/_packages.nix",
           "features/terminal/_shell.nix",
           "features/terminal/_system.nix",
-          "features/whatpulse/_home.nix"
+          "features/terminal/default.nix",
+          "features/whatpulse/_home.nix",
+          "features/whatpulse/default.nix",
+          "hosts/physical/donar/default.nix"
         ],
         "system": [
-          "features/boot/_nixos.nix",
-          "features/cachix/_nixos.nix",
-          "features/desktop-runtime/_nixos.nix",
-          "features/gaming/_nixos.nix",
-          "features/i18n/_nixos.nix",
-          "features/internal-pki/_nixos.nix",
-          "features/kde-runtime/_nixos.nix",
-          "features/keyboard/_nixos.nix",
-          "features/laptop/_nixos.nix",
-          "features/location/_nixos.nix",
-          "features/plasma/_nixos.nix",
-          "features/storage-optimization/_nixos.nix",
-          "features/whatpulse/_nixos.nix",
-          "features/workstation-runtime/_nixos.nix",
+          "features/boot/default.nix",
+          "features/cachix/default.nix",
+          "features/desktop-runtime/default.nix",
+          "features/gaming/default.nix",
+          "features/i18n/default.nix",
+          "features/internal-pki/default.nix",
+          "features/kde-runtime/default.nix",
+          "features/keyboard/default.nix",
+          "features/laptop/default.nix",
+          "features/location/default.nix",
+          "features/nixos-base/default.nix",
+          "features/plasma/default.nix",
+          "features/storage-optimization/default.nix",
+          "features/whatpulse/default.nix",
+          "features/workstation-runtime/default.nix",
+          "hosts/physical/donar/default.nix",
           "hosts/physical/donar/hardware-configuration.nix"
         ]
       },
       "modules": [
-        "features/boot/_nixos.nix",
+        "features/annotation/default.nix",
+        "features/boot/default.nix",
         "features/browsers/_home.nix",
-        "features/cachix/_nixos.nix",
+        "features/browsers/default.nix",
+        "features/cachix/default.nix",
+        "features/common-tooling/default.nix",
         "features/communication/_home.nix",
         "features/communication/_work.nix",
+        "features/communication/default.nix",
         "features/containers/_home.nix",
+        "features/containers/default.nix",
         "features/desktop-apps/_home.nix",
-        "features/desktop-runtime/_nixos.nix",
+        "features/desktop-apps/default.nix",
+        "features/desktop-runtime/default.nix",
         "features/development/_core.nix",
         "features/development/_gamedev-forge.nix",
         "features/development/_lab.nix",
         "features/development/_mantle.nix",
         "features/development/_security.nix",
         "features/development/_tooling.nix",
+        "features/development/default.nix",
         "features/dotfiles/_dotfiles.nix",
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
+        "features/dotfiles/default.nix",
         "features/full-workstation-apps/_home.nix",
         "features/full-workstation-apps/_taskbar.nix",
+        "features/full-workstation-apps/default.nix",
         "features/gaming/_home.nix",
-        "features/gaming/_nixos.nix",
-        "features/i18n/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/kde-runtime/_nixos.nix",
+        "features/gaming/default.nix",
+        "features/i18n/default.nix",
+        "features/internal-pki/default.nix",
+        "features/kde-runtime/default.nix",
         "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix",
-        "features/laptop/_nixos.nix",
-        "features/location/_nixos.nix",
+        "features/keyboard/default.nix",
+        "features/laptop/default.nix",
+        "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
         "features/mcp/_qartez.nix",
+        "features/mcp/default.nix",
         "features/media/_apps.nix",
         "features/media/_production.nix",
         "features/media/_tools.nix",
+        "features/media/default.nix",
         "features/nix-index/_home.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
         "features/plasma/_home.nix",
-        "features/plasma/_nixos.nix",
-        "features/storage-optimization/_nixos.nix",
+        "features/plasma/default.nix",
+        "features/storage-optimization/default.nix",
         "features/terminal/_archives.nix",
         "features/terminal/_config.nix",
         "features/terminal/_data.nix",
@@ -1610,57 +1708,43 @@
         "features/terminal/_packages.nix",
         "features/terminal/_shell.nix",
         "features/terminal/_system.nix",
+        "features/terminal/default.nix",
         "features/whatpulse/_home.nix",
-        "features/whatpulse/_nixos.nix",
-        "features/workstation-runtime/_nixos.nix",
+        "features/whatpulse/default.nix",
+        "features/workstation-runtime/default.nix",
+        "hosts/physical/donar/default.nix",
         "hosts/physical/donar/hardware-configuration.nix"
       ],
       "roots": [
-        "features/boot/_nixos.nix",
-        "features/browsers/_home.nix",
-        "features/cachix/_nixos.nix",
-        "features/communication/_home.nix",
-        "features/communication/_work.nix",
-        "features/containers/_home.nix",
-        "features/desktop-apps/_home.nix",
-        "features/desktop-runtime/_nixos.nix",
-        "features/development/_core.nix",
-        "features/development/_gamedev-forge.nix",
-        "features/development/_lab.nix",
-        "features/development/_mantle.nix",
-        "features/development/_security.nix",
-        "features/development/_tooling.nix",
-        "features/dotfiles/_dotfiles.nix",
-        "features/dotfiles/_portable-dotfiles.nix",
-        "features/dotfiles/_worktrunk.nix",
-        "features/full-workstation-apps/_home.nix",
-        "features/gaming/_home.nix",
-        "features/gaming/_nixos.nix",
-        "features/i18n/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/kde-runtime/_nixos.nix",
-        "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix",
-        "features/laptop/_nixos.nix",
-        "features/location/_nixos.nix",
-        "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
-        "features/mcp/_home.nix",
-        "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
-        "features/media/_apps.nix",
-        "features/media/_production.nix",
-        "features/media/_tools.nix",
-        "features/nix-index/_home.nix",
-        "features/plasma/_home.nix",
-        "features/plasma/_nixos.nix",
-        "features/storage-optimization/_nixos.nix",
-        "features/terminal/_config.nix",
-        "features/terminal/_packages.nix",
-        "features/whatpulse/_home.nix",
-        "features/whatpulse/_nixos.nix",
-        "features/workstation-runtime/_nixos.nix",
-        "hosts/physical/donar/hardware-configuration.nix"
+        "features/annotation/default.nix",
+        "features/boot/default.nix",
+        "features/browsers/default.nix",
+        "features/cachix/default.nix",
+        "features/common-tooling/default.nix",
+        "features/communication/default.nix",
+        "features/containers/default.nix",
+        "features/desktop-apps/default.nix",
+        "features/desktop-runtime/default.nix",
+        "features/development/default.nix",
+        "features/dotfiles/default.nix",
+        "features/full-workstation-apps/default.nix",
+        "features/gaming/default.nix",
+        "features/i18n/default.nix",
+        "features/internal-pki/default.nix",
+        "features/kde-runtime/default.nix",
+        "features/keyboard/default.nix",
+        "features/laptop/default.nix",
+        "features/location/default.nix",
+        "features/mcp/default.nix",
+        "features/media/default.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
+        "features/plasma/default.nix",
+        "features/storage-optimization/default.nix",
+        "features/terminal/default.nix",
+        "features/whatpulse/default.nix",
+        "features/workstation-runtime/default.nix",
+        "hosts/physical/donar/default.nix"
       ]
     },
     {
@@ -1737,7 +1821,12 @@
         ]
       },
       "disabled": [],
-      "edges": [],
+      "edges": [
+        [
+          "features/forgejo/default.nix",
+          "features/forgejo/_nixos.nix"
+        ]
+      ],
       "id": "NixOS:forgejo",
       "kind": "NixOS",
       "label": "forgejo",
@@ -1754,29 +1843,37 @@
           "profiles/proxmox-guest.nix"
         ],
         "system": [
-          "features/cachix/_nixos.nix",
+          "features/cachix/default.nix",
           "features/forgejo/_nixos.nix",
-          "features/internal-pki/_nixos.nix",
-          "features/proxmox-vm/_nixos.nix",
-          "features/server-locale/_nixos.nix",
-          "features/server-nix/_nixos.nix"
+          "features/forgejo/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/proxmox-vm/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "hosts/virtual/forgejo/default.nix"
         ]
       },
       "modules": [
-        "features/cachix/_nixos.nix",
+        "features/cachix/default.nix",
         "features/forgejo/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/proxmox-vm/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix"
+        "features/forgejo/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/proxmox-vm/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/forgejo/default.nix"
       ],
       "roots": [
-        "features/cachix/_nixos.nix",
-        "features/forgejo/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/proxmox-vm/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix"
+        "features/cachix/default.nix",
+        "features/forgejo/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/proxmox-vm/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/forgejo/default.nix"
       ]
     },
     {
@@ -1837,7 +1934,12 @@
         ]
       },
       "disabled": [],
-      "edges": [],
+      "edges": [
+        [
+          "features/forgejo/default.nix",
+          "features/forgejo/_nixos.nix"
+        ]
+      ],
       "id": "NixOS:forgejo-lab",
       "kind": "NixOS",
       "label": "forgejo-lab",
@@ -1852,26 +1954,34 @@
           "hosts/virtual/forgejo-lab/default.nix"
         ],
         "system": [
-          "features/cachix/_nixos.nix",
+          "features/cachix/default.nix",
           "features/forgejo/_nixos.nix",
-          "features/internal-pki/_nixos.nix",
-          "features/server-locale/_nixos.nix",
-          "features/server-nix/_nixos.nix"
+          "features/forgejo/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "hosts/virtual/forgejo-lab/default.nix"
         ]
       },
       "modules": [
-        "features/cachix/_nixos.nix",
+        "features/cachix/default.nix",
         "features/forgejo/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix"
+        "features/forgejo/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/forgejo-lab/default.nix"
       ],
       "roots": [
-        "features/cachix/_nixos.nix",
-        "features/forgejo/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix"
+        "features/cachix/default.nix",
+        "features/forgejo/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/forgejo-lab/default.nix"
       ]
     },
     {
@@ -2218,6 +2328,94 @@
       "disabled": [],
       "edges": [
         [
+          "features/browsers/default.nix",
+          "features/browsers/_home.nix"
+        ],
+        [
+          "features/codex-browser/default.nix",
+          "features/codex-browser/_home.nix"
+        ],
+        [
+          "features/communication/default.nix",
+          "features/communication/_home.nix"
+        ],
+        [
+          "features/containers/default.nix",
+          "features/containers/_home.nix"
+        ],
+        [
+          "features/desktop-apps/default.nix",
+          "features/desktop-apps/_home.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_core.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_mantle.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_security.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_tooling.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_portable-dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_worktrunk.nix"
+        ],
+        [
+          "features/keyboard/default.nix",
+          "features/keyboard/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_agent-memory.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_headroom.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_pi.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_qartez.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_apps.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_tools.nix"
+        ],
+        [
+          "features/nix-index/default.nix",
+          "features/nix-index/_home.nix"
+        ],
+        [
+          "features/plasma/default.nix",
+          "features/plasma/_home.nix"
+        ],
+        [
           "features/terminal/_packages.nix",
           "features/terminal/_archives.nix"
         ],
@@ -2236,6 +2434,18 @@
         [
           "features/terminal/_packages.nix",
           "features/terminal/_system.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_config.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_packages.nix"
+        ],
+        [
+          "hosts/physical/frigg/default.nix",
+          "hosts/physical/frigg/hardware-configuration.nix"
         ]
       ],
       "id": "NixOS:frigg",
@@ -2276,86 +2486,117 @@
           "profiles/workstation-base.nix"
         ],
         "home:david": [
+          "features/annotation/default.nix",
           "features/browsers/_home.nix",
+          "features/browsers/default.nix",
           "features/codex-browser/_home.nix",
+          "features/codex-browser/default.nix",
+          "features/common-tooling/default.nix",
           "features/communication/_home.nix",
+          "features/communication/default.nix",
           "features/containers/_home.nix",
+          "features/containers/default.nix",
           "features/desktop-apps/_home.nix",
+          "features/desktop-apps/default.nix",
           "features/development/_core.nix",
           "features/development/_mantle.nix",
           "features/development/_security.nix",
           "features/development/_tooling.nix",
+          "features/development/default.nix",
           "features/dotfiles/_dotfiles.nix",
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
+          "features/dotfiles/default.nix",
           "features/keyboard/_home.nix",
+          "features/keyboard/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
           "features/mcp/_qartez.nix",
+          "features/mcp/default.nix",
           "features/media/_apps.nix",
           "features/media/_tools.nix",
+          "features/media/default.nix",
           "features/nix-index/_home.nix",
+          "features/nix-index/default.nix",
           "features/plasma/_home.nix",
+          "features/plasma/default.nix",
           "features/terminal/_archives.nix",
           "features/terminal/_config.nix",
           "features/terminal/_data.nix",
           "features/terminal/_network.nix",
           "features/terminal/_packages.nix",
           "features/terminal/_shell.nix",
-          "features/terminal/_system.nix"
+          "features/terminal/_system.nix",
+          "features/terminal/default.nix",
+          "hosts/physical/frigg/default.nix"
         ],
         "system": [
-          "features/boot/_nixos.nix",
-          "features/cachix/_nixos.nix",
-          "features/desktop-runtime/_nixos.nix",
-          "features/i18n/_nixos.nix",
-          "features/internal-pki/_nixos.nix",
-          "features/kde-runtime/_nixos.nix",
-          "features/keyboard/_nixos.nix",
-          "features/laptop/_nixos.nix",
-          "features/location/_nixos.nix",
-          "features/plasma/_nixos.nix",
-          "features/storage-optimization/_nixos.nix",
-          "features/workstation-runtime/_nixos.nix",
+          "features/boot/default.nix",
+          "features/cachix/default.nix",
+          "features/desktop-runtime/default.nix",
+          "features/i18n/default.nix",
+          "features/internal-pki/default.nix",
+          "features/kde-runtime/default.nix",
+          "features/keyboard/default.nix",
+          "features/laptop/default.nix",
+          "features/location/default.nix",
+          "features/nixos-base/default.nix",
+          "features/plasma/default.nix",
+          "features/storage-optimization/default.nix",
+          "features/workstation-runtime/default.nix",
+          "hosts/physical/frigg/default.nix",
           "hosts/physical/frigg/hardware-configuration.nix"
         ]
       },
       "modules": [
-        "features/boot/_nixos.nix",
+        "features/annotation/default.nix",
+        "features/boot/default.nix",
         "features/browsers/_home.nix",
-        "features/cachix/_nixos.nix",
+        "features/browsers/default.nix",
+        "features/cachix/default.nix",
         "features/codex-browser/_home.nix",
+        "features/codex-browser/default.nix",
+        "features/common-tooling/default.nix",
         "features/communication/_home.nix",
+        "features/communication/default.nix",
         "features/containers/_home.nix",
+        "features/containers/default.nix",
         "features/desktop-apps/_home.nix",
-        "features/desktop-runtime/_nixos.nix",
+        "features/desktop-apps/default.nix",
+        "features/desktop-runtime/default.nix",
         "features/development/_core.nix",
         "features/development/_mantle.nix",
         "features/development/_security.nix",
         "features/development/_tooling.nix",
+        "features/development/default.nix",
         "features/dotfiles/_dotfiles.nix",
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
-        "features/i18n/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/kde-runtime/_nixos.nix",
+        "features/dotfiles/default.nix",
+        "features/i18n/default.nix",
+        "features/internal-pki/default.nix",
+        "features/kde-runtime/default.nix",
         "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix",
-        "features/laptop/_nixos.nix",
-        "features/location/_nixos.nix",
+        "features/keyboard/default.nix",
+        "features/laptop/default.nix",
+        "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
         "features/mcp/_qartez.nix",
+        "features/mcp/default.nix",
         "features/media/_apps.nix",
         "features/media/_tools.nix",
+        "features/media/default.nix",
         "features/nix-index/_home.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
         "features/plasma/_home.nix",
-        "features/plasma/_nixos.nix",
-        "features/storage-optimization/_nixos.nix",
+        "features/plasma/default.nix",
+        "features/storage-optimization/default.nix",
         "features/terminal/_archives.nix",
         "features/terminal/_config.nix",
         "features/terminal/_data.nix",
@@ -2363,47 +2604,39 @@
         "features/terminal/_packages.nix",
         "features/terminal/_shell.nix",
         "features/terminal/_system.nix",
-        "features/workstation-runtime/_nixos.nix",
+        "features/terminal/default.nix",
+        "features/workstation-runtime/default.nix",
+        "hosts/physical/frigg/default.nix",
         "hosts/physical/frigg/hardware-configuration.nix"
       ],
       "roots": [
-        "features/boot/_nixos.nix",
-        "features/browsers/_home.nix",
-        "features/cachix/_nixos.nix",
-        "features/codex-browser/_home.nix",
-        "features/communication/_home.nix",
-        "features/containers/_home.nix",
-        "features/desktop-apps/_home.nix",
-        "features/desktop-runtime/_nixos.nix",
-        "features/development/_core.nix",
-        "features/development/_mantle.nix",
-        "features/development/_security.nix",
-        "features/development/_tooling.nix",
-        "features/dotfiles/_dotfiles.nix",
-        "features/dotfiles/_portable-dotfiles.nix",
-        "features/dotfiles/_worktrunk.nix",
-        "features/i18n/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/kde-runtime/_nixos.nix",
-        "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix",
-        "features/laptop/_nixos.nix",
-        "features/location/_nixos.nix",
-        "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
-        "features/mcp/_home.nix",
-        "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
-        "features/media/_apps.nix",
-        "features/media/_tools.nix",
-        "features/nix-index/_home.nix",
-        "features/plasma/_home.nix",
-        "features/plasma/_nixos.nix",
-        "features/storage-optimization/_nixos.nix",
-        "features/terminal/_config.nix",
-        "features/terminal/_packages.nix",
-        "features/workstation-runtime/_nixos.nix",
-        "hosts/physical/frigg/hardware-configuration.nix"
+        "features/annotation/default.nix",
+        "features/boot/default.nix",
+        "features/browsers/default.nix",
+        "features/cachix/default.nix",
+        "features/codex-browser/default.nix",
+        "features/common-tooling/default.nix",
+        "features/communication/default.nix",
+        "features/containers/default.nix",
+        "features/desktop-apps/default.nix",
+        "features/desktop-runtime/default.nix",
+        "features/development/default.nix",
+        "features/dotfiles/default.nix",
+        "features/i18n/default.nix",
+        "features/internal-pki/default.nix",
+        "features/kde-runtime/default.nix",
+        "features/keyboard/default.nix",
+        "features/laptop/default.nix",
+        "features/location/default.nix",
+        "features/mcp/default.nix",
+        "features/media/default.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
+        "features/plasma/default.nix",
+        "features/storage-optimization/default.nix",
+        "features/terminal/default.nix",
+        "features/workstation-runtime/default.nix",
+        "hosts/physical/frigg/default.nix"
       ]
     },
     {
@@ -2480,7 +2713,12 @@
         ]
       },
       "disabled": [],
-      "edges": [],
+      "edges": [
+        [
+          "hosts/virtual/homepage/default.nix",
+          "hosts/virtual/homepage/hardware-configuration.nix"
+        ]
+      ],
       "id": "NixOS:homepage",
       "kind": "NixOS",
       "label": "homepage",
@@ -2497,32 +2735,37 @@
           "profiles/proxmox-guest.nix"
         ],
         "system": [
-          "features/cachix/_nixos.nix",
-          "features/homepage/_nixos.nix",
-          "features/internal-pki/_nixos.nix",
-          "features/proxmox-vm/_nixos.nix",
-          "features/server-locale/_nixos.nix",
-          "features/server-nix/_nixos.nix",
+          "features/cachix/default.nix",
+          "features/homepage/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/proxmox-vm/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "hosts/virtual/homepage/default.nix",
           "hosts/virtual/homepage/hardware-configuration.nix"
         ]
       },
       "modules": [
-        "features/cachix/_nixos.nix",
-        "features/homepage/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/proxmox-vm/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix",
+        "features/cachix/default.nix",
+        "features/homepage/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/proxmox-vm/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/homepage/default.nix",
         "hosts/virtual/homepage/hardware-configuration.nix"
       ],
       "roots": [
-        "features/cachix/_nixos.nix",
-        "features/homepage/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/proxmox-vm/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix",
-        "hosts/virtual/homepage/hardware-configuration.nix"
+        "features/cachix/default.nix",
+        "features/homepage/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/proxmox-vm/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/homepage/default.nix"
       ]
     },
     {
@@ -2607,26 +2850,32 @@
           "profiles/proxmox-guest.nix"
         ],
         "system": [
-          "features/cachix/_nixos.nix",
-          "features/internal-pki/_nixos.nix",
-          "features/proxmox-vm/_nixos.nix",
-          "features/server-locale/_nixos.nix",
-          "features/server-nix/_nixos.nix"
+          "features/cachix/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/proxmox-vm/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "hosts/virtual/proxy/default.nix"
         ]
       },
       "modules": [
-        "features/cachix/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/proxmox-vm/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix"
+        "features/cachix/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/proxmox-vm/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/proxy/default.nix"
       ],
       "roots": [
-        "features/cachix/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/proxmox-vm/_nixos.nix",
-        "features/server-locale/_nixos.nix",
-        "features/server-nix/_nixos.nix"
+        "features/cachix/default.nix",
+        "features/internal-pki/default.nix",
+        "features/nixos-base/default.nix",
+        "features/proxmox-vm/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "hosts/virtual/proxy/default.nix"
       ]
     },
     {
@@ -3041,8 +3290,120 @@
       "disabled": [],
       "edges": [
         [
+          "features/browsers/default.nix",
+          "features/browsers/_home.nix"
+        ],
+        [
+          "features/codex-browser/default.nix",
+          "features/codex-browser/_home.nix"
+        ],
+        [
+          "features/communication/default.nix",
+          "features/communication/_home.nix"
+        ],
+        [
+          "features/communication/default.nix",
+          "features/communication/_work.nix"
+        ],
+        [
+          "features/containers/default.nix",
+          "features/containers/_home.nix"
+        ],
+        [
+          "features/desktop-apps/default.nix",
+          "features/desktop-apps/_home.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_core.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_gamedev-forge.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_lab.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_mantle.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_security.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_tooling.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_portable-dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_worktrunk.nix"
+        ],
+        [
           "features/full-workstation-apps/_home.nix",
           "features/full-workstation-apps/_taskbar.nix"
+        ],
+        [
+          "features/full-workstation-apps/default.nix",
+          "features/full-workstation-apps/_home.nix"
+        ],
+        [
+          "features/gaming/default.nix",
+          "features/gaming/_home.nix"
+        ],
+        [
+          "features/keyboard/default.nix",
+          "features/keyboard/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_agent-memory.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_headroom.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_pi.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_qartez.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_apps.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_production.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_tools.nix"
+        ],
+        [
+          "features/nix-index/default.nix",
+          "features/nix-index/_home.nix"
+        ],
+        [
+          "features/plasma/default.nix",
+          "features/plasma/_home.nix"
         ],
         [
           "features/terminal/_packages.nix",
@@ -3063,6 +3424,22 @@
         [
           "features/terminal/_packages.nix",
           "features/terminal/_system.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_config.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_packages.nix"
+        ],
+        [
+          "features/whatpulse/default.nix",
+          "features/whatpulse/_home.nix"
+        ],
+        [
+          "hosts/physical/wodan/default.nix",
+          "hosts/physical/wodan/hardware-configuration.nix"
         ]
       ],
       "id": "NixOS:wodan",
@@ -3107,35 +3484,51 @@
           "profiles/workstation-base.nix"
         ],
         "home:david": [
+          "features/annotation/default.nix",
           "features/browsers/_home.nix",
+          "features/browsers/default.nix",
           "features/codex-browser/_home.nix",
+          "features/codex-browser/default.nix",
+          "features/common-tooling/default.nix",
           "features/communication/_home.nix",
           "features/communication/_work.nix",
+          "features/communication/default.nix",
           "features/containers/_home.nix",
+          "features/containers/default.nix",
           "features/desktop-apps/_home.nix",
+          "features/desktop-apps/default.nix",
           "features/development/_core.nix",
           "features/development/_gamedev-forge.nix",
           "features/development/_lab.nix",
           "features/development/_mantle.nix",
           "features/development/_security.nix",
           "features/development/_tooling.nix",
+          "features/development/default.nix",
           "features/dotfiles/_dotfiles.nix",
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
+          "features/dotfiles/default.nix",
           "features/full-workstation-apps/_home.nix",
           "features/full-workstation-apps/_taskbar.nix",
+          "features/full-workstation-apps/default.nix",
           "features/gaming/_home.nix",
+          "features/gaming/default.nix",
           "features/keyboard/_home.nix",
+          "features/keyboard/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
           "features/mcp/_qartez.nix",
+          "features/mcp/default.nix",
           "features/media/_apps.nix",
           "features/media/_production.nix",
           "features/media/_tools.nix",
+          "features/media/default.nix",
           "features/nix-index/_home.nix",
+          "features/nix-index/default.nix",
           "features/plasma/_home.nix",
+          "features/plasma/default.nix",
           "features/terminal/_archives.nix",
           "features/terminal/_config.nix",
           "features/terminal/_data.nix",
@@ -3143,68 +3536,87 @@
           "features/terminal/_packages.nix",
           "features/terminal/_shell.nix",
           "features/terminal/_system.nix",
-          "features/whatpulse/_home.nix"
+          "features/terminal/default.nix",
+          "features/whatpulse/_home.nix",
+          "features/whatpulse/default.nix",
+          "hosts/physical/wodan/default.nix"
         ],
         "system": [
-          "features/boot/_nixos.nix",
-          "features/cachix/_nixos.nix",
-          "features/desktop-runtime/_nixos.nix",
-          "features/gaming/_nixos.nix",
-          "features/i18n/_nixos.nix",
-          "features/internal-pki/_nixos.nix",
-          "features/kde-runtime/_nixos.nix",
-          "features/keyboard/_nixos.nix",
-          "features/location/_nixos.nix",
-          "features/nvidia-workstation/_nixos.nix",
-          "features/plasma/_nixos.nix",
-          "features/storage-optimization/_nixos.nix",
-          "features/whatpulse/_nixos.nix",
-          "features/workstation-runtime/_nixos.nix",
+          "features/boot/default.nix",
+          "features/cachix/default.nix",
+          "features/desktop-runtime/default.nix",
+          "features/gaming/default.nix",
+          "features/i18n/default.nix",
+          "features/internal-pki/default.nix",
+          "features/kde-runtime/default.nix",
+          "features/keyboard/default.nix",
+          "features/location/default.nix",
+          "features/nixos-base/default.nix",
+          "features/nvidia-workstation/default.nix",
+          "features/plasma/default.nix",
+          "features/storage-optimization/default.nix",
+          "features/whatpulse/default.nix",
+          "features/workstation-runtime/default.nix",
+          "hosts/physical/wodan/default.nix",
           "hosts/physical/wodan/hardware-configuration.nix"
         ]
       },
       "modules": [
-        "features/boot/_nixos.nix",
+        "features/annotation/default.nix",
+        "features/boot/default.nix",
         "features/browsers/_home.nix",
-        "features/cachix/_nixos.nix",
+        "features/browsers/default.nix",
+        "features/cachix/default.nix",
         "features/codex-browser/_home.nix",
+        "features/codex-browser/default.nix",
+        "features/common-tooling/default.nix",
         "features/communication/_home.nix",
         "features/communication/_work.nix",
+        "features/communication/default.nix",
         "features/containers/_home.nix",
+        "features/containers/default.nix",
         "features/desktop-apps/_home.nix",
-        "features/desktop-runtime/_nixos.nix",
+        "features/desktop-apps/default.nix",
+        "features/desktop-runtime/default.nix",
         "features/development/_core.nix",
         "features/development/_gamedev-forge.nix",
         "features/development/_lab.nix",
         "features/development/_mantle.nix",
         "features/development/_security.nix",
         "features/development/_tooling.nix",
+        "features/development/default.nix",
         "features/dotfiles/_dotfiles.nix",
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
+        "features/dotfiles/default.nix",
         "features/full-workstation-apps/_home.nix",
         "features/full-workstation-apps/_taskbar.nix",
+        "features/full-workstation-apps/default.nix",
         "features/gaming/_home.nix",
-        "features/gaming/_nixos.nix",
-        "features/i18n/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/kde-runtime/_nixos.nix",
+        "features/gaming/default.nix",
+        "features/i18n/default.nix",
+        "features/internal-pki/default.nix",
+        "features/kde-runtime/default.nix",
         "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix",
-        "features/location/_nixos.nix",
+        "features/keyboard/default.nix",
+        "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
         "features/mcp/_qartez.nix",
+        "features/mcp/default.nix",
         "features/media/_apps.nix",
         "features/media/_production.nix",
         "features/media/_tools.nix",
+        "features/media/default.nix",
         "features/nix-index/_home.nix",
-        "features/nvidia-workstation/_nixos.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
+        "features/nvidia-workstation/default.nix",
         "features/plasma/_home.nix",
-        "features/plasma/_nixos.nix",
-        "features/storage-optimization/_nixos.nix",
+        "features/plasma/default.nix",
+        "features/storage-optimization/default.nix",
         "features/terminal/_archives.nix",
         "features/terminal/_config.nix",
         "features/terminal/_data.nix",
@@ -3212,58 +3624,44 @@
         "features/terminal/_packages.nix",
         "features/terminal/_shell.nix",
         "features/terminal/_system.nix",
+        "features/terminal/default.nix",
         "features/whatpulse/_home.nix",
-        "features/whatpulse/_nixos.nix",
-        "features/workstation-runtime/_nixos.nix",
+        "features/whatpulse/default.nix",
+        "features/workstation-runtime/default.nix",
+        "hosts/physical/wodan/default.nix",
         "hosts/physical/wodan/hardware-configuration.nix"
       ],
       "roots": [
-        "features/boot/_nixos.nix",
-        "features/browsers/_home.nix",
-        "features/cachix/_nixos.nix",
-        "features/codex-browser/_home.nix",
-        "features/communication/_home.nix",
-        "features/communication/_work.nix",
-        "features/containers/_home.nix",
-        "features/desktop-apps/_home.nix",
-        "features/desktop-runtime/_nixos.nix",
-        "features/development/_core.nix",
-        "features/development/_gamedev-forge.nix",
-        "features/development/_lab.nix",
-        "features/development/_mantle.nix",
-        "features/development/_security.nix",
-        "features/development/_tooling.nix",
-        "features/dotfiles/_dotfiles.nix",
-        "features/dotfiles/_portable-dotfiles.nix",
-        "features/dotfiles/_worktrunk.nix",
-        "features/full-workstation-apps/_home.nix",
-        "features/gaming/_home.nix",
-        "features/gaming/_nixos.nix",
-        "features/i18n/_nixos.nix",
-        "features/internal-pki/_nixos.nix",
-        "features/kde-runtime/_nixos.nix",
-        "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix",
-        "features/location/_nixos.nix",
-        "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
-        "features/mcp/_home.nix",
-        "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
-        "features/media/_apps.nix",
-        "features/media/_production.nix",
-        "features/media/_tools.nix",
-        "features/nix-index/_home.nix",
-        "features/nvidia-workstation/_nixos.nix",
-        "features/plasma/_home.nix",
-        "features/plasma/_nixos.nix",
-        "features/storage-optimization/_nixos.nix",
-        "features/terminal/_config.nix",
-        "features/terminal/_packages.nix",
-        "features/whatpulse/_home.nix",
-        "features/whatpulse/_nixos.nix",
-        "features/workstation-runtime/_nixos.nix",
-        "hosts/physical/wodan/hardware-configuration.nix"
+        "features/annotation/default.nix",
+        "features/boot/default.nix",
+        "features/browsers/default.nix",
+        "features/cachix/default.nix",
+        "features/codex-browser/default.nix",
+        "features/common-tooling/default.nix",
+        "features/communication/default.nix",
+        "features/containers/default.nix",
+        "features/desktop-apps/default.nix",
+        "features/desktop-runtime/default.nix",
+        "features/development/default.nix",
+        "features/dotfiles/default.nix",
+        "features/full-workstation-apps/default.nix",
+        "features/gaming/default.nix",
+        "features/i18n/default.nix",
+        "features/internal-pki/default.nix",
+        "features/kde-runtime/default.nix",
+        "features/keyboard/default.nix",
+        "features/location/default.nix",
+        "features/mcp/default.nix",
+        "features/media/default.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
+        "features/nvidia-workstation/default.nix",
+        "features/plasma/default.nix",
+        "features/storage-optimization/default.nix",
+        "features/terminal/default.nix",
+        "features/whatpulse/default.nix",
+        "features/workstation-runtime/default.nix",
+        "hosts/physical/wodan/default.nix"
       ]
     },
     {
@@ -3456,7 +3854,64 @@
         ]
       },
       "disabled": [],
-      "edges": [],
+      "edges": [
+        [
+          "features/darwin-keyboard/default.nix",
+          "features/darwin-keyboard/_darwin.nix"
+        ],
+        [
+          "features/darwin-keyboard/default.nix",
+          "features/darwin-keyboard/_home.nix"
+        ],
+        [
+          "features/darwin-speech/default.nix",
+          "features/darwin-speech/_home.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_core.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_portable-dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_worktrunk.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_agent-memory.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_headroom.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_pi.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_qartez.nix"
+        ],
+        [
+          "features/nix-index/default.nix",
+          "features/nix-index/_home.nix"
+        ],
+        [
+          "features/portable-runtime/default.nix",
+          "features/portable-runtime/_home.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_config.nix"
+        ]
+      ],
       "id": "Darwin:loki",
       "kind": "Darwin",
       "label": "loki",
@@ -3481,55 +3936,79 @@
           "profiles/portable-home.nix"
         ],
         "home:david": [
+          "features/annotation/default.nix",
+          "features/common-tooling/default.nix",
           "features/darwin-keyboard/_home.nix",
+          "features/darwin-keyboard/default.nix",
           "features/darwin-speech/_home.nix",
+          "features/darwin-speech/default.nix",
           "features/development/_core.nix",
+          "features/development/default.nix",
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
+          "features/dotfiles/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
           "features/mcp/_qartez.nix",
+          "features/mcp/default.nix",
           "features/nix-index/_home.nix",
+          "features/nix-index/default.nix",
           "features/portable-runtime/_home.nix",
-          "features/terminal/_config.nix"
+          "features/portable-runtime/default.nix",
+          "features/terminal/_config.nix",
+          "features/terminal/default.nix",
+          "hosts/physical/loki/default.nix"
         ],
         "system": [
-          "features/darwin-keyboard/_darwin.nix"
+          "features/darwin-keyboard/_darwin.nix",
+          "features/darwin-keyboard/default.nix",
+          "features/window-management/default.nix",
+          "hosts/physical/loki/default.nix"
         ]
       },
       "modules": [
+        "features/annotation/default.nix",
+        "features/common-tooling/default.nix",
         "features/darwin-keyboard/_darwin.nix",
         "features/darwin-keyboard/_home.nix",
+        "features/darwin-keyboard/default.nix",
         "features/darwin-speech/_home.nix",
+        "features/darwin-speech/default.nix",
         "features/development/_core.nix",
+        "features/development/default.nix",
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
+        "features/dotfiles/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
         "features/mcp/_qartez.nix",
+        "features/mcp/default.nix",
         "features/nix-index/_home.nix",
+        "features/nix-index/default.nix",
         "features/portable-runtime/_home.nix",
-        "features/terminal/_config.nix"
+        "features/portable-runtime/default.nix",
+        "features/terminal/_config.nix",
+        "features/terminal/default.nix",
+        "features/window-management/default.nix",
+        "hosts/physical/loki/default.nix"
       ],
       "roots": [
-        "features/darwin-keyboard/_darwin.nix",
-        "features/darwin-keyboard/_home.nix",
-        "features/darwin-speech/_home.nix",
-        "features/development/_core.nix",
-        "features/dotfiles/_portable-dotfiles.nix",
-        "features/dotfiles/_worktrunk.nix",
-        "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
-        "features/mcp/_home.nix",
-        "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
-        "features/nix-index/_home.nix",
-        "features/portable-runtime/_home.nix",
-        "features/terminal/_config.nix"
+        "features/annotation/default.nix",
+        "features/common-tooling/default.nix",
+        "features/darwin-keyboard/default.nix",
+        "features/darwin-speech/default.nix",
+        "features/development/default.nix",
+        "features/dotfiles/default.nix",
+        "features/mcp/default.nix",
+        "features/nix-index/default.nix",
+        "features/portable-runtime/default.nix",
+        "features/terminal/default.nix",
+        "features/window-management/default.nix",
+        "hosts/physical/loki/default.nix"
       ]
     },
     {
@@ -3706,7 +4185,56 @@
         ]
       },
       "disabled": [],
-      "edges": [],
+      "edges": [
+        [
+          "features/darwin-speech/default.nix",
+          "features/darwin-speech/_home.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_core.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_portable-dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_worktrunk.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_agent-memory.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_headroom.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_pi.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_qartez.nix"
+        ],
+        [
+          "features/nix-index/default.nix",
+          "features/nix-index/_home.nix"
+        ],
+        [
+          "features/portable-runtime/default.nix",
+          "features/portable-runtime/_home.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_config.nix"
+        ]
+      ],
       "id": "Home Manager:mimir2",
       "kind": "Home Manager",
       "label": "mimir2",
@@ -3729,53 +4257,123 @@
           "profiles/portable-home.nix"
         ],
         "home:david": [
+          "features/annotation/default.nix",
+          "features/common-tooling/default.nix",
           "features/darwin-speech/_home.nix",
+          "features/darwin-speech/default.nix",
           "features/development/_core.nix",
+          "features/development/default.nix",
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
+          "features/dotfiles/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
           "features/mcp/_qartez.nix",
+          "features/mcp/default.nix",
           "features/nix-index/_home.nix",
+          "features/nix-index/default.nix",
           "features/portable-runtime/_home.nix",
-          "features/terminal/_config.nix"
+          "features/portable-runtime/default.nix",
+          "features/terminal/_config.nix",
+          "features/terminal/default.nix",
+          "hosts/physical/mimir2/default.nix"
         ],
         "system": []
       },
       "modules": [
+        "features/annotation/default.nix",
+        "features/common-tooling/default.nix",
         "features/darwin-speech/_home.nix",
+        "features/darwin-speech/default.nix",
         "features/development/_core.nix",
+        "features/development/default.nix",
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
+        "features/dotfiles/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
         "features/mcp/_qartez.nix",
+        "features/mcp/default.nix",
         "features/nix-index/_home.nix",
+        "features/nix-index/default.nix",
         "features/portable-runtime/_home.nix",
-        "features/terminal/_config.nix"
+        "features/portable-runtime/default.nix",
+        "features/terminal/_config.nix",
+        "features/terminal/default.nix",
+        "hosts/physical/mimir2/default.nix"
       ],
       "roots": [
-        "features/darwin-speech/_home.nix",
-        "features/development/_core.nix",
-        "features/dotfiles/_portable-dotfiles.nix",
-        "features/dotfiles/_worktrunk.nix",
-        "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
-        "features/mcp/_home.nix",
-        "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
-        "features/nix-index/_home.nix",
-        "features/portable-runtime/_home.nix",
-        "features/terminal/_config.nix"
+        "features/annotation/default.nix",
+        "features/common-tooling/default.nix",
+        "features/darwin-speech/default.nix",
+        "features/development/default.nix",
+        "features/dotfiles/default.nix",
+        "features/mcp/default.nix",
+        "features/nix-index/default.nix",
+        "features/portable-runtime/default.nix",
+        "features/terminal/default.nix",
+        "hosts/physical/mimir2/default.nix"
       ]
     },
     {
       "disabled": [],
       "edges": [
+        [
+          "features/darwin-speech/default.nix",
+          "features/darwin-speech/_home.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_cloud.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_core.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_portable-dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_worktrunk.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_agent-memory.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_headroom.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_pi.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_qartez.nix"
+        ],
+        [
+          "features/nix-index/default.nix",
+          "features/nix-index/_home.nix"
+        ],
+        [
+          "features/portable-runtime/default.nix",
+          "features/portable-runtime/_home.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_config.nix"
+        ],
         [
           "features/workstation-extra/_default.nix",
           "features/workstation-extra/_development-default.nix"
@@ -3833,12 +4431,20 @@
           "features/workstation-extra/_terminal-system.nix"
         ],
         [
-          "nix/default.nix",
-          "features/development/_cloud.nix"
+          "features/workstation-extra/default.nix",
+          "features/workstation-extra/_default.nix"
+        ],
+        [
+          "flake.nix",
+          "nix/default.nix"
         ],
         [
           "nix/default.nix",
-          "features/workstation-extra/_default.nix"
+          "features/development/default.nix"
+        ],
+        [
+          "nix/default.nix",
+          "features/workstation-extra/default.nix"
         ]
       ],
       "id": "optional:mimir2 + workstation",
@@ -3846,19 +4452,28 @@
       "label": "mimir2 + workstation",
       "layers": {
         "home:david": [
+          "features/annotation/default.nix",
+          "features/common-tooling/default.nix",
           "features/darwin-speech/_home.nix",
+          "features/darwin-speech/default.nix",
           "features/development/_cloud.nix",
           "features/development/_core.nix",
+          "features/development/default.nix",
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
+          "features/dotfiles/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
           "features/mcp/_qartez.nix",
+          "features/mcp/default.nix",
           "features/nix-index/_home.nix",
+          "features/nix-index/default.nix",
           "features/portable-runtime/_home.nix",
+          "features/portable-runtime/default.nix",
           "features/terminal/_config.nix",
+          "features/terminal/default.nix",
           "features/workstation-extra/_default.nix",
           "features/workstation-extra/_development-core.nix",
           "features/workstation-extra/_development-default.nix",
@@ -3874,24 +4489,36 @@
           "features/workstation-extra/_terminal-packages.nix",
           "features/workstation-extra/_terminal-shell.nix",
           "features/workstation-extra/_terminal-system.nix",
+          "features/workstation-extra/default.nix",
+          "flake.nix",
+          "hosts/physical/mimir2/default.nix",
           "nix/default.nix"
         ],
         "system": []
       },
       "modules": [
+        "features/annotation/default.nix",
+        "features/common-tooling/default.nix",
         "features/darwin-speech/_home.nix",
+        "features/darwin-speech/default.nix",
         "features/development/_cloud.nix",
         "features/development/_core.nix",
+        "features/development/default.nix",
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
+        "features/dotfiles/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
         "features/mcp/_qartez.nix",
+        "features/mcp/default.nix",
         "features/nix-index/_home.nix",
+        "features/nix-index/default.nix",
         "features/portable-runtime/_home.nix",
+        "features/portable-runtime/default.nix",
         "features/terminal/_config.nix",
+        "features/terminal/default.nix",
         "features/workstation-extra/_default.nix",
         "features/workstation-extra/_development-core.nix",
         "features/workstation-extra/_development-default.nix",
@@ -3907,27 +4534,87 @@
         "features/workstation-extra/_terminal-packages.nix",
         "features/workstation-extra/_terminal-shell.nix",
         "features/workstation-extra/_terminal-system.nix",
+        "features/workstation-extra/default.nix",
+        "flake.nix",
+        "hosts/physical/mimir2/default.nix",
         "nix/default.nix"
       ],
       "roots": [
-        "features/darwin-speech/_home.nix",
-        "features/development/_core.nix",
-        "features/dotfiles/_portable-dotfiles.nix",
-        "features/dotfiles/_worktrunk.nix",
-        "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
-        "features/mcp/_home.nix",
-        "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
-        "features/nix-index/_home.nix",
-        "features/portable-runtime/_home.nix",
-        "features/terminal/_config.nix",
-        "nix/default.nix"
+        "features/annotation/default.nix",
+        "features/common-tooling/default.nix",
+        "features/darwin-speech/default.nix",
+        "features/dotfiles/default.nix",
+        "features/mcp/default.nix",
+        "features/nix-index/default.nix",
+        "features/portable-runtime/default.nix",
+        "features/terminal/default.nix",
+        "flake.nix",
+        "hosts/physical/mimir2/default.nix"
       ]
     },
     {
       "disabled": [],
       "edges": [
+        [
+          "features/darwin-keyboard/default.nix",
+          "features/darwin-keyboard/_darwin.nix"
+        ],
+        [
+          "features/darwin-keyboard/default.nix",
+          "features/darwin-keyboard/_home.nix"
+        ],
+        [
+          "features/darwin-speech/default.nix",
+          "features/darwin-speech/_home.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_cloud.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_core.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_portable-dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_worktrunk.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_agent-memory.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_headroom.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_pi.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_qartez.nix"
+        ],
+        [
+          "features/nix-index/default.nix",
+          "features/nix-index/_home.nix"
+        ],
+        [
+          "features/portable-runtime/default.nix",
+          "features/portable-runtime/_home.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_config.nix"
+        ],
         [
           "features/workstation-extra/_default.nix",
           "features/workstation-extra/_development-default.nix"
@@ -3985,12 +4672,20 @@
           "features/workstation-extra/_terminal-system.nix"
         ],
         [
-          "nix/default.nix",
-          "features/development/_cloud.nix"
+          "features/workstation-extra/default.nix",
+          "features/workstation-extra/_default.nix"
+        ],
+        [
+          "flake.nix",
+          "nix/default.nix"
         ],
         [
           "nix/default.nix",
-          "features/workstation-extra/_default.nix"
+          "features/development/default.nix"
+        ],
+        [
+          "nix/default.nix",
+          "features/workstation-extra/default.nix"
         ]
       ],
       "id": "optional:loki + workstation",
@@ -3998,20 +4693,30 @@
       "label": "loki + workstation",
       "layers": {
         "home:david": [
+          "features/annotation/default.nix",
+          "features/common-tooling/default.nix",
           "features/darwin-keyboard/_home.nix",
+          "features/darwin-keyboard/default.nix",
           "features/darwin-speech/_home.nix",
+          "features/darwin-speech/default.nix",
           "features/development/_cloud.nix",
           "features/development/_core.nix",
+          "features/development/default.nix",
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
+          "features/dotfiles/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
           "features/mcp/_qartez.nix",
+          "features/mcp/default.nix",
           "features/nix-index/_home.nix",
+          "features/nix-index/default.nix",
           "features/portable-runtime/_home.nix",
+          "features/portable-runtime/default.nix",
           "features/terminal/_config.nix",
+          "features/terminal/default.nix",
           "features/workstation-extra/_default.nix",
           "features/workstation-extra/_development-core.nix",
           "features/workstation-extra/_development-default.nix",
@@ -4027,28 +4732,45 @@
           "features/workstation-extra/_terminal-packages.nix",
           "features/workstation-extra/_terminal-shell.nix",
           "features/workstation-extra/_terminal-system.nix",
+          "features/workstation-extra/default.nix",
+          "flake.nix",
+          "hosts/physical/loki/default.nix",
           "nix/default.nix"
         ],
         "system": [
-          "features/darwin-keyboard/_darwin.nix"
+          "features/darwin-keyboard/_darwin.nix",
+          "features/darwin-keyboard/default.nix",
+          "features/window-management/default.nix",
+          "hosts/physical/loki/default.nix"
         ]
       },
       "modules": [
+        "features/annotation/default.nix",
+        "features/common-tooling/default.nix",
         "features/darwin-keyboard/_darwin.nix",
         "features/darwin-keyboard/_home.nix",
+        "features/darwin-keyboard/default.nix",
         "features/darwin-speech/_home.nix",
+        "features/darwin-speech/default.nix",
         "features/development/_cloud.nix",
         "features/development/_core.nix",
+        "features/development/default.nix",
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
+        "features/dotfiles/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
         "features/mcp/_qartez.nix",
+        "features/mcp/default.nix",
         "features/nix-index/_home.nix",
+        "features/nix-index/default.nix",
         "features/portable-runtime/_home.nix",
+        "features/portable-runtime/default.nix",
         "features/terminal/_config.nix",
+        "features/terminal/default.nix",
+        "features/window-management/default.nix",
         "features/workstation-extra/_default.nix",
         "features/workstation-extra/_development-core.nix",
         "features/workstation-extra/_development-default.nix",
@@ -4064,28 +4786,28 @@
         "features/workstation-extra/_terminal-packages.nix",
         "features/workstation-extra/_terminal-shell.nix",
         "features/workstation-extra/_terminal-system.nix",
+        "features/workstation-extra/default.nix",
+        "flake.nix",
+        "hosts/physical/loki/default.nix",
         "nix/default.nix"
       ],
       "roots": [
-        "features/darwin-keyboard/_darwin.nix",
-        "features/darwin-keyboard/_home.nix",
-        "features/darwin-speech/_home.nix",
-        "features/development/_core.nix",
-        "features/dotfiles/_portable-dotfiles.nix",
-        "features/dotfiles/_worktrunk.nix",
-        "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
-        "features/mcp/_home.nix",
-        "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
-        "features/nix-index/_home.nix",
-        "features/portable-runtime/_home.nix",
-        "features/terminal/_config.nix",
-        "nix/default.nix"
+        "features/annotation/default.nix",
+        "features/common-tooling/default.nix",
+        "features/darwin-keyboard/default.nix",
+        "features/darwin-speech/default.nix",
+        "features/dotfiles/default.nix",
+        "features/mcp/default.nix",
+        "features/nix-index/default.nix",
+        "features/portable-runtime/default.nix",
+        "features/terminal/default.nix",
+        "features/window-management/default.nix",
+        "flake.nix",
+        "hosts/physical/loki/default.nix"
       ]
     }
   ],
-  "generator": "bb8157aa37d8faa9cbcb57bc691aef22ab47a5f05b646afda1261564743da00d",
+  "generator": "66d825e3e38cdee558a3fc81d53372951306c3515b0f397780d45c9b2a549b3f",
   "modules": [
     {
       "children": [],
@@ -4096,7 +4818,9 @@
         "NixOS:frigg",
         "NixOS:wodan",
         "Darwin:loki",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 10,
@@ -4116,32 +4840,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 41,
-      "merge_into": "features/boot/default.nix",
-      "parents": [
-        "features/boot/default.nix"
-      ],
-      "path": "features/boot/_nixos.nix",
-      "sha256": "2953d916472c079bbeabaa9280de2aa58cebf3dec55416707f93691863cd8cc7",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/boot/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 47,
       "merge_into": null,
       "parents": [],
       "path": "features/boot/default.nix",
-      "sha256": "ce2623a8d19c76c1dbbe972e87af299ed8ef31e24c05e5c7c438a1b71a8eaaa7",
+      "sha256": "652d6a2a844ee229bd1494c5d9f0a4f0b7d4272d846ceb168079c120354c9d35",
       "status": "used"
     },
     {
@@ -4192,42 +4895,16 @@
         "NixOS:frigg",
         "NixOS:homepage",
         "NixOS:proxy",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 35,
-      "merge_into": null,
-      "parents": [
-        "features/cachix/default.nix"
-      ],
-      "path": "features/cachix/_nixos.nix",
-      "sha256": "484ae36f3d797fb6229b9af09ebd9157304b0be26419f63252980433b92cd57b",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/cachix/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:apps",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:forgejo",
-        "NixOS:forgejo-lab",
-        "NixOS:frigg",
-        "NixOS:homepage",
-        "NixOS:proxy",
         "NixOS:wodan",
         "Darwin:loki",
         "Home Manager:mimir2"
       ],
       "kind": "feature",
-      "lines": 9,
+      "lines": 41,
       "merge_into": null,
       "parents": [],
       "path": "features/cachix/default.nix",
-      "sha256": "af25393a18a616259c33bccc4e62d54823fdd2a1923902b08a22c6f2fd576c45",
+      "sha256": "1bbd8c8b5e13d91b162fdaf1bf1062b6c03b24107ee1c0e7c2d69e6632d84240",
       "status": "used"
     },
     {
@@ -4275,7 +4952,9 @@
         "NixOS:frigg",
         "NixOS:wodan",
         "Darwin:loki",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 16,
@@ -4384,7 +5063,7 @@
       ],
       "kind": "feature",
       "lines": 46,
-      "merge_into": null,
+      "merge_into": "features/darwin-keyboard/default.nix",
       "parents": [
         "features/darwin-keyboard/default.nix"
       ],
@@ -4401,7 +5080,7 @@
       ],
       "kind": "feature",
       "lines": 60,
-      "merge_into": null,
+      "merge_into": "features/darwin-keyboard/default.nix",
       "parents": [
         "features/darwin-keyboard/default.nix"
       ],
@@ -4416,7 +5095,8 @@
       ],
       "contexts": [
         "wiring:Registered Den aspects",
-        "Darwin:loki"
+        "Darwin:loki",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 14,
@@ -4437,7 +5117,7 @@
       ],
       "kind": "feature",
       "lines": 45,
-      "merge_into": null,
+      "merge_into": "features/darwin-speech/default.nix",
       "parents": [
         "features/darwin-speech/default.nix"
       ],
@@ -4452,7 +5132,9 @@
       "contexts": [
         "wiring:Registered Den aspects",
         "Darwin:loki",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 9,
@@ -4508,32 +5190,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 88,
-      "merge_into": null,
-      "parents": [
-        "features/desktop-runtime/default.nix"
-      ],
-      "path": "features/desktop-runtime/_nixos.nix",
-      "sha256": "5e497f920ad04d9d82e08fc8701259574670914a394b95599c91b615e1583e45",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/desktop-runtime/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 94,
       "merge_into": null,
       "parents": [],
       "path": "features/desktop-runtime/default.nix",
-      "sha256": "0b7d8a6bfad04a7228942568500357c393a5c0a0afe328c7750a3b1456ab3ddb",
+      "sha256": "ecf8995e71c8e8ba0d67a2963e2448ba72641accd48399057094e7743c4945d4",
       "status": "used"
     },
     {
@@ -4547,8 +5208,7 @@
       "lines": 13,
       "merge_into": null,
       "parents": [
-        "features/development/default.nix",
-        "nix/default.nix"
+        "features/development/default.nix"
       ],
       "path": "features/development/_cloud.nix",
       "sha256": "9b304155954bc3d0c6e03b691e505d06a228b90e128e77d302cb2c40a02b8a4e",
@@ -4568,7 +5228,7 @@
       ],
       "kind": "feature",
       "lines": 49,
-      "merge_into": null,
+      "merge_into": "features/development/default.nix",
       "parents": [
         "features/development/default.nix"
       ],
@@ -4680,12 +5340,16 @@
         "NixOS:frigg",
         "NixOS:wodan",
         "Darwin:loki",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 59,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "nix/default.nix"
+      ],
       "path": "features/development/default.nix",
       "sha256": "ac231ae58b74f1db6a90ea36ecaa69370738a24ad32ec30ac3ad355ff9fe9b33",
       "status": "used"
@@ -4745,7 +5409,7 @@
       ],
       "kind": "feature",
       "lines": 30,
-      "merge_into": null,
+      "merge_into": "features/dotfiles/default.nix",
       "parents": [
         "features/dotfiles/default.nix"
       ],
@@ -4766,7 +5430,9 @@
         "NixOS:frigg",
         "NixOS:wodan",
         "Darwin:loki",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 31,
@@ -4880,102 +5546,48 @@
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:donar",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 10,
-      "merge_into": "features/gaming/default.nix",
-      "parents": [
-        "features/gaming/default.nix"
-      ],
-      "path": "features/gaming/_nixos.nix",
-      "sha256": "72e830b5083311a53c391f339814fc331545dc86dc118944e3ca1c8f27afc79f",
-      "status": "used"
-    },
-    {
       "children": [
-        "features/gaming/_home.nix",
-        "features/gaming/_nixos.nix"
+        "features/gaming/_home.nix"
       ],
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 14,
-      "merge_into": null,
-      "parents": [],
-      "path": "features/gaming/default.nix",
-      "sha256": "ceb97682a730f4174c6276138a00a900e85b418ffd944a04c06f227e9b28616a",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:homepage"
-      ],
-      "kind": "feature",
-      "lines": 52,
-      "merge_into": "features/homepage/default.nix",
-      "parents": [
-        "features/homepage/default.nix"
-      ],
-      "path": "features/homepage/_nixos.nix",
-      "sha256": "5d7b294dda1c65d021225c943fee06c1ea7287bd6591d17b734347d6cbd7c3b9",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/homepage/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:homepage"
-      ],
-      "kind": "feature",
-      "lines": 9,
-      "merge_into": null,
-      "parents": [],
-      "path": "features/homepage/default.nix",
-      "sha256": "101e2fd0c76daa3dcd21eac88379cb87fd5fb66bd5a6ff1715c3ce7704a4369b",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:bragi"
       ],
       "kind": "feature",
       "lines": 21,
-      "merge_into": "features/hyprland/default.nix",
-      "parents": [
-        "features/hyprland/default.nix"
-      ],
-      "path": "features/hyprland/_nixos.nix",
-      "sha256": "30aee4a867de50106269ef479bb40797dbf3ab1bb0ee0aa685f71a4dc619c18d",
+      "merge_into": null,
+      "parents": [],
+      "path": "features/gaming/default.nix",
+      "sha256": "6765a2b7f4d3460b806b1b9faa179df3cbd13c378a0b127bec422fd3e4abdd0c",
       "status": "used"
     },
     {
-      "children": [
-        "features/hyprland/_nixos.nix"
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:homepage"
       ],
+      "kind": "feature",
+      "lines": 58,
+      "merge_into": null,
+      "parents": [],
+      "path": "features/homepage/default.nix",
+      "sha256": "b3f7005858d5a0e0822cf5cb4dcb392d9a515c68d27e3892d1abe32062e8bcb8",
+      "status": "used"
+    },
+    {
+      "children": [],
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:bragi"
       ],
       "kind": "feature",
-      "lines": 12,
+      "lines": 30,
       "merge_into": null,
       "parents": [],
       "path": "features/hyprland/default.nix",
-      "sha256": "b1401773c9d658d11cda219d0938850a3d3b46dc41f8edba12fea2df2621da87",
+      "sha256": "43a06021bc1a4b462c01bc835966a435edafc52e76dbd71d9e18b285af2b9d7a",
       "status": "used"
     },
     {
@@ -4988,32 +5600,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 43,
-      "merge_into": "features/i18n/default.nix",
-      "parents": [
-        "features/i18n/default.nix"
-      ],
-      "path": "features/i18n/_nixos.nix",
-      "sha256": "c16ad27a806c0ba2d38233546a786bdf616b5980cdaa4927427846240e550189",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/i18n/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 49,
       "merge_into": null,
       "parents": [],
       "path": "features/i18n/default.nix",
-      "sha256": "4b6a768582721413a9381ad9fb0702afa7af8245616a82459bdda9ab3efd7bac",
+      "sha256": "be5be171bdd4bb894bc28b6743cf2aa6cabcff4ab6e87094fae5ac2aef5697c7",
       "status": "used"
     },
     {
@@ -5032,64 +5623,22 @@
       "status": "wiring-only"
     },
     {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects"
-      ],
-      "kind": "feature",
-      "lines": 28,
-      "merge_into": null,
-      "parents": [
-        "features/i3/default.nix"
-      ],
-      "path": "features/i3/_nixos.nix",
-      "sha256": "6f4e2d2429571451f330c8ad0a7f4af1f2208c4cf0018b500b5e2c650301e73e",
-      "status": "wiring-only"
-    },
-    {
       "children": [
-        "features/i3/_home.nix",
-        "features/i3/_nixos.nix"
+        "features/i3/_home.nix"
       ],
       "contexts": [
         "wiring:Registered Den aspects"
       ],
       "kind": "feature",
-      "lines": 17,
+      "lines": 42,
       "merge_into": null,
       "parents": [],
       "path": "features/i3/default.nix",
-      "sha256": "e7eea658e59def285cf124ee5bea345d933fbe6fcd008bced6eaf3f9f69a65c6",
+      "sha256": "07237b5c0dfffa35bda77e79827449603ad233f50b4eac920e1dac8635ad2591",
       "status": "wiring-only"
     },
     {
       "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:apps",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:forgejo",
-        "NixOS:forgejo-lab",
-        "NixOS:frigg",
-        "NixOS:homepage",
-        "NixOS:proxy",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 6,
-      "merge_into": null,
-      "parents": [
-        "features/internal-pki/default.nix"
-      ],
-      "path": "features/internal-pki/_nixos.nix",
-      "sha256": "62aeabe0d9e9d2d92410c3712ee9f53648cdf1a65449f98269f8395843ed84d6",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/internal-pki/_nixos.nix"
-      ],
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:apps",
@@ -5105,11 +5654,11 @@
         "Home Manager:mimir2"
       ],
       "kind": "feature",
-      "lines": 9,
+      "lines": 12,
       "merge_into": null,
       "parents": [],
       "path": "features/internal-pki/default.nix",
-      "sha256": "f89ee85b0efeafe4a2a5a359eea0d48fa4fa822394603c2bca4323ff8e8723c5",
+      "sha256": "e1659dd02527e84c9f11d2edf7ca925b8f5f5da95eb9201e72c8331f41c4263f",
       "status": "used"
     },
     {
@@ -5121,31 +5670,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 30,
-      "merge_into": "features/kde-runtime/default.nix",
-      "parents": [
-        "features/kde-runtime/default.nix"
-      ],
-      "path": "features/kde-runtime/_nixos.nix",
-      "sha256": "4dd430d8a2c4520e6e046ebf1040f12bce3573b995161f111b40a68de2371826",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/kde-runtime/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 36,
       "merge_into": null,
       "parents": [],
       "path": "features/kde-runtime/default.nix",
-      "sha256": "ae6fb3c9c48d6e6f71acaa833bd8f5f36c9df5bacaf6d76235f5437d02b0b74c",
+      "sha256": "1f75e181a3fe79777dcd02d3788fda7c27bab7e92dede0cf8894a156ec0d0b8b",
       "status": "used"
     },
     {
@@ -5168,28 +5697,8 @@
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 9,
-      "merge_into": "features/keyboard/default.nix",
-      "parents": [
-        "features/keyboard/default.nix"
-      ],
-      "path": "features/keyboard/_nixos.nix",
-      "sha256": "4629f5de1932eef09f660982a50839f33a4ec3bfce005ccdda85174beb0eab49",
-      "status": "used"
-    },
-    {
       "children": [
-        "features/keyboard/_home.nix",
-        "features/keyboard/_nixos.nix"
+        "features/keyboard/_home.nix"
       ],
       "contexts": [
         "wiring:Registered Den aspects",
@@ -5199,11 +5708,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 14,
+      "lines": 20,
       "merge_into": null,
       "parents": [],
       "path": "features/keyboard/default.nix",
-      "sha256": "4ee51288c443727702947eba52c144e2db276151ae8902f8f64c7c78324bcb23",
+      "sha256": "8cb17777868ba89ed5d1479db65cbbf9f471d2077f0a8bb3046a96c3c9ea5c38",
       "status": "used"
     },
     {
@@ -5214,30 +5723,11 @@
         "NixOS:frigg"
       ],
       "kind": "feature",
-      "lines": 34,
-      "merge_into": "features/laptop/default.nix",
-      "parents": [
-        "features/laptop/default.nix"
-      ],
-      "path": "features/laptop/_nixos.nix",
-      "sha256": "7c42bec128b024790e20964d848da147ac2bcf5defcef5a565477675ad48d5c5",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/laptop/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:donar",
-        "NixOS:frigg"
-      ],
-      "kind": "feature",
-      "lines": 12,
+      "lines": 43,
       "merge_into": null,
       "parents": [],
       "path": "features/laptop/default.nix",
-      "sha256": "d84ec0abb51431848474211b98d49a610fc23cb269d636f702858cf01510c491",
+      "sha256": "9c5042a9d16a607b9f0c614aa69f10aa38200500c514af7bda4c4156610f0199",
       "status": "used"
     },
     {
@@ -5250,32 +5740,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 7,
-      "merge_into": "features/location/default.nix",
-      "parents": [
-        "features/location/default.nix"
-      ],
-      "path": "features/location/_nixos.nix",
-      "sha256": "bee466b8b043644caf7af74ef9d13c1462420bff6bdc071e3ea043712e6d4730",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/location/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 13,
       "merge_into": null,
       "parents": [],
       "path": "features/location/default.nix",
-      "sha256": "761fd5ec51b0c8a06310c0f1b39e8fdf678ce76d9e9ec148fdd73e810cf428ea",
+      "sha256": "09a55e77b64a76da138299fa5c2923e44df8dbe0947dd87c74a6bd904f2e5ac8",
       "status": "used"
     },
     {
@@ -5316,7 +5785,7 @@
       ],
       "kind": "feature",
       "lines": 35,
-      "merge_into": null,
+      "merge_into": "features/mcp/default.nix",
       "parents": [
         "features/mcp/default.nix"
       ],
@@ -5362,7 +5831,7 @@
       ],
       "kind": "feature",
       "lines": 40,
-      "merge_into": null,
+      "merge_into": "features/mcp/default.nix",
       "parents": [
         "features/mcp/default.nix"
       ],
@@ -5385,7 +5854,7 @@
       ],
       "kind": "feature",
       "lines": 31,
-      "merge_into": null,
+      "merge_into": "features/mcp/default.nix",
       "parents": [
         "features/mcp/default.nix"
       ],
@@ -5408,7 +5877,9 @@
         "NixOS:frigg",
         "NixOS:wodan",
         "Darwin:loki",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 45,
@@ -5507,34 +5978,18 @@
       "status": "wiring-only"
     },
     {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects"
-      ],
-      "kind": "feature",
-      "lines": 18,
-      "merge_into": null,
-      "parents": [
-        "features/niri/default.nix"
-      ],
-      "path": "features/niri/_nixos.nix",
-      "sha256": "4451ddfc67aab45db54d2e061b566d2bb0c7311240a72e5d85c4dfa5753556ae",
-      "status": "wiring-only"
-    },
-    {
       "children": [
-        "features/niri/_home.nix",
-        "features/niri/_nixos.nix"
+        "features/niri/_home.nix"
       ],
       "contexts": [
         "wiring:Registered Den aspects"
       ],
       "kind": "feature",
-      "lines": 17,
+      "lines": 32,
       "merge_into": null,
       "parents": [],
       "path": "features/niri/default.nix",
-      "sha256": "3229e135ff3298fc43afe1b84e09b6588a6c75e6b58f8251a25f5b3dcaa241d3",
+      "sha256": "53d66dec4cbd43938defc16d716e91cffab32d2c1f1cab2a5eb0d91330cf8e0f",
       "status": "wiring-only"
     },
     {
@@ -5552,7 +6007,7 @@
       ],
       "kind": "feature",
       "lines": 25,
-      "merge_into": null,
+      "merge_into": "features/nix-index/default.nix",
       "parents": [
         "features/nix-index/default.nix"
       ],
@@ -5571,7 +6026,9 @@
         "NixOS:frigg",
         "NixOS:wodan",
         "Darwin:loki",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 9,
@@ -5612,29 +6069,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 70,
-      "merge_into": null,
-      "parents": [
-        "features/nvidia-workstation/default.nix"
-      ],
-      "path": "features/nvidia-workstation/_nixos.nix",
-      "sha256": "3967cdece699b3fa1142abbfceceed3343344d14ffbd4b31402f47281fa091aa",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/nvidia-workstation/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 12,
+      "lines": 79,
       "merge_into": null,
       "parents": [],
       "path": "features/nvidia-workstation/default.nix",
-      "sha256": "cadd8eb25432dcca9bea61f5b1cde26a8f66903bc16b2e5c26f39840ef644dbd",
+      "sha256": "675598870e717ab747171e778893e6833c015a69875be26d4e5046c708055847",
       "status": "used"
     },
     {
@@ -5656,27 +6095,8 @@
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 12,
-      "merge_into": "features/plasma/default.nix",
-      "parents": [
-        "features/plasma/default.nix"
-      ],
-      "path": "features/plasma/_nixos.nix",
-      "sha256": "7b5a57cbb7125000ee962fddcf5fce7367f931474a3361ae3bca12b0b772e59d",
-      "status": "used"
-    },
-    {
       "children": [
-        "features/plasma/_home.nix",
-        "features/plasma/_nixos.nix"
+        "features/plasma/_home.nix"
       ],
       "contexts": [
         "wiring:Registered Den aspects",
@@ -5685,11 +6105,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 17,
+      "lines": 26,
       "merge_into": null,
       "parents": [],
       "path": "features/plasma/default.nix",
-      "sha256": "b8e73e12c6bfd2c28675731739d74f961865953b745a3bd9b98f1e4e2b0d1891",
+      "sha256": "858369a83bb42bb869b31160da4be5e4ecefaf9253367a018075524c04ae25cb",
       "status": "used"
     },
     {
@@ -5703,7 +6123,7 @@
       ],
       "kind": "feature",
       "lines": 34,
-      "merge_into": null,
+      "merge_into": "features/portable-runtime/default.nix",
       "parents": [
         "features/portable-runtime/default.nix"
       ],
@@ -5718,7 +6138,9 @@
       "contexts": [
         "wiring:Registered Den aspects",
         "Darwin:loki",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 9,
@@ -5738,32 +6160,11 @@
         "NixOS:proxy"
       ],
       "kind": "feature",
-      "lines": 73,
-      "merge_into": null,
-      "parents": [
-        "features/proxmox-vm/default.nix"
-      ],
-      "path": "features/proxmox-vm/_nixos.nix",
-      "sha256": "4b58ab9580f40a4b94000e2bd5ff989f9d5b47e71d458a24e70508c2b451903a",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/proxmox-vm/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:apps",
-        "NixOS:forgejo",
-        "NixOS:homepage",
-        "NixOS:proxy"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 79,
       "merge_into": null,
       "parents": [],
       "path": "features/proxmox-vm/default.nix",
-      "sha256": "c25d41efddb1678cbfcafc076f7320cf887c07e1f72818396f60869ccc4dd7a8",
+      "sha256": "121eb52bc91fe9cc747a508b295f500ac706dd06653c71e203dd8fd893f4b989",
       "status": "used"
     },
     {
@@ -5809,33 +6210,11 @@
         "NixOS:proxy"
       ],
       "kind": "feature",
-      "lines": 8,
-      "merge_into": "features/server-locale/default.nix",
-      "parents": [
-        "features/server-locale/default.nix"
-      ],
-      "path": "features/server-locale/_nixos.nix",
-      "sha256": "59589900fa26e9b5ed5aace78c7e397a3db5b3f523473f06e880987c5d7066aa",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/server-locale/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:apps",
-        "NixOS:forgejo",
-        "NixOS:forgejo-lab",
-        "NixOS:homepage",
-        "NixOS:proxy"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 14,
       "merge_into": null,
       "parents": [],
       "path": "features/server-locale/default.nix",
-      "sha256": "f9aeaa8e6a0f6d0fcdb6296f94aa558c698b7c3c7001dd555e4773dc16c6b5f3",
+      "sha256": "1163b721019621349f091a22dde692f8e434d54ea7200633df951a1759aace20",
       "status": "used"
     },
     {
@@ -5849,33 +6228,11 @@
         "NixOS:proxy"
       ],
       "kind": "feature",
-      "lines": 25,
-      "merge_into": "features/server-nix/default.nix",
-      "parents": [
-        "features/server-nix/default.nix"
-      ],
-      "path": "features/server-nix/_nixos.nix",
-      "sha256": "d4327dff38c638e032831969fc2fc963fe4f8294271fb68a2aac6503e5f51b0e",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/server-nix/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:apps",
-        "NixOS:forgejo",
-        "NixOS:forgejo-lab",
-        "NixOS:homepage",
-        "NixOS:proxy"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 31,
       "merge_into": null,
       "parents": [],
       "path": "features/server-nix/default.nix",
-      "sha256": "72822227ea49afb0e3b640053362846984896404221c5818391477f3abccd251",
+      "sha256": "ff449ddfca1df8111c7f5f20e4665727e7fbd0da9baed32ecdda01253d901da2",
       "status": "used"
     },
     {
@@ -5888,32 +6245,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 17,
-      "merge_into": "features/storage-optimization/default.nix",
-      "parents": [
-        "features/storage-optimization/default.nix"
-      ],
-      "path": "features/storage-optimization/_nixos.nix",
-      "sha256": "26e16c0b001f14e1173197b67f08ab2e244c8a23fbaa15eb6623b92b3576d779",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/storage-optimization/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 23,
       "merge_into": null,
       "parents": [],
       "path": "features/storage-optimization/default.nix",
-      "sha256": "c0aaeb77f6100cf6faba558c1c390bf26efdf28266b7c8bd9558c9edc8d444bd",
+      "sha256": "f4af940f2e139cd2b419a53a4af4288cc6a7f055a3f4c15b1758c77b5971c675",
       "status": "used"
     },
     {
@@ -5947,7 +6283,7 @@
       ],
       "kind": "feature",
       "lines": 32,
-      "merge_into": null,
+      "merge_into": "features/terminal/default.nix",
       "parents": [
         "features/terminal/default.nix"
       ],
@@ -6058,7 +6394,9 @@
         "NixOS:frigg",
         "NixOS:wodan",
         "Darwin:loki",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 21,
@@ -6086,26 +6424,8 @@
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:donar",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 57,
-      "merge_into": "features/whatpulse/default.nix",
-      "parents": [
-        "features/whatpulse/default.nix"
-      ],
-      "path": "features/whatpulse/_nixos.nix",
-      "sha256": "3f03519ac2c429ba1506f87c70cab2c9de6ddebf499fb87d16db099e890ca1d3",
-      "status": "used"
-    },
-    {
       "children": [
-        "features/whatpulse/_home.nix",
-        "features/whatpulse/_nixos.nix"
+        "features/whatpulse/_home.nix"
       ],
       "contexts": [
         "wiring:Registered Den aspects",
@@ -6113,18 +6433,19 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 14,
+      "lines": 68,
       "merge_into": null,
       "parents": [],
       "path": "features/whatpulse/default.nix",
-      "sha256": "1c9695f18876bc353ee19221ff3384aaf9050716e4ff9fd30e01325257409a0a",
+      "sha256": "7364a90223219550508af466ec3814299867ffb422828036c907d989e7e0d811",
       "status": "used"
     },
     {
       "children": [],
       "contexts": [
         "wiring:Registered Den aspects",
-        "Darwin:loki"
+        "Darwin:loki",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 7,
@@ -6147,10 +6468,9 @@
       ],
       "kind": "feature",
       "lines": 7,
-      "merge_into": null,
+      "merge_into": "features/workstation-extra/default.nix",
       "parents": [
-        "features/workstation-extra/default.nix",
-        "nix/default.nix"
+        "features/workstation-extra/default.nix"
       ],
       "path": "features/workstation-extra/_default.nix",
       "sha256": "eed67cf86011025bbce1bb5f1e7bee8597c9f75aaffa02969ab4a3a404d0bbad",
@@ -6403,15 +6723,19 @@
         "features/workstation-extra/_media-tools.nix"
       ],
       "contexts": [
-        "wiring:Registered Den aspects"
+        "wiring:Registered Den aspects",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "feature",
       "lines": 21,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "nix/default.nix"
+      ],
       "path": "features/workstation-extra/default.nix",
       "sha256": "c50b7ad8432f5e4f9509ad54b0a28c433678ee85b167b2a0d128f084d72dd429",
-      "status": "wiring-only"
+      "status": "optional-only"
     },
     {
       "children": [],
@@ -6422,31 +6746,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 58,
-      "merge_into": "features/workstation-runtime/default.nix",
-      "parents": [
-        "features/workstation-runtime/default.nix"
-      ],
-      "path": "features/workstation-runtime/_nixos.nix",
-      "sha256": "a99c2022d7819d7d4d4ba576c516371a9bde085faf19fa9b468036b0ac1b3676",
-      "status": "used"
-    },
-    {
-      "children": [
-        "features/workstation-runtime/_nixos.nix"
-      ],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan"
-      ],
-      "kind": "feature",
-      "lines": 9,
+      "lines": 64,
       "merge_into": null,
       "parents": [],
       "path": "features/workstation-runtime/default.nix",
-      "sha256": "79004cf749d2b7806b4ad269999ae8c682e3c2c5b42e7dc4dc44bec7dc025097",
+      "sha256": "6129f3d009c2028b116d346b4a3262dc2c7f8126f75bc5b0489978368b0fbedd",
       "status": "used"
     },
     {
@@ -6454,7 +6758,9 @@
         "nix/default.nix"
       ],
       "contexts": [
-        "wiring:Flake wiring"
+        "wiring:Flake wiring",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
       ],
       "kind": "infrastructure",
       "lines": 78,
@@ -6462,7 +6768,7 @@
       "parents": [],
       "path": "flake.nix",
       "sha256": "97c49dccd46020271d483461fff8edf38a375d9e69dc883757ebd0fa237fbabc",
-      "status": "wiring-only"
+      "status": "optional-only"
     },
     {
       "children": [],
@@ -6476,7 +6782,9 @@
       "status": "unobserved"
     },
     {
-      "children": [],
+      "children": [
+        "hosts/physical/bragi/hardware-configuration.nix"
+      ],
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:bragi"
@@ -6497,13 +6805,17 @@
       "kind": "host",
       "lines": 49,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "hosts/physical/bragi/default.nix"
+      ],
       "path": "hosts/physical/bragi/hardware-configuration.nix",
       "sha256": "d714e91b8f8c4cf90a62387e5c5a6fe3c2f27c2ac6168949c4a685c0e35cbded",
       "status": "used"
     },
     {
-      "children": [],
+      "children": [
+        "hosts/physical/donar/hardware-configuration.nix"
+      ],
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:donar"
@@ -6524,13 +6836,17 @@
       "kind": "host",
       "lines": 41,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "hosts/physical/donar/default.nix"
+      ],
       "path": "hosts/physical/donar/hardware-configuration.nix",
       "sha256": "3428018f334fdf503e9f9fb6f9565ae2837cea86c42a7e7c5af77f8c7caef807",
       "status": "used"
     },
     {
-      "children": [],
+      "children": [
+        "hosts/physical/frigg/hardware-configuration.nix"
+      ],
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:frigg"
@@ -6551,7 +6867,9 @@
       "kind": "host",
       "lines": 51,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "hosts/physical/frigg/default.nix"
+      ],
       "path": "hosts/physical/frigg/hardware-configuration.nix",
       "sha256": "1de507d465165888df48a3c8303936356da60d1f7a30256f040d0946a4c70df0",
       "status": "used"
@@ -6560,7 +6878,8 @@
       "children": [],
       "contexts": [
         "wiring:Registered Den aspects",
-        "Darwin:loki"
+        "Darwin:loki",
+        "optional:loki + workstation"
       ],
       "kind": "host",
       "lines": 58,
@@ -6574,7 +6893,8 @@
       "children": [],
       "contexts": [
         "wiring:Registered Den aspects",
-        "Home Manager:mimir2"
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation"
       ],
       "kind": "host",
       "lines": 30,
@@ -6607,7 +6927,9 @@
       "status": "unobserved"
     },
     {
-      "children": [],
+      "children": [
+        "hosts/physical/wodan/hardware-configuration.nix"
+      ],
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:wodan"
@@ -6628,13 +6950,17 @@
       "kind": "host",
       "lines": 83,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "hosts/physical/wodan/default.nix"
+      ],
       "path": "hosts/physical/wodan/hardware-configuration.nix",
       "sha256": "1320a08333400dc30ea104b669575dd67469bfddc468a2631616ff267edb6f84",
       "status": "used"
     },
     {
-      "children": [],
+      "children": [
+        "hosts/virtual/apps/hardware-configuration.nix"
+      ],
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:apps"
@@ -6655,7 +6981,9 @@
       "kind": "host",
       "lines": 18,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "hosts/virtual/apps/default.nix"
+      ],
       "path": "hosts/virtual/apps/hardware-configuration.nix",
       "sha256": "27836110f010e1d8345feb860a7207f6948117666a76cb9bf4b42d21c78bfaa4",
       "status": "used"
@@ -6689,7 +7017,9 @@
       "status": "used"
     },
     {
-      "children": [],
+      "children": [
+        "hosts/virtual/homepage/hardware-configuration.nix"
+      ],
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:homepage"
@@ -6710,7 +7040,9 @@
       "kind": "host",
       "lines": 18,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "hosts/virtual/homepage/default.nix"
+      ],
       "path": "hosts/virtual/homepage/hardware-configuration.nix",
       "sha256": "27836110f010e1d8345feb860a7207f6948117666a76cb9bf4b42d21c78bfaa4",
       "status": "used"
@@ -6742,8 +7074,8 @@
     },
     {
       "children": [
-        "features/development/_cloud.nix",
-        "features/workstation-extra/_default.nix",
+        "features/development/default.nix",
+        "features/workstation-extra/default.nix",
         "nix/forgejo-image.nix",
         "nix/outputs.nix",
         "nix/proxmox-lab.nix",
@@ -6756,7 +7088,7 @@
       ],
       "kind": "infrastructure",
       "lines": 53,
-      "merge_into": null,
+      "merge_into": "flake.nix",
       "parents": [
         "flake.nix"
       ],

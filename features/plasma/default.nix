@@ -3,11 +3,20 @@ _: {
     meta.platforms = [
       "linux"
     ];
-    nixos = {
-      imports = [
-        ./_nixos.nix
-      ];
-    };
+    nixos.imports = [
+      ({main-user, ...}: {
+        services = {
+          displayManager = {
+            autoLogin = {
+              enable = true;
+              user = main-user;
+            };
+            sddm.enable = true;
+          };
+          desktopManager.plasma6.enable = true;
+        };
+      })
+    ];
     homeManager = {
       imports = [
         ./_home.nix

@@ -1,16 +1,15 @@
 {root ? ../.}: let
   flake = builtins.getFlake (toString root);
   inherit (flake.inputs.nixpkgs) lib;
-  source = toString flake.outPath + "/";
+  ownership = import ../policy/lib.nix {
+    inherit lib den;
+    root = flake.outPath;
+  };
   localFile = file: let
-    path = builtins.head (lib.splitString ", via option " (toString file));
-    relative = lib.removePrefix source path;
+    relative = ownership.relative file;
   in
-    if lib.hasPrefix source path && builtins.pathExists path
-    then
-      if builtins.pathExists (flake.outPath + "/${relative}/default.nix")
-      then relative + "/default.nix"
-      else relative
+    if relative != null && builtins.pathExists (flake.outPath + "/${relative}")
+    then relative
     else null;
   walk = parent: inheritedDisabled: node: let
     file = localFile node.file;

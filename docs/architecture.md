@@ -43,11 +43,16 @@ Source ownership follows paths. Den's definition metadata identifies the owner
 of an aspect; the evaluated Nix graph identifies its implementation imports.
 There is no second manually maintained list of host-feature memberships.
 
-An aspect can have multiple native classes. Its private files stay inside the
-same feature directory. Select dependencies with Den `includes`; do not import
-another feature's private native module. Local features and profiles use named,
-concrete aspect references in `includes`. Context-dependent routing belongs to
-host definitions and infrastructure.
+An aspect can have multiple native classes. Keep small native modules inline in
+the feature's `default.nix`. Split out larger implementations when that helps
+readability; private files stay inside the same feature directory. Select
+dependencies with Den `includes`; do not import another feature's private native
+module. Local features and profiles use named, concrete aspect references in
+`includes`. Context-dependent routing belongs to host definitions and
+infrastructure.
+
+When inlining an existing import, keep its `nixos.imports` boundary to preserve
+the merge order of list options.
 
 Profiles contain composition only. Identity, `stateVersion`, and device mounts
 belong to host definitions or their generated hardware. Existing USB mounts
