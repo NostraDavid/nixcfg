@@ -163,6 +163,15 @@ Git, Git LFS, Neovim, uv, direnv, and Node.js 24. The opt-in workstation module
 adds common workstation tools; keep only work-specific packages in the work
 module.
 
+## Select the OpenCode work configuration
+
+For OpenCode, work has a separate configuration for the Codex-compatible proxy
+at `http://127.0.0.1:8787/v1`. Select that file with a `home.file` override in
+`home/work.nix`, as shown in
+[Personal and work configurations](opencode-v2.md#personal-and-work-configurations).
+The base workstation file uses Tensorx. Keep any required
+`OPENCODE_WORK_API_KEY` outside Git and the Nix store.
+
 ## Override agent instructions
 
 The portable module installs the base instruction directory at

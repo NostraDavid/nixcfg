@@ -61,7 +61,7 @@ repos:
         name: check OpenCode v2 configuration and service
         entry: bash checks/test-opencode-v2.sh
         language: system
-        files: "^(pkgs/opencode-v2/|checks/test-opencode-v2\\.sh$|dotfiles/opencode-2[^/]+/|modules/home/(portable-cli|development/mantle|workstation/development/core)\\.nix$)"
+        files: "^(pkgs/opencode-v2/|checks/test-opencode-v2\\.sh$|dotfiles/opencode-(work-)?2[^/]+/|modules/home/(portable-cli|development/mantle|workstation/development/core)\\.nix$)"
         pass_filenames: false
 
       - id: check-release-updaters

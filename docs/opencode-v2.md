@@ -53,10 +53,10 @@ The [upstream migration guide](https://opencode.ai/v2/docs/migrate-v1/) keeps
 supported v1 configuration compatible. Our v2 configuration therefore retains
 the existing agents, models, provider settings, MCP commands, and permissions.
 The unsupported top-level `subagent_depth` setting moves under `experimental`.
-The configuration uses native v2 `agents`, with `system` and ordered
-`permissions` rules instead of the deprecated `agent`, `prompt`, and
-`permission` fields. It also uses `update: "disable"`, `providers` with
-`package` and `settings`, `snapshots`, `mcp.servers` with `disabled` and
+Both profiles use native v2 `agents`, with `system` and ordered `permissions`
+rules instead of the deprecated `agent`, `prompt`, and `permission` fields. They
+also use `update: "disable"`, `providers` with `package` and `settings`,
+`snapshots`, provider-use `policies`, and `mcp.servers` with `disabled` and
 separate timeout fields. Complete normalized configuration snapshots were
 compared before and after conversion; the effective settings are identical. The
 orchestrator prompt refers to the renamed `subagent` tool.
@@ -67,9 +67,49 @@ The managed configuration is
 Nix generations. Both configurations omit the retired Serena MCP server and keep
 Qartez for code navigation.
 
-## MCP servers
+## Personal and work configurations
 
-The configuration includes all nine servers declared in the active Codex
+There are two independent v2 files:
+
+| Profile  | File                                                            | Provider                          |
+| -------- | --------------------------------------------------------------- | --------------------------------- |
+| Personal | `dotfiles/opencode-2.0.32/.config/opencode/opencode.jsonc`      | Tensorx only                      |
+| Work     | `dotfiles/opencode-work-2.0.32/.config/opencode/opencode.jsonc` | Local Codex-compatible proxy only |
+
+The personal profile uses GLM 5.3 Flash for the primary agent and DeepSeek V4.1
+Flash for the worker. It keeps the existing Tensorx authentication.
+
+The work profile sends both agents to `http://127.0.0.1:8787/v1`, using the
+OpenAI Responses API through `@ai-sdk/openai`. It retains the previously
+configured `gpt-6-luna` model ID. Set `OPENCODE_WORK_API_KEY` in the work
+environment if the proxy requires a key. No credential is stored in either file.
+The proxy was not reachable from the maintenance machine, so its supported model
+IDs and authentication requirements still need a live check.
+
+Both profiles keep the queue plugin, permissions, and instructions. Each profile
+allows only its own provider, including for the worker, so the work profile does
+not use Tensorx or a direct OpenAI connection.
+
+The base workstation link selects the personal file. Select the work file in the
+existing work repository's Home Manager module:
+
+```nix
+{config, lib, repoRoot, ...}: {
+  home.file.".config/opencode/opencode.jsonc".source = lib.mkForce (
+    config.lib.file.mkOutOfStoreSymlink
+    "${repoRoot}/dotfiles/opencode-work-2.0.32/.config/opencode/opencode.jsonc"
+  );
+}
+```
+
+This uses the existing `extraHomeModules` integration and works for both macOS
+and Debian. Apply that work configuration, then restart the OpenCode service and
+client. The files are alternatives; do not load the work file as an extra
+`OPENCODE_CONFIG` overlay on top of the personal file.
+
+### MCP servers
+
+The personal profile includes all nine servers declared in the active Codex
 configuration on Wodan: `agent-memory`, `blender`, `chrome-devtools`,
 `headroom`, `nixos`, `node_repl`, `openaiDeveloperDocs`, `playwright`, and
 `qartez`. The disabled `cua_repl` entry in the old Codex dotfile is not an
@@ -80,6 +120,12 @@ executables and flags. They keep Nix store paths out of the editable JSON file.
 The Node REPL launcher uses the pinned ChatGPT package's Node runtime and module
 directory. Standalone MCP initialization and JavaScript execution work; the
 ChatGPT app's private browser bridge is not configured for OpenCode.
+
+The work profile keeps `agent-memory`, `headroom`, and `qartez`, and adds
+`chrome-devtools`, `nixos`, and `playwright`. The portable Debian and macOS
+profiles install the three added server packages. Work browser sessions are
+headless and isolated and use an installed Google Chrome. Chrome DevTools usage
+statistics and CrUX requests remain disabled.
 
 Apply the Nix configuration before restarting OpenCode so the new launchers and
 server executables are available. Then use `opencode mcp list` to check actual
@@ -101,8 +147,8 @@ user data directory; the repository does not manage that file.
 
 V2 still reads `~/.config/opencode/AGENTS.md` and the existing skills. Provider
 credentials are not changed or stored in the repository. The portable profiles
-keep their existing user configuration rather than installing workstation-only
-MCP commands on every server.
+keep their existing user configuration until the work repository selects a file
+as shown above.
 
 V2 does not provide v1's LSP diagnostics or a Core `doom_loop` permission
 action. Its server API and plugin API have changed. Integrations outside this
@@ -151,9 +197,9 @@ nix eval --impure --json --file checks/tooling.nix
 ```
 
 The CLI test uses temporary XDG directories and private service instances. It
-checks real v2 configuration normalization, retained restrictions, database path
-selection, and a running v2 API without model calls. The tooling check asserts
-installation on every NixOS host, Debian and macOS, checks the desktop
-replacement, and rejects remaining v1 entries in the managed workstation
-profiles. macOS/ARM execution and live provider credentials require validation
-on those machines.
+checks both profiles through real v2 configuration normalization, provider
+isolation for both agents, retained restrictions, database path selection, and a
+running v2 API without model calls. The tooling check asserts installation on
+every NixOS host, Debian and macOS, checks the desktop replacement, and rejects
+remaining v1 entries in the managed workstation profiles. macOS/ARM execution
+and live provider credentials require validation on those machines.

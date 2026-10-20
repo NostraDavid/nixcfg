@@ -1,0 +1,279 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugins": [
+    "opencode-queue@2.0.2"
+  ],
+  "agents": {
+    "codex": {
+      "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
+      "mode": "primary",
+      "model": "work/gpt-6-luna",
+      "permissions": [
+        {
+          "action": "subagent",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "subagent",
+          "resource": "opencode-worker",
+          "effect": "allow"
+        }
+      ],
+      "system": "You are the primary engineering orchestrator. Keep ownership of the user's goal, architecture, sequencing, safety, and final answer. Delegate bounded implementation, investigation, and verification work to the opencode-worker subagent through the subagent tool when that reduces cost or latency. Give the worker explicit scope, constraints, and acceptance criteria. Inspect its result and independently resolve gaps before reporting completion. Do not delegate user communication or final judgment."
+    },
+    "opencode-worker": {
+      "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by Codex.",
+      "mode": "subagent",
+      "model": "work/gpt-6-luna",
+      "permissions": [
+        {
+          "action": "subagent",
+          "resource": "*",
+          "effect": "deny"
+        }
+      ],
+      "steps": 30
+    }
+  },
+  "update": "disable",
+  "default_agent": "codex",
+  "experimental": {
+    "subagent_depth": 1
+  },
+  "instructions": [
+    "~/AGENTS.md"
+  ],
+  "mcp": {
+    "servers": {
+      "agent-memory": {
+        "command": [
+          "agent-memory",
+          "mcp"
+        ],
+        "disabled": false,
+        "type": "local"
+      },
+      "headroom": {
+        "command": [
+          "headroom",
+          "mcp",
+          "serve",
+          "--transport",
+          "stdio"
+        ],
+        "disabled": false,
+        "type": "local"
+      },
+      "qartez": {
+        "command": [
+          "qartez"
+        ],
+        "disabled": false,
+        "type": "local"
+      },
+      "chrome-devtools": {
+        "type": "local",
+        "command": [
+          "chrome-devtools-mcp",
+          "--headless",
+          "--isolated",
+          "--no-usage-statistics",
+          "--no-performance-crux"
+        ],
+        "disabled": false
+      },
+      "nixos": {
+        "type": "local",
+        "command": [
+          "mcp-nixos"
+        ],
+        "disabled": false
+      },
+      "playwright": {
+        "type": "local",
+        "command": [
+          "playwright-mcp",
+          "--headless",
+          "--isolated",
+          "--browser",
+          "chrome"
+        ],
+        "disabled": false
+      }
+    }
+  },
+  "model": "work/gpt-6-luna",
+  "permissions": [
+    {
+      "action": "*",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "cat *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "fd *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "git *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "git branch -D *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git checkout -- *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git cherry-pick *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git clean -fd *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git clean -fdx *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git commit *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git merge *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git push *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git push --force *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git push --force-with-lease *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git rebase *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git reset --hard *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git restore --source=* *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git revert *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git submodule foreach *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git tag -d *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "just *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "ls *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "rg *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -rf *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "sed *",
+      "effect": "allow"
+    },
+    {
+      "action": "doom_loop",
+      "resource": "*",
+      "effect": "ask"
+    },
+    {
+      "action": "external_directory",
+      "resource": "*",
+      "effect": "ask"
+    }
+  ],
+  "providers": {
+    "work": {
+      "name": "Work Codex proxy",
+      "package": "aisdk:@ai-sdk/openai",
+      "settings": {
+        "baseURL": "http://127.0.0.1:8787/v1",
+        "apiKey": "{env:OPENCODE_WORK_API_KEY}"
+      },
+      "models": {
+        "gpt-6-luna": {
+          "name": "GPT-6 Luna"
+        }
+      }
+    }
+  },
+  "share": "manual",
+  "shell": "bash",
+  "snapshots": true,
+  "policies": [
+    {
+      "action": "provider.use",
+      "resource": "*",
+      "effect": "deny"
+    },
+    {
+      "action": "provider.use",
+      "resource": "work",
+      "effect": "allow"
+    }
+  ]
+}

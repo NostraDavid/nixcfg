@@ -7,7 +7,7 @@
     "codex": {
       "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
       "mode": "primary",
-      "model": "openai/gpt-6-luna",
+      "model": "tensorx/z-ai/glm-5.3-flash",
       "permissions": [
         {
           "action": "subagent",
@@ -130,7 +130,7 @@
       }
     }
   },
-  "model": "openai/gpt-6-luna",
+  "model": "tensorx/z-ai/glm-5.3-flash",
   "permissions": [
     {
       "action": "*",
@@ -307,5 +307,17 @@
   },
   "share": "manual",
   "shell": "bash",
-  "snapshots": true
+  "snapshots": true,
+  "policies": [
+    {
+      "action": "provider.use",
+      "resource": "*",
+      "effect": "deny"
+    },
+    {
+      "action": "provider.use",
+      "resource": "tensorx",
+      "effect": "allow"
+    }
+  ]
 }
