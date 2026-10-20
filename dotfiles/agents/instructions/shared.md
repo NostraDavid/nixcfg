@@ -17,8 +17,8 @@ preserving errors and essential output.
 
 ### CLI availability
 
-For agent-relevant CLI choices and availability, see
-[cli-tools.md](cli-tools.md) (`ast-grep`, `mlr`, `plocate`).
+When choosing a CLI for code, data, Nix packages, logs, or verification, consult
+[cli-tools.md](cli-tools.md) for available tools and profile coverage.
 
 ### Tabular data in shell commands
 
