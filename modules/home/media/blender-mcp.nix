@@ -9,7 +9,18 @@
   python = stable.python3.withPackages (p: [p.tomlkit]);
   blenderVersion = lib.versions.majorMinor unstable.blender.version;
   dotfiles = ../../../dotfiles/blender-5.2.1/.config/blender;
+  settings = builtins.fromTOML (builtins.readFile (dotfiles + /mcp.toml));
 in {
+  programs.pi.coding-agent.mcp.mcpServers.blender = {
+    command = "${local.blender-mcp}/bin/blender-mcp";
+    args = ["--transport" "stdio"];
+    env = {
+      BLENDER_MCP_HOST = settings.host;
+      BLENDER_MCP_PORT = toString settings.port;
+    };
+    description = "Inspect and edit the local Blender scene";
+  };
+
   home = {
     packages = [local.blender-mcp];
     file = {

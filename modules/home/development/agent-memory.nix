@@ -58,6 +58,12 @@ in {
     home.packages = [local.engram local.engrim local.ctx memory];
     xdg.configFile."agent-memory/provider".text = provider + "\n";
 
+    programs.pi.coding-agent.mcp.mcpServers.agent-memory = {
+      command = "${memory}/bin/agent-memory";
+      args = ["mcp"];
+      description = "Shared durable project memory";
+    };
+
     home.activation.agentMemoryClients = lib.hm.dag.entryAfter ["writeBoundary"] ''
       $DRY_RUN_CMD ${python}/bin/python ${configureClients} ${lib.escapeShellArg config.home.homeDirectory}
     '';

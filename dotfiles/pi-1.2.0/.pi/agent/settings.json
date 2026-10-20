@@ -2,7 +2,8 @@
   "lastChangelogVersion": "1.2.0",
   "theme": "dark",
   "packages": [
-    "npm:@czottmann/pi-tensorx"
+    "npm:@czottmann/pi-tensorx",
+    "npm:pi-term@0.1.1"
   ],
   "defaultProvider": "tensorx",
   "defaultModel": "deepseek/deepseek-v4-flash",

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { test } from "node:test";
@@ -58,7 +58,7 @@ test("TypeScript extensions typecheck against the pinned SDK", (t) => {
           "typebox/value": [join(modules, "typebox/build/value/index.d.mts")],
         },
       },
-      files: [join(dot, "extensions/workflow/index.ts"), join(dot, "extensions/services/index.ts")],
+      files: [join(dot, "extensions/workflow/index.ts")],
     }),
   );
   execFileSync(join(compiler, "bin/tsc"), ["-p", config], { cwd: root, stdio: "pipe" });
@@ -73,7 +73,6 @@ async function fixture(t) {
     settingsManager: sdk.SettingsManager.inMemory({ packages: [] }),
     additionalExtensionPaths: [
       join(dot, "extensions/workflow/index.ts"),
-      join(dot, "extensions/services/index.ts"),
       join(packageDir, "examples/extensions/subagent/index.ts"),
     ],
     noSkills: true,
@@ -138,25 +137,79 @@ async function fixture(t) {
   };
 }
 
-test("real Pi SDK loads workflow, native MCP registrations and upstream subagent", async (t) => {
+test("real Pi SDK loads workflow and upstream subagent", async (t) => {
   const f = await fixture(t);
   const tools = f.loaded.extensions.flatMap((extension) => [...extension.tools.keys()]);
   for (const name of ["update_plan", "request_user_input", "git_diff", "subagent"]) {
     assert.ok(tools.includes(name));
   }
-  assert.equal(
-    f.loaded.runtime.mcpServers.get("openaiDeveloperDocs").config.url,
-    "https://developers.openai.com/mcp",
-  );
-  assert.equal(f.loaded.runtime.mcpServers.get("openaiDeveloperDocs").config.exposure, "codemode");
+  const subagent = f.loaded.extensions.find((extension) => extension.tools.has("subagent"))
+    .tools.get("subagent").definition.parameters.properties;
+  for (
+    const properties of [subagent, subagent.tasks.items.properties, subagent.chain.items.properties]
+  ) {
+    assert.equal(properties.cwd.type, "string");
+  }
   const settings = JSON.parse(readFileSync(join(dot, "settings.json"), "utf8"));
   assert.ok(!settings.packages.includes("npm:pi-mcp-adapter"));
   assert.ok(settings.defaultTools.includes("+codemode"));
+  assert.ok(settings.packages.includes("npm:pi-term@0.1.1"));
+});
+
+test("native mcp.json connects a server and the built-in MCP command loads without registration errors", (t) => {
+  const cwd = mkdtempSync(join(tmpdir(), "pi-native-mcp-"));
+  t.after(() => rmSync(cwd, { recursive: true, force: true }));
+  const config = JSON.parse(readFileSync(join(dot, "mcp.json"), "utf8"));
+  assert.equal(config.mcpServers.openaiDeveloperDocs.url, "https://developers.openai.com/mcp");
+  assert.equal(
+    config.mcpServers.exa.url,
+    "https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa",
+  );
+  for (const server of Object.values(config.mcpServers)) server.enabled = false;
+  config.mcpServers.fixture = {
+    command: process.execPath,
+    args: [join(root, "checks/fixtures/pi-mcp-server.mjs")],
+  };
+  writeFileSync(join(cwd, "mcp.json"), JSON.stringify(config));
+  const options = {
+    cwd,
+    env: { ...process.env, PI_CODING_AGENT_DIR: cwd, PI_OFFLINE: "1" },
+    encoding: "utf8",
+    timeout: 15000,
+  };
+  const listing = spawnSync(join(packagePath, "bin/pi"), ["mcp", "list", "--json"], options);
+  assert.equal(listing.status, 0, listing.stderr);
+  const state = JSON.parse(listing.stdout);
+  assert.deepEqual(state.errors, []);
+  const server = state.servers.find((item) => item.name === "fixture");
+  assert.equal(server.state, "connected");
+  assert.equal(server.exposure, "codemode");
+  assert.deepEqual(server.tools, ["fixture_echo"]);
+  const session = spawnSync(join(packagePath, "bin/pi"), [
+    "--mode",
+    "rpc",
+    "--no-session",
+    "--no-skills",
+    "--no-context-files",
+    "-e",
+    join(dot, "extensions/workflow/index.ts"),
+  ], { ...options, input: "{\"id\":\"commands\",\"type\":\"get_commands\"}\n" });
+  assert.equal(session.status, 0, session.stderr);
+  const events = session.stdout.split("\n").filter(Boolean).map((line) => JSON.parse(line));
+  assert.deepEqual(events.filter((event) => event.type === "extension_error"), []);
+  const response = events.find((event) => event.id === "commands");
+  assert.equal(response.success, true);
+  assert.ok(
+    response.data.commands.some((command) =>
+      command.name === "mcp" && command.sourceInfo.path === "builtin:mcp"
+    ),
+  );
 });
 
 test("real Pi RPC process exposes the extension commands without a model request", (t) => {
   const cwd = mkdtempSync(join(tmpdir(), "pi-rpc-"));
   t.after(() => rmSync(cwd, { recursive: true, force: true }));
+  symlinkSync(join(dot, "extensions"), join(cwd, "extensions"));
   const result = spawnSync(join(packagePath, "bin/pi"), [
     "--mode",
     "rpc",
@@ -164,9 +217,6 @@ test("real Pi RPC process exposes the extension commands without a model request
     "--no-mcp",
     "--no-skills",
     "--no-context-files",
-    "--no-extensions",
-    "-e",
-    join(dot, "extensions/workflow/index.ts"),
   ], {
     cwd,
     env: { ...process.env, PI_CODING_AGENT_DIR: cwd },
@@ -175,13 +225,106 @@ test("real Pi RPC process exposes the extension commands without a model request
     timeout: 15000,
   });
   assert.equal(result.status, 0, result.stderr);
-  const response = result.stdout.split("\n").filter(Boolean).map((line) => JSON.parse(line))
-    .find((event) => event.id === "commands");
+  const events = result.stdout.split("\n").filter(Boolean).map((line) => JSON.parse(line));
+  assert.deepEqual(events.filter((event) => event.type === "extension_error"), []);
+  const response = events.find((event) => event.id === "commands");
   assert.equal(response.success, true);
-  assert.deepEqual(response.data.commands.map((command) => command.name).sort(), [
-    "plan",
-    "review",
-  ]);
+  assert.deepEqual(
+    response.data.commands.filter((command) => !command.sourceInfo.path.startsWith("builtin:"))
+      .map((command) => command.name).sort(),
+    [
+      "plan",
+      "review",
+    ],
+  );
+});
+
+test("worktree prompt is discoverable by Pi", async (t) => {
+  const f = await fixture(t);
+  const loader = new sdk.DefaultResourceLoader({
+    cwd: f.cwd,
+    agentDir: f.cwd,
+    settingsManager: sdk.SettingsManager.inMemory({ packages: [] }),
+    additionalPromptTemplatePaths: [join(dot, "prompts/worktree.md")],
+    noExtensions: true,
+    noSkills: true,
+    noThemes: true,
+    noContextFiles: true,
+  });
+  await loader.reload();
+  const prompt = loader.getPrompts().prompts.find((item) => item.name === "worktree");
+  assert.ok(prompt);
+});
+
+test("pi-term keeps an interactive PTY alive between tool calls", {
+  skip: !process.env.PI_TEST_TERM_PACKAGE
+    && "Set PI_TEST_TERM_PACKAGE to the installed pi-term directory",
+}, async (t) => {
+  const f = await fixture(t);
+  const terminalDir = mkdtempSync(join(tmpdir(), "pi-term-"));
+  const previous = {
+    TMUX: process.env.TMUX,
+    TMUX_TMPDIR: process.env.TMUX_TMPDIR,
+    HISTFILE: process.env.HISTFILE,
+  };
+  delete process.env.TMUX;
+  process.env.TMUX_TMPDIR = terminalDir;
+  process.env.HISTFILE = "/dev/null";
+  const env = { ...process.env };
+  t.after(() => {
+    spawnSync("tmux", ["kill-server"], { env, stdio: "ignore" });
+    rmSync(terminalDir, { recursive: true, force: true });
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  });
+  execFileSync("tmux", [
+    "-f",
+    "/dev/null",
+    "new-session",
+    "-d",
+    "-s",
+    "fixture",
+    "bash --noprofile --norc",
+  ], { env });
+  execFileSync("tmux", ["set-option", "-g", "default-command", "bash --noprofile --norc"], { env });
+  const loader = new sdk.DefaultResourceLoader({
+    cwd: f.cwd,
+    agentDir: f.cwd,
+    settingsManager: sdk.SettingsManager.inMemory({ packages: [] }),
+    additionalExtensionPaths: [join(process.env.PI_TEST_TERM_PACKAGE, "extensions/index.ts")],
+    noSkills: true,
+    noThemes: true,
+    noPromptTemplates: true,
+    noContextFiles: true,
+  });
+  await loader.reload();
+  const loaded = loader.getExtensions();
+  assert.deepEqual(loaded.errors, []);
+  const extension = loaded.extensions.find((item) => item.tools.has("term"));
+  assert.ok(extension);
+  const term = (params) =>
+    extension.tools.get("term").definition.execute("test", params, undefined, undefined, f.ctx);
+  await term({
+    action: "start",
+    name: "interactive",
+    command: "read -r reply; printf 'PTY_RESULT:%s:%s\\n' \"$PWD\" \"$reply\"",
+  });
+  await term({ action: "send", name: "interactive", input: "hello" });
+  let output = "";
+  for (let attempt = 0; attempt < 100; attempt++) {
+    output = (await term({ action: "read", name: "interactive" })).content[0].text;
+    if (output.includes(`PTY_RESULT:${f.cwd}:hello`)) break;
+    await new Promise((resolve) => setTimeout(resolve, 25));
+  }
+  assert.ok(output.includes(`PTY_RESULT:${f.cwd}:hello`), output);
+  assert.ok(
+    (await term({ action: "start", name: "interactive", command: "exit" })).content[0].text
+      .startsWith("exists "),
+  );
+  await term({ action: "kill", name: "interactive" });
+  assert.equal((await term({ action: "list" })).details.sessions.length, 0);
 });
 
 test("plan mode blocks execution, mutation and indirect tool access, then restores tools", async (t) => {
@@ -196,6 +339,7 @@ test("plan mode blocks execution, mutation and indirect tool access, then restor
       "codemode",
       "tool_search",
       "subagent",
+      "term",
       "mcp__service__delete",
     ]
   ) {
