@@ -13,6 +13,9 @@ for package in opencode-v2 opencode-v2-desktop; do
 done
 mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
 mkdir -p "${TEST_REPO}/pkgs/"{pico-8-font,ponytail-skills,ponytail-codex}
+mkdir -p "${TEST_REPO}/pkgs/headroom"
+cp "${repo_root}/pkgs/headroom/default.nix" "${TEST_REPO}/pkgs/headroom/"
+cp "${repo_root}/scripts/update-headroom.sh" "${TEST_REPO}/scripts/"
 mkdir -p "${TEST_REPO}/pkgs/codex"
 mkdir -p "${TEST_REPO}/pkgs/qartez"
 cp "${repo_root}/pkgs/qartez/default.nix" "${TEST_REPO}/pkgs/qartez/"
@@ -79,6 +82,13 @@ elif [[ "$*" == *registry.npmjs.org/@opencode%2fcli-* ]]; then
     hash="sha512-$(printf '%086s' '' | tr ' ' A)=="
     if [[ "${TEST_OPENCODE_BAD_HASH:-0}" == 1 ]]; then hash=invalid; fi
     printf '{"name":"@opencode/cli-%s","version":"%s","dist":{"integrity":"%s"}}\n' "$target" "$version" "$hash"
+elif [[ "$*" == *pypi.org/pypi/headroom-ai/* ]]; then
+    printf '{"info":{"version":"0.99.0"},"urls":['
+    printf '{"filename":"headroom_ai-0.99.0-cp310-abi3-manylinux_2_28_x86_64.whl","url":"https://files.pythonhosted.org/linux/headroom_ai-0.99.0-cp310-abi3-manylinux_2_28_x86_64.whl","digests":{"sha256":"00"}}'
+    if [[ "${TEST_HEADROOM_MISSING_MAC:-0}" == 0 ]]; then
+        printf ',{"filename":"headroom_ai-0.99.0-cp310-abi3-macosx_11_0_arm64.whl","url":"https://files.pythonhosted.org/mac/headroom_ai-0.99.0-cp310-abi3-macosx_11_0_arm64.whl","digests":{"sha256":"11"}}'
+    fi
+    printf ']}\n'
 elif [[ "$*" == *pypi.org/pypi/semble/json* ]]; then
     printf '{"info":{"version":"0.10.0"},"urls":[{"packagetype":"sdist","yanked":false,"url":"https://files.pythonhosted.org/semble-0.10.0.tar.gz"}]}\n'
 else
@@ -233,6 +243,20 @@ for failure in major target integrity desktop build; do
     done
 done
 unset TEST_OPENCODE_RELEASE TEST_OPENCODE_MISSING_TARGET TEST_OPENCODE_BAD_HASH TEST_OPENCODE_MISSING_DESKTOP TEST_BUILD_FAILURE
+
+"${TEST_REPO}/scripts/update-headroom.sh" >/dev/null
+rg -q 'version = "0.99.0";' "${TEST_REPO}/pkgs/headroom/default.nix"
+rg -q 'https://files.pythonhosted.org/linux/headroom_ai-0.99.0-' "${TEST_REPO}/pkgs/headroom/default.nix"
+rg -q 'https://files.pythonhosted.org/mac/headroom_ai-0.99.0-' "${TEST_REPO}/pkgs/headroom/default.nix"
+test "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/headroom/default.nix")" = 2
+cp "${TEST_REPO}/pkgs/headroom/default.nix" "${test_root}/headroom.before"
+for failure in missing build; do
+    if TEST_HEADROOM_MISSING_MAC=$([[ "$failure" == missing ]] && echo 1 || echo 0) TEST_BUILD_FAILURE=1 "${TEST_REPO}/scripts/update-headroom.sh" >/dev/null 2>&1; then
+        echo "Expected Headroom $failure failure" >&2
+        exit 1
+    fi
+    cmp "${test_root}/headroom.before" "${TEST_REPO}/pkgs/headroom/default.nix"
+done
 TEST_OPENCODE_RELEASE=3.0.0 "${TEST_REPO}/scripts/update-opencode-v2-desktop.sh" 2.1.0 >/dev/null
 for package in opencode-v2 opencode-v2-desktop; do
     rg -q 'version = "2.1.0";' "${TEST_REPO}/pkgs/${package}/default.nix"

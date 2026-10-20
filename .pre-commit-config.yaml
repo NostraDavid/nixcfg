@@ -75,7 +75,7 @@ repos:
         name: check package release updaters
         entry: bash scripts/test-release-updaters.sh
         language: system
-        files: "^scripts/(update-opencode-v2(-desktop)?|test-release-updaters)\\.sh$"
+        files: "^scripts/(update-opencode-v2(-desktop)?|update-headroom|test-release-updaters)\\.sh$"
         pass_filenames: false
 
       - id: check-alejandra

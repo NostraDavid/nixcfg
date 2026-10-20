@@ -3,10 +3,12 @@
   fetchurl,
   lib,
   makeWrapper,
+  stdenvNoCC,
   unstable,
 }: let
   py = unstable.python313Packages;
   version = "0.41.0";
+  isDarwin = stdenvNoCC.hostPlatform.isDarwin;
 
   mcp = py.buildPythonPackage {
     pname = "mcp";
@@ -45,10 +47,17 @@
     version = "0.13.0";
     format = "wheel";
 
-    src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/72/9d/644db031047ab1a70fc5cb6a79a4d4067080fac628375b2320752d2d7b58/tree_sitter_language_pack-0.13.0-cp310-abi3-manylinux2014_x86_64.whl";
-      hash = "sha256-DU8mH844euBA2ufk0cGspj2EyIMgr8wJYcEjvsC+g3c=";
-    };
+    src = fetchurl (
+      if isDarwin
+      then {
+        url = "https://files.pythonhosted.org/packages/e9/38/aec1f450ae5c4796de8345442f297fcf8912c7d2e00a66d3236ff0f825ed/tree_sitter_language_pack-0.13.0-cp310-abi3-macosx_10_15_universal2.whl";
+        hash = "sha256-Dn6ugStAotyKEusvXFXhMOuJJwagvuBiFd12r/6wDQc=";
+      }
+      else {
+        url = "https://files.pythonhosted.org/packages/72/9d/644db031047ab1a70fc5cb6a79a4d4067080fac628375b2320752d2d7b58/tree_sitter_language_pack-0.13.0-cp310-abi3-manylinux2014_x86_64.whl";
+        hash = "sha256-DU8mH844euBA2ufk0cGspj2EyIMgr8wJYcEjvsC+g3c=";
+      }
+    );
 
     dontStrip = true;
     dependencies = with py; [
@@ -65,15 +74,19 @@ in
     inherit version;
     format = "wheel";
 
-    src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/e5/37/dfd7a44720ffb0d233384d1337efaf211e4e975dd5880fee57facb83c841/headroom_ai-0.41.0-cp310-abi3-manylinux_2_28_x86_64.whl";
-      hash = "sha256-9NteURmnOvPtlSscEMr/JDCDHYmesX2ZWidXSubmswY=";
-    };
+    src = fetchurl (
+      if isDarwin
+      then {
+        url = "https://files.pythonhosted.org/packages/d7/37/8e62a5ecb8c433230586c3dbcbbbcfb519adb72e8a91d69f4dad5e0b3184/headroom_ai-0.41.0-cp310-abi3-macosx_11_0_arm64.whl";
+        hash = "sha256-uELTbhYfnw0fxNVt4dhw4io+TQXJTSJy2aMGs49AYkI=";
+      }
+      else {
+        url = "https://files.pythonhosted.org/packages/e5/37/dfd7a44720ffb0d233384d1337efaf211e4e975dd5880fee57facb83c841/headroom_ai-0.41.0-cp310-abi3-manylinux_2_28_x86_64.whl";
+        hash = "sha256-9NteURmnOvPtlSscEMr/JDCDHYmesX2ZWidXSubmswY=";
+      }
+    );
 
-    nativeBuildInputs = [
-      autoPatchelfHook
-      makeWrapper
-    ];
+    nativeBuildInputs = [makeWrapper] ++ lib.optionals (!isDarwin) [autoPatchelfHook];
 
     # Headroom's sandbox extra: its complete proxy/MCP feature set without
     # Torch-backed ML, image, voice, memory, and evaluation dependencies.
@@ -136,6 +149,6 @@ in
       changelog = "https://github.com/headroomlabs-ai/headroom/releases/tag/v${version}";
       license = lib.licenses.asl20;
       mainProgram = "headroom";
-      platforms = ["x86_64-linux"];
+      platforms = ["x86_64-linux" "aarch64-darwin"];
     };
   }
