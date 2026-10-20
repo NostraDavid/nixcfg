@@ -55,5 +55,7 @@ in {
       unstable.yaml-language-server # YAML LSP
       unstable.zuban # Mypy-compatible Python language server
     ]
-    ++ lib.optionals (stable.stdenv.hostPlatform.system == "x86_64-linux") [local.semble];
+    ++ lib.optionals (stable.stdenv.hostPlatform.system == "x86_64-linux") [
+      local.semble
+    ];
 }

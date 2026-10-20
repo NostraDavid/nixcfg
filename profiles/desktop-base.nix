@@ -1,5 +1,12 @@
 {den, ...}: {
   den.aspects.desktop-base = {
-    includes = with den.aspects; [boot location i18n storage-optimization interactive desktop-runtime];
+    includes = with den.aspects; [
+      boot
+      desktop-runtime
+      i18n
+      interactive
+      location
+      storage-optimization
+    ];
   };
 }

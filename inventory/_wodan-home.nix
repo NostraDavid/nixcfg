@@ -12,8 +12,12 @@
     in
       stable.symlinkJoin {
         name = "codex-desktop-safe-${codexDesktop.version}";
-        paths = [codexDesktop];
-        nativeBuildInputs = [stable.makeWrapper];
+        paths = [
+          codexDesktop
+        ];
+        nativeBuildInputs = [
+          stable.makeWrapper
+        ];
         postBuild = ''
           wrapProgram "$out/bin/codex-desktop" \
             --run 'volatile_dir="/tmp/$USER-codex"; ${stable.coreutils}/bin/install -d -m 700 "$volatile_dir"' \
@@ -23,7 +27,10 @@
   };
 in {
   nixcfg.plasma = {
-    taskbarScreens = [0 1];
+    taskbarScreens = [
+      0
+      1
+    ];
     extraTaskbarLaunchers = [
       "applications:orca-ide.desktop"
       "applications:paperclip.desktop"
@@ -125,30 +132,33 @@ in {
       };
 
     activation = {
-      codexVolatileLogs = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        codex_dir="$HOME/.codex"
-        volatile_dir="/tmp/$USER-codex"
+      codexVolatileLogs =
+        lib.hm.dag.entryAfter [
+          "writeBoundary"
+        ] ''
+          codex_dir="$HOME/.codex"
+          volatile_dir="/tmp/$USER-codex"
 
-        $DRY_RUN_CMD mkdir -p "$codex_dir" "$volatile_dir"
-        $DRY_RUN_CMD chmod 700 "$volatile_dir"
+          $DRY_RUN_CMD mkdir -p "$codex_dir" "$volatile_dir"
+          $DRY_RUN_CMD chmod 700 "$volatile_dir"
 
-        for name in logs_2.sqlite logs_2.sqlite-shm logs_2.sqlite-wal; do
-          link="$codex_dir/$name"
-          target="$volatile_dir/$name"
+          for name in logs_2.sqlite logs_2.sqlite-shm logs_2.sqlite-wal; do
+            link="$codex_dir/$name"
+            target="$volatile_dir/$name"
 
-          if [ -L "$link" ] && [ "$(${stable.coreutils}/bin/readlink "$link")" != "$target" ]; then
-            $DRY_RUN_CMD rm -f "$link"
-          fi
+            if [ -L "$link" ] && [ "$(${stable.coreutils}/bin/readlink "$link")" != "$target" ]; then
+              $DRY_RUN_CMD rm -f "$link"
+            fi
 
-          if [ -e "$link" ] && [ ! -L "$link" ]; then
-            $DRY_RUN_CMD rm -f "$link"
-          fi
+            if [ -e "$link" ] && [ ! -L "$link" ]; then
+              $DRY_RUN_CMD rm -f "$link"
+            fi
 
-          if [ ! -L "$link" ]; then
-            $DRY_RUN_CMD ln -s "$target" "$link"
-          fi
-        done
-      '';
+            if [ ! -L "$link" ]; then
+              $DRY_RUN_CMD ln -s "$target" "$link"
+            fi
+          done
+        '';
     };
   };
 
@@ -161,7 +171,9 @@ in {
       Restart = "on-failure";
     };
     Install = {
-      WantedBy = ["default.target"];
+      WantedBy = [
+        "default.target"
+      ];
     };
   };
 }

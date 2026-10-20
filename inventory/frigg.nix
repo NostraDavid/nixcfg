@@ -11,16 +11,20 @@
       homeManager = true;
     };
     users.david = {
-      classes = ["homeManager"];
-      aspect.includes = [den.batteries.host-aspects];
+      classes = [
+        "homeManager"
+      ];
+      aspect.includes = [
+        den.batteries.host-aspects
+      ];
     };
   };
 
   den.aspects.host-frigg = {
     includes = with den.aspects; [
+      codex-browser
       kde-workstation
       laptop
-      codex-browser
     ];
     nixos = {
       inputs,
@@ -44,7 +48,10 @@
       fileSystems."/media/usb" = {
         device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21";
         fsType = "vfat";
-        options = ["nofail" "x-systemd.automount"];
+        options = [
+          "nofail"
+          "x-systemd.automount"
+        ];
       };
     };
     homeManager = {local, ...}: {
@@ -58,7 +65,10 @@
         username = "david";
         homeDirectory = "/home/david";
         stateVersion = "25.05";
-        packages = [local.chatgpt local.t3code];
+        packages = [
+          local.chatgpt
+          local.t3code
+        ];
       };
     };
   };

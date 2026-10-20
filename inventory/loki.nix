@@ -17,14 +17,24 @@ in {
     aspect = den.aspects.host-loki;
     instantiate = constructors.darwin lokiSpec;
     users.${spec.username} = {
-      classes = ["homeManager"];
-      aspect.includes = [den.batteries.host-aspects];
+      classes = [
+        "homeManager"
+      ];
+      aspect.includes = [
+        den.batteries.host-aspects
+      ];
     };
   };
   den.aspects.host-loki = {
-    includes = with den.aspects; [portable-home darwin-keyboard rectangle];
+    includes = with den.aspects; [
+      darwin-keyboard
+      portable-home
+      rectangle
+    ];
     darwin = {pkgs, ...}: {
-      environment.shells = [pkgs.bashInteractive];
+      environment.shells = [
+        pkgs.bashInteractive
+      ];
       networking.hostName = spec.hostname;
       system = {
         primaryUser = spec.username;

@@ -13,8 +13,12 @@
         homeManager = true;
       };
       users.david = {
-        classes = ["homeManager"];
-        aspect.includes = [den.batteries.host-aspects];
+        classes = [
+          "homeManager"
+        ];
+        aspect.includes = [
+          den.batteries.host-aspects
+        ];
       };
     };
 
@@ -23,8 +27,8 @@
         includes = with den.aspects; [
           full-workstation
           nvidia-workstation
-          wodan
           proxmox-lab-host
+          wodan
         ];
         nixos = {
           inputs,
@@ -78,11 +82,15 @@
             };
             podman = {
               enable = true;
-              wantedBy = ["default.target"];
+              wantedBy = [
+                "default.target"
+              ];
             };
             legcord = {
               enable = true;
-              after = ["network.target"];
+              after = [
+                "network.target"
+              ];
               description = "Legcord Discord Client";
               serviceConfig = {
                 Type = "simple";
@@ -98,7 +106,10 @@
           fileSystems."/media/usb" = {
             device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21";
             fsType = "vfat";
-            options = ["nofail" "x-systemd.automount"];
+            options = [
+              "nofail"
+              "x-systemd.automount"
+            ];
           };
         };
         homeManager = {
@@ -116,7 +127,9 @@
         };
       };
       wodan = {
-        includes = [den.aspects.codex-browser];
+        includes = [
+          den.aspects.codex-browser
+        ];
         homeManager = import ./_wodan-home.nix;
       };
       proxmox-lab-host.nixos = import ./_proxmox-lab-host.nix {inherit self;};

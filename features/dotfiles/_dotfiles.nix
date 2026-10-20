@@ -103,12 +103,26 @@ in {
       skillCatalog = builtins.fromJSON (builtins.readFile ../../dotfiles/agents/skills.json);
       skillAlias = name: skillCatalog.aliases.${name} or name;
       workflowSkills = skillCatalog.workflow;
-      mbrolaNl2 = stable.mbrola-voices.override {languages = ["nl2"];};
+      mbrolaNl2 = stable.mbrola-voices.override {
+        languages = [
+          "nl2"
+        ];
+      };
       localSkills = skillCatalog.local ++ workflowSkills;
-      importedSkills = [local.awesome-copilot-skills local.matt-pocock-skills local.polars-skills local.ponytail-skills local.pstack-skills];
+      importedSkills = [
+        local.awesome-copilot-skills
+        local.matt-pocock-skills
+        local.polars-skills
+        local.ponytail-skills
+        local.pstack-skills
+      ];
       namedSkills =
         stable.runCommand "short-skill-names" {
-          nativeBuildInputs = [(stable.python3.withPackages (ps: [ps.pyyaml]))];
+          nativeBuildInputs = [
+            (stable.python3.withPackages (ps: [
+              ps.pyyaml
+            ]))
+          ];
         } ''
           mkdir -p "$out"
           ${builtins.concatStringsSep "\n" (map (package:
@@ -237,18 +251,26 @@ in {
         // copilotSkills
         // opencodeSkills);
 
-    activation.codexPonytail = lib.hm.dag.entryAfter ["linkGeneration"] ''
-      $DRY_RUN_CMD ${stable.python3}/bin/python ${ponytailMarketplace} ${lib.escapeShellArg config.home.homeDirectory}
-      if ! $DRY_RUN_CMD ${unstable.codex}/bin/codex plugin add ponytail@personal --json >/dev/null 2>&1; then
-        echo "warning: failed to install Codex plugin ponytail" >&2
-      fi
-    '';
+    activation.codexPonytail =
+      lib.hm.dag.entryAfter [
+        "linkGeneration"
+      ] ''
+        $DRY_RUN_CMD ${stable.python3}/bin/python ${ponytailMarketplace} ${lib.escapeShellArg config.home.homeDirectory}
+        if ! $DRY_RUN_CMD ${unstable.codex}/bin/codex plugin add ponytail@personal --json >/dev/null 2>&1; then
+          echo "warning: failed to install Codex plugin ponytail" >&2
+        fi
+      '';
 
-    activation.skillDescriptions = lib.hm.dag.entryAfter ["codexPonytail"] ''
-      $DRY_RUN_CMD ${stable.python3.withPackages (ps: [ps.pyyaml])}/bin/python \
-        ${./skill-descriptions.py} ${../../dotfiles/agents/descriptions.json} \
-        "${config.home.homeDirectory}/.codex/skills/.system" \
-        "${config.home.homeDirectory}/.codex/plugins/cache"
-    '';
+    activation.skillDescriptions =
+      lib.hm.dag.entryAfter [
+        "codexPonytail"
+      ] ''
+        $DRY_RUN_CMD ${stable.python3.withPackages (ps: [
+          ps.pyyaml
+        ])}/bin/python \
+          ${./skill-descriptions.py} ${../../dotfiles/agents/descriptions.json} \
+          "${config.home.homeDirectory}/.codex/skills/.system" \
+          "${config.home.homeDirectory}/.codex/plugins/cache"
+      '';
   };
 }

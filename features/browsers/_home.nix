@@ -18,7 +18,10 @@
     icon = "firefox-esr";
     terminal = false;
     type = "Application";
-    categories = ["Network" "WebBrowser"];
+    categories = [
+      "Network"
+      "WebBrowser"
+    ];
     mimeType = [
       "text/html"
       "text/xml"

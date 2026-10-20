@@ -11,8 +11,12 @@
       homeManager = true;
     };
     users.david = {
-      classes = ["homeManager"];
-      aspect.includes = [den.batteries.host-aspects];
+      classes = [
+        "homeManager"
+      ];
+      aspect.includes = [
+        den.batteries.host-aspects
+      ];
     };
   };
 
@@ -49,7 +53,9 @@
 
       # The Legion 5 Pro has an AMD iGPU and an NVIDIA dGPU. Keep the dGPU
       # available for demanding applications without powering it continuously.
-      services.xserver.videoDrivers = lib.mkForce ["nvidia"];
+      services.xserver.videoDrivers = lib.mkForce [
+        "nvidia"
+      ];
       nixpkgs.config.nvidia.acceptLicense = true;
       hardware.nvidia = {
         modesetting.enable = true;
@@ -85,7 +91,10 @@
       fileSystems."/media/usb" = {
         device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21";
         fsType = "vfat";
-        options = ["nofail" "x-systemd.automount"];
+        options = [
+          "nofail"
+          "x-systemd.automount"
+        ];
       };
     };
     homeManager = {

@@ -8,7 +8,10 @@
 }: let
   bin = "${config.home.homeDirectory}/.local/bin";
   darwin = stable.stdenv.hostPlatform.isDarwin;
-  python = stable.python3.withPackages (p: [p.tomlkit p.json5]);
+  python = stable.python3.withPackages (p: [
+    p.tomlkit
+    p.json5
+  ]);
   nodeRepl = stable.writeShellScriptBin "opencode-mcp-node-repl" (
     if darwin
     then builtins.readFile ./loki-node-repl.sh
@@ -19,16 +22,34 @@
       exec "${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node_repl" "$@"
     ''
   );
-  browserArgs = ["--headless" "--isolated"] ++ lib.optionals (!darwin) ["--executable-path" "${bin}/chromium"];
+  browserArgs =
+    [
+      "--headless"
+      "--isolated"
+    ]
+    ++ lib.optionals (!darwin) [
+      "--executable-path"
+      "${bin}/chromium"
+    ];
   browserServers = {
     nixos.command = "${bin}/mcp-nixos";
     playwright = {
       command = "${bin}/playwright-mcp";
-      args = browserArgs ++ lib.optionals darwin ["--browser" "chrome"];
+      args =
+        browserArgs
+        ++ lib.optionals darwin [
+          "--browser"
+          "chrome"
+        ];
     };
     chrome-devtools = {
       command = "${bin}/chrome-devtools-mcp";
-      args = browserArgs ++ ["--no-usage-statistics" "--no-performance-crux"];
+      args =
+        browserArgs
+        ++ [
+          "--no-usage-statistics"
+          "--no-performance-crux"
+        ];
     };
   };
   wrappers = lib.mapAttrsToList (name: server:
@@ -41,7 +62,12 @@
     // {
       dbhub = {
         command = "${bin}/dbhub";
-        args = ["--transport" "stdio" "--config" "${config.xdg.configHome}/dbhub/local.toml"];
+        args = [
+          "--transport"
+          "stdio"
+          "--config"
+          "${config.xdg.configHome}/dbhub/local.toml"
+        ];
       };
       node_repl = {
         command = "${bin}/opencode-mcp-node-repl";
@@ -50,8 +76,15 @@
     };
   clientServers =
     servers
-    // lib.genAttrs ["agent-memory" "headroom" "qartez"] (
-      name: builtins.removeAttrs config.programs.pi.coding-agent.mcp.mcpServers.${name} ["description"]
+    // lib.genAttrs [
+      "agent-memory"
+      "headroom"
+      "qartez"
+    ] (
+      name:
+        builtins.removeAttrs config.programs.pi.coding-agent.mcp.mcpServers.${name} [
+          "description"
+        ]
     );
 in {
   options.nixcfg.mcp.codexOverrides = lib.mkOption {
@@ -62,12 +95,22 @@ in {
   config = {
     nixcfg.agentMemory.provider = lib.mkDefault "engrim";
     programs.pi.coding-agent.mcp.mcpServers = lib.mapAttrs (_: server:
-      builtins.removeAttrs server ["startup_timeout_sec"])
+      builtins.removeAttrs server [
+        "startup_timeout_sec"
+      ])
     servers;
     home = {
-      sessionPath = [bin];
+      sessionPath = [
+        bin
+      ];
       packages =
-        [local.dbhub local.chrome-devtools-mcp unstable.mcp-nixos unstable.playwright-mcp nodeRepl]
+        [
+          local.chrome-devtools-mcp
+          local.dbhub
+          nodeRepl
+          unstable.mcp-nixos
+          unstable.playwright-mcp
+        ]
         ++ wrappers;
       file =
         {
@@ -80,15 +123,23 @@ in {
         // lib.optionalAttrs (!darwin) {".local/bin/chromium".source = lib.getExe stable.chromium;}
         // builtins.listToAttrs (map (package: lib.nameValuePair ".local/bin/${lib.getName package}" {source = lib.getExe package;}) wrappers);
       activation = {
-        dbhubLocalDatabase = lib.hm.dag.entryAfter ["writeBoundary"] ''
-          $DRY_RUN_CMD ${stable.coreutils}/bin/install -d -m 700 ${lib.escapeShellArg "${config.xdg.dataHome}/dbhub"}
-        '';
-        mcpClients = lib.hm.dag.entryAfter ["headroomClients" "linkGeneration" "dbhubLocalDatabase"] ''
-          $DRY_RUN_CMD ${python}/bin/python ${./mcp-clients.py} \
-            ${lib.escapeShellArg config.home.homeDirectory} \
-            ${lib.escapeShellArg (builtins.toJSON clientServers)} \
-            ${lib.escapeShellArg (builtins.toJSON ({openaiDeveloperDocs.url = config.programs.pi.coding-agent.mcp.mcpServers.openaiDeveloperDocs.url;} // config.nixcfg.mcp.codexOverrides))}
-        '';
+        dbhubLocalDatabase =
+          lib.hm.dag.entryAfter [
+            "writeBoundary"
+          ] ''
+            $DRY_RUN_CMD ${stable.coreutils}/bin/install -d -m 700 ${lib.escapeShellArg "${config.xdg.dataHome}/dbhub"}
+          '';
+        mcpClients =
+          lib.hm.dag.entryAfter [
+            "headroomClients"
+            "linkGeneration"
+            "dbhubLocalDatabase"
+          ] ''
+            $DRY_RUN_CMD ${python}/bin/python ${./mcp-clients.py} \
+              ${lib.escapeShellArg config.home.homeDirectory} \
+              ${lib.escapeShellArg (builtins.toJSON clientServers)} \
+              ${lib.escapeShellArg (builtins.toJSON ({openaiDeveloperDocs.url = config.programs.pi.coding-agent.mcp.mcpServers.openaiDeveloperDocs.url;} // config.nixcfg.mcp.codexOverrides))}
+          '';
       };
     };
     xdg.configFile."dbhub/local.toml".text = ''

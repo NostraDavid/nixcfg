@@ -9,7 +9,10 @@
 in
   {
     home.packages =
-      [unstable.rtk unstable.snip]
+      [
+        unstable.rtk
+        unstable.snip
+      ]
       ++ lib.optionals isX86Linux [
         local.pi-coding-agent
       ];

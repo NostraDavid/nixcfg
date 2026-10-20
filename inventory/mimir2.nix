@@ -11,7 +11,9 @@
     aspect = den.aspects.home-mimir2;
   };
   den.aspects.home-mimir2 = {
-    includes = [den.aspects.portable-home];
+    includes = [
+      den.aspects.portable-home
+    ];
     homeManager = {
       programs.home-manager.enable = true;
       targets.genericLinux = {

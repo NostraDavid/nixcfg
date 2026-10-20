@@ -11,7 +11,10 @@
   '';
 in {
   options.nixcfg.agentMemory.provider = lib.mkOption {
-    type = lib.types.enum ["engram" "engrim"];
+    type = lib.types.enum [
+      "engram"
+      "engrim"
+    ];
     default = "engram";
     description = "Durable memory backend shared by coding clients. Both databases are retained when switching.";
   };
@@ -21,17 +24,27 @@ in {
       packages =
         (
           if stable.stdenv.hostPlatform.isLinux
-          then [local.engram local.engrim local.ctx]
-          else [local.${provider}]
+          then [
+            local.engram
+            local.engrim
+            local.ctx
+          ]
+          else [
+            local.${provider}
+          ]
         )
-        ++ [memory];
+        ++ [
+          memory
+        ];
       file.".local/bin/agent-memory".source = "${memory}/bin/agent-memory";
     };
     xdg.configFile."agent-memory/provider".text = provider + "\n";
 
     programs.pi.coding-agent.mcp.mcpServers.agent-memory = {
       command = "${config.home.homeDirectory}/.local/bin/agent-memory";
-      args = ["mcp"];
+      args = [
+        "mcp"
+      ];
       description = "Shared durable project memory";
     };
 
@@ -44,9 +57,13 @@ in {
         TimeoutStartSec = "10min";
         Restart = "on-failure";
         RestartSec = 5;
-        Environment = ["CTX_UPGRADE_AUTO=off"];
+        Environment = [
+          "CTX_UPGRADE_AUTO=off"
+        ];
       };
-      Install.WantedBy = ["default.target"];
+      Install.WantedBy = [
+        "default.target"
+      ];
     };
   };
 }

@@ -22,37 +22,58 @@
     }: let
       initializeDisk = pkgs.writeShellApplication {
         name = "proxy-initialize-disk";
-        runtimeInputs = [pkgs.util-linux pkgs.e2fsprogs pkgs.diffutils pkgs.coreutils];
+        runtimeInputs = [
+          pkgs.util-linux
+          pkgs.e2fsprogs
+          pkgs.diffutils
+          pkgs.coreutils
+        ];
         text = builtins.readFile ../scripts/lab-initialize-disk.sh;
       };
       backendCaCert = "/srv/proxy/backend-root.crt";
-      certificateFiles = ["freeipa.crt" "forgejo-ca.crt" "SHA256SUMS" "fingerprints.txt"];
+      certificateFiles = [
+        "fingerprints.txt"
+        "forgejo-ca.crt"
+        "freeipa.crt"
+        "SHA256SUMS"
+      ];
       bundleVersion = let
         version = lib.removeSuffix "\n" (builtins.readFile ../certs/VERSION);
       in
         assert lib.assertMsg
         (builtins.match "(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)" version != null)
         "certs/VERSION must contain stable SemVer: MAJOR.MINOR.PATCH."; version;
-      certificateRelease = pkgs.runCommand "powerlan-ca-release" {nativeBuildInputs = [pkgs.zip];} ''
-        mkdir -p "$out"
-        cd "$out"
-        cp ${../certs/freeipa.crt} freeipa.crt
-        cp ${../certs/forgejo-ca.crt} forgejo-ca.crt
-        cp ${../certs/fingerprints.txt} fingerprints.txt
-        cat freeipa.crt forgejo-ca.crt > powerlan-ca.pem
-        printf '%s\n' '${bundleVersion}' > version.txt
-        sha256sum freeipa.crt forgejo-ca.crt powerlan-ca.pem fingerprints.txt version.txt > SHA256SUMS
-        touch -t 198001010000 ./*
-        zip -X -0 powerlan-ca.zip freeipa.crt forgejo-ca.crt powerlan-ca.pem fingerprints.txt version.txt SHA256SUMS
-        sha256sum powerlan-ca.zip > powerlan-ca.zip.sha256
-      '';
+      certificateRelease =
+        pkgs.runCommand "powerlan-ca-release" {
+          nativeBuildInputs = [
+            pkgs.zip
+          ];
+        } ''
+          mkdir -p "$out"
+          cd "$out"
+          cp ${../certs/freeipa.crt} freeipa.crt
+          cp ${../certs/forgejo-ca.crt} forgejo-ca.crt
+          cp ${../certs/fingerprints.txt} fingerprints.txt
+          cat freeipa.crt forgejo-ca.crt > powerlan-ca.pem
+          printf '%s\n' '${bundleVersion}' > version.txt
+          sha256sum freeipa.crt forgejo-ca.crt powerlan-ca.pem fingerprints.txt version.txt > SHA256SUMS
+          touch -t 198001010000 ./*
+          zip -X -0 powerlan-ca.zip freeipa.crt forgejo-ca.crt powerlan-ca.pem fingerprints.txt version.txt SHA256SUMS
+          sha256sum powerlan-ca.zip > powerlan-ca.zip.sha256
+        '';
       certificateSite = pkgs.linkFarm "internal-ca-site" (
         [
           {
             name = "index.html";
             path = pkgs.writeText "internal-ca-index.html" (builtins.replaceStrings
-              ["@FINGERPRINTS@" "@BUNDLE_VERSION@"]
-              [(builtins.readFile ../certs/fingerprints.txt) bundleVersion]
+              [
+                "@FINGERPRINTS@"
+                "@BUNDLE_VERSION@"
+              ]
+              [
+                (builtins.readFile ../certs/fingerprints.txt)
+                bundleVersion
+              ]
               (builtins.readFile ../certs/index.html));
           }
         ]
@@ -95,8 +116,12 @@
           }
         ];
         defaultGateway = "192.168.2.1";
-        nameservers = ["192.168.2.102"];
-        firewall.allowedTCPPorts = [2222];
+        nameservers = [
+          "192.168.2.102"
+        ];
+        firewall.allowedTCPPorts = [
+          2222
+        ];
       };
       fileSystems = {
         "/" = {
@@ -106,13 +131,20 @@
         "/srv/proxy" = {
           device = "/dev/disk/by-label/proxy-state";
           fsType = "ext4";
-          options = ["nofail" "x-systemd.device-timeout=11min"];
+          options = [
+            "nofail"
+            "x-systemd.device-timeout=11min"
+          ];
         };
       };
       boot = {
         loader.grub.device = lib.mkForce "/dev/vda";
-        initrd.availableKernelModules = ["virtio_blk"];
-        kernelParams = ["console=ttyS0"];
+        initrd.availableKernelModules = [
+          "virtio_blk"
+        ];
+        kernelParams = [
+          "console=ttyS0"
+        ];
       };
       services = {
         qemuGuest.enable = true;
@@ -144,18 +176,32 @@
       systemd.services = {
         certificate-releases = {
           description = "Preserve immutable public CA bundles on the proxy state disk";
-          wantedBy = ["multi-user.target"];
-          requiredBy = ["caddy.service"];
-          before = ["caddy.service"];
-          requires = ["srv-proxy.mount"];
-          after = ["srv-proxy.mount"];
+          wantedBy = [
+            "multi-user.target"
+          ];
+          requiredBy = [
+            "caddy.service"
+          ];
+          before = [
+            "caddy.service"
+          ];
+          requires = [
+            "srv-proxy.mount"
+          ];
+          after = [
+            "srv-proxy.mount"
+          ];
           unitConfig.AssertPathIsMountPoint = "/srv/proxy";
-          restartTriggers = [certificateRelease];
+          restartTriggers = [
+            certificateRelease
+          ];
           serviceConfig = {
             Type = "oneshot";
             RemainAfterExit = true;
           };
-          path = [pkgs.coreutils];
+          path = [
+            pkgs.coreutils
+          ];
           script = ''
             install -d -m 0755 /srv/proxy/certificates/releases
             destination=/srv/proxy/certificates/releases/${bundleVersion}
@@ -176,16 +222,24 @@
         };
         proxy-data-init = {
           description = "Initialize only the designated, zero-filled proxy data disk";
-          requiredBy = ["srv-proxy.mount"];
-          before = ["srv-proxy.mount"];
-          after = ["systemd-udev-trigger.service"];
+          requiredBy = [
+            "srv-proxy.mount"
+          ];
+          before = [
+            "srv-proxy.mount"
+          ];
+          after = [
+            "systemd-udev-trigger.service"
+          ];
           unitConfig.DefaultDependencies = false;
           serviceConfig = {
             Type = "oneshot";
             RemainAfterExit = true;
             TimeoutStartSec = "10min";
           };
-          path = [pkgs.coreutils];
+          path = [
+            pkgs.coreutils
+          ];
           script = ''
             for attempt in $(seq 1 15); do
               if [ -b /dev/disk/by-id/virtio-proxy-state ]; then
@@ -199,23 +253,39 @@
         };
         proxy-data-directories = {
           description = "Create Caddy directory only on the mounted proxy data disk";
-          requiredBy = ["caddy.service"];
-          before = ["caddy.service"];
-          requires = ["srv-proxy.mount"];
-          after = ["srv-proxy.mount"];
+          requiredBy = [
+            "caddy.service"
+          ];
+          before = [
+            "caddy.service"
+          ];
+          requires = [
+            "srv-proxy.mount"
+          ];
+          after = [
+            "srv-proxy.mount"
+          ];
           unitConfig.AssertPathIsMountPoint = "/srv/proxy";
           serviceConfig = {
             Type = "oneshot";
             RemainAfterExit = true;
           };
-          path = [pkgs.coreutils];
+          path = [
+            pkgs.coreutils
+          ];
           script = ''
             install -d -m 0700 -o caddy -g caddy /srv/proxy/caddy
           '';
         };
         caddy = {
-          requires = ["srv-proxy.mount" "proxy-data-directories.service"];
-          after = ["srv-proxy.mount" "proxy-data-directories.service"];
+          requires = [
+            "proxy-data-directories.service"
+            "srv-proxy.mount"
+          ];
+          after = [
+            "proxy-data-directories.service"
+            "srv-proxy.mount"
+          ];
           unitConfig.AssertPathIsMountPoint = "/srv/proxy";
         };
         forgejo-ssh = {
@@ -228,13 +298,19 @@
       };
       systemd.sockets.forgejo-ssh = {
         description = "Forgejo SSH entry point";
-        wantedBy = ["sockets.target"];
-        listenStreams = ["2222"];
+        wantedBy = [
+          "sockets.target"
+        ];
+        listenStreams = [
+          "2222"
+        ];
       };
 
       users.users.${main-user} = {
         isNormalUser = true;
-        extraGroups = ["wheel"];
+        extraGroups = [
+          "wheel"
+        ];
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDpqILWYPLnnke+4O3dAj61p8p+RghxZhTuP32TP6l07 david@nixos"
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJaTWrJGOvCf4dpAechU1ak3L+cylIrQtnjZsyMk/nSk david@nixos"

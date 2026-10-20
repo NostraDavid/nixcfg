@@ -11,7 +11,9 @@
   };
 
   services = {
-    xserver.videoDrivers = ["amdgpu"];
+    xserver.videoDrivers = [
+      "amdgpu"
+    ];
     power-profiles-daemon.enable = false;
     tlp = {
       enable = true;

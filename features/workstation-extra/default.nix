@@ -1,11 +1,21 @@
 {den, ...}: {
   den.aspects = {
     workstation-extra = {
-      includes = with den.aspects; [cloud];
-      homeManager = {imports = [./_default.nix];};
+      includes = with den.aspects; [
+        cloud
+      ];
+      homeManager = {
+        imports = [
+          ./_default.nix
+        ];
+      };
     };
     mediaTools = {
-      homeManager = {imports = [./_media-tools.nix];};
+      homeManager = {
+        imports = [
+          ./_media-tools.nix
+        ];
+      };
     };
   };
 }

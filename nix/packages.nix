@@ -57,17 +57,29 @@
 
     kdePackages = prev.kdePackages.overrideScope (_kdeFinal: kdePrev: {
       kwin = kdePrev.kwin.overrideAttrs (old: {
-        patches = (old.patches or []) ++ [../pkgs/kwin-zoom-per-monitor.patch];
+        patches =
+          (old.patches or [])
+          ++ [
+            ../pkgs/kwin-zoom-per-monitor.patch
+          ];
       });
       kwin-x11 = kdePrev.kwin-x11.overrideAttrs (old: {
-        patches = (old.patches or []) ++ [../pkgs/kwin-x11-zoom-per-monitor.patch];
+        patches =
+          (old.patches or [])
+          ++ [
+            ../pkgs/kwin-x11-zoom-per-monitor.patch
+          ];
       });
     });
   };
   overlay-build-tools = _final: prev: {
     moldStdenv = prev.useMoldLinker prev.stdenv;
   };
-  overlays = [overlay-fixes overlay-build-tools overlay-local];
+  overlays = [
+    overlay-fixes
+    overlay-build-tools
+    overlay-local
+  ];
   nixpkgsConfig.allowUnfree = true;
   unstableFor = system:
     import inputs.nixpkgs-unstable {

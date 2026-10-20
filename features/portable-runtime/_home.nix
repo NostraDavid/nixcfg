@@ -28,5 +28,7 @@
       unstable.tmux
       unstable.tree
     ]
-    ++ lib.optionals stable.stdenv.hostPlatform.isDarwin [unstable.cmux];
+    ++ lib.optionals stable.stdenv.hostPlatform.isDarwin [
+      unstable.cmux
+    ];
 }

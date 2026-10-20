@@ -13,12 +13,26 @@
     withHTTP = false;
     withTrain = false;
   };
-  mbrolaNl2 = stable.mbrola-voices.override {languages = ["nl2"];};
+  mbrolaNl2 = stable.mbrola-voices.override {
+    languages = [
+      "nl2"
+    ];
+  };
 in {
   config = lib.mkIf stable.stdenv.hostPlatform.isDarwin {
-    home.packages = [espeak piper stable.coreutils stable.gnused];
+    home.packages = [
+      espeak
+      piper
+      stable.coreutils
+      stable.gnused
+    ];
     home.file =
-      lib.genAttrs [".local/bin/say" ".local/bin/say-espeak-ng" ".local/bin/say-espeak-ng-mbrola" ".local/bin/say-piper-tts"]
+      lib.genAttrs [
+        ".local/bin/say"
+        ".local/bin/say-espeak-ng"
+        ".local/bin/say-espeak-ng-mbrola"
+        ".local/bin/say-piper-tts"
+      ]
       (name: {source = mk "${dot}/ndtk/.local/bin/${builtins.baseNameOf name}.sh";})
       // {
         ".config/say/espeak-ng-data".source = "${espeak}/share/espeak-ng-data";

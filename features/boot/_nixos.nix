@@ -17,7 +17,10 @@ _: {
     };
 
     # Enable USB automounting for external drives.
-    supportedFilesystems = ["exfat" "ntfs"];
+    supportedFilesystems = [
+      "exfat"
+      "ntfs"
+    ];
 
     kernel = {
       sysctl = {

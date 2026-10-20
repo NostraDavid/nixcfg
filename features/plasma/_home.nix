@@ -94,13 +94,18 @@
     ];
   };
 in {
-  home.activation.preparePlasmaBaloofile = lib.hm.dag.entryBetween ["configure-plasma"] ["writeBoundary"] ''
-    target="$HOME/.config/baloofilerc"
-    $DRY_RUN_CMD mkdir -p "$HOME/.config"
-    if [ -L "$target" ]; then
-      $DRY_RUN_CMD rm "$target"
-    fi
-  '';
+  home.activation.preparePlasmaBaloofile =
+    lib.hm.dag.entryBetween [
+      "configure-plasma"
+    ] [
+      "writeBoundary"
+    ] ''
+      target="$HOME/.config/baloofilerc"
+      $DRY_RUN_CMD mkdir -p "$HOME/.config"
+      if [ -L "$target" ]; then
+        $DRY_RUN_CMD rm "$target"
+      fi
+    '';
 
   # Take ownership of legacy direct-to-store unit symlinks, which HM cannot back up.
   xdg.configFile."systemd/user/drkonqi-coredump-launcher@.service".force = true;
@@ -109,7 +114,9 @@ in {
   systemd.user.services."drkonqi-coredump-launcher@" = {
     Unit = {
       Description = "Launch DrKonqi for a systemd-coredump crash";
-      PartOf = ["graphical-session.target"];
+      PartOf = [
+        "graphical-session.target"
+      ];
       ConditionUser = "!@system";
     };
     Service = {

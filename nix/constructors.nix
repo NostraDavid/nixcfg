@@ -11,7 +11,10 @@
       root = ../.;
       inherit class den;
       selected = selected entity;
-      required = lib.optionals (class == "homeManager") ["annotation" "mcp"];
+      required = lib.optionals (class == "homeManager") [
+        "annotation"
+        "mcp"
+      ];
     };
 in {
   homeManagerBootstrap = {
@@ -24,14 +27,19 @@ in {
     local,
     ...
   }: {
-    imports = [inputs.home-manager.nixosModules.home-manager];
+    imports = [
+      inputs.home-manager.nixosModules.home-manager
+    ];
     home-manager = {
       backupFileExtension = "hm.bak";
       useGlobalPkgs = true;
       useUserPackages = true;
       extraSpecialArgs = {inherit inputs hostname repoRoot stable unstable local;};
       users.${main-user} = {
-        imports = [inputs.plasma-manager.homeModules.plasma-manager inputs.codex-desktop-linux.homeManagerModules.default];
+        imports = [
+          inputs.codex-desktop-linux.homeManagerModules.default
+          inputs.plasma-manager.homeModules.plasma-manager
+        ];
         home = {
           username = main-user;
           homeDirectory = "/home/${main-user}";
@@ -72,7 +80,9 @@ in {
           })
         ]
         ++ lib.optional homeManager ({pkgs, ...}: {
-          imports = [inputs.home-manager.nixosModules.home-manager];
+          imports = [
+            inputs.home-manager.nixosModules.home-manager
+          ];
           home-manager = {
             backupFileExtension = "hm.bak";
             useGlobalPkgs = true;
@@ -82,7 +92,9 @@ in {
               stable = pkgs;
               local = mkLocal pkgs;
             };
-            sharedModules = [(guard "homeManager" entity)];
+            sharedModules = [
+              (guard "homeManager" entity)
+            ];
           };
         })
         ++ extraModules;
@@ -117,7 +129,9 @@ in {
             };
             nixpkgs = {
               config = nixpkgsConfig;
-              overlays = [(_final: _prev: {inherit (pkgsFor system) bashInteractive;})];
+              overlays = [
+                (_final: _prev: {inherit (pkgsFor system) bashInteractive;})
+              ];
             };
             home-manager = {
               backupFileExtension = "hm.bak";
@@ -129,7 +143,9 @@ in {
                 stable = pkgs;
                 local = mkLocal (pkgsFor system);
               };
-              sharedModules = [(guard "homeManager" entity)];
+              sharedModules = [
+                (guard "homeManager" entity)
+              ];
               users.${username}.imports = extraHomeModules;
             };
           })
@@ -145,7 +161,12 @@ in {
   in
     inputs.home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
-      modules = modules ++ [(guard "homeManager" entity)] ++ extraHomeModules;
+      modules =
+        modules
+        ++ [
+          (guard "homeManager" entity)
+        ]
+        ++ extraHomeModules;
       extraSpecialArgs = {
         inherit inputs;
         hostname = "mimir2";

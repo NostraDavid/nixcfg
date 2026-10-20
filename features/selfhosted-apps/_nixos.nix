@@ -32,14 +32,28 @@
     services = {
       huishoudboekje = {
         description = "Huishoudboekje web application";
-        after = ["network-online.target" "postgresql.service" "srv-apps.mount" "var-lib-postgresql.mount"];
-        requires = ["postgresql.service"];
-        wants = ["network-online.target"];
-        wantedBy = ["multi-user.target"];
+        after = [
+          "network-online.target"
+          "postgresql.service"
+          "srv-apps.mount"
+          "var-lib-postgresql.mount"
+        ];
+        requires = [
+          "postgresql.service"
+        ];
+        wants = [
+          "network-online.target"
+        ];
+        wantedBy = [
+          "multi-user.target"
+        ];
         unitConfig = {
           ConditionPathIsExecutable = "/opt/huishoudboekje/current/bin/huishoudboekje";
           ConditionPathIsMountPoint = "/srv/apps";
-          RequiresMountsFor = ["/srv/apps" "/var/lib/postgresql"];
+          RequiresMountsFor = [
+            "/srv/apps"
+            "/var/lib/postgresql"
+          ];
         };
         environment = {
           HOST = "127.0.0.1";
@@ -63,8 +77,14 @@
           ProtectKernelModules = true;
           ProtectKernelTunables = true;
           ProtectSystem = "strict";
-          ReadWritePaths = ["/srv/apps/huishoudboekje"];
-          RestrictAddressFamilies = ["AF_UNIX" "AF_INET" "AF_INET6"];
+          ReadWritePaths = [
+            "/srv/apps/huishoudboekje"
+          ];
+          RestrictAddressFamilies = [
+            "AF_UNIX"
+            "AF_INET"
+            "AF_INET6"
+          ];
           RestrictNamespaces = true;
           RestrictSUIDSGID = true;
           LockPersonality = true;
@@ -74,14 +94,28 @@
 
       recepten = {
         description = "Recepten en boodschappen web application";
-        after = ["network-online.target" "postgresql.service" "srv-apps.mount" "var-lib-postgresql.mount"];
-        requires = ["postgresql.service"];
-        wants = ["network-online.target"];
-        wantedBy = ["multi-user.target"];
+        after = [
+          "network-online.target"
+          "postgresql.service"
+          "srv-apps.mount"
+          "var-lib-postgresql.mount"
+        ];
+        requires = [
+          "postgresql.service"
+        ];
+        wants = [
+          "network-online.target"
+        ];
+        wantedBy = [
+          "multi-user.target"
+        ];
         unitConfig = {
           ConditionPathIsExecutable = "/opt/recepten/current/bin/recepten";
           ConditionPathIsMountPoint = "/srv/apps";
-          RequiresMountsFor = ["/srv/apps" "/var/lib/postgresql"];
+          RequiresMountsFor = [
+            "/srv/apps"
+            "/var/lib/postgresql"
+          ];
         };
         environment = {
           HOST = "127.0.0.1";
@@ -105,8 +139,14 @@
           ProtectKernelModules = true;
           ProtectKernelTunables = true;
           ProtectSystem = "strict";
-          ReadWritePaths = ["/srv/apps/recepten"];
-          RestrictAddressFamilies = ["AF_UNIX" "AF_INET" "AF_INET6"];
+          ReadWritePaths = [
+            "/srv/apps/recepten"
+          ];
+          RestrictAddressFamilies = [
+            "AF_UNIX"
+            "AF_INET"
+            "AF_INET6"
+          ];
           RestrictNamespaces = true;
           RestrictSUIDSGID = true;
           LockPersonality = true;
@@ -116,7 +156,9 @@
 
       postgresql.unitConfig = {
         ConditionPathIsMountPoint = "/var/lib/postgresql";
-        RequiresMountsFor = ["/var/lib/postgresql"];
+        RequiresMountsFor = [
+          "/var/lib/postgresql"
+        ];
       };
     };
   };

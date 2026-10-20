@@ -12,7 +12,9 @@
   };
   mkMimir2 = {extraHomeModules ? []}:
     (evaluate {
-      inventory = [../inventory/mimir2.nix];
+      inventory = [
+        ../inventory/mimir2.nix
+      ];
       mimir2Spec = {inherit extraHomeModules;};
     }).flake.homeConfigurations."david@mimir2";
   mkLoki = {
@@ -23,16 +25,18 @@
     hostname ? "loki",
   }:
     (evaluate {
-      inventory = [../inventory/loki.nix];
+      inventory = [
+        ../inventory/loki.nix
+      ];
       lokiSpec = {inherit extraDarwinModules extraHomeModules username homeDirectory hostname;};
     }).flake.darwinConfigurations.loki;
 in {
   imports = [
-    inputs.flake-parts.flakeModules.modules
-    ./outputs.nix
     ./forgejo-image.nix
-    ./proxy-image.nix
+    ./outputs.nix
     ./proxmox-lab.nix
+    ./proxy-image.nix
+    inputs.flake-parts.flakeModules.modules
   ];
   flake = {
     inherit (fleet.flake) nixosConfigurations darwinConfigurations homeConfigurations;

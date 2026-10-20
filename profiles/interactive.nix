@@ -1,5 +1,11 @@
 {den, ...}: {
   den.aspects.interactive = {
-    includes = with den.aspects; [mcp nix-index worktrunk annotation common-tooling];
+    includes = with den.aspects; [
+      annotation
+      common-tooling
+      mcp
+      nix-index
+      worktrunk
+    ];
   };
 }

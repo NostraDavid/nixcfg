@@ -386,32 +386,31 @@ before merging. These checks do not establish semantic redundancy.
 
 | Module | Lines | Only observed importer |
 | --- | ---: | --- |
-| [features/boot/_nixos.nix](../features/boot/_nixos.nix) | 38 | features/boot/default.nix |
-| [features/browsers/_home.nix](../features/browsers/_home.nix) | 50 | features/browsers/default.nix |
+| [features/boot/_nixos.nix](../features/boot/_nixos.nix) | 41 | features/boot/default.nix |
+| [features/browsers/_home.nix](../features/browsers/_home.nix) | 53 | features/browsers/default.nix |
 | [features/communication/_home.nix](../features/communication/_home.nix) | 10 | features/communication/default.nix |
 | [features/containers/_home.nix](../features/containers/_home.nix) | 15 | features/containers/default.nix |
 | [features/desktop-apps/_home.nix](../features/desktop-apps/_home.nix) | 21 | features/desktop-apps/default.nix |
-| [features/full-workstation-apps/_home.nix](../features/full-workstation-apps/_home.nix) | 13 | features/full-workstation-apps/default.nix |
+| [features/full-workstation-apps/_home.nix](../features/full-workstation-apps/_home.nix) | 15 | features/full-workstation-apps/default.nix |
 | [features/gaming/_nixos.nix](../features/gaming/_nixos.nix) | 10 | features/gaming/default.nix |
-| [features/homepage/_nixos.nix](../features/homepage/_nixos.nix) | 50 | features/homepage/default.nix |
+| [features/homepage/_nixos.nix](../features/homepage/_nixos.nix) | 52 | features/homepage/default.nix |
 | [features/hyprland/_nixos.nix](../features/hyprland/_nixos.nix) | 21 | features/hyprland/default.nix |
 | [features/i18n/_nixos.nix](../features/i18n/_nixos.nix) | 43 | features/i18n/default.nix |
 | [features/kde-runtime/_nixos.nix](../features/kde-runtime/_nixos.nix) | 30 | features/kde-runtime/default.nix |
 | [features/keyboard/_home.nix](../features/keyboard/_home.nix) | 11 | features/keyboard/default.nix |
-| [features/keyboard/_nixos.nix](../features/keyboard/_nixos.nix) | 7 | features/keyboard/default.nix |
-| [features/laptop/_nixos.nix](../features/laptop/_nixos.nix) | 32 | features/laptop/default.nix |
+| [features/keyboard/_nixos.nix](../features/keyboard/_nixos.nix) | 9 | features/keyboard/default.nix |
+| [features/laptop/_nixos.nix](../features/laptop/_nixos.nix) | 34 | features/laptop/default.nix |
 | [features/location/_nixos.nix](../features/location/_nixos.nix) | 7 | features/location/default.nix |
-| [features/media/_apps.nix](../features/media/_apps.nix) | 39 | features/media/default.nix |
+| [features/media/_apps.nix](../features/media/_apps.nix) | 46 | features/media/default.nix |
 | [features/media/_tools.nix](../features/media/_tools.nix) | 31 | features/media/default.nix |
 | [features/plasma/_nixos.nix](../features/plasma/_nixos.nix) | 12 | features/plasma/default.nix |
-| [features/proxmox-vm/_nixos.nix](../features/proxmox-vm/_nixos.nix) | 58 | features/proxmox-vm/default.nix |
 | [features/server-locale/_nixos.nix](../features/server-locale/_nixos.nix) | 8 | features/server-locale/default.nix |
-| [features/server-nix/_nixos.nix](../features/server-nix/_nixos.nix) | 22 | features/server-nix/default.nix |
+| [features/server-nix/_nixos.nix](../features/server-nix/_nixos.nix) | 25 | features/server-nix/default.nix |
 | [features/storage-optimization/_nixos.nix](../features/storage-optimization/_nixos.nix) | 17 | features/storage-optimization/default.nix |
 | [features/whatpulse/_home.nix](../features/whatpulse/_home.nix) | 11 | features/whatpulse/default.nix |
-| [features/whatpulse/_nixos.nix](../features/whatpulse/_nixos.nix) | 41 | features/whatpulse/default.nix |
+| [features/whatpulse/_nixos.nix](../features/whatpulse/_nixos.nix) | 57 | features/whatpulse/default.nix |
 | [features/workstation-extra/_development-core.nix](../features/workstation-extra/_development-core.nix) | 37 | features/workstation-extra/_development-packages.nix |
-| [features/workstation-extra/_development-mantle.nix](../features/workstation-extra/_development-mantle.nix) | 19 | features/workstation-extra/_development-default.nix |
+| [features/workstation-extra/_development-mantle.nix](../features/workstation-extra/_development-mantle.nix) | 22 | features/workstation-extra/_development-default.nix |
 | [features/workstation-extra/_development-packages.nix](../features/workstation-extra/_development-packages.nix) | 7 | features/workstation-extra/_development-default.nix |
 | [features/workstation-extra/_development-security.nix](../features/workstation-extra/_development-security.nix) | 9 | features/workstation-extra/_development-packages.nix |
 | [features/workstation-extra/_development-tooling.nix](../features/workstation-extra/_development-tooling.nix) | 30 | features/workstation-extra/_development-packages.nix |
@@ -421,7 +420,7 @@ before merging. These checks do not establish semantic redundancy.
 | [features/workstation-extra/_terminal-packages.nix](../features/workstation-extra/_terminal-packages.nix) | 9 | features/workstation-extra/_terminal-default.nix |
 | [features/workstation-extra/_terminal-shell.nix](../features/workstation-extra/_terminal-shell.nix) | 32 | features/workstation-extra/_terminal-packages.nix |
 | [features/workstation-extra/_terminal-system.nix](../features/workstation-extra/_terminal-system.nix) | 27 | features/workstation-extra/_terminal-packages.nix |
-| [features/workstation-runtime/_nixos.nix](../features/workstation-runtime/_nixos.nix) | 56 | features/workstation-runtime/default.nix |
+| [features/workstation-runtime/_nixos.nix](../features/workstation-runtime/_nixos.nix) | 58 | features/workstation-runtime/default.nix |
 
 ## Machine-module matrix
 

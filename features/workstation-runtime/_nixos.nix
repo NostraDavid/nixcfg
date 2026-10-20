@@ -26,7 +26,9 @@
     };
     nix-ld = {
       enable = true;
-      libraries = [stable.freetype];
+      libraries = [
+        stable.freetype
+      ];
     };
     firefox = {
       enable = true;

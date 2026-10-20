@@ -1,5 +1,9 @@
 _: {
   den.aspects.workstation-runtime = {
-    nixos = {imports = [./_nixos.nix];};
+    nixos = {
+      imports = [
+        ./_nixos.nix
+      ];
+    };
   };
 }

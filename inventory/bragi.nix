@@ -11,17 +11,21 @@
       homeManager = true;
     };
     users.david = {
-      classes = ["homeManager"];
-      aspect.includes = [den.batteries.host-aspects];
+      classes = [
+        "homeManager"
+      ];
+      aspect.includes = [
+        den.batteries.host-aspects
+      ];
     };
   };
 
   den.aspects.host-bragi = {
     includes = with den.aspects; [
+      codex-browser
       desktop-base
       hyprland
       keyboard
-      codex-browser
     ];
     nixos = {
       lib,

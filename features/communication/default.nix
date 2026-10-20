@@ -1,10 +1,18 @@
 _: {
   den.aspects = {
     communication = {
-      homeManager = {imports = [./_home.nix];};
+      homeManager = {
+        imports = [
+          ./_home.nix
+        ];
+      };
     };
     work-communication = {
-      homeManager = {imports = [./_work.nix];};
+      homeManager = {
+        imports = [
+          ./_work.nix
+        ];
+      };
     };
   };
 }

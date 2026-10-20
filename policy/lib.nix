@@ -55,13 +55,22 @@
       id = "profiles/${name}";
       inherit path;
     }
-    else if builtins.elem area ["inventory" "hosts" "servers"]
+    else if
+      builtins.elem area [
+        "inventory"
+        "hosts"
+        "servers"
+      ]
     then {
       kind = "host";
       id = "inventory/${lib.removeSuffix ".nix" name}";
       inherit path;
     }
-    else if builtins.elem area ["nix" "policy"]
+    else if
+      builtins.elem area [
+        "nix"
+        "policy"
+      ]
     then {
       kind = "infrastructure";
       id = area;
@@ -78,8 +87,18 @@
     == "infrastructure"
     || to.kind == "infrastructure"
     || from.id == to.id
-    || (from.kind == "host" && builtins.elem to.kind ["feature" "profile"])
-    || (from.kind == "profile" && builtins.elem to.kind ["feature" "profile"])
+    || (from.kind
+      == "host"
+      && builtins.elem to.kind [
+        "feature"
+        "profile"
+      ])
+    || (from.kind
+      == "profile"
+      && builtins.elem to.kind [
+        "feature"
+        "profile"
+      ])
     || (from.kind == "feature" && to.kind == "feature");
   format = report: lib.concatMapStringsSep "\n" (v: "${v.rule}: ${v.source} -> ${v.target}: ${v.message}") report;
 in {

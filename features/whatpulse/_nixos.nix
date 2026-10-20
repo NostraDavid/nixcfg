@@ -7,15 +7,25 @@
 
   users = {
     groups.uinput = {};
-    users.${main-user}.extraGroups = ["uinput"];
+    users.${main-user}.extraGroups = [
+      "uinput"
+    ];
   };
 
   systemd.services.whatpulse-pcap-service = {
     description = "WhatPulse PCap Service";
-    documentation = ["https://whatpulse.org/"];
-    after = ["network.target"];
-    wants = ["network.target"];
-    wantedBy = ["multi-user.target"];
+    documentation = [
+      "https://whatpulse.org/"
+    ];
+    after = [
+      "network.target"
+    ];
+    wants = [
+      "network.target"
+    ];
+    wantedBy = [
+      "multi-user.target"
+    ];
     serviceConfig = {
       Type = "simple";
       User = "root";
@@ -32,8 +42,14 @@
       ProtectControlGroups = true;
       RestrictRealtime = true;
       RestrictNamespaces = true;
-      CapabilityBoundingSet = ["CAP_NET_RAW" "CAP_NET_ADMIN"];
-      AmbientCapabilities = ["CAP_NET_RAW" "CAP_NET_ADMIN"];
+      CapabilityBoundingSet = [
+        "CAP_NET_RAW"
+        "CAP_NET_ADMIN"
+      ];
+      AmbientCapabilities = [
+        "CAP_NET_RAW"
+        "CAP_NET_ADMIN"
+      ];
       StandardOutput = "journal";
       StandardError = "journal";
     };

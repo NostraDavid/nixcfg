@@ -8,7 +8,9 @@
   wowStockDxvkConfig = stable.writeText "wow-dxvk-defaults.conf" "# Use DXVK defaults and built-in game compatibility settings.\n";
   wowGplall =
     stable.runCommand "wow-dxvk-gplall-2.6.8-2" {
-      nativeBuildInputs = [stable.unzip];
+      nativeBuildInputs = [
+        stable.unzip
+      ];
       src = stable.fetchurl {
         url = "https://github.com/Digger1955/dxvk-gplall/releases/download/DXVK-GPLALL-2.6.8-2/DXVK-GPLALL-GCC-WinMacLinux-SSE2-O3-LTO.2.6.8-2.zip";
         hash = "sha256-Q5Gx2hkjCsF1SoCrBzEj7dmCMYdhUfpm50XFRT+nRyk=";
@@ -38,7 +40,11 @@
   inline = {
     warcraft-remastered = stable.writeShellApplication {
       name = "warcraft-remastered";
-      runtimeInputs = [stable.coreutils stable.util-linux warcraftWine];
+      runtimeInputs = [
+        stable.coreutils
+        stable.util-linux
+        warcraftWine
+      ];
       text = ''
         export WINEARCH=win64
         export WINEPREFIX="''${XDG_DATA_HOME:-$HOME/.local/share}/wineprefixes/warcraft-remastered"
@@ -91,7 +97,11 @@
     };
     wow-wotlk = stable.writeShellApplication {
       name = "wow-wotlk";
-      runtimeInputs = [stable.coreutils stable.procps stable.util-linux];
+      runtimeInputs = [
+        stable.coreutils
+        stable.procps
+        stable.util-linux
+      ];
       text = ''
         renderer=gplall
         profile=true
@@ -187,7 +197,10 @@ in {
       name = "Warcraft I Remastered";
       exec = "warcraft-remastered 1";
       terminal = false;
-      categories = ["Game" "StrategyGame"];
+      categories = [
+        "Game"
+        "StrategyGame"
+      ];
       icon = "wine";
     };
 
@@ -195,7 +208,10 @@ in {
       name = "Warcraft II Remastered";
       exec = "warcraft-remastered 2";
       terminal = false;
-      categories = ["Game" "StrategyGame"];
+      categories = [
+        "Game"
+        "StrategyGame"
+      ];
       icon = "wine";
     };
 
@@ -203,7 +219,9 @@ in {
       name = "WoW";
       exec = "env DXVK_FRAME_RATE=165 wow-wotlk --gplall --stock-config --profile";
       terminal = false;
-      categories = ["Game"];
+      categories = [
+        "Game"
+      ];
       comment = "Launch WoW 3.3.5a with DXVK, a 165 FPS limit and a frame-time graph";
       icon = "${./assets/wow.png}";
     };

@@ -7,7 +7,9 @@
   package = stable.callPackage ../../pkgs/qartez {};
 in
   lib.mkIf (lib.elem stable.stdenv.hostPlatform.system package.meta.platforms) {
-    home.packages = [package];
+    home.packages = [
+      package
+    ];
     programs.pi.coding-agent.mcp.mcpServers.qartez = {
       command = "${config.home.homeDirectory}/.local/bin/qartez";
       description = "Indexed code navigation, source lookup and impact analysis";

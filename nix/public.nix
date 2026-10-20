@@ -69,7 +69,14 @@
     "work-communication"
     "workstation"
   ];
-  desktopRoles = ["desktop-base" "desktop" "workstation-base" "kde-workstation" "i3-workstation" "full-workstation"];
+  desktopRoles = [
+    "desktop"
+    "desktop-base"
+    "full-workstation"
+    "i3-workstation"
+    "kde-workstation"
+    "workstation-base"
+  ];
   aspect = name:
     den.aspects.${
       if name == "wodan-home"
@@ -80,7 +87,12 @@
     };
   publicAspect = name: class:
     if name == "development-lab" && class == "nixos"
-    then {includes = with den.aspects; [development-lab gamedev-forge];}
+    then {
+      includes = with den.aspects; [
+        development-lab
+        gamedev-forge
+      ];
+    }
     else aspect name;
   resolve = name: class: den.lib.aspects.resolveImports class (publicAspect name class);
   nixosModule = name: let
@@ -92,10 +104,14 @@
     else
       {main-user, ...}: {
         imports =
-          [(resolve name "nixos")]
+          [
+            (resolve name "nixos")
+          ]
           ++ lib.optional (builtins.elem name desktopRoles) constructors.homeManagerBootstrap;
         config = lib.mkIf (home.imports != []) {
-          home-manager.users.${main-user}.imports = [home];
+          home-manager.users.${main-user}.imports = [
+            home
+          ];
         };
       };
 in {

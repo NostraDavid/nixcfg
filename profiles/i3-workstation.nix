@@ -1,5 +1,8 @@
 {den, ...}: {
   den.aspects.i3-workstation = {
-    includes = with den.aspects; [workstation-base i3];
+    includes = with den.aspects; [
+      i3
+      workstation-base
+    ];
   };
 }

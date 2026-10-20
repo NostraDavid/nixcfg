@@ -5,8 +5,18 @@
   ...
 }: {
   boot = {
-    initrd.availableKernelModules = ["ata_piix" "uhci_hcd" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"];
-    kernelModules = ["kvm-intel" "kvm-amd"];
+    initrd.availableKernelModules = [
+      "ata_piix"
+      "uhci_hcd"
+      "virtio_pci"
+      "virtio_scsi"
+      "sd_mod"
+      "sr_mod"
+    ];
+    kernelModules = [
+      "kvm-intel"
+      "kvm-amd"
+    ];
     loader.grub = {
       enable = true;
       device = "/dev/sda";
@@ -15,11 +25,11 @@
   };
 
   environment.systemPackages = [
+    stable.btop
     stable.curl
     stable.git
-    stable.btop
-    stable.vim
     stable.neovim
+    stable.vim
   ];
 
   networking = {
@@ -33,12 +43,17 @@
     };
   };
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   services.openssh = {
     enable = true;
     openFirewall = false;
     settings = {
-      AllowUsers = [main-user];
+      AllowUsers = [
+        main-user
+      ];
       KbdInteractiveAuthentication = false;
       PasswordAuthentication = false;
       PermitRootLogin = "no";

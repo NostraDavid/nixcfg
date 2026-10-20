@@ -17,7 +17,10 @@ in {
     onActivation.cleanup = "none";
   };
 
-  environment.systemPackages = [karabiner altTab];
+  environment.systemPackages = [
+    altTab
+    karabiner
+  ];
 
   system.activationScripts.preActivation.text = ''
     PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/usr/local/bin:$PATH" \
@@ -33,7 +36,11 @@ in {
   };
 
   launchd.user.agents.alt-tab.serviceConfig = {
-    ProgramArguments = ["/usr/bin/open" "-a" "${altTab}/Applications/AltTab.app"];
+    ProgramArguments = [
+      "/usr/bin/open"
+      "-a"
+      "${altTab}/Applications/AltTab.app"
+    ];
     RunAtLoad = true;
   };
 }

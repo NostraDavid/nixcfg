@@ -23,7 +23,9 @@
       networking.hostName = "apps";
       users.users.${main-user} = {
         isNormalUser = true;
-        extraGroups = ["wheel"];
+        extraGroups = [
+          "wheel"
+        ];
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDpqILWYPLnnke+4O3dAj61p8p+RghxZhTuP32TP6l07 david@nixos"
         ];
@@ -32,12 +34,18 @@
         "/var/lib/postgresql" = {
           device = "/dev/disk/by-label/apps-postgres";
           fsType = "ext4";
-          options = ["nofail" "x-systemd.device-timeout=10s"];
+          options = [
+            "nofail"
+            "x-systemd.device-timeout=10s"
+          ];
         };
         "/srv/apps" = {
           device = "/dev/disk/by-label/apps-data";
           fsType = "ext4";
-          options = ["nofail" "x-systemd.device-timeout=10s"];
+          options = [
+            "nofail"
+            "x-systemd.device-timeout=10s"
+          ];
         };
       };
       system.stateVersion = "25.11";

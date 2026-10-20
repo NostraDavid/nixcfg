@@ -12,8 +12,8 @@
 
   den.aspects.host-homepage = {
     includes = with den.aspects; [
-      proxmox-guest
       homepage
+      proxmox-guest
     ];
     nixos = {main-user, ...}: {
       imports = [
@@ -23,7 +23,9 @@
       networking.hostName = "homepage";
       users.users.${main-user} = {
         isNormalUser = true;
-        extraGroups = ["wheel"];
+        extraGroups = [
+          "wheel"
+        ];
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDpqILWYPLnnke+4O3dAj61p8p+RghxZhTuP32TP6l07 david@nixos"
         ];
@@ -31,7 +33,10 @@
       fileSystems."/var/lib/homepage" = {
         device = "/dev/disk/by-label/homepage-data";
         fsType = "ext4";
-        options = ["nofail" "x-systemd.device-timeout=10s"];
+        options = [
+          "nofail"
+          "x-systemd.device-timeout=10s"
+        ];
       };
       system.stateVersion = "25.11";
     };

@@ -8,12 +8,15 @@
   mk = path: config.lib.file.mkOutOfStoreSymlink path;
   forceAll = builtins.mapAttrs (_: file: file // {force = true;});
 in {
-  home.activation.removeClaudeConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    $DRY_RUN_CMD rm -f \
-      ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json"} \
-      ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json.before-headroom"} \
-      ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json.before-agent-memory"}
-  '';
+  home.activation.removeClaudeConfig =
+    lib.hm.dag.entryAfter [
+      "writeBoundary"
+    ] ''
+      $DRY_RUN_CMD rm -f \
+        ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json"} \
+        ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json.before-headroom"} \
+        ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json.before-agent-memory"}
+    '';
 
   home.file = forceAll {
     ".local/bin/clip".source = mk "${dot}/ndtk/.local/bin/clip.sh";

@@ -3,7 +3,9 @@
   stable,
   ...
 }: {
-  imports = [./_taskbar.nix];
+  imports = [
+    ./_taskbar.nix
+  ];
 
   home.packages = [
     local.chatgpt # Official ChatGPT desktop application

@@ -27,31 +27,34 @@ in {
   };
 
   # Karabiner watches a writable regular file, so merge rather than symlink it.
-  home.activation.karabinerProfile = lib.hm.dag.entryAfter ["linkGeneration"] ''
-    if [[ -n "''${DRY_RUN_CMD:-}" ]]; then
-      echo "Would update the Windows Keyboard for Mac profile"
-    else
-      (
-        set -euo pipefail
-        karabiner_dir=${lib.escapeShellArg "${config.home.homeDirectory}/.config/karabiner"}
-        mkdir -p "$karabiner_dir"
-        target="$karabiner_dir/karabiner.json"
-        temporary=$(mktemp "$karabiner_dir/karabiner.json.XXXXXX")
-        trap 'rm -f "$temporary"' EXIT
-        if [[ -e "$target" || -L "$target" ]]; then
-          cat "$target"
-        else
-          printf '{"profiles":[]}\n'
-        fi | ${stable.jq}/bin/jq --slurp --exit-status --slurpfile profile ${profileSource} \
-          --from-file ${./karabiner-profile.jq} > "$temporary"
-        if ! cmp -s "$temporary" "$target"; then
+  home.activation.karabinerProfile =
+    lib.hm.dag.entryAfter [
+      "linkGeneration"
+    ] ''
+      if [[ -n "''${DRY_RUN_CMD:-}" ]]; then
+        echo "Would update the Windows Keyboard for Mac profile"
+      else
+        (
+          set -euo pipefail
+          karabiner_dir=${lib.escapeShellArg "${config.home.homeDirectory}/.config/karabiner"}
+          mkdir -p "$karabiner_dir"
+          target="$karabiner_dir/karabiner.json"
+          temporary=$(mktemp "$karabiner_dir/karabiner.json.XXXXXX")
+          trap 'rm -f "$temporary"' EXIT
           if [[ -e "$target" || -L "$target" ]]; then
-            backup=$(mktemp "$karabiner_dir/karabiner.json.nixcfg-backup.XXXXXX")
-            cp -p "$target" "$backup"
+            cat "$target"
+          else
+            printf '{"profiles":[]}\n'
+          fi | ${stable.jq}/bin/jq --slurp --exit-status --slurpfile profile ${profileSource} \
+            --from-file ${./karabiner-profile.jq} > "$temporary"
+          if ! cmp -s "$temporary" "$target"; then
+            if [[ -e "$target" || -L "$target" ]]; then
+              backup=$(mktemp "$karabiner_dir/karabiner.json.nixcfg-backup.XXXXXX")
+              cp -p "$target" "$backup"
+            fi
+            mv -f "$temporary" "$target"
           fi
-          mv -f "$temporary" "$target"
-        fi
-      )
-    fi
-  '';
+        )
+      fi
+    '';
 }

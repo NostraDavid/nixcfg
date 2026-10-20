@@ -3,7 +3,10 @@
   stable,
   ...
 }: {
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   networking = {
     networkmanager.enable = true;
@@ -43,7 +46,12 @@
     users.${main-user} = {
       isNormalUser = true;
       description = "";
-      extraGroups = ["networkmanager" "wheel" "hidraw" "input"];
+      extraGroups = [
+        "hidraw"
+        "input"
+        "networkmanager"
+        "wheel"
+      ];
     };
   };
 

@@ -17,5 +17,7 @@
     inherit (extendModules {}) graph;
   };
 in {
-  assertions = [result.assertion];
+  assertions = [
+    result.assertion
+  ];
 }

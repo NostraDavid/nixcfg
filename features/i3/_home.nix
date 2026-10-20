@@ -16,15 +16,15 @@
   };
 in {
   home.packages = [
+    inline.showDesktop
     stable.brightnessctl
     stable.dmenu
     stable.i3lock
     stable.i3status
     stable.kdePackages.dolphin
-    stable.kdePackages.spectacle
     stable.kdePackages.kwallet
+    stable.kdePackages.spectacle
     stable.networkmanagerapplet
     stable.pavucontrol
-    inline.showDesktop
   ];
 }

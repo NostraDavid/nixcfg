@@ -1,5 +1,9 @@
 _: {
   den.aspects.cachix = {
-    nixos = {imports = [./_nixos.nix];};
+    nixos = {
+      imports = [
+        ./_nixos.nix
+      ];
+    };
   };
 }

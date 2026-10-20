@@ -1,25 +1,59 @@
 {den, ...}: {
   den.aspects = {
     development-core = {
-      includes = with den.aspects; [qartez pi];
-      homeManager = {imports = [./_core.nix];};
+      includes = with den.aspects; [
+        pi
+        qartez
+      ];
+      homeManager = {
+        imports = [
+          ./_core.nix
+        ];
+      };
     };
     development-mantle = {
-      includes = with den.aspects; [agent-memory headroom];
-      homeManager = {imports = [./_mantle.nix];};
+      includes = with den.aspects; [
+        agent-memory
+        headroom
+      ];
+      homeManager = {
+        imports = [
+          ./_mantle.nix
+        ];
+      };
     };
     development = {
-      includes = with den.aspects; [development-core development-mantle];
-      homeManager = {imports = [./_security.nix ./_tooling.nix];};
+      includes = with den.aspects; [
+        development-core
+        development-mantle
+      ];
+      homeManager = {
+        imports = [
+          ./_security.nix
+          ./_tooling.nix
+        ];
+      };
     };
     development-lab = {
-      homeManager = {imports = [./_lab.nix];};
+      homeManager = {
+        imports = [
+          ./_lab.nix
+        ];
+      };
     };
     gamedev-forge = {
-      homeManager = {imports = [./_gamedev-forge.nix];};
+      homeManager = {
+        imports = [
+          ./_gamedev-forge.nix
+        ];
+      };
     };
     cloud = {
-      homeManager = {imports = [./_cloud.nix];};
+      homeManager = {
+        imports = [
+          ./_cloud.nix
+        ];
+      };
     };
   };
 }

@@ -1,6 +1,12 @@
 _: {
   den.aspects.laptop = {
-    meta.platforms = ["linux"];
-    nixos = {imports = [./_nixos.nix];};
+    meta.platforms = [
+      "linux"
+    ];
+    nixos = {
+      imports = [
+        ./_nixos.nix
+      ];
+    };
   };
 }

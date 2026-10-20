@@ -14,9 +14,9 @@ in {
 
   den.aspects.host-forgejo-lab = {
     includes = with den.aspects; [
+      forgejo
       server-locale
       server-nix
-      forgejo
     ];
     nixos = {
       modulesPath,
@@ -38,7 +38,9 @@ in {
           }
         ];
         defaultGateway = settings.gateway;
-        nameservers = [settings.gateway];
+        nameservers = [
+          settings.gateway
+        ];
       };
       nixcfg.forgejo = {
         enable = true;
@@ -57,7 +59,9 @@ in {
           enable = true;
           device = "/dev/vda";
         };
-        kernelParams = ["console=ttyS0"];
+        kernelParams = [
+          "console=ttyS0"
+        ];
         loader.timeout = 1;
       };
       services.qemuGuest.enable = true;
@@ -71,16 +75,26 @@ in {
       };
       users.users.david = {
         isNormalUser = true;
-        extraGroups = ["wheel"];
-        openssh.authorizedKeys.keys = [settings.sshPublicKey];
+        extraGroups = [
+          "wheel"
+        ];
+        openssh.authorizedKeys.keys = [
+          settings.sshPublicKey
+        ];
       };
       security.sudo.wheelNeedsPassword = false;
-      environment.systemPackages = [pkgs.git pkgs.curl];
+      environment.systemPackages = [
+        pkgs.curl
+        pkgs.git
+      ];
       time.timeZone = "Europe/Amsterdam";
       fileSystems."/srv/forgejo" = {
         device = "/dev/disk/by-label/forgejo-state";
         fsType = "ext4";
-        options = ["nofail" "x-systemd.device-timeout=11min"];
+        options = [
+          "nofail"
+          "x-systemd.device-timeout=11min"
+        ];
       };
       system.stateVersion = "26.05";
     };

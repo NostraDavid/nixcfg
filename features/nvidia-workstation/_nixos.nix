@@ -13,7 +13,9 @@
   };
 
   services = {
-    xserver.videoDrivers = ["nvidia"];
+    xserver.videoDrivers = [
+      "nvidia"
+    ];
     udev.extraRules = ''
       # Nvidia GPU power management - keep GPU powered on when in use
       ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{power/control}="on"
@@ -42,13 +44,13 @@
       MOZ_DRM_DEVICE = "/dev/dri/by-path/pci-0000:79:00.0-render";
     };
     systemPackages = [
-      stable.android-tools
       local.espeak-ng
-      stable.flite
-      stable.libva-utils
+      stable.android-tools
       stable.cudaPackages.cudatoolkit
       stable.cudaPackages.cudnn
       stable.cudaPackages.nccl
+      stable.flite
+      stable.libva-utils
       stable.nvtopPackages.full
     ];
     # Keep Wayland sessions hidden so SDDM only offers X11.

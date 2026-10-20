@@ -7,7 +7,9 @@
   inherit (packageSets) pkgsFor unstableFor mkLocal;
   inherit (self.lib) mkMimir2;
 in {
-  systems = ["x86_64-linux"];
+  systems = [
+    "x86_64-linux"
+  ];
   flake.overlays.default = packageSets.overlay-local;
   flake.packages.aarch64-darwin.video-explainer = (pkgsFor "aarch64-darwin").video-explainer;
   perSystem = {system, ...}: let
@@ -43,7 +45,10 @@ in {
 
       video-explainer =
         stable.runCommand "video-explainer-check" {
-          nativeBuildInputs = [stable.video-explainer stable.ffmpeg];
+          nativeBuildInputs = [
+            stable.video-explainer
+            stable.ffmpeg
+          ];
         } ''
           export HOME="$TMPDIR/home"
           mkdir -p "$HOME"

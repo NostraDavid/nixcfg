@@ -62,7 +62,9 @@
 in {
   options.nixcfg.plasma.taskbarScreens = lib.mkOption {
     type = lib.types.listOf lib.types.ints.unsigned;
-    default = [0];
+    default = [
+      0
+    ];
     description = "Screen indices that receive the full-workstation Plasma taskbar.";
   };
 

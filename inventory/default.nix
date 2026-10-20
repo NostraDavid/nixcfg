@@ -3,13 +3,13 @@
     ./apps.nix
     ./bragi.nix
     ./donar.nix
-    ./forgejo.nix
     ./forgejo-lab.nix
+    ./forgejo.nix
     ./frigg.nix
     ./homepage.nix
-    ./proxy.nix
-    ./wodan.nix
     ./loki.nix
     ./mimir2.nix
+    ./proxy.nix
+    ./wodan.nix
   ];
 }

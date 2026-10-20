@@ -12,7 +12,9 @@
     if builtins.isList value
     then lib.concatMap references value
     else if builtins.isAttrs value && !(lib.isDerivation value)
-    then [value]
+    then [
+      value
+    ]
     else [];
   children = aspect: references (aspect.includes or []);
   entities =
@@ -41,14 +43,22 @@
         && dependency ? meta
         && dependency.meta ? file
         && den.lib.aspects.isMeaningfulName dependency.name)) (lib.flatten (aspect.includes or []));
-    classes = builtins.filter (class: aspect ? ${class}) ["nixos" "darwin" "homeManager"];
+    classes = builtins.filter (class: aspect ? ${class}) [
+      "nixos"
+      "darwin"
+      "homeManager"
+    ];
   in
     if source == null
     then []
     else
       lib.optional (source.kind == "unknown")
       (violation "unknown-owner" source.path name "Move the implementation into its responsibility directory.")
-      ++ lib.optional (builtins.elem source.kind ["feature" "profile"] && opaque != [])
+      ++ lib.optional (builtins.elem source.kind [
+          "feature"
+          "profile"
+        ]
+        && opaque != [])
       (violation "opaque-include" source.path name "Feature and profile dependencies must be concrete named aspect references; dynamic selection belongs to inventory.")
       ++ lib.optional (source.kind == "profile" && classes != [])
       (violation "profile-implementation" source.path name "Profiles compose aspects; class implementations belong to features."))
@@ -59,7 +69,11 @@
   in
     if builtins.elem key stack
     then lib.optional (owned aspect != null) (violation "include-cycle" (lib.concatStringsSep " -> " stack) key "Aspect includes form a cycle.")
-    else lib.concatMap (visit (stack ++ [key])) (children aspect);
+    else
+      lib.concatMap (visit (stack
+        ++ [
+          key
+        ])) (children aspect);
   cycleViolations = lib.concatMap (name: visit [] aspects.${name}) names;
   platformViolations = lib.concatMap (entity: let
     system = entity.system or entity.host.system;
@@ -71,7 +85,14 @@
     lib.concatMap (aspect: let
       platforms = aspect.meta.platforms or null;
       source = owned aspect;
-      validPlatforms = builtins.isList platforms && builtins.all (value: builtins.elem value ["linux" "darwin"]) platforms;
+      validPlatforms =
+        builtins.isList platforms
+        && builtins.all (value:
+          builtins.elem value [
+            "linux"
+            "darwin"
+          ])
+        platforms;
     in
       lib.optional (platforms != null && (!validPlatforms || !(builtins.elem platform platforms)))
       (violation "feature-platform" (

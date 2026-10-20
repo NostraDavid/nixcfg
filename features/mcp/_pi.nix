@@ -10,7 +10,9 @@
   dot = "${repoRoot}/dotfiles/pi-1.2.0/.pi/agent";
   mk = config.lib.file.mkOutOfStoreSymlink;
 in {
-  imports = [inputs.pi.homeModules.default];
+  imports = [
+    inputs.pi.homeModules.default
+  ];
 
   home.packages = [
     unstable.tmux # pi-term requires tmux for persistent interactive terminals; Zellij is not supported.

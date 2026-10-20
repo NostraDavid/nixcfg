@@ -10,8 +10,8 @@
   };
 in {
   home.packages = [
-    stable.slack # Work chat; intentionally excluded from lean workstations
     local.espeak-ng # Includes the compiled pronunciation dictionary
     piperTts # Neural speech synthesis for say-piper-tts
+    stable.slack # Work chat; intentionally excluded from lean workstations
   ];
 }

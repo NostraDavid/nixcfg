@@ -46,24 +46,71 @@
     else [];
   identityPaths =
     if class == "homeManager"
-    then [["home" "username"] ["home" "homeDirectory"] ["home" "stateVersion"]]
-    else [["networking" "hostName"] ["system" "stateVersion"] ["fileSystems"]];
+    then [
+      [
+        "home"
+        "username"
+      ]
+      [
+        "home"
+        "homeDirectory"
+      ]
+      [
+        "home"
+        "stateVersion"
+      ]
+    ]
+    else [
+      [
+        "networking"
+        "hostName"
+      ]
+      [
+        "system"
+        "stateVersion"
+      ]
+      [
+        "fileSystems"
+      ]
+    ];
   identity = lib.concatMap (path:
     lib.concatMap (definition: let
       source = owner definition.file;
     in
-      lib.optional (source != null && builtins.elem source.kind ["feature" "profile"])
+      lib.optional (source
+        != null
+        && builtins.elem source.kind [
+          "feature"
+          "profile"
+        ])
       (violation "host-value-owner" source.path (lib.concatStringsSep "." path) "Identity, state version and device assignments belong to inventory or hardware.")) (definitions path))
   identityPaths;
   home = config.home or {};
   packages = home.packages or [];
   hasPackage = pname: builtins.any (pkg: lib.toLower (pkg.pname or (lib.getName pkg)) == pname) packages;
-  servers = lib.attrByPath ["programs" "pi" "coding-agent" "mcp" "mcpServers"] {} config;
+  servers =
+    lib.attrByPath [
+      "programs"
+      "pi"
+      "coding-agent"
+      "mcp"
+      "mcpServers"
+    ] {}
+    config;
   localServers = lib.filterAttrs (_: server: server ? command) servers;
   homeFiles = home.file or {};
   homePath = home.homeDirectory or "";
   hasFeature = name: builtins.elem name selected;
-  requiredServers = ["agent-memory" "chrome-devtools" "dbhub" "headroom" "nixos" "node_repl" "playwright" "qartez"];
+  requiredServers = [
+    "agent-memory"
+    "chrome-devtools"
+    "dbhub"
+    "headroom"
+    "nixos"
+    "node_repl"
+    "playwright"
+    "qartez"
+  ];
   stableServer = server: let
     prefix = "${homePath}/.local/bin/";
     relativeCommand = lib.removePrefix "${homePath}/" server.command;
@@ -74,7 +121,13 @@
     (violation "required-mcp" homePath "MCP servers" "The selected MCP feature must deliver all eight local servers.")
     ++ lib.optional (hasFeature "mcp" && !(lib.all (name: stableServer localServers.${name}) (builtins.attrNames localServers)))
     (violation "stable-mcp-command" homePath "MCP commands" "Every local server must use its installed stable launcher.");
-  codex = lib.attrByPath ["nixcfg" "mcp" "codexOverrides"] {} config;
+  codex =
+    lib.attrByPath [
+      "nixcfg"
+      "mcp"
+      "codexOverrides"
+    ] {}
+    config;
   nativeCodex = lib.optional (hasFeature "codex-browser"
     && !(
       homeFiles ? ".local/bin/codex-mcp-node-repl"

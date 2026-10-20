@@ -7,13 +7,22 @@
   cfg = config.nixcfg.forgejo;
   initializeDisk = pkgs.writeShellApplication {
     name = "forgejo-initialize-disk";
-    runtimeInputs = [pkgs.util-linux pkgs.e2fsprogs pkgs.diffutils pkgs.coreutils];
+    runtimeInputs = [
+      pkgs.util-linux
+      pkgs.e2fsprogs
+      pkgs.diffutils
+      pkgs.coreutils
+    ];
     text = builtins.readFile ../../scripts/lab-initialize-disk.sh;
   };
   forgejo = "${config.services.forgejo.package}/bin/forgejo --work-path /srv/forgejo/forgejo --config /srv/forgejo/forgejo/custom/conf/app.ini";
   requireData = {
-    requires = ["srv-forgejo.mount"];
-    after = ["srv-forgejo.mount"];
+    requires = [
+      "srv-forgejo.mount"
+    ];
+    after = [
+      "srv-forgejo.mount"
+    ];
     unitConfig.AssertPathIsMountPoint = "/srv/forgejo";
   };
 in {
@@ -67,16 +76,24 @@ in {
     systemd.services = {
       forgejo-data-init = {
         description = "Initialize only the designated, zero-filled Forgejo data disk";
-        requiredBy = ["srv-forgejo.mount"];
-        before = ["srv-forgejo.mount"];
-        after = ["systemd-udev-trigger.service"];
+        requiredBy = [
+          "srv-forgejo.mount"
+        ];
+        before = [
+          "srv-forgejo.mount"
+        ];
+        after = [
+          "systemd-udev-trigger.service"
+        ];
         unitConfig.DefaultDependencies = false;
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
           TimeoutStartSec = "10min";
         };
-        path = [pkgs.coreutils];
+        path = [
+          pkgs.coreutils
+        ];
         script = ''
           for attempt in $(seq 1 15); do
             if [ -b '${cfg.dataDevice}' ]; then
@@ -93,13 +110,23 @@ in {
         requireData
         {
           description = "Create service directories only on the mounted data disk";
-          requiredBy = ["postgresql.service" "forgejo-secrets.service" "forgejo.service"];
-          before = ["postgresql.service" "forgejo-secrets.service" "forgejo.service"];
+          requiredBy = [
+            "postgresql.service"
+            "forgejo-secrets.service"
+            "forgejo.service"
+          ];
+          before = [
+            "forgejo-secrets.service"
+            "forgejo.service"
+            "postgresql.service"
+          ];
           serviceConfig = {
             Type = "oneshot";
             RemainAfterExit = true;
           };
-          path = [pkgs.coreutils];
+          path = [
+            pkgs.coreutils
+          ];
           script = ''
             install -d -m 0750 -o postgres -g postgres /srv/forgejo/postgresql
             install -d -m 0700 -o postgres -g postgres /srv/forgejo/postgresql/16
@@ -115,15 +142,27 @@ in {
         requireData
         {
           description = "Create the initial Forgejo administrator without resetting existing accounts";
-          wantedBy = ["multi-user.target"];
-          requires = ["forgejo.service"];
-          after = ["forgejo.service"];
+          wantedBy = [
+            "multi-user.target"
+          ];
+          requires = [
+            "forgejo.service"
+          ];
+          after = [
+            "forgejo.service"
+          ];
           serviceConfig = {
             Type = "oneshot";
             RemainAfterExit = true;
             UMask = "0077";
           };
-          path = [pkgs.curl pkgs.coreutils pkgs.openssl pkgs.util-linux config.services.postgresql.package];
+          path = [
+            pkgs.curl
+            pkgs.coreutils
+            pkgs.openssl
+            pkgs.util-linux
+            config.services.postgresql.package
+          ];
           script = ''
             for attempt in $(seq 1 120); do
               if curl --fail --silent http://127.0.0.1:3000/api/healthz >/dev/null; then break; fi
@@ -144,6 +183,9 @@ in {
       ];
     };
 
-    networking.firewall.allowedTCPPorts = [3000 2222];
+    networking.firewall.allowedTCPPorts = [
+      3000
+      2222
+    ];
   };
 }

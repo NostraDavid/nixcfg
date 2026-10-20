@@ -16,7 +16,12 @@
     icon = "vscode";
     terminal = false;
     type = "Application";
-    categories = ["Utility" "TextEditor" "Development" "IDE"];
+    categories = [
+      "Utility"
+      "TextEditor"
+      "Development"
+      "IDE"
+    ];
     startupNotify = true;
     settings = {
       StartupWMClass = "Code";
@@ -61,15 +66,18 @@
     ];
 
     activation = {
-      dprintVscodeExtension = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        if ! $DRY_RUN_CMD ${lib.getExe local.vscode} --list-extensions 2>/dev/null \
-            | ${lib.getExe stable.gnugrep} -Fx 'dprint.dprint' >/dev/null 2>&1; then
-          if ! $DRY_RUN_CMD ${lib.getExe local.vscode} \
-            --install-extension dprint.dprint; then
-            echo "warning: failed to install VS Code extension dprint.dprint" >&2
+      dprintVscodeExtension =
+        lib.hm.dag.entryAfter [
+          "writeBoundary"
+        ] ''
+          if ! $DRY_RUN_CMD ${lib.getExe local.vscode} --list-extensions 2>/dev/null \
+              | ${lib.getExe stable.gnugrep} -Fx 'dprint.dprint' >/dev/null 2>&1; then
+            if ! $DRY_RUN_CMD ${lib.getExe local.vscode} \
+              --install-extension dprint.dprint; then
+              echo "warning: failed to install VS Code extension dprint.dprint" >&2
+            fi
           fi
-        fi
-      '';
+        '';
     };
   };
 }

@@ -3,7 +3,9 @@
   packageSets,
   self,
 }: {
-  inventory ? [../inventory],
+  inventory ? [
+    ../inventory
+  ],
   lokiSpec ? {},
   mimir2Spec ? {},
 }: let
@@ -27,8 +29,13 @@
         inputs.den.flakeOutputs.flake
         inputs.den.flakeOutputs.all
         ({den, ...}: {
-          den.systems = ["x86_64-linux" "aarch64-darwin"];
-          den.default.includes = [den.aspects.nixos-base];
+          den.systems = [
+            "x86_64-linux"
+            "aarch64-darwin"
+          ];
+          den.default.includes = [
+            den.aspects.nixos-base
+          ];
         })
       ]
       ++ features ++ profiles ++ inventory;

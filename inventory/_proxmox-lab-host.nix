@@ -10,13 +10,18 @@ in
       onShutdown = "shutdown";
       shutdownTimeout = 300;
     };
-    users.users.david.extraGroups = ["libvirtd"];
+    users.users.david.extraGroups = [
+      "libvirtd"
+    ];
     systemd.tmpfiles.rules = [
       "d /var/lib/proxmox-lab 2770 qemu-libvirtd libvirtd -"
       "d /var/lib/proxmox-lab/current 2770 qemu-libvirtd libvirtd -"
       "d /var/lib/proxmox-lab/archive 2770 qemu-libvirtd libvirtd -"
     ];
-    environment.systemPackages = [pkgs.virt-manager self.packages.x86_64-linux.proxmox-lab];
+    environment.systemPackages = [
+      pkgs.virt-manager
+      self.packages.x86_64-linux.proxmox-lab
+    ];
     networking.networkmanager.ensureProfiles.profiles = {
       lab-bridge = {
         connection = {
