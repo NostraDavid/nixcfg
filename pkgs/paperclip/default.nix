@@ -41,10 +41,13 @@ in
     sourceRoot = "package";
 
     postPatch = ''
+      # uuid 11 retains CommonJS support and fixes CVE-2026-41907.
+      substituteInPlace package.json --replace-fail '"dependencies": {' \
+        '"overrides": {"svix": {"uuid": "11.1.1"}}, "dependencies": {'
       cp ${./package-lock.json} package-lock.json
     '';
 
-    npmDepsHash = "sha256-PahnYRfV0oyzUQ3+PwHqLQ7ZnHy241GchgGdmD0zDNw=";
+    npmDepsHash = "sha256-PP8CvwB+Ul+jG/1ZPhlLnneK/do+lq32pPPiLV57518=";
     npmFlags = ["--omit=dev"];
     npmRebuildFlags = ["--ignore-scripts"];
     dontNpmBuild = true;
@@ -85,6 +88,7 @@ in
       HOME="$TMPDIR" "$out/bin/paperclipai" --help | grep -F 'onboard'
       test -s "$out/share/icons/hicolor/scalable/apps/paperclip.svg"
       test -f "$out/share/applications/paperclip.desktop"
+      node ${./check-uuid.cjs} "$out/lib/node_modules/paperclipai"
       python3 ${./check-server.py} "$out/bin/paperclipai"
       runHook postInstallCheck
     '';
