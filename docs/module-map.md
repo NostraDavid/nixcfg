@@ -37,7 +37,7 @@ A failed evaluation stops generation; partial results never replace the snapshot
 | proxy | NixOS | 5 |
 | wodan | NixOS | 52 |
 | loki | Darwin | 14 |
-| david@mimir2 | Home Manager | 12 |
+| mimir2 | Home Manager | 12 |
 | mimir2 + workstation | optional | 29 |
 | loki + workstation | optional | 31 |
 
@@ -52,13 +52,13 @@ Dependencies, service-only packages, manual installations and external work prof
 | --- | ---: |
 | apps | 85 |
 | bragi | 130 |
-| david@mimir2 | 74 |
 | donar | 545 |
 | forgejo | 84 |
 | forgejo-lab | 81 |
 | frigg | 495 |
 | homepage | 85 |
 | loki | 82 |
+| mimir2 | 74 |
 | proxy | 83 |
 | wodan | 560 |
 
@@ -337,7 +337,7 @@ flowchart LR
   c11 --> m77["features/nix-index/_home.nix"]
   c11 --> m85["features/portable-runtime/_home.nix"]
   c11 --> m98["features/terminal/_config.nix"]
-  c12["david@mimir2"]
+  c12["mimir2"]
   c12 --> m18["features/darwin-speech/_home.nix"]
   c12 --> m25["features/development/_core.nix"]
   c12 --> m33["features/dotfiles/_portable-dotfiles.nix"]
@@ -447,7 +447,7 @@ before merging. These checks do not establish semantic redundancy.
 
 S = system import; H = Home Manager import; I = flake wiring import; A = selected Den aspect owner.
 
-| Module | Flake wiring | Registered Den aspects | apps | bragi | donar | forgejo | forgejo-lab | frigg | homepage | proxy | wodan | loki | david@mimir2 | mimir2 + workstation | loki + workstation |
+| Module | Flake wiring | Registered Den aspects | apps | bragi | donar | forgejo | forgejo-lab | frigg | homepage | proxy | wodan | loki | mimir2 | mimir2 + workstation | loki + workstation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | [features/annotation/default.nix](../features/annotation/default.nix) | · | I | · | A | A | · | · | A | · | · | A | A | A | · | · |
 | [features/boot/_nixos.nix](../features/boot/_nixos.nix) | · | I | · | S | S | · | · | S | · | · | S | · | · | · | · |

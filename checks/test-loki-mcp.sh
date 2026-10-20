@@ -62,7 +62,7 @@ servers = json.loads((tmp / "servers.json").read_text())
 servers["node_repl"]["startup_timeout_sec"] = 120
 # Every physical host must produce the same eight local MCP registrations.
 profiles = json.loads((tmp / "profile-servers.json").read_text())
-assert set(profiles) == {"wodan", "frigg", "donar", "bragi", "loki", "david@mimir2"}
+assert set(profiles) == {"wodan", "frigg", "donar", "bragi", "loki", "mimir2"}
 for name, entries in profiles.items():
     assert set(entries) == set(servers), name
     fixture_home = tmp / "profiles" / name

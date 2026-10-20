@@ -5,7 +5,7 @@
   mimir2Spec,
   ...
 }: {
-  den.homes.x86_64-linux."david@mimir2" = {
+  den.homes.x86_64-linux.mimir2 = {
     pkgs = packageSets.pkgsFor "x86_64-linux";
     instantiate = constructors.home mimir2Spec;
     aspect = den.aspects.home-mimir2;

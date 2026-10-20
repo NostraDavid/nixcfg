@@ -157,7 +157,7 @@ in {
     modules,
     ...
   }: let
-    entity = den.homes.x86_64-linux."david@mimir2";
+    entity = den.homes.x86_64-linux.mimir2;
   in
     inputs.home-manager.lib.homeManagerConfiguration {
       inherit pkgs;

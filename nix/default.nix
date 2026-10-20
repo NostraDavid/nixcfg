@@ -16,7 +16,7 @@
         ../hosts/physical/mimir2/default.nix
       ];
       mimir2Spec = {inherit extraHomeModules;};
-    }).flake.homeConfigurations."david@mimir2";
+    }).flake.homeConfigurations.mimir2;
   mkLoki = {
     extraDarwinModules ? [],
     extraHomeModules ? [],

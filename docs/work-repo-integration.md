@@ -16,7 +16,7 @@ outputs.
   inputs.nixcfg.url = "github:NostraDavid/nixcfg";
 
   outputs = {nixcfg, ...}: {
-    homeConfigurations."david@mimir2" = nixcfg.lib.mkMimir2 {
+    homeConfigurations."mimir2" = nixcfg.lib.mkMimir2 {
       extraHomeModules = [nixcfg.modules.homeManager.workstation ./home/work.nix];
     };
 
@@ -68,7 +68,7 @@ Use `pkgs` for packages that must work on both hosts. If a work module needs an
 input declared by the work flake, pass it from that flake rather than using the
 base `inputs` argument.
 
-The base flake already exports `homeConfigurations."david@mimir2"` and
+The base flake already exports `homeConfigurations."mimir2"` and
 `darwinConfigurations.loki` for use without a work layer. In the work flake,
 call the functions above to add modules before Nix evaluates each host.
 
@@ -216,10 +216,10 @@ these instruction files.
 
 The builders fix these values:
 
-| Host     | Output                              | Platform                | Home Manager state | Editable base checkout |
-| -------- | ----------------------------------- | ----------------------- | ------------------ | ---------------------- |
-| `mimir2` | `homeConfigurations."david@mimir2"` | `x86_64-linux`, Debian  | `25.11`            | `/home/david/nixcfg`   |
-| `loki`   | `darwinConfigurations.loki`         | `aarch64-darwin`, macOS | `25.11`            | `/Users/david/nixcfg`  |
+| Host     | Output                        | Platform                | Home Manager state | Editable base checkout |
+| -------- | ----------------------------- | ----------------------- | ------------------ | ---------------------- |
+| `mimir2` | `homeConfigurations."mimir2"` | `x86_64-linux`, Debian  | `25.11`            | `/home/david/nixcfg`   |
+| `loki`   | `darwinConfigurations.loki`   | `aarch64-darwin`, macOS | `25.11`            | `/Users/david/nixcfg`  |
 
 `loki` also uses nix-darwin 26.05 with `system.stateVersion = 7`. Both builders
 configure Home Manager for user `david` and import the shared CLI module. The
@@ -252,9 +252,9 @@ From the work-repository checkout on `mimir2`, evaluate and build the profile
 before switching:
 
 ```bash
-nix eval --raw '.#homeConfigurations."david@mimir2".activationPackage.drvPath'
-nix build --no-link '.#homeConfigurations."david@mimir2".activationPackage'
-home-manager switch --flake '.#david@mimir2'
+nix eval --raw '.#homeConfigurations."mimir2".activationPackage.drvPath'
+nix build --no-link '.#homeConfigurations."mimir2".activationPackage'
+home-manager switch --flake '.#mimir2'
 ```
 
 From the work-repository checkout on `loki`, evaluate and build the Darwin

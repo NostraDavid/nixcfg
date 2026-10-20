@@ -3,7 +3,7 @@ let
   lib = flake.inputs.nixpkgs.lib;
   unstableFor = flake.lib.unstableFor;
   wodan = flake.nixosConfigurations.wodan.config.home-manager.users.david;
-  mimir2 = flake.homeConfigurations."david@mimir2".config;
+  mimir2 = flake.homeConfigurations.mimir2.config;
   loki = flake.darwinConfigurations.loki.config.home-manager.users.david;
   linuxWorkstation =
     (flake.lib.mkMimir2 {
