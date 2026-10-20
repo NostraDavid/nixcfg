@@ -18,6 +18,17 @@
       args = ["--headless" "--isolated" "--executable-path" (lib.getExe stable.chromium) "--no-usage-statistics" "--no-performance-crux"];
     };
   };
+  opencodeMcpWrappers = lib.mapAttrsToList (name: server:
+    stable.writeShellScriptBin "opencode-mcp-${name}" ''
+      exec ${lib.escapeShellArg server.command} ${lib.escapeShellArgs (server.args or [])} "$@"
+    '')
+  mcpServers;
+  opencodeNodeRepl = stable.writeShellScriptBin "opencode-mcp-node-repl" ''
+    export NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS=1000
+    export NODE_REPL_NODE_MODULE_DIRS="${local.chatgpt}/lib/chatgpt/resources/cua_node/lib/node_modules"
+    export NODE_REPL_NODE_PATH="${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node"
+    exec "${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node_repl" "$@"
+  '';
   inline = {
     codexDesktopSafe = let
       codexDesktop = inputs.codex-desktop-linux.packages.${stable.stdenv.hostPlatform.system}.codex-desktop;
@@ -112,24 +123,27 @@ in {
   };
 
   home = {
-    packages = [
-      local.agent-orchestrator
-      local.bend
-      local.chrome-devtools-mcp
-      local.dbhub
-      local.emdash
-      local.kandev
-      local.orca-ide
-      local.paperclip
-      local.paseo-desktop
-      local.pi-desktop
-      local.playwright-cli
-      local.superset
-      local.t3code
-      local.unsloth
-      unstable.mcp-nixos
-      unstable.playwright-mcp
-    ];
+    packages =
+      [
+        local.agent-orchestrator
+        local.bend
+        local.chrome-devtools-mcp
+        local.dbhub
+        local.emdash
+        local.kandev
+        local.orca-ide
+        local.paperclip
+        local.paseo-desktop
+        local.pi-desktop
+        local.playwright-cli
+        local.superset
+        local.t3code
+        local.unsloth
+        unstable.mcp-nixos
+        unstable.playwright-mcp
+        opencodeNodeRepl
+      ]
+      ++ opencodeMcpWrappers;
     file = lib.genAttrs [
       ".agents/skills/playwright-cli"
       ".codex/skills/playwright-cli"
