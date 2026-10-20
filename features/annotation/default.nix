@@ -1,10 +1,21 @@
 _: {
   den.aspects.annotation = {
-    homeManager = {unstable, ...}: {
-      home.packages = [
-        unstable.ksnip
-        unstable.pinta
-      ];
+    darwin.homebrew.casks = [
+      "ksnip"
+    ];
+    homeManager = {
+      lib,
+      pkgs,
+      unstable,
+      ...
+    }: {
+      home.packages =
+        lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+          unstable.ksnip
+        ]
+        ++ [
+          unstable.pinta
+        ];
     };
   };
 }

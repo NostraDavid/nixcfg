@@ -403,7 +403,7 @@ S = system import; H = Home Manager import; I = flake wiring import; A = selecte
 
 | Module | Flake wiring | Registered Den aspects | apps | bragi | donar | forgejo | forgejo-lab | frigg | homepage | proxy | wodan | loki | mimir2 | mimir2 + workstation | loki + workstation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [features/annotation/default.nix](../features/annotation/default.nix) | · | I | · | A/H | A/H | · | · | A/H | · | · | A/H | A/H | A/H | H | H |
+| [features/annotation/default.nix](../features/annotation/default.nix) | · | I | · | A/H | A/H | · | · | A/H | · | · | A/H | A/H/S | A/H | H | H/S |
 | [features/boot/default.nix](../features/boot/default.nix) | · | I | · | A/S | A/S | · | · | A/S | · | · | A/S | · | · | · | · |
 | [features/browsers/_home.nix](../features/browsers/_home.nix) | · | I | · | · | H | · | · | H | · | · | H | · | · | · | · |
 | [features/browsers/default.nix](../features/browsers/default.nix) | · | I | · | · | A/H | · | · | A/H | · | · | A/H | · | · | · | · |

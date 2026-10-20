@@ -3962,6 +3962,7 @@
           "hosts/physical/loki/default.nix"
         ],
         "system": [
+          "features/annotation/default.nix",
           "features/darwin-keyboard/_darwin.nix",
           "features/darwin-keyboard/default.nix",
           "features/window-management/default.nix",
@@ -4738,6 +4739,7 @@
           "nix/default.nix"
         ],
         "system": [
+          "features/annotation/default.nix",
           "features/darwin-keyboard/_darwin.nix",
           "features/darwin-keyboard/default.nix",
           "features/window-management/default.nix",
@@ -4823,11 +4825,11 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 10,
+      "lines": 21,
       "merge_into": null,
       "parents": [],
       "path": "features/annotation/default.nix",
-      "sha256": "71af672883551e1329446135d415c034dbaaeafc055cc9ef0ff19a539e75557a",
+      "sha256": "7fd4025bd165b5036bf8cbe394a5d10fb0cad77f4c6e32043473622340467550",
       "status": "used"
     },
     {
@@ -15437,8 +15439,8 @@
         },
         {
           "name": "ksnip",
-          "origin": "home:david",
-          "version": "1.10.1-unstable-2026-02-27"
+          "origin": "homebrew:casks",
+          "version": ""
         },
         {
           "name": "lazygit",

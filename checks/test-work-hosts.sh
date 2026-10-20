@@ -9,6 +9,13 @@ nix eval --raw "path:$root#homeConfigurations.\"mimir2\".activationPackage.drvPa
 nix eval --raw "path:$root#darwinConfigurations.loki.config.system.build.toplevel.drvPath" >/dev/null
 nix eval --raw "path:$root#nixosConfigurations.wodan.config.system.build.toplevel.drvPath" >/dev/null
 
+nix eval --json "path:$root#darwinConfigurations.loki.config.homebrew.casks" \
+    --apply 'map (cask: cask.name)' |
+    jq -e 'index("ksnip") != null' >/dev/null
+nix eval --json "path:$root#nixosConfigurations.wodan.config.home-manager.users.david.home.packages" \
+    --apply 'map (package: package.pname or package.name)' |
+    jq -e 'index("ksnip") != null' >/dev/null
+
 cat >"$tmp/flake.nix" <<EOF
 {
   inputs.nixcfg.url = "path:$root";
