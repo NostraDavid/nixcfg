@@ -36,6 +36,7 @@
           unstable.nix-index
           unstable.nix-tree
           unstable.nvd
+          unstable.pinta
           unstable.sqruff
           unstable.watchexec
         ];

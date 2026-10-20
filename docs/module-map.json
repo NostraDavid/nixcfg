@@ -3072,13 +3072,13 @@
         "NixOS:frigg",
         "NixOS:wodan"
       ],
-      "lines": 48,
+      "lines": 49,
       "merge_into": null,
       "parents": [
         "modules/roles/desktop-base.nix"
       ],
       "path": "modules/home-manager.nix",
-      "sha256": "4d53a54cbb3e54d242c41bbe8754af1fdf8b4e7ea952edbbca6dc76360bdf051",
+      "sha256": "6ab9807e0b08cae8dbbfb6ae19c7bc8686a3f0ef6b7743c8a3cb6957df456c48",
       "status": "used"
     },
     {
@@ -3615,13 +3615,13 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
-      "lines": 46,
+      "lines": 47,
       "merge_into": null,
       "parents": [
         "modules/features/terminal.nix"
       ],
       "path": "modules/home/portable-cli.nix",
-      "sha256": "bb39edbcb598972692db3c8428e86e927c9aba8b9bb5ed45f01d8e437866910d",
+      "sha256": "185c06b8f75fdf4f63f180759ad0545ff71b9daca022755c95c5f20b53afd748",
       "status": "used"
     },
     {
