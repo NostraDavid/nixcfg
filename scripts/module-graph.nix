@@ -25,6 +25,33 @@
     }
     ++ lib.concatMap (walk owner disabled) node.imports;
   collect = graph: lib.unique (lib.concatMap (walk null false) graph);
+  packages = origin: values:
+    map (package: {
+      name = package.pname or (lib.getName package);
+      version = package.version or "";
+      inherit origin;
+    })
+    values;
+  homeSoftware = user: home: packages "home:${user}" home.home.packages;
+  systemSoftware = name: system: let
+    inherit (system) config;
+    brew = category:
+      map (entry: {
+        name =
+          if builtins.isString entry
+          then entry
+          else entry.name;
+        version = "";
+        origin = "homebrew:${category}";
+      }) (config.homebrew.${category} or []);
+  in {
+    inherit name;
+    packages =
+      packages "system" config.environment.systemPackages
+      ++ lib.concatLists (lib.mapAttrsToList homeSoftware (config.home-manager.users or {}))
+      ++ brew "brews"
+      ++ brew "casks";
+  };
   # Expose embedded Home Manager graphs only in this diagnostic evaluation.
   capture = {
     lib,
@@ -103,6 +130,14 @@
   in {inherit name kind nodes edges;};
 in {
   schema = 1;
+  software =
+    lib.mapAttrsToList systemSoftware flake.nixosConfigurations
+    ++ lib.mapAttrsToList systemSoftware flake.darwinConfigurations
+    ++ lib.mapAttrsToList (name: home: {
+      inherit name;
+      packages = homeSoftware home.config.home.username home.config;
+    })
+    flake.homeConfigurations;
   wiring = collect wiring.graph;
   catalogue = lib.unique (lib.concatMap (aspect: let
     file = localFile (aspect.meta.file or "");

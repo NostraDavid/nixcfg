@@ -222,9 +222,10 @@
         <nav aria-label="Views">
           <button data-view="graph" aria-pressed="true">Diagram</button>
           <button data-view="matrix" aria-pressed="false">Machine matrix</button>
+          <button data-view="software" aria-pressed="false">Software overlap</button>
           <button data-view="review" aria-pressed="false">Review candidates</button>
         </nav>
-        <label>Find a module<input
+        <label id="module-search-label">Find a module<input
             type="search"
             id="search"
             placeholder="e.g. headroom, workstation, mcp"
@@ -258,6 +259,47 @@
         <div class="table-scroll">
           <table>
             <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      <section id="software" hidden class="card">
+        <h2>Software overlap</h2>
+        <p class="muted">
+          Configured system and Home Manager packages, plus Homebrew brews and casks. Compare three
+          machines by package name; versions may differ. This is not a runtime scan. Dependencies,
+          service-only packages and manually installed software are outside this inventory. Circle
+          sizes are schematic, not proportional to package counts.
+        </p>
+        <div id="software-selectors" class="toolbar"></div>
+        <svg
+          id="venn"
+          viewBox="0 0 720 510"
+          role="img"
+          aria-label="Software overlap for three selected machines"
+          style="width: 100%; max-height: 60vh"
+        >
+          <circle cx="270" cy="185" r="150" fill="#289fba" fill-opacity=".25" stroke="#16738c" />
+          <circle cx="450" cy="185" r="150" fill="#d59b34" fill-opacity=".25" stroke="#ad7516" />
+          <circle cx="360" cy="320" r="150" fill="#9c74bb" fill-opacity=".25" stroke="#775399" />
+          <g id="venn-labels" text-anchor="middle" fill="#163f52" font-size="17"></g>
+        </svg>
+        <div id="software-regions" class="toolbar" aria-label="Select an overlap region"></div>
+        <p id="software-selection"></p>
+        <label>Find software <input
+            type="search"
+            id="software-search"
+            placeholder="e.g. pinta, chromium"
+          ></label>
+        <div class="table-scroll">
+          <table id="software-packages">
+            <thead>
+              <tr>
+                <th>Software</th>
+                <th>Version and source on selected machines</th>
+                <th>Configured on</th>
+              </tr>
+            </thead>
             <tbody></tbody>
           </table>
         </div>
@@ -334,7 +376,10 @@
       return link;
     }
     function showView(name) {
-      for (const view of ["graph", "matrix", "review"]) {
+      document.getElementById("module-search-label").style.display = name === "software"
+        ? "none"
+        : "";
+      for (const view of ["graph", "matrix", "review", "software"]) {
         document.getElementById(view).hidden = view !== name;
       }
       for (const button of document.querySelectorAll("[data-view]")) {
@@ -370,7 +415,7 @@
     selector.value = report.contexts.find(c => c.label === "wodan")?.id ?? report.contexts[0].id;
     function filter() {
       const query = search.value.toLowerCase();
-      for (const row of document.querySelectorAll("tbody tr")) {
+      for (const row of document.querySelectorAll("#matrix tbody tr, #review tbody tr")) {
         row.hidden = !row.textContent.toLowerCase().includes(query);
       }
       for (const node of diagram.querySelectorAll(".node")) {
@@ -509,6 +554,132 @@
       report.modules.filter(m => ["wiring-only", "optional-only", "disabled"].includes(m.status)),
       [["Status", "status"]],
     );
+    const software = report.software ?? [];
+    const softwareSelectors = [];
+    let softwareRegion = 7;
+    let softwareGroups = {};
+    function regionName(mask) {
+      return softwareSelectors.filter((_, i) => mask & (1 << i)).map(s => s.value).join(" + ");
+    }
+    function showSoftwarePackages() {
+      const names = softwareGroups[softwareRegion] ?? [];
+      const query = document.getElementById("software-search").value.toLowerCase();
+      const body = document.querySelector("#software-packages tbody");
+      body.replaceChildren();
+      document.getElementById("software-selection").textContent = `${
+        regionName(softwareRegion)
+      } only, relative to these three machines: ${names.length} packages`;
+      for (const button of document.querySelectorAll("#software-regions button")) {
+        button.setAttribute("aria-pressed", String(Number(button.dataset.mask) === softwareRegion));
+      }
+      for (const name of names.filter(n => n.toLowerCase().includes(query))) {
+        const details = softwareSelectors.flatMap(select => {
+          const machine = software.find(m => m.name === select.value);
+          return machine.packages.filter(p => p.name === name)
+            .map(p => `${machine.name}: ${p.version || "unversioned"} [${p.origin}]`);
+        });
+        const hosts = software.filter(m => m.packages.some(p => p.name === name)).map(m => m.name);
+        const row = element("tr");
+        row.append(
+          element("td", name),
+          element("td", details.join(" · ")),
+          element("td", hosts.join(", ")),
+        );
+        body.append(row);
+      }
+    }
+    function showSoftware() {
+      softwareSelectors.forEach(select => {
+        for (const option of select.options) {
+          option.disabled = softwareSelectors.some(other =>
+            other !== select && other.value === option.value
+          );
+        }
+      });
+      const machines = softwareSelectors.map(s => software.find(m => m.name === s.value));
+      const sets = machines.map(m => new Set(m.packages.map(p => p.name)));
+      softwareGroups = Object.fromEntries(Array.from({ length: 7 }, (_, i) => [i + 1, []]));
+      for (const name of [...new Set(sets.flatMap(set => [...set]))].sort()) {
+        const mask = sets.reduce((bits, set, i) => bits | (set.has(name) ? 1 << i : 0), 0);
+        softwareGroups[mask].push(name);
+      }
+      const labels = document.getElementById("venn-labels");
+      const buttons = document.getElementById("software-regions");
+      labels.replaceChildren();
+      buttons.replaceChildren();
+      const positions = {
+        1: [205, 160],
+        2: [515, 160],
+        3: [360, 135],
+        4: [360, 405],
+        5: [265, 285],
+        6: [455, 285],
+        7: [360, 250],
+      };
+      for (let mask = 1; mask <= 7; mask++) {
+        const title = `${regionName(mask)} only: ${softwareGroups[mask].length}`;
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const [x, y] = positions[mask];
+        text.setAttribute("x", x);
+        text.setAttribute("y", y);
+        text.textContent = String(softwareGroups[mask].length);
+        const svgTitle = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        svgTitle.textContent = title;
+        text.append(svgTitle);
+        text.style.cursor = "pointer";
+        const choose = () => {
+          softwareRegion = mask;
+          showSoftwarePackages();
+        };
+        text.onclick = choose;
+        labels.append(text);
+        const button = element("button", title);
+        button.dataset.mask = String(mask);
+        button.onclick = choose;
+        buttons.append(button);
+      }
+      machines.forEach((m, i) => {
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", [180, 540, 360][i]);
+        text.setAttribute("y", [30, 30, 500][i]);
+        text.textContent = m.name;
+        labels.append(text);
+      });
+      showSoftwarePackages();
+    }
+    if (software.length >= 3) {
+      for (const [i, preferred] of ["wodan", "frigg", "loki"].entries()) {
+        const label = element("label", `Machine ${i + 1}`);
+        const select = element("select");
+        for (const machine of software) {
+          const option = element("option", machine.name);
+          option.value = machine.name;
+          select.append(option);
+        }
+        select.value = software.some(m => m.name === preferred) ? preferred : software[i].name;
+        select.onchange = showSoftware;
+        softwareSelectors.push(select);
+        label.append(select);
+        document.getElementById("software-selectors").append(label);
+      }
+      document.getElementById("software-search").oninput = showSoftwarePackages;
+      document.getElementById("venn").onclick = event => {
+        const svg = event.currentTarget;
+        const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(
+          svg.getScreenCTM().inverse(),
+        );
+        const mask = [[270, 185], [450, 185], [360, 320]].reduce(
+          (bits, [x, y], i) =>
+            bits | ((point.x - x) ** 2 + (point.y - y) ** 2 <= 150 ** 2 ? 1 << i : 0),
+          0,
+        );
+        if (mask) {
+          softwareRegion = mask;
+          showSoftwarePackages();
+        }
+      };
+      showSoftware();
+    }
     showDiagram();
     </script>
   </body>

@@ -40,6 +40,7 @@ class Graphs(TypedDict):
     compositions: NotRequired[list[Composition]]
     policy: NotRequired[dict]
     catalogue: NotRequired[list[Record]]
+    software: NotRequired[list[dict]]
 
 
 class Context(TypedDict):
@@ -72,6 +73,7 @@ class Report(TypedDict):
     contexts: list[Context]
     modules: list[Module]
     policy: dict
+    software: list[dict]
 
 
 def run(command: list[str], *, cwd: Path, source: str | None = None) -> str:
@@ -221,6 +223,21 @@ def analyze(graphs: Graphs, root: Path) -> Report:
         "contexts": contexts,
         "modules": modules,
         "policy": graphs.get("policy", {}),
+        "software": [
+            {
+                "name": machine["name"],
+                "packages": [
+                    {"name": name, "version": version, "origin": origin}
+                    for name, version, origin in sorted(
+                        {
+                            (p["name"], p["version"], p["origin"])
+                            for p in machine["packages"]
+                        }
+                    )
+                ],
+            }
+            for machine in sorted(graphs.get("software", []), key=lambda m: m["name"])
+        ],
     }
 
 
@@ -279,7 +296,7 @@ def markdown(report: Report) -> str:
         "",
         "This map combines actual Den aspect membership with evaluated Nix imports, including embedded Home Manager graphs.",
         "Composition edges are authored includes filtered to selected aspects; they are not the resolved policy delivery graph.",
-        "It records imports, not whether each option, package or service is enabled.",
+        "The module graphs record imports, not whether each option, package or service is enabled.",
         "Flake wiring registers configurations and public modules; it is not a deployed machine.",
         "The Den catalogue records actual registered aspect sources, including definitions not selected by a machine.",
         "Optional workstation variants show supported compositions, not additional machines.",
@@ -295,6 +312,22 @@ def markdown(report: Report) -> str:
     ]
     rows.extend(
         f"| {c['label']} | {c['kind']} | {len(c['modules'])} |" for c in contexts
+    )
+    rows += [
+        "",
+        "## Software overlap",
+        "",
+        "The HTML software tab compares any three machines in a Venn diagram, with searchable package names, versions and installation sources.",
+        "Membership uses package names, so different versions can overlap. Counts deduplicate system and home installations of the same name.",
+        "This inventory evaluates system packages, Home Manager packages and Homebrew brews and casks. It does not scan running machines.",
+        "Dependencies, service-only packages, manual installations and external work profiles are excluded. Circle areas are schematic.",
+        "",
+        "| Machine | Unique configured package names |",
+        "| --- | ---: |",
+    ]
+    rows.extend(
+        f"| {m['name']} | {len({p['name'] for p in m['packages']})} |"
+        for m in report["software"]
     )
     rows += [
         "",

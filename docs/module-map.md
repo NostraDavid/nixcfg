@@ -12,7 +12,7 @@ CI attaches the same offline HTML as the `module-map` artifact.
 
 This map combines actual Den aspect membership with evaluated Nix imports, including embedded Home Manager graphs.
 Composition edges are authored includes filtered to selected aspects; they are not the resolved policy delivery graph.
-It records imports, not whether each option, package or service is enabled.
+The module graphs record imports, not whether each option, package or service is enabled.
 Flake wiring registers configurations and public modules; it is not a deployed machine.
 The Den catalogue records actual registered aspect sources, including definitions not selected by a machine.
 Optional workstation variants show supported compositions, not additional machines.
@@ -40,6 +40,27 @@ A failed evaluation stops generation; partial results never replace the snapshot
 | david@mimir2 | Home Manager | 12 |
 | mimir2 + workstation | optional | 29 |
 | loki + workstation | optional | 31 |
+
+## Software overlap
+
+The HTML software tab compares any three machines in a Venn diagram, with searchable package names, versions and installation sources.
+Membership uses package names, so different versions can overlap. Counts deduplicate system and home installations of the same name.
+This inventory evaluates system packages, Home Manager packages and Homebrew brews and casks. It does not scan running machines.
+Dependencies, service-only packages, manual installations and external work profiles are excluded. Circle areas are schematic.
+
+| Machine | Unique configured package names |
+| --- | ---: |
+| apps | 85 |
+| bragi | 130 |
+| david@mimir2 | 74 |
+| donar | 545 |
+| forgejo | 84 |
+| forgejo-lab | 81 |
+| frigg | 495 |
+| homepage | 85 |
+| loki | 82 |
+| proxy | 83 |
+| wodan | 560 |
 
 ## Entry points
 

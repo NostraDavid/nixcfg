@@ -64,6 +64,24 @@ class ModuleMapTests(unittest.TestCase):
             "variants": [],
         }
 
+    def test_software_preserves_versions_sources_and_unique_machine_membership(
+        self,
+    ) -> None:
+        pinta = {"name": "pinta", "version": "3.1", "origin": "system"}
+        home_pinta = {**pinta, "origin": "home:david"}
+        self.raw["software"] = [
+            {"name": "wodan", "packages": [pinta, pinta, home_pinta]},
+            {"name": "loki", "packages": [{**pinta, "version": "3.0"}]},
+        ]
+        software = module_map.analyze(self.raw, self.root)["software"]
+        self.assertEqual([m["name"] for m in software], ["loki", "wodan"])
+        self.assertEqual(len(software[1]["packages"]), 2)
+        self.assertEqual(software[0]["packages"][0]["version"], "3.0")
+        self.assertEqual(
+            {p["origin"] for p in software[1]["packages"]},
+            {"system", "home:david"},
+        )
+
     def test_removed_import_becomes_unobserved(self) -> None:
         before = module_map.analyze(self.raw, self.root)
         self.raw["machines"][0]["system"] = self.raw["machines"][0]["system"][:1]
