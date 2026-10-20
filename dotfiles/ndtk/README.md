@@ -8,6 +8,10 @@ configuration.
   configuration example. Home Manager links both into `~/.config/ndtk/`.
 - `tests/` checks the commands without contacting remote services.
 
+`program | clip` copies standard input to the clipboard on macOS, Wayland, and
+X11, using `pbcopy`, `wl-copy`, or `xclip -selection clipboard` respectively.
+Linux requires a graphical session and its corresponding clipboard command.
+
 `save_cloned_repos save SEARCH_DIR` writes an inventory to
 `SEARCH_DIR/repos.dat`. Use `--output` to select another destination and
 `--dry-run` to print without writing. `find-uncommitted scan SEARCH_DIR` scans

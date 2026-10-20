@@ -18,6 +18,7 @@ in {
   '';
 
   home.file = forceAll {
+    ".local/bin/clip".source = mk "${dot}/ndtk/.local/bin/clip.sh";
     "AGENTS.md".source = mk "${dot}/agents/instructions/AGENTS.md";
     ".agents/instructions".source = mk "${dot}/agents/instructions";
     ".agents/audio-notify".source = mk "${dot}/agents/.agents/audio-notify";

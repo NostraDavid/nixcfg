@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import tempfile
@@ -8,6 +9,57 @@ from pathlib import Path
 NDTK = Path(__file__).resolve().parents[1]
 PYLC = NDTK / ".local/bin/pylc.sh"
 FOLDER_COUNT = NDTK / ".local/bin/folder_count.sh"
+
+
+def test_clip_routes_input_and_preserves_backend_errors() -> None:
+    shell = shutil.which("sh")
+    cat = shutil.which("cat")
+    assert shell is not None and cat is not None
+    payload = "héllo\nsecond line without trailing newline"
+    for system, wayland, display, backend, status in [
+        ("Darwin", "", "", "pbcopy", 0),
+        ("Linux", "wayland-0", ":0", "wl-copy", 0),
+        ("Linux", "", ":0", "xclip", 0),
+        ("Linux", "", ":0", "xclip", 7),
+        ("Linux", "", "", "", 1),
+        ("Linux", "", ":0", "", 1),
+        ("Linux", "wayland-0", "", "", 1),
+    ]:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            commands = {"uname": f"printf '%s\\n' '{system}'"}
+            for name in ("pbcopy", "wl-copy", "xclip"):
+                if not backend:
+                    continue
+                commands[name] = (
+                    f"printf '%s\\n' '{name}' \"$@\" >&2\n'{cat}'\nexit {status}"
+                )
+            for name, body in commands.items():
+                command = root / name
+                command.write_text(f"#!{shell}\n{body}\n")
+                command.chmod(0o755)
+            result = subprocess.run(  # noqa: S603
+                [shell, str(NDTK / ".local/bin/clip.sh")],
+                env={
+                    **os.environ,
+                    "PATH": directory,
+                    "WAYLAND_DISPLAY": wayland,
+                    "DISPLAY": display,
+                },
+                input=payload,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        assert result.returncode == status, result.stderr
+        if backend:
+            assert result.stdout == payload
+            expected = backend + "\n"
+            if backend == "xclip":
+                expected += "-selection\nclipboard\n"
+            assert result.stderr == expected
+        else:
+            assert "no clipboard available" in result.stderr
 
 
 def run(script: Path, cwd: Path, *args: str) -> subprocess.CompletedProcess[str]:
@@ -96,11 +148,11 @@ def test_folder_count_honors_git_ignores_and_excludes_symlinks() -> None:
         git = shutil.which("git")
         assert git is not None
         subprocess.run([git, "init", "-q"], cwd=root, check=True)  # noqa: S603
-        subprocess.run(
+        subprocess.run(  # noqa: S603
             [git, "add", "alpha/one.txt", "alpha/__pycache__/cache.pyc"],
             cwd=root,
             check=True,
-        )  # noqa: S603
+        )
 
         result = run(FOLDER_COUNT, root)
 
