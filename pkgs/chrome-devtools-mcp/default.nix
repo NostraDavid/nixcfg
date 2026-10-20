@@ -37,6 +37,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     homepage = "https://github.com/ChromeDevTools/chrome-devtools-mcp";
     license = lib.licenses.asl20;
     mainProgram = "chrome-devtools-mcp";
-    platforms = lib.platforms.linux;
+    platforms = lib.platforms.linux ++ lib.platforms.darwin;
   };
 })
