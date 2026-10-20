@@ -73,6 +73,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     homepage = "https://dbhub.ai";
     license = lib.licenses.mit;
     mainProgram = "dbhub";
-    platforms = lib.platforms.linux;
+    platforms = lib.platforms.linux ++ lib.platforms.darwin;
   };
 })
