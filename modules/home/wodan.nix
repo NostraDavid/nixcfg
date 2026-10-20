@@ -90,7 +90,7 @@ in {
           };
           Tiling.padding = 4;
           Xwayland.Scale = 1.25;
-          "org.kde.kdecoration2".theme = "__aurorae__svg__WillowDarkBlur";
+          "org.kde.kdecoration2".theme = "__aurorae__svg__WillowDark";
         };
       };
     };
