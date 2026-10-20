@@ -68,10 +68,11 @@
       flake = false;
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
+    den.url = "github:denful/den/436350eea1cde7d059877ed04bbd5d35852e3097";
   };
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      imports = [./modules];
+      imports = [./nix];
     };
 }

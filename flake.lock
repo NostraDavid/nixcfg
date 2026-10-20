@@ -130,6 +130,22 @@
         "type": "github"
       }
     },
+    "den": {
+      "locked": {
+        "lastModified": 1792194182,
+        "narHash": "sha256-zvs+W7zVQj890E/f5tgiO2S39WdrZ6d7MbpmOlgcsBA=",
+        "owner": "denful",
+        "repo": "den",
+        "rev": "436350eea1cde7d059877ed04bbd5d35852e3097",
+        "type": "github"
+      },
+      "original": {
+        "owner": "denful",
+        "repo": "den",
+        "rev": "436350eea1cde7d059877ed04bbd5d35852e3097",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -547,6 +563,7 @@
         "awesome-copilot-skills": "awesome-copilot-skills",
         "codex-desktop-linux": "codex-desktop-linux",
         "databricks-agent-skills": "databricks-agent-skills",
+        "den": "den",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "home-manager-unstable": "home-manager-unstable",

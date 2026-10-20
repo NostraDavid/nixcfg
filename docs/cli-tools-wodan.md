@@ -16,11 +16,11 @@ dekken schijfruimte, routes, DNS en procesgebruik al af.
 `watchexec` en `doggo` ontbreken in deze PATH, maar staan al in de optionele
 workstationmodules. Dat is een verschil tussen profiel en actieve omgeving, geen
 ontbrekend pakket in de repository.
-[Bronnen: developmentprofiel](../modules/home/workstation/development/core.nix)
-en [netwerkprofiel](../modules/home/workstation/terminal/network.nix). Ook Hurl
-is al gedeclareerd in [portable-cli.nix](../modules/home/portable-cli.nix). Het
-ontbreken van een opdracht in deze sessie bewijst niet dat een extra declaratie
-nodig is.
+[Bronnen: developmentprofiel](../features/workstation-extra/_development-core.nix)
+en [netwerkprofiel](../features/workstation-extra/_terminal-network.nix). Ook
+Hurl is al gedeclareerd in
+[portable-cli.nix](../features/portable-runtime/_home.nix). Het ontbreken van
+een opdracht in deze sessie bewijst niet dat een extra declaratie nodig is.
 
 ## De gerichte shortlist
 

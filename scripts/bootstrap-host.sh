@@ -44,8 +44,8 @@ command_exists nix || die "the nix command is unavailable"
 
 script_dir="$(CDPATH='' cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(dirname "${script_dir}")"
-hosts_index="${repo_root}/modules/hosts/default.nix"
-host_module="${repo_root}/modules/hosts/${hostname}.nix"
+hosts_index="${repo_root}/inventory/default.nix"
+host_module="${repo_root}/inventory/${hostname}.nix"
 hardware_dir="${repo_root}/hosts/${hostname}"
 hardware_config="${hardware_dir}/hardware-configuration.nix"
 
@@ -88,23 +88,43 @@ fi
 
 cat >"${host_module}" <<EOF
 {
-  config,
-  mkHost,
+  den,
+  constructors,
+  inputs,
   ...
 }: {
-  flake.nixosConfigurations.${hostname} = mkHost {
-    hostname = "${hostname}";
-    module = {
-      pkgs,
-      ...
-    }: {
-      imports = with config.flake.modules.nixos; [
-        ../../hosts/${hostname}/hardware-configuration.nix
+  den.hosts.x86_64-linux.${hostname} = {
+    aspect = den.aspects.host-${hostname};
+    instantiate = constructors.nixos {
+      hostname = "${hostname}";
+      homeManager = true;
+    };
+    users.david = {
+      classes = ["homeManager"];
+      aspect.includes = [den.batteries.host-aspects];
+    };
+  };
+  den.aspects.host-${hostname} = {
+    includes = with den.aspects; [
 ${imports}
-      ];
-
+    ];
+    nixos = {pkgs, ...}: {
+      imports = [../hosts/${hostname}/hardware-configuration.nix];
+      networking.hostName = "${hostname}";
       boot.kernelPackages = pkgs.linuxPackages_latest;
       system.stateVersion = "${state_version}";
+    };
+    homeManager = {
+      imports = [
+        inputs.plasma-manager.homeModules.plasma-manager
+        inputs.codex-desktop-linux.homeManagerModules.default
+      ];
+      programs.home-manager.enable = true;
+      home = {
+        username = "david";
+        homeDirectory = "/home/david";
+        stateVersion = "25.05";
+      };
     };
   };
 }
@@ -130,6 +150,6 @@ if ! nix --extra-experimental-features 'nix-command flakes' eval \
 fi
 
 printf '\nHost %s was added as a %s (state version %s).\n' "${hostname}" "${mode}" "${state_version}"
-printf 'Review modules/hosts/%s.nix, then activate it with:\n' "${hostname}"
+printf 'Review inventory/%s.nix, then activate it with:\n' "${hostname}"
 printf '  sudo nixos-rebuild test --flake path:%s#%s\n' "${repo_root}" "${hostname}"
 printf '  sudo nixos-rebuild switch --flake path:%s#%s\n' "${repo_root}" "${hostname}"

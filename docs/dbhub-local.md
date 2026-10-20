@@ -18,7 +18,7 @@ productiedatabases zijn niet aangesloten.
 
 De clients gebruiken expliciet `~/.config/dbhub/local.toml`. Daardoor kiezen ze
 geen `dbhub.toml` uit de huidige projectmap. Home Manager genereert deze
-configuratie vanuit `modules/home/wodan.nix` en maakt de datamap privé.
+configuratie vanuit `features/mcp/_home.nix` en maakt de datamap privé.
 
 ## Controleer de aansluiting
 

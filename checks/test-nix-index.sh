@@ -17,7 +17,7 @@ exit "${FAIL_INDEX:-0}"
 SH
 chmod +x "$tmp/bin/nix-index"
 
-MODULE="$root/modules/home/nix-index.nix" INDEXER="$tmp" nix eval --impure --raw --expr '
+MODULE="$root/features/nix-index/_home.nix" INDEXER="$tmp" nix eval --impure --raw --expr '
   let module = import (builtins.toPath (builtins.getEnv "MODULE")) {
     inputs.nixpkgs-unstable = "/fixture/nixpkgs";
     lib.hm.dag.entryAfter = _: data: data;

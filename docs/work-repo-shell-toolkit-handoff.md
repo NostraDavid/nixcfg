@@ -89,12 +89,12 @@ files. Keep `azure.env` and its token outside Git. On Wodan, `rsync-bitvavo` now
 runs from `~/.local/bin/`; map it there on a work host if needed.
 
 The NDTK bin and config links currently live in Wodan's
-[`dotfiles.nix`](../modules/home/dotfiles.nix). `portable-cli` does not import
-that module. Wodan maps each regular file in `.local/bin/` to a command without
-its `.py` or `.sh` suffix. The work hosts need their own Home Manager mappings
-for any NDTK commands and config files they use. Keep work copies until those
-mappings point at the base checkout; then remove the duplicate sources. Do not
-import Wodan's full dotfiles module just to obtain NDTK.
+[`dotfiles.nix`](../features/dotfiles/_dotfiles.nix). `portable-cli` does not
+import that module. Wodan maps each regular file in `.local/bin/` to a command
+without its `.py` or `.sh` suffix. The work hosts need their own Home Manager
+mappings for any NDTK commands and config files they use. Keep work copies until
+those mappings point at the base checkout; then remove the duplicate sources. Do
+not import Wodan's full dotfiles module just to obtain NDTK.
 
 ## Apply and check
 

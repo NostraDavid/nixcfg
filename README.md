@@ -8,9 +8,10 @@ changelog:
 
 # NostraDavid's nixconfig & dotfiles
 
-The repository uses flake-parts modules to compose NixOS, Debian Home Manager,
-and nix-darwin configurations. Host composition lives in `modules/hosts/`;
-generated NixOS hardware configuration remains in `hosts/` and `servers/`.
+Den composes NixOS, Debian Home Manager, and nix-darwin configurations from
+feature-owned aspects. Hosts and users live in `inventory/`; profiles select
+features. [Configuration architecture](docs/architecture.md) defines the axes,
+dependency rules, public interfaces, and enforced policies.
 
 [The generated module map](docs/module-map.md) shows imports per machine,
 optional workstation profiles, unobserved files, and possible absorption
@@ -18,6 +19,10 @@ candidates. Run `just module-map` to create the offline interactive diagrams at
 `reports/module-map/index.html`. Run `just module-map-check` after module
 changes; CI checks the snapshot and uploads the HTML as the `module-map`
 artifact.
+
+Run `just architecture-check` to check dependency boundaries and effective host
+capabilities. These policies also run during configuration evaluation and CI.
+They use evaluated configuration, not only directory names.
 
 ## Usage
 
@@ -101,25 +106,21 @@ manifest when updating.
   raw scan gates and configuration-aware comparison reports.
 - [FreeIPA-toegang](docs/freeipa-access.md) beschrijft teams, rechten en de
   gefaseerde toepassing op Forgejo, Proxmox en ingeschreven hosts.
-- `modules/hosts/` contains short host compositions that select hardware, roles,
-  features, and host-specific exceptions.
-- `modules/roles/` composes reusable machine profiles such as desktops,
-  workstations, and Proxmox guests.
-- `modules/features/` registers optional capabilities such as laptop power
-  management, NVIDIA support, terminal tooling, development, browsers,
-  communication, media, gaming, containers, and self-hosted applications.
-- `modules/home/` contains the Home Manager implementations registered by those
-  features. `portable-cli` is shared by Debian and macOS; Wodan-specific
-  extensions use the same capability boundaries.
+- `inventory/` declares Den hosts and homes, selects their profiles, and owns
+  identity, hardware assignments, state versions, and machine overrides.
+- `profiles/` composes features into reusable workstation and server profiles.
+- `features/` owns each capability's NixOS, Darwin, and Home Manager
+  implementations together with its private scripts and helpers.
 - `hosts/` and `servers/` contain machine-specific hardware configuration and
   supporting files.
-- `modules/` contains the flake-parts entry modules and reusable NixOS and Home
-  Manager modules.
+- `nix/` contains package sets, Den evaluation, construction adapters, public
+  exports, image outputs, and flake-parts integration.
+- `policy/` enforces aspect dependencies, native module provenance, and
+  effective capabilities such as Pinta and stable MCP launchers.
 - `dotfiles/` contains dotfiles for various applications; the Home Manager
-  mappings live in `modules/home/dotfiles.nix` and
-  `modules/home/terminal/config.nix`.
-- `mkHost` derives the editable checkout path from `repoSubdir` (default:
-  `~/dev/NostraDavid/nixcfg/trunk`) and passes it to Home Manager as `repoRoot`;
-  a host composition can override `repoSubdir` when its checkout lives
-  elsewhere.
+  mappings live in `features/dotfiles/` and `features/terminal-core/`.
+- The NixOS construction adapter derives the editable checkout from `repoSubdir`
+  (default: `~/dev/NostraDavid/nixcfg/trunk`) and passes it to Home Manager as
+  `repoRoot`; a host composition can override `repoSubdir` when its checkout
+  lives elsewhere.
 - `flake.nix` is the thin entry point for the whole configuration.

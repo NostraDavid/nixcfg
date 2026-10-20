@@ -52,9 +52,9 @@ Gebruik voor nieuwe installaties de nieuwste versie. Controleer de uitrol met
 
 ## NixOS
 
-`modules/internal-pki.nix` voegt beide CA's toe aan de bestaande systeemopslag.
-De gedeelde `mkHost`-constructie importeert deze module voor alle NixOS-hosts.
-Ook nieuwe hosts die `mkHost` gebruiken krijgen beide CA's.
+`features/internal-pki/_nixos.nix` voegt beide CA's toe aan de bestaande
+systeemopslag. De gedeelde `mkHost`-constructie importeert deze module voor alle
+NixOS-hosts. Ook nieuwe hosts die `mkHost` gebruiken krijgen beide CA's.
 
 Voer vanuit deze repository uit:
 

@@ -57,7 +57,7 @@ import sys
 import tomllib
 
 root, tmp = map(Path, sys.argv[1:])
-configure = runpy.run_path(root / "modules/home/mcp-clients.py")["configure"]
+configure = runpy.run_path(root / "features/mcp/mcp-clients.py")["configure"]
 servers = json.loads((tmp / "servers.json").read_text())
 servers["node_repl"]["startup_timeout_sec"] = 120
 # Every physical host must produce the same eight local MCP registrations.
@@ -156,7 +156,7 @@ for name, server in tomllib.loads((root / "dotfiles/codex-0.140.0/.codex/config.
 
 # Exercise the real launcher against a native-app fixture, including spaces.
 launcher = tmp / "node-repl.sh"
-launcher.write_text((root / "modules/home/loki-node-repl.sh").read_text().replace("/Applications/", str(tmp / "Applications") + "/"))
+launcher.write_text((root / "features/mcp/loki-node-repl.sh").read_text().replace("/Applications/", str(tmp / "Applications") + "/"))
 environment = dict(os.environ, HOME=str(home))
 missing = subprocess.run(["bash", launcher], env=environment, capture_output=True, text=True)
 assert missing.returncode == 1 and "requires Codex.app" in missing.stderr

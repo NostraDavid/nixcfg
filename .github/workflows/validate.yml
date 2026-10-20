@@ -17,6 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v20
+      - name: Enforce architecture and host policy
+        run: |
+          nix shell --inputs-from . nixpkgs#python3 nixpkgs#just --command just architecture-check
       - name: Check and render the module map
         run: |
           # shellcheck disable=SC2016

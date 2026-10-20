@@ -23,20 +23,20 @@ A failed evaluation stops generation; partial results never replace the snapshot
 
 | Context | Kind | Imported local files |
 | --- | --- | ---: |
-| Flake wiring | wiring | 48 |
-| apps | NixOS | 9 |
-| bragi | NixOS | 21 |
-| donar | NixOS | 60 |
-| forgejo | NixOS | 7 |
+| Flake wiring | wiring | 6 |
+| apps | NixOS | 7 |
+| bragi | NixOS | 19 |
+| donar | NixOS | 51 |
+| forgejo | NixOS | 6 |
 | forgejo-lab | NixOS | 5 |
-| frigg | NixOS | 52 |
-| homepage | NixOS | 9 |
-| proxy | NixOS | 6 |
-| wodan | NixOS | 64 |
-| loki | Darwin | 15 |
-| david@mimir2 | Home Manager | 13 |
-| mimir2 + workstation | optional | 30 |
-| loki + workstation | optional | 32 |
+| frigg | NixOS | 42 |
+| homepage | NixOS | 7 |
+| proxy | NixOS | 5 |
+| wodan | NixOS | 52 |
+| loki | Darwin | 14 |
+| david@mimir2 | Home Manager | 12 |
+| mimir2 + workstation | optional | 29 |
+| loki + workstation | optional | 31 |
 
 ## Entry points
 
@@ -45,77 +45,251 @@ Only direct local roots appear here. The HTML contains every local import edge.
 ```mermaid
 flowchart LR
   c0["Flake wiring"]
-  c0 --> m0["flake.nix"]
+  c0 --> m127["flake.nix"]
   c1["apps"]
-  c1 --> m6["modules/cachix.nix"]
-  c1 --> m26["modules/features/selfhosted-apps.nix"]
-  c1 --> m103["modules/internal-pki.nix"]
-  c1 --> m115["modules/roles/proxmox-guest.nix"]
-  c1 --> m122["servers/apps/hardware-configuration.nix"]
+  c1 --> m5["features/cachix/_nixos.nix"]
+  c1 --> m53["features/internal-pki/_nixos.nix"]
+  c1 --> m87["features/proxmox-vm/_nixos.nix"]
+  c1 --> m89["features/selfhosted-apps/_nixos.nix"]
+  c1 --> m91["features/server-locale/_nixos.nix"]
+  c1 --> m93["features/server-nix/_nixos.nix"]
+  c1 --> m169["servers/apps/hardware-configuration.nix"]
   c2["bragi"]
-  c2 --> m1["hosts/bragi/hardware-configuration.nix"]
-  c2 --> m6["modules/cachix.nix"]
-  c2 --> m18["modules/features/hyprland.nix"]
-  c2 --> m20["modules/features/keyboard.nix"]
-  c2 --> m35["modules/home/codex-mcp.nix"]
-  c2 --> m103["modules/internal-pki.nix"]
-  c2 --> m110["modules/roles/desktop-base.nix"]
+  c2 --> m1["features/boot/_nixos.nix"]
+  c2 --> m5["features/cachix/_nixos.nix"]
+  c2 --> m7["features/codex-browser/_home.nix"]
+  c2 --> m22["features/desktop-runtime/_nixos.nix"]
+  c2 --> m34["features/dotfiles/_worktrunk.nix"]
+  c2 --> m46["features/hyprland/_nixos.nix"]
+  c2 --> m48["features/i18n/_nixos.nix"]
+  c2 --> m53["features/internal-pki/_nixos.nix"]
+  c2 --> m57["features/keyboard/_home.nix"]
+  c2 --> m58["features/keyboard/_nixos.nix"]
+  c2 --> m62["features/location/_nixos.nix"]
+  c2 --> m64["features/mcp/_agent-memory.nix"]
+  c2 --> m65["features/mcp/_headroom.nix"]
+  c2 --> m66["features/mcp/_home.nix"]
+  c2 --> m67["features/mcp/_pi.nix"]
+  c2 --> m68["features/mcp/_qartez.nix"]
+  c2 --> m77["features/nix-index/_home.nix"]
+  c2 --> m95["features/storage-optimization/_nixos.nix"]
+  c2 --> m128["hosts/bragi/hardware-configuration.nix"]
   c3["donar"]
-  c3 --> m2["hosts/donar/hardware-configuration.nix"]
-  c3 --> m6["modules/cachix.nix"]
-  c3 --> m21["modules/features/laptop.nix"]
-  c3 --> m103["modules/internal-pki.nix"]
-  c3 --> m112["modules/roles/full-workstation.nix"]
+  c3 --> m1["features/boot/_nixos.nix"]
+  c3 --> m3["features/browsers/_home.nix"]
+  c3 --> m5["features/cachix/_nixos.nix"]
+  c3 --> m10["features/communication/_home.nix"]
+  c3 --> m11["features/communication/_work.nix"]
+  c3 --> m13["features/containers/_home.nix"]
+  c3 --> m20["features/desktop-apps/_home.nix"]
+  c3 --> m22["features/desktop-runtime/_nixos.nix"]
+  c3 --> m25["features/development/_core.nix"]
+  c3 --> m26["features/development/_gamedev-forge.nix"]
+  c3 --> m27["features/development/_lab.nix"]
+  c3 --> m28["features/development/_mantle.nix"]
+  c3 --> m29["features/development/_security.nix"]
+  c3 --> m30["features/development/_tooling.nix"]
+  c3 --> m32["features/dotfiles/_dotfiles.nix"]
+  c3 --> m33["features/dotfiles/_portable-dotfiles.nix"]
+  c3 --> m34["features/dotfiles/_worktrunk.nix"]
+  c3 --> m38["features/full-workstation-apps/_home.nix"]
+  c3 --> m41["features/gaming/_home.nix"]
+  c3 --> m42["features/gaming/_nixos.nix"]
+  c3 --> m48["features/i18n/_nixos.nix"]
+  c3 --> m53["features/internal-pki/_nixos.nix"]
+  c3 --> m55["features/kde-runtime/_nixos.nix"]
+  c3 --> m57["features/keyboard/_home.nix"]
+  c3 --> m58["features/keyboard/_nixos.nix"]
+  c3 --> m60["features/laptop/_nixos.nix"]
+  c3 --> m62["features/location/_nixos.nix"]
+  c3 --> m64["features/mcp/_agent-memory.nix"]
+  c3 --> m65["features/mcp/_headroom.nix"]
+  c3 --> m66["features/mcp/_home.nix"]
+  c3 --> m67["features/mcp/_pi.nix"]
+  c3 --> m68["features/mcp/_qartez.nix"]
+  c3 --> m70["features/media/_apps.nix"]
+  c3 --> m71["features/media/_production.nix"]
+  c3 --> m72["features/media/_tools.nix"]
+  c3 --> m77["features/nix-index/_home.nix"]
+  c3 --> m82["features/plasma/_home.nix"]
+  c3 --> m83["features/plasma/_nixos.nix"]
+  c3 --> m95["features/storage-optimization/_nixos.nix"]
+  c3 --> m98["features/terminal/_config.nix"]
+  c3 --> m101["features/terminal/_packages.nix"]
+  c3 --> m105["features/whatpulse/_home.nix"]
+  c3 --> m106["features/whatpulse/_nixos.nix"]
+  c3 --> m125["features/workstation-runtime/_nixos.nix"]
+  c3 --> m129["hosts/donar/hardware-configuration.nix"]
   c4["forgejo"]
-  c4 --> m6["modules/cachix.nix"]
-  c4 --> m32["modules/forgejo.nix"]
-  c4 --> m103["modules/internal-pki.nix"]
-  c4 --> m115["modules/roles/proxmox-guest.nix"]
+  c4 --> m5["features/cachix/_nixos.nix"]
+  c4 --> m36["features/forgejo/_nixos.nix"]
+  c4 --> m53["features/internal-pki/_nixos.nix"]
+  c4 --> m87["features/proxmox-vm/_nixos.nix"]
+  c4 --> m91["features/server-locale/_nixos.nix"]
+  c4 --> m93["features/server-nix/_nixos.nix"]
   c5["forgejo-lab"]
-  c5 --> m6["modules/cachix.nix"]
-  c5 --> m32["modules/forgejo.nix"]
-  c5 --> m103["modules/internal-pki.nix"]
-  c5 --> m118["modules/server-locale.nix"]
-  c5 --> m119["modules/server-nix.nix"]
+  c5 --> m5["features/cachix/_nixos.nix"]
+  c5 --> m36["features/forgejo/_nixos.nix"]
+  c5 --> m53["features/internal-pki/_nixos.nix"]
+  c5 --> m91["features/server-locale/_nixos.nix"]
+  c5 --> m93["features/server-nix/_nixos.nix"]
   c6["frigg"]
-  c6 --> m3["hosts/frigg/hardware-configuration.nix"]
-  c6 --> m6["modules/cachix.nix"]
-  c6 --> m21["modules/features/laptop.nix"]
-  c6 --> m35["modules/home/codex-mcp.nix"]
-  c6 --> m103["modules/internal-pki.nix"]
-  c6 --> m114["modules/roles/kde-workstation.nix"]
+  c6 --> m1["features/boot/_nixos.nix"]
+  c6 --> m3["features/browsers/_home.nix"]
+  c6 --> m5["features/cachix/_nixos.nix"]
+  c6 --> m7["features/codex-browser/_home.nix"]
+  c6 --> m10["features/communication/_home.nix"]
+  c6 --> m13["features/containers/_home.nix"]
+  c6 --> m20["features/desktop-apps/_home.nix"]
+  c6 --> m22["features/desktop-runtime/_nixos.nix"]
+  c6 --> m25["features/development/_core.nix"]
+  c6 --> m28["features/development/_mantle.nix"]
+  c6 --> m29["features/development/_security.nix"]
+  c6 --> m30["features/development/_tooling.nix"]
+  c6 --> m32["features/dotfiles/_dotfiles.nix"]
+  c6 --> m33["features/dotfiles/_portable-dotfiles.nix"]
+  c6 --> m34["features/dotfiles/_worktrunk.nix"]
+  c6 --> m48["features/i18n/_nixos.nix"]
+  c6 --> m53["features/internal-pki/_nixos.nix"]
+  c6 --> m55["features/kde-runtime/_nixos.nix"]
+  c6 --> m57["features/keyboard/_home.nix"]
+  c6 --> m58["features/keyboard/_nixos.nix"]
+  c6 --> m60["features/laptop/_nixos.nix"]
+  c6 --> m62["features/location/_nixos.nix"]
+  c6 --> m64["features/mcp/_agent-memory.nix"]
+  c6 --> m65["features/mcp/_headroom.nix"]
+  c6 --> m66["features/mcp/_home.nix"]
+  c6 --> m67["features/mcp/_pi.nix"]
+  c6 --> m68["features/mcp/_qartez.nix"]
+  c6 --> m70["features/media/_apps.nix"]
+  c6 --> m72["features/media/_tools.nix"]
+  c6 --> m77["features/nix-index/_home.nix"]
+  c6 --> m82["features/plasma/_home.nix"]
+  c6 --> m83["features/plasma/_nixos.nix"]
+  c6 --> m95["features/storage-optimization/_nixos.nix"]
+  c6 --> m98["features/terminal/_config.nix"]
+  c6 --> m101["features/terminal/_packages.nix"]
+  c6 --> m125["features/workstation-runtime/_nixos.nix"]
+  c6 --> m130["hosts/frigg/hardware-configuration.nix"]
   c7["homepage"]
-  c7 --> m6["modules/cachix.nix"]
-  c7 --> m17["modules/features/homepage.nix"]
-  c7 --> m103["modules/internal-pki.nix"]
-  c7 --> m115["modules/roles/proxmox-guest.nix"]
-  c7 --> m123["servers/homepage/hardware-configuration.nix"]
+  c7 --> m5["features/cachix/_nixos.nix"]
+  c7 --> m44["features/homepage/_nixos.nix"]
+  c7 --> m53["features/internal-pki/_nixos.nix"]
+  c7 --> m87["features/proxmox-vm/_nixos.nix"]
+  c7 --> m91["features/server-locale/_nixos.nix"]
+  c7 --> m93["features/server-nix/_nixos.nix"]
+  c7 --> m170["servers/homepage/hardware-configuration.nix"]
   c8["proxy"]
-  c8 --> m6["modules/cachix.nix"]
-  c8 --> m103["modules/internal-pki.nix"]
-  c8 --> m115["modules/roles/proxmox-guest.nix"]
+  c8 --> m5["features/cachix/_nixos.nix"]
+  c8 --> m53["features/internal-pki/_nixos.nix"]
+  c8 --> m87["features/proxmox-vm/_nixos.nix"]
+  c8 --> m91["features/server-locale/_nixos.nix"]
+  c8 --> m93["features/server-nix/_nixos.nix"]
   c9["wodan"]
-  c9 --> m4["hosts/wodan/hardware-configuration.nix"]
-  c9 --> m6["modules/cachix.nix"]
-  c9 --> m24["modules/features/nvidia-workstation.nix"]
-  c9 --> m29["modules/features/wodan-home.nix"]
-  c9 --> m103["modules/internal-pki.nix"]
-  c9 --> m106["modules/proxmox-lab.nix"]
-  c9 --> m112["modules/roles/full-workstation.nix"]
+  c9 --> m1["features/boot/_nixos.nix"]
+  c9 --> m3["features/browsers/_home.nix"]
+  c9 --> m5["features/cachix/_nixos.nix"]
+  c9 --> m7["features/codex-browser/_home.nix"]
+  c9 --> m10["features/communication/_home.nix"]
+  c9 --> m11["features/communication/_work.nix"]
+  c9 --> m13["features/containers/_home.nix"]
+  c9 --> m20["features/desktop-apps/_home.nix"]
+  c9 --> m22["features/desktop-runtime/_nixos.nix"]
+  c9 --> m25["features/development/_core.nix"]
+  c9 --> m26["features/development/_gamedev-forge.nix"]
+  c9 --> m27["features/development/_lab.nix"]
+  c9 --> m28["features/development/_mantle.nix"]
+  c9 --> m29["features/development/_security.nix"]
+  c9 --> m30["features/development/_tooling.nix"]
+  c9 --> m32["features/dotfiles/_dotfiles.nix"]
+  c9 --> m33["features/dotfiles/_portable-dotfiles.nix"]
+  c9 --> m34["features/dotfiles/_worktrunk.nix"]
+  c9 --> m38["features/full-workstation-apps/_home.nix"]
+  c9 --> m41["features/gaming/_home.nix"]
+  c9 --> m42["features/gaming/_nixos.nix"]
+  c9 --> m48["features/i18n/_nixos.nix"]
+  c9 --> m53["features/internal-pki/_nixos.nix"]
+  c9 --> m55["features/kde-runtime/_nixos.nix"]
+  c9 --> m57["features/keyboard/_home.nix"]
+  c9 --> m58["features/keyboard/_nixos.nix"]
+  c9 --> m62["features/location/_nixos.nix"]
+  c9 --> m64["features/mcp/_agent-memory.nix"]
+  c9 --> m65["features/mcp/_headroom.nix"]
+  c9 --> m66["features/mcp/_home.nix"]
+  c9 --> m67["features/mcp/_pi.nix"]
+  c9 --> m68["features/mcp/_qartez.nix"]
+  c9 --> m70["features/media/_apps.nix"]
+  c9 --> m71["features/media/_production.nix"]
+  c9 --> m72["features/media/_tools.nix"]
+  c9 --> m77["features/nix-index/_home.nix"]
+  c9 --> m80["features/nvidia-workstation/_nixos.nix"]
+  c9 --> m82["features/plasma/_home.nix"]
+  c9 --> m83["features/plasma/_nixos.nix"]
+  c9 --> m95["features/storage-optimization/_nixos.nix"]
+  c9 --> m98["features/terminal/_config.nix"]
+  c9 --> m101["features/terminal/_packages.nix"]
+  c9 --> m105["features/whatpulse/_home.nix"]
+  c9 --> m106["features/whatpulse/_nixos.nix"]
+  c9 --> m125["features/workstation-runtime/_nixos.nix"]
+  c9 --> m131["hosts/wodan/hardware-configuration.nix"]
   c10["loki"]
-  c10 --> m7["modules/darwin-keyboard.nix"]
-  c10 --> m27["modules/features/terminal.nix"]
-  c10 --> m38["modules/home/darwin-keyboard.nix"]
+  c10 --> m15["features/darwin-keyboard/_darwin.nix"]
+  c10 --> m16["features/darwin-keyboard/_home.nix"]
+  c10 --> m18["features/darwin-speech/_home.nix"]
+  c10 --> m25["features/development/_core.nix"]
+  c10 --> m33["features/dotfiles/_portable-dotfiles.nix"]
+  c10 --> m34["features/dotfiles/_worktrunk.nix"]
+  c10 --> m64["features/mcp/_agent-memory.nix"]
+  c10 --> m65["features/mcp/_headroom.nix"]
+  c10 --> m66["features/mcp/_home.nix"]
+  c10 --> m67["features/mcp/_pi.nix"]
+  c10 --> m68["features/mcp/_qartez.nix"]
+  c10 --> m77["features/nix-index/_home.nix"]
+  c10 --> m85["features/portable-runtime/_home.nix"]
+  c10 --> m98["features/terminal/_config.nix"]
   c11["david@mimir2"]
-  c11 --> m27["modules/features/terminal.nix"]
+  c11 --> m18["features/darwin-speech/_home.nix"]
+  c11 --> m25["features/development/_core.nix"]
+  c11 --> m33["features/dotfiles/_portable-dotfiles.nix"]
+  c11 --> m34["features/dotfiles/_worktrunk.nix"]
+  c11 --> m64["features/mcp/_agent-memory.nix"]
+  c11 --> m65["features/mcp/_headroom.nix"]
+  c11 --> m66["features/mcp/_home.nix"]
+  c11 --> m67["features/mcp/_pi.nix"]
+  c11 --> m68["features/mcp/_qartez.nix"]
+  c11 --> m77["features/nix-index/_home.nix"]
+  c11 --> m85["features/portable-runtime/_home.nix"]
+  c11 --> m98["features/terminal/_config.nix"]
   c12["mimir2 + workstation"]
-  c12 --> m27["modules/features/terminal.nix"]
-  c12 --> m121["modules/workstation.nix"]
+  c12 --> m18["features/darwin-speech/_home.nix"]
+  c12 --> m25["features/development/_core.nix"]
+  c12 --> m33["features/dotfiles/_portable-dotfiles.nix"]
+  c12 --> m34["features/dotfiles/_worktrunk.nix"]
+  c12 --> m64["features/mcp/_agent-memory.nix"]
+  c12 --> m65["features/mcp/_headroom.nix"]
+  c12 --> m66["features/mcp/_home.nix"]
+  c12 --> m67["features/mcp/_pi.nix"]
+  c12 --> m68["features/mcp/_qartez.nix"]
+  c12 --> m77["features/nix-index/_home.nix"]
+  c12 --> m85["features/portable-runtime/_home.nix"]
+  c12 --> m98["features/terminal/_config.nix"]
+  c12 --> m147["nix/default.nix"]
   c13["loki + workstation"]
-  c13 --> m7["modules/darwin-keyboard.nix"]
-  c13 --> m27["modules/features/terminal.nix"]
-  c13 --> m38["modules/home/darwin-keyboard.nix"]
-  c13 --> m121["modules/workstation.nix"]
+  c13 --> m15["features/darwin-keyboard/_darwin.nix"]
+  c13 --> m16["features/darwin-keyboard/_home.nix"]
+  c13 --> m18["features/darwin-speech/_home.nix"]
+  c13 --> m25["features/development/_core.nix"]
+  c13 --> m33["features/dotfiles/_portable-dotfiles.nix"]
+  c13 --> m34["features/dotfiles/_worktrunk.nix"]
+  c13 --> m64["features/mcp/_agent-memory.nix"]
+  c13 --> m65["features/mcp/_headroom.nix"]
+  c13 --> m66["features/mcp/_home.nix"]
+  c13 --> m67["features/mcp/_pi.nix"]
+  c13 --> m68["features/mcp/_qartez.nix"]
+  c13 --> m77["features/nix-index/_home.nix"]
+  c13 --> m85["features/portable-runtime/_home.nix"]
+  c13 --> m98["features/terminal/_config.nix"]
+  c13 --> m147["nix/default.nix"]
 ```
 
 ## Files outside the evaluated graphs
@@ -123,7 +297,86 @@ flowchart LR
 These are investigation candidates, not proven dead code. Ordinary Nix imports used as
 helpers or consumers outside this repository can be absent from a module graph.
 
-None.
+- [features/annotation/default.nix](../features/annotation/default.nix)
+- [features/boot/default.nix](../features/boot/default.nix)
+- [features/browsers/default.nix](../features/browsers/default.nix)
+- [features/cachix/default.nix](../features/cachix/default.nix)
+- [features/codex-browser/default.nix](../features/codex-browser/default.nix)
+- [features/common-tooling/default.nix](../features/common-tooling/default.nix)
+- [features/communication/default.nix](../features/communication/default.nix)
+- [features/containers/default.nix](../features/containers/default.nix)
+- [features/darwin-keyboard/default.nix](../features/darwin-keyboard/default.nix)
+- [features/darwin-speech/default.nix](../features/darwin-speech/default.nix)
+- [features/desktop-apps/default.nix](../features/desktop-apps/default.nix)
+- [features/desktop-runtime/default.nix](../features/desktop-runtime/default.nix)
+- [features/development/default.nix](../features/development/default.nix)
+- [features/dotfiles/default.nix](../features/dotfiles/default.nix)
+- [features/forgejo/default.nix](../features/forgejo/default.nix)
+- [features/full-workstation-apps/default.nix](../features/full-workstation-apps/default.nix)
+- [features/gaming/default.nix](../features/gaming/default.nix)
+- [features/homepage/default.nix](../features/homepage/default.nix)
+- [features/hyprland/default.nix](../features/hyprland/default.nix)
+- [features/i18n/default.nix](../features/i18n/default.nix)
+- [features/i3/_home.nix](../features/i3/_home.nix)
+- [features/i3/_nixos.nix](../features/i3/_nixos.nix)
+- [features/i3/default.nix](../features/i3/default.nix)
+- [features/internal-pki/default.nix](../features/internal-pki/default.nix)
+- [features/kde-runtime/default.nix](../features/kde-runtime/default.nix)
+- [features/keyboard/default.nix](../features/keyboard/default.nix)
+- [features/laptop/default.nix](../features/laptop/default.nix)
+- [features/location/default.nix](../features/location/default.nix)
+- [features/mcp/default.nix](../features/mcp/default.nix)
+- [features/media/default.nix](../features/media/default.nix)
+- [features/niri/_home.nix](../features/niri/_home.nix)
+- [features/niri/_nixos.nix](../features/niri/_nixos.nix)
+- [features/niri/default.nix](../features/niri/default.nix)
+- [features/nix-index/default.nix](../features/nix-index/default.nix)
+- [features/nixos-base/default.nix](../features/nixos-base/default.nix)
+- [features/nvidia-workstation/default.nix](../features/nvidia-workstation/default.nix)
+- [features/plasma/default.nix](../features/plasma/default.nix)
+- [features/portable-runtime/default.nix](../features/portable-runtime/default.nix)
+- [features/proxmox-vm/default.nix](../features/proxmox-vm/default.nix)
+- [features/selfhosted-apps/default.nix](../features/selfhosted-apps/default.nix)
+- [features/server-locale/default.nix](../features/server-locale/default.nix)
+- [features/server-nix/default.nix](../features/server-nix/default.nix)
+- [features/storage-optimization/default.nix](../features/storage-optimization/default.nix)
+- [features/terminal/default.nix](../features/terminal/default.nix)
+- [features/whatpulse/default.nix](../features/whatpulse/default.nix)
+- [features/window-management/default.nix](../features/window-management/default.nix)
+- [features/workstation-extra/default.nix](../features/workstation-extra/default.nix)
+- [features/workstation-runtime/default.nix](../features/workstation-runtime/default.nix)
+- [inventory/_proxmox-lab-host.nix](../inventory/_proxmox-lab-host.nix)
+- [inventory/_wodan-home.nix](../inventory/_wodan-home.nix)
+- [inventory/apps.nix](../inventory/apps.nix)
+- [inventory/bragi.nix](../inventory/bragi.nix)
+- [inventory/default.nix](../inventory/default.nix)
+- [inventory/donar.nix](../inventory/donar.nix)
+- [inventory/forgejo-lab.nix](../inventory/forgejo-lab.nix)
+- [inventory/forgejo.nix](../inventory/forgejo.nix)
+- [inventory/frigg.nix](../inventory/frigg.nix)
+- [inventory/homepage.nix](../inventory/homepage.nix)
+- [inventory/loki.nix](../inventory/loki.nix)
+- [inventory/mimir2.nix](../inventory/mimir2.nix)
+- [inventory/proxy.nix](../inventory/proxy.nix)
+- [inventory/wodan.nix](../inventory/wodan.nix)
+- [nix/constructors.nix](../nix/constructors.nix)
+- [nix/evaluate.nix](../nix/evaluate.nix)
+- [nix/packages.nix](../nix/packages.nix)
+- [nix/public.nix](../nix/public.nix)
+- [policy/default.nix](../policy/default.nix)
+- [policy/lib.nix](../policy/lib.nix)
+- [policy/module.nix](../policy/module.nix)
+- [policy/native.nix](../policy/native.nix)
+- [profiles/desktop-base.nix](../profiles/desktop-base.nix)
+- [profiles/desktop.nix](../profiles/desktop.nix)
+- [profiles/full-workstation.nix](../profiles/full-workstation.nix)
+- [profiles/i3-workstation.nix](../profiles/i3-workstation.nix)
+- [profiles/interactive.nix](../profiles/interactive.nix)
+- [profiles/kde-workstation.nix](../profiles/kde-workstation.nix)
+- [profiles/portable-home.nix](../profiles/portable-home.nix)
+- [profiles/proxmox-guest.nix](../profiles/proxmox-guest.nix)
+- [profiles/workstation-base.nix](../profiles/workstation-base.nix)
+- [profiles/workstation.nix](../profiles/workstation.nix)
 
 ## Possible absorption
 
@@ -133,27 +386,25 @@ before merging. These checks do not establish semantic redundancy.
 
 | Module | Lines | Only observed importer |
 | --- | ---: | --- |
-| [modules/home/darwin-speech.nix](../modules/home/darwin-speech.nix) | 31 | modules/home/portable-cli.nix |
-| [modules/home/development/cloud.nix](../modules/home/development/cloud.nix) | 13 | modules/home/workstation/development/packages.nix |
-| [modules/home/terminal/archives.nix](../modules/home/terminal/archives.nix) | 16 | modules/home/terminal/packages.nix |
-| [modules/home/terminal/data.nix](../modules/home/terminal/data.nix) | 20 | modules/home/terminal/packages.nix |
-| [modules/home/terminal/network.nix](../modules/home/terminal/network.nix) | 20 | modules/home/terminal/packages.nix |
-| [modules/home/terminal/shell.nix](../modules/home/terminal/shell.nix) | 39 | modules/home/terminal/packages.nix |
-| [modules/home/terminal/system.nix](../modules/home/terminal/system.nix) | 25 | modules/home/terminal/packages.nix |
-| [modules/home/workstation/development/core.nix](../modules/home/workstation/development/core.nix) | 37 | modules/home/workstation/development/packages.nix |
-| [modules/home/workstation/development/default.nix](../modules/home/workstation/development/default.nix) | 6 | modules/home/workstation/default.nix |
-| [modules/home/workstation/development/mantle.nix](../modules/home/workstation/development/mantle.nix) | 24 | modules/home/workstation/development/default.nix |
-| [modules/home/workstation/development/packages.nix](../modules/home/workstation/development/packages.nix) | 8 | modules/home/workstation/development/default.nix |
-| [modules/home/workstation/development/security.nix](../modules/home/workstation/development/security.nix) | 9 | modules/home/workstation/development/packages.nix |
-| [modules/home/workstation/development/tooling.nix](../modules/home/workstation/development/tooling.nix) | 30 | modules/home/workstation/development/packages.nix |
-| [modules/home/workstation/media-tools.nix](../modules/home/workstation/media-tools.nix) | 15 | modules/home/workstation/default.nix |
-| [modules/home/workstation/terminal/archives.nix](../modules/home/workstation/terminal/archives.nix) | 11 | modules/home/workstation/terminal/packages.nix |
-| [modules/home/workstation/terminal/data.nix](../modules/home/workstation/terminal/data.nix) | 36 | modules/home/workstation/terminal/packages.nix |
-| [modules/home/workstation/terminal/default.nix](../modules/home/workstation/terminal/default.nix) | 5 | modules/home/workstation/default.nix |
-| [modules/home/workstation/terminal/network.nix](../modules/home/workstation/terminal/network.nix) | 24 | modules/home/workstation/terminal/packages.nix |
-| [modules/home/workstation/terminal/packages.nix](../modules/home/workstation/terminal/packages.nix) | 9 | modules/home/workstation/terminal/default.nix |
-| [modules/home/workstation/terminal/shell.nix](../modules/home/workstation/terminal/shell.nix) | 32 | modules/home/workstation/terminal/packages.nix |
-| [modules/home/workstation/terminal/system.nix](../modules/home/workstation/terminal/system.nix) | 27 | modules/home/workstation/terminal/packages.nix |
+| [features/terminal/_archives.nix](../features/terminal/_archives.nix) | 16 | features/terminal/_packages.nix |
+| [features/terminal/_data.nix](../features/terminal/_data.nix) | 20 | features/terminal/_packages.nix |
+| [features/terminal/_network.nix](../features/terminal/_network.nix) | 20 | features/terminal/_packages.nix |
+| [features/terminal/_shell.nix](../features/terminal/_shell.nix) | 39 | features/terminal/_packages.nix |
+| [features/terminal/_system.nix](../features/terminal/_system.nix) | 25 | features/terminal/_packages.nix |
+| [features/workstation-extra/_development-core.nix](../features/workstation-extra/_development-core.nix) | 37 | features/workstation-extra/_development-packages.nix |
+| [features/workstation-extra/_development-default.nix](../features/workstation-extra/_development-default.nix) | 6 | features/workstation-extra/_default.nix |
+| [features/workstation-extra/_development-mantle.nix](../features/workstation-extra/_development-mantle.nix) | 19 | features/workstation-extra/_development-default.nix |
+| [features/workstation-extra/_development-packages.nix](../features/workstation-extra/_development-packages.nix) | 7 | features/workstation-extra/_development-default.nix |
+| [features/workstation-extra/_development-security.nix](../features/workstation-extra/_development-security.nix) | 9 | features/workstation-extra/_development-packages.nix |
+| [features/workstation-extra/_development-tooling.nix](../features/workstation-extra/_development-tooling.nix) | 30 | features/workstation-extra/_development-packages.nix |
+| [features/workstation-extra/_media-tools.nix](../features/workstation-extra/_media-tools.nix) | 15 | features/workstation-extra/_default.nix |
+| [features/workstation-extra/_terminal-archives.nix](../features/workstation-extra/_terminal-archives.nix) | 11 | features/workstation-extra/_terminal-packages.nix |
+| [features/workstation-extra/_terminal-data.nix](../features/workstation-extra/_terminal-data.nix) | 36 | features/workstation-extra/_terminal-packages.nix |
+| [features/workstation-extra/_terminal-default.nix](../features/workstation-extra/_terminal-default.nix) | 5 | features/workstation-extra/_default.nix |
+| [features/workstation-extra/_terminal-network.nix](../features/workstation-extra/_terminal-network.nix) | 24 | features/workstation-extra/_terminal-packages.nix |
+| [features/workstation-extra/_terminal-packages.nix](../features/workstation-extra/_terminal-packages.nix) | 9 | features/workstation-extra/_terminal-default.nix |
+| [features/workstation-extra/_terminal-shell.nix](../features/workstation-extra/_terminal-shell.nix) | 32 | features/workstation-extra/_terminal-packages.nix |
+| [features/workstation-extra/_terminal-system.nix](../features/workstation-extra/_terminal-system.nix) | 27 | features/workstation-extra/_terminal-packages.nix |
 
 ## Machine-module matrix
 
@@ -161,127 +412,174 @@ S = system import; H = Home Manager import; I = flake wiring import.
 
 | Module | Flake wiring | apps | bragi | donar | forgejo | forgejo-lab | frigg | homepage | proxy | wodan | loki | david@mimir2 | mimir2 + workstation | loki + workstation |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| [features/annotation/default.nix](../features/annotation/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/boot/_nixos.nix](../features/boot/_nixos.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
+| [features/boot/default.nix](../features/boot/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/browsers/_home.nix](../features/browsers/_home.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/browsers/default.nix](../features/browsers/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/cachix/_nixos.nix](../features/cachix/_nixos.nix) | · | S | S | S | S | S | S | S | S | S | · | · | · | · |
+| [features/cachix/default.nix](../features/cachix/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/codex-browser/_home.nix](../features/codex-browser/_home.nix) | · | · | H | · | · | · | H | · | · | H | · | · | · | · |
+| [features/codex-browser/default.nix](../features/codex-browser/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/common-tooling/default.nix](../features/common-tooling/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/communication/_home.nix](../features/communication/_home.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/communication/_work.nix](../features/communication/_work.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
+| [features/communication/default.nix](../features/communication/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/containers/_home.nix](../features/containers/_home.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/containers/default.nix](../features/containers/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/darwin-keyboard/_darwin.nix](../features/darwin-keyboard/_darwin.nix) | · | · | · | · | · | · | · | · | · | · | S | · | · | S |
+| [features/darwin-keyboard/_home.nix](../features/darwin-keyboard/_home.nix) | · | · | · | · | · | · | · | · | · | · | H | · | · | H |
+| [features/darwin-keyboard/default.nix](../features/darwin-keyboard/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/darwin-speech/_home.nix](../features/darwin-speech/_home.nix) | · | · | · | · | · | · | · | · | · | · | H | H | H | H |
+| [features/darwin-speech/default.nix](../features/darwin-speech/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/desktop-apps/_home.nix](../features/desktop-apps/_home.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/desktop-apps/default.nix](../features/desktop-apps/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/desktop-runtime/_nixos.nix](../features/desktop-runtime/_nixos.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
+| [features/desktop-runtime/default.nix](../features/desktop-runtime/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/development/_cloud.nix](../features/development/_cloud.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/development/_core.nix](../features/development/_core.nix) | · | · | · | H | · | · | H | · | · | H | H | H | H | H |
+| [features/development/_gamedev-forge.nix](../features/development/_gamedev-forge.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
+| [features/development/_lab.nix](../features/development/_lab.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
+| [features/development/_mantle.nix](../features/development/_mantle.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/development/_security.nix](../features/development/_security.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/development/_tooling.nix](../features/development/_tooling.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/development/default.nix](../features/development/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/dotfiles/_dotfiles.nix](../features/dotfiles/_dotfiles.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/dotfiles/_portable-dotfiles.nix](../features/dotfiles/_portable-dotfiles.nix) | · | · | · | H | · | · | H | · | · | H | H | H | H | H |
+| [features/dotfiles/_worktrunk.nix](../features/dotfiles/_worktrunk.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
+| [features/dotfiles/default.nix](../features/dotfiles/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/forgejo/_nixos.nix](../features/forgejo/_nixos.nix) | · | · | · | · | S | S | · | · | · | · | · | · | · | · |
+| [features/forgejo/default.nix](../features/forgejo/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/full-workstation-apps/_home.nix](../features/full-workstation-apps/_home.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
+| [features/full-workstation-apps/_taskbar.nix](../features/full-workstation-apps/_taskbar.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
+| [features/full-workstation-apps/default.nix](../features/full-workstation-apps/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/gaming/_home.nix](../features/gaming/_home.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
+| [features/gaming/_nixos.nix](../features/gaming/_nixos.nix) | · | · | · | S | · | · | · | · | · | S | · | · | · | · |
+| [features/gaming/default.nix](../features/gaming/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/homepage/_nixos.nix](../features/homepage/_nixos.nix) | · | · | · | · | · | · | · | S | · | · | · | · | · | · |
+| [features/homepage/default.nix](../features/homepage/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/hyprland/_nixos.nix](../features/hyprland/_nixos.nix) | · | · | S | · | · | · | · | · | · | · | · | · | · | · |
+| [features/hyprland/default.nix](../features/hyprland/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/i18n/_nixos.nix](../features/i18n/_nixos.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
+| [features/i18n/default.nix](../features/i18n/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/i3/_home.nix](../features/i3/_home.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/i3/_nixos.nix](../features/i3/_nixos.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/i3/default.nix](../features/i3/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/internal-pki/_nixos.nix](../features/internal-pki/_nixos.nix) | · | S | S | S | S | S | S | S | S | S | · | · | · | · |
+| [features/internal-pki/default.nix](../features/internal-pki/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/kde-runtime/_nixos.nix](../features/kde-runtime/_nixos.nix) | · | · | · | S | · | · | S | · | · | S | · | · | · | · |
+| [features/kde-runtime/default.nix](../features/kde-runtime/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/keyboard/_home.nix](../features/keyboard/_home.nix) | · | · | H | H | · | · | H | · | · | H | · | · | · | · |
+| [features/keyboard/_nixos.nix](../features/keyboard/_nixos.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
+| [features/keyboard/default.nix](../features/keyboard/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/laptop/_nixos.nix](../features/laptop/_nixos.nix) | · | · | · | S | · | · | S | · | · | · | · | · | · | · |
+| [features/laptop/default.nix](../features/laptop/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/location/_nixos.nix](../features/location/_nixos.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
+| [features/location/default.nix](../features/location/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/mcp/_agent-memory.nix](../features/mcp/_agent-memory.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
+| [features/mcp/_headroom.nix](../features/mcp/_headroom.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
+| [features/mcp/_home.nix](../features/mcp/_home.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
+| [features/mcp/_pi.nix](../features/mcp/_pi.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
+| [features/mcp/_qartez.nix](../features/mcp/_qartez.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
+| [features/mcp/default.nix](../features/mcp/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/media/_apps.nix](../features/media/_apps.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/media/_production.nix](../features/media/_production.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
+| [features/media/_tools.nix](../features/media/_tools.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/media/default.nix](../features/media/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/niri/_home.nix](../features/niri/_home.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/niri/_nixos.nix](../features/niri/_nixos.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/niri/default.nix](../features/niri/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/nix-index/_home.nix](../features/nix-index/_home.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
+| [features/nix-index/default.nix](../features/nix-index/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/nixos-base/default.nix](../features/nixos-base/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/nvidia-workstation/_nixos.nix](../features/nvidia-workstation/_nixos.nix) | · | · | · | · | · | · | · | · | · | S | · | · | · | · |
+| [features/nvidia-workstation/default.nix](../features/nvidia-workstation/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/plasma/_home.nix](../features/plasma/_home.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/plasma/_nixos.nix](../features/plasma/_nixos.nix) | · | · | · | S | · | · | S | · | · | S | · | · | · | · |
+| [features/plasma/default.nix](../features/plasma/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/portable-runtime/_home.nix](../features/portable-runtime/_home.nix) | · | · | · | · | · | · | · | · | · | · | H | H | H | H |
+| [features/portable-runtime/default.nix](../features/portable-runtime/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/proxmox-vm/_nixos.nix](../features/proxmox-vm/_nixos.nix) | · | S | · | · | S | · | · | S | S | · | · | · | · | · |
+| [features/proxmox-vm/default.nix](../features/proxmox-vm/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/selfhosted-apps/_nixos.nix](../features/selfhosted-apps/_nixos.nix) | · | S | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/selfhosted-apps/default.nix](../features/selfhosted-apps/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/server-locale/_nixos.nix](../features/server-locale/_nixos.nix) | · | S | · | · | S | S | · | S | S | · | · | · | · | · |
+| [features/server-locale/default.nix](../features/server-locale/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/server-nix/_nixos.nix](../features/server-nix/_nixos.nix) | · | S | · | · | S | S | · | S | S | · | · | · | · | · |
+| [features/server-nix/default.nix](../features/server-nix/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/storage-optimization/_nixos.nix](../features/storage-optimization/_nixos.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
+| [features/storage-optimization/default.nix](../features/storage-optimization/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/terminal/_archives.nix](../features/terminal/_archives.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/terminal/_config.nix](../features/terminal/_config.nix) | · | · | · | H | · | · | H | · | · | H | H | H | H | H |
+| [features/terminal/_data.nix](../features/terminal/_data.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/terminal/_network.nix](../features/terminal/_network.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/terminal/_packages.nix](../features/terminal/_packages.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/terminal/_shell.nix](../features/terminal/_shell.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/terminal/_system.nix](../features/terminal/_system.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/terminal/default.nix](../features/terminal/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/whatpulse/_home.nix](../features/whatpulse/_home.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
+| [features/whatpulse/_nixos.nix](../features/whatpulse/_nixos.nix) | · | · | · | S | · | · | · | · | · | S | · | · | · | · |
+| [features/whatpulse/default.nix](../features/whatpulse/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/window-management/default.nix](../features/window-management/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/workstation-extra/_default.nix](../features/workstation-extra/_default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_development-core.nix](../features/workstation-extra/_development-core.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_development-default.nix](../features/workstation-extra/_development-default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_development-mantle.nix](../features/workstation-extra/_development-mantle.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_development-packages.nix](../features/workstation-extra/_development-packages.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_development-security.nix](../features/workstation-extra/_development-security.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_development-tooling.nix](../features/workstation-extra/_development-tooling.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_media-tools.nix](../features/workstation-extra/_media-tools.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_terminal-archives.nix](../features/workstation-extra/_terminal-archives.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_terminal-data.nix](../features/workstation-extra/_terminal-data.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_terminal-default.nix](../features/workstation-extra/_terminal-default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_terminal-network.nix](../features/workstation-extra/_terminal-network.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_terminal-packages.nix](../features/workstation-extra/_terminal-packages.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_terminal-shell.nix](../features/workstation-extra/_terminal-shell.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/_terminal-system.nix](../features/workstation-extra/_terminal-system.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [features/workstation-extra/default.nix](../features/workstation-extra/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [features/workstation-runtime/_nixos.nix](../features/workstation-runtime/_nixos.nix) | · | · | · | S | · | · | S | · | · | S | · | · | · | · |
+| [features/workstation-runtime/default.nix](../features/workstation-runtime/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | [flake.nix](../flake.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | [hosts/bragi/hardware-configuration.nix](../hosts/bragi/hardware-configuration.nix) | · | · | S | · | · | · | · | · | · | · | · | · | · | · |
 | [hosts/donar/hardware-configuration.nix](../hosts/donar/hardware-configuration.nix) | · | · | · | S | · | · | · | · | · | · | · | · | · | · |
 | [hosts/frigg/hardware-configuration.nix](../hosts/frigg/hardware-configuration.nix) | · | · | · | · | · | · | S | · | · | · | · | · | · | · |
 | [hosts/wodan/hardware-configuration.nix](../hosts/wodan/hardware-configuration.nix) | · | · | · | · | · | · | · | · | · | S | · | · | · | · |
-| [modules/boot.nix](../modules/boot.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
-| [modules/cachix.nix](../modules/cachix.nix) | · | S | S | S | S | S | S | S | S | S | · | · | · | · |
-| [modules/darwin-keyboard.nix](../modules/darwin-keyboard.nix) | · | · | · | · | · | · | · | · | · | · | S | · | · | S |
-| [modules/default.nix](../modules/default.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/features/browsers.nix](../modules/features/browsers.nix) | I | · | · | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/features/communication.nix](../modules/features/communication.nix) | I | · | · | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/features/containers.nix](../modules/features/containers.nix) | I | · | · | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/features/default.nix](../modules/features/default.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/features/desktop-apps.nix](../modules/features/desktop-apps.nix) | I | · | · | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/features/development.nix](../modules/features/development.nix) | I | · | · | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/features/dotfiles.nix](../modules/features/dotfiles.nix) | I | · | · | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/features/gaming.nix](../modules/features/gaming.nix) | I | · | · | H/S | · | · | · | · | · | H/S | · | · | · | · |
-| [modules/features/homepage.nix](../modules/features/homepage.nix) | I | · | · | · | · | · | · | S | · | · | · | · | · | · |
-| [modules/features/hyprland.nix](../modules/features/hyprland.nix) | I | · | S | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/features/i3.nix](../modules/features/i3.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/features/keyboard.nix](../modules/features/keyboard.nix) | I | · | H/S | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/features/laptop.nix](../modules/features/laptop.nix) | I | · | · | S | · | · | S | · | · | · | · | · | · | · |
-| [modules/features/media.nix](../modules/features/media.nix) | I | · | · | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/features/niri.nix](../modules/features/niri.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/features/nvidia-workstation.nix](../modules/features/nvidia-workstation.nix) | I | · | · | · | · | · | · | · | · | S | · | · | · | · |
-| [modules/features/plasma.nix](../modules/features/plasma.nix) | I | · | · | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/features/selfhosted-apps.nix](../modules/features/selfhosted-apps.nix) | I | S | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/features/terminal.nix](../modules/features/terminal.nix) | I | · | · | H/S | · | · | H/S | · | · | H/S | H | H | H | H |
-| [modules/features/whatpulse.nix](../modules/features/whatpulse.nix) | I | · | · | H/S | · | · | · | · | · | H/S | · | · | · | · |
-| [modules/features/wodan-home.nix](../modules/features/wodan-home.nix) | I | · | · | · | · | · | · | · | · | H/S | · | · | · | · |
-| [modules/flake.nix](../modules/flake.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/forgejo-image.nix](../modules/forgejo-image.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/forgejo.nix](../modules/forgejo.nix) | · | · | · | · | S | S | · | · | · | · | · | · | · | · |
-| [modules/home-manager.nix](../modules/home-manager.nix) | · | · | H/S | H/S | · | · | H/S | · | · | H/S | · | · | · | · |
-| [modules/home/browsers.nix](../modules/home/browsers.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/codex-mcp.nix](../modules/home/codex-mcp.nix) | · | · | H | · | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/communication.nix](../modules/home/communication.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/containers.nix](../modules/home/containers.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/darwin-keyboard.nix](../modules/home/darwin-keyboard.nix) | · | · | · | · | · | · | · | · | · | · | H | · | · | H |
-| [modules/home/darwin-speech.nix](../modules/home/darwin-speech.nix) | · | · | · | · | · | · | · | · | · | · | H | H | H | H |
-| [modules/home/desktop-apps.nix](../modules/home/desktop-apps.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/development/agent-memory.nix](../modules/home/development/agent-memory.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/development/cloud.nix](../modules/home/development/cloud.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/development/core.nix](../modules/home/development/core.nix) | · | · | · | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/development/gamedev-forge.nix](../modules/home/development/gamedev-forge.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
-| [modules/home/development/headroom.nix](../modules/home/development/headroom.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/development/lab.nix](../modules/home/development/lab.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
-| [modules/home/development/mantle.nix](../modules/home/development/mantle.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/development/pi.nix](../modules/home/development/pi.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/development/qartez.nix](../modules/home/development/qartez.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/development/security.nix](../modules/home/development/security.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/development/tooling.nix](../modules/home/development/tooling.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/development/worktrunk.nix](../modules/home/development/worktrunk.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/dotfiles.nix](../modules/home/dotfiles.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/full-workstation-taskbar.nix](../modules/home/full-workstation-taskbar.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
-| [modules/home/gaming.nix](../modules/home/gaming.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
-| [modules/home/keyboard.nix](../modules/home/keyboard.nix) | · | · | H | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/mcp.nix](../modules/home/mcp.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/media/apps.nix](../modules/home/media/apps.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/media/production.nix](../modules/home/media/production.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
-| [modules/home/media/tools.nix](../modules/home/media/tools.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/nix-index.nix](../modules/home/nix-index.nix) | · | · | H | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/plasma.nix](../modules/home/plasma.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/portable-cli.nix](../modules/home/portable-cli.nix) | · | · | · | · | · | · | · | · | · | · | H | H | H | H |
-| [modules/home/portable-dotfiles.nix](../modules/home/portable-dotfiles.nix) | · | · | · | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/terminal/archives.nix](../modules/home/terminal/archives.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/terminal/config.nix](../modules/home/terminal/config.nix) | · | · | · | H | · | · | H | · | · | H | H | H | H | H |
-| [modules/home/terminal/data.nix](../modules/home/terminal/data.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/terminal/network.nix](../modules/home/terminal/network.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/terminal/packages.nix](../modules/home/terminal/packages.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/terminal/shell.nix](../modules/home/terminal/shell.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/terminal/system.nix](../modules/home/terminal/system.nix) | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [modules/home/whatpulse.nix](../modules/home/whatpulse.nix) | · | · | · | H | · | · | · | · | · | H | · | · | · | · |
-| [modules/home/wodan.nix](../modules/home/wodan.nix) | · | · | · | · | · | · | · | · | · | H | · | · | · | · |
-| [modules/home/workstation/default.nix](../modules/home/workstation/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/development/core.nix](../modules/home/workstation/development/core.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/development/default.nix](../modules/home/workstation/development/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/development/mantle.nix](../modules/home/workstation/development/mantle.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/development/packages.nix](../modules/home/workstation/development/packages.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/development/security.nix](../modules/home/workstation/development/security.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/development/tooling.nix](../modules/home/workstation/development/tooling.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/media-tools.nix](../modules/home/workstation/media-tools.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/terminal/archives.nix](../modules/home/workstation/terminal/archives.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/terminal/data.nix](../modules/home/workstation/terminal/data.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/terminal/default.nix](../modules/home/workstation/terminal/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/terminal/network.nix](../modules/home/workstation/terminal/network.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/terminal/packages.nix](../modules/home/workstation/terminal/packages.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/terminal/shell.nix](../modules/home/workstation/terminal/shell.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/home/workstation/terminal/system.nix](../modules/home/workstation/terminal/system.nix) | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
-| [modules/homepage-container.nix](../modules/homepage-container.nix) | · | · | · | · | · | · | · | S | · | · | · | · | · | · |
-| [modules/hosts/apps.nix](../modules/hosts/apps.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/bragi.nix](../modules/hosts/bragi.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/default.nix](../modules/hosts/default.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/donar.nix](../modules/hosts/donar.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/forgejo-lab.nix](../modules/hosts/forgejo-lab.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/forgejo.nix](../modules/hosts/forgejo.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/frigg.nix](../modules/hosts/frigg.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/homepage.nix](../modules/hosts/homepage.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/loki.nix](../modules/hosts/loki.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/mimir2.nix](../modules/hosts/mimir2.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/proxy.nix](../modules/hosts/proxy.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/hosts/wodan.nix](../modules/hosts/wodan.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/i18n.nix](../modules/i18n.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
-| [modules/internal-pki.nix](../modules/internal-pki.nix) | · | S | S | S | S | S | S | S | S | S | · | · | · | · |
-| [modules/keyboard.nix](../modules/keyboard.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
-| [modules/location.nix](../modules/location.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
-| [modules/proxmox-lab.nix](../modules/proxmox-lab.nix) | I | · | · | · | · | · | · | · | · | S | · | · | · | · |
-| [modules/proxmox-vm.nix](../modules/proxmox-vm.nix) | · | S | · | · | S | · | · | S | S | · | · | · | · | · |
-| [modules/proxy-image.nix](../modules/proxy-image.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/roles/default.nix](../modules/roles/default.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/roles/desktop-base.nix](../modules/roles/desktop-base.nix) | I | · | S | S | · | · | S | · | · | S | · | · | · | · |
-| [modules/roles/desktop.nix](../modules/roles/desktop.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/roles/full-workstation.nix](../modules/roles/full-workstation.nix) | I | · | · | H/S | · | · | · | · | · | H/S | · | · | · | · |
-| [modules/roles/i3-workstation.nix](../modules/roles/i3-workstation.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/roles/kde-workstation.nix](../modules/roles/kde-workstation.nix) | I | · | · | S | · | · | S | · | · | S | · | · | · | · |
-| [modules/roles/proxmox-guest.nix](../modules/roles/proxmox-guest.nix) | I | S | · | · | S | · | · | S | S | · | · | · | · | · |
-| [modules/roles/workstation-base.nix](../modules/roles/workstation-base.nix) | I | · | · | S | · | · | S | · | · | S | · | · | · | · |
-| [modules/selfhosted-apps.nix](../modules/selfhosted-apps.nix) | · | S | · | · | · | · | · | · | · | · | · | · | · | · |
-| [modules/server-locale.nix](../modules/server-locale.nix) | · | S | · | · | S | S | · | S | S | · | · | · | · | · |
-| [modules/server-nix.nix](../modules/server-nix.nix) | · | S | · | · | S | S | · | S | S | · | · | · | · | · |
-| [modules/storage_optimization.nix](../modules/storage_optimization.nix) | · | · | S | S | · | · | S | · | · | S | · | · | · | · |
-| [modules/workstation.nix](../modules/workstation.nix) | I | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [inventory/_proxmox-lab-host.nix](../inventory/_proxmox-lab-host.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/_wodan-home.nix](../inventory/_wodan-home.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/apps.nix](../inventory/apps.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/bragi.nix](../inventory/bragi.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/default.nix](../inventory/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/donar.nix](../inventory/donar.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/forgejo-lab.nix](../inventory/forgejo-lab.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/forgejo.nix](../inventory/forgejo.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/frigg.nix](../inventory/frigg.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/homepage.nix](../inventory/homepage.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/loki.nix](../inventory/loki.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/mimir2.nix](../inventory/mimir2.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/proxy.nix](../inventory/proxy.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [inventory/wodan.nix](../inventory/wodan.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [nix/constructors.nix](../nix/constructors.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [nix/default.nix](../nix/default.nix) | I | · | · | · | · | · | · | · | · | · | · | · | H | H |
+| [nix/evaluate.nix](../nix/evaluate.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [nix/forgejo-image.nix](../nix/forgejo-image.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [nix/outputs.nix](../nix/outputs.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [nix/packages.nix](../nix/packages.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [nix/proxmox-lab.nix](../nix/proxmox-lab.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [nix/proxy-image.nix](../nix/proxy-image.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [nix/public.nix](../nix/public.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [policy/default.nix](../policy/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [policy/lib.nix](../policy/lib.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [policy/module.nix](../policy/module.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [policy/native.nix](../policy/native.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/desktop-base.nix](../profiles/desktop-base.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/desktop.nix](../profiles/desktop.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/full-workstation.nix](../profiles/full-workstation.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/i3-workstation.nix](../profiles/i3-workstation.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/interactive.nix](../profiles/interactive.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/kde-workstation.nix](../profiles/kde-workstation.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/portable-home.nix](../profiles/portable-home.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/proxmox-guest.nix](../profiles/proxmox-guest.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/workstation-base.nix](../profiles/workstation-base.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [profiles/workstation.nix](../profiles/workstation.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | [servers/apps/hardware-configuration.nix](../servers/apps/hardware-configuration.nix) | · | S | · | · | · | · | · | · | · | · | · | · | · | · |
 | [servers/homepage/hardware-configuration.nix](../servers/homepage/hardware-configuration.nix) | · | · | · | · | · | · | · | S | · | · | · | · | · | · |

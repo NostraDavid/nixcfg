@@ -25,6 +25,11 @@
 !users/
 !home/
 !modules/
+!features/
+!profiles/
+!inventory/
+!nix/
+!policy/
 !pkgs/
 !programs/
 !infra/

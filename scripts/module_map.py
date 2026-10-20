@@ -130,7 +130,16 @@ def analyze(graphs: Graphs, root: Path) -> Report:
     )
     paths = {"flake.nix"} | {
         path.relative_to(root).as_posix()
-        for directory in ("modules", "hosts", "servers")
+        for directory in (
+            "modules",
+            "features",
+            "profiles",
+            "inventory",
+            "nix",
+            "policy",
+            "hosts",
+            "servers",
+        )
         for path in (root / directory).rglob("*.nix")
     }
     paths |= {path for item in contexts for path in item["modules"] + item["disabled"]}

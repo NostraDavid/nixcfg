@@ -263,9 +263,8 @@ alleen op `127.0.0.1:3000`. Na de eerste start staat het initiële
 adminwachtwoord in `/srv/forgejo/admin-password` op VM 110.
 
 VM 111 is de gedeelde ingang voor andere diensten. Voeg daarvoor een extra
-Caddy-vhost toe in `modules/hosts/proxy.nix` en wijs de bijbehorende DNS-naam
-naar `.111`. Elke backend kan zijn eigen HTTPS-certificaat en toegangsregels
-hebben.
+Caddy-vhost toe in `inventory/proxy.nix` en wijs de bijbehorende DNS-naam naar
+`.111`. Elke backend kan zijn eigen HTTPS-certificaat en toegangsregels hebben.
 
 Caddy gebruikt twee interne CA's. De publieke CA en sleutels staan op de
 persistente proxydisk onder `/srv/proxy/caddy`. De backend-CA staat op de

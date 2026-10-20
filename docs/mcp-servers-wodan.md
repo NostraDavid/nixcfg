@@ -17,11 +17,12 @@ Wodan draait Linux op x86_64. De lokale PATH bevat onder meer `nix`, `gh`,
 `playwright-mcp`, `mcp-nixos` en `chrome-devtools-mcp`. Aanwezigheid zegt nog
 niets over een werkende verbinding of toegangsrechten.
 
-[modules/home/wodan.nix](../modules/home/wodan.nix) configureert MCP-NixOS,
+[features/mcp/_home.nix](../features/mcp/_home.nix) configureert MCP-NixOS,
 Playwright en Chrome DevTools voor Codex en OpenCode. Playwright en Chrome
 DevTools gebruiken headless, geïsoleerde browsers. Chrome DevTools heeft hier
 `--no-usage-statistics` en `--no-performance-crux`. Dezelfde module installeert
-DBHub en Playwright CLI met bijbehorende skills.
+DBHub. [inventory/_wodan-home.nix](../inventory/_wodan-home.nix) installeert
+Playwright CLI met bijbehorende skills.
 [pkgs/dbhub/default.nix](../pkgs/dbhub/default.nix) bevat het lokale
 DBHub-pakket.
 
@@ -35,9 +36,9 @@ De gecontroleerde lokale configuraties bevatten deze servernamen:
 
 Deze lijsten tonen configuratieverschillen. Ze bewijzen geen fout, aliasgedrag
 of geslaagde verbinding. Ook Pi heeft configuratie in de repository via
-[modules/home/development/pi.nix](../modules/home/development/pi.nix), maar het
-verwachte lokale bestand `~/.pi/agent/mcp.json` ontbrak bij deze inventarisatie.
-Daaruit volgt geen conclusie over de actieve Pi-runtime.
+[features/mcp/_pi.nix](../features/mcp/_pi.nix), maar het verwachte lokale
+bestand `~/.pi/agent/mcp.json` ontbrak bij deze inventarisatie. Daaruit volgt
+geen conclusie over de actieve Pi-runtime.
 
 ## Welke servers hier waarde toevoegen
 

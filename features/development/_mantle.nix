@@ -1,0 +1,75 @@
+{
+  config,
+  lib,
+  local,
+  stable,
+  unstable,
+  ...
+}: {
+  nixcfg.agentMemory.provider = "engrim";
+
+  xdg.desktopEntries.code = {
+    name = "Visual Studio Code";
+    genericName = "Text Editor";
+    comment = "Code Editing. Redefined.";
+    exec = "${config.home.homeDirectory}/.local/bin/ide --no-picker %F";
+    icon = "vscode";
+    terminal = false;
+    type = "Application";
+    categories = ["Utility" "TextEditor" "Development" "IDE"];
+    startupNotify = true;
+    settings = {
+      StartupWMClass = "Code";
+      Actions = "new-empty-window";
+      Keywords = "vscode";
+    };
+    actions.new-empty-window = {
+      name = "New Empty Window";
+      icon = "vscode";
+      exec = "${lib.getExe local.vscode} --new-window %F";
+    };
+  };
+
+  home = {
+    packages = [
+      local.codex # llm agent
+      local.cool-retro-term # terminal emulator with retro style
+      local.dpaint-js # DPaint written in JS
+      local.fixit # fix command in case you mess up a command
+      local.gigatoken # Fast tokenization for OpenAI models
+      local.jsongrep # JSONPath-inspired query language over JSON documents
+      local.mdschema # A declarative schema-based Markdown validator
+      local.opencode-v2-desktop # OpenCode v2 desktop client
+      local.photogimp # Photoshop-like defaults for GIMP
+      local.ptk # python-token-killer
+      local.tiktoken # Tokenizer for OpenAI models
+      local.vscode
+      local.xdgctl # TUI for managing XDG default applications
+      local.yafc # Yet Another Ftp Client
+      stable.openjdk25 # openjdk for nvim-lsp-java
+      unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
+      unstable.dprint # Extensible code formatter; prettier replacement
+      unstable.fastfetch # neofetch alternative
+      unstable.github-copilot-cli
+      unstable.gofumpt # gofmt alternative; useful for dprint
+      unstable.oxlint # js linter
+      unstable.rtk # Compress CLI output for coding agents
+      unstable.snip # Limit command output for coding agents
+      unstable.witr # Why is this running?
+      unstable.zed-editor # vscode alternative
+      unstable.zigfetch # neofetch alternative
+    ];
+
+    activation = {
+      dprintVscodeExtension = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        if ! $DRY_RUN_CMD ${lib.getExe local.vscode} --list-extensions 2>/dev/null \
+            | ${lib.getExe stable.gnugrep} -Fx 'dprint.dprint' >/dev/null 2>&1; then
+          if ! $DRY_RUN_CMD ${lib.getExe local.vscode} \
+            --install-extension dprint.dprint; then
+            echo "warning: failed to install VS Code extension dprint.dprint" >&2
+          fi
+        fi
+      '';
+    };
+  };
+}

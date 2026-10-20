@@ -9,7 +9,7 @@
       repoRoot = toString ../.;
     };
     modules = [
-      ../modules/home/darwin-keyboard.nix
+      ../features/darwin-keyboard/_home.nix
       {
         home = {
           username = "fixture";

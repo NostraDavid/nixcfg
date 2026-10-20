@@ -15,25 +15,39 @@ repos:
         files: "^(scripts/module(_map\\.py|-graph\\.nix|-map\\.html)|checks/test-module-map\\.py|\\.pre-commit-config\\.yaml)$"
         pass_filenames: false
 
+      - id: check-architecture
+        name: check Den architecture and effective configuration policies
+        entry: just architecture-check
+        language: system
+        files: '^(features/|profiles/|inventory/|nix/|policy/|flake\.(nix|lock)$|checks/test-architecture\.py$|\.pre-commit-config\.yaml$)'
+        pass_filenames: false
+
+      - id: check-bootstrap-host
+        name: check native Den host bootstrap
+        entry: bash checks/test-bootstrap-host.sh
+        language: system
+        files: '^(scripts/bootstrap-host\.sh|checks/test-bootstrap-host\.sh|inventory/default\.nix)$'
+        pass_filenames: false
+
       - id: check-nix-index
         name: check initial nix-index generation
         entry: bash checks/test-nix-index.sh
         language: system
-        files: "^(modules/home/nix-index\\.nix|checks/test-nix-index\\.sh)$"
+        files: '^(features/nix-index/|checks/test-nix-index\.sh$)'
         pass_filenames: false
 
       - id: check-dbhub
         name: check DBHub local SQLite connection
         entry: node checks/test-dbhub.mjs
         language: system
-        files: "^(pkgs/dbhub/|checks/test-dbhub\\.mjs$|modules/home/wodan\\.nix$)"
+        files: '^(pkgs/dbhub/|features/mcp/|checks/test-dbhub\.mjs$)'
         pass_filenames: false
 
       - id: check-loki-mcp
         name: check stable MCP launchers and client configuration
         entry: bash checks/test-loki-mcp.sh
         language: system
-        files: '^(modules/(home/(mcp\.nix|mcp-clients\.py|codex-mcp\.nix|loki-node-repl\.sh|wodan\.nix|portable-cli\.nix|development/(agent-memory|headroom|qartez)\.nix|development/headroom-clients\.py)|home-manager\.nix|hosts/(frigg|bragi)\.nix|flake\.nix)|checks/(loki-mcp\.nix|test-loki-mcp\.sh)|pkgs/(headroom|dbhub)/.*|dotfiles/(codex-[^/]+/\.codex/config\.toml|copilot-[^/]+/\.copilot/mcp-config\.json|mcp/\.config/mcp/mcp\.json|vscode-[^/]+/\.config/Code/User/mcp\.json|opencode-[^/]+/\.config/opencode/opencode\.jsonc))$'
+        files: '^(features/(mcp|codex-browser|portable-runtime)/|profiles/|inventory/|nix/|checks/(loki-mcp\.nix|test-loki-mcp\.sh)$|pkgs/(headroom|dbhub)/|dotfiles/(codex-[^/]+/\.codex/config\.toml|copilot-[^/]+/\.copilot/mcp-config\.json|mcp/\.config/mcp/mcp\.json|vscode-[^/]+/\.config/Code/User/mcp\.json|opencode-[^/]+/\.config/opencode/opencode\.jsonc)$)'
         pass_filenames: false
 
       - id: check-video-explainer
@@ -47,7 +61,7 @@ repos:
         name: check Pi workflow extensions against pinned SDK
         entry: node --test checks/pi-parity.test.mjs
         language: system
-        files: "^(dotfiles/pi-[^/]+/|checks/(pi-parity\\.test\\.mjs$|fixtures/pi-mcp-server\\.mjs$)|modules/home/development/(pi|qartez|agent-memory|headroom)\\.nix$|flake\\.lock$)"
+        files: '^(dotfiles/pi-[^/]+/|checks/(pi-parity\.test\.mjs$|fixtures/pi-mcp-server\.mjs$)|features/mcp/|flake\.lock$)'
         pass_filenames: false
 
       - id: check-repos-providers
@@ -61,28 +75,28 @@ repos:
         name: check agent instructions and skill links
         entry: just check-agent-instructions
         language: system
-        files: "^(dotfiles/agents/|modules/home/dotfiles\\.nix$|modules/flake\\.nix$|checks/)"
+        files: "^(dotfiles/agents/|features/dotfiles/|nix/|checks/)"
         pass_filenames: false
 
       - id: check-loki-keyboard
         name: check Loki keyboard profile and migration
         entry: bash checks/test-loki-keyboard.sh
         language: system
-        files: "^(flake\\.(nix|lock)$|modules/(flake\\.nix|darwin-keyboard\\.nix|home/(darwin-keyboard\\.nix|karabiner-profile\\.jq))$|checks/(loki-keyboard\\.nix|test-loki-keyboard\\.sh)$|dotfiles/vscode-[^/]+/\\.config/Code/User/keybindings\\.json$)"
+        files: '^(flake\.(nix|lock)$|features/darwin-keyboard/|nix/|inventory/loki\.nix$|checks/(loki-keyboard\.nix|test-loki-keyboard\.sh)$|dotfiles/vscode-[^/]+/\.config/Code/User/keybindings\.json$)'
         pass_filenames: false
 
       - id: check-darwin-app-migration
         name: check Homebrew to Nix application migration
         entry: bash scripts/test-migrate-darwin-apps.sh
         language: system
-        files: "^(scripts/(test-)?migrate-darwin-apps\\.sh|modules/darwin-keyboard\\.nix|pkgs/(karabiner-elements-installer|alt-tab-macos)/)"
+        files: '^(scripts/(test-)?migrate-darwin-apps\.sh|features/darwin-keyboard/|pkgs/(karabiner-elements-installer|alt-tab-macos)/)'
         pass_filenames: false
 
       - id: check-opencode-v2
         name: check OpenCode v2 configuration and service
         entry: bash checks/test-opencode-v2.sh
         language: system
-        files: "^(pkgs/opencode-v2/|checks/test-opencode-v2\\.sh$|dotfiles/opencode-(work-)?2[^/]+/|modules/home/(portable-cli|development/mantle|workstation/development/core)\\.nix$)"
+        files: '^(pkgs/opencode-v2/|checks/test-opencode-v2\.sh$|dotfiles/opencode-(work-)?2[^/]+/|features/(portable-runtime|development|workstation-extra)/)'
         pass_filenames: false
 
       - id: check-release-updaters

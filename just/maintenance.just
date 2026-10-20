@@ -67,3 +67,8 @@ cleanup older_than_hm="30 days" older_than_nix="14d":
   @just cleanup-home-manager "{{older_than_hm}}"
   @just cleanup-nix {{older_than_nix}}
   @just cleanup-store
+# Enforce declared architecture and effective host capabilities.
+[group('maintenance')]
+architecture-check:
+  @python3 checks/test-architecture.py
+  @nix eval --impure --json --expr 'import ./checks/architecture.nix {}'

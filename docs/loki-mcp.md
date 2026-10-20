@@ -1,7 +1,7 @@
 # Stable MCP commands on all machines
 
-The shared `modules/home/mcp.nix` module configures these servers for Codex,
-OpenCode and Pi on Wodan, Donar, Frigg, Bragi, Mimir2 and Loki:
+The `mcp` Den aspect in `features/mcp/default.nix` configures these servers for
+Codex, OpenCode and Pi on Wodan, Donar, Frigg, Bragi, Mimir2 and Loki:
 
 - Node REPL
 - Agent-memory, using Engrim
@@ -32,9 +32,10 @@ Wodan's Linux executables. This provides the JavaScript MCP server;
 browser-plugin setup inside the desktop app remains separate.
 
 On Linux, Nix supplies the Node REPL runtime and a stable Chromium link. The
-shared `modules/home/codex-mcp.nix` module retains the native Codex Node REPL,
-browser plugins and CUA launcher on Wodan, Frigg and Bragi. CUA remains disabled
-in the client configuration, matching its previous setting.
+`codex-browser` aspect in `features/codex-browser/default.nix` retains the
+native Codex Node REPL, browser plugins and CUA launcher on Wodan, Frigg and
+Bragi. CUA remains disabled in the client configuration, matching its previous
+setting.
 
 On Loki, the browser servers require an installed Google Chrome. Both start
 headless, isolated browser sessions. Chrome DevTools usage statistics and CrUX
