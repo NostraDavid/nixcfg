@@ -15,6 +15,13 @@ repos:
         files: "^(modules/home/nix-index\\.nix|checks/test-nix-index\\.sh)$"
         pass_filenames: false
 
+      - id: check-dbhub
+        name: check DBHub local SQLite connection
+        entry: node checks/test-dbhub.mjs
+        language: system
+        files: "^(pkgs/dbhub/|checks/test-dbhub\\.mjs$|modules/home/wodan\\.nix$)"
+        pass_filenames: false
+
       - id: check-video-explainer
         name: check video renderer logic
         entry: dotfiles/agents/.agents/video-explainer/scripts/render.py unit-test

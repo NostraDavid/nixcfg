@@ -79,7 +79,7 @@ if (provider === "tensorx") {
     assert.equal(config.providers.work.settings.baseURL, "http://127.0.0.1:8787/v1");
 }
 const expectedServers = provider === "tensorx"
-    ? ["agent-memory", "blender", "chrome-devtools", "headroom", "nixos", "node_repl", "openaiDeveloperDocs", "playwright", "qartez"]
+    ? ["agent-memory", "blender", "chrome-devtools", "dbhub", "headroom", "nixos", "node_repl", "openaiDeveloperDocs", "playwright", "qartez"]
     : ["agent-memory", "chrome-devtools", "headroom", "nixos", "playwright", "qartez"];
 assert.deepEqual(Object.keys(config.mcp.servers).sort(), expectedServers);
 for (const server of Object.values(config.mcp.servers)) assert.equal(server.disabled, false);
@@ -87,6 +87,8 @@ if (provider === "tensorx") {
     assert.equal(config.mcp.servers.openaiDeveloperDocs.url, "https://developers.openai.com/mcp");
     assert.equal(config.mcp.servers.node_repl.command[0], "opencode-mcp-node-repl");
     assert.equal(config.mcp.servers.blender.environment.BLENDER_MCP_PORT, "9876");
+    assert.deepEqual(config.mcp.servers.dbhub.command.slice(0, 4), ["dbhub", "--transport", "stdio", "--config"]);
+    assert.ok(config.mcp.servers.dbhub.command[4].endsWith("/.config/dbhub/local.toml"));
 } else {
     assert.ok(config.mcp.servers["chrome-devtools"].command.includes("--no-usage-statistics"));
     assert.ok(config.mcp.servers["chrome-devtools"].command.includes("--no-performance-crux"));

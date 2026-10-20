@@ -1,5 +1,6 @@
 # Home-manager programs specific to wodan.
 {
+  config,
   inputs,
   lib,
   local,
@@ -7,6 +8,10 @@
   unstable,
   ...
 }: let
+  dbhubServer = {
+    command = lib.getExe local.dbhub;
+    args = ["--transport" "stdio" "--config" "${config.xdg.configHome}/dbhub/local.toml"];
+  };
   mcpServers = {
     nixos.command = lib.getExe unstable.mcp-nixos;
     playwright = {
@@ -59,6 +64,7 @@ in {
   };
 
   programs = {
+    pi.coding-agent.mcp.mcpServers.dbhub = dbhubServer;
     plasma = {
       kwin.effects.zoom = {
         enable = true;
@@ -114,6 +120,12 @@ in {
 
   xdg = {
     configFile = {
+      "dbhub/local.toml".text = ''
+        [[sources]]
+        id = "local"
+        description = "Local SQLite sandbox"
+        dsn = "sqlite://${config.xdg.dataHome}/dbhub/local.sqlite"
+      '';
       "codex-desktop/settings.json".text = builtins.toJSON {
         codex-linux-prompt-window-enabled = false;
         codex-linux-system-tray-enabled = false;
@@ -152,8 +164,11 @@ in {
     ] (_: {source = "${local.playwright-cli}/share/skills/playwright-cli";});
 
     activation = {
-      wodanMcpClients = lib.hm.dag.entryAfter ["headroomClients" "blenderMcpClient" "linkGeneration"] ''
-        $DRY_RUN_CMD ${stable.python3.withPackages (p: [p.tomlkit])}/bin/python - "$HOME" ${lib.escapeShellArg (builtins.toJSON mcpServers)} <<'PY'
+      dbhubLocalDatabase = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        $DRY_RUN_CMD ${stable.coreutils}/bin/install -d -m 700 ${lib.escapeShellArg "${config.xdg.dataHome}/dbhub"}
+      '';
+      wodanMcpClients = lib.hm.dag.entryAfter ["dbhubLocalDatabase" "headroomClients" "blenderMcpClient" "linkGeneration"] ''
+        $DRY_RUN_CMD ${stable.python3.withPackages (p: [p.tomlkit])}/bin/python - "$HOME" ${lib.escapeShellArg (builtins.toJSON (mcpServers // {dbhub = dbhubServer;}))} <<'PY'
         import json
         import os
         from pathlib import Path

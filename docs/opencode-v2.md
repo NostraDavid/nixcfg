@@ -109,11 +109,14 @@ client. The files are alternatives; do not load the work file as an extra
 
 ### MCP servers
 
-The personal profile includes all nine servers declared in the active Codex
-configuration on Wodan: `agent-memory`, `blender`, `chrome-devtools`,
+The personal profile includes all ten servers declared in the active Codex
+configuration on Wodan: `agent-memory`, `blender`, `chrome-devtools`, `dbhub`,
 `headroom`, `nixos`, `node_repl`, `openaiDeveloperDocs`, `playwright`, and
 `qartez`. The disabled `cua_repl` entry in the old Codex dotfile is not an
 active server.
+
+DBHub uses the [local SQLite sandbox](dbhub-local.md); the work profile does not
+connect to it.
 
 Wodan installs `opencode-mcp-*` launchers that reuse its pinned browser
 executables and flags. They keep Nix store paths out of the editable JSON file.

@@ -46,6 +46,17 @@
   ],
   "mcp": {
     "servers": {
+      "dbhub": {
+        "type": "local",
+        "command": [
+          "dbhub",
+          "--transport",
+          "stdio",
+          "--config",
+          "{env:HOME}/.config/dbhub/local.toml"
+        ],
+        "disabled": false
+      },
       "agent-memory": {
         "command": [
           "agent-memory",
