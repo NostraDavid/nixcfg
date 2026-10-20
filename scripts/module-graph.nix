@@ -3,7 +3,7 @@
   inherit (flake.inputs.nixpkgs) lib;
   source = toString flake.outPath + "/";
   localFile = file: let
-    path = builtins.head (lib.splitString ", via option " file);
+    path = builtins.head (lib.splitString ", via option " (toString file));
     relative = lib.removePrefix source path;
   in
     if lib.hasPrefix source path && builtins.pathExists path
@@ -55,9 +55,80 @@
       self = flake;
       flake-parts = parts // {lib = parts.lib // {mkFlake = parts.lib.evalFlakeModule;};};
     });
+  inherit (flake.lib) den;
+  policy = import ../policy {
+    inherit lib den;
+    root = flake.outPath;
+  };
+  references = value:
+    if builtins.isList value
+    then lib.concatMap references value
+    else lib.optional (builtins.isAttrs value && !(lib.isDerivation value)) value;
+  declaredImports = parent: value:
+    if builtins.isList value
+    then lib.concatMap (declaredImports parent) value
+    else if builtins.isPath value
+    then let
+      file = localFile value;
+    in
+      lib.optional (file != null) {
+        inherit file parent;
+        disabled = false;
+      }
+    else if builtins.isAttrs value
+    then declaredImports parent (value.imports or [])
+    else [];
+  # Resolved includes can be context functions; inspect safe flat membership only.
+  composition = name: kind: entity: let
+    members =
+      [entity.aspect]
+      ++ entity.hasAspect.allAspects
+      ++ lib.concatMap (user: [user.aspect] ++ user.hasAspect.allAspects) (builtins.attrValues (entity.users or {}));
+    nodes = lib.unique (lib.concatMap (node: let
+      file = localFile (node.meta.file or "");
+    in
+      lib.optional (file != null && builtins.isString (node.name or null)) {
+        inherit file;
+        id = node.name;
+      })
+    members);
+    ids = map (node: node.id) nodes;
+    edges = lib.unique (lib.concatMap (id: let
+      aspect = den.aspects.${id} or {};
+    in
+      map (child: [id child.name])
+      (builtins.filter (child: builtins.elem (child.name or null) ids)
+        (references (aspect.includes or []))))
+    ids);
+  in {inherit name kind nodes edges;};
 in {
   schema = 1;
   wiring = collect wiring.graph;
+  catalogue = lib.unique (lib.concatMap (aspect: let
+    file = localFile (aspect.meta.file or "");
+  in
+    lib.optional (file != null) {
+      inherit file;
+      parent = null;
+      disabled = false;
+    }
+    ++ lib.concatMap (class: declaredImports file (aspect.${class} or {})) ["nixos" "darwin" "homeManager"]) (builtins.attrValues den.aspects));
+  policy = {
+    inherit (policy) valid report;
+    effective = import ../checks/architecture.nix {inherit flake;};
+  };
+  compositions =
+    lib.concatMap (hosts:
+      lib.mapAttrsToList (name: entity:
+        composition name (
+          if entity.class == "darwin"
+          then "Darwin"
+          else "NixOS"
+        )
+        entity)
+      hosts)
+    (builtins.attrValues den.hosts)
+    ++ lib.concatMap (homes: lib.mapAttrsToList (name: composition name "Home Manager") homes) (builtins.attrValues den.homes);
   machines =
     lib.mapAttrsToList (name: systemGraph name "NixOS") flake.nixosConfigurations
     ++ lib.mapAttrsToList (name: systemGraph name "Darwin") flake.darwinConfigurations

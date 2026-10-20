@@ -217,6 +217,7 @@
     </header>
     <main>
       <div class="stats" id="stats"></div>
+      <p class="muted" id="policy-state"></p>
       <div class="toolbar">
         <nav aria-label="Views">
           <button data-view="graph" aria-pressed="true">Diagram</button>
@@ -232,6 +233,10 @@
       <section id="graph">
         <div class="toolbar">
           <label>Configuration<select id="context"></select></label>
+          <label>Graph<select id="scope">
+              <option value="composition">Features and profiles</option>
+              <option value="imports">Native module imports</option>
+            </select></label>
           <label>Diagram zoom<input
               type="range"
               id="zoom"
@@ -247,7 +252,8 @@
       <section id="matrix" hidden class="card">
         <h2>Machine-module matrix</h2>
         <p class="muted">
-          S = system · H = Home Manager · I = flake wiring. Select a cell to open its diagram.
+          S = system · H = Home Manager · I = flake wiring · A = Den aspect owner. Select a cell
+          to open its diagram.
         </p>
         <div class="table-scroll">
           <table>
@@ -278,7 +284,8 @@
           <h2>Wiring and optional profiles</h2>
           <p class="muted">
             These files are reachable only through flake registration or an optional profile. This
-            does not make them dead code.
+            includes registered Den aspects not selected by a deployed machine; it does not make
+            them dead code.
           </p>
           <div id="optional"></div>
         </div>
@@ -296,11 +303,25 @@
     <script>
     const { report, diagrams } = JSON.parse(document.getElementById("module-map-data").textContent);
     const selector = document.getElementById("context");
+    const scope = document.getElementById("scope");
     const search = document.getElementById("search");
     const diagram = document.getElementById("diagram");
     const zoom = document.getElementById("zoom");
     let scale = Number(zoom.value);
     let selected;
+    const policy = report.policy ?? {};
+    document.getElementById("policy-state").textContent = policy.valid === undefined
+      ? "Architecture policy was not evaluated for this report."
+      : `Architecture policy: ${policy.valid ? "passes" : "fails"} · Configuration assertions: ${
+        policy.effective?.effective === true ? "pass" : "not checked"
+      }`;
+    function nodePath(node) {
+      const index = Number(node.id.slice(1));
+      if (/^n[0-9]+$/.test(node.id)) return report.modules[index].path;
+      if (/^a[0-9]+$/.test(node.id)) {
+        return report.contexts.find(c => c.id === selector.value).composition.nodes[index].file;
+      }
+    }
     function element(tag, text, className) {
       const node = document.createElement(tag);
       if (text !== undefined) node.textContent = text;
@@ -353,12 +374,12 @@
         row.hidden = !row.textContent.toLowerCase().includes(query);
       }
       for (const node of diagram.querySelectorAll(".node")) {
-        const index = Number(node.id.slice(1));
-        const module = /^n[0-9]+$/.test(node.id) ? report.modules[index] : undefined;
-        node.style.opacity = !query || !module || module.path.toLowerCase().includes(query)
-          ? "1"
-          : ".18";
-        node.classList.toggle("selected", Boolean(module && module.path === selected));
+        const path = nodePath(node);
+        node.style.opacity =
+          !query || !path || (path + node.textContent).toLowerCase().includes(query)
+            ? "1"
+            : ".18";
+        node.classList.toggle("selected", Boolean(path && path === selected));
       }
     }
     function selectModule(path) {
@@ -367,25 +388,29 @@
     }
     function showDiagram() {
       const item = report.contexts.find(c => c.id === selector.value);
-      diagram.innerHTML = diagrams[item.id];
+      const composition = scope.value === "composition" && item.composition?.nodes.length;
+      diagram.innerHTML = diagrams[item.id + (composition ? ":composition" : "")];
       diagram.querySelector("svg").style.width = zoom.value + "%";
       for (const node of diagram.querySelectorAll(".node")) {
-        if (!/^n[0-9]+$/.test(node.id)) continue;
+        const path = nodePath(node);
+        if (!path) continue;
         node.setAttribute("tabindex", "0");
         node.setAttribute("role", "button");
-        node.setAttribute("aria-label", report.modules[Number(node.id.slice(1))].path);
+        node.setAttribute("aria-label", path);
         node.onkeydown = event => {
           if (["Enter", " "].includes(event.key)) {
             event.preventDefault();
-            selectModule(report.modules[Number(node.id.slice(1))].path);
+            selectModule(path);
           }
         };
       }
-      document.getElementById("context-info").textContent =
-        `${item.modules.length} local files · ${item.edges.length} import edges · ${item.disabled.length} disabled files`;
+      document.getElementById("context-info").textContent = composition
+        ? `${item.composition.nodes.length} selected aspects · ${item.composition.edges.length} authored include edges among selected aspects`
+        : `${item.modules.length} local files · ${item.edges.length} import edges · ${item.disabled.length} disabled files · Optional external extensions appear in native imports`;
       filter();
     }
     selector.onchange = showDiagram;
+    scope.onchange = showDiagram;
     function setZoom(value, x = diagram.clientWidth / 2, y = diagram.clientHeight / 2) {
       const next = Math.min(Number(zoom.max), Math.max(Number(zoom.min), value));
       const ratio = next / scale;
@@ -410,8 +435,8 @@
     search.oninput = filter;
     diagram.onclick = event => {
       const node = event.target.closest(".node");
-      if (node && /^n[0-9]+$/.test(node.id)) {
-        selectModule(report.modules[Number(node.id.slice(1))].path);
+      if (node && nodePath(node)) {
+        selectModule(nodePath(node));
       }
     };
     const heading = element("tr");
@@ -420,7 +445,7 @@
     for (const module of report.modules) {
       const row = element("tr");
       const first = element("td");
-      first.append(sourceLink(module.path));
+      first.append(sourceLink(module.path), element("span", module.kind, "badge"));
       row.append(first);
       for (const item of report.contexts) {
         const cell = element("td");
@@ -430,13 +455,16 @@
         if (layers.length) {
           const symbols = [
             ...new Set(
-              layers.map(([name]) => name === "system" ? "S" : name === "flake" ? "I" : "H"),
+              layers.map(([name]) =>
+                name === "aspects" ? "A" : name === "system" ? "S" : name === "flake" ? "I" : "H"
+              ),
             ),
           ].sort().join("/");
           const button = element("button", symbols);
           button.title = `${module.path} in ${item.label}`;
           button.onclick = () => {
             selector.value = item.id;
+            scope.value = layers.some(([name]) => name === "aspects") ? "composition" : "imports";
             showView("graph");
             showDiagram();
             selectModule(module.path);

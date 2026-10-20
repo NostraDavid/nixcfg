@@ -51,11 +51,689 @@
     },
     {
       "disabled": [],
+      "edges": [
+        [
+          "features/boot/default.nix",
+          "features/boot/_nixos.nix"
+        ],
+        [
+          "features/browsers/default.nix",
+          "features/browsers/_home.nix"
+        ],
+        [
+          "features/cachix/default.nix",
+          "features/cachix/_nixos.nix"
+        ],
+        [
+          "features/codex-browser/default.nix",
+          "features/codex-browser/_home.nix"
+        ],
+        [
+          "features/communication/default.nix",
+          "features/communication/_home.nix"
+        ],
+        [
+          "features/communication/default.nix",
+          "features/communication/_work.nix"
+        ],
+        [
+          "features/containers/default.nix",
+          "features/containers/_home.nix"
+        ],
+        [
+          "features/darwin-keyboard/default.nix",
+          "features/darwin-keyboard/_darwin.nix"
+        ],
+        [
+          "features/darwin-keyboard/default.nix",
+          "features/darwin-keyboard/_home.nix"
+        ],
+        [
+          "features/darwin-speech/default.nix",
+          "features/darwin-speech/_home.nix"
+        ],
+        [
+          "features/desktop-apps/default.nix",
+          "features/desktop-apps/_home.nix"
+        ],
+        [
+          "features/desktop-runtime/default.nix",
+          "features/desktop-runtime/_nixos.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_cloud.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_core.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_gamedev-forge.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_lab.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_mantle.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_security.nix"
+        ],
+        [
+          "features/development/default.nix",
+          "features/development/_tooling.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_portable-dotfiles.nix"
+        ],
+        [
+          "features/dotfiles/default.nix",
+          "features/dotfiles/_worktrunk.nix"
+        ],
+        [
+          "features/forgejo/default.nix",
+          "features/forgejo/_nixos.nix"
+        ],
+        [
+          "features/full-workstation-apps/default.nix",
+          "features/full-workstation-apps/_home.nix"
+        ],
+        [
+          "features/gaming/default.nix",
+          "features/gaming/_home.nix"
+        ],
+        [
+          "features/gaming/default.nix",
+          "features/gaming/_nixos.nix"
+        ],
+        [
+          "features/homepage/default.nix",
+          "features/homepage/_nixos.nix"
+        ],
+        [
+          "features/hyprland/default.nix",
+          "features/hyprland/_nixos.nix"
+        ],
+        [
+          "features/i18n/default.nix",
+          "features/i18n/_nixos.nix"
+        ],
+        [
+          "features/i3/default.nix",
+          "features/i3/_home.nix"
+        ],
+        [
+          "features/i3/default.nix",
+          "features/i3/_nixos.nix"
+        ],
+        [
+          "features/internal-pki/default.nix",
+          "features/internal-pki/_nixos.nix"
+        ],
+        [
+          "features/kde-runtime/default.nix",
+          "features/kde-runtime/_nixos.nix"
+        ],
+        [
+          "features/keyboard/default.nix",
+          "features/keyboard/_home.nix"
+        ],
+        [
+          "features/keyboard/default.nix",
+          "features/keyboard/_nixos.nix"
+        ],
+        [
+          "features/laptop/default.nix",
+          "features/laptop/_nixos.nix"
+        ],
+        [
+          "features/location/default.nix",
+          "features/location/_nixos.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_agent-memory.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_headroom.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_home.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_pi.nix"
+        ],
+        [
+          "features/mcp/default.nix",
+          "features/mcp/_qartez.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_apps.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_production.nix"
+        ],
+        [
+          "features/media/default.nix",
+          "features/media/_tools.nix"
+        ],
+        [
+          "features/niri/default.nix",
+          "features/niri/_home.nix"
+        ],
+        [
+          "features/niri/default.nix",
+          "features/niri/_nixos.nix"
+        ],
+        [
+          "features/nix-index/default.nix",
+          "features/nix-index/_home.nix"
+        ],
+        [
+          "features/nvidia-workstation/default.nix",
+          "features/nvidia-workstation/_nixos.nix"
+        ],
+        [
+          "features/plasma/default.nix",
+          "features/plasma/_home.nix"
+        ],
+        [
+          "features/plasma/default.nix",
+          "features/plasma/_nixos.nix"
+        ],
+        [
+          "features/portable-runtime/default.nix",
+          "features/portable-runtime/_home.nix"
+        ],
+        [
+          "features/proxmox-vm/default.nix",
+          "features/proxmox-vm/_nixos.nix"
+        ],
+        [
+          "features/selfhosted-apps/default.nix",
+          "features/selfhosted-apps/_nixos.nix"
+        ],
+        [
+          "features/server-locale/default.nix",
+          "features/server-locale/_nixos.nix"
+        ],
+        [
+          "features/server-nix/default.nix",
+          "features/server-nix/_nixos.nix"
+        ],
+        [
+          "features/storage-optimization/default.nix",
+          "features/storage-optimization/_nixos.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_config.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_packages.nix"
+        ],
+        [
+          "features/whatpulse/default.nix",
+          "features/whatpulse/_home.nix"
+        ],
+        [
+          "features/whatpulse/default.nix",
+          "features/whatpulse/_nixos.nix"
+        ],
+        [
+          "features/workstation-extra/default.nix",
+          "features/workstation-extra/_default.nix"
+        ],
+        [
+          "features/workstation-extra/default.nix",
+          "features/workstation-extra/_media-tools.nix"
+        ],
+        [
+          "features/workstation-runtime/default.nix",
+          "features/workstation-runtime/_nixos.nix"
+        ]
+      ],
+      "id": "wiring:Registered Den aspects",
+      "kind": "wiring",
+      "label": "Registered Den aspects",
+      "layers": {
+        "flake": [
+          "features/annotation/default.nix",
+          "features/boot/_nixos.nix",
+          "features/boot/default.nix",
+          "features/browsers/_home.nix",
+          "features/browsers/default.nix",
+          "features/cachix/_nixos.nix",
+          "features/cachix/default.nix",
+          "features/codex-browser/_home.nix",
+          "features/codex-browser/default.nix",
+          "features/common-tooling/default.nix",
+          "features/communication/_home.nix",
+          "features/communication/_work.nix",
+          "features/communication/default.nix",
+          "features/containers/_home.nix",
+          "features/containers/default.nix",
+          "features/darwin-keyboard/_darwin.nix",
+          "features/darwin-keyboard/_home.nix",
+          "features/darwin-keyboard/default.nix",
+          "features/darwin-speech/_home.nix",
+          "features/darwin-speech/default.nix",
+          "features/desktop-apps/_home.nix",
+          "features/desktop-apps/default.nix",
+          "features/desktop-runtime/_nixos.nix",
+          "features/desktop-runtime/default.nix",
+          "features/development/_cloud.nix",
+          "features/development/_core.nix",
+          "features/development/_gamedev-forge.nix",
+          "features/development/_lab.nix",
+          "features/development/_mantle.nix",
+          "features/development/_security.nix",
+          "features/development/_tooling.nix",
+          "features/development/default.nix",
+          "features/dotfiles/_dotfiles.nix",
+          "features/dotfiles/_portable-dotfiles.nix",
+          "features/dotfiles/_worktrunk.nix",
+          "features/dotfiles/default.nix",
+          "features/forgejo/_nixos.nix",
+          "features/forgejo/default.nix",
+          "features/full-workstation-apps/_home.nix",
+          "features/full-workstation-apps/default.nix",
+          "features/gaming/_home.nix",
+          "features/gaming/_nixos.nix",
+          "features/gaming/default.nix",
+          "features/homepage/_nixos.nix",
+          "features/homepage/default.nix",
+          "features/hyprland/_nixos.nix",
+          "features/hyprland/default.nix",
+          "features/i18n/_nixos.nix",
+          "features/i18n/default.nix",
+          "features/i3/_home.nix",
+          "features/i3/_nixos.nix",
+          "features/i3/default.nix",
+          "features/internal-pki/_nixos.nix",
+          "features/internal-pki/default.nix",
+          "features/kde-runtime/_nixos.nix",
+          "features/kde-runtime/default.nix",
+          "features/keyboard/_home.nix",
+          "features/keyboard/_nixos.nix",
+          "features/keyboard/default.nix",
+          "features/laptop/_nixos.nix",
+          "features/laptop/default.nix",
+          "features/location/_nixos.nix",
+          "features/location/default.nix",
+          "features/mcp/_agent-memory.nix",
+          "features/mcp/_headroom.nix",
+          "features/mcp/_home.nix",
+          "features/mcp/_pi.nix",
+          "features/mcp/_qartez.nix",
+          "features/mcp/default.nix",
+          "features/media/_apps.nix",
+          "features/media/_production.nix",
+          "features/media/_tools.nix",
+          "features/media/default.nix",
+          "features/niri/_home.nix",
+          "features/niri/_nixos.nix",
+          "features/niri/default.nix",
+          "features/nix-index/_home.nix",
+          "features/nix-index/default.nix",
+          "features/nixos-base/default.nix",
+          "features/nvidia-workstation/_nixos.nix",
+          "features/nvidia-workstation/default.nix",
+          "features/plasma/_home.nix",
+          "features/plasma/_nixos.nix",
+          "features/plasma/default.nix",
+          "features/portable-runtime/_home.nix",
+          "features/portable-runtime/default.nix",
+          "features/proxmox-vm/_nixos.nix",
+          "features/proxmox-vm/default.nix",
+          "features/selfhosted-apps/_nixos.nix",
+          "features/selfhosted-apps/default.nix",
+          "features/server-locale/_nixos.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/_nixos.nix",
+          "features/server-nix/default.nix",
+          "features/storage-optimization/_nixos.nix",
+          "features/storage-optimization/default.nix",
+          "features/terminal/_config.nix",
+          "features/terminal/_packages.nix",
+          "features/terminal/default.nix",
+          "features/whatpulse/_home.nix",
+          "features/whatpulse/_nixos.nix",
+          "features/whatpulse/default.nix",
+          "features/window-management/default.nix",
+          "features/workstation-extra/_default.nix",
+          "features/workstation-extra/_media-tools.nix",
+          "features/workstation-extra/default.nix",
+          "features/workstation-runtime/_nixos.nix",
+          "features/workstation-runtime/default.nix",
+          "inventory/apps.nix",
+          "inventory/bragi.nix",
+          "inventory/donar.nix",
+          "inventory/forgejo-lab.nix",
+          "inventory/forgejo.nix",
+          "inventory/frigg.nix",
+          "inventory/homepage.nix",
+          "inventory/loki.nix",
+          "inventory/mimir2.nix",
+          "inventory/proxy.nix",
+          "inventory/wodan.nix",
+          "profiles/desktop-base.nix",
+          "profiles/desktop.nix",
+          "profiles/full-workstation.nix",
+          "profiles/i3-workstation.nix",
+          "profiles/interactive.nix",
+          "profiles/kde-workstation.nix",
+          "profiles/portable-home.nix",
+          "profiles/proxmox-guest.nix",
+          "profiles/workstation-base.nix",
+          "profiles/workstation.nix"
+        ]
+      },
+      "modules": [
+        "features/annotation/default.nix",
+        "features/boot/_nixos.nix",
+        "features/boot/default.nix",
+        "features/browsers/_home.nix",
+        "features/browsers/default.nix",
+        "features/cachix/_nixos.nix",
+        "features/cachix/default.nix",
+        "features/codex-browser/_home.nix",
+        "features/codex-browser/default.nix",
+        "features/common-tooling/default.nix",
+        "features/communication/_home.nix",
+        "features/communication/_work.nix",
+        "features/communication/default.nix",
+        "features/containers/_home.nix",
+        "features/containers/default.nix",
+        "features/darwin-keyboard/_darwin.nix",
+        "features/darwin-keyboard/_home.nix",
+        "features/darwin-keyboard/default.nix",
+        "features/darwin-speech/_home.nix",
+        "features/darwin-speech/default.nix",
+        "features/desktop-apps/_home.nix",
+        "features/desktop-apps/default.nix",
+        "features/desktop-runtime/_nixos.nix",
+        "features/desktop-runtime/default.nix",
+        "features/development/_cloud.nix",
+        "features/development/_core.nix",
+        "features/development/_gamedev-forge.nix",
+        "features/development/_lab.nix",
+        "features/development/_mantle.nix",
+        "features/development/_security.nix",
+        "features/development/_tooling.nix",
+        "features/development/default.nix",
+        "features/dotfiles/_dotfiles.nix",
+        "features/dotfiles/_portable-dotfiles.nix",
+        "features/dotfiles/_worktrunk.nix",
+        "features/dotfiles/default.nix",
+        "features/forgejo/_nixos.nix",
+        "features/forgejo/default.nix",
+        "features/full-workstation-apps/_home.nix",
+        "features/full-workstation-apps/default.nix",
+        "features/gaming/_home.nix",
+        "features/gaming/_nixos.nix",
+        "features/gaming/default.nix",
+        "features/homepage/_nixos.nix",
+        "features/homepage/default.nix",
+        "features/hyprland/_nixos.nix",
+        "features/hyprland/default.nix",
+        "features/i18n/_nixos.nix",
+        "features/i18n/default.nix",
+        "features/i3/_home.nix",
+        "features/i3/_nixos.nix",
+        "features/i3/default.nix",
+        "features/internal-pki/_nixos.nix",
+        "features/internal-pki/default.nix",
+        "features/kde-runtime/_nixos.nix",
+        "features/kde-runtime/default.nix",
+        "features/keyboard/_home.nix",
+        "features/keyboard/_nixos.nix",
+        "features/keyboard/default.nix",
+        "features/laptop/_nixos.nix",
+        "features/laptop/default.nix",
+        "features/location/_nixos.nix",
+        "features/location/default.nix",
+        "features/mcp/_agent-memory.nix",
+        "features/mcp/_headroom.nix",
+        "features/mcp/_home.nix",
+        "features/mcp/_pi.nix",
+        "features/mcp/_qartez.nix",
+        "features/mcp/default.nix",
+        "features/media/_apps.nix",
+        "features/media/_production.nix",
+        "features/media/_tools.nix",
+        "features/media/default.nix",
+        "features/niri/_home.nix",
+        "features/niri/_nixos.nix",
+        "features/niri/default.nix",
+        "features/nix-index/_home.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
+        "features/nvidia-workstation/_nixos.nix",
+        "features/nvidia-workstation/default.nix",
+        "features/plasma/_home.nix",
+        "features/plasma/_nixos.nix",
+        "features/plasma/default.nix",
+        "features/portable-runtime/_home.nix",
+        "features/portable-runtime/default.nix",
+        "features/proxmox-vm/_nixos.nix",
+        "features/proxmox-vm/default.nix",
+        "features/selfhosted-apps/_nixos.nix",
+        "features/selfhosted-apps/default.nix",
+        "features/server-locale/_nixos.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/_nixos.nix",
+        "features/server-nix/default.nix",
+        "features/storage-optimization/_nixos.nix",
+        "features/storage-optimization/default.nix",
+        "features/terminal/_config.nix",
+        "features/terminal/_packages.nix",
+        "features/terminal/default.nix",
+        "features/whatpulse/_home.nix",
+        "features/whatpulse/_nixos.nix",
+        "features/whatpulse/default.nix",
+        "features/window-management/default.nix",
+        "features/workstation-extra/_default.nix",
+        "features/workstation-extra/_media-tools.nix",
+        "features/workstation-extra/default.nix",
+        "features/workstation-runtime/_nixos.nix",
+        "features/workstation-runtime/default.nix",
+        "inventory/apps.nix",
+        "inventory/bragi.nix",
+        "inventory/donar.nix",
+        "inventory/forgejo-lab.nix",
+        "inventory/forgejo.nix",
+        "inventory/frigg.nix",
+        "inventory/homepage.nix",
+        "inventory/loki.nix",
+        "inventory/mimir2.nix",
+        "inventory/proxy.nix",
+        "inventory/wodan.nix",
+        "profiles/desktop-base.nix",
+        "profiles/desktop.nix",
+        "profiles/full-workstation.nix",
+        "profiles/i3-workstation.nix",
+        "profiles/interactive.nix",
+        "profiles/kde-workstation.nix",
+        "profiles/portable-home.nix",
+        "profiles/proxmox-guest.nix",
+        "profiles/workstation-base.nix",
+        "profiles/workstation.nix"
+      ],
+      "roots": [
+        "features/annotation/default.nix",
+        "features/boot/default.nix",
+        "features/browsers/default.nix",
+        "features/cachix/default.nix",
+        "features/codex-browser/default.nix",
+        "features/common-tooling/default.nix",
+        "features/communication/default.nix",
+        "features/containers/default.nix",
+        "features/darwin-keyboard/default.nix",
+        "features/darwin-speech/default.nix",
+        "features/desktop-apps/default.nix",
+        "features/desktop-runtime/default.nix",
+        "features/development/default.nix",
+        "features/dotfiles/default.nix",
+        "features/forgejo/default.nix",
+        "features/full-workstation-apps/default.nix",
+        "features/gaming/default.nix",
+        "features/homepage/default.nix",
+        "features/hyprland/default.nix",
+        "features/i18n/default.nix",
+        "features/i3/default.nix",
+        "features/internal-pki/default.nix",
+        "features/kde-runtime/default.nix",
+        "features/keyboard/default.nix",
+        "features/laptop/default.nix",
+        "features/location/default.nix",
+        "features/mcp/default.nix",
+        "features/media/default.nix",
+        "features/niri/default.nix",
+        "features/nix-index/default.nix",
+        "features/nixos-base/default.nix",
+        "features/nvidia-workstation/default.nix",
+        "features/plasma/default.nix",
+        "features/portable-runtime/default.nix",
+        "features/proxmox-vm/default.nix",
+        "features/selfhosted-apps/default.nix",
+        "features/server-locale/default.nix",
+        "features/server-nix/default.nix",
+        "features/storage-optimization/default.nix",
+        "features/terminal/default.nix",
+        "features/whatpulse/default.nix",
+        "features/window-management/default.nix",
+        "features/workstation-extra/default.nix",
+        "features/workstation-runtime/default.nix",
+        "inventory/apps.nix",
+        "inventory/bragi.nix",
+        "inventory/donar.nix",
+        "inventory/forgejo-lab.nix",
+        "inventory/forgejo.nix",
+        "inventory/frigg.nix",
+        "inventory/homepage.nix",
+        "inventory/loki.nix",
+        "inventory/mimir2.nix",
+        "inventory/proxy.nix",
+        "inventory/wodan.nix",
+        "profiles/desktop-base.nix",
+        "profiles/desktop.nix",
+        "profiles/full-workstation.nix",
+        "profiles/i3-workstation.nix",
+        "profiles/interactive.nix",
+        "profiles/kde-workstation.nix",
+        "profiles/portable-home.nix",
+        "profiles/proxmox-guest.nix",
+        "profiles/workstation-base.nix",
+        "profiles/workstation.nix"
+      ]
+    },
+    {
+      "composition": {
+        "edges": [
+          [
+            "host-apps",
+            "proxmox-guest"
+          ],
+          [
+            "host-apps",
+            "selfhosted-apps"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ],
+          [
+            "proxmox-guest",
+            "proxmox-vm"
+          ],
+          [
+            "proxmox-guest",
+            "server-locale"
+          ],
+          [
+            "proxmox-guest",
+            "server-nix"
+          ]
+        ],
+        "kind": "NixOS",
+        "name": "apps",
+        "nodes": [
+          {
+            "file": "inventory/apps.nix",
+            "id": "host-apps"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "profiles/proxmox-guest.nix",
+            "id": "proxmox-guest"
+          },
+          {
+            "file": "features/proxmox-vm/default.nix",
+            "id": "proxmox-vm"
+          },
+          {
+            "file": "features/selfhosted-apps/default.nix",
+            "id": "selfhosted-apps"
+          },
+          {
+            "file": "features/server-locale/default.nix",
+            "id": "server-locale"
+          },
+          {
+            "file": "features/server-nix/default.nix",
+            "id": "server-nix"
+          }
+        ]
+      },
+      "disabled": [],
       "edges": [],
       "id": "NixOS:apps",
       "kind": "NixOS",
       "label": "apps",
       "layers": {
+        "aspects": [
+          "features/cachix/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/proxmox-vm/default.nix",
+          "features/selfhosted-apps/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "inventory/apps.nix",
+          "profiles/proxmox-guest.nix"
+        ],
         "system": [
           "features/cachix/_nixos.nix",
           "features/internal-pki/_nixos.nix",
@@ -86,12 +764,217 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "host-bragi",
+            "desktop-base"
+          ],
+          [
+            "host-bragi",
+            "hyprland"
+          ],
+          [
+            "host-bragi",
+            "keyboard"
+          ],
+          [
+            "host-bragi",
+            "codex-browser"
+          ],
+          [
+            "desktop-base",
+            "boot"
+          ],
+          [
+            "desktop-base",
+            "location"
+          ],
+          [
+            "desktop-base",
+            "i18n"
+          ],
+          [
+            "desktop-base",
+            "storage-optimization"
+          ],
+          [
+            "desktop-base",
+            "interactive"
+          ],
+          [
+            "desktop-base",
+            "desktop-runtime"
+          ],
+          [
+            "interactive",
+            "mcp"
+          ],
+          [
+            "interactive",
+            "nix-index"
+          ],
+          [
+            "interactive",
+            "worktrunk"
+          ],
+          [
+            "interactive",
+            "annotation"
+          ],
+          [
+            "interactive",
+            "common-tooling"
+          ],
+          [
+            "mcp",
+            "agent-memory"
+          ],
+          [
+            "mcp",
+            "headroom"
+          ],
+          [
+            "mcp",
+            "qartez"
+          ],
+          [
+            "mcp",
+            "pi"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ]
+        ],
+        "kind": "NixOS",
+        "name": "bragi",
+        "nodes": [
+          {
+            "file": "inventory/bragi.nix",
+            "id": "host-bragi"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "agent-memory"
+          },
+          {
+            "file": "features/annotation/default.nix",
+            "id": "annotation"
+          },
+          {
+            "file": "features/boot/default.nix",
+            "id": "boot"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/codex-browser/default.nix",
+            "id": "codex-browser"
+          },
+          {
+            "file": "features/common-tooling/default.nix",
+            "id": "common-tooling"
+          },
+          {
+            "file": "profiles/desktop-base.nix",
+            "id": "desktop-base"
+          },
+          {
+            "file": "features/desktop-runtime/default.nix",
+            "id": "desktop-runtime"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "headroom"
+          },
+          {
+            "file": "features/hyprland/default.nix",
+            "id": "hyprland"
+          },
+          {
+            "file": "features/i18n/default.nix",
+            "id": "i18n"
+          },
+          {
+            "file": "profiles/interactive.nix",
+            "id": "interactive"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/keyboard/default.nix",
+            "id": "keyboard"
+          },
+          {
+            "file": "features/location/default.nix",
+            "id": "location"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "mcp"
+          },
+          {
+            "file": "features/nix-index/default.nix",
+            "id": "nix-index"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "pi"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "qartez"
+          },
+          {
+            "file": "features/storage-optimization/default.nix",
+            "id": "storage-optimization"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "worktrunk"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [],
       "id": "NixOS:bragi",
       "kind": "NixOS",
       "label": "bragi",
       "layers": {
+        "aspects": [
+          "features/annotation/default.nix",
+          "features/boot/default.nix",
+          "features/cachix/default.nix",
+          "features/codex-browser/default.nix",
+          "features/common-tooling/default.nix",
+          "features/desktop-runtime/default.nix",
+          "features/dotfiles/default.nix",
+          "features/hyprland/default.nix",
+          "features/i18n/default.nix",
+          "features/internal-pki/default.nix",
+          "features/keyboard/default.nix",
+          "features/location/default.nix",
+          "features/mcp/default.nix",
+          "features/nix-index/default.nix",
+          "features/nixos-base/default.nix",
+          "features/storage-optimization/default.nix",
+          "inventory/bragi.nix",
+          "profiles/desktop-base.nix",
+          "profiles/interactive.nix"
+        ],
         "home:david": [
           "features/codex-browser/_home.nix",
           "features/dotfiles/_worktrunk.nix",
@@ -160,6 +1043,402 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "host-donar",
+            "full-workstation"
+          ],
+          [
+            "host-donar",
+            "laptop"
+          ],
+          [
+            "desktop-base",
+            "boot"
+          ],
+          [
+            "desktop-base",
+            "location"
+          ],
+          [
+            "desktop-base",
+            "i18n"
+          ],
+          [
+            "desktop-base",
+            "storage-optimization"
+          ],
+          [
+            "desktop-base",
+            "interactive"
+          ],
+          [
+            "desktop-base",
+            "desktop-runtime"
+          ],
+          [
+            "development",
+            "development-core"
+          ],
+          [
+            "development",
+            "development-mantle"
+          ],
+          [
+            "development-core",
+            "qartez"
+          ],
+          [
+            "development-core",
+            "pi"
+          ],
+          [
+            "development-mantle",
+            "agent-memory"
+          ],
+          [
+            "development-mantle",
+            "headroom"
+          ],
+          [
+            "dotfiles",
+            "portable-dotfiles"
+          ],
+          [
+            "full-workstation",
+            "kde-workstation"
+          ],
+          [
+            "full-workstation",
+            "work-communication"
+          ],
+          [
+            "full-workstation",
+            "development-lab"
+          ],
+          [
+            "full-workstation",
+            "gamedev-forge"
+          ],
+          [
+            "full-workstation",
+            "gaming"
+          ],
+          [
+            "full-workstation",
+            "media-production"
+          ],
+          [
+            "full-workstation",
+            "whatpulse"
+          ],
+          [
+            "full-workstation",
+            "full-workstation-apps"
+          ],
+          [
+            "interactive",
+            "mcp"
+          ],
+          [
+            "interactive",
+            "nix-index"
+          ],
+          [
+            "interactive",
+            "worktrunk"
+          ],
+          [
+            "interactive",
+            "annotation"
+          ],
+          [
+            "interactive",
+            "common-tooling"
+          ],
+          [
+            "kde-workstation",
+            "workstation-base"
+          ],
+          [
+            "kde-workstation",
+            "plasma"
+          ],
+          [
+            "kde-workstation",
+            "kde-runtime"
+          ],
+          [
+            "mcp",
+            "agent-memory"
+          ],
+          [
+            "mcp",
+            "headroom"
+          ],
+          [
+            "mcp",
+            "qartez"
+          ],
+          [
+            "mcp",
+            "pi"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ],
+          [
+            "portable-dotfiles",
+            "worktrunk"
+          ],
+          [
+            "terminal",
+            "terminal-core"
+          ],
+          [
+            "workstation-base",
+            "desktop-base"
+          ],
+          [
+            "workstation-base",
+            "browsers"
+          ],
+          [
+            "workstation-base",
+            "communication"
+          ],
+          [
+            "workstation-base",
+            "containers"
+          ],
+          [
+            "workstation-base",
+            "desktop-apps"
+          ],
+          [
+            "workstation-base",
+            "development"
+          ],
+          [
+            "workstation-base",
+            "dotfiles"
+          ],
+          [
+            "workstation-base",
+            "keyboard"
+          ],
+          [
+            "workstation-base",
+            "media"
+          ],
+          [
+            "workstation-base",
+            "terminal"
+          ],
+          [
+            "workstation-base",
+            "workstation-runtime"
+          ]
+        ],
+        "kind": "NixOS",
+        "name": "donar",
+        "nodes": [
+          {
+            "file": "inventory/donar.nix",
+            "id": "host-donar"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "agent-memory"
+          },
+          {
+            "file": "features/annotation/default.nix",
+            "id": "annotation"
+          },
+          {
+            "file": "features/boot/default.nix",
+            "id": "boot"
+          },
+          {
+            "file": "features/browsers/default.nix",
+            "id": "browsers"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/common-tooling/default.nix",
+            "id": "common-tooling"
+          },
+          {
+            "file": "features/communication/default.nix",
+            "id": "communication"
+          },
+          {
+            "file": "features/containers/default.nix",
+            "id": "containers"
+          },
+          {
+            "file": "features/desktop-apps/default.nix",
+            "id": "desktop-apps"
+          },
+          {
+            "file": "profiles/desktop-base.nix",
+            "id": "desktop-base"
+          },
+          {
+            "file": "features/desktop-runtime/default.nix",
+            "id": "desktop-runtime"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-core"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-lab"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-mantle"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "dotfiles"
+          },
+          {
+            "file": "profiles/full-workstation.nix",
+            "id": "full-workstation"
+          },
+          {
+            "file": "features/full-workstation-apps/default.nix",
+            "id": "full-workstation-apps"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "gamedev-forge"
+          },
+          {
+            "file": "features/gaming/default.nix",
+            "id": "gaming"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "headroom"
+          },
+          {
+            "file": "features/i18n/default.nix",
+            "id": "i18n"
+          },
+          {
+            "file": "profiles/interactive.nix",
+            "id": "interactive"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/kde-runtime/default.nix",
+            "id": "kde-runtime"
+          },
+          {
+            "file": "profiles/kde-workstation.nix",
+            "id": "kde-workstation"
+          },
+          {
+            "file": "features/keyboard/default.nix",
+            "id": "keyboard"
+          },
+          {
+            "file": "features/laptop/default.nix",
+            "id": "laptop"
+          },
+          {
+            "file": "features/location/default.nix",
+            "id": "location"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "mcp"
+          },
+          {
+            "file": "features/media/default.nix",
+            "id": "media"
+          },
+          {
+            "file": "features/media/default.nix",
+            "id": "media-production"
+          },
+          {
+            "file": "features/nix-index/default.nix",
+            "id": "nix-index"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "pi"
+          },
+          {
+            "file": "features/plasma/default.nix",
+            "id": "plasma"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "portable-dotfiles"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "qartez"
+          },
+          {
+            "file": "features/storage-optimization/default.nix",
+            "id": "storage-optimization"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "terminal"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "terminal-core"
+          },
+          {
+            "file": "features/whatpulse/default.nix",
+            "id": "whatpulse"
+          },
+          {
+            "file": "features/communication/default.nix",
+            "id": "work-communication"
+          },
+          {
+            "file": "profiles/workstation-base.nix",
+            "id": "workstation-base"
+          },
+          {
+            "file": "features/workstation-runtime/default.nix",
+            "id": "workstation-runtime"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "worktrunk"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [
         [
@@ -191,6 +1470,42 @@
       "kind": "NixOS",
       "label": "donar",
       "layers": {
+        "aspects": [
+          "features/annotation/default.nix",
+          "features/boot/default.nix",
+          "features/browsers/default.nix",
+          "features/cachix/default.nix",
+          "features/common-tooling/default.nix",
+          "features/communication/default.nix",
+          "features/containers/default.nix",
+          "features/desktop-apps/default.nix",
+          "features/desktop-runtime/default.nix",
+          "features/development/default.nix",
+          "features/dotfiles/default.nix",
+          "features/full-workstation-apps/default.nix",
+          "features/gaming/default.nix",
+          "features/i18n/default.nix",
+          "features/internal-pki/default.nix",
+          "features/kde-runtime/default.nix",
+          "features/keyboard/default.nix",
+          "features/laptop/default.nix",
+          "features/location/default.nix",
+          "features/mcp/default.nix",
+          "features/media/default.nix",
+          "features/nix-index/default.nix",
+          "features/nixos-base/default.nix",
+          "features/plasma/default.nix",
+          "features/storage-optimization/default.nix",
+          "features/terminal/default.nix",
+          "features/whatpulse/default.nix",
+          "features/workstation-runtime/default.nix",
+          "inventory/donar.nix",
+          "profiles/desktop-base.nix",
+          "profiles/full-workstation.nix",
+          "profiles/interactive.nix",
+          "profiles/kde-workstation.nix",
+          "profiles/workstation-base.nix"
+        ],
         "home:david": [
           "features/browsers/_home.nix",
           "features/communication/_home.nix",
@@ -349,12 +1664,95 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "host-forgejo",
+            "proxmox-guest"
+          ],
+          [
+            "host-forgejo",
+            "forgejo"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ],
+          [
+            "proxmox-guest",
+            "proxmox-vm"
+          ],
+          [
+            "proxmox-guest",
+            "server-locale"
+          ],
+          [
+            "proxmox-guest",
+            "server-nix"
+          ]
+        ],
+        "kind": "NixOS",
+        "name": "forgejo",
+        "nodes": [
+          {
+            "file": "inventory/forgejo.nix",
+            "id": "host-forgejo"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/forgejo/default.nix",
+            "id": "forgejo"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "profiles/proxmox-guest.nix",
+            "id": "proxmox-guest"
+          },
+          {
+            "file": "features/proxmox-vm/default.nix",
+            "id": "proxmox-vm"
+          },
+          {
+            "file": "features/server-locale/default.nix",
+            "id": "server-locale"
+          },
+          {
+            "file": "features/server-nix/default.nix",
+            "id": "server-nix"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [],
       "id": "NixOS:forgejo",
       "kind": "NixOS",
       "label": "forgejo",
       "layers": {
+        "aspects": [
+          "features/cachix/default.nix",
+          "features/forgejo/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/proxmox-vm/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "inventory/forgejo.nix",
+          "profiles/proxmox-guest.nix"
+        ],
         "system": [
           "features/cachix/_nixos.nix",
           "features/forgejo/_nixos.nix",
@@ -382,12 +1780,77 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "host-forgejo-lab",
+            "server-locale"
+          ],
+          [
+            "host-forgejo-lab",
+            "server-nix"
+          ],
+          [
+            "host-forgejo-lab",
+            "forgejo"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ]
+        ],
+        "kind": "NixOS",
+        "name": "forgejo-lab",
+        "nodes": [
+          {
+            "file": "inventory/forgejo-lab.nix",
+            "id": "host-forgejo-lab"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/forgejo/default.nix",
+            "id": "forgejo"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "features/server-locale/default.nix",
+            "id": "server-locale"
+          },
+          {
+            "file": "features/server-nix/default.nix",
+            "id": "server-nix"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [],
       "id": "NixOS:forgejo-lab",
       "kind": "NixOS",
       "label": "forgejo-lab",
       "layers": {
+        "aspects": [
+          "features/cachix/default.nix",
+          "features/forgejo/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "inventory/forgejo-lab.nix"
+        ],
         "system": [
           "features/cachix/_nixos.nix",
           "features/forgejo/_nixos.nix",
@@ -412,6 +1875,346 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "host-frigg",
+            "kde-workstation"
+          ],
+          [
+            "host-frigg",
+            "laptop"
+          ],
+          [
+            "host-frigg",
+            "codex-browser"
+          ],
+          [
+            "desktop-base",
+            "boot"
+          ],
+          [
+            "desktop-base",
+            "location"
+          ],
+          [
+            "desktop-base",
+            "i18n"
+          ],
+          [
+            "desktop-base",
+            "storage-optimization"
+          ],
+          [
+            "desktop-base",
+            "interactive"
+          ],
+          [
+            "desktop-base",
+            "desktop-runtime"
+          ],
+          [
+            "development",
+            "development-core"
+          ],
+          [
+            "development",
+            "development-mantle"
+          ],
+          [
+            "development-core",
+            "qartez"
+          ],
+          [
+            "development-core",
+            "pi"
+          ],
+          [
+            "development-mantle",
+            "agent-memory"
+          ],
+          [
+            "development-mantle",
+            "headroom"
+          ],
+          [
+            "dotfiles",
+            "portable-dotfiles"
+          ],
+          [
+            "interactive",
+            "mcp"
+          ],
+          [
+            "interactive",
+            "nix-index"
+          ],
+          [
+            "interactive",
+            "worktrunk"
+          ],
+          [
+            "interactive",
+            "annotation"
+          ],
+          [
+            "interactive",
+            "common-tooling"
+          ],
+          [
+            "kde-workstation",
+            "workstation-base"
+          ],
+          [
+            "kde-workstation",
+            "plasma"
+          ],
+          [
+            "kde-workstation",
+            "kde-runtime"
+          ],
+          [
+            "mcp",
+            "agent-memory"
+          ],
+          [
+            "mcp",
+            "headroom"
+          ],
+          [
+            "mcp",
+            "qartez"
+          ],
+          [
+            "mcp",
+            "pi"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ],
+          [
+            "portable-dotfiles",
+            "worktrunk"
+          ],
+          [
+            "terminal",
+            "terminal-core"
+          ],
+          [
+            "workstation-base",
+            "desktop-base"
+          ],
+          [
+            "workstation-base",
+            "browsers"
+          ],
+          [
+            "workstation-base",
+            "communication"
+          ],
+          [
+            "workstation-base",
+            "containers"
+          ],
+          [
+            "workstation-base",
+            "desktop-apps"
+          ],
+          [
+            "workstation-base",
+            "development"
+          ],
+          [
+            "workstation-base",
+            "dotfiles"
+          ],
+          [
+            "workstation-base",
+            "keyboard"
+          ],
+          [
+            "workstation-base",
+            "media"
+          ],
+          [
+            "workstation-base",
+            "terminal"
+          ],
+          [
+            "workstation-base",
+            "workstation-runtime"
+          ]
+        ],
+        "kind": "NixOS",
+        "name": "frigg",
+        "nodes": [
+          {
+            "file": "inventory/frigg.nix",
+            "id": "host-frigg"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "agent-memory"
+          },
+          {
+            "file": "features/annotation/default.nix",
+            "id": "annotation"
+          },
+          {
+            "file": "features/boot/default.nix",
+            "id": "boot"
+          },
+          {
+            "file": "features/browsers/default.nix",
+            "id": "browsers"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/codex-browser/default.nix",
+            "id": "codex-browser"
+          },
+          {
+            "file": "features/common-tooling/default.nix",
+            "id": "common-tooling"
+          },
+          {
+            "file": "features/communication/default.nix",
+            "id": "communication"
+          },
+          {
+            "file": "features/containers/default.nix",
+            "id": "containers"
+          },
+          {
+            "file": "features/desktop-apps/default.nix",
+            "id": "desktop-apps"
+          },
+          {
+            "file": "profiles/desktop-base.nix",
+            "id": "desktop-base"
+          },
+          {
+            "file": "features/desktop-runtime/default.nix",
+            "id": "desktop-runtime"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-core"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-mantle"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "dotfiles"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "headroom"
+          },
+          {
+            "file": "features/i18n/default.nix",
+            "id": "i18n"
+          },
+          {
+            "file": "profiles/interactive.nix",
+            "id": "interactive"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/kde-runtime/default.nix",
+            "id": "kde-runtime"
+          },
+          {
+            "file": "profiles/kde-workstation.nix",
+            "id": "kde-workstation"
+          },
+          {
+            "file": "features/keyboard/default.nix",
+            "id": "keyboard"
+          },
+          {
+            "file": "features/laptop/default.nix",
+            "id": "laptop"
+          },
+          {
+            "file": "features/location/default.nix",
+            "id": "location"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "mcp"
+          },
+          {
+            "file": "features/media/default.nix",
+            "id": "media"
+          },
+          {
+            "file": "features/nix-index/default.nix",
+            "id": "nix-index"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "pi"
+          },
+          {
+            "file": "features/plasma/default.nix",
+            "id": "plasma"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "portable-dotfiles"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "qartez"
+          },
+          {
+            "file": "features/storage-optimization/default.nix",
+            "id": "storage-optimization"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "terminal"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "terminal-core"
+          },
+          {
+            "file": "profiles/workstation-base.nix",
+            "id": "workstation-base"
+          },
+          {
+            "file": "features/workstation-runtime/default.nix",
+            "id": "workstation-runtime"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "worktrunk"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [
         [
@@ -439,6 +2242,39 @@
       "kind": "NixOS",
       "label": "frigg",
       "layers": {
+        "aspects": [
+          "features/annotation/default.nix",
+          "features/boot/default.nix",
+          "features/browsers/default.nix",
+          "features/cachix/default.nix",
+          "features/codex-browser/default.nix",
+          "features/common-tooling/default.nix",
+          "features/communication/default.nix",
+          "features/containers/default.nix",
+          "features/desktop-apps/default.nix",
+          "features/desktop-runtime/default.nix",
+          "features/development/default.nix",
+          "features/dotfiles/default.nix",
+          "features/i18n/default.nix",
+          "features/internal-pki/default.nix",
+          "features/kde-runtime/default.nix",
+          "features/keyboard/default.nix",
+          "features/laptop/default.nix",
+          "features/location/default.nix",
+          "features/mcp/default.nix",
+          "features/media/default.nix",
+          "features/nix-index/default.nix",
+          "features/nixos-base/default.nix",
+          "features/plasma/default.nix",
+          "features/storage-optimization/default.nix",
+          "features/terminal/default.nix",
+          "features/workstation-runtime/default.nix",
+          "inventory/frigg.nix",
+          "profiles/desktop-base.nix",
+          "profiles/interactive.nix",
+          "profiles/kde-workstation.nix",
+          "profiles/workstation-base.nix"
+        ],
         "home:david": [
           "features/browsers/_home.nix",
           "features/codex-browser/_home.nix",
@@ -571,12 +2407,95 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "host-homepage",
+            "proxmox-guest"
+          ],
+          [
+            "host-homepage",
+            "homepage"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ],
+          [
+            "proxmox-guest",
+            "proxmox-vm"
+          ],
+          [
+            "proxmox-guest",
+            "server-locale"
+          ],
+          [
+            "proxmox-guest",
+            "server-nix"
+          ]
+        ],
+        "kind": "NixOS",
+        "name": "homepage",
+        "nodes": [
+          {
+            "file": "inventory/homepage.nix",
+            "id": "host-homepage"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/homepage/default.nix",
+            "id": "homepage"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "profiles/proxmox-guest.nix",
+            "id": "proxmox-guest"
+          },
+          {
+            "file": "features/proxmox-vm/default.nix",
+            "id": "proxmox-vm"
+          },
+          {
+            "file": "features/server-locale/default.nix",
+            "id": "server-locale"
+          },
+          {
+            "file": "features/server-nix/default.nix",
+            "id": "server-nix"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [],
       "id": "NixOS:homepage",
       "kind": "NixOS",
       "label": "homepage",
       "layers": {
+        "aspects": [
+          "features/cachix/default.nix",
+          "features/homepage/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/proxmox-vm/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "inventory/homepage.nix",
+          "profiles/proxmox-guest.nix"
+        ],
         "system": [
           "features/cachix/_nixos.nix",
           "features/homepage/_nixos.nix",
@@ -607,12 +2526,86 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "host-proxy",
+            "proxmox-guest"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ],
+          [
+            "proxmox-guest",
+            "proxmox-vm"
+          ],
+          [
+            "proxmox-guest",
+            "server-locale"
+          ],
+          [
+            "proxmox-guest",
+            "server-nix"
+          ]
+        ],
+        "kind": "NixOS",
+        "name": "proxy",
+        "nodes": [
+          {
+            "file": "inventory/proxy.nix",
+            "id": "host-proxy"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "profiles/proxmox-guest.nix",
+            "id": "proxmox-guest"
+          },
+          {
+            "file": "features/proxmox-vm/default.nix",
+            "id": "proxmox-vm"
+          },
+          {
+            "file": "features/server-locale/default.nix",
+            "id": "server-locale"
+          },
+          {
+            "file": "features/server-nix/default.nix",
+            "id": "server-nix"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [],
       "id": "NixOS:proxy",
       "kind": "NixOS",
       "label": "proxy",
       "layers": {
+        "aspects": [
+          "features/cachix/default.nix",
+          "features/internal-pki/default.nix",
+          "features/nixos-base/default.nix",
+          "features/proxmox-vm/default.nix",
+          "features/server-locale/default.nix",
+          "features/server-nix/default.nix",
+          "inventory/proxy.nix",
+          "profiles/proxmox-guest.nix"
+        ],
         "system": [
           "features/cachix/_nixos.nix",
           "features/internal-pki/_nixos.nix",
@@ -637,6 +2630,414 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "host-wodan",
+            "full-workstation"
+          ],
+          [
+            "host-wodan",
+            "nvidia-workstation"
+          ],
+          [
+            "host-wodan",
+            "proxmox-lab-host"
+          ],
+          [
+            "desktop-base",
+            "boot"
+          ],
+          [
+            "desktop-base",
+            "location"
+          ],
+          [
+            "desktop-base",
+            "i18n"
+          ],
+          [
+            "desktop-base",
+            "storage-optimization"
+          ],
+          [
+            "desktop-base",
+            "interactive"
+          ],
+          [
+            "desktop-base",
+            "desktop-runtime"
+          ],
+          [
+            "development",
+            "development-core"
+          ],
+          [
+            "development",
+            "development-mantle"
+          ],
+          [
+            "development-core",
+            "qartez"
+          ],
+          [
+            "development-core",
+            "pi"
+          ],
+          [
+            "development-mantle",
+            "agent-memory"
+          ],
+          [
+            "development-mantle",
+            "headroom"
+          ],
+          [
+            "dotfiles",
+            "portable-dotfiles"
+          ],
+          [
+            "full-workstation",
+            "kde-workstation"
+          ],
+          [
+            "full-workstation",
+            "work-communication"
+          ],
+          [
+            "full-workstation",
+            "development-lab"
+          ],
+          [
+            "full-workstation",
+            "gamedev-forge"
+          ],
+          [
+            "full-workstation",
+            "gaming"
+          ],
+          [
+            "full-workstation",
+            "media-production"
+          ],
+          [
+            "full-workstation",
+            "whatpulse"
+          ],
+          [
+            "full-workstation",
+            "full-workstation-apps"
+          ],
+          [
+            "interactive",
+            "mcp"
+          ],
+          [
+            "interactive",
+            "nix-index"
+          ],
+          [
+            "interactive",
+            "worktrunk"
+          ],
+          [
+            "interactive",
+            "annotation"
+          ],
+          [
+            "interactive",
+            "common-tooling"
+          ],
+          [
+            "kde-workstation",
+            "workstation-base"
+          ],
+          [
+            "kde-workstation",
+            "plasma"
+          ],
+          [
+            "kde-workstation",
+            "kde-runtime"
+          ],
+          [
+            "mcp",
+            "agent-memory"
+          ],
+          [
+            "mcp",
+            "headroom"
+          ],
+          [
+            "mcp",
+            "qartez"
+          ],
+          [
+            "mcp",
+            "pi"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ],
+          [
+            "portable-dotfiles",
+            "worktrunk"
+          ],
+          [
+            "terminal",
+            "terminal-core"
+          ],
+          [
+            "workstation-base",
+            "desktop-base"
+          ],
+          [
+            "workstation-base",
+            "browsers"
+          ],
+          [
+            "workstation-base",
+            "communication"
+          ],
+          [
+            "workstation-base",
+            "containers"
+          ],
+          [
+            "workstation-base",
+            "desktop-apps"
+          ],
+          [
+            "workstation-base",
+            "development"
+          ],
+          [
+            "workstation-base",
+            "dotfiles"
+          ],
+          [
+            "workstation-base",
+            "keyboard"
+          ],
+          [
+            "workstation-base",
+            "media"
+          ],
+          [
+            "workstation-base",
+            "terminal"
+          ],
+          [
+            "workstation-base",
+            "workstation-runtime"
+          ]
+        ],
+        "kind": "NixOS",
+        "name": "wodan",
+        "nodes": [
+          {
+            "file": "inventory/wodan.nix",
+            "id": "host-wodan"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "agent-memory"
+          },
+          {
+            "file": "features/annotation/default.nix",
+            "id": "annotation"
+          },
+          {
+            "file": "features/boot/default.nix",
+            "id": "boot"
+          },
+          {
+            "file": "features/browsers/default.nix",
+            "id": "browsers"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/codex-browser/default.nix",
+            "id": "codex-browser"
+          },
+          {
+            "file": "features/common-tooling/default.nix",
+            "id": "common-tooling"
+          },
+          {
+            "file": "features/communication/default.nix",
+            "id": "communication"
+          },
+          {
+            "file": "features/containers/default.nix",
+            "id": "containers"
+          },
+          {
+            "file": "features/desktop-apps/default.nix",
+            "id": "desktop-apps"
+          },
+          {
+            "file": "profiles/desktop-base.nix",
+            "id": "desktop-base"
+          },
+          {
+            "file": "features/desktop-runtime/default.nix",
+            "id": "desktop-runtime"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-core"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-lab"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-mantle"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "dotfiles"
+          },
+          {
+            "file": "profiles/full-workstation.nix",
+            "id": "full-workstation"
+          },
+          {
+            "file": "features/full-workstation-apps/default.nix",
+            "id": "full-workstation-apps"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "gamedev-forge"
+          },
+          {
+            "file": "features/gaming/default.nix",
+            "id": "gaming"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "headroom"
+          },
+          {
+            "file": "features/i18n/default.nix",
+            "id": "i18n"
+          },
+          {
+            "file": "profiles/interactive.nix",
+            "id": "interactive"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/kde-runtime/default.nix",
+            "id": "kde-runtime"
+          },
+          {
+            "file": "profiles/kde-workstation.nix",
+            "id": "kde-workstation"
+          },
+          {
+            "file": "features/keyboard/default.nix",
+            "id": "keyboard"
+          },
+          {
+            "file": "features/location/default.nix",
+            "id": "location"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "mcp"
+          },
+          {
+            "file": "features/media/default.nix",
+            "id": "media"
+          },
+          {
+            "file": "features/media/default.nix",
+            "id": "media-production"
+          },
+          {
+            "file": "features/nix-index/default.nix",
+            "id": "nix-index"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "features/nvidia-workstation/default.nix",
+            "id": "nvidia-workstation"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "pi"
+          },
+          {
+            "file": "features/plasma/default.nix",
+            "id": "plasma"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "portable-dotfiles"
+          },
+          {
+            "file": "inventory/wodan.nix",
+            "id": "proxmox-lab-host"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "qartez"
+          },
+          {
+            "file": "features/storage-optimization/default.nix",
+            "id": "storage-optimization"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "terminal"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "terminal-core"
+          },
+          {
+            "file": "features/whatpulse/default.nix",
+            "id": "whatpulse"
+          },
+          {
+            "file": "features/communication/default.nix",
+            "id": "work-communication"
+          },
+          {
+            "file": "profiles/workstation-base.nix",
+            "id": "workstation-base"
+          },
+          {
+            "file": "features/workstation-runtime/default.nix",
+            "id": "workstation-runtime"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "worktrunk"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [
         [
@@ -668,6 +3069,43 @@
       "kind": "NixOS",
       "label": "wodan",
       "layers": {
+        "aspects": [
+          "features/annotation/default.nix",
+          "features/boot/default.nix",
+          "features/browsers/default.nix",
+          "features/cachix/default.nix",
+          "features/codex-browser/default.nix",
+          "features/common-tooling/default.nix",
+          "features/communication/default.nix",
+          "features/containers/default.nix",
+          "features/desktop-apps/default.nix",
+          "features/desktop-runtime/default.nix",
+          "features/development/default.nix",
+          "features/dotfiles/default.nix",
+          "features/full-workstation-apps/default.nix",
+          "features/gaming/default.nix",
+          "features/i18n/default.nix",
+          "features/internal-pki/default.nix",
+          "features/kde-runtime/default.nix",
+          "features/keyboard/default.nix",
+          "features/location/default.nix",
+          "features/mcp/default.nix",
+          "features/media/default.nix",
+          "features/nix-index/default.nix",
+          "features/nixos-base/default.nix",
+          "features/nvidia-workstation/default.nix",
+          "features/plasma/default.nix",
+          "features/storage-optimization/default.nix",
+          "features/terminal/default.nix",
+          "features/whatpulse/default.nix",
+          "features/workstation-runtime/default.nix",
+          "inventory/wodan.nix",
+          "profiles/desktop-base.nix",
+          "profiles/full-workstation.nix",
+          "profiles/interactive.nix",
+          "profiles/kde-workstation.nix",
+          "profiles/workstation-base.nix"
+        ],
         "home:david": [
           "features/browsers/_home.nix",
           "features/codex-browser/_home.nix",
@@ -829,12 +3267,219 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "host-loki",
+            "portable-home"
+          ],
+          [
+            "host-loki",
+            "darwin-keyboard"
+          ],
+          [
+            "host-loki",
+            "rectangle"
+          ],
+          [
+            "development-core",
+            "qartez"
+          ],
+          [
+            "development-core",
+            "pi"
+          ],
+          [
+            "interactive",
+            "mcp"
+          ],
+          [
+            "interactive",
+            "nix-index"
+          ],
+          [
+            "interactive",
+            "worktrunk"
+          ],
+          [
+            "interactive",
+            "annotation"
+          ],
+          [
+            "interactive",
+            "common-tooling"
+          ],
+          [
+            "mcp",
+            "agent-memory"
+          ],
+          [
+            "mcp",
+            "headroom"
+          ],
+          [
+            "mcp",
+            "qartez"
+          ],
+          [
+            "mcp",
+            "pi"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ],
+          [
+            "portable-dotfiles",
+            "worktrunk"
+          ],
+          [
+            "portable-home",
+            "interactive"
+          ],
+          [
+            "portable-home",
+            "portable-runtime"
+          ],
+          [
+            "portable-home",
+            "terminal-core"
+          ],
+          [
+            "portable-home",
+            "development-core"
+          ],
+          [
+            "portable-home",
+            "darwin-speech"
+          ],
+          [
+            "portable-home",
+            "portable-dotfiles"
+          ]
+        ],
+        "kind": "Darwin",
+        "name": "loki",
+        "nodes": [
+          {
+            "file": "inventory/loki.nix",
+            "id": "host-loki"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "agent-memory"
+          },
+          {
+            "file": "features/annotation/default.nix",
+            "id": "annotation"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/common-tooling/default.nix",
+            "id": "common-tooling"
+          },
+          {
+            "file": "features/darwin-keyboard/default.nix",
+            "id": "darwin-keyboard"
+          },
+          {
+            "file": "features/darwin-speech/default.nix",
+            "id": "darwin-speech"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-core"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "headroom"
+          },
+          {
+            "file": "profiles/interactive.nix",
+            "id": "interactive"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "mcp"
+          },
+          {
+            "file": "features/nix-index/default.nix",
+            "id": "nix-index"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "pi"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "portable-dotfiles"
+          },
+          {
+            "file": "profiles/portable-home.nix",
+            "id": "portable-home"
+          },
+          {
+            "file": "features/portable-runtime/default.nix",
+            "id": "portable-runtime"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "qartez"
+          },
+          {
+            "file": "features/window-management/default.nix",
+            "id": "rectangle"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "terminal-core"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "worktrunk"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [],
       "id": "Darwin:loki",
       "kind": "Darwin",
       "label": "loki",
       "layers": {
+        "aspects": [
+          "features/annotation/default.nix",
+          "features/cachix/default.nix",
+          "features/common-tooling/default.nix",
+          "features/darwin-keyboard/default.nix",
+          "features/darwin-speech/default.nix",
+          "features/development/default.nix",
+          "features/dotfiles/default.nix",
+          "features/internal-pki/default.nix",
+          "features/mcp/default.nix",
+          "features/nix-index/default.nix",
+          "features/nixos-base/default.nix",
+          "features/portable-runtime/default.nix",
+          "features/terminal/default.nix",
+          "features/window-management/default.nix",
+          "inventory/loki.nix",
+          "profiles/interactive.nix",
+          "profiles/portable-home.nix"
+        ],
         "home:david": [
           "features/darwin-keyboard/_home.nix",
           "features/darwin-speech/_home.nix",
@@ -888,12 +3533,201 @@
       ]
     },
     {
+      "composition": {
+        "edges": [
+          [
+            "home-mimir2",
+            "portable-home"
+          ],
+          [
+            "development-core",
+            "qartez"
+          ],
+          [
+            "development-core",
+            "pi"
+          ],
+          [
+            "interactive",
+            "mcp"
+          ],
+          [
+            "interactive",
+            "nix-index"
+          ],
+          [
+            "interactive",
+            "worktrunk"
+          ],
+          [
+            "interactive",
+            "annotation"
+          ],
+          [
+            "interactive",
+            "common-tooling"
+          ],
+          [
+            "mcp",
+            "agent-memory"
+          ],
+          [
+            "mcp",
+            "headroom"
+          ],
+          [
+            "mcp",
+            "qartez"
+          ],
+          [
+            "mcp",
+            "pi"
+          ],
+          [
+            "nixos-base",
+            "cachix"
+          ],
+          [
+            "nixos-base",
+            "internal-pki"
+          ],
+          [
+            "portable-dotfiles",
+            "worktrunk"
+          ],
+          [
+            "portable-home",
+            "interactive"
+          ],
+          [
+            "portable-home",
+            "portable-runtime"
+          ],
+          [
+            "portable-home",
+            "terminal-core"
+          ],
+          [
+            "portable-home",
+            "development-core"
+          ],
+          [
+            "portable-home",
+            "darwin-speech"
+          ],
+          [
+            "portable-home",
+            "portable-dotfiles"
+          ]
+        ],
+        "kind": "Home Manager",
+        "name": "david@mimir2",
+        "nodes": [
+          {
+            "file": "inventory/mimir2.nix",
+            "id": "home-mimir2"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "agent-memory"
+          },
+          {
+            "file": "features/annotation/default.nix",
+            "id": "annotation"
+          },
+          {
+            "file": "features/cachix/default.nix",
+            "id": "cachix"
+          },
+          {
+            "file": "features/common-tooling/default.nix",
+            "id": "common-tooling"
+          },
+          {
+            "file": "features/darwin-speech/default.nix",
+            "id": "darwin-speech"
+          },
+          {
+            "file": "features/development/default.nix",
+            "id": "development-core"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "headroom"
+          },
+          {
+            "file": "profiles/interactive.nix",
+            "id": "interactive"
+          },
+          {
+            "file": "features/internal-pki/default.nix",
+            "id": "internal-pki"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "mcp"
+          },
+          {
+            "file": "features/nix-index/default.nix",
+            "id": "nix-index"
+          },
+          {
+            "file": "features/nixos-base/default.nix",
+            "id": "nixos-base"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "pi"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "portable-dotfiles"
+          },
+          {
+            "file": "profiles/portable-home.nix",
+            "id": "portable-home"
+          },
+          {
+            "file": "features/portable-runtime/default.nix",
+            "id": "portable-runtime"
+          },
+          {
+            "file": "features/mcp/default.nix",
+            "id": "qartez"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "terminal-core"
+          },
+          {
+            "file": "features/dotfiles/default.nix",
+            "id": "worktrunk"
+          }
+        ]
+      },
       "disabled": [],
       "edges": [],
       "id": "Home Manager:david@mimir2",
       "kind": "Home Manager",
       "label": "david@mimir2",
       "layers": {
+        "aspects": [
+          "features/annotation/default.nix",
+          "features/cachix/default.nix",
+          "features/common-tooling/default.nix",
+          "features/darwin-speech/default.nix",
+          "features/development/default.nix",
+          "features/dotfiles/default.nix",
+          "features/internal-pki/default.nix",
+          "features/mcp/default.nix",
+          "features/nix-index/default.nix",
+          "features/nixos-base/default.nix",
+          "features/portable-runtime/default.nix",
+          "features/terminal/default.nix",
+          "inventory/mimir2.nix",
+          "profiles/interactive.nix",
+          "profiles/portable-home.nix"
+        ],
         "home:david": [
           "features/darwin-speech/_home.nix",
           "features/development/_core.nix",
@@ -1251,70 +4085,105 @@
       ]
     }
   ],
-  "generator": "d3107cbdf670fce9263bb1482e65ce4bbfffbee2e032f0d31032c7f547c2e1c3",
+  "generator": "60c205f9c4a4437d5e216396a4736292fc9f53e213cd339b665332772c7367de",
   "modules": [
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/annotation/default.nix",
       "sha256": "52eeb4b79198796e7b1766c25197eb6905bf3ade4e7a9b8a3e06845763549990",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 38,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/boot/default.nix",
+      "parents": [
+        "features/boot/default.nix"
+      ],
       "path": "features/boot/_nixos.nix",
       "sha256": "afea73acab263e8d69814f1f45abba7e9e08c8389690d3ea453cec41511efc7a",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/boot/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/boot/default.nix",
       "sha256": "9fc8a444e01e94eea032752cbb9a02581caea6937f3a335d9a886cffa3d963a0",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 50,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/browsers/default.nix",
+      "parents": [
+        "features/browsers/default.nix"
+      ],
       "path": "features/browsers/_home.nix",
       "sha256": "f90c77e1ebdbedd7016df3734d010cbd9ccc7a0f015f38b809096f0721cb3cc7",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/browsers/_home.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/browsers/default.nix",
       "sha256": "251b48995f59cd7b5ec3f3a5d8d66accaa4c538b3a366b32ab098d4e7d101843",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:apps",
         "NixOS:bragi",
         "NixOS:donar",
@@ -1325,67 +4194,111 @@
         "NixOS:proxy",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 35,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/cachix/default.nix"
+      ],
       "path": "features/cachix/_nixos.nix",
       "sha256": "484ae36f3d797fb6229b9af09ebd9157304b0be26419f63252980433b92cd57b",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/cachix/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:frigg",
+        "NixOS:homepage",
+        "NixOS:proxy",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/cachix/default.nix",
       "sha256": "dfb42f2cadadde32c5f054bf95759838753f1ea82685dc0c142328335a1dd781",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 61,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/codex-browser/default.nix"
+      ],
       "path": "features/codex-browser/_home.nix",
       "sha256": "81ce96f8803c9d2891bc45db5e779b33c643bc0760fa910c0d18f9f72bb05390",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/codex-browser/_home.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/codex-browser/default.nix",
       "sha256": "523c149dab6009bd64e93b9aca4735e0ade1420d7f56c1f1146329450813e9e6",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/common-tooling/default.nix",
       "sha256": "994f99d605f5d06c1b563c4f170c7005a5bc1c294873441e838b41b25f4b691e",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 10,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/communication/default.nix",
+      "parents": [
+        "features/communication/default.nix"
+      ],
       "path": "features/communication/_home.nix",
       "sha256": "6ae54a988286621b80076ee704fc2377657edb86f07c2ec6751079301c09f1e0",
       "status": "used"
@@ -1393,59 +4306,88 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 17,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/communication/default.nix"
+      ],
       "path": "features/communication/_work.nix",
       "sha256": "56b30a0328cf522a0c7b3773fd6e00dfcdb6ed479fa8be0deb62833de55fead6",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/communication/_home.nix",
+        "features/communication/_work.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 10,
       "merge_into": null,
       "parents": [],
       "path": "features/communication/default.nix",
       "sha256": "a4e82eae47e8560082e25c1fea41e06baf2d059a8d6124cca19c77a90dfbb6fa",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 15,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/containers/default.nix",
+      "parents": [
+        "features/containers/default.nix"
+      ],
       "path": "features/containers/_home.nix",
       "sha256": "044510f389156ea6ec5810477ecc7f21e6541c44529b40e6d7608359e401dfd9",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/containers/_home.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/containers/default.nix",
       "sha256": "d878db7ef2d95297536516ebdb7c381d90991a0154bc02523b08e708748e6b69",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "Darwin:loki",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 39,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/darwin-keyboard/default.nix"
+      ],
       "path": "features/darwin-keyboard/_darwin.nix",
       "sha256": "d4f22e3d384d4563123fa28fc461b70ec1c005460b9d0547f70778b4d2b810b3",
       "status": "used"
@@ -1453,109 +4395,159 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "Darwin:loki",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 57,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/darwin-keyboard/default.nix"
+      ],
       "path": "features/darwin-keyboard/_home.nix",
       "sha256": "10b6a6376a85e3d582ae51de192796fa74442d6b31bfe6c36d4e50b72fb9b43b",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/darwin-keyboard/_darwin.nix",
+        "features/darwin-keyboard/_home.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "Darwin:loki"
+      ],
+      "kind": "feature",
       "lines": 6,
       "merge_into": null,
       "parents": [],
       "path": "features/darwin-keyboard/default.nix",
       "sha256": "0e5e74c347408948cf6e637ac21133c9b53ed1cb7014a8e9bae2409a2e86bc08",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "Darwin:loki",
         "Home Manager:david@mimir2",
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 31,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/darwin-speech/default.nix"
+      ],
       "path": "features/darwin-speech/_home.nix",
       "sha256": "eb97786ab670ffbed7c679eb738e6ccb4c503e6d52b530c1017eb6ff16bd02e8",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/darwin-speech/_home.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/darwin-speech/default.nix",
       "sha256": "c90dc4f70e6319e813cbb195c2d08aaa34d4eec8e1516077fec3966c0cab1bc3",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 21,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/desktop-apps/default.nix",
+      "parents": [
+        "features/desktop-apps/default.nix"
+      ],
       "path": "features/desktop-apps/_home.nix",
       "sha256": "98b9c62952dceaf2dd2f7b2166e4eef7f29f2023232976ab396102fb4e0c45ab",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/desktop-apps/_home.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/desktop-apps/default.nix",
       "sha256": "cf485b4dead7b3dfe86be717f509948514d1c93661211adea0fb345147f05155",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 80,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/desktop-runtime/default.nix"
+      ],
       "path": "features/desktop-runtime/_nixos.nix",
       "sha256": "65713af0936aa07ca2296a7fb1641750181643c6f61be47e3ba606706dba9df1",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/desktop-runtime/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/desktop-runtime/default.nix",
       "sha256": "b3461a50dd6eecc2af55044888e26453b886f477437201c2e007dc4dae5bc48f",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 13,
       "merge_into": null,
       "parents": [
+        "features/development/default.nix",
         "nix/default.nix"
       ],
       "path": "features/development/_cloud.nix",
@@ -1565,6 +4557,7 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan",
@@ -1573,9 +4566,12 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 49,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/development/default.nix"
+      ],
       "path": "features/development/_core.nix",
       "sha256": "a1fc8f54291da44cace441a13ac7da2d96c0495c9b34053cd6f03444f5ec6f30",
       "status": "used"
@@ -1583,12 +4579,16 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 14,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/development/default.nix"
+      ],
       "path": "features/development/_gamedev-forge.nix",
       "sha256": "0171a842fafea98bd93ce083b6cc2d7260218dc3f262727b2a33ab22135896d7",
       "status": "used"
@@ -1596,12 +4596,16 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 16,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/development/default.nix"
+      ],
       "path": "features/development/_lab.nix",
       "sha256": "096cdcf97fa706382efaf806d0eca73211148cfb46927921561d50d527cf3fa6",
       "status": "used"
@@ -1609,13 +4613,17 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 75,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/development/default.nix"
+      ],
       "path": "features/development/_mantle.nix",
       "sha256": "0f8b35344c0fb52ba0676b12ade57cefd20bc3f4e18eeed91e8e105f524f3378",
       "status": "used"
@@ -1623,13 +4631,17 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 10,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/development/default.nix"
+      ],
       "path": "features/development/_security.nix",
       "sha256": "77e6b811013de2eb4dca2f89591e1ae0a29261c0030a00880fbe416b97edaeae",
       "status": "used"
@@ -1637,37 +4649,61 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 59,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/development/default.nix"
+      ],
       "path": "features/development/_tooling.nix",
       "sha256": "7b1269c825eb142f48883f9329230135c57513fc9f7dc07bc1ec8cec03c0e967",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/development/_cloud.nix",
+        "features/development/_core.nix",
+        "features/development/_gamedev-forge.nix",
+        "features/development/_lab.nix",
+        "features/development/_mantle.nix",
+        "features/development/_security.nix",
+        "features/development/_tooling.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 25,
       "merge_into": null,
       "parents": [],
       "path": "features/development/default.nix",
       "sha256": "2f3d3d3e6779089d91397c80f689a3ad2571a7d3e44ac9a734205cda1ba1e3a9",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 254,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/dotfiles/default.nix"
+      ],
       "path": "features/dotfiles/_dotfiles.nix",
       "sha256": "15ae3d09eae53c6c311a4ac3a418aa09218e18b82a7bae1a5766cd04f05e5ac1",
       "status": "used"
@@ -1675,6 +4711,7 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan",
@@ -1683,9 +4720,12 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 53,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/dotfiles/default.nix"
+      ],
       "path": "features/dotfiles/_portable-dotfiles.nix",
       "sha256": "2a359426b37f375f9c1d20418acd29c1ada05bfd8c57608b7316b7ae5ddfb6ba",
       "status": "used"
@@ -1693,6 +4733,7 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
@@ -1702,57 +4743,88 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 24,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/dotfiles/default.nix"
+      ],
       "path": "features/dotfiles/_worktrunk.nix",
       "sha256": "59ff413036cd1a06ae2195b97e9f1205b6a37834614bdf822e624e98c5a860e9",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/dotfiles/_dotfiles.nix",
+        "features/dotfiles/_portable-dotfiles.nix",
+        "features/dotfiles/_worktrunk.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 15,
       "merge_into": null,
       "parents": [],
       "path": "features/dotfiles/default.nix",
       "sha256": "27b4efcfac73bae053caeeec02da12401674201fd2d78047f6f477e0ecb0e467",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:forgejo",
         "NixOS:forgejo-lab"
       ],
+      "kind": "feature",
       "lines": 149,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/forgejo/default.nix"
+      ],
       "path": "features/forgejo/_nixos.nix",
       "sha256": "b739c7e96b019f58ff6ac209b3032a9e508c7b6576546456ce8ccad5f04ca79a",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/forgejo/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/forgejo/default.nix",
       "sha256": "af3fe87f49c869b9bdca799799f309e3f89309a3f704e509e89bc02cdf9dec82",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [
         "features/full-workstation-apps/_taskbar.nix"
       ],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 13,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/full-workstation-apps/default.nix",
+      "parents": [
+        "features/full-workstation-apps/default.nix"
+      ],
       "path": "features/full-workstation-apps/_home.nix",
       "sha256": "f5c52222c75b38f22d241bc1f991a60c2ea247f13c4987d8f80b44ead448ebb0",
       "status": "used"
@@ -1763,6 +4835,7 @@
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 79,
       "merge_into": null,
       "parents": [
@@ -1773,24 +4846,35 @@
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/full-workstation-apps/_home.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/full-workstation-apps/default.nix",
       "sha256": "aca0a4952d3cd30192e2a3b8510b6c9009d4f600e8ea8963e3e757d11a3d3a98",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 211,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/gaming/default.nix"
+      ],
       "path": "features/gaming/_home.nix",
       "sha256": "be0e8132458312a26c3d8c7cba27ac0a559813f4b059c62e8bcdafeb68e09183",
       "status": "used"
@@ -1798,128 +4882,190 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 10,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/gaming/default.nix",
+      "parents": [
+        "features/gaming/default.nix"
+      ],
       "path": "features/gaming/_nixos.nix",
       "sha256": "72e830b5083311a53c391f339814fc331545dc86dc118944e3ca1c8f27afc79f",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/gaming/_home.nix",
+        "features/gaming/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 6,
       "merge_into": null,
       "parents": [],
       "path": "features/gaming/default.nix",
       "sha256": "a3ebcf91fbe3635ee0f070d8ebaf3d7cf2dfc396534c939fdee6c20806020657",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:homepage"
       ],
+      "kind": "feature",
       "lines": 50,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/homepage/default.nix",
+      "parents": [
+        "features/homepage/default.nix"
+      ],
       "path": "features/homepage/_nixos.nix",
       "sha256": "aed9c8643e7ded278366b17b901878d9f711b33b939b52502615ba82a669c57f",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/homepage/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:homepage"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/homepage/default.nix",
       "sha256": "3e9b29a235814da156d56cece38aded7a911965887880111c7fe175765b8b3a7",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi"
       ],
+      "kind": "feature",
       "lines": 21,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/hyprland/default.nix",
+      "parents": [
+        "features/hyprland/default.nix"
+      ],
       "path": "features/hyprland/_nixos.nix",
       "sha256": "30aee4a867de50106269ef479bb40797dbf3ab1bb0ee0aa685f71a4dc619c18d",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/hyprland/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi"
+      ],
+      "kind": "feature",
       "lines": 6,
       "merge_into": null,
       "parents": [],
       "path": "features/hyprland/default.nix",
       "sha256": "6bfa7e6085f5aaf97fb92d06022dc0a1ab23d6b245ba2dcd43b58043848d9757",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 43,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/i18n/default.nix",
+      "parents": [
+        "features/i18n/default.nix"
+      ],
       "path": "features/i18n/_nixos.nix",
       "sha256": "c16ad27a806c0ba2d38233546a786bdf616b5980cdaa4927427846240e550189",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/i18n/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/i18n/default.nix",
       "sha256": "8e14e80354ab2f963a324bc41950985d61226cb5b23a3f53c2740f940823d893",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "feature",
       "lines": 30,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/i3/default.nix"
+      ],
       "path": "features/i3/_home.nix",
       "sha256": "dc6053baa04df7aa2f25a61ce75cdcb8e43e518a30cddf2b42d440cafeb94548",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "feature",
       "lines": 28,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/i3/default.nix"
+      ],
       "path": "features/i3/_nixos.nix",
       "sha256": "6f4e2d2429571451f330c8ad0a7f4af1f2208c4cf0018b500b5e2c650301e73e",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/i3/_home.nix",
+        "features/i3/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "feature",
       "lines": 7,
       "merge_into": null,
       "parents": [],
       "path": "features/i3/default.nix",
       "sha256": "206f1d68e0682da73fe7d3a34185c9f7719efa51e9ead39a87f92de444bab1c7",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:apps",
         "NixOS:bragi",
         "NixOS:donar",
@@ -1930,58 +5076,93 @@
         "NixOS:proxy",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 6,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/internal-pki/default.nix"
+      ],
       "path": "features/internal-pki/_nixos.nix",
       "sha256": "62aeabe0d9e9d2d92410c3712ee9f53648cdf1a65449f98269f8395843ed84d6",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/internal-pki/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:frigg",
+        "NixOS:homepage",
+        "NixOS:proxy",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/internal-pki/default.nix",
       "sha256": "218341d04603e16d8bf9c00244a4e6e218361f3086e960f463b9d1586bbd88e9",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 30,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/kde-runtime/default.nix",
+      "parents": [
+        "features/kde-runtime/default.nix"
+      ],
       "path": "features/kde-runtime/_nixos.nix",
       "sha256": "4dd430d8a2c4520e6e046ebf1040f12bce3573b995161f111b40a68de2371826",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/kde-runtime/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/kde-runtime/default.nix",
       "sha256": "ff362fb612da15b67a0a7c061be84a2b2e768e214ed2adfc9dce91a5ebc0183b",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 11,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/keyboard/default.nix",
+      "parents": [
+        "features/keyboard/default.nix"
+      ],
       "path": "features/keyboard/_home.nix",
       "sha256": "42e00bc44fffa46b3f2a46a65d608704a243564ea63ff475ed2b762b5ccbbc9e",
       "status": "used"
@@ -1989,79 +5170,118 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 7,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/keyboard/default.nix",
+      "parents": [
+        "features/keyboard/default.nix"
+      ],
       "path": "features/keyboard/_nixos.nix",
       "sha256": "b1c8eb657e88aa297cbc2e396b28230f5a6d543785aae8e4c0ff533f830d3509",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
-      "lines": 6,
-      "merge_into": null,
-      "parents": [],
-      "path": "features/keyboard/default.nix",
-      "sha256": "fda624a2d04ea937362ee0da5400e0b3561394ffe01970367ae49f914385468f",
-      "status": "unobserved"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "NixOS:donar",
-        "NixOS:frigg"
+      "children": [
+        "features/keyboard/_home.nix",
+        "features/keyboard/_nixos.nix"
       ],
-      "lines": 32,
-      "merge_into": null,
-      "parents": [],
-      "path": "features/laptop/_nixos.nix",
-      "sha256": "9c18f471fb15b21f35bce6afd6d12dd0257cd5361dcd21910faba3ca9045a7c5",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [],
-      "lines": 6,
-      "merge_into": null,
-      "parents": [],
-      "path": "features/laptop/default.nix",
-      "sha256": "347ede922391d36b93624e3ae0aa5d7c0ebef806482f8566cb73c9db487999d9",
-      "status": "unobserved"
-    },
-    {
-      "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
-      "lines": 7,
+      "kind": "feature",
+      "lines": 6,
       "merge_into": null,
       "parents": [],
+      "path": "features/keyboard/default.nix",
+      "sha256": "fda624a2d04ea937362ee0da5400e0b3561394ffe01970367ae49f914385468f",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg"
+      ],
+      "kind": "feature",
+      "lines": 32,
+      "merge_into": "features/laptop/default.nix",
+      "parents": [
+        "features/laptop/default.nix"
+      ],
+      "path": "features/laptop/_nixos.nix",
+      "sha256": "9c18f471fb15b21f35bce6afd6d12dd0257cd5361dcd21910faba3ca9045a7c5",
+      "status": "used"
+    },
+    {
+      "children": [
+        "features/laptop/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg"
+      ],
+      "kind": "feature",
+      "lines": 6,
+      "merge_into": null,
+      "parents": [],
+      "path": "features/laptop/default.nix",
+      "sha256": "347ede922391d36b93624e3ae0aa5d7c0ebef806482f8566cb73c9db487999d9",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
+      "lines": 7,
+      "merge_into": "features/location/default.nix",
+      "parents": [
+        "features/location/default.nix"
+      ],
       "path": "features/location/_nixos.nix",
       "sha256": "bee466b8b043644caf7af74ef9d13c1462420bff6bdc071e3ea043712e6d4730",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/location/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/location/default.nix",
       "sha256": "9d2af9b4e6f0d1545de73b9873265de551e89d18d5a98189a9a610acee5aa116",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
@@ -2071,9 +5291,12 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 52,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/mcp/default.nix"
+      ],
       "path": "features/mcp/_agent-memory.nix",
       "sha256": "b3440439bba7a5cb45723099b86d1c5a000144527c3788979fd4649737101d35",
       "status": "used"
@@ -2081,6 +5304,7 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
@@ -2090,9 +5314,12 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 25,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/mcp/default.nix"
+      ],
       "path": "features/mcp/_headroom.nix",
       "sha256": "f012713f19d7ed2f22b40a6f936fe161303e018f62b9a07379c97cf402a06f6e",
       "status": "used"
@@ -2100,6 +5327,7 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
@@ -2109,9 +5337,12 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 101,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/mcp/default.nix"
+      ],
       "path": "features/mcp/_home.nix",
       "sha256": "843db92dee096f83e0d4f07d1dfaca42e9f597035dc9778679e1fc929abc27b3",
       "status": "used"
@@ -2119,6 +5350,7 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
@@ -2128,9 +5360,12 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 38,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/mcp/default.nix"
+      ],
       "path": "features/mcp/_pi.nix",
       "sha256": "19ad95de95de065da35c5cc8dbc2d7b8471deac4beea1c3d40f3a47d7c8d84c9",
       "status": "used"
@@ -2138,6 +5373,7 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
@@ -2147,33 +5383,55 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 29,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/mcp/default.nix"
+      ],
       "path": "features/mcp/_qartez.nix",
       "sha256": "1ec1728a02b48c33a7346db8e7d94584dbdfe0265f576a3dc70cd45e9a39e69b",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/mcp/_agent-memory.nix",
+        "features/mcp/_headroom.nix",
+        "features/mcp/_home.nix",
+        "features/mcp/_pi.nix",
+        "features/mcp/_qartez.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 20,
       "merge_into": null,
       "parents": [],
       "path": "features/mcp/default.nix",
       "sha256": "0c1d4acde4ac82bebd8ffab9009be6350fc2e5a431fa94c939da2c6916cf4146",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 39,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/media/default.nix",
+      "parents": [
+        "features/media/default.nix"
+      ],
       "path": "features/media/_apps.nix",
       "sha256": "bb61999ab402c0998245ccf579270db1326a6ed9c848ba2239753496f7e1e382",
       "status": "used"
@@ -2181,12 +5439,16 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 21,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/media/default.nix"
+      ],
       "path": "features/media/_production.nix",
       "sha256": "8bf0799e9351fe5f6e00fd71350230aff0009d1083bab034cbb66f79cf400d7d",
       "status": "used"
@@ -2194,60 +5456,91 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 31,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/media/default.nix",
+      "parents": [
+        "features/media/default.nix"
+      ],
       "path": "features/media/_tools.nix",
       "sha256": "19eed6b8d0538d5d1a41ed7643329dceb0aad07d8f7ed9c3216872f778629616",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/media/_apps.nix",
+        "features/media/_production.nix",
+        "features/media/_tools.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 10,
       "merge_into": null,
       "parents": [],
       "path": "features/media/default.nix",
       "sha256": "06c49f127cd9ade9f0a1bfccc072703953d8a14e0b65933502ce41343652bbed",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "feature",
       "lines": 10,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/niri/default.nix"
+      ],
       "path": "features/niri/_home.nix",
       "sha256": "c95b7749d60a18deb2b9fae0df1e693255413edd65648d3c945f5cd875b6b3cc",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "feature",
       "lines": 18,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/niri/default.nix"
+      ],
       "path": "features/niri/_nixos.nix",
       "sha256": "4451ddfc67aab45db54d2e061b566d2bb0c7311240a72e5d85c4dfa5753556ae",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/niri/_home.nix",
+        "features/niri/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "feature",
       "lines": 7,
       "merge_into": null,
       "parents": [],
       "path": "features/niri/default.nix",
       "sha256": "34ec9896f13122a992ffe129e101aeed81aafd48c8eab98124ddf544f55afad6",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
@@ -2257,65 +5550,107 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 22,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/nix-index/default.nix"
+      ],
       "path": "features/nix-index/_home.nix",
       "sha256": "832be70ad0a47ff08005abf3843573eceef71306ec89d2b6a1061a6480d8f5ca",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/nix-index/_home.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/nix-index/default.nix",
       "sha256": "e67d0a92caee224a8a41f925df2a9a2a8e86b0b9cf611f33d229acf79909cc8b",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:frigg",
+        "NixOS:homepage",
+        "NixOS:proxy",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 8,
       "merge_into": null,
       "parents": [],
       "path": "features/nixos-base/default.nix",
       "sha256": "37412f402a15fa6a94f5cab446f90f618cf431e0457397bff3bc1f95295675db",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 68,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/nvidia-workstation/default.nix"
+      ],
       "path": "features/nvidia-workstation/_nixos.nix",
       "sha256": "1c42eaccef612994984bfe047faa69fede3cd717670a7e9cd48820c24462744b",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/nvidia-workstation/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 6,
       "merge_into": null,
       "parents": [],
       "path": "features/nvidia-workstation/default.nix",
       "sha256": "a3500a50a2cef562669b4fce295a9765821afae06a881fcdf6e352b5e2c8dcbe",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 398,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/plasma/default.nix"
+      ],
       "path": "features/plasma/_home.nix",
       "sha256": "5f0c026518676ac4612aa3fd933b94414e838a936e2ef7def85dfa573adfb42b",
       "status": "used"
@@ -2323,175 +5658,263 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 12,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/plasma/default.nix",
+      "parents": [
+        "features/plasma/default.nix"
+      ],
       "path": "features/plasma/_nixos.nix",
       "sha256": "7b5a57cbb7125000ee962fddcf5fce7367f931474a3361ae3bca12b0b772e59d",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/plasma/_home.nix",
+        "features/plasma/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 7,
       "merge_into": null,
       "parents": [],
       "path": "features/plasma/default.nix",
       "sha256": "83c63288e6bcf471d8c9e83c74f1a156b544ab9144249b114197242327a77b40",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "Darwin:loki",
         "Home Manager:david@mimir2",
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 32,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/portable-runtime/default.nix"
+      ],
       "path": "features/portable-runtime/_home.nix",
       "sha256": "f2cac89fb991df9ccf37f1e455365d12356d300034ef991c053907f209d96883",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/portable-runtime/_home.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/portable-runtime/default.nix",
       "sha256": "3235c7e4ea4f715c949372eccbbeef8eb5191da41a53837d917837156bce1bd8",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:apps",
         "NixOS:forgejo",
         "NixOS:homepage",
         "NixOS:proxy"
       ],
+      "kind": "feature",
       "lines": 58,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/proxmox-vm/default.nix",
+      "parents": [
+        "features/proxmox-vm/default.nix"
+      ],
       "path": "features/proxmox-vm/_nixos.nix",
       "sha256": "b163d59d9dcbd56a694cd5504786d7b2ba2c7e963ae8bc7a1927852677211d0a",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/proxmox-vm/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps",
+        "NixOS:forgejo",
+        "NixOS:homepage",
+        "NixOS:proxy"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/proxmox-vm/default.nix",
       "sha256": "18fd52eb5e9003dc15c0c4d3c54b6f30fee0f09bd5bb6b3641710fef5ace4f78",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:apps"
       ],
+      "kind": "feature",
       "lines": 163,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/selfhosted-apps/default.nix"
+      ],
       "path": "features/selfhosted-apps/_nixos.nix",
       "sha256": "bf1a50332777caf2cdf377470a4f3b352f635834dfd74b9606f50aa73804db6c",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/selfhosted-apps/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/selfhosted-apps/default.nix",
       "sha256": "e24d7ef707a2a8ed2480dbbd728066d27bd631260275036d1947c72754ba1321",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:apps",
         "NixOS:forgejo",
         "NixOS:forgejo-lab",
         "NixOS:homepage",
         "NixOS:proxy"
       ],
+      "kind": "feature",
       "lines": 8,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/server-locale/default.nix",
+      "parents": [
+        "features/server-locale/default.nix"
+      ],
       "path": "features/server-locale/_nixos.nix",
       "sha256": "59589900fa26e9b5ed5aace78c7e397a3db5b3f523473f06e880987c5d7066aa",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
-      "lines": 5,
-      "merge_into": null,
-      "parents": [],
-      "path": "features/server-locale/default.nix",
-      "sha256": "b2f3c779d32da8597c9a0676a23df457e098cea37f624e9e51a3897619f14e3d",
-      "status": "unobserved"
-    },
-    {
-      "children": [],
+      "children": [
+        "features/server-locale/_nixos.nix"
+      ],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:apps",
         "NixOS:forgejo",
         "NixOS:forgejo-lab",
         "NixOS:homepage",
         "NixOS:proxy"
       ],
-      "lines": 22,
+      "kind": "feature",
+      "lines": 5,
       "merge_into": null,
       "parents": [],
+      "path": "features/server-locale/default.nix",
+      "sha256": "b2f3c779d32da8597c9a0676a23df457e098cea37f624e9e51a3897619f14e3d",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:homepage",
+        "NixOS:proxy"
+      ],
+      "kind": "feature",
+      "lines": 22,
+      "merge_into": "features/server-nix/default.nix",
+      "parents": [
+        "features/server-nix/default.nix"
+      ],
       "path": "features/server-nix/_nixos.nix",
       "sha256": "d85a53dc29ab296cbedfd570a8947abd05feeb678adcbaffeb663ef8c7e7176a",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/server-nix/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:homepage",
+        "NixOS:proxy"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/server-nix/default.nix",
       "sha256": "6b1b392304773042878baccfb1a106fa01586c0782f9fac487eb0cc7789ac6c1",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 17,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/storage-optimization/default.nix",
+      "parents": [
+        "features/storage-optimization/default.nix"
+      ],
       "path": "features/storage-optimization/_nixos.nix",
       "sha256": "26e16c0b001f14e1173197b67f08ab2e244c8a23fbaa15eb6623b92b3576d779",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/storage-optimization/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/storage-optimization/default.nix",
       "sha256": "fe795c51d4dd42d680dfd07dc6c20e285b52ee5684f45fb7151a691f38716c24",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
@@ -2500,8 +5923,9 @@
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 16,
-      "merge_into": "features/terminal/_packages.nix",
+      "merge_into": null,
       "parents": [
         "features/terminal/_packages.nix"
       ],
@@ -2512,6 +5936,7 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan",
@@ -2520,9 +5945,12 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 32,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/terminal/default.nix"
+      ],
       "path": "features/terminal/_config.nix",
       "sha256": "2fdf868b590b63279f06f5298d236d2f0dfc84288f1de79415155e5a3282a4cc",
       "status": "used"
@@ -2534,8 +5962,9 @@
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 20,
-      "merge_into": "features/terminal/_packages.nix",
+      "merge_into": null,
       "parents": [
         "features/terminal/_packages.nix"
       ],
@@ -2550,8 +5979,9 @@
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 20,
-      "merge_into": "features/terminal/_packages.nix",
+      "merge_into": null,
       "parents": [
         "features/terminal/_packages.nix"
       ],
@@ -2568,13 +5998,17 @@
         "features/terminal/_system.nix"
       ],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 9,
       "merge_into": null,
-      "parents": [],
+      "parents": [
+        "features/terminal/default.nix"
+      ],
       "path": "features/terminal/_packages.nix",
       "sha256": "ddd98cc9629e35f60adb736bd9ed24e1489cc6a3fe63a13da2cf99e19f0c99d6",
       "status": "used"
@@ -2586,8 +6020,9 @@
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 39,
-      "merge_into": "features/terminal/_packages.nix",
+      "merge_into": null,
       "parents": [
         "features/terminal/_packages.nix"
       ],
@@ -2602,8 +6037,9 @@
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 25,
-      "merge_into": "features/terminal/_packages.nix",
+      "merge_into": null,
       "parents": [
         "features/terminal/_packages.nix"
       ],
@@ -2612,24 +6048,39 @@
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/terminal/_config.nix",
+        "features/terminal/_packages.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "feature",
       "lines": 11,
       "merge_into": null,
       "parents": [],
       "path": "features/terminal/default.nix",
       "sha256": "fc500517d4c405bc46ab41732428efc0431bfc439d53506e6a5d80f8fa15dd0b",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 11,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/whatpulse/default.nix",
+      "parents": [
+        "features/whatpulse/default.nix"
+      ],
       "path": "features/whatpulse/_home.nix",
       "sha256": "298330b8f5a82fc9d1b784fa5fda3a79cbed42bef821e9d4e6a197946492c141",
       "status": "used"
@@ -2637,35 +6088,51 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 41,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/whatpulse/default.nix",
+      "parents": [
+        "features/whatpulse/default.nix"
+      ],
       "path": "features/whatpulse/_nixos.nix",
       "sha256": "b030beca96d35bfe16026bd13e889763cebed326ade190f1dfc7f952d45d6819",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/whatpulse/_home.nix",
+        "features/whatpulse/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 6,
       "merge_into": null,
       "parents": [],
       "path": "features/whatpulse/default.nix",
       "sha256": "60cc1cc8f2d12fdaf6f2e40aedd54a3b2c6038e1c21b3a234e2d64931062778f",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "Darwin:loki"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/window-management/default.nix",
       "sha256": "398ccd55ba58c210190329f7f4f5afc0a095ab78ce855e2ec4f5cabc09669d68",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [
@@ -2674,12 +6141,15 @@
         "features/workstation-extra/_terminal-default.nix"
       ],
       "contexts": [
+        "wiring:Registered Den aspects",
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 7,
       "merge_into": null,
       "parents": [
+        "features/workstation-extra/default.nix",
         "nix/default.nix"
       ],
       "path": "features/workstation-extra/_default.nix",
@@ -2692,6 +6162,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 37,
       "merge_into": "features/workstation-extra/_development-packages.nix",
       "parents": [
@@ -2710,8 +6181,9 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 6,
-      "merge_into": "features/workstation-extra/_default.nix",
+      "merge_into": null,
       "parents": [
         "features/workstation-extra/_default.nix"
       ],
@@ -2725,6 +6197,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 19,
       "merge_into": "features/workstation-extra/_development-default.nix",
       "parents": [
@@ -2744,6 +6217,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 7,
       "merge_into": "features/workstation-extra/_development-default.nix",
       "parents": [
@@ -2759,6 +6233,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 9,
       "merge_into": "features/workstation-extra/_development-packages.nix",
       "parents": [
@@ -2774,6 +6249,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 30,
       "merge_into": "features/workstation-extra/_development-packages.nix",
       "parents": [
@@ -2786,13 +6262,16 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 15,
-      "merge_into": "features/workstation-extra/_default.nix",
+      "merge_into": null,
       "parents": [
-        "features/workstation-extra/_default.nix"
+        "features/workstation-extra/_default.nix",
+        "features/workstation-extra/default.nix"
       ],
       "path": "features/workstation-extra/_media-tools.nix",
       "sha256": "0d42166e52875a6e432851e1c63d2098bc2cde1193c50879c9335e7c0d4636f1",
@@ -2804,6 +6283,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 11,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
@@ -2819,6 +6299,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 36,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
@@ -2836,8 +6317,9 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 5,
-      "merge_into": "features/workstation-extra/_default.nix",
+      "merge_into": null,
       "parents": [
         "features/workstation-extra/_default.nix"
       ],
@@ -2851,6 +6333,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 24,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
@@ -2872,6 +6355,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 9,
       "merge_into": "features/workstation-extra/_terminal-default.nix",
       "parents": [
@@ -2887,6 +6371,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 32,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
@@ -2902,6 +6387,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "feature",
       "lines": 27,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
@@ -2912,38 +6398,56 @@
       "status": "optional-only"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/workstation-extra/_default.nix",
+        "features/workstation-extra/_media-tools.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "feature",
       "lines": 11,
       "merge_into": null,
       "parents": [],
       "path": "features/workstation-extra/default.nix",
       "sha256": "eaff27f3a5453ab9ca73d6141efc5d38ca3061c1253b2334a50cdbcbc8a35794",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
+      "kind": "feature",
       "lines": 56,
-      "merge_into": null,
-      "parents": [],
+      "merge_into": "features/workstation-runtime/default.nix",
+      "parents": [
+        "features/workstation-runtime/default.nix"
+      ],
       "path": "features/workstation-runtime/_nixos.nix",
       "sha256": "b924b8aec80f0615ebcb78ee4264a1c87279f18bce53554cd33f53b191973c6a",
       "status": "used"
     },
     {
-      "children": [],
-      "contexts": [],
+      "children": [
+        "features/workstation-runtime/_nixos.nix"
+      ],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "feature",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/workstation-runtime/default.nix",
       "sha256": "e233971493d775189b2918918e68f53def80a81f802696267e01a9890b749949",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [
@@ -2952,6 +6456,7 @@
       "contexts": [
         "wiring:Flake wiring"
       ],
+      "kind": "infrastructure",
       "lines": 78,
       "merge_into": null,
       "parents": [],
@@ -2964,6 +6469,7 @@
       "contexts": [
         "NixOS:bragi"
       ],
+      "kind": "host",
       "lines": 49,
       "merge_into": null,
       "parents": [],
@@ -2976,6 +6482,7 @@
       "contexts": [
         "NixOS:donar"
       ],
+      "kind": "host",
       "lines": 41,
       "merge_into": null,
       "parents": [],
@@ -2988,6 +6495,7 @@
       "contexts": [
         "NixOS:frigg"
       ],
+      "kind": "host",
       "lines": 51,
       "merge_into": null,
       "parents": [],
@@ -3000,6 +6508,7 @@
       "contexts": [
         "NixOS:wodan"
       ],
+      "kind": "host",
       "lines": 83,
       "merge_into": null,
       "parents": [],
@@ -3010,6 +6519,7 @@
     {
       "children": [],
       "contexts": [],
+      "kind": "host",
       "lines": 52,
       "merge_into": null,
       "parents": [],
@@ -3020,6 +6530,7 @@
     {
       "children": [],
       "contexts": [],
+      "kind": "host",
       "lines": 167,
       "merge_into": null,
       "parents": [],
@@ -3029,27 +6540,36 @@
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps"
+      ],
+      "kind": "host",
       "lines": 46,
       "merge_into": null,
       "parents": [],
       "path": "inventory/apps.nix",
       "sha256": "f9cd9c2f71443bf6e4b61f9bfd363a85eb9380ca57d7ad1672d7e064b2e70ee5",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi"
+      ],
+      "kind": "host",
       "lines": 74,
       "merge_into": null,
       "parents": [],
       "path": "inventory/bragi.nix",
       "sha256": "b8a5c30ecb4c8add03fc9985dabc9619cd33f7066dd936b5a5de7aad1518621d",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [],
+      "kind": "host",
       "lines": 15,
       "merge_into": null,
       "parents": [],
@@ -3059,97 +6579,134 @@
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar"
+      ],
+      "kind": "host",
       "lines": 105,
       "merge_into": null,
       "parents": [],
       "path": "inventory/donar.nix",
       "sha256": "85501b74493323f64591cc98c0ef7f8fd28c3985f62fc523c605290c56183160",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:forgejo-lab"
+      ],
+      "kind": "host",
       "lines": 88,
       "merge_into": null,
       "parents": [],
       "path": "inventory/forgejo-lab.nix",
       "sha256": "418b244a15714fcccc63f9ecc70256f9c2f47056e87034763522d04baf5bedcf",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:forgejo"
+      ],
+      "kind": "host",
       "lines": 115,
       "merge_into": null,
       "parents": [],
       "path": "inventory/forgejo.nix",
       "sha256": "451726a7c4c7ed10fdc028f9345e96f7853f15cc777eb8b550d60131b55495b7",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:frigg"
+      ],
+      "kind": "host",
       "lines": 65,
       "merge_into": null,
       "parents": [],
       "path": "inventory/frigg.nix",
       "sha256": "cdb0469f7f58d496f68a51cdbfb2fdf5085bf8faeb5e3731f2712386644f3956",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:homepage"
+      ],
+      "kind": "host",
       "lines": 39,
       "merge_into": null,
       "parents": [],
       "path": "inventory/homepage.nix",
       "sha256": "d831a72941aa1ccb6953dc4819cc505e6c6d4337d873710c66b8daae8bc29f2f",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "Darwin:loki"
+      ],
+      "kind": "host",
       "lines": 48,
       "merge_into": null,
       "parents": [],
       "path": "inventory/loki.nix",
       "sha256": "5a908305aa293386fe654f7d34d61ec9b94fce5f58d3f646b75276ecb06735a9",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "host",
       "lines": 28,
       "merge_into": null,
       "parents": [],
       "path": "inventory/mimir2.nix",
       "sha256": "c0306fcb5d002ad2fff548ff3ea5fbf0374881574e16f43ff42bd85acb16913d",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:proxy"
+      ],
+      "kind": "host",
       "lines": 247,
       "merge_into": null,
       "parents": [],
       "path": "inventory/proxy.nix",
       "sha256": "d6362bcd7b748053eb5c596ed05cbd9d91daf091e99a3b31846814e355214b9c",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:wodan"
+      ],
+      "kind": "host",
       "lines": 125,
       "merge_into": null,
       "parents": [],
       "path": "inventory/wodan.nix",
       "sha256": "5afb5e4c93e427571e85f80b1b7dd2a2e3cefbc8acf14d47bde6b38cca75e54a",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
       "contexts": [],
+      "kind": "infrastructure",
       "lines": 158,
       "merge_into": null,
       "parents": [],
@@ -3171,6 +6728,7 @@
         "optional:mimir2 + workstation",
         "optional:loki + workstation"
       ],
+      "kind": "infrastructure",
       "lines": 49,
       "merge_into": null,
       "parents": [
@@ -3183,6 +6741,7 @@
     {
       "children": [],
       "contexts": [],
+      "kind": "infrastructure",
       "lines": 44,
       "merge_into": null,
       "parents": [],
@@ -3195,6 +6754,7 @@
       "contexts": [
         "wiring:Flake wiring"
       ],
+      "kind": "infrastructure",
       "lines": 20,
       "merge_into": null,
       "parents": [
@@ -3209,6 +6769,7 @@
       "contexts": [
         "wiring:Flake wiring"
       ],
+      "kind": "infrastructure",
       "lines": 87,
       "merge_into": null,
       "parents": [
@@ -3221,6 +6782,7 @@
     {
       "children": [],
       "contexts": [],
+      "kind": "infrastructure",
       "lines": 121,
       "merge_into": null,
       "parents": [],
@@ -3233,6 +6795,7 @@
       "contexts": [
         "wiring:Flake wiring"
       ],
+      "kind": "infrastructure",
       "lines": 55,
       "merge_into": null,
       "parents": [
@@ -3247,6 +6810,7 @@
       "contexts": [
         "wiring:Flake wiring"
       ],
+      "kind": "infrastructure",
       "lines": 20,
       "merge_into": null,
       "parents": [
@@ -3259,6 +6823,7 @@
     {
       "children": [],
       "contexts": [],
+      "kind": "infrastructure",
       "lines": 104,
       "merge_into": null,
       "parents": [],
@@ -3269,6 +6834,7 @@
     {
       "children": [],
       "contexts": [],
+      "kind": "infrastructure",
       "lines": 92,
       "merge_into": null,
       "parents": [],
@@ -3279,6 +6845,7 @@
     {
       "children": [],
       "contexts": [],
+      "kind": "infrastructure",
       "lines": 87,
       "merge_into": null,
       "parents": [],
@@ -3289,6 +6856,7 @@
     {
       "children": [],
       "contexts": [],
+      "kind": "infrastructure",
       "lines": 21,
       "merge_into": null,
       "parents": [],
@@ -3299,6 +6867,7 @@
     {
       "children": [],
       "contexts": [],
+      "kind": "infrastructure",
       "lines": 114,
       "merge_into": null,
       "parents": [],
@@ -3308,109 +6877,164 @@
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/desktop-base.nix",
       "sha256": "d3c03bab009593dfb37848b0a5d5fea561966d133123416c3dd22e940416fe5d",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/desktop.nix",
       "sha256": "b3b3f418604c66e901f60f96b28c58f8cef5c3718c0f4272744e2cf82e7464c0",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:wodan"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/full-workstation.nix",
       "sha256": "07073881c1c7da674909d8627f275522e612ec3929c15f543757a7ec0be0ac6f",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/i3-workstation.nix",
       "sha256": "e14e082f9d3ee2449c3f61ea91ab25828ad65acdd8bc2701208808c5bbf0c378",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/interactive.nix",
       "sha256": "da86d938f7af073b356405eb12b26d26c3c72021e45cccb095d9d95531bbeb26",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/kde-workstation.nix",
       "sha256": "c5b95c153c7b5dd908a33ac0a40e5f58bdba844eba270e9b6e4df2b36e971407",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "Darwin:loki",
+        "Home Manager:david@mimir2"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/portable-home.nix",
       "sha256": "129576d26cb14ce1b4c44aa6e087f18bc49b7143787c3bf76ccadaf62b4e348b",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps",
+        "NixOS:forgejo",
+        "NixOS:homepage",
+        "NixOS:proxy"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/proxmox-guest.nix",
       "sha256": "1e2cc32e0ea3e707ed7e915a66e696165c5d0d9233c21a76e20ea13cda5eb52f",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/workstation-base.nix",
       "sha256": "855a280afc17aa56eb6e6e0df6ed05f852c1b9eb99a93217c161a0973bb0b8f5",
-      "status": "unobserved"
+      "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "wiring:Registered Den aspects"
+      ],
+      "kind": "profile",
       "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "profiles/workstation.nix",
       "sha256": "441a9596409ce3cd40d88807dd7019b3f37c73e92e3c4af0cbe78b2f38efb6e1",
-      "status": "unobserved"
+      "status": "wiring-only"
     },
     {
       "children": [],
       "contexts": [
         "NixOS:apps"
       ],
+      "kind": "host",
       "lines": 18,
       "merge_into": null,
       "parents": [],
@@ -3423,6 +7047,7 @@
       "contexts": [
         "NixOS:homepage"
       ],
+      "kind": "host",
       "lines": 18,
       "merge_into": null,
       "parents": [],
@@ -3431,5 +7056,14 @@
       "status": "used"
     }
   ],
+  "policy": {
+    "effective": {
+      "coverage": true,
+      "effective": true,
+      "structure": true
+    },
+    "report": [],
+    "valid": true
+  },
   "schema": 1
 }

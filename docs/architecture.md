@@ -102,8 +102,8 @@ Local hooks are convenience checks. Enforcing a remote merge gate additionally
 requires branch protection with required CI status checks. That repository
 setting is not changed by the Nix configuration.
 
-The module map records evaluated native imports. Den composition is available
-through `lib.den`; the architecture check evaluates the corresponding policies.
+The module map uses the same model and policy evidence. Native imports explain
+implementation dependencies; Den composition explains selected capabilities.
 Importing a module alone does not prove that every option inside it is enabled.
 
 ## Decision and alternatives

@@ -2,6 +2,8 @@
 """Regression checks for changes in module usage and absorption candidates."""
 
 import json
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -117,6 +119,69 @@ class ModuleMapTests(unittest.TestCase):
         self.raw["schema"] = 2
         with self.assertRaisesRegex(ValueError, "schema"):
             module_map.analyze(self.raw, self.root)
+
+    def test_new_architecture_roots_are_discovered(self) -> None:
+        for directory in ("features/fixture", "profiles", "inventory", "nix", "policy"):
+            path = self.root / directory / "fixture.nix"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("{}\n")
+        report = module_map.analyze(self.raw, self.root)
+        self.assertEqual(len(report["modules"]), 9)
+
+    def test_registered_unselected_aspect_is_catalogue_only(self) -> None:
+        path = "features/unselected/default.nix"
+        (self.root / path).parent.mkdir(parents=True)
+        (self.root / path).write_text("{}\n")
+        self.raw["catalogue"] = [{"file": path, "parent": None, "disabled": False}]
+        report = module_map.analyze(self.raw, self.root)
+        module = next(m for m in report["modules"] if m["path"] == path)
+        self.assertEqual(module["status"], "wiring-only")
+        self.assertEqual(module["contexts"], ["wiring:Registered Den aspects"])
+
+    def test_actual_den_selection_records_feature_owner(self) -> None:
+        # Resolve a real feature through Den without constructing an OS closure.
+        expression = f"""
+          let
+            inputs = (builtins.getFlake {json.dumps(str(ROOT))}).inputs;
+            inherit (inputs.nixpkgs) lib;
+            evaluated = lib.evalModules {{
+              specialArgs = {{ inherit inputs; }};
+              modules = [ inputs.den.flakeModule inputs.den.flakeOutputs.flake
+                inputs.den.flakeOutputs.all {ROOT}/features/annotation/default.nix
+                ({{den, ...}}: {{den.hosts.x86_64-linux.fixture.aspect.includes = [den.aspects.annotation];}})
+              ];
+            }};
+          in map (node: {{ id = node.name; file = node.meta.file or ""; }})
+            evaluated.config.den.hosts.x86_64-linux.fixture.hasAspect.allAspects
+        """
+        executable = shutil.which("nix")
+        self.assertIsNotNone(executable, "Module-map integration checks require Nix")
+        result = subprocess.run(  # noqa: S603
+            [executable, "eval", "--impure", "--json", "--expr", expression],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=90,
+        )
+        selected = next(
+            node for node in json.loads(result.stdout) if node["id"] == "annotation"
+        )
+        self.assertTrue(selected["file"].endswith("features/annotation/default.nix"))
+        path = "features/annotation/default.nix"
+        (self.root / path).parent.mkdir(parents=True)
+        (self.root / path).write_text("{}\n")
+        self.raw["compositions"] = [
+            {
+                "name": "fixture",
+                "kind": "NixOS",
+                "nodes": [{"id": "annotation", "file": path}],
+                "edges": [],
+            }
+        ]
+        report = module_map.analyze(self.raw, self.root)
+        module = next(m for m in report["modules"] if m["path"] == path)
+        self.assertEqual((module["status"], module["kind"]), ("used", "feature"))
+        self.assertIn("annotation", module_map.composition_dot(report["contexts"][1]))
 
     def test_embedded_data_cannot_close_script_tag(self) -> None:
         report = module_map.analyze(self.raw, self.root)

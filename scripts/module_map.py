@@ -9,7 +9,14 @@ import json
 import subprocess as sp
 import sys
 from pathlib import Path
-from typing import TypedDict
+from typing import NotRequired, TypedDict
+
+
+class Composition(TypedDict):
+    name: str
+    kind: str
+    nodes: list[dict[str, str]]
+    edges: list[list[str]]
 
 
 class Record(TypedDict):
@@ -30,6 +37,9 @@ class Graphs(TypedDict):
     wiring: list[Record]
     machines: list[Machine]
     variants: list[Machine]
+    compositions: NotRequired[list[Composition]]
+    policy: NotRequired[dict]
+    catalogue: NotRequired[list[Record]]
 
 
 class Context(TypedDict):
@@ -41,6 +51,7 @@ class Context(TypedDict):
     roots: list[str]
     disabled: list[str]
     layers: dict[str, list[str]]
+    composition: NotRequired[Composition]
 
 
 class Module(TypedDict):
@@ -52,6 +63,7 @@ class Module(TypedDict):
     children: list[str]
     status: str
     merge_into: str | None
+    kind: str
 
 
 class Report(TypedDict):
@@ -59,6 +71,7 @@ class Report(TypedDict):
     generator: str
     contexts: list[Context]
     modules: list[Module]
+    policy: dict
 
 
 def run(command: list[str], *, cwd: Path, source: str | None = None) -> str:
@@ -115,6 +128,10 @@ def analyze(graphs: Graphs, root: Path) -> Report:
     if graphs["schema"] != 1:
         raise ValueError("Unsupported Nix graph schema")
     contexts = [context("Flake wiring", "wiring", {"flake": graphs["wiring"]})]
+    if graphs.get("catalogue"):
+        contexts.append(
+            context("Registered Den aspects", "wiring", {"flake": graphs["catalogue"]})
+        )
     contexts.extend(
         context(
             machine["name"],
@@ -128,26 +145,41 @@ def analyze(graphs: Graphs, root: Path) -> Report:
         )
         for machine in graphs["machines"] + graphs["variants"]
     )
+    for composition in graphs.get("compositions", []):
+        item = next(
+            c
+            for c in contexts
+            if c["id"] == f"{composition['kind']}:{composition['name']}"
+        )
+        item["composition"] = composition
+        item["layers"]["aspects"] = sorted(
+            {node["file"] for node in composition["nodes"]}
+        )
     paths = {"flake.nix"} | {
         path.relative_to(root).as_posix()
         for directory in (
-            "modules",
             "features",
             "profiles",
             "inventory",
             "nix",
             "policy",
+            "modules",
             "hosts",
             "servers",
         )
         for path in (root / directory).rglob("*.nix")
     }
     paths |= {path for item in contexts for path in item["modules"] + item["disabled"]}
+    paths |= {path for item in contexts for path in item["layers"].get("aspects", [])}
     edges = {tuple(edge) for item in contexts for edge in item["edges"]}
     modules: list[Module] = []
     for path in sorted(paths):
         source = (root / path).read_bytes()
-        users = [item["id"] for item in contexts if path in item["modules"]]
+        users = [
+            item["id"]
+            for item in contexts
+            if any(path in members for members in item["layers"].values())
+        ]
         status = module_status(
             users, disabled=any(path in c["disabled"] for c in contexts)
         )
@@ -161,6 +193,13 @@ def analyze(graphs: Graphs, root: Path) -> Report:
                 "children": sorted(child for parent, child in edges if parent == path),
                 "status": status,
                 "merge_into": None,
+                "kind": {
+                    "features": "feature",
+                    "profiles": "profile",
+                    "inventory": "host",
+                    "hosts": "host",
+                    "servers": "host",
+                }.get(path.split("/")[0], "infrastructure"),
             }
         )
     by_path = {module["path"]: module for module in modules}
@@ -181,7 +220,23 @@ def analyze(graphs: Graphs, root: Path) -> Report:
         "generator": digest.hexdigest(),
         "contexts": contexts,
         "modules": modules,
+        "policy": graphs.get("policy", {}),
     }
+
+
+def composition_dot(item: Context) -> str:
+    composition = item["composition"]
+    ids = {node["id"]: f"a{index}" for index, node in enumerate(composition["nodes"])}
+    rows = [
+        'digraph aspects { graph [rankdir=LR, bgcolor="transparent"]; node [shape=box, style="rounded,filled", fontname="sans-serif", fillcolor="#e7eff8"];'
+    ]
+    for node in composition["nodes"]:
+        label = f"{node['id']}\n{node['file'].split('/')[0]}"
+        rows.append(
+            f'{ids[node["id"]]} [label={json.dumps(label)}, tooltip={json.dumps(node["file"])}, id="{ids[node["id"]]}"];'
+        )
+    rows.extend(f"{ids[a]} -> {ids[b]};" for a, b in composition["edges"])
+    return "\n".join([*rows, "}"])
 
 
 def dot_source(item: Context, modules: list[Module]) -> str:
@@ -222,9 +277,11 @@ def markdown(report: Report) -> str:
         "",
         "## Reading this map",
         "",
-        "This map uses Nix's evaluated import graphs, including embedded Home Manager graphs.",
+        "This map combines actual Den aspect membership with evaluated Nix imports, including embedded Home Manager graphs.",
+        "Composition edges are authored includes filtered to selected aspects; they are not the resolved policy delivery graph.",
         "It records imports, not whether each option, package or service is enabled.",
         "Flake wiring registers configurations and public modules; it is not a deployed machine.",
+        "The Den catalogue records actual registered aspect sources, including definitions not selected by a machine.",
         "Optional workstation variants show supported compositions, not additional machines.",
         "External work repositories and arbitrary extra modules are outside this evaluation.",
         "",
@@ -286,7 +343,7 @@ def markdown(report: Report) -> str:
         "",
         "## Machine-module matrix",
         "",
-        "S = system import; H = Home Manager import; I = flake wiring import.",
+        "S = system import; H = Home Manager import; I = flake wiring import; A = selected Den aspect owner.",
         "",
         "| Module | " + " | ".join(c["label"] for c in contexts) + " |",
         "| --- | " + " | ".join("---" for _ in contexts) + " |",
@@ -295,7 +352,13 @@ def markdown(report: Report) -> str:
         cells = []
         for item in contexts:
             symbols = {
-                "S" if layer == "system" else "I" if layer == "flake" else "H"
+                "A"
+                if layer == "aspects"
+                else "S"
+                if layer == "system"
+                else "I"
+                if layer == "flake"
+                else "H"
                 for layer, members in item["layers"].items()
                 if module["path"] in members
             }
@@ -313,6 +376,9 @@ def render_html(report: Report, root: Path) -> str:
             ["dot", "-Tsvg"], cwd=root, source=dot_source(item, report["modules"])
         )
         diagrams[item["id"]] = svg[svg.index("<svg") :]
+        if item.get("composition", {}).get("nodes"):
+            svg = run(["dot", "-Tsvg"], cwd=root, source=composition_dot(item))
+            diagrams[item["id"] + ":composition"] = svg[svg.index("<svg") :]
     template = (root / "scripts/module-map.html").read_text()
     data = json.dumps(
         {"report": report, "diagrams": diagrams}, separators=(",", ":")
