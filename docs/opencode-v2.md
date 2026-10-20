@@ -67,6 +67,24 @@ The managed configuration is
 Nix generations. Both configurations omit the retired Serena MCP server and keep
 Qartez for code navigation.
 
+## MCP servers
+
+The configuration includes all nine servers declared in the active Codex
+configuration on Wodan: `agent-memory`, `blender`, `chrome-devtools`,
+`headroom`, `nixos`, `node_repl`, `openaiDeveloperDocs`, `playwright`, and
+`qartez`. The disabled `cua_repl` entry in the old Codex dotfile is not an
+active server.
+
+Wodan installs `opencode-mcp-*` launchers that reuse its pinned browser
+executables and flags. They keep Nix store paths out of the editable JSON file.
+The Node REPL launcher uses the pinned ChatGPT package's Node runtime and module
+directory. Standalone MCP initialization and JavaScript execution work; the
+ChatGPT app's private browser bridge is not configured for OpenCode.
+
+Apply the Nix configuration before restarting OpenCode so the new launchers and
+server executables are available. Then use `opencode mcp list` to check actual
+connections. Blender still requires the local Blender service for scene work.
+
 ## Queue plugin
 
 The configuration pins

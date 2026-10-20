@@ -56,7 +56,9 @@ assert.deepEqual(config.agents.codex.permissions, [
     { action: "subagent", resource: "opencode-worker", effect: "allow" },
 ]);
 assert.equal(config.providers.tensorx.package, "aisdk:@ai-sdk/openai-compatible");
-assert.deepEqual(Object.keys(config.mcp.servers).sort(), ["agent-memory", "headroom", "qartez"]);
+assert.deepEqual(Object.keys(config.mcp.servers).sort(), [
+    "agent-memory", "blender", "chrome-devtools", "headroom", "nixos", "node_repl", "openaiDeveloperDocs", "playwright", "qartez",
+]);
 JS
 
 # Path inspection must preserve the old nixpkgs database selection without opening it.

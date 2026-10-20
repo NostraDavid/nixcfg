@@ -71,6 +71,62 @@
         ],
         "disabled": false,
         "type": "local"
+      },
+      "blender": {
+        "type": "local",
+        "command": [
+          "blender-mcp",
+          "--transport",
+          "stdio"
+        ],
+        "environment": {
+          "BLENDER_MCP_HOST": "127.0.0.1",
+          "BLENDER_MCP_PORT": "9876"
+        },
+        "timeout": {
+          "startup": 60000,
+          "catalog": 60000,
+          "execution": 60000
+        },
+        "disabled": false
+      },
+      "chrome-devtools": {
+        "type": "local",
+        "command": [
+          "opencode-mcp-chrome-devtools"
+        ],
+        "disabled": false
+      },
+      "nixos": {
+        "type": "local",
+        "command": [
+          "opencode-mcp-nixos"
+        ],
+        "disabled": false
+      },
+      "node_repl": {
+        "type": "local",
+        "command": [
+          "opencode-mcp-node-repl"
+        ],
+        "timeout": {
+          "startup": 120000,
+          "catalog": 120000,
+          "execution": 120000
+        },
+        "disabled": false
+      },
+      "openaiDeveloperDocs": {
+        "type": "remote",
+        "url": "https://developers.openai.com/mcp",
+        "disabled": false
+      },
+      "playwright": {
+        "type": "local",
+        "command": [
+          "opencode-mcp-playwright"
+        ],
+        "disabled": false
       }
     }
   },
