@@ -59,8 +59,21 @@ The managed configuration is
 `dotfiles/opencode-2.0.32/.config/opencode/opencode.jsonc`. The previous
 `opencode-1.18.4` file remains available for running v1 installations and older
 Nix generations. Both configurations omit the retired Serena MCP server and keep
-Qartez for code navigation. No plugins are configured that require a plugin-API
-port.
+Qartez for code navigation.
+
+## Queue plugin
+
+The configuration pins
+[opencode-queue](https://github.com/mirsella/opencode-queue/tree/v2.0.2) to
+2.0.2, which requires OpenCode v2.0.27 or newer. OpenCode installs the npm
+plugin when it loads. Restart the background service and reopen the client after
+changing plugins.
+
+Use `/queue text` or `/q text` to queue input, `/queue:list` to inspect it, and
+`/queue:stop` or `/queue:start` to pause or resume replay. V2 requires explicit
+queue commands. Ordinary input is not automatically queued, and trailing
+`text /queue` syntax is not supported. The plugin stores its queue in OpenCode's
+user data directory; the repository does not manage that file.
 
 V2 still reads `~/.config/opencode/AGENTS.md` and the existing skills. Provider
 credentials are not changed or stored in the repository. The portable profiles

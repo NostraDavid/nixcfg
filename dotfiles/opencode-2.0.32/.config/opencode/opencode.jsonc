@@ -1,5 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "plugins": [
+    "opencode-queue@2.0.2"
+  ],
   "agent": {
     "codex": {
       "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
