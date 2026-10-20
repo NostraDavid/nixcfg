@@ -181,18 +181,11 @@ in {
         servers = json.loads(sys.argv[2])
         for relative, loads, dumps in [
             (".codex/config.toml", tomlkit.loads, tomlkit.dumps),
-            (".config/opencode/opencode.json", json.loads, lambda value: json.dumps(value, indent=2) + "\n"),
         ]:
             path = home / relative
             original = path.read_text() if path.exists() else ""
             document = loads(original) if original else {}
-            if relative.endswith(".toml"):
-                document.setdefault("mcp_servers", {}).update(servers)
-            else:
-                document.setdefault("mcp", {}).update({
-                    name: {"type": "local", "command": [server["command"], *server.get("args", [])], "enabled": True}
-                    for name, server in servers.items()
-                })
+            document.setdefault("mcp_servers", {}).update(servers)
             updated = dumps(document)
             if updated == original:
                 continue

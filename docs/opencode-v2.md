@@ -189,6 +189,17 @@ on first startup. Home Manager links this writable file to
 `dotfiles/opencode-2.0.32/.config/opencode/cli.json`, so changes made in the TUI
 also update the checkout. Both personal and work profiles use this client file.
 
+The managed `opencode.jsonc` contains the MCP configuration. Home Manager no
+longer writes a second `opencode.json` for OpenCode. V2 still reads both names,
+so archive an old local `opencode.json` outside the configuration directory
+after checking for settings absent from the managed file.
+
+V2 loads global and project `AGENTS.md` files, plus files listed in
+`instructions`. Our global file links to the shared agent instructions. Qartez
+handles code navigation and Headroom handles output compression through MCP. The
+old `rules/lean-ctx.md` belongs to the removed LeanCTX integration and is not
+part of this instruction setup.
+
 Verify models and credentials, agent selection, MCP connectivity, permissions,
 and a disposable session before relying on the migration for ongoing work. For
 rollback, restore the earlier Nix generation and config/data backups; do not run

@@ -10,16 +10,10 @@ from pathlib import Path
 import tomlkit
 
 
-def configure(home, command):
+def configure(home: Path, command: str) -> None:
     server = {"command": command, "args": ["mcp", "serve", "--transport", "stdio"]}
     for relative, section, loads, dumps in [
         (".codex/config.toml", "mcp_servers", tomlkit.loads, tomlkit.dumps),
-        (
-            ".config/opencode/opencode.json",
-            "mcp",
-            json.loads,
-            lambda value: json.dumps(value, indent=2) + "\n",
-        ),
         (
             ".pi/agent/settings.json",
             None,
@@ -28,7 +22,7 @@ def configure(home, command):
         ),
     ]:
         path = home / relative
-        if not path.exists() and section in (None, "mcp"):
+        if not path.exists() and section is None:
             continue
         path = path.resolve()
         original = path.read_text() if path.exists() else ""
@@ -40,15 +34,7 @@ def configure(home, command):
         else:
             servers = document.setdefault(section, {})
             servers.pop("lean-ctx", None)
-            servers["headroom"] = (
-                {
-                    "type": "local",
-                    "command": [command, *server["args"]],
-                    "enabled": True,
-                }
-                if section == "mcp"
-                else dict(server)
-            )
+            servers["headroom"] = dict(server)
         updated = dumps(document)
         if updated == original:
             continue
@@ -57,13 +43,13 @@ def configure(home, command):
         if path.exists() and not backup.exists():
             shutil.copy2(path, backup)
         fd, temporary = tempfile.mkstemp(dir=path.parent)
+        temporary = Path(temporary)
         try:
             with os.fdopen(fd, "w") as stream:
                 stream.write(updated)
-            os.replace(temporary, path)
+            temporary.replace(path)
         finally:
-            if os.path.exists(temporary):
-                os.unlink(temporary)
+            temporary.unlink(missing_ok=True)
 
     # Move generated integrations out of client discovery; retain user data.
     for relative in [
