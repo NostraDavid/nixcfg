@@ -52,8 +52,14 @@ host. Avoid using `opencode upgrade` to replace a Nix-managed installation.
 The [upstream migration guide](https://opencode.ai/v2/docs/migrate-v1/) keeps
 supported v1 configuration compatible. Our v2 configuration therefore retains
 the existing agents, models, provider settings, MCP commands, and permissions.
-Only the unsupported top-level `subagent_depth` setting moves under
-`experimental`. The orchestrator prompt refers to the renamed `subagent` tool.
+The unsupported top-level `subagent_depth` setting moves under `experimental`.
+The configuration uses native v2 `agents`, with `system` and ordered
+`permissions` rules instead of the deprecated `agent`, `prompt`, and
+`permission` fields. It also uses `update: "disable"`, `providers` with
+`package` and `settings`, `snapshots`, `mcp.servers` with `disabled` and
+separate timeout fields. Complete normalized configuration snapshots were
+compared before and after conversion; the effective settings are identical. The
+orchestrator prompt refers to the renamed `subagent` tool.
 
 The managed configuration is
 `dotfiles/opencode-2.0.32/.config/opencode/opencode.jsonc`. The previous

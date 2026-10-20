@@ -27,6 +27,18 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const config = JSON.parse(readFileSync(process.argv[2], "utf8"))[0].info;
+const source = JSON.parse(readFileSync(`${process.env.XDG_CONFIG_HOME}/opencode/opencode.jsonc`, "utf8"));
+for (const key of ["agent", "autoupdate", "permission", "provider", "snapshot", "enabled_providers", "disabled_providers", "plugin"]) {
+    assert.ok(!(key in source), `Deprecated v1 configuration key: ${key}`);
+}
+assert.ok(source.mcp.servers, "Use native v2 mcp.servers");
+for (const server of Object.values(source.mcp.servers)) {
+    assert.ok(!("enabled" in server), "Use native v2 MCP disabled");
+    assert.notEqual(typeof server.timeout, "number", "Use native v2 MCP timeout fields");
+}
+for (const agent of Object.values(source.agents)) {
+    assert.ok(!("prompt" in agent) && !("permission" in agent), "Use native v2 agent fields");
+}
 assert.equal(config.update, "disable");
 assert.equal(config.default_agent, "codex");
 assert.equal(config.experimental.subagent_depth, 1);

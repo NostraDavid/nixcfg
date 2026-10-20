@@ -3,30 +3,40 @@
   "plugins": [
     "opencode-queue@2.0.2"
   ],
-  "agent": {
+  "agents": {
     "codex": {
       "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
       "mode": "primary",
       "model": "openai/gpt-6-luna",
-      "permission": {
-        "task": {
-          "*": "deny",
-          "opencode-worker": "allow"
+      "permissions": [
+        {
+          "action": "subagent",
+          "resource": "*",
+          "effect": "deny"
+        },
+        {
+          "action": "subagent",
+          "resource": "opencode-worker",
+          "effect": "allow"
         }
-      },
-      "prompt": "You are the primary engineering orchestrator. Keep ownership of the user's goal, architecture, sequencing, safety, and final answer. Delegate bounded implementation, investigation, and verification work to the opencode-worker subagent through the subagent tool when that reduces cost or latency. Give the worker explicit scope, constraints, and acceptance criteria. Inspect its result and independently resolve gaps before reporting completion. Do not delegate user communication or final judgment."
+      ],
+      "system": "You are the primary engineering orchestrator. Keep ownership of the user's goal, architecture, sequencing, safety, and final answer. Delegate bounded implementation, investigation, and verification work to the opencode-worker subagent through the subagent tool when that reduces cost or latency. Give the worker explicit scope, constraints, and acceptance criteria. Inspect its result and independently resolve gaps before reporting completion. Do not delegate user communication or final judgment."
     },
     "opencode-worker": {
       "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by Codex.",
       "mode": "subagent",
       "model": "tensorx/deepseek/deepseek-v4.1-flash",
-      "permission": {
-        "task": "deny"
-      },
+      "permissions": [
+        {
+          "action": "subagent",
+          "resource": "*",
+          "effect": "deny"
+        }
+      ],
       "steps": 30
     }
   },
-  "autoupdate": false,
+  "update": "disable",
   "default_agent": "codex",
   "experimental": {
     "subagent_depth": 1
@@ -35,99 +45,211 @@
     "~/AGENTS.md"
   ],
   "mcp": {
-    "agent-memory": {
-      "command": [
-        "agent-memory",
-        "mcp"
-      ],
-      "enabled": true,
-      "type": "local"
-    },
-    "headroom": {
-      "command": [
-        "headroom",
-        "mcp",
-        "serve",
-        "--transport",
-        "stdio"
-      ],
-      "enabled": true,
-      "type": "local"
-    },
-    "qartez": {
-      "command": [
-        "qartez"
-      ],
-      "enabled": true,
-      "type": "local"
+    "servers": {
+      "agent-memory": {
+        "command": [
+          "agent-memory",
+          "mcp"
+        ],
+        "disabled": false,
+        "type": "local"
+      },
+      "headroom": {
+        "command": [
+          "headroom",
+          "mcp",
+          "serve",
+          "--transport",
+          "stdio"
+        ],
+        "disabled": false,
+        "type": "local"
+      },
+      "qartez": {
+        "command": [
+          "qartez"
+        ],
+        "disabled": false,
+        "type": "local"
+      }
     }
   },
   "model": "openai/gpt-6-luna",
-  "permission": {
-    "*": "allow",
-    "bash": {
-      "*": "allow",
-      "cat *": "allow",
-      "fd *": "allow",
-      "git *": "allow",
-      "git branch -D *": "deny",
-      "git checkout -- *": "deny",
-      "git cherry-pick *": "ask",
-      "git clean -fd *": "deny",
-      "git clean -fdx *": "deny",
-      "git commit *": "ask",
-      "git merge *": "ask",
-      "git push *": "deny",
-      "git push --force *": "deny",
-      "git push --force-with-lease *": "deny",
-      "git rebase *": "ask",
-      "git reset --hard *": "deny",
-      "git restore --source=* *": "deny",
-      "git revert *": "ask",
-      "git submodule foreach *": "deny",
-      "git tag -d *": "deny",
-      "just *": "allow",
-      "ls *": "allow",
-      "rg *": "allow",
-      "rm -rf *": "deny",
-      "sed *": "allow"
+  "permissions": [
+    {
+      "action": "*",
+      "resource": "*",
+      "effect": "allow"
     },
-    "doom_loop": "ask",
-    "external_directory": "ask"
-  },
-  "provider": {
+    {
+      "action": "shell",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "cat *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "fd *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "git *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "git branch -D *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git checkout -- *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git cherry-pick *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git clean -fd *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git clean -fdx *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git commit *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git merge *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git push *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git push --force *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git push --force-with-lease *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git rebase *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git reset --hard *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git restore --source=* *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git revert *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "git submodule foreach *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git tag -d *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "just *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "ls *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "rg *",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -rf *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "sed *",
+      "effect": "allow"
+    },
+    {
+      "action": "doom_loop",
+      "resource": "*",
+      "effect": "ask"
+    },
+    {
+      "action": "external_directory",
+      "resource": "*",
+      "effect": "ask"
+    }
+  ],
+  "providers": {
     "tensorx": {
+      "name": "TensorX",
+      "package": "aisdk:@ai-sdk/openai-compatible",
+      "settings": {
+        "baseURL": "https://api.tensorx.ai/v1"
+      },
       "models": {
         "deepseek/deepseek-v4.1-flash": {
+          "name": "DeepSeek V4.1 Flash",
           "limit": {
             "context": 1048576,
             "output": 16384
-          },
-          "name": "DeepSeek V4.1 Flash"
+          }
         },
         "qwen/qwen3.8-flash-next": {
+          "name": "Qwen3.8 Flash Next",
           "limit": {
             "context": 262144,
             "output": 16384
-          },
-          "name": "Qwen3.8 Flash Next"
+          }
         },
         "z-ai/glm-5.3-flash": {
+          "name": "GLM 5.3 Flash",
           "limit": {
             "context": 1048576,
             "output": 16384
-          },
-          "name": "GLM 5.3 Flash"
+          }
         }
-      },
-      "name": "TensorX",
-      "npm": "@ai-sdk/openai-compatible",
-      "options": {
-        "baseURL": "https://api.tensorx.ai/v1"
       }
     }
   },
   "share": "manual",
   "shell": "bash",
-  "snapshot": true
+  "snapshots": true
 }
