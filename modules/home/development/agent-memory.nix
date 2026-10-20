@@ -55,7 +55,13 @@ in {
   };
 
   config = {
-    home.packages = [local.engram local.engrim local.ctx memory];
+    home.packages =
+      (
+        if stable.stdenv.hostPlatform.isLinux
+        then [local.engram local.engrim local.ctx]
+        else [local.${provider}]
+      )
+      ++ [memory];
     xdg.configFile."agent-memory/provider".text = provider + "\n";
 
     programs.pi.coding-agent.mcp.mcpServers.agent-memory = {
@@ -68,7 +74,7 @@ in {
       $DRY_RUN_CMD ${python}/bin/python ${configureClients} ${lib.escapeShellArg config.home.homeDirectory}
     '';
 
-    systemd.user.services.ctx-history = {
+    systemd.user.services.ctx-history = lib.mkIf stable.stdenv.hostPlatform.isLinux {
       Unit.Description = "Index local coding-agent history for CTX";
       Service = {
         Type = "simple";
