@@ -15,6 +15,7 @@
     extraSpecialArgs = {inherit inputs;};
     users.${main-user} = {
       imports = [
+        ./home/nix-index.nix
         ./home/development/worktrunk.nix
         inputs.plasma-manager.homeModules.plasma-manager
         inputs.codex-desktop-linux.homeManagerModules.default
@@ -25,7 +26,16 @@
 
       programs.home-manager.enable = true;
       home = {
-        packages = [unstable.hurl unstable.sqruff];
+        packages = [
+          unstable.actionlint
+          unstable.hurl
+          unstable.lnav
+          unstable.nix-index
+          unstable.nix-tree
+          unstable.nvd
+          unstable.sqruff
+          unstable.watchexec
+        ];
         username = main-user;
         homeDirectory = "/home/${main-user}";
         stateVersion = "25.05";

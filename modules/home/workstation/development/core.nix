@@ -28,7 +28,6 @@
       unstable.nix-update # Update Nix package versions and hashes
       unstable.python313Packages.pynvim # Python support for Neovim
       unstable.rustscan # Network mapper
-      unstable.watchexec # Run commands in response to file changes
     ]
     ++ lib.optionals stable.stdenv.isLinux [
       local.github-copilot-cli # LLM Agent

@@ -8,6 +8,13 @@ repos:
 
   - repo: local
     hooks:
+      - id: check-nix-index
+        name: check initial nix-index generation
+        entry: bash checks/test-nix-index.sh
+        language: system
+        files: "^(modules/home/nix-index\\.nix|checks/test-nix-index\\.sh)$"
+        pass_filenames: false
+
       - id: check-video-explainer
         name: check video renderer logic
         entry: dotfiles/agents/.agents/video-explainer/scripts/render.py unit-test
