@@ -3,7 +3,7 @@
   constructors,
   ...
 }: let
-  settings = import ../infra/proxmox-lab/settings.nix;
+  settings = import ../../../infra/proxmox-lab/settings.nix;
 in {
   den.hosts.x86_64-linux.forgejo-lab = {
     aspect = den.aspects.host-forgejo-lab;

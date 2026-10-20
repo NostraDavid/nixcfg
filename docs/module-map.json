@@ -422,17 +422,17 @@
           "features/workstation-extra/default.nix",
           "features/workstation-runtime/_nixos.nix",
           "features/workstation-runtime/default.nix",
-          "inventory/apps.nix",
-          "inventory/bragi.nix",
-          "inventory/donar.nix",
-          "inventory/forgejo-lab.nix",
-          "inventory/forgejo.nix",
-          "inventory/frigg.nix",
-          "inventory/homepage.nix",
-          "inventory/loki.nix",
-          "inventory/mimir2.nix",
-          "inventory/proxy.nix",
-          "inventory/wodan.nix",
+          "hosts/physical/bragi/default.nix",
+          "hosts/physical/donar/default.nix",
+          "hosts/physical/frigg/default.nix",
+          "hosts/physical/loki/default.nix",
+          "hosts/physical/mimir2/default.nix",
+          "hosts/physical/wodan/default.nix",
+          "hosts/virtual/apps/default.nix",
+          "hosts/virtual/forgejo-lab/default.nix",
+          "hosts/virtual/forgejo/default.nix",
+          "hosts/virtual/homepage/default.nix",
+          "hosts/virtual/proxy/default.nix",
           "profiles/desktop-base.nix",
           "profiles/desktop.nix",
           "profiles/full-workstation.nix",
@@ -554,17 +554,17 @@
         "features/workstation-extra/default.nix",
         "features/workstation-runtime/_nixos.nix",
         "features/workstation-runtime/default.nix",
-        "inventory/apps.nix",
-        "inventory/bragi.nix",
-        "inventory/donar.nix",
-        "inventory/forgejo-lab.nix",
-        "inventory/forgejo.nix",
-        "inventory/frigg.nix",
-        "inventory/homepage.nix",
-        "inventory/loki.nix",
-        "inventory/mimir2.nix",
-        "inventory/proxy.nix",
-        "inventory/wodan.nix",
+        "hosts/physical/bragi/default.nix",
+        "hosts/physical/donar/default.nix",
+        "hosts/physical/frigg/default.nix",
+        "hosts/physical/loki/default.nix",
+        "hosts/physical/mimir2/default.nix",
+        "hosts/physical/wodan/default.nix",
+        "hosts/virtual/apps/default.nix",
+        "hosts/virtual/forgejo-lab/default.nix",
+        "hosts/virtual/forgejo/default.nix",
+        "hosts/virtual/homepage/default.nix",
+        "hosts/virtual/proxy/default.nix",
         "profiles/desktop-base.nix",
         "profiles/desktop.nix",
         "profiles/full-workstation.nix",
@@ -621,17 +621,17 @@
         "features/window-management/default.nix",
         "features/workstation-extra/default.nix",
         "features/workstation-runtime/default.nix",
-        "inventory/apps.nix",
-        "inventory/bragi.nix",
-        "inventory/donar.nix",
-        "inventory/forgejo-lab.nix",
-        "inventory/forgejo.nix",
-        "inventory/frigg.nix",
-        "inventory/homepage.nix",
-        "inventory/loki.nix",
-        "inventory/mimir2.nix",
-        "inventory/proxy.nix",
-        "inventory/wodan.nix",
+        "hosts/physical/bragi/default.nix",
+        "hosts/physical/donar/default.nix",
+        "hosts/physical/frigg/default.nix",
+        "hosts/physical/loki/default.nix",
+        "hosts/physical/mimir2/default.nix",
+        "hosts/physical/wodan/default.nix",
+        "hosts/virtual/apps/default.nix",
+        "hosts/virtual/forgejo-lab/default.nix",
+        "hosts/virtual/forgejo/default.nix",
+        "hosts/virtual/homepage/default.nix",
+        "hosts/virtual/proxy/default.nix",
         "profiles/desktop-base.nix",
         "profiles/desktop.nix",
         "profiles/full-workstation.nix",
@@ -680,7 +680,7 @@
         "name": "apps",
         "nodes": [
           {
-            "file": "inventory/apps.nix",
+            "file": "hosts/virtual/apps/default.nix",
             "id": "host-apps"
           },
           {
@@ -731,7 +731,7 @@
           "features/selfhosted-apps/default.nix",
           "features/server-locale/default.nix",
           "features/server-nix/default.nix",
-          "inventory/apps.nix",
+          "hosts/virtual/apps/default.nix",
           "profiles/proxmox-guest.nix"
         ],
         "system": [
@@ -741,7 +741,7 @@
           "features/selfhosted-apps/_nixos.nix",
           "features/server-locale/_nixos.nix",
           "features/server-nix/_nixos.nix",
-          "servers/apps/hardware-configuration.nix"
+          "hosts/virtual/apps/hardware-configuration.nix"
         ]
       },
       "modules": [
@@ -751,7 +751,7 @@
         "features/selfhosted-apps/_nixos.nix",
         "features/server-locale/_nixos.nix",
         "features/server-nix/_nixos.nix",
-        "servers/apps/hardware-configuration.nix"
+        "hosts/virtual/apps/hardware-configuration.nix"
       ],
       "roots": [
         "features/cachix/_nixos.nix",
@@ -760,7 +760,7 @@
         "features/selfhosted-apps/_nixos.nix",
         "features/server-locale/_nixos.nix",
         "features/server-nix/_nixos.nix",
-        "servers/apps/hardware-configuration.nix"
+        "hosts/virtual/apps/hardware-configuration.nix"
       ]
     },
     {
@@ -855,7 +855,7 @@
         "name": "bragi",
         "nodes": [
           {
-            "file": "inventory/bragi.nix",
+            "file": "hosts/physical/bragi/default.nix",
             "id": "host-bragi"
           },
           {
@@ -971,7 +971,7 @@
           "features/nix-index/default.nix",
           "features/nixos-base/default.nix",
           "features/storage-optimization/default.nix",
-          "inventory/bragi.nix",
+          "hosts/physical/bragi/default.nix",
           "profiles/desktop-base.nix",
           "profiles/interactive.nix"
         ],
@@ -996,7 +996,7 @@
           "features/keyboard/_nixos.nix",
           "features/location/_nixos.nix",
           "features/storage-optimization/_nixos.nix",
-          "hosts/bragi/hardware-configuration.nix"
+          "hosts/physical/bragi/hardware-configuration.nix"
         ]
       },
       "modules": [
@@ -1018,7 +1018,7 @@
         "features/mcp/_qartez.nix",
         "features/nix-index/_home.nix",
         "features/storage-optimization/_nixos.nix",
-        "hosts/bragi/hardware-configuration.nix"
+        "hosts/physical/bragi/hardware-configuration.nix"
       ],
       "roots": [
         "features/boot/_nixos.nix",
@@ -1039,7 +1039,7 @@
         "features/mcp/_qartez.nix",
         "features/nix-index/_home.nix",
         "features/storage-optimization/_nixos.nix",
-        "hosts/bragi/hardware-configuration.nix"
+        "hosts/physical/bragi/hardware-configuration.nix"
       ]
     },
     {
@@ -1250,7 +1250,7 @@
         "name": "donar",
         "nodes": [
           {
-            "file": "inventory/donar.nix",
+            "file": "hosts/physical/donar/default.nix",
             "id": "host-donar"
           },
           {
@@ -1499,7 +1499,7 @@
           "features/terminal/default.nix",
           "features/whatpulse/default.nix",
           "features/workstation-runtime/default.nix",
-          "inventory/donar.nix",
+          "hosts/physical/donar/default.nix",
           "profiles/desktop-base.nix",
           "profiles/full-workstation.nix",
           "profiles/interactive.nix",
@@ -1559,7 +1559,7 @@
           "features/storage-optimization/_nixos.nix",
           "features/whatpulse/_nixos.nix",
           "features/workstation-runtime/_nixos.nix",
-          "hosts/donar/hardware-configuration.nix"
+          "hosts/physical/donar/hardware-configuration.nix"
         ]
       },
       "modules": [
@@ -1613,7 +1613,7 @@
         "features/whatpulse/_home.nix",
         "features/whatpulse/_nixos.nix",
         "features/workstation-runtime/_nixos.nix",
-        "hosts/donar/hardware-configuration.nix"
+        "hosts/physical/donar/hardware-configuration.nix"
       ],
       "roots": [
         "features/boot/_nixos.nix",
@@ -1660,7 +1660,7 @@
         "features/whatpulse/_home.nix",
         "features/whatpulse/_nixos.nix",
         "features/workstation-runtime/_nixos.nix",
-        "hosts/donar/hardware-configuration.nix"
+        "hosts/physical/donar/hardware-configuration.nix"
       ]
     },
     {
@@ -1699,7 +1699,7 @@
         "name": "forgejo",
         "nodes": [
           {
-            "file": "inventory/forgejo.nix",
+            "file": "hosts/virtual/forgejo/default.nix",
             "id": "host-forgejo"
           },
           {
@@ -1750,7 +1750,7 @@
           "features/proxmox-vm/default.nix",
           "features/server-locale/default.nix",
           "features/server-nix/default.nix",
-          "inventory/forgejo.nix",
+          "hosts/virtual/forgejo/default.nix",
           "profiles/proxmox-guest.nix"
         ],
         "system": [
@@ -1807,7 +1807,7 @@
         "name": "forgejo-lab",
         "nodes": [
           {
-            "file": "inventory/forgejo-lab.nix",
+            "file": "hosts/virtual/forgejo-lab/default.nix",
             "id": "host-forgejo-lab"
           },
           {
@@ -1849,7 +1849,7 @@
           "features/nixos-base/default.nix",
           "features/server-locale/default.nix",
           "features/server-nix/default.nix",
-          "inventory/forgejo-lab.nix"
+          "hosts/virtual/forgejo-lab/default.nix"
         ],
         "system": [
           "features/cachix/_nixos.nix",
@@ -2054,7 +2054,7 @@
         "name": "frigg",
         "nodes": [
           {
-            "file": "inventory/frigg.nix",
+            "file": "hosts/physical/frigg/default.nix",
             "id": "host-frigg"
           },
           {
@@ -2269,7 +2269,7 @@
           "features/storage-optimization/default.nix",
           "features/terminal/default.nix",
           "features/workstation-runtime/default.nix",
-          "inventory/frigg.nix",
+          "hosts/physical/frigg/default.nix",
           "profiles/desktop-base.nix",
           "profiles/interactive.nix",
           "profiles/kde-workstation.nix",
@@ -2319,7 +2319,7 @@
           "features/plasma/_nixos.nix",
           "features/storage-optimization/_nixos.nix",
           "features/workstation-runtime/_nixos.nix",
-          "hosts/frigg/hardware-configuration.nix"
+          "hosts/physical/frigg/hardware-configuration.nix"
         ]
       },
       "modules": [
@@ -2364,7 +2364,7 @@
         "features/terminal/_shell.nix",
         "features/terminal/_system.nix",
         "features/workstation-runtime/_nixos.nix",
-        "hosts/frigg/hardware-configuration.nix"
+        "hosts/physical/frigg/hardware-configuration.nix"
       ],
       "roots": [
         "features/boot/_nixos.nix",
@@ -2403,7 +2403,7 @@
         "features/terminal/_config.nix",
         "features/terminal/_packages.nix",
         "features/workstation-runtime/_nixos.nix",
-        "hosts/frigg/hardware-configuration.nix"
+        "hosts/physical/frigg/hardware-configuration.nix"
       ]
     },
     {
@@ -2442,7 +2442,7 @@
         "name": "homepage",
         "nodes": [
           {
-            "file": "inventory/homepage.nix",
+            "file": "hosts/virtual/homepage/default.nix",
             "id": "host-homepage"
           },
           {
@@ -2493,7 +2493,7 @@
           "features/proxmox-vm/default.nix",
           "features/server-locale/default.nix",
           "features/server-nix/default.nix",
-          "inventory/homepage.nix",
+          "hosts/virtual/homepage/default.nix",
           "profiles/proxmox-guest.nix"
         ],
         "system": [
@@ -2503,7 +2503,7 @@
           "features/proxmox-vm/_nixos.nix",
           "features/server-locale/_nixos.nix",
           "features/server-nix/_nixos.nix",
-          "servers/homepage/hardware-configuration.nix"
+          "hosts/virtual/homepage/hardware-configuration.nix"
         ]
       },
       "modules": [
@@ -2513,7 +2513,7 @@
         "features/proxmox-vm/_nixos.nix",
         "features/server-locale/_nixos.nix",
         "features/server-nix/_nixos.nix",
-        "servers/homepage/hardware-configuration.nix"
+        "hosts/virtual/homepage/hardware-configuration.nix"
       ],
       "roots": [
         "features/cachix/_nixos.nix",
@@ -2522,7 +2522,7 @@
         "features/proxmox-vm/_nixos.nix",
         "features/server-locale/_nixos.nix",
         "features/server-nix/_nixos.nix",
-        "servers/homepage/hardware-configuration.nix"
+        "hosts/virtual/homepage/hardware-configuration.nix"
       ]
     },
     {
@@ -2557,7 +2557,7 @@
         "name": "proxy",
         "nodes": [
           {
-            "file": "inventory/proxy.nix",
+            "file": "hosts/virtual/proxy/default.nix",
             "id": "host-proxy"
           },
           {
@@ -2603,7 +2603,7 @@
           "features/proxmox-vm/default.nix",
           "features/server-locale/default.nix",
           "features/server-nix/default.nix",
-          "inventory/proxy.nix",
+          "hosts/virtual/proxy/default.nix",
           "profiles/proxmox-guest.nix"
         ],
         "system": [
@@ -2841,7 +2841,7 @@
         "name": "wodan",
         "nodes": [
           {
-            "file": "inventory/wodan.nix",
+            "file": "hosts/physical/wodan/default.nix",
             "id": "host-wodan"
           },
           {
@@ -2997,7 +2997,7 @@
             "id": "portable-dotfiles"
           },
           {
-            "file": "inventory/wodan.nix",
+            "file": "hosts/physical/wodan/default.nix",
             "id": "proxmox-lab-host"
           },
           {
@@ -3099,7 +3099,7 @@
           "features/terminal/default.nix",
           "features/whatpulse/default.nix",
           "features/workstation-runtime/default.nix",
-          "inventory/wodan.nix",
+          "hosts/physical/wodan/default.nix",
           "profiles/desktop-base.nix",
           "profiles/full-workstation.nix",
           "profiles/interactive.nix",
@@ -3160,7 +3160,7 @@
           "features/storage-optimization/_nixos.nix",
           "features/whatpulse/_nixos.nix",
           "features/workstation-runtime/_nixos.nix",
-          "hosts/wodan/hardware-configuration.nix"
+          "hosts/physical/wodan/hardware-configuration.nix"
         ]
       },
       "modules": [
@@ -3215,7 +3215,7 @@
         "features/whatpulse/_home.nix",
         "features/whatpulse/_nixos.nix",
         "features/workstation-runtime/_nixos.nix",
-        "hosts/wodan/hardware-configuration.nix"
+        "hosts/physical/wodan/hardware-configuration.nix"
       ],
       "roots": [
         "features/boot/_nixos.nix",
@@ -3263,7 +3263,7 @@
         "features/whatpulse/_home.nix",
         "features/whatpulse/_nixos.nix",
         "features/workstation-runtime/_nixos.nix",
-        "hosts/wodan/hardware-configuration.nix"
+        "hosts/physical/wodan/hardware-configuration.nix"
       ]
     },
     {
@@ -3366,7 +3366,7 @@
         "name": "loki",
         "nodes": [
           {
-            "file": "inventory/loki.nix",
+            "file": "hosts/physical/loki/default.nix",
             "id": "host-loki"
           },
           {
@@ -3476,7 +3476,7 @@
           "features/portable-runtime/default.nix",
           "features/terminal/default.nix",
           "features/window-management/default.nix",
-          "inventory/loki.nix",
+          "hosts/physical/loki/default.nix",
           "profiles/interactive.nix",
           "profiles/portable-home.nix"
         ],
@@ -3624,7 +3624,7 @@
         "name": "david@mimir2",
         "nodes": [
           {
-            "file": "inventory/mimir2.nix",
+            "file": "hosts/physical/mimir2/default.nix",
             "id": "home-mimir2"
           },
           {
@@ -3724,7 +3724,7 @@
           "features/nixos-base/default.nix",
           "features/portable-runtime/default.nix",
           "features/terminal/default.nix",
-          "inventory/mimir2.nix",
+          "hosts/physical/mimir2/default.nix",
           "profiles/interactive.nix",
           "profiles/portable-home.nix"
         ],
@@ -4085,7 +4085,7 @@
       ]
     }
   ],
-  "generator": "dad6713f60c623737af019fa6778bbace75c14405fb1823f885d5edf10807286",
+  "generator": "f6c5704e58eb4d1b66be9664b1db9050554a6ea90d94359c37a6329e6f4fa56f",
   "modules": [
     {
       "children": [],
@@ -6466,91 +6466,14 @@
     },
     {
       "children": [],
-      "contexts": [
-        "NixOS:bragi"
-      ],
-      "kind": "host",
-      "lines": 49,
-      "merge_into": null,
-      "parents": [],
-      "path": "hosts/bragi/hardware-configuration.nix",
-      "sha256": "d714e91b8f8c4cf90a62387e5c5a6fe3c2f27c2ac6168949c4a685c0e35cbded",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "NixOS:donar"
-      ],
-      "kind": "host",
-      "lines": 41,
-      "merge_into": null,
-      "parents": [],
-      "path": "hosts/donar/hardware-configuration.nix",
-      "sha256": "3428018f334fdf503e9f9fb6f9565ae2837cea86c42a7e7c5af77f8c7caef807",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "NixOS:frigg"
-      ],
-      "kind": "host",
-      "lines": 51,
-      "merge_into": null,
-      "parents": [],
-      "path": "hosts/frigg/hardware-configuration.nix",
-      "sha256": "1de507d465165888df48a3c8303936356da60d1f7a30256f040d0946a4c70df0",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "NixOS:wodan"
-      ],
-      "kind": "host",
-      "lines": 83,
-      "merge_into": null,
-      "parents": [],
-      "path": "hosts/wodan/hardware-configuration.nix",
-      "sha256": "1320a08333400dc30ea104b669575dd67469bfddc468a2631616ff267edb6f84",
-      "status": "used"
-    },
-    {
-      "children": [],
       "contexts": [],
       "kind": "host",
-      "lines": 57,
+      "lines": 15,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/_proxmox-lab-host.nix",
-      "sha256": "49fc1222aa3511c696df4ca80e64c4cead207c9d3ba09f795b950ef13b17480e",
+      "path": "hosts/default.nix",
+      "sha256": "a691e57e2eeeb6a5c2a5e2c56f9392639375809f0c9081cb4f3442a951a5cf64",
       "status": "unobserved"
-    },
-    {
-      "children": [],
-      "contexts": [],
-      "kind": "host",
-      "lines": 179,
-      "merge_into": null,
-      "parents": [],
-      "path": "inventory/_wodan-home.nix",
-      "sha256": "1748f2c1c54ba9d4d8b3a1e605706fdd9da3eed85a72b7c8cf8bba338c9780b4",
-      "status": "unobserved"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:apps"
-      ],
-      "kind": "host",
-      "lines": 54,
-      "merge_into": null,
-      "parents": [],
-      "path": "inventory/apps.nix",
-      "sha256": "8d7e441ca0fa3b6e3679b92dfc2853d05f90b3b4fb71e47fad6d29b3036c019c",
-      "status": "used"
     },
     {
       "children": [],
@@ -6562,20 +6485,22 @@
       "lines": 78,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/bragi.nix",
-      "sha256": "73fea8ab5d37090fd13f8d5ebcfbf6d53569c5b059e2466e726ae66a8fa521b3",
+      "path": "hosts/physical/bragi/default.nix",
+      "sha256": "0f97c2cddb1e40d43855f4428246b40ec685faf4dc2562c917f3b1cb90c58f56",
       "status": "used"
     },
     {
       "children": [],
-      "contexts": [],
+      "contexts": [
+        "NixOS:bragi"
+      ],
       "kind": "host",
-      "lines": 15,
+      "lines": 49,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/default.nix",
-      "sha256": "b08e8e6707af564cf7c32f1e1c4298166d81adf2c0e9161e8e5c093a5205370a",
-      "status": "unobserved"
+      "path": "hosts/physical/bragi/hardware-configuration.nix",
+      "sha256": "d714e91b8f8c4cf90a62387e5c5a6fe3c2f27c2ac6168949c4a685c0e35cbded",
+      "status": "used"
     },
     {
       "children": [],
@@ -6587,36 +6512,21 @@
       "lines": 114,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/donar.nix",
-      "sha256": "f71eb2c7f009138983d0dc4a34a9bef589129f822f5163820bcd5bcb4b809062",
+      "path": "hosts/physical/donar/default.nix",
+      "sha256": "d95ff3de6d6eddf437084a764df3a5ced8f426e9084e5ac318ef9efd55e5aeba",
       "status": "used"
     },
     {
       "children": [],
       "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:forgejo-lab"
+        "NixOS:donar"
       ],
       "kind": "host",
-      "lines": 102,
+      "lines": 41,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/forgejo-lab.nix",
-      "sha256": "781cda922decf9e4fb4fcee4d7bad79fe28d29d8c5d81f6ed02c16291144e006",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:forgejo"
-      ],
-      "kind": "host",
-      "lines": 134,
-      "merge_into": null,
-      "parents": [],
-      "path": "inventory/forgejo.nix",
-      "sha256": "4526d9acaa65151e827bdc9ce38e2076491a20a9f90854835bbc4dc232a7306e",
+      "path": "hosts/physical/donar/hardware-configuration.nix",
+      "sha256": "3428018f334fdf503e9f9fb6f9565ae2837cea86c42a7e7c5af77f8c7caef807",
       "status": "used"
     },
     {
@@ -6629,22 +6539,21 @@
       "lines": 75,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/frigg.nix",
-      "sha256": "375cf8f25bee06d29115dd232fbf21c0e22c20c6d30ebfb5b2971f78f01ca094",
+      "path": "hosts/physical/frigg/default.nix",
+      "sha256": "f7a440cf39df7c1645f36462796a6beb5ed8c965a850666973b0ef6f701a462c",
       "status": "used"
     },
     {
       "children": [],
       "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:homepage"
+        "NixOS:frigg"
       ],
       "kind": "host",
-      "lines": 44,
+      "lines": 51,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/homepage.nix",
-      "sha256": "4f08408a7ddd8c098a17d44b1817ca9ac91ed868018deef8d4a3e3ec3ffa384b",
+      "path": "hosts/physical/frigg/hardware-configuration.nix",
+      "sha256": "1de507d465165888df48a3c8303936356da60d1f7a30256f040d0946a4c70df0",
       "status": "used"
     },
     {
@@ -6657,7 +6566,7 @@
       "lines": 58,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/loki.nix",
+      "path": "hosts/physical/loki/default.nix",
       "sha256": "6d9f1c22597a46cbcbbcc8d7e0ce7219fad6cd094cac5a8d25d2a81739248b8b",
       "status": "used"
     },
@@ -6671,8 +6580,139 @@
       "lines": 30,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/mimir2.nix",
+      "path": "hosts/physical/mimir2/default.nix",
       "sha256": "0ef2a3690ecf29e9d9b9bec98e6f930b95497ed1f81416edf08e2198791f99e0",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [],
+      "kind": "host",
+      "lines": 179,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/physical/wodan/_home.nix",
+      "sha256": "1748f2c1c54ba9d4d8b3a1e605706fdd9da3eed85a72b7c8cf8bba338c9780b4",
+      "status": "unobserved"
+    },
+    {
+      "children": [],
+      "contexts": [],
+      "kind": "host",
+      "lines": 57,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/physical/wodan/_proxmox-lab-host.nix",
+      "sha256": "c31f1c6e05fe4e4dea1f89b5f2aa7248e4710f5e19464b599450c7db5589da48",
+      "status": "unobserved"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:wodan"
+      ],
+      "kind": "host",
+      "lines": 138,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/physical/wodan/default.nix",
+      "sha256": "842bfa7feb13cae4c800ae4ed753cc773c3c74764f5c165b70adb905502e2315",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:wodan"
+      ],
+      "kind": "host",
+      "lines": 83,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/physical/wodan/hardware-configuration.nix",
+      "sha256": "1320a08333400dc30ea104b669575dd67469bfddc468a2631616ff267edb6f84",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps"
+      ],
+      "kind": "host",
+      "lines": 54,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/virtual/apps/default.nix",
+      "sha256": "ba1f898d525cbf4eccc636122cfd4bb70db2ea4addd0725f418d3ec55bb627d0",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:apps"
+      ],
+      "kind": "host",
+      "lines": 18,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/virtual/apps/hardware-configuration.nix",
+      "sha256": "27836110f010e1d8345feb860a7207f6948117666a76cb9bf4b42d21c78bfaa4",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:forgejo-lab"
+      ],
+      "kind": "host",
+      "lines": 102,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/virtual/forgejo-lab/default.nix",
+      "sha256": "1fa7518b6afd1105d372b527eb238e09b76535683836c73f9faf6bc14d97541b",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:forgejo"
+      ],
+      "kind": "host",
+      "lines": 134,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/virtual/forgejo/default.nix",
+      "sha256": "4526d9acaa65151e827bdc9ce38e2076491a20a9f90854835bbc4dc232a7306e",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:homepage"
+      ],
+      "kind": "host",
+      "lines": 44,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/virtual/homepage/default.nix",
+      "sha256": "59131d1e99b292ec10b66670a7db99e7574940680a291b0eb4889a96ed7a42f1",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "NixOS:homepage"
+      ],
+      "kind": "host",
+      "lines": 18,
+      "merge_into": null,
+      "parents": [],
+      "path": "hosts/virtual/homepage/hardware-configuration.nix",
+      "sha256": "27836110f010e1d8345feb860a7207f6948117666a76cb9bf4b42d21c78bfaa4",
       "status": "used"
     },
     {
@@ -6685,22 +6725,8 @@
       "lines": 323,
       "merge_into": null,
       "parents": [],
-      "path": "inventory/proxy.nix",
-      "sha256": "4af60b3df1e4f3063b61efb2f74a3ee1ba70e3738b50283dc0211a03dc459d14",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:wodan"
-      ],
-      "kind": "host",
-      "lines": 138,
-      "merge_into": null,
-      "parents": [],
-      "path": "inventory/wodan.nix",
-      "sha256": "3057a27a6d5e02695afff73faf0c412a3b6f55cc704c7ce3c8798cbe543a65d4",
+      "path": "hosts/virtual/proxy/default.nix",
+      "sha256": "a4630f32e543a155f1e2722eb8f168bd53564249cff057ab181ee64f186bce4a",
       "status": "used"
     },
     {
@@ -6735,7 +6761,7 @@
         "flake.nix"
       ],
       "path": "nix/default.nix",
-      "sha256": "a12b12bf10a1627f1c57e8a7852f8cd21d1d69038706631c4322334116117b3c",
+      "sha256": "b83f5181310b41e80d5b23a7730453e98c1d326b7ea780da5c014a2b01f026f5",
       "status": "optional-only"
     },
     {
@@ -6746,7 +6772,7 @@
       "merge_into": null,
       "parents": [],
       "path": "nix/evaluate.nix",
-      "sha256": "516f9299a657e645aa6da911db8b4c84d99325254b110da81e8f0c071f79cd41",
+      "sha256": "ba24dde6a5361b7b9597bda08ac61e78b88be397a0fd5bbb42d7022068de2217",
       "status": "unobserved"
     },
     {
@@ -6839,18 +6865,18 @@
       "merge_into": null,
       "parents": [],
       "path": "policy/default.nix",
-      "sha256": "4427e94233aedebe6906d56d4345f2356cf4a307882c6c5aa6818ce2d1f1574f",
+      "sha256": "b8e50652386830d94454ba33e2101aaf9f95d6f999081b001a7f7b2aabfb901f",
       "status": "unobserved"
     },
     {
       "children": [],
       "contexts": [],
       "kind": "infrastructure",
-      "lines": 106,
+      "lines": 119,
       "merge_into": null,
       "parents": [],
       "path": "policy/lib.nix",
-      "sha256": "3c5f78bf34cb697519d4d7c18eceeec1257dae445d318f1cbe3f215bae15d6c0",
+      "sha256": "adf05e5d355d925f32e31dfc824d48c6b8f05dcf782e9097c5f415918beadc32",
       "status": "unobserved"
     },
     {
@@ -6872,7 +6898,7 @@
       "merge_into": null,
       "parents": [],
       "path": "policy/native.nix",
-      "sha256": "493ba210efbc3e165fb1c4344ed67363671b80d13a7973a8eb6566f1a71be86c",
+      "sha256": "daee15fcb0dfd5b02cc392016bc9482bdfdec31c2ac626c98f6ee884f8ad30df",
       "status": "unobserved"
     },
     {
@@ -7028,32 +7054,6 @@
       "path": "profiles/workstation.nix",
       "sha256": "1a052fad1ca5874eb8a1fc4d15ef8fde88c8474d1b2601947f5e3a0db569dcfe",
       "status": "wiring-only"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "NixOS:apps"
-      ],
-      "kind": "host",
-      "lines": 18,
-      "merge_into": null,
-      "parents": [],
-      "path": "servers/apps/hardware-configuration.nix",
-      "sha256": "27836110f010e1d8345feb860a7207f6948117666a76cb9bf4b42d21c78bfaa4",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "NixOS:homepage"
-      ],
-      "kind": "host",
-      "lines": 18,
-      "merge_into": null,
-      "parents": [],
-      "path": "servers/homepage/hardware-configuration.nix",
-      "sha256": "27836110f010e1d8345feb860a7207f6948117666a76cb9bf4b42d21c78bfaa4",
-      "status": "used"
     }
   ],
   "policy": {

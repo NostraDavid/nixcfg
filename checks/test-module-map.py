@@ -139,12 +139,19 @@ class ModuleMapTests(unittest.TestCase):
             module_map.analyze(self.raw, self.root)
 
     def test_new_architecture_roots_are_discovered(self) -> None:
-        for directory in ("features/fixture", "profiles", "inventory", "nix", "policy"):
+        for directory in (
+            "features/fixture",
+            "profiles",
+            "hosts/physical/fixture",
+            "hosts/virtual/fixture",
+            "nix",
+            "policy",
+        ):
             path = self.root / directory / "fixture.nix"
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("{}\n")
         report = module_map.analyze(self.raw, self.root)
-        self.assertEqual(len(report["modules"]), 9)
+        self.assertEqual(len(report["modules"]), 10)
 
     def test_registered_unselected_aspect_is_catalogue_only(self) -> None:
         path = "features/unselected/default.nix"

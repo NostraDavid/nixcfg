@@ -18,7 +18,12 @@
       else label;
   in
     if lib.hasPrefix prefix path
-    then lib.removePrefix prefix path
+    then
+      lib.removePrefix prefix (
+        if builtins.pathExists (path + "/default.nix")
+        then path + "/default.nix"
+        else path
+      )
     else null;
   owner = file: let
     path = relative file;
@@ -55,15 +60,23 @@
       id = "profiles/${name}";
       inherit path;
     }
+    else if path == "hosts/default.nix"
+    then {
+      kind = "infrastructure";
+      id = "hosts";
+      inherit path;
+    }
     else if
-      builtins.elem area [
-        "inventory"
-        "hosts"
-        "servers"
+      area
+      == "hosts"
+      && builtins.length parts >= 4
+      && builtins.elem name [
+        "physical"
+        "virtual"
       ]
     then {
       kind = "host";
-      id = "inventory/${lib.removeSuffix ".nix" name}";
+      id = lib.concatStringsSep "/" (lib.take 3 parts);
       inherit path;
     }
     else if

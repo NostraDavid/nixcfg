@@ -162,12 +162,10 @@ def analyze(graphs: Graphs, root: Path) -> Report:
         for directory in (
             "features",
             "profiles",
-            "inventory",
             "nix",
             "policy",
             "modules",
             "hosts",
-            "servers",
         )
         for path in (root / directory).rglob("*.nix")
     }
@@ -198,9 +196,7 @@ def analyze(graphs: Graphs, root: Path) -> Report:
                 "kind": {
                     "features": "feature",
                     "profiles": "profile",
-                    "inventory": "host",
                     "hosts": "host",
-                    "servers": "host",
                 }.get(path.split("/")[0], "infrastructure"),
             }
         )

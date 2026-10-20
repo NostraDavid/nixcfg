@@ -5,10 +5,10 @@ root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 nix_command=$(command -v nix)
-mkdir -p "$tmp/repo/scripts" "$tmp/repo/inventory" "$tmp/bin"
+mkdir -p "$tmp/repo/scripts" "$tmp/repo/hosts" "$tmp/bin"
 cp "$root/scripts/bootstrap-host.sh" "$tmp/repo/scripts/"
 printf '{}\n' >"$tmp/repo/flake.nix"
-cat >"$tmp/repo/inventory/default.nix" <<'NIX'
+cat >"$tmp/repo/hosts/default.nix" <<'NIX'
 {
   imports = [
   ];
@@ -29,7 +29,7 @@ export BOOTSTRAP_NIX_CALLS="$tmp/nix-calls"
 for mode in laptop workstation; do
     PATH="$tmp/bin:$PATH" bash "$tmp/repo/scripts/bootstrap-host.sh" "fixture-$mode" "$mode" >"$tmp/$mode.log"
     # shellcheck disable=SC2016
-    HOST_MODULE="$tmp/repo/inventory/fixture-$mode.nix" HOST_NAME="fixture-$mode" "$nix_command" eval --impure --json --expr '
+    HOST_MODULE="$tmp/repo/hosts/physical/fixture-$mode/default.nix" HOST_NAME="fixture-$mode" "$nix_command" eval --impure --json --expr '
       let
         name = builtins.getEnv "HOST_NAME";
         result = import (builtins.toPath (builtins.getEnv "HOST_MODULE")) {
@@ -74,23 +74,33 @@ for mode in ("laptop", "workstation"):
     assert result["projection"] == ["host-aspects"]
     assert result["includes"] == ["kde-workstation"] + (["laptop"] if mode == "laptop" else [])
     assert result["home"] == {"username": "david", "homeDirectory": "/home/david", "stateVersion": "25.05"}
-    assert f"./fixture-{mode}.nix" in (tmp / "repo/inventory/default.nix").read_text()
-    assert (tmp / f"repo/hosts/fixture-{mode}/hardware-configuration.nix").exists()
+    assert f"./physical/fixture-{mode}" in (tmp / "repo/hosts/default.nix").read_text()
+    assert (tmp / f"repo/hosts/physical/fixture-{mode}/hardware-configuration.nix").exists()
+index = (tmp / "repo/hosts/default.nix").read_text().splitlines()
+imports = [line.strip() for line in index if line.strip().startswith("./")]
+assert imports == sorted(imports)
 assert len((tmp / "nix-calls").read_text().splitlines()) == 2
 PY
 
-cp "$tmp/repo/inventory/fixture-laptop.nix" "$tmp/before.nix"
+cp "$tmp/repo/hosts/physical/fixture-laptop/default.nix" "$tmp/before.nix"
 if PATH="$tmp/bin:$PATH" bash "$tmp/repo/scripts/bootstrap-host.sh" fixture-laptop laptop >"$tmp/repeated.log" 2>&1; then
     echo 'Bootstrap unexpectedly overwrote an existing host' >&2
     exit 1
 fi
-cmp "$tmp/before.nix" "$tmp/repo/inventory/fixture-laptop.nix"
-cp "$tmp/repo/inventory/default.nix" "$tmp/index-before.nix"
+cmp "$tmp/before.nix" "$tmp/repo/hosts/physical/fixture-laptop/default.nix"
+cp "$tmp/repo/hosts/default.nix" "$tmp/index-before.nix"
 if FAIL_HARDWARE=1 PATH="$tmp/bin:$PATH" bash "$tmp/repo/scripts/bootstrap-host.sh" fixture-failure laptop >"$tmp/failure.log" 2>&1; then
     echo 'Bootstrap unexpectedly accepted failed hardware generation' >&2
     exit 1
 fi
-test ! -e "$tmp/repo/hosts/fixture-failure"
-test ! -e "$tmp/repo/inventory/fixture-failure.nix"
-cmp "$tmp/index-before.nix" "$tmp/repo/inventory/default.nix"
+test ! -e "$tmp/repo/hosts/physical/fixture-failure"
+test ! -e "$tmp/repo/hosts/physical/fixture-failure/default.nix"
+cmp "$tmp/index-before.nix" "$tmp/repo/hosts/default.nix"
+mkdir -p "$tmp/repo/hosts/virtual/fixture-virtual"
+if PATH="$tmp/bin:$PATH" bash "$tmp/repo/scripts/bootstrap-host.sh" fixture-virtual laptop >"$tmp/virtual.log" 2>&1; then
+    echo 'Bootstrap unexpectedly reused an existing virtual host name' >&2
+    exit 1
+fi
+test ! -e "$tmp/repo/hosts/physical/fixture-virtual"
+cmp "$tmp/index-before.nix" "$tmp/repo/hosts/default.nix"
 echo 'PASS: native Den laptop/workstation bootstrap, host identity, projection, overwrite rejection and hardware failure cleanup'

@@ -21,8 +21,8 @@ niets over een werkende verbinding of toegangsrechten.
 Playwright en Chrome DevTools voor Codex en OpenCode. Playwright en Chrome
 DevTools gebruiken headless, geïsoleerde browsers. Chrome DevTools heeft hier
 `--no-usage-statistics` en `--no-performance-crux`. Dezelfde module installeert
-DBHub. [inventory/_wodan-home.nix](../inventory/_wodan-home.nix) installeert
-Playwright CLI met bijbehorende skills.
+DBHub. [hosts/physical/wodan/_home.nix](../hosts/physical/wodan/_home.nix)
+installeert Playwright CLI met bijbehorende skills.
 [pkgs/dbhub/default.nix](../pkgs/dbhub/default.nix) bevat het lokale
 DBHub-pakket.
 

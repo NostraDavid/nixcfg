@@ -12,8 +12,8 @@
   };
   mkMimir2 = {extraHomeModules ? []}:
     (evaluate {
-      inventory = [
-        ../inventory/mimir2.nix
+      hostModules = [
+        ../hosts/physical/mimir2/default.nix
       ];
       mimir2Spec = {inherit extraHomeModules;};
     }).flake.homeConfigurations."david@mimir2";
@@ -25,8 +25,8 @@
     hostname ? "loki",
   }:
     (evaluate {
-      inventory = [
-        ../inventory/loki.nix
+      hostModules = [
+        ../hosts/physical/loki/default.nix
       ];
       lokiSpec = {inherit extraDarwinModules extraHomeModules username homeDirectory hostname;};
     }).flake.darwinConfigurations.loki;

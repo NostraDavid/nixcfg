@@ -99,7 +99,7 @@ Maak eerst alleen de realm aan, bekijk de synchronisatie op de Proxmox-host en
 pas daarna de rest toe:
 
 ```bash
-SSL_CERT_FILE="$PWD/hosts/wodan/certs/proxmox.crt" \
+SSL_CERT_FILE="$PWD/hosts/physical/wodan/certs/proxmox.crt" \
   tofu -chdir=infra/proxmox-access apply -target=proxmox_realm_ldap.freeipa
 pveum realm sync freeipa --dry-run 1  # op de Proxmox-host
 just tofu-proxmox-access-apply

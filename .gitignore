@@ -21,13 +21,11 @@
 !docs/
 !dotfiles/
 !hosts/
-!servers/
 !users/
 !home/
 !modules/
 !features/
 !profiles/
-!inventory/
 !nix/
 !policy/
 !pkgs/

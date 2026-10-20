@@ -49,7 +49,7 @@ De Proxmox API is bereikbaar via `https://192.168.2.100:8006/api2/json/`. De
 `bpg/proxmox` provider verwacht in `proxmox_endpoint` de root URL, dus
 `https://192.168.2.100:8006/`; de provider voegt het API-pad zelf toe. De plan-
 en apply-recipes gebruiken het vastgelegde certificaat in
-`hosts/wodan/certs/proxmox.crt` om de TLS-verbinding te controleren.
+`hosts/physical/wodan/certs/proxmox.crt` om de TLS-verbinding te controleren.
 
 Maak eerst een Proxmox API token. Zet de echte token niet in Git. Gebruik een
 lokale `terraform.tfvars` of environment variables:
@@ -263,8 +263,9 @@ alleen op `127.0.0.1:3000`. Na de eerste start staat het initiële
 adminwachtwoord in `/srv/forgejo/admin-password` op VM 110.
 
 VM 111 is de gedeelde ingang voor andere diensten. Voeg daarvoor een extra
-Caddy-vhost toe in `inventory/proxy.nix` en wijs de bijbehorende DNS-naam naar
-`.111`. Elke backend kan zijn eigen HTTPS-certificaat en toegangsregels hebben.
+Caddy-vhost toe in `hosts/virtual/proxy/default.nix` en wijs de bijbehorende
+DNS-naam naar `.111`. Elke backend kan zijn eigen HTTPS-certificaat en
+toegangsregels hebben.
 
 Caddy gebruikt twee interne CA's. De publieke CA en sleutels staan op de
 persistente proxydisk onder `/srv/proxy/caddy`. De backend-CA staat op de

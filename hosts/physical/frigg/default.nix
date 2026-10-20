@@ -32,7 +32,7 @@
       ...
     }: {
       imports = [
-        ../hosts/frigg/hardware-configuration.nix
+        ./hardware-configuration.nix
         inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen1
       ];
 

@@ -3,8 +3,8 @@
   packageSets,
   self,
 }: {
-  inventory ? [
-    ../inventory
+  hostModules ? [
+    ../hosts
   ],
   lokiSpec ? {},
   mimir2Spec ? {},
@@ -38,7 +38,7 @@
           ];
         })
       ]
-      ++ features ++ profiles ++ inventory;
+      ++ features ++ profiles ++ hostModules;
   };
   policy = import ../policy {
     inherit lib;

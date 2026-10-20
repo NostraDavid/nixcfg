@@ -32,7 +32,7 @@
       ...
     }: {
       imports = [
-        ../hosts/donar/hardware-configuration.nix
+        ./hardware-configuration.nix
       ];
 
       networking.hostName = "donar";

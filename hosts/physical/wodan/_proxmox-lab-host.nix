@@ -1,5 +1,5 @@
 {self, ...}: let
-  settings = import ../infra/proxmox-lab/settings.nix;
+  settings = import ../../../infra/proxmox-lab/settings.nix;
 in
   {pkgs, ...}: {
     boot.extraModprobeConfig = "options kvm_amd nested=1";

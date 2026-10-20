@@ -6,7 +6,7 @@ usage() {
     cat <<'EOF'
 Usage: scripts/bootstrap-host.sh <hostname> [auto|laptop|workstation]
 
-Adds the current NixOS machine to this repository. The default mode is auto:
+Adds the current physical NixOS machine under hosts/physical/. The default mode is auto:
 machines with a battery become laptops, all others become workstations.
 
 Examples:
@@ -44,14 +44,14 @@ command_exists nix || die "the nix command is unavailable"
 
 script_dir="$(CDPATH='' cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(dirname "${script_dir}")"
-hosts_index="${repo_root}/inventory/default.nix"
-host_module="${repo_root}/inventory/${hostname}.nix"
-hardware_dir="${repo_root}/hosts/${hostname}"
+hosts_index="${repo_root}/hosts/default.nix"
+host_module="${repo_root}/hosts/physical/${hostname}/default.nix"
+hardware_dir="${repo_root}/hosts/physical/${hostname}"
 hardware_config="${hardware_dir}/hardware-configuration.nix"
 
 [[ -f "${repo_root}/flake.nix" && -f "${hosts_index}" ]] ||
     die "could not find the nixcfg repository root"
-[[ ! -e "${host_module}" && ! -e "${hardware_dir}" ]] ||
+[[ ! -e "${hardware_dir}" && ! -e "${repo_root}/hosts/virtual/${hostname}" ]] ||
     die "host '${hostname}' already exists; refusing to overwrite it"
 
 if [[ "${mode}" == "auto" ]]; then
@@ -100,8 +100,12 @@ cat >"${host_module}" <<EOF
       homeManager = true;
     };
     users.david = {
-      classes = ["homeManager"];
-      aspect.includes = [den.batteries.host-aspects];
+      classes = [
+        "homeManager"
+      ];
+      aspect.includes = [
+        den.batteries.host-aspects
+      ];
     };
   };
   den.aspects.host-${hostname} = {
@@ -109,7 +113,9 @@ cat >"${host_module}" <<EOF
 ${imports}
     ];
     nixos = {pkgs, ...}: {
-      imports = [../hosts/${hostname}/hardware-configuration.nix];
+      imports = [
+        ./hardware-configuration.nix
+      ];
       networking.hostName = "${hostname}";
       boot.kernelPackages = pkgs.linuxPackages_latest;
       system.stateVersion = "${state_version}";
@@ -132,7 +138,8 @@ EOF
 
 index_tmp="$(mktemp "${repo_root}/.bootstrap-host-index.XXXXXX")"
 trap 'rm -f "${index_tmp}"' EXIT
-awk -v new_import="    ./${hostname}.nix" '
+awk -v new_import="    ./physical/${hostname}" '
+	/^    \.\/(physical|virtual)\// && !added && $0 > new_import { print new_import; added = 1 }
 	/^  ];$/ && !added { print new_import; added = 1 }
 	{ print }
 	END { if (!added) exit 1 }
@@ -150,6 +157,6 @@ if ! nix --extra-experimental-features 'nix-command flakes' eval \
 fi
 
 printf '\nHost %s was added as a %s (state version %s).\n' "${hostname}" "${mode}" "${state_version}"
-printf 'Review inventory/%s.nix, then activate it with:\n' "${hostname}"
+printf 'Review hosts/physical/%s/default.nix, then activate it with:\n' "${hostname}"
 printf '  sudo nixos-rebuild test --flake path:%s#%s\n' "${repo_root}" "${hostname}"
 printf '  sudo nixos-rebuild switch --flake path:%s#%s\n' "${repo_root}" "${hostname}"

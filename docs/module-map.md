@@ -115,27 +115,27 @@ flowchart LR
   c1 --> m108["features/window-management/default.nix"]
   c1 --> m124["features/workstation-extra/default.nix"]
   c1 --> m126["features/workstation-runtime/default.nix"]
-  c1 --> m134["inventory/apps.nix"]
-  c1 --> m135["inventory/bragi.nix"]
-  c1 --> m137["inventory/donar.nix"]
-  c1 --> m138["inventory/forgejo-lab.nix"]
-  c1 --> m139["inventory/forgejo.nix"]
-  c1 --> m140["inventory/frigg.nix"]
-  c1 --> m141["inventory/homepage.nix"]
-  c1 --> m142["inventory/loki.nix"]
-  c1 --> m143["inventory/mimir2.nix"]
-  c1 --> m144["inventory/proxy.nix"]
-  c1 --> m145["inventory/wodan.nix"]
-  c1 --> m159["profiles/desktop-base.nix"]
-  c1 --> m160["profiles/desktop.nix"]
-  c1 --> m161["profiles/full-workstation.nix"]
-  c1 --> m162["profiles/i3-workstation.nix"]
-  c1 --> m163["profiles/interactive.nix"]
-  c1 --> m164["profiles/kde-workstation.nix"]
-  c1 --> m165["profiles/portable-home.nix"]
-  c1 --> m166["profiles/proxmox-guest.nix"]
-  c1 --> m167["profiles/workstation-base.nix"]
-  c1 --> m168["profiles/workstation.nix"]
+  c1 --> m129["hosts/physical/bragi/default.nix"]
+  c1 --> m131["hosts/physical/donar/default.nix"]
+  c1 --> m133["hosts/physical/frigg/default.nix"]
+  c1 --> m135["hosts/physical/loki/default.nix"]
+  c1 --> m136["hosts/physical/mimir2/default.nix"]
+  c1 --> m139["hosts/physical/wodan/default.nix"]
+  c1 --> m141["hosts/virtual/apps/default.nix"]
+  c1 --> m143["hosts/virtual/forgejo-lab/default.nix"]
+  c1 --> m144["hosts/virtual/forgejo/default.nix"]
+  c1 --> m145["hosts/virtual/homepage/default.nix"]
+  c1 --> m147["hosts/virtual/proxy/default.nix"]
+  c1 --> m161["profiles/desktop-base.nix"]
+  c1 --> m162["profiles/desktop.nix"]
+  c1 --> m163["profiles/full-workstation.nix"]
+  c1 --> m164["profiles/i3-workstation.nix"]
+  c1 --> m165["profiles/interactive.nix"]
+  c1 --> m166["profiles/kde-workstation.nix"]
+  c1 --> m167["profiles/portable-home.nix"]
+  c1 --> m168["profiles/proxmox-guest.nix"]
+  c1 --> m169["profiles/workstation-base.nix"]
+  c1 --> m170["profiles/workstation.nix"]
   c2["apps"]
   c2 --> m5["features/cachix/_nixos.nix"]
   c2 --> m53["features/internal-pki/_nixos.nix"]
@@ -143,7 +143,7 @@ flowchart LR
   c2 --> m89["features/selfhosted-apps/_nixos.nix"]
   c2 --> m91["features/server-locale/_nixos.nix"]
   c2 --> m93["features/server-nix/_nixos.nix"]
-  c2 --> m169["servers/apps/hardware-configuration.nix"]
+  c2 --> m142["hosts/virtual/apps/hardware-configuration.nix"]
   c3["bragi"]
   c3 --> m1["features/boot/_nixos.nix"]
   c3 --> m5["features/cachix/_nixos.nix"]
@@ -163,7 +163,7 @@ flowchart LR
   c3 --> m68["features/mcp/_qartez.nix"]
   c3 --> m77["features/nix-index/_home.nix"]
   c3 --> m95["features/storage-optimization/_nixos.nix"]
-  c3 --> m128["hosts/bragi/hardware-configuration.nix"]
+  c3 --> m130["hosts/physical/bragi/hardware-configuration.nix"]
   c4["donar"]
   c4 --> m1["features/boot/_nixos.nix"]
   c4 --> m3["features/browsers/_home.nix"]
@@ -209,7 +209,7 @@ flowchart LR
   c4 --> m105["features/whatpulse/_home.nix"]
   c4 --> m106["features/whatpulse/_nixos.nix"]
   c4 --> m125["features/workstation-runtime/_nixos.nix"]
-  c4 --> m129["hosts/donar/hardware-configuration.nix"]
+  c4 --> m132["hosts/physical/donar/hardware-configuration.nix"]
   c5["forgejo"]
   c5 --> m5["features/cachix/_nixos.nix"]
   c5 --> m36["features/forgejo/_nixos.nix"]
@@ -260,7 +260,7 @@ flowchart LR
   c7 --> m98["features/terminal/_config.nix"]
   c7 --> m101["features/terminal/_packages.nix"]
   c7 --> m125["features/workstation-runtime/_nixos.nix"]
-  c7 --> m130["hosts/frigg/hardware-configuration.nix"]
+  c7 --> m134["hosts/physical/frigg/hardware-configuration.nix"]
   c8["homepage"]
   c8 --> m5["features/cachix/_nixos.nix"]
   c8 --> m44["features/homepage/_nixos.nix"]
@@ -268,7 +268,7 @@ flowchart LR
   c8 --> m87["features/proxmox-vm/_nixos.nix"]
   c8 --> m91["features/server-locale/_nixos.nix"]
   c8 --> m93["features/server-nix/_nixos.nix"]
-  c8 --> m170["servers/homepage/hardware-configuration.nix"]
+  c8 --> m146["hosts/virtual/homepage/hardware-configuration.nix"]
   c9["proxy"]
   c9 --> m5["features/cachix/_nixos.nix"]
   c9 --> m53["features/internal-pki/_nixos.nix"]
@@ -321,7 +321,7 @@ flowchart LR
   c10 --> m105["features/whatpulse/_home.nix"]
   c10 --> m106["features/whatpulse/_nixos.nix"]
   c10 --> m125["features/workstation-runtime/_nixos.nix"]
-  c10 --> m131["hosts/wodan/hardware-configuration.nix"]
+  c10 --> m140["hosts/physical/wodan/hardware-configuration.nix"]
   c11["loki"]
   c11 --> m15["features/darwin-keyboard/_darwin.nix"]
   c11 --> m16["features/darwin-keyboard/_home.nix"]
@@ -363,7 +363,7 @@ flowchart LR
   c13 --> m77["features/nix-index/_home.nix"]
   c13 --> m85["features/portable-runtime/_home.nix"]
   c13 --> m98["features/terminal/_config.nix"]
-  c13 --> m147["nix/default.nix"]
+  c13 --> m149["nix/default.nix"]
   c14["loki + workstation"]
   c14 --> m15["features/darwin-keyboard/_darwin.nix"]
   c14 --> m16["features/darwin-keyboard/_home.nix"]
@@ -379,7 +379,7 @@ flowchart LR
   c14 --> m77["features/nix-index/_home.nix"]
   c14 --> m85["features/portable-runtime/_home.nix"]
   c14 --> m98["features/terminal/_config.nix"]
-  c14 --> m147["nix/default.nix"]
+  c14 --> m149["nix/default.nix"]
 ```
 
 ## Files outside the evaluated graphs
@@ -387,9 +387,9 @@ flowchart LR
 These are investigation candidates, not proven dead code. Ordinary Nix imports used as
 helpers or consumers outside this repository can be absent from a module graph.
 
-- [inventory/_proxmox-lab-host.nix](../inventory/_proxmox-lab-host.nix)
-- [inventory/_wodan-home.nix](../inventory/_wodan-home.nix)
-- [inventory/default.nix](../inventory/default.nix)
+- [hosts/default.nix](../hosts/default.nix)
+- [hosts/physical/wodan/_home.nix](../hosts/physical/wodan/_home.nix)
+- [hosts/physical/wodan/_proxmox-lab-host.nix](../hosts/physical/wodan/_proxmox-lab-host.nix)
 - [nix/constructors.nix](../nix/constructors.nix)
 - [nix/evaluate.nix](../nix/evaluate.nix)
 - [nix/packages.nix](../nix/packages.nix)
@@ -577,24 +577,26 @@ S = system import; H = Home Manager import; I = flake wiring import; A = selecte
 | [features/workstation-runtime/_nixos.nix](../features/workstation-runtime/_nixos.nix) | · | I | · | · | S | · | · | S | · | · | S | · | · | · | · |
 | [features/workstation-runtime/default.nix](../features/workstation-runtime/default.nix) | · | I | · | · | A | · | · | A | · | · | A | · | · | · | · |
 | [flake.nix](../flake.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [hosts/bragi/hardware-configuration.nix](../hosts/bragi/hardware-configuration.nix) | · | · | · | S | · | · | · | · | · | · | · | · | · | · | · |
-| [hosts/donar/hardware-configuration.nix](../hosts/donar/hardware-configuration.nix) | · | · | · | · | S | · | · | · | · | · | · | · | · | · | · |
-| [hosts/frigg/hardware-configuration.nix](../hosts/frigg/hardware-configuration.nix) | · | · | · | · | · | · | · | S | · | · | · | · | · | · | · |
-| [hosts/wodan/hardware-configuration.nix](../hosts/wodan/hardware-configuration.nix) | · | · | · | · | · | · | · | · | · | · | S | · | · | · | · |
-| [inventory/_proxmox-lab-host.nix](../inventory/_proxmox-lab-host.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [inventory/_wodan-home.nix](../inventory/_wodan-home.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [inventory/apps.nix](../inventory/apps.nix) | · | I | A | · | · | · | · | · | · | · | · | · | · | · | · |
-| [inventory/bragi.nix](../inventory/bragi.nix) | · | I | · | A | · | · | · | · | · | · | · | · | · | · | · |
-| [inventory/default.nix](../inventory/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [inventory/donar.nix](../inventory/donar.nix) | · | I | · | · | A | · | · | · | · | · | · | · | · | · | · |
-| [inventory/forgejo-lab.nix](../inventory/forgejo-lab.nix) | · | I | · | · | · | · | A | · | · | · | · | · | · | · | · |
-| [inventory/forgejo.nix](../inventory/forgejo.nix) | · | I | · | · | · | A | · | · | · | · | · | · | · | · | · |
-| [inventory/frigg.nix](../inventory/frigg.nix) | · | I | · | · | · | · | · | A | · | · | · | · | · | · | · |
-| [inventory/homepage.nix](../inventory/homepage.nix) | · | I | · | · | · | · | · | · | A | · | · | · | · | · | · |
-| [inventory/loki.nix](../inventory/loki.nix) | · | I | · | · | · | · | · | · | · | · | · | A | · | · | · |
-| [inventory/mimir2.nix](../inventory/mimir2.nix) | · | I | · | · | · | · | · | · | · | · | · | · | A | · | · |
-| [inventory/proxy.nix](../inventory/proxy.nix) | · | I | · | · | · | · | · | · | · | A | · | · | · | · | · |
-| [inventory/wodan.nix](../inventory/wodan.nix) | · | I | · | · | · | · | · | · | · | · | A | · | · | · | · |
+| [hosts/default.nix](../hosts/default.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [hosts/physical/bragi/default.nix](../hosts/physical/bragi/default.nix) | · | I | · | A | · | · | · | · | · | · | · | · | · | · | · |
+| [hosts/physical/bragi/hardware-configuration.nix](../hosts/physical/bragi/hardware-configuration.nix) | · | · | · | S | · | · | · | · | · | · | · | · | · | · | · |
+| [hosts/physical/donar/default.nix](../hosts/physical/donar/default.nix) | · | I | · | · | A | · | · | · | · | · | · | · | · | · | · |
+| [hosts/physical/donar/hardware-configuration.nix](../hosts/physical/donar/hardware-configuration.nix) | · | · | · | · | S | · | · | · | · | · | · | · | · | · | · |
+| [hosts/physical/frigg/default.nix](../hosts/physical/frigg/default.nix) | · | I | · | · | · | · | · | A | · | · | · | · | · | · | · |
+| [hosts/physical/frigg/hardware-configuration.nix](../hosts/physical/frigg/hardware-configuration.nix) | · | · | · | · | · | · | · | S | · | · | · | · | · | · | · |
+| [hosts/physical/loki/default.nix](../hosts/physical/loki/default.nix) | · | I | · | · | · | · | · | · | · | · | · | A | · | · | · |
+| [hosts/physical/mimir2/default.nix](../hosts/physical/mimir2/default.nix) | · | I | · | · | · | · | · | · | · | · | · | · | A | · | · |
+| [hosts/physical/wodan/_home.nix](../hosts/physical/wodan/_home.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [hosts/physical/wodan/_proxmox-lab-host.nix](../hosts/physical/wodan/_proxmox-lab-host.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
+| [hosts/physical/wodan/default.nix](../hosts/physical/wodan/default.nix) | · | I | · | · | · | · | · | · | · | · | A | · | · | · | · |
+| [hosts/physical/wodan/hardware-configuration.nix](../hosts/physical/wodan/hardware-configuration.nix) | · | · | · | · | · | · | · | · | · | · | S | · | · | · | · |
+| [hosts/virtual/apps/default.nix](../hosts/virtual/apps/default.nix) | · | I | A | · | · | · | · | · | · | · | · | · | · | · | · |
+| [hosts/virtual/apps/hardware-configuration.nix](../hosts/virtual/apps/hardware-configuration.nix) | · | · | S | · | · | · | · | · | · | · | · | · | · | · | · |
+| [hosts/virtual/forgejo-lab/default.nix](../hosts/virtual/forgejo-lab/default.nix) | · | I | · | · | · | · | A | · | · | · | · | · | · | · | · |
+| [hosts/virtual/forgejo/default.nix](../hosts/virtual/forgejo/default.nix) | · | I | · | · | · | A | · | · | · | · | · | · | · | · | · |
+| [hosts/virtual/homepage/default.nix](../hosts/virtual/homepage/default.nix) | · | I | · | · | · | · | · | · | A | · | · | · | · | · | · |
+| [hosts/virtual/homepage/hardware-configuration.nix](../hosts/virtual/homepage/hardware-configuration.nix) | · | · | · | · | · | · | · | · | S | · | · | · | · | · | · |
+| [hosts/virtual/proxy/default.nix](../hosts/virtual/proxy/default.nix) | · | I | · | · | · | · | · | · | · | A | · | · | · | · | · |
 | [nix/constructors.nix](../nix/constructors.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | [nix/default.nix](../nix/default.nix) | I | · | · | · | · | · | · | · | · | · | · | · | · | H | H |
 | [nix/evaluate.nix](../nix/evaluate.nix) | · | · | · | · | · | · | · | · | · | · | · | · | · | · | · |
@@ -618,5 +620,3 @@ S = system import; H = Home Manager import; I = flake wiring import; A = selecte
 | [profiles/proxmox-guest.nix](../profiles/proxmox-guest.nix) | · | I | A | · | · | A | · | · | A | A | · | · | · | · | · |
 | [profiles/workstation-base.nix](../profiles/workstation-base.nix) | · | I | · | · | A | · | · | A | · | · | A | · | · | · | · |
 | [profiles/workstation.nix](../profiles/workstation.nix) | · | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [servers/apps/hardware-configuration.nix](../servers/apps/hardware-configuration.nix) | · | · | S | · | · | · | · | · | · | · | · | · | · | · | · |
-| [servers/homepage/hardware-configuration.nix](../servers/homepage/hardware-configuration.nix) | · | · | · | · | · | · | · | · | S | · | · | · | · | · | · |

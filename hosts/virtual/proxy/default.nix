@@ -28,7 +28,7 @@
           pkgs.diffutils
           pkgs.coreutils
         ];
-        text = builtins.readFile ../scripts/lab-initialize-disk.sh;
+        text = builtins.readFile ../../../scripts/lab-initialize-disk.sh;
       };
       backendCaCert = "/srv/proxy/backend-root.crt";
       certificateFiles = [
@@ -38,7 +38,7 @@
         "SHA256SUMS"
       ];
       bundleVersion = let
-        version = lib.removeSuffix "\n" (builtins.readFile ../certs/VERSION);
+        version = lib.removeSuffix "\n" (builtins.readFile ../../../certs/VERSION);
       in
         assert lib.assertMsg
         (builtins.match "(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)" version != null)
@@ -51,9 +51,9 @@
         } ''
           mkdir -p "$out"
           cd "$out"
-          cp ${../certs/freeipa.crt} freeipa.crt
-          cp ${../certs/forgejo-ca.crt} forgejo-ca.crt
-          cp ${../certs/fingerprints.txt} fingerprints.txt
+          cp ${../../../certs/freeipa.crt} freeipa.crt
+          cp ${../../../certs/forgejo-ca.crt} forgejo-ca.crt
+          cp ${../../../certs/fingerprints.txt} fingerprints.txt
           cat freeipa.crt forgejo-ca.crt > powerlan-ca.pem
           printf '%s\n' '${bundleVersion}' > version.txt
           sha256sum freeipa.crt forgejo-ca.crt powerlan-ca.pem fingerprints.txt version.txt > SHA256SUMS
@@ -71,15 +71,15 @@
                 "@BUNDLE_VERSION@"
               ]
               [
-                (builtins.readFile ../certs/fingerprints.txt)
+                (builtins.readFile ../../../certs/fingerprints.txt)
                 bundleVersion
               ]
-              (builtins.readFile ../certs/index.html));
+              (builtins.readFile ../../../certs/index.html));
           }
         ]
         ++ map (name: {
           inherit name;
-          path = ../certs + "/${name}";
+          path = ../../../certs + "/${name}";
         })
         certificateFiles
       );

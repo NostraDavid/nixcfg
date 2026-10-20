@@ -19,14 +19,14 @@ repos:
         name: check Den architecture and effective configuration policies
         entry: just architecture-check
         language: system
-        files: '^(features/|profiles/|inventory/|nix/|policy/|flake\.(nix|lock)$|checks/test-architecture\.py$|\.pre-commit-config\.yaml$)'
+        files: '^(features/|profiles/|hosts/|nix/|policy/|flake\.(nix|lock)$|checks/test-architecture\.py$|\.pre-commit-config\.yaml$)'
         pass_filenames: false
 
       - id: check-bootstrap-host
         name: check native Den host bootstrap
         entry: bash checks/test-bootstrap-host.sh
         language: system
-        files: '^(scripts/bootstrap-host\.sh|checks/test-bootstrap-host\.sh|inventory/default\.nix)$'
+        files: '^(scripts/bootstrap-host\.sh|checks/test-bootstrap-host\.sh|hosts/default\.nix)$'
         pass_filenames: false
 
       - id: check-nix-index
@@ -47,7 +47,7 @@ repos:
         name: check stable MCP launchers and client configuration
         entry: bash checks/test-loki-mcp.sh
         language: system
-        files: '^(features/(mcp|codex-browser|portable-runtime)/|profiles/|inventory/|nix/|checks/(loki-mcp\.nix|test-loki-mcp\.sh)$|pkgs/(headroom|dbhub)/|dotfiles/(codex-[^/]+/\.codex/config\.toml|copilot-[^/]+/\.copilot/mcp-config\.json|mcp/\.config/mcp/mcp\.json|vscode-[^/]+/\.config/Code/User/mcp\.json|opencode-[^/]+/\.config/opencode/opencode\.jsonc)$)'
+        files: '^(features/(mcp|codex-browser|portable-runtime)/|profiles/|hosts/|nix/|checks/(loki-mcp\.nix|test-loki-mcp\.sh)$|pkgs/(headroom|dbhub)/|dotfiles/(codex-[^/]+/\.codex/config\.toml|copilot-[^/]+/\.copilot/mcp-config\.json|mcp/\.config/mcp/mcp\.json|vscode-[^/]+/\.config/Code/User/mcp\.json|opencode-[^/]+/\.config/opencode/opencode\.jsonc)$)'
         pass_filenames: false
 
       - id: check-video-explainer
@@ -82,7 +82,7 @@ repos:
         name: check Loki keyboard profile and migration
         entry: bash checks/test-loki-keyboard.sh
         language: system
-        files: '^(flake\.(nix|lock)$|features/darwin-keyboard/|nix/|inventory/loki\.nix$|checks/(loki-keyboard\.nix|test-loki-keyboard\.sh)$|dotfiles/vscode-[^/]+/\.config/Code/User/keybindings\.json$)'
+        files: '^(flake\.(nix|lock)$|features/darwin-keyboard/|nix/|hosts/physical/loki/|checks/(loki-keyboard\.nix|test-loki-keyboard\.sh)$|dotfiles/vscode-[^/]+/\.config/Code/User/keybindings\.json$)'
         pass_filenames: false
 
       - id: check-darwin-app-migration

@@ -83,7 +83,7 @@
           "feature"
           "profile"
         ])
-      (violation "host-value-owner" source.path (lib.concatStringsSep "." path) "Identity, state version and device assignments belong to inventory or hardware.")) (definitions path))
+      (violation "host-value-owner" source.path (lib.concatStringsSep "." path) "Identity, state version and device assignments belong to host definitions or their hardware.")) (definitions path))
   identityPaths;
   home = config.home or {};
   packages = home.packages or [];

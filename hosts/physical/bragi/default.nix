@@ -33,7 +33,7 @@
       ...
     }: {
       imports = [
-        ../hosts/bragi/hardware-configuration.nix
+        ./hardware-configuration.nix
       ];
 
       nix.settings = {

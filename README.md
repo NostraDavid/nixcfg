@@ -9,9 +9,10 @@ changelog:
 # NostraDavid's nixconfig & dotfiles
 
 Den composes NixOS, Debian Home Manager, and nix-darwin configurations from
-feature-owned aspects. Hosts and users live in `inventory/`; profiles select
-features. [Configuration architecture](docs/architecture.md) defines the axes,
-dependency rules, public interfaces, and enforced policies.
+feature-owned aspects. Hosts and users live in `hosts/physical/` or
+`hosts/virtual/`; profiles select features.
+[Configuration architecture](docs/architecture.md) defines the axes, dependency
+rules, public interfaces, and enforced policies.
 
 [The generated module map](docs/module-map.md) shows imports per machine,
 optional workstation profiles, unobserved files, and possible absorption
@@ -106,13 +107,12 @@ manifest when updating.
   raw scan gates and configuration-aware comparison reports.
 - [FreeIPA-toegang](docs/freeipa-access.md) beschrijft teams, rechten en de
   gefaseerde toepassing op Forgejo, Proxmox en ingeschreven hosts.
-- `inventory/` declares Den hosts and homes, selects their profiles, and owns
-  identity, hardware assignments, state versions, and machine overrides.
+- `hosts/physical/<name>/` and `hosts/virtual/<name>/` declare Den hosts and
+  homes, select profiles, and own identity, hardware, state versions, machine
+  overrides, and supporting files. Each host has a `default.nix` entrypoint.
 - `profiles/` composes features into reusable workstation and server profiles.
 - `features/` owns each capability's NixOS, Darwin, and Home Manager
   implementations together with its private scripts and helpers.
-- `hosts/` and `servers/` contain machine-specific hardware configuration and
-  supporting files.
 - `nix/` contains package sets, Den evaluation, construction adapters, public
   exports, image outputs, and flake-parts integration.
 - `policy/` enforces aspect dependencies, native module provenance, and

@@ -1,20 +1,20 @@
 # Configuration architecture
 
 Den owns the host, user, home, and aspect composition. Each feature owns its
-native configuration and private helpers. Profiles select features; inventory
-selects profiles and supplies machine-specific values.
+native configuration and private helpers. Profiles select features; hosts select
+profiles and supplies machine-specific values.
 
 The repository retains flake-parts for package, image, development-shell, and
 check outputs. It does not retain the previous internal module registry.
 
 ## Axes and responsibilities
 
-| Axis             | Representation                           | Examples                                               |
-| ---------------- | ---------------------------------------- | ------------------------------------------------------ |
-| Capability       | Den aspect in `features/`                | MCP, annotation, terminal, containers                  |
-| Platform         | Den entity system and native class       | x86_64 Linux, Apple Silicon macOS                      |
-| Management scope | Aspect class                             | `nixos`, `darwin`, `homeManager`                       |
-| Usage context    | Selected inventory and caller extensions | personal desktop, shared portable home, work overrides |
+| Axis             | Representation                         | Examples                                               |
+| ---------------- | -------------------------------------- | ------------------------------------------------------ |
+| Capability       | Den aspect in `features/`              | MCP, annotation, terminal, containers                  |
+| Platform         | Den entity system and native class     | x86_64 Linux, Apple Silicon macOS                      |
+| Management scope | Aspect class                           | `nixos`, `darwin`, `homeManager`                       |
+| Usage context    | Host definitions and caller extensions | personal desktop, shared portable home, work overrides |
 
 Hosts and profiles compose these axes. They are not additional operating-system
 layers. Work configuration extends the shared base through the existing public
@@ -22,16 +22,22 @@ factories; personal identity is not added to portable homes.
 
 ## Source ownership
 
-| Path                     | Owns                                                              | May depend on                            |
-| ------------------------ | ----------------------------------------------------------------- | ---------------------------------------- |
-| `features/<capability>/` | Native class modules and private helpers                          | Features, infrastructure                 |
-| `profiles/`              | Den `includes` composition                                        | Profiles, features, infrastructure       |
-| `inventory/`             | Entities, hardware selection, identity, state versions, overrides | Profiles, features, infrastructure       |
-| `hosts/`, `servers/`     | Generated hardware and machine assets                             | Machine hardware dependencies            |
-| `nix/`                   | Evaluation, package sources, public adapters, build outputs       | All layers at their explicit boundaries  |
-| `policy/`                | Architecture and effective-configuration predicates               | Evaluated model and native configuration |
-| `pkgs/`                  | Package recipes and release pins                                  | Package dependencies                     |
-| `dotfiles/`              | Native application configuration                                  | Application-specific files               |
+| Path                               | Owns                                                                    | May depend on                            |
+| ---------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------- |
+| `features/<capability>/`           | Native class modules and private helpers                                | Features, infrastructure                 |
+| `profiles/`                        | Den `includes` composition                                              | Profiles, features, infrastructure       |
+| `hosts/{physical,virtual}/<name>/` | Entities, identity, state versions, overrides, hardware and host assets | Profiles, features, infrastructure       |
+| `nix/`                             | Evaluation, package sources, public adapters, build outputs             | All layers at their explicit boundaries  |
+| `policy/`                          | Architecture and effective-configuration predicates                     | Evaluated model and native configuration |
+| `pkgs/`                            | Package recipes and release pins                                        | Package dependencies                     |
+| `dotfiles/`                        | Native application configuration                                        | Application-specific files               |
+
+Each physical or virtual machine has one directory with a `default.nix`
+entrypoint. Hardware files, certificates and private helpers stay with their
+host. `hosts/default.nix` registers these entrypoints. Physical versus virtual
+describes execution; it does not distinguish personal use, work, servers or
+desktops. Standalone Home Manager machines use the same layout. Work extensions
+keep using the existing public factories.
 
 Source ownership follows paths. Den's definition metadata identifies the owner
 of an aspect; the evaluated Nix graph identifies its implementation imports.
@@ -41,11 +47,11 @@ An aspect can have multiple native classes. Its private files stay inside the
 same feature directory. Select dependencies with Den `includes`; do not import
 another feature's private native module. Local features and profiles use named,
 concrete aspect references in `includes`. Context-dependent routing belongs to
-inventory and infrastructure.
+host definitions and infrastructure.
 
 Profiles contain composition only. Identity, `stateVersion`, and device mounts
-belong to inventory or generated hardware. Existing USB mounts remain explicitly
-selected on the same machines as before the migration.
+belong to host definitions or their generated hardware. Existing USB mounts
+remain explicitly selected on the same machines as before the migration.
 
 Native JSON, TOML, and other application settings remain in `dotfiles/`. Home
 Manager links those sources and supplies integration. It does not introduce a
@@ -53,10 +59,10 @@ second copy of application settings in Den.
 
 ## Construction and public interfaces
 
-`nix/evaluate.nix` loads the feature catalogue, profiles, and selected inventory
-into one Den evaluation. Den resolves native host and standalone-home modules.
-The adapters in `nix/constructors.nix` supply the pinned package sets and invoke
-NixOS, nix-darwin, or Home Manager.
+`nix/evaluate.nix` loads the feature catalogue, profiles, and selected host
+definitions into one Den evaluation. Den resolves native host and
+standalone-home modules. The adapters in `nix/constructors.nix` supply the
+pinned package sets and invoke NixOS, nix-darwin, or Home Manager.
 
 The public interfaces remain:
 
@@ -67,9 +73,9 @@ The public interfaces remain:
 - Existing configuration names, packages, images, and development shells.
 
 Custom factories use the same Den catalogue in an isolated evaluation with the
-requested inventory. Public native-module exports resolve those same aspects.
-Their cross-class forwarding adapters are external interfaces, not a second
-internal composition path.
+requested host definitions. Public native-module exports resolve those same
+aspects. Their cross-class forwarding adapters are external interfaces, not a
+second internal composition path.
 
 Standalone tools retain the pinned unstable source. OS/runtime compatibility
 packages and explicit major versions retain their established sources. Embedded

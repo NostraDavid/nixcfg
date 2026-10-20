@@ -96,9 +96,9 @@ class ArchitectureTests(unittest.TestCase):
         for name, content in (extra or {}).items():
             self.write(name, content)
         entry = self.write(
-            "inventory/fixture.nix",
+            "hosts/physical/fixture/default.nix",
             """{lib, ...}: {
-              imports = [../nix/schema.nix ../features/annotation/default.nix];
+              imports = [../../../nix/schema.nix ../../../features/annotation/default.nix];
               home.username = lib.mkDefault "david";
               home.homeDirectory = "/home/david";
               home.stateVersion = "25.11";
@@ -168,11 +168,73 @@ class ArchitectureTests(unittest.TestCase):
             {"stray.nix": "{den.aspects.stray.homeManager = {};}"}, "unknown-owner"
         )
 
+    def test_host_outside_physical_or_virtual_is_rejected(self) -> None:
+        self.den(
+            {"hosts/fixture/default.nix": "{den.aspects.stray.homeManager = {};}"},
+            "unknown-owner",
+        )
+
+    def test_den_host_directory_has_the_same_owner_as_its_entrypoint(self) -> None:
+        entry = self.write(
+            "hosts/physical/fixture/default.nix",
+            "{den, ...}: {den.aspects.host-fixture.includes = [den.aspects.interactive];}",
+        )
+        profile = self.write(
+            "profiles/interactive.nix", "{den.aspects.interactive = {};}"
+        )
+        self.evaluate(
+            f"""
+            evaluated = lib.evalModules {{
+              specialArgs.inputs = inputs // {{den = denInput;}};
+              modules = [denInput.flakeModule denInput.flakeOutputs.flake
+                denInput.flakeOutputs.all {entry.parent} {profile}];
+            }};
+            result = import policyRoot {{inherit lib root; den = evaluated.config.den;}};
+            """
+        )
+
+    def test_host_native_imports_preserve_individual_ownership(self) -> None:
+        for group in ("physical", "virtual"):
+            with self.subTest(group=group):
+                entry = self.write(
+                    f"hosts/{group}/fixture/default.nix",
+                    "{imports = [../other/default.nix];}",
+                )
+                self.write(f"hosts/{group}/other/default.nix", "{}")
+                self.evaluate(
+                    f"""
+                    evaluated = lib.evalModules {{modules = [{entry}];}};
+                    result = import (policyRoot + "/native.nix") {{
+                      inherit lib root;
+                      inherit (evaluated) config options graph;
+                      class = "homeManager";
+                    }};
+                    """,
+                    "native-dependency-direction",
+                )
+
+    def test_host_can_import_its_own_hardware(self) -> None:
+        entry = self.write(
+            "hosts/physical/fixture/default.nix",
+            "{imports = [./hardware-configuration.nix];}",
+        )
+        self.write("hosts/physical/fixture/hardware-configuration.nix", "{}")
+        self.evaluate(
+            f"""
+            evaluated = lib.evalModules {{modules = [{entry}];}};
+            result = import (policyRoot + "/native.nix") {{
+              inherit lib root;
+              inherit (evaluated) config options graph;
+              class = "homeManager";
+            }};
+            """
+        )
+
     def test_platform_restriction_uses_real_home_selection(self) -> None:
         self.den(
             {
                 "features/linux-only/default.nix": '{den.aspects.linux-only = {meta.platforms = ["linux"]; homeManager = {};};}',
-                "inventory/mac.nix": '{den, ...}: {den.homes.aarch64-darwin."alice@mac".aspect = den.aspects.linux-only;}',
+                "hosts/physical/mac/default.nix": '{den, ...}: {den.homes.aarch64-darwin."alice@mac".aspect = den.aspects.linux-only;}',
             },
             "feature-platform",
         )
@@ -208,15 +270,15 @@ class ArchitectureTests(unittest.TestCase):
             "features/identity/default.nix",
             '{den.aspects.identity.homeManager.home.username = "intruder";}',
         )
-        inventory = self.write(
-            "inventory/fixture.nix",
+        host = self.write(
+            "hosts/physical/fixture/default.nix",
             '{den, ...}: {den.homes.x86_64-linux."david@fixture".aspect = den.aspects.identity;}',
         )
         self.evaluate(
             f"""
             fleet = lib.evalModules {{
               specialArgs.inputs = inputs // {{den = denInput;}};
-              modules = [denInput.flakeModule denInput.flakeOutputs.flake denInput.flakeOutputs.all {feature} {inventory}];
+              modules = [denInput.flakeModule denInput.flakeOutputs.flake denInput.flakeOutputs.all {feature} {host}];
             }};
             evaluated = lib.evalModules {{
               modules = [{schema} fleet.config.den.homes.x86_64-linux."david@fixture".mainModule];

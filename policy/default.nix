@@ -59,7 +59,7 @@
           "profile"
         ]
         && opaque != [])
-      (violation "opaque-include" source.path name "Feature and profile dependencies must be concrete named aspect references; dynamic selection belongs to inventory.")
+      (violation "opaque-include" source.path name "Feature and profile dependencies must be concrete named aspect references; dynamic selection belongs to hosts.")
       ++ lib.optional (source.kind == "profile" && classes != [])
       (violation "profile-implementation" source.path name "Profiles compose aspects; class implementations belong to features."))
   names;

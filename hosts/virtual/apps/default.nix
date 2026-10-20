@@ -17,7 +17,7 @@
     ];
     nixos = {main-user, ...}: {
       imports = [
-        ../servers/apps/hardware-configuration.nix
+        ./hardware-configuration.nix
       ];
 
       networking.hostName = "apps";

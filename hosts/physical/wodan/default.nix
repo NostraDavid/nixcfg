@@ -37,7 +37,7 @@
           ...
         }: {
           imports = [
-            ../hosts/wodan/hardware-configuration.nix
+            ./hardware-configuration.nix
             (inputs.nixos-vex + "/modules")
           ];
 
@@ -100,8 +100,8 @@
           };
 
           security.pki.certificateFiles = [
-            ../hosts/wodan/certs/pihole.crt
-            ../hosts/wodan/certs/proxmox.crt
+            ./certs/pihole.crt
+            ./certs/proxmox.crt
           ];
           fileSystems."/media/usb" = {
             device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21";
@@ -130,7 +130,7 @@
         includes = [
           den.aspects.codex-browser
         ];
-        homeManager = import ./_wodan-home.nix;
+        homeManager = import ./_home.nix;
       };
       proxmox-lab-host.nixos = import ./_proxmox-lab-host.nix {inherit self;};
     };
