@@ -16,6 +16,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from concurrent.futures import Future, ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import quote
@@ -54,6 +55,10 @@ RESERVED_WORKTREE_NAMES = {
 }
 
 logger = get_logger()
+
+
+class GitRemoteError(RuntimeError):
+    pass
 
 
 def configure_auth() -> None:
@@ -106,16 +111,47 @@ def run_git(
             **os.environ,
             "GIT_SSH_COMMAND": f"{os.environ.get('GIT_SSH_COMMAND', 'ssh')} -vvv",
         }
-    proc = subprocess.run(
-        base + args,
-        check=False,
-        timeout=timeout,
-        capture_output=capture,
-        text=capture,
-        env=env,
-    )
-    if SSH_DEBUG and capture and proc.stderr:
-        print(proc.stderr, file=sys.stderr, end="")
+    for attempt in range(3):
+        proc = subprocess.run(
+            base + args,
+            check=False,
+            timeout=timeout,
+            capture_output=capture,
+            text=capture,
+            env=env,
+        )
+        if SSH_DEBUG and capture and proc.stderr:
+            print(proc.stderr, file=sys.stderr, end="")
+        output = (proc.stderr or proc.stdout or "").lower()
+        if (
+            proc.returncode == 0
+            or args[0] not in {"clone", "fetch", "ls-remote"}
+            or attempt == 2
+            or "permission denied" in output
+            or "authentication failed" in output
+            or not any(
+                marker in output
+                for marker in (
+                    "kex_exchange_identification",
+                    "ssh_exchange_identification",
+                    "connection reset",
+                    "connection closed by",
+                    "connection timed out",
+                    "broken pipe",
+                )
+            )
+        ):
+            break
+        if args[0] == "clone":
+            cleanup_partial(Path(args[-1]))
+        delay = 2 ** (attempt + 1)
+        logger.warning(
+            "git_transport_retry",
+            operation=args[0],
+            attempt=attempt + 1,
+            delay_seconds=delay,
+        )
+        time.sleep(delay)
     return proc
 
 
@@ -379,7 +415,9 @@ def list_remote_heads(repo_url: str, auth_configs: list[str]) -> set[str]:
         git_configs=auth_configs,
     )
     if proc.returncode != 0:
-        return set()
+        raise GitRemoteError(
+            f"list branches: {(proc.stderr or proc.stdout or 'git ls-remote failed').strip()}"
+        )
 
     heads: set[str] = set()
     for line in proc.stdout.splitlines():
@@ -400,7 +438,9 @@ def list_remote_tags(repo_url: str, auth_configs: list[str]) -> set[str]:
         git_configs=auth_configs,
     )
     if proc.returncode != 0:
-        return set()
+        raise GitRemoteError(
+            f"list tags: {(proc.stderr or proc.stdout or 'git ls-remote failed').strip()}"
+        )
 
     tags: set[str] = set()
     for line in proc.stdout.splitlines():
@@ -421,7 +461,9 @@ def get_remote_default_branch(repo_url: str, auth_configs: list[str]) -> str | N
         git_configs=auth_configs,
     )
     if proc.returncode != 0:
-        return None
+        raise GitRemoteError(
+            f"default branch: {(proc.stderr or proc.stdout or 'git ls-remote failed').strip()}"
+        )
 
     for line in proc.stdout.splitlines():
         line = line.strip()
@@ -755,6 +797,18 @@ def clone_or_update_repo(
         origin_url = origin_proc.stdout.strip() if origin_proc.returncode == 0 else ""
         if origin_url and not urls_equivalent(origin_url, repo_url):
             return False, f"origin url mismatch ({origin_url} != {repo_url})"
+        if origin_url != repo_url:
+            origin_update = run_git(
+                ["remote", "set-url", "origin", repo_url],
+                bare_dir,
+                capture=True,
+                git_configs=auth_configs,
+            )
+            if origin_update.returncode != 0:
+                return (
+                    False,
+                    f"origin url update failed: {(origin_update.stderr or origin_update.stdout).strip()}",
+                )
     else:
         bare_dir.parent.mkdir(parents=True, exist_ok=True)
         try:
@@ -776,12 +830,15 @@ def clone_or_update_repo(
             return False, reason
         logger.info("repo_cloned", repo_url=repo_url, git_dir=str(bare_dir))
 
-    selected_branches = resolve_selected_branches(
-        repo_url, auth_configs, requested_branches
-    )
-    selected_tags = resolve_selected_tags(
-        repo_url, auth_configs, requested_tags, all_tags
-    )
+    try:
+        selected_branches = resolve_selected_branches(
+            repo_url, auth_configs, requested_branches
+        )
+        selected_tags = resolve_selected_tags(
+            repo_url, auth_configs, requested_tags, all_tags
+        )
+    except GitRemoteError as error:
+        return False, str(error)
 
     branch_refspecs = [
         (
@@ -886,6 +943,123 @@ def run_tests(verbose: bool) -> int:
     from unittest.mock import patch
 
     class AzureReposTests(unittest.TestCase):
+        def test_existing_repo_uses_selected_transport_and_reports_lookup_failure(
+            self,
+        ) -> None:
+            selected = "git@ssh.dev.azure.com:v3/org/project/repo"
+            old = "https://dev.azure.com/org/project/_git/repo"
+            with tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                (root / BARE_REPO_DIR).mkdir()
+
+                def git(
+                    args: list[str], *_args: object, **_kwargs: object
+                ) -> subprocess.CompletedProcess[str]:
+                    return subprocess.CompletedProcess(
+                        args,
+                        0,
+                        old if args == ["remote", "get-url", "origin"] else "",
+                        "",
+                    )
+
+                with (
+                    patch(f"{__name__}.repo_is_bare_repo", return_value=True),
+                    patch(f"{__name__}.run_git", side_effect=git) as run,
+                    patch(f"{__name__}.resolve_selected_branches", return_value=[]),
+                    patch(
+                        f"{__name__}.resolve_selected_tags",
+                        side_effect=GitRemoteError("list tags: Connection reset"),
+                    ),
+                ):
+                    ok, reason = clone_or_update_repo(
+                        selected, root, None, [], True, False, False
+                    )
+                self.assertFalse(ok)
+                self.assertEqual(reason, "list tags: Connection reset")
+                commands = [call.args[0] for call in run.call_args_list]
+                self.assertIn(["remote", "set-url", "origin", selected], commands)
+                self.assertFalse(any(command[0] == "fetch" for command in commands))
+
+        def test_transient_ssh_failure_is_retried(self) -> None:
+            failure = subprocess.CompletedProcess(
+                [],
+                128,
+                "",
+                "kex_exchange_identification: read: Connection reset by peer",
+            )
+            success = subprocess.CompletedProcess([], 0, "refs", "")
+            with (
+                patch(
+                    f"{__name__}.subprocess.run", side_effect=[failure, success]
+                ) as run,
+                patch("time.sleep") as sleep,
+            ):
+                result = run_git(["fetch", "origin"], capture=True)
+            self.assertIs(result, success)
+            self.assertEqual(run.call_count, 2)
+            sleep.assert_called_once_with(2)
+
+        def test_ssh_retries_are_bounded_and_auth_errors_are_not_retried(self) -> None:
+            for message, attempts in (
+                ("Connection closed by 192.0.2.1 port 22", 3),
+                ("Permission denied (publickey).", 1),
+            ):
+                result = subprocess.CompletedProcess([], 128, "", message)
+                with (
+                    self.subTest(message=message),
+                    patch(f"{__name__}.subprocess.run", return_value=result) as run,
+                    patch("time.sleep") as sleep,
+                ):
+                    self.assertIs(run_git(["fetch", "origin"], capture=True), result)
+                self.assertEqual(run.call_count, attempts)
+                self.assertEqual(sleep.call_count, attempts - 1)
+
+        def test_clone_retry_cleans_only_its_partial_directory(self) -> None:
+            with tempfile.TemporaryDirectory() as directory:
+                target = Path(directory) / "worktree.git"
+                keep = Path(directory) / "keep"
+                keep.write_text("keep")
+                calls = 0
+
+                def clone(
+                    *_args: object, **_kwargs: object
+                ) -> subprocess.CompletedProcess[str]:
+                    nonlocal calls
+                    self.assertFalse(target.exists())
+                    target.mkdir()
+                    calls += 1
+                    return subprocess.CompletedProcess(
+                        [], 128 if calls == 1 else 0, "", "Connection reset by peer"
+                    )
+
+                with (
+                    patch(f"{__name__}.subprocess.run", side_effect=clone),
+                    patch("time.sleep"),
+                ):
+                    result = run_git(
+                        ["clone", "--bare", "ssh://example.test/repo", str(target)],
+                        capture=True,
+                    )
+                self.assertEqual(result.returncode, 0)
+                self.assertEqual(calls, 2)
+                self.assertEqual(keep.read_text(), "keep")
+
+        def test_failed_remote_lookups_are_reported(self) -> None:
+            result = subprocess.CompletedProcess(
+                [], 128, "", "Connection reset by peer"
+            )
+            for lookup in (
+                list_remote_heads,
+                list_remote_tags,
+                get_remote_default_branch,
+            ):
+                with (
+                    self.subTest(lookup=lookup.__name__),
+                    patch(f"{__name__}.run_git", return_value=result),
+                    self.assertRaisesRegex(RuntimeError, "Connection reset by peer"),
+                ):
+                    lookup("ssh://example.test/repo", [])
+
         def test_project_filter(self) -> None:
             for requested, expected, code in (
                 ("nl-ttm-od", ["nl-ttm-od"], 0),
@@ -964,7 +1138,7 @@ def run_tests(verbose: bool) -> int:
 
         def test_ssh_debug_preserves_output_and_ssh_command(self) -> None:
             result = subprocess.CompletedProcess(
-                [], 128, "refs", "kex_exchange_identification: Connection reset\n"
+                [], 128, "refs", "Permission denied (publickey).\n"
             )
             for enabled in (False, True):
                 with (
