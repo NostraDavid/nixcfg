@@ -36,10 +36,10 @@ A failed evaluation stops generation; partial results never replace the snapshot
 | homepage | NixOS | 9 |
 | proxy | NixOS | 7 |
 | wodan | NixOS | 68 |
-| loki | Darwin | 26 |
-| mimir2 | Home Manager | 22 |
-| mimir2 + workstation | optional | 41 |
-| loki + workstation | optional | 45 |
+| loki | Darwin | 27 |
+| mimir2 | Home Manager | 23 |
+| mimir2 + workstation | optional | 42 |
+| loki + workstation | optional | 46 |
 
 ## Software overlap
 
@@ -295,6 +295,7 @@ flowchart LR
   c11 --> m17["features/darwin-speech/default.nix"]
   c11 --> m28["features/development/default.nix"]
   c11 --> m32["features/dotfiles/default.nix"]
+  c11 --> m45["features/internal-pki/default.nix"]
   c11 --> m56["features/mcp/default.nix"]
   c11 --> m64["features/nix-index/default.nix"]
   c11 --> m70["features/portable-runtime/default.nix"]
@@ -307,6 +308,7 @@ flowchart LR
   c12 --> m17["features/darwin-speech/default.nix"]
   c12 --> m28["features/development/default.nix"]
   c12 --> m32["features/dotfiles/default.nix"]
+  c12 --> m45["features/internal-pki/default.nix"]
   c12 --> m56["features/mcp/default.nix"]
   c12 --> m64["features/nix-index/default.nix"]
   c12 --> m70["features/portable-runtime/default.nix"]
@@ -317,6 +319,7 @@ flowchart LR
   c13 --> m7["features/common-tooling/default.nix"]
   c13 --> m17["features/darwin-speech/default.nix"]
   c13 --> m32["features/dotfiles/default.nix"]
+  c13 --> m45["features/internal-pki/default.nix"]
   c13 --> m56["features/mcp/default.nix"]
   c13 --> m64["features/nix-index/default.nix"]
   c13 --> m70["features/portable-runtime/default.nix"]
@@ -329,6 +332,7 @@ flowchart LR
   c14 --> m15["features/darwin-keyboard/default.nix"]
   c14 --> m17["features/darwin-speech/default.nix"]
   c14 --> m32["features/dotfiles/default.nix"]
+  c14 --> m45["features/internal-pki/default.nix"]
   c14 --> m56["features/mcp/default.nix"]
   c14 --> m64["features/nix-index/default.nix"]
   c14 --> m70["features/portable-runtime/default.nix"]
@@ -448,7 +452,7 @@ S = system import; H = Home Manager import; I = flake wiring import; A = selecte
 | [features/i18n/default.nix](../features/i18n/default.nix) | · | I | · | A/S | A/S | · | · | A/S | · | · | A/S | · | · | · | · |
 | [features/i3/_home.nix](../features/i3/_home.nix) | · | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
 | [features/i3/default.nix](../features/i3/default.nix) | · | I | · | · | · | · | · | · | · | · | · | · | · | · | · |
-| [features/internal-pki/default.nix](../features/internal-pki/default.nix) | · | I | A/S | A/S | A/S | A/S | A/S | A/S | A/S | A/S | A/S | A | A | · | · |
+| [features/internal-pki/default.nix](../features/internal-pki/default.nix) | · | I | A/S | A/H/S | A/H/S | A/S | A/S | A/H/S | A/S | A/S | A/H/S | A/H/S | A/H | H | H/S |
 | [features/kde-runtime/default.nix](../features/kde-runtime/default.nix) | · | I | · | · | A/S | · | · | A/S | · | · | A/S | · | · | · | · |
 | [features/keyboard/_home.nix](../features/keyboard/_home.nix) | · | I | · | H | H | · | · | H | · | · | H | · | · | · | · |
 | [features/keyboard/default.nix](../features/keyboard/default.nix) | · | I | · | A/H/S | A/H/S | · | · | A/H/S | · | · | A/H/S | · | · | · | · |
