@@ -16,10 +16,10 @@
   webkitgtk_4_1,
   libsoup_3,
 }: let
-  version = "1.142.0";
+  version = "1.143.0";
   # to grab the hash, run:
   # nix store prefetch-file https://update.code.visualstudio.com/<version>/linux-x64/stable
-  srcHash = "sha256-/MHMtDVoWtzHSCh7veUkWJVp3u22tK1VYAcVg8vgCuA=";
+  srcHash = "sha256-iTAr2WMTB6SfOxilcM5Yi/fFOqQWm/T7NgUabnb14gU=";
   src = fetchurl {
     url = "https://update.code.visualstudio.com/${version}/linux-x64/stable";
     name = "vscode-${version}.tar.gz";
@@ -69,9 +69,9 @@ in
             )
 
         source, replacements = copy_pattern.subn(make_writable, source)
-        if replacements != 2:
+        if replacements != 1:
             raise RuntimeError(
-                "expected two Copilot file-copy operations, found {}".format(
+                "expected one Copilot file-copy operation, found {}".format(
                     replacements
                 )
             )
