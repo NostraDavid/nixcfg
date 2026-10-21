@@ -142,6 +142,8 @@ EOF
 cat >"${test_root}/bin/just" <<'EOF'
 #!/usr/bin/env bash
 printf '%s\n' "$2" >>"${BULK_UPDATE_LOG}"
+echo "verbose stdout for $2"
+echo "verbose stderr for $2" >&2
 [[ "$2" != bad ]]
 EOF
 chmod +x "${test_root}/scripts/local-package-maint.sh" "${test_root}/bin/just"
@@ -152,6 +154,13 @@ output="$(PATH="${test_root}/bin:${PATH}" BULK_UPDATE_LOG="${test_root}/bulk.log
 [[ "$(cat "${test_root}/bulk.log")" == $'good\nbad\ngood2' ]]
 [[ "${output}" == *$'\033[1m\033[31mPackages with failed updates:\033[0m'* ]]
 [[ "${output}" == *$'\n  bad\n'* ]]
+[[ "${output}" == *'good ... ok'* ]]
+[[ "${output}" == *$'bad ... \033[31mFAILED\033[0m'* ]]
+[[ "${output}" == *'good2 ... ok'* ]]
+[[ "${output}" != *'verbose stdout for good'* ]]
+[[ "${output}" != *'verbose stderr for good'* ]]
+[[ "${output}" == *'verbose stdout for bad'* ]]
+[[ "${output}" == *'verbose stderr for bad'* ]]
 
 # Both flake-update recipes must authenticate before any Nix request.
 printf '{"nodes":{"root":{"inputs":{"nixpkgs":"nixpkgs"}}}}\n' >"${test_root}/flake.lock"
