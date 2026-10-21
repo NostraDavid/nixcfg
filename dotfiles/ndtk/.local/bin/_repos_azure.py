@@ -37,6 +37,7 @@ HEADERS: dict[str, str] = {}
 # --- CONSTANTS ---
 PROJECT_ROOT = Path("~/dev").expanduser()
 DEFAULT_WORKERS = 1
+SSH_DEBUG = False
 
 # Timeouts (seconds)
 HTTP_TIMEOUT = 15
@@ -99,13 +100,23 @@ def run_git(
         base += ["-c", config]
     if repo_path is not None:
         base += ["-C", str(repo_path)]
-    return subprocess.run(
+    env = None
+    if SSH_DEBUG:
+        env = {
+            **os.environ,
+            "GIT_SSH_COMMAND": f"{os.environ.get('GIT_SSH_COMMAND', 'ssh')} -vvv",
+        }
+    proc = subprocess.run(
         base + args,
         check=False,
         timeout=timeout,
         capture_output=capture,
         text=capture,
+        env=env,
     )
+    if SSH_DEBUG and capture and proc.stderr:
+        print(proc.stderr, file=sys.stderr, end="")
+    return proc
 
 
 def run_git_with_git_dir(
@@ -204,6 +215,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=int,
         default=GIT_TIMEOUT,
         help=f"Timeout in seconds per fetch (default: {GIT_TIMEOUT}).",
+    )
+    parser.add_argument(
+        "--ssh-debug",
+        action="store_true",
+        help="Show verbose SSH diagnostics after each Git command.",
     )
     parser.add_argument(
         "--protocol",
@@ -859,6 +875,35 @@ def run_tests(verbose: bool) -> int:
     from unittest.mock import patch
 
     class AzureReposTests(unittest.TestCase):
+        def test_ssh_debug_preserves_output_and_ssh_command(self) -> None:
+            result = subprocess.CompletedProcess(
+                [], 128, "refs", "kex_exchange_identification: Connection reset\n"
+            )
+            for enabled in (False, True):
+                with (
+                    self.subTest(enabled=enabled),
+                    patch(f"{__name__}.SSH_DEBUG", enabled),
+                    patch.dict(os.environ, {"GIT_SSH_COMMAND": "ssh -i /tmp/test-key"}),
+                    patch(f"{__name__}.subprocess.run", return_value=result) as run,
+                    patch("builtins.print") as output,
+                ):
+                    self.assertIs(
+                        run_git(["ls-remote", "origin"], capture=True), result
+                    )
+                    if enabled:
+                        self.assertEqual(
+                            run.call_args.kwargs["env"]["GIT_SSH_COMMAND"],
+                            "ssh -i /tmp/test-key -vvv",
+                        )
+                        output.assert_called_once_with(
+                            result.stderr, file=sys.stderr, end=""
+                        )
+                    else:
+                        self.assertIsNone(run.call_args.kwargs["env"])
+                        output.assert_not_called()
+            self.assertFalse(parse_args(["clone"]).ssh_debug)
+            self.assertTrue(parse_args(["clone", "--ssh-debug"]).ssh_debug)
+
         def test_tag_worktrees_only_add_missing_tags(self) -> None:
             with tempfile.TemporaryDirectory() as directory:
                 repo_root = Path(directory)
@@ -1051,9 +1096,11 @@ def run_tests(verbose: bool) -> int:
 
 
 def main() -> int:
+    global SSH_DEBUG
     args = parse_args()
     if args.command == "test":
         return run_tests(args.verbose)
+    SSH_DEBUG = getattr(args, "ssh_debug", False)
     configure_auth()
     if args.command == "check":
         if shutil.which("git") is None:
