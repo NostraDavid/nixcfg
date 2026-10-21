@@ -882,6 +882,38 @@ def run_tests(verbose: bool) -> int:
     from unittest.mock import patch
 
     class AzureReposTests(unittest.TestCase):
+        def test_priority_projects_are_processed_first(self) -> None:
+            names = ["other-first", "tdc-aa", "other-last", "nl-ttm-od"]
+            with (
+                tempfile.TemporaryDirectory() as directory,
+                patch.object(
+                    sys, "argv", ["repos azure", "clone", "--root", directory]
+                ),
+                patch(f"{__name__}.configure_auth"),
+                patch(
+                    f"{__name__}.get_projects",
+                    return_value=[{"id": name, "name": name} for name in names],
+                ),
+                patch(
+                    f"{__name__}.get_repos",
+                    side_effect=lambda project_id, _name: [
+                        {
+                            "name": "repo",
+                            "sshUrl": f"git@example.test:{project_id}/repo",
+                        }
+                    ],
+                ),
+                patch(
+                    f"{__name__}.clone_or_update_repo", return_value=(True, "updated")
+                ) as worker,
+                patch(f"{__name__}.summarize"),
+            ):
+                self.assertEqual(main(), 0)
+            self.assertEqual(
+                [call.args[1].parent.name for call in worker.call_args_list],
+                ["nl-ttm-od", "tdc-aa", "other-first", "other-last"],
+            )
+
         def test_ssh_debug_preserves_output_and_ssh_command(self) -> None:
             result = subprocess.CompletedProcess(
                 [], 128, "refs", "kex_exchange_identification: Connection reset\n"
@@ -1125,7 +1157,12 @@ def main() -> int:
 
     started_at = dt.datetime.now(dt.UTC)
     try:
-        projects = get_projects()
+        projects = sorted(
+            get_projects(),
+            key=lambda project: {"nl-ttm-od": 0, "tdc-aa": 1}.get(
+                project["name"].lower(), 2
+            ),
+        )
     except Exception as e:  # noqa: BLE001
         sys.exit(f"Failed to list projects: {e}")
 
