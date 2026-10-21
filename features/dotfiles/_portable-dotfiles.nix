@@ -21,6 +21,7 @@ in {
 
   home.file = forceAll {
     ".local/bin/clip".source = mk "${dot}/ndtk/.local/bin/clip.sh";
+    ".local/bin/zellij-scrollback".source = mk "${dot}/ndtk/.local/bin/zellij-scrollback.sh";
     ".local/bin/zellij-workspace".source = mk "${dot}/ndtk/.local/bin/zellij-workspace.py";
     "AGENTS.md".source = mk "${dot}/agents/instructions/AGENTS.md";
     ".agents/instructions".source = mk "${dot}/agents/instructions";
