@@ -225,13 +225,14 @@ def unique_worktree_name(name: str, occupied: set[str], prefix: str) -> str:
     return candidate
 
 
-def branch_worktree_name(branch: str) -> str:
-    name = "trunk" if branch == "master" else sanitize_worktree_name(branch)
+def branch_worktree_name(branch: str, branches: list[str]) -> str:
+    trunk_branch = "master" if "master" in branches else "main"
+    name = "trunk" if branch == trunk_branch else sanitize_worktree_name(branch)
     return unique_worktree_name(name, set(), "branch")
 
 
 def tag_worktree_name(tag: str, branches: list[str]) -> str:
-    branch_names = {branch_worktree_name(branch) for branch in branches}
+    branch_names = {branch_worktree_name(branch, branches) for branch in branches}
     return unique_worktree_name(sanitize_worktree_name(tag), branch_names, "tag")
 
 
@@ -564,7 +565,13 @@ def ensure_branch_worktrees(
     updates_ok = True
 
     for branch in branches:
-        target = repo_root / branch_worktree_name(branch)
+        target = repo_root / branch_worktree_name(branch, branches)
+        if (
+            branch == "main"
+            and not target.exists()
+            and (repo_root / "main" / ".git").exists()
+        ):
+            target = repo_root / "main"
         expected.add(target)
         target.parent.mkdir(parents=True, exist_ok=True)
 

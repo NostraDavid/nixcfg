@@ -26,6 +26,21 @@ project_picker = load_project_picker()
 
 
 class WorktreeListingTests(unittest.TestCase):
+    def test_main_and_master_worktree_names(self) -> None:
+        self.assertEqual(project_picker.branch_worktree_name("main", ["main"]), "trunk")
+        self.assertEqual(
+            project_picker.branch_worktree_name("master", ["master"]), "trunk"
+        )
+        self.assertEqual(
+            project_picker.branch_worktree_name("main", ["main", "master"]), "main"
+        )
+        self.assertEqual(
+            project_picker.branch_worktree_name("master", ["main", "master"]), "trunk"
+        )
+        self.assertEqual(
+            project_picker.tag_worktree_name("trunk", ["main"]), "tag-trunk"
+        )
+
     def test_tag_worktrees_hide_duplicate_detached_choices(self) -> None:
         with TemporaryDirectory() as directory:
             repo_root = Path(directory)

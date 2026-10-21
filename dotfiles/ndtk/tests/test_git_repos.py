@@ -29,11 +29,22 @@ SCRIPTS = (
 
 def check_provider_checkout_updates() -> None:
     sys.path.insert(0, str(BIN))
+    local = runpy.run_path(str(BIN / "_repos_local.py"))
+    sync_local = local["_sync_branch_worktrees"]
+    sync_local.__globals__["ensure_dprint_config_link"] = lambda _path: False
     for provider in ("azure", "github"):
         module = runpy.run_path(str(BIN / f"_repos_{provider}.py"))
+        assert module["branch_worktree_name"]("main", ["main"]) == "trunk"
+        assert module["branch_worktree_name"]("main", ["main", "master"]) == "main"
+        assert module["branch_worktree_name"]("master", ["main", "master"]) == "trunk"
+        assert module["tag_worktree_name"]("trunk", ["main"]) == "tag-trunk"
         sync = module["clone_or_update_repo"]
         sync.__globals__["ensure_dprint_config_link"] = lambda _path: False
-        for scenario in ("dirty", "conflict", "diverged"):
+        for scenario, primary in (
+            (scenario, primary)
+            for scenario in ("dirty", "conflict", "diverged")
+            for primary in ("master", "main")
+        ):
             with tempfile.TemporaryDirectory(prefix=f"repos-{provider}-") as directory:
                 root = Path(directory)
                 source = root / "source"
@@ -74,7 +85,11 @@ def check_provider_checkout_updates() -> None:
                     return sync(
                         str(source),
                         repo if provider == "azure" else project,
-                        ["master", "z-other"],
+                        [
+                            primary,
+                            "z-other",
+                            *(["main"] if primary == "master" else []),
+                        ],
                         [],
                         False,
                         True,
@@ -83,13 +98,35 @@ def check_provider_checkout_updates() -> None:
                     )
 
                 with patch.dict(os.environ, env, clear=True):
-                    git(root, "init", "-qb", "master", str(source))
+                    git(root, "init", "-qb", primary, str(source))
                     (source / "file.txt").write_text("initial\n")
                     commit(source, "initial")
                     git(source, "branch", "z-other")
+                    if primary == "master":
+                        git(source, "branch", "main")
                     result = update()
                     assert result[-2], result
                     trunk = repo / "trunk"
+                    assert git(trunk, "branch", "--show-current") == primary
+                    if primary == "master":
+                        assert git(repo / "main", "branch", "--show-current") == "main"
+                    git(trunk, "worktree", "remove", str(trunk))
+                    sync_local(
+                        repo / "worktree.git",
+                        prune_branch_worktrees=False,
+                        dry_run=False,
+                    )
+                    assert git(trunk, "branch", "--show-current") == primary
+                    if primary == "main":
+                        git(trunk, "worktree", "move", str(trunk), str(repo / "main"))
+                        trunk = repo / "main"
+                        local["_SYNCED_WORKTREE_COMMON_DIRS"].clear()
+                        sync_local(
+                            repo / "worktree.git",
+                            prune_branch_worktrees=False,
+                            dry_run=False,
+                        )
+                        assert not (repo / "trunk").exists()
                     # Existing stashes and the second branch must survive any failure.
                     (trunk / "file.txt").write_text("old stash\n")
                     git(trunk, "stash", "push", "-qm", "existing stash")

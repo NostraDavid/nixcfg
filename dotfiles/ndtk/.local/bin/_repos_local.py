@@ -814,8 +814,17 @@ def _sync_branch_worktrees(
         return
 
     expected_paths: set[Path] = set()
+    trunk_branch = "master" if "master" in remote_branches else "main"
     for branch in remote_branches:
-        target = branches_root / _sanitize_worktree_name(branch)
+        name = (
+            TRUNK_DIR_NAME
+            if branch == trunk_branch
+            else _sanitize_worktree_name(branch)
+        )
+        target = branches_root / name
+        existing = branches_root / _sanitize_worktree_name(branch)
+        if not target.exists() and (existing / ".git").exists():
+            target = existing
         expected_paths.add(target)
 
         bind_contextvars(branch=branch, worktree=str(target))

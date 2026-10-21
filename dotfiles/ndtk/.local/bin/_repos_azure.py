@@ -349,13 +349,14 @@ def unique_worktree_name(name: str, occupied: set[str], prefix: str) -> str:
     return candidate
 
 
-def branch_worktree_name(branch: str) -> str:
-    name = "trunk" if branch == "master" else sanitize_worktree_name(branch)
+def branch_worktree_name(branch: str, branches: list[str]) -> str:
+    trunk_branch = "master" if "master" in branches else "main"
+    name = "trunk" if branch == trunk_branch else sanitize_worktree_name(branch)
     return unique_worktree_name(name, set(), "branch")
 
 
 def tag_worktree_name(tag: str, branches: list[str]) -> str:
-    branch_names = {branch_worktree_name(branch) for branch in branches}
+    branch_names = {branch_worktree_name(branch, branches) for branch in branches}
     return unique_worktree_name(sanitize_worktree_name(tag), branch_names, "tag")
 
 
@@ -530,7 +531,13 @@ def ensure_branch_worktrees(
     updates_ok = True
 
     for branch in branches:
-        target = repo_root / branch_worktree_name(branch)
+        target = repo_root / branch_worktree_name(branch, branches)
+        if (
+            branch == "main"
+            and not target.exists()
+            and (repo_root / "main" / ".git").exists()
+        ):
+            target = repo_root / "main"
         expected.add(target)
         target.parent.mkdir(parents=True, exist_ok=True)
 
@@ -1085,9 +1092,12 @@ def run_tests(verbose: bool) -> int:
             )
 
         def test_reserved_worktree_name_is_protected(self) -> None:
-            self.assertEqual(branch_worktree_name("master"), "trunk")
+            self.assertEqual(branch_worktree_name("master", ["master"]), "trunk")
+            self.assertEqual(branch_worktree_name("main", ["main"]), "trunk")
+            self.assertEqual(branch_worktree_name("main", ["main", "master"]), "main")
             self.assertEqual(
-                branch_worktree_name("worktree.git"), "branch-worktree.git"
+                branch_worktree_name("worktree.git", ["worktree.git"]),
+                "branch-worktree.git",
             )
 
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(AzureReposTests)

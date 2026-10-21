@@ -52,13 +52,14 @@ def unique_worktree_name(name: str, occupied: set[str], prefix: str) -> str:
     return candidate
 
 
-def branch_worktree_name(branch: str) -> str:
-    name = "trunk" if branch == "master" else sanitize_worktree_name(branch)
+def branch_worktree_name(branch: str, branches: list[str]) -> str:
+    trunk_branch = "master" if "master" in branches else "main"
+    name = "trunk" if branch == trunk_branch else sanitize_worktree_name(branch)
     return unique_worktree_name(name, set(), "branch")
 
 
 def tag_worktree_name(tag: str, branches: list[str]) -> str:
-    branch_names = {branch_worktree_name(branch) for branch in branches}
+    branch_names = {branch_worktree_name(branch, branches) for branch in branches}
     return unique_worktree_name(sanitize_worktree_name(tag), branch_names, "tag")
 
 
@@ -330,8 +331,11 @@ def list_worktrees(
         branch_refs = list_branch_refs(bare_dir)
         tag_refs = list_tag_refs(bare_dir)
 
+    registered_branches = {choice.ref for choice in choices if choice.kind == "branch"}
     for branch in branch_refs:
-        path = repo_root / branch_worktree_name(branch)
+        if branch in registered_branches:
+            continue
+        path = repo_root / branch_worktree_name(branch, branch_refs)
         label = worktree_label(path, "branch", branch)
         append_choice(
             choices,
@@ -597,7 +601,7 @@ def create_worktree_from_branch(
         print(f"Branch already exists: {branch}", file=sys.stderr)
         return None
 
-    target = repo_root / branch_worktree_name(branch)
+    target = repo_root / branch_worktree_name(branch, list_branch_refs(bare_dir))
     if target.exists():
         print(f"Worktree path already exists: {target}", file=sys.stderr)
         return None
