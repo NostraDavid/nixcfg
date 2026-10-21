@@ -10,26 +10,26 @@
   assets = {
     x86_64-linux = {
       target = "linux-x64-baseline";
-      hash = "sha512-f239F2J8S+K6Pf6UaUfZNmH1NbAvz3iQZeBr6szHS+CwDlolIFPNvy04fny0cfCBWrpjsbTAeLe6S2g0LewkRw==";
+      hash = "sha512-rVKKaBzDun4euQH0/T752DWXJ6o0b/u11BncTTYSGBgekVzpK36GJjBjKHegtzqU5TLdATG40uSQxnKaKKstwA==";
     };
     aarch64-linux = {
       target = "linux-arm64";
-      hash = "sha512-bYp2n7rU2nhyFrc0A5WUL47gweU9j8xZk8fyp82BQBDmjgf5pbpg3G4R9IOaHDmMDMlzjl/+EC8eozM4DWkExw==";
+      hash = "sha512-294IA9S1sXOAzOBRPMcnFuYpXlFeUaKTlpTk0a7TMvuc7cJbfS52poTw3AlIu7ycbn8TGmTmj27OOxsMmBCLEg==";
     };
     aarch64-darwin = {
       target = "darwin-arm64";
-      hash = "sha512-1y6xEQuV+1Ins3gMSebg+eQsQF3ViLl426kgauwr4xWEcTLgpxpT690PIO9s0b0LAoRB9WlcH+kl0fK4SoUvmw==";
+      hash = "sha512-H8Nx7ksbHpd5u0Q9BQMj2Mt5vs+dC/t3AslxrmJDY5TZbPyHt6OKJ5TMJc6nQZAFKPrVFGOA+TdzQ9tU5qt6Sg==";
     };
     x86_64-darwin = {
       target = "darwin-x64-baseline";
-      hash = "sha512-a3QYR/jFeNweWBS6a7aebZJDjkWL3lTMn6Kr4DfEUhQklfOM9lcgUAc180dpvc1EvlyKicVDxEnj5EfSTs9uaQ==";
+      hash = "sha512-s3gu8lFo7/pEC+GP5QBvVXeqMj5ZwhraG5vL3Han2DV9v30/m6hjIgejS75wdb/Y5p0SWgrDOJM/ZAHb8vCj6A==";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported OpenCode v2 platform: ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "opencode-v2";
-    version = "2.1.0";
+    version = "2.1.2";
     src = fetchurl {
       url = "https://registry.npmjs.org/@opencode/cli-${asset.target}/-/cli-${asset.target}-${finalAttrs.version}.tgz";
       inherit (asset) hash;

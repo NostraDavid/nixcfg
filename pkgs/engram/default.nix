@@ -6,11 +6,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "engram";
-  version = "3.4.0";
+  version = "3.5.2";
 
   src = fetchurl {
     url = "https://github.com/Gentleman-Programming/engram/releases/download/v${finalAttrs.version}/engram_${finalAttrs.version}_linux_amd64.tar.gz";
-    hash = "sha256-cV/aYlVW5G1l3bRSa7f4ij/uUznKPETORMxlLxf6V/E=";
+    hash = "sha256-EGpDyo9DonwsJgpnhxUcO+bZHF7T1eRU5hQFJ635LgE=";
   };
 
   sourceRoot = ".";

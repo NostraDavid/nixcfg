@@ -36,12 +36,12 @@
 in
   python3Packages.buildPythonApplication rec {
     pname = "python-voiceio";
-    version = "1.9.2";
+    version = "1.10.0";
     pyproject = true;
 
     src = fetchurl {
-      url = "https://files.pythonhosted.org/packages/ef/08/b97ddaee353a046730a626a1aca576fdd3215dd4823316a0babb8e36bb83/python_voiceio-1.9.2.tar.gz";
-      hash = "sha256-siAHL46EoEcvPwnMPvUAgtyxzYMoifAjbYYBIS5rNw8=";
+      url = "https://files.pythonhosted.org/packages/44/8f/f72778f7a4fc17acc03a131a8111826710b431ccd3047c568bf09729762e/python_voiceio-1.10.0.tar.gz";
+      hash = "sha256-naJITLa+WNIMPuZWbgPhmo4JOKsA2FPXVxhXqaPUgMg=";
     };
 
     build-system = with python3Packages; [

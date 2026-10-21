@@ -8,11 +8,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "bend";
-  version = "2.0.37";
+  version = "2.0.38";
 
   src = fetchurl {
     url = "https://github.com/bendlang/bend/releases/download/v${finalAttrs.version}/bend-${finalAttrs.version}-linux-x64.tar.gz";
-    hash = "sha256-hMMkZaObyawxXq3iP0cMuNsDFT3IYPiVZPz+wVPD5EU=";
+    hash = "sha256-8Z0IiwecnhqINOzRU7fVjBGl+PmrG9t428lqa/SaqoE=";
   };
 
   nativeBuildInputs = [autoPatchelfHook makeWrapper];
