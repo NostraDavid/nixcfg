@@ -625,32 +625,6 @@ def ensure_tag_worktrees(
                 tag=tag,
             )
 
-        if worktree_is_dirty(target, git_configs):
-            logger.warning(
-                "worktree_tag_dirty_skip",
-                target=str(target),
-                tag=tag,
-                reason="local changes detected; skipping update to avoid data loss",
-            )
-            continue
-
-        checkout_proc = run_git(
-            ["checkout", "--detach", tag],
-            repo_path=target,
-            capture=True,
-            git_configs=git_configs,
-        )
-        if checkout_proc.returncode != 0:
-            reason = (
-                checkout_proc.stderr or checkout_proc.stdout or "git checkout failed"
-            ).strip()
-            return False, f"tag worktree update {tag}: {reason}", expected
-        logger.info(
-            "worktree_tag_update",
-            target=str(target),
-            tag=tag,
-        )
-
     return True, "tag worktrees synced", expected
 
 
@@ -885,6 +859,51 @@ def run_tests(verbose: bool) -> int:
     from unittest.mock import patch
 
     class AzureReposTests(unittest.TestCase):
+        def test_tag_worktrees_only_add_missing_tags(self) -> None:
+            with tempfile.TemporaryDirectory() as directory:
+                repo_root = Path(directory)
+                existing = repo_root / "v1"
+                existing.mkdir()
+                (existing / ".git").touch()
+                bare_dir = repo_root / BARE_REPO_DIR
+                with (
+                    patch(f"{__name__}.run_git") as checkout,
+                    patch(f"{__name__}.worktree_is_dirty") as dirty,
+                    patch(
+                        f"{__name__}.run_git_with_git_dir",
+                        return_value=subprocess.CompletedProcess([], 0, "", ""),
+                    ) as add,
+                    patch(f"{__name__}.logger.info") as log,
+                ):
+                    ok, reason, expected = ensure_tag_worktrees(
+                        bare_dir, repo_root, ["v1", "v2"], [], []
+                    )
+                self.assertTrue(ok, reason)
+                self.assertEqual(expected, {existing, repo_root / "v2"})
+                add.assert_called_once_with(
+                    ["worktree", "add", "--detach", str(repo_root / "v2"), "v2"],
+                    bare_dir,
+                    capture=True,
+                    git_configs=[],
+                )
+                checkout.assert_not_called()
+                dirty.assert_not_called()
+                log.assert_called_once_with(
+                    "worktree_tag_add", target=str(repo_root / "v2"), tag="v2"
+                )
+
+        def test_tag_worktree_rejects_existing_non_worktree(self) -> None:
+            with tempfile.TemporaryDirectory() as directory:
+                repo_root = Path(directory)
+                (repo_root / "v1").mkdir()
+                with patch(f"{__name__}.run_git_with_git_dir") as git:
+                    ok, reason, _ = ensure_tag_worktrees(
+                        repo_root / BARE_REPO_DIR, repo_root, ["v1"], [], []
+                    )
+                self.assertFalse(ok)
+                self.assertIn("not a git worktree", reason)
+                git.assert_not_called()
+
         def test_workers_default_and_override(self) -> None:
             self.assertEqual(parse_args(["clone"]).workers, 1)
             self.assertEqual(parse_args(["clone", "--workers", "1"]).workers, 1)
