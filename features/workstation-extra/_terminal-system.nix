@@ -18,7 +18,7 @@
       unstable.procs # Modern ps replacement
       unstable.util-linux # Portable subset on macOS
     ]
-    ++ lib.optionals unstable.stdenv.isLinux [
+    ++ lib.optionals unstable.stdenv.hostPlatform.isLinux [
       unstable.inotify-tools # File system event monitoring
       unstable.strace # System call tracer
     ];

@@ -30,7 +30,7 @@
       unstable.xq-xml # XML processor
       unstable.yq-go # YAML processor
     ]
-    ++ lib.optionals stable.stdenv.isLinux [
+    ++ lib.optionals stable.stdenv.hostPlatform.isLinux [
       # netcdf-cxx4 is marked broken on Darwin in the pinned nixpkgs.
       stable.nco
     ];
