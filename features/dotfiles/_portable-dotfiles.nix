@@ -20,6 +20,7 @@ in {
 
   home.file = forceAll {
     ".local/bin/clip".source = mk "${dot}/ndtk/.local/bin/clip.sh";
+    ".local/bin/zellij-workspace".source = mk "${dot}/ndtk/.local/bin/zellij-workspace.py";
     "AGENTS.md".source = mk "${dot}/agents/instructions/AGENTS.md";
     ".agents/instructions".source = mk "${dot}/agents/instructions";
     ".agents/audio-notify".source = mk "${dot}/agents/.agents/audio-notify";

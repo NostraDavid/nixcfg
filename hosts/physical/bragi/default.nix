@@ -62,6 +62,11 @@
       };
     };
     homeManager = {
+      config,
+      repoRoot,
+      ...
+    }: {
+      home.file.".local/bin/zellij-workspace".source = config.lib.file.mkOutOfStoreSymlink "${repoRoot}/dotfiles/ndtk/.local/bin/zellij-workspace.py";
       imports = [
         # These integrations declare options; host features select their settings.
         inputs.plasma-manager.homeModules.plasma-manager
