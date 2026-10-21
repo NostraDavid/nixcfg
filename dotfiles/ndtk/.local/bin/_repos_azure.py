@@ -199,6 +199,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "clone", help="Clone or update repositories and their worktrees."
     )
     parser.add_argument(
+        "--project",
+        help="Only clone/update repositories in this Azure project (exact name, case-insensitive).",
+    )
+    parser.add_argument(
         "--workers",
         type=int,
         default=DEFAULT_WORKERS,
@@ -882,6 +886,50 @@ def run_tests(verbose: bool) -> int:
     from unittest.mock import patch
 
     class AzureReposTests(unittest.TestCase):
+        def test_project_filter(self) -> None:
+            for requested, expected, code in (
+                ("nl-ttm-od", ["nl-ttm-od"], 0),
+                ("TDC-AA", ["tdc-aa"], 0),
+                ("missing", [], 1),
+            ):
+                with (
+                    self.subTest(project=requested),
+                    tempfile.TemporaryDirectory() as directory,
+                    patch.object(
+                        sys,
+                        "argv",
+                        [
+                            "repos azure",
+                            "clone",
+                            "--root",
+                            directory,
+                            "--project",
+                            requested,
+                        ],
+                    ),
+                    patch(f"{__name__}.configure_auth"),
+                    patch(
+                        f"{__name__}.get_projects",
+                        return_value=[
+                            {"id": name, "name": name}
+                            for name in ("other", "tdc-aa", "nl-ttm-od")
+                        ],
+                    ),
+                    patch(f"{__name__}.get_repos", return_value=[]) as repos,
+                    patch(f"{__name__}.summarize"),
+                    patch(f"{__name__}.logger.error") as error,
+                ):
+                    self.assertEqual(main(), code)
+                    self.assertEqual(
+                        [call.args[1] for call in repos.call_args_list], expected
+                    )
+                    if code:
+                        error.assert_called_once_with(
+                            "project_not_found", project=requested
+                        )
+                    else:
+                        error.assert_not_called()
+
         def test_priority_projects_are_processed_first(self) -> None:
             names = ["other-first", "tdc-aa", "other-last", "nl-ttm-od"]
             with (
@@ -1165,6 +1213,16 @@ def main() -> int:
         )
     except Exception as e:  # noqa: BLE001
         sys.exit(f"Failed to list projects: {e}")
+
+    if args.project:
+        projects = [
+            project
+            for project in projects
+            if project["name"].casefold() == args.project.casefold()
+        ]
+        if not projects:
+            logger.error("project_not_found", project=args.project)
+            return 1
 
     total_repos = 0
     successes = 0
