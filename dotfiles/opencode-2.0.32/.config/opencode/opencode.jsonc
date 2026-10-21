@@ -46,7 +46,8 @@
   ],
   "skills": [
     "~/.codex/skills",
-    "~/.codex/skills/.system"
+    "~/.codex/skills/.system",
+    "~/.codex/plugins/cache"
   ],
   "mcp": {
     "servers": {
