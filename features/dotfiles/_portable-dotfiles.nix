@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   repoRoot,
   ...
 }: let
@@ -42,6 +43,11 @@ in {
     ".config/markdownlint/config.yaml".source = mk "${dot}/markdownlint-cli-0.48.0/.config/markdownlint/config.yaml";
     ".config/ndtk/azure.env.example".source = mk "${dot}/ndtk/.config/ndtk/azure.env.example";
     ".config/nix/nix.conf".source = mk "${dot}/nix-2.34.8/.config/nix/nix.conf";
+    ".config/nix/nix.platform.conf".source = mk "${dot}/nix-2.34.8/.config/nix/nix.${
+      if pkgs.stdenv.hostPlatform.isDarwin
+      then "darwin"
+      else "linux"
+    }.conf";
     ".config/nvim/".source = mk "${dot}/neovim-0.11.2/.config/nvim";
     ".config/pip/pip.conf".source = mk "${dot}/pip-25.0.1/.config/pip/pip.conf";
     ".config/pypoetry/".source = mk "${dot}/pypoetry-2.1.3/.config/pypoetry";

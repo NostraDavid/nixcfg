@@ -24,6 +24,8 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  nixPlatformConfig = assert lib.all (home: lib.hasInfix "/nix.linux.conf" home.home.file.".config/nix/nix.platform.conf".source.buildCommand) [wodan mimir2 linuxWorkstation];
+  assert lib.all (home: lib.hasInfix "/nix.darwin.conf" home.home.file.".config/nix/nix.platform.conf".source.buildCommand) [loki darwinWorkstation]; true;
   locatePackages = assert lib.all (home: let
     packages = builtins.filter (p: (p.pname or "") == "plocate") home.home.packages;
   in
