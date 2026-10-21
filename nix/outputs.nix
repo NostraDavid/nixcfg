@@ -78,9 +78,9 @@ in {
     devShells.default = stable.mkShell {
       # Tools needed before the first Home Manager activation.
       packages = [
-        unstable.git
-        unstable.git-lfs
-        unstable.just
+        stable.git
+        stable.git-lfs
+        stable.just
       ];
 
       shellHook = ''
