@@ -1,6 +1,11 @@
 _: {
   den.aspects.common-tooling = {
-    homeManager = {unstable, ...}: {
+    homeManager = {
+      stable,
+      local,
+      unstable,
+      ...
+    }: {
       home.packages = with unstable; [
         actionlint
         hurl
@@ -10,6 +15,12 @@ _: {
         nvd
         sqruff
         watchexec
+        local.espeak-ng
+        (stable.piper-tts.override {
+          withAlignment = false;
+          withHTTP = false;
+          withTrain = false;
+        })
       ];
     };
   };

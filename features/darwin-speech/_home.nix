@@ -8,11 +8,6 @@
   dot = "${repoRoot}/dotfiles";
   mk = config.lib.file.mkOutOfStoreSymlink;
   espeak = stable.callPackage ../../pkgs/espeak-ng {};
-  piper = stable.piper-tts.override {
-    withAlignment = false;
-    withHTTP = false;
-    withTrain = false;
-  };
   mbrolaNl2 = stable.mbrola-voices.override {
     languages = [
       "nl2"
@@ -21,8 +16,6 @@
 in {
   config = lib.mkIf stable.stdenv.hostPlatform.isDarwin {
     home.packages = [
-      espeak
-      piper
       stable.coreutils
       stable.gnused
     ];
