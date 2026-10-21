@@ -16,11 +16,13 @@ buildNpmPackage (finalAttrs: {
   # Upstream omits registry URLs from its shrinkwrap. Use a normalized lockfile
   # so Nix can fetch every dependency reproducibly.
   postPatch = ''
+    substituteInPlace package.json \
+      --replace-fail '"follow-redirects": "1.16.0"' '"follow-redirects": "1.16.1"'
     cp ${./package-lock.json} package-lock.json
     rm npm-shrinkwrap.json
   '';
 
-  npmDepsHash = "sha256-T+cRMydvmwlCpsSVYhrzLvY28QeZZjslLQlzqtbP880=";
+  npmDepsHash = "sha256-d5Iw+5w2O2i073d+BKtMyOak8W7IQyhPcs4rwZv5zeY=";
   npmConfigProduction = true;
   npmFlags = ["--omit=dev"];
   dontNpmBuild = true;
