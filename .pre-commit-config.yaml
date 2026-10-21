@@ -29,6 +29,13 @@ repos:
         files: '^(scripts/bootstrap-host\.sh|checks/test-bootstrap-host\.sh|hosts/default\.nix)$'
         pass_filenames: false
 
+      - id: check-user-locate
+        name: check user-owned plocate database
+        entry: bash checks/test-user-locate.sh
+        language: system
+        files: '^(features/terminal/|dotfiles/plocate/|pkgs/plocate-xnu/|checks/(user-locate\.nix|test-user-locate\.sh|tooling\.nix)$)'
+        pass_filenames: false
+
       - id: check-nix-index
         name: check initial nix-index generation
         entry: bash checks/test-nix-index.sh

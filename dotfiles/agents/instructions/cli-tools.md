@@ -43,7 +43,16 @@ the pinned unstable nixpkgs for the host platform. The database directory is
 - `mlr` (Miller), `csvkit`, `jq`, `xmllint`, `xq`, `yq`, `duckdb`, `sqlite3`,
   and `zsv` are in the NixOS terminal profile.
 - The workstation add-on adds `kcat`, `parquet-tools`, `xan`, and `psql`.
-- For global file lookup, use `plocate`; inside a repository, prefer `rg`.
+- For global file lookup, use `locate` or `plocate`; inside a repository, prefer
+  `rg`.
+- After activating the per-user plocate configuration, run `updatedb` without
+  `sudo` when the index is missing or stale. Both search commands use the same
+  private database, normally `~/.cache/plocate/plocate.db`.
+
+The user measured `sudo time updatedb` on Wodan at 37.66 seconds elapsed, 25.33
+seconds user CPU and 12.16 seconds system CPU. Budget about a minute for an
+update and allow longer runs to finish. This privileged scan is a reference; the
+per-user scan and other machines can take a different amount of time.
 
 ## Build and verify
 

@@ -202,6 +202,14 @@
         ],
         [
           "features/terminal/default.nix",
+          "features/terminal/_config.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_locate.nix"
+        ],
+        [
+          "features/terminal/default.nix",
           "features/terminal/_packages.nix"
         ],
         [
@@ -298,6 +306,8 @@
           "features/server-locale/default.nix",
           "features/server-nix/default.nix",
           "features/storage-optimization/default.nix",
+          "features/terminal/_config.nix",
+          "features/terminal/_locate.nix",
           "features/terminal/_packages.nix",
           "features/terminal/default.nix",
           "features/whatpulse/_home.nix",
@@ -407,6 +417,8 @@
         "features/server-locale/default.nix",
         "features/server-nix/default.nix",
         "features/storage-optimization/default.nix",
+        "features/terminal/_config.nix",
+        "features/terminal/_locate.nix",
         "features/terminal/_packages.nix",
         "features/terminal/default.nix",
         "features/whatpulse/_home.nix",
@@ -694,6 +706,10 @@
           ],
           [
             "interactive",
+            "locate"
+          ],
+          [
+            "interactive",
             "mcp"
           ],
           [
@@ -793,6 +809,10 @@
             "id": "keyboard"
           },
           {
+            "file": "features/terminal/default.nix",
+            "id": "locate"
+          },
+          {
             "file": "features/location/default.nix",
             "id": "location"
           },
@@ -865,6 +885,10 @@
           "features/nix-index/_home.nix"
         ],
         [
+          "features/terminal/default.nix",
+          "features/terminal/_locate.nix"
+        ],
+        [
           "hosts/physical/bragi/default.nix",
           "hosts/physical/bragi/hardware-configuration.nix"
         ]
@@ -890,6 +914,7 @@
           "features/nix-index/default.nix",
           "features/nixos-base/default.nix",
           "features/storage-optimization/default.nix",
+          "features/terminal/default.nix",
           "hosts/physical/bragi/default.nix",
           "profiles/desktop-base.nix",
           "profiles/interactive.nix"
@@ -912,6 +937,8 @@
           "features/mcp/default.nix",
           "features/nix-index/_home.nix",
           "features/nix-index/default.nix",
+          "features/terminal/_locate.nix",
+          "features/terminal/default.nix",
           "hosts/physical/bragi/default.nix"
         ],
         "system": [
@@ -955,6 +982,8 @@
         "features/nix-index/default.nix",
         "features/nixos-base/default.nix",
         "features/storage-optimization/default.nix",
+        "features/terminal/_locate.nix",
+        "features/terminal/default.nix",
         "hosts/physical/bragi/default.nix",
         "hosts/physical/bragi/hardware-configuration.nix"
       ],
@@ -975,6 +1004,7 @@
         "features/nix-index/default.nix",
         "features/nixos-base/default.nix",
         "features/storage-optimization/default.nix",
+        "features/terminal/default.nix",
         "hosts/physical/bragi/default.nix"
       ]
     },
@@ -1083,6 +1113,10 @@
           ],
           [
             "interactive",
+            "locate"
+          ],
+          [
+            "interactive",
             "mcp"
           ],
           [
@@ -1136,6 +1170,10 @@
           [
             "terminal",
             "terminal-core"
+          ],
+          [
+            "terminal-core",
+            "locate"
           ],
           [
             "workstation-base",
@@ -1300,6 +1338,10 @@
           {
             "file": "features/laptop/default.nix",
             "id": "laptop"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "locate"
           },
           {
             "file": "features/location/default.nix",
@@ -1515,6 +1557,10 @@
         ],
         [
           "features/terminal/default.nix",
+          "features/terminal/_locate.nix"
+        ],
+        [
+          "features/terminal/default.nix",
           "features/terminal/_packages.nix"
         ],
         [
@@ -1614,6 +1660,7 @@
           "features/terminal/_archives.nix",
           "features/terminal/_config.nix",
           "features/terminal/_data.nix",
+          "features/terminal/_locate.nix",
           "features/terminal/_network.nix",
           "features/terminal/_packages.nix",
           "features/terminal/_shell.nix",
@@ -1637,7 +1684,6 @@
           "features/nixos-base/default.nix",
           "features/plasma/default.nix",
           "features/storage-optimization/default.nix",
-          "features/terminal/default.nix",
           "features/whatpulse/default.nix",
           "features/workstation-runtime/default.nix",
           "hosts/physical/donar/default.nix",
@@ -1701,6 +1747,7 @@
         "features/terminal/_archives.nix",
         "features/terminal/_config.nix",
         "features/terminal/_data.nix",
+        "features/terminal/_locate.nix",
         "features/terminal/_network.nix",
         "features/terminal/_packages.nix",
         "features/terminal/_shell.nix",
@@ -2058,6 +2105,10 @@
           ],
           [
             "interactive",
+            "locate"
+          ],
+          [
+            "interactive",
             "mcp"
           ],
           [
@@ -2111,6 +2162,10 @@
           [
             "terminal",
             "terminal-core"
+          ],
+          [
+            "terminal-core",
+            "locate"
           ],
           [
             "workstation-base",
@@ -2259,6 +2314,10 @@
           {
             "file": "features/laptop/default.nix",
             "id": "laptop"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "locate"
           },
           {
             "file": "features/location/default.nix",
@@ -2438,6 +2497,10 @@
         ],
         [
           "features/terminal/default.nix",
+          "features/terminal/_locate.nix"
+        ],
+        [
+          "features/terminal/default.nix",
           "features/terminal/_packages.nix"
         ],
         [
@@ -2523,6 +2586,7 @@
           "features/terminal/_archives.nix",
           "features/terminal/_config.nix",
           "features/terminal/_data.nix",
+          "features/terminal/_locate.nix",
           "features/terminal/_network.nix",
           "features/terminal/_packages.nix",
           "features/terminal/_shell.nix",
@@ -2543,7 +2607,6 @@
           "features/nixos-base/default.nix",
           "features/plasma/default.nix",
           "features/storage-optimization/default.nix",
-          "features/terminal/default.nix",
           "features/workstation-runtime/default.nix",
           "hosts/physical/frigg/default.nix",
           "hosts/physical/frigg/hardware-configuration.nix"
@@ -2599,6 +2662,7 @@
         "features/terminal/_archives.nix",
         "features/terminal/_config.nix",
         "features/terminal/_data.nix",
+        "features/terminal/_locate.nix",
         "features/terminal/_network.nix",
         "features/terminal/_packages.nix",
         "features/terminal/_shell.nix",
@@ -2986,6 +3050,10 @@
           ],
           [
             "interactive",
+            "locate"
+          ],
+          [
+            "interactive",
             "mcp"
           ],
           [
@@ -3039,6 +3107,10 @@
           [
             "terminal",
             "terminal-core"
+          ],
+          [
+            "terminal-core",
+            "locate"
           ],
           [
             "workstation-base",
@@ -3203,6 +3275,10 @@
           {
             "file": "features/keyboard/default.nix",
             "id": "keyboard"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "locate"
           },
           {
             "file": "features/location/default.nix",
@@ -3430,6 +3506,10 @@
         ],
         [
           "features/terminal/default.nix",
+          "features/terminal/_locate.nix"
+        ],
+        [
+          "features/terminal/default.nix",
           "features/terminal/_packages.nix"
         ],
         [
@@ -3532,6 +3612,7 @@
           "features/terminal/_archives.nix",
           "features/terminal/_config.nix",
           "features/terminal/_data.nix",
+          "features/terminal/_locate.nix",
           "features/terminal/_network.nix",
           "features/terminal/_packages.nix",
           "features/terminal/_shell.nix",
@@ -3555,7 +3636,6 @@
           "features/nvidia-workstation/default.nix",
           "features/plasma/default.nix",
           "features/storage-optimization/default.nix",
-          "features/terminal/default.nix",
           "features/whatpulse/default.nix",
           "features/workstation-runtime/default.nix",
           "hosts/physical/wodan/default.nix",
@@ -3621,6 +3701,7 @@
         "features/terminal/_archives.nix",
         "features/terminal/_config.nix",
         "features/terminal/_data.nix",
+        "features/terminal/_locate.nix",
         "features/terminal/_network.nix",
         "features/terminal/_packages.nix",
         "features/terminal/_shell.nix",
@@ -3698,6 +3779,10 @@
           ],
           [
             "interactive",
+            "locate"
+          ],
+          [
+            "interactive",
             "mcp"
           ],
           [
@@ -3759,6 +3844,10 @@
           [
             "portable-home",
             "terminal-core"
+          ],
+          [
+            "terminal-core",
+            "locate"
           ]
         ],
         "kind": "Darwin",
@@ -3807,6 +3896,10 @@
           {
             "file": "features/internal-pki/default.nix",
             "id": "internal-pki"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "locate"
           },
           {
             "file": "features/mcp/default.nix",
@@ -3911,6 +4004,10 @@
         [
           "features/terminal/default.nix",
           "features/terminal/_config.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_locate.nix"
         ]
       ],
       "id": "Darwin:loki",
@@ -3960,6 +4057,7 @@
           "features/portable-runtime/_home.nix",
           "features/portable-runtime/default.nix",
           "features/terminal/_config.nix",
+          "features/terminal/_locate.nix",
           "features/terminal/default.nix",
           "hosts/physical/loki/default.nix"
         ],
@@ -3968,7 +4066,6 @@
           "features/darwin-keyboard/_darwin.nix",
           "features/darwin-keyboard/default.nix",
           "features/internal-pki/default.nix",
-          "features/terminal/default.nix",
           "features/window-management/default.nix",
           "hosts/physical/loki/default.nix"
         ]
@@ -3998,6 +4095,7 @@
         "features/portable-runtime/_home.nix",
         "features/portable-runtime/default.nix",
         "features/terminal/_config.nix",
+        "features/terminal/_locate.nix",
         "features/terminal/default.nix",
         "features/window-management/default.nix",
         "hosts/physical/loki/default.nix"
@@ -4040,6 +4138,10 @@
           [
             "interactive",
             "common-tooling"
+          ],
+          [
+            "interactive",
+            "locate"
           ],
           [
             "interactive",
@@ -4104,6 +4206,10 @@
           [
             "portable-home",
             "terminal-core"
+          ],
+          [
+            "terminal-core",
+            "locate"
           ]
         ],
         "kind": "Home Manager",
@@ -4148,6 +4254,10 @@
           {
             "file": "features/internal-pki/default.nix",
             "id": "internal-pki"
+          },
+          {
+            "file": "features/terminal/default.nix",
+            "id": "locate"
           },
           {
             "file": "features/mcp/default.nix",
@@ -4240,6 +4350,10 @@
         [
           "features/terminal/default.nix",
           "features/terminal/_config.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_locate.nix"
         ]
       ],
       "id": "Home Manager:mimir2",
@@ -4285,6 +4399,7 @@
           "features/portable-runtime/_home.nix",
           "features/portable-runtime/default.nix",
           "features/terminal/_config.nix",
+          "features/terminal/_locate.nix",
           "features/terminal/default.nix",
           "hosts/physical/mimir2/default.nix"
         ],
@@ -4312,6 +4427,7 @@
         "features/portable-runtime/_home.nix",
         "features/portable-runtime/default.nix",
         "features/terminal/_config.nix",
+        "features/terminal/_locate.nix",
         "features/terminal/default.nix",
         "hosts/physical/mimir2/default.nix"
       ],
@@ -4383,6 +4499,10 @@
         [
           "features/terminal/default.nix",
           "features/terminal/_config.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_locate.nix"
         ],
         [
           "features/workstation-extra/_default.nix",
@@ -4484,6 +4604,7 @@
           "features/portable-runtime/_home.nix",
           "features/portable-runtime/default.nix",
           "features/terminal/_config.nix",
+          "features/terminal/_locate.nix",
           "features/terminal/default.nix",
           "features/workstation-extra/_default.nix",
           "features/workstation-extra/_development-core.nix",
@@ -4530,6 +4651,7 @@
         "features/portable-runtime/_home.nix",
         "features/portable-runtime/default.nix",
         "features/terminal/_config.nix",
+        "features/terminal/_locate.nix",
         "features/terminal/default.nix",
         "features/workstation-extra/_default.nix",
         "features/workstation-extra/_development-core.nix",
@@ -4627,6 +4749,10 @@
         [
           "features/terminal/default.nix",
           "features/terminal/_config.nix"
+        ],
+        [
+          "features/terminal/default.nix",
+          "features/terminal/_locate.nix"
         ],
         [
           "features/workstation-extra/_default.nix",
@@ -4730,6 +4856,7 @@
           "features/portable-runtime/_home.nix",
           "features/portable-runtime/default.nix",
           "features/terminal/_config.nix",
+          "features/terminal/_locate.nix",
           "features/terminal/default.nix",
           "features/workstation-extra/_default.nix",
           "features/workstation-extra/_development-core.nix",
@@ -4756,7 +4883,6 @@
           "features/darwin-keyboard/_darwin.nix",
           "features/darwin-keyboard/default.nix",
           "features/internal-pki/default.nix",
-          "features/terminal/default.nix",
           "features/window-management/default.nix",
           "hosts/physical/loki/default.nix"
         ]
@@ -4787,6 +4913,7 @@
         "features/portable-runtime/_home.nix",
         "features/portable-runtime/default.nix",
         "features/terminal/_config.nix",
+        "features/terminal/_locate.nix",
         "features/terminal/default.nix",
         "features/window-management/default.nix",
         "features/workstation-extra/_default.nix",
@@ -6293,6 +6420,7 @@
     {
       "children": [],
       "contexts": [
+        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan",
@@ -6326,6 +6454,29 @@
       ],
       "path": "features/terminal/_data.nix",
       "sha256": "8bbc40b98eb69620d1dcdcc8f11603d73662d32823b1517b1e58d1620b7ed9da",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "kind": "feature",
+      "lines": 76,
+      "merge_into": null,
+      "parents": [
+        "features/terminal/default.nix"
+      ],
+      "path": "features/terminal/_locate.nix",
+      "sha256": "f0118e1ae75535ba1597a44bf7615cfbfe688664c35857356f4c6155969834c1",
       "status": "used"
     },
     {
@@ -6406,10 +6557,12 @@
     {
       "children": [
         "features/terminal/_config.nix",
+        "features/terminal/_locate.nix",
         "features/terminal/_packages.nix"
       ],
       "contexts": [
         "wiring:Registered Den aspects",
+        "NixOS:bragi",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan",
@@ -6419,11 +6572,11 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 56,
+      "lines": 23,
       "merge_into": null,
       "parents": [],
       "path": "features/terminal/default.nix",
-      "sha256": "4daaa8249ac2b498cfc1b7e43c05dd4484bbcfbbdfeda8ddf68607ede221faad",
+      "sha256": "f1fc6cf831c208fb28426d5ae9b333810be0c54647d1ff1d69699ea42941d379",
       "status": "used"
     },
     {
@@ -7323,11 +7476,11 @@
         "Home Manager:mimir2"
       ],
       "kind": "profile",
-      "lines": 11,
+      "lines": 12,
       "merge_into": null,
       "parents": [],
       "path": "profiles/interactive.nix",
-      "sha256": "b0123b7e0219790212a5ef133b24c3ec8b0454fa23cf60f405e67330ea6b28bc",
+      "sha256": "95c23be7adb48faf8dab32a4be41aeeb3b0b701c23d99dc0afba86da0621acf9",
       "status": "used"
     },
     {
@@ -8374,6 +8527,16 @@
           "name": "playwright-mcp",
           "origin": "home:david",
           "version": "0.0.83"
+        },
+        {
+          "name": "plocate",
+          "origin": "home:david",
+          "version": "1.1.24"
+        },
+        {
+          "name": "plocate-user-commands",
+          "origin": "home:david",
+          "version": ""
         },
         {
           "name": "polkit",
@@ -10502,9 +10665,9 @@
           "version": "1.1.24"
         },
         {
-          "name": "plocate",
-          "origin": "system",
-          "version": "1.1.24"
+          "name": "plocate-user-commands",
+          "origin": "home:david",
+          "version": ""
         },
         {
           "name": "pngcheck",
@@ -14015,9 +14178,9 @@
           "version": "1.1.24"
         },
         {
-          "name": "plocate",
-          "origin": "system",
-          "version": "1.1.24"
+          "name": "plocate-user-commands",
+          "origin": "home:david",
+          "version": ""
         },
         {
           "name": "pngcheck",
@@ -15597,6 +15760,11 @@
           "version": "1.1.24-unstable-2025-03-11"
         },
         {
+          "name": "plocate-user-commands",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "qartez",
           "origin": "home:david",
           "version": "0.11.0"
@@ -15981,6 +16149,11 @@
           "name": "plocate",
           "origin": "home:david",
           "version": "1.1.24"
+        },
+        {
+          "name": "plocate-user-commands",
+          "origin": "home:david",
+          "version": ""
         },
         {
           "name": "qartez",
@@ -18510,9 +18683,9 @@
           "version": "1.1.24"
         },
         {
-          "name": "plocate",
-          "origin": "system",
-          "version": "1.1.24"
+          "name": "plocate-user-commands",
+          "origin": "home:david",
+          "version": ""
         },
         {
           "name": "pngcheck",

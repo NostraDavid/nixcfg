@@ -26,20 +26,20 @@ A failed evaluation stops generation; partial results never replace the snapshot
 | Context | Kind | Imported local files |
 | --- | --- | ---: |
 | Flake wiring | wiring | 6 |
-| Registered Den aspects | wiring | 106 |
+| Registered Den aspects | wiring | 108 |
 | apps | NixOS | 10 |
-| bragi | NixOS | 27 |
-| donar | NixOS | 66 |
+| bragi | NixOS | 29 |
+| donar | NixOS | 67 |
 | forgejo | NixOS | 9 |
 | forgejo-lab | NixOS | 8 |
-| frigg | NixOS | 57 |
+| frigg | NixOS | 58 |
 | homepage | NixOS | 9 |
 | proxy | NixOS | 7 |
-| wodan | NixOS | 68 |
-| loki | Darwin | 27 |
-| mimir2 | Home Manager | 23 |
-| mimir2 + workstation | optional | 42 |
-| loki + workstation | optional | 46 |
+| wodan | NixOS | 69 |
+| loki | Darwin | 28 |
+| mimir2 | Home Manager | 24 |
+| mimir2 + workstation | optional | 43 |
+| loki + workstation | optional | 47 |
 
 ## Software overlap
 
@@ -53,16 +53,16 @@ Dependencies, service-only packages, manual installations and external work prof
 | Machine | Unique configured package names |
 | --- | ---: |
 | apps | 85 |
-| bragi | 131 |
-| donar | 546 |
+| bragi | 133 |
+| donar | 547 |
 | forgejo | 84 |
 | forgejo-lab | 81 |
-| frigg | 496 |
+| frigg | 497 |
 | homepage | 85 |
-| loki | 84 |
-| mimir2 | 76 |
+| loki | 85 |
+| mimir2 | 77 |
 | proxy | 83 |
-| wodan | 561 |
+| wodan | 562 |
 
 ## Entry points
 
@@ -71,7 +71,7 @@ Only direct local roots appear here. The HTML contains every local import edge.
 ```mermaid
 flowchart LR
   c0["Flake wiring"]
-  c0 --> m105["flake.nix"]
+  c0 --> m106["flake.nix"]
   c1["Registered Den aspects"]
   c1 --> m0["features/annotation/default.nix"]
   c1 --> m1["features/boot/default.nix"]
@@ -112,32 +112,32 @@ flowchart LR
   c1 --> m74["features/server-locale/default.nix"]
   c1 --> m75["features/server-nix/default.nix"]
   c1 --> m76["features/storage-optimization/default.nix"]
-  c1 --> m84["features/terminal/default.nix"]
-  c1 --> m86["features/whatpulse/default.nix"]
-  c1 --> m87["features/window-management/default.nix"]
-  c1 --> m103["features/workstation-extra/default.nix"]
-  c1 --> m104["features/workstation-runtime/default.nix"]
-  c1 --> m107["hosts/physical/bragi/default.nix"]
-  c1 --> m109["hosts/physical/donar/default.nix"]
-  c1 --> m111["hosts/physical/frigg/default.nix"]
-  c1 --> m113["hosts/physical/loki/default.nix"]
-  c1 --> m114["hosts/physical/mimir2/default.nix"]
-  c1 --> m117["hosts/physical/wodan/default.nix"]
-  c1 --> m119["hosts/virtual/apps/default.nix"]
-  c1 --> m121["hosts/virtual/forgejo-lab/default.nix"]
-  c1 --> m122["hosts/virtual/forgejo/default.nix"]
-  c1 --> m123["hosts/virtual/homepage/default.nix"]
-  c1 --> m125["hosts/virtual/proxy/default.nix"]
-  c1 --> m139["profiles/desktop-base.nix"]
-  c1 --> m140["profiles/desktop.nix"]
-  c1 --> m141["profiles/full-workstation.nix"]
-  c1 --> m142["profiles/i3-workstation.nix"]
-  c1 --> m143["profiles/interactive.nix"]
-  c1 --> m144["profiles/kde-workstation.nix"]
-  c1 --> m145["profiles/portable-home.nix"]
-  c1 --> m146["profiles/proxmox-guest.nix"]
-  c1 --> m147["profiles/workstation-base.nix"]
-  c1 --> m148["profiles/workstation.nix"]
+  c1 --> m85["features/terminal/default.nix"]
+  c1 --> m87["features/whatpulse/default.nix"]
+  c1 --> m88["features/window-management/default.nix"]
+  c1 --> m104["features/workstation-extra/default.nix"]
+  c1 --> m105["features/workstation-runtime/default.nix"]
+  c1 --> m108["hosts/physical/bragi/default.nix"]
+  c1 --> m110["hosts/physical/donar/default.nix"]
+  c1 --> m112["hosts/physical/frigg/default.nix"]
+  c1 --> m114["hosts/physical/loki/default.nix"]
+  c1 --> m115["hosts/physical/mimir2/default.nix"]
+  c1 --> m118["hosts/physical/wodan/default.nix"]
+  c1 --> m120["hosts/virtual/apps/default.nix"]
+  c1 --> m122["hosts/virtual/forgejo-lab/default.nix"]
+  c1 --> m123["hosts/virtual/forgejo/default.nix"]
+  c1 --> m124["hosts/virtual/homepage/default.nix"]
+  c1 --> m126["hosts/virtual/proxy/default.nix"]
+  c1 --> m140["profiles/desktop-base.nix"]
+  c1 --> m141["profiles/desktop.nix"]
+  c1 --> m142["profiles/full-workstation.nix"]
+  c1 --> m143["profiles/i3-workstation.nix"]
+  c1 --> m144["profiles/interactive.nix"]
+  c1 --> m145["profiles/kde-workstation.nix"]
+  c1 --> m146["profiles/portable-home.nix"]
+  c1 --> m147["profiles/proxmox-guest.nix"]
+  c1 --> m148["profiles/workstation-base.nix"]
+  c1 --> m149["profiles/workstation.nix"]
   c2["apps"]
   c2 --> m4["features/cachix/default.nix"]
   c2 --> m45["features/internal-pki/default.nix"]
@@ -146,7 +146,7 @@ flowchart LR
   c2 --> m73["features/selfhosted-apps/default.nix"]
   c2 --> m74["features/server-locale/default.nix"]
   c2 --> m75["features/server-nix/default.nix"]
-  c2 --> m119["hosts/virtual/apps/default.nix"]
+  c2 --> m120["hosts/virtual/apps/default.nix"]
   c3["bragi"]
   c3 --> m0["features/annotation/default.nix"]
   c3 --> m1["features/boot/default.nix"]
@@ -164,7 +164,8 @@ flowchart LR
   c3 --> m64["features/nix-index/default.nix"]
   c3 --> m65["features/nixos-base/default.nix"]
   c3 --> m76["features/storage-optimization/default.nix"]
-  c3 --> m107["hosts/physical/bragi/default.nix"]
+  c3 --> m85["features/terminal/default.nix"]
+  c3 --> m108["hosts/physical/bragi/default.nix"]
   c4["donar"]
   c4 --> m0["features/annotation/default.nix"]
   c4 --> m1["features/boot/default.nix"]
@@ -191,10 +192,10 @@ flowchart LR
   c4 --> m65["features/nixos-base/default.nix"]
   c4 --> m68["features/plasma/default.nix"]
   c4 --> m76["features/storage-optimization/default.nix"]
-  c4 --> m84["features/terminal/default.nix"]
-  c4 --> m86["features/whatpulse/default.nix"]
-  c4 --> m104["features/workstation-runtime/default.nix"]
-  c4 --> m109["hosts/physical/donar/default.nix"]
+  c4 --> m85["features/terminal/default.nix"]
+  c4 --> m87["features/whatpulse/default.nix"]
+  c4 --> m105["features/workstation-runtime/default.nix"]
+  c4 --> m110["hosts/physical/donar/default.nix"]
   c5["forgejo"]
   c5 --> m4["features/cachix/default.nix"]
   c5 --> m34["features/forgejo/default.nix"]
@@ -203,7 +204,7 @@ flowchart LR
   c5 --> m71["features/proxmox-vm/default.nix"]
   c5 --> m74["features/server-locale/default.nix"]
   c5 --> m75["features/server-nix/default.nix"]
-  c5 --> m122["hosts/virtual/forgejo/default.nix"]
+  c5 --> m123["hosts/virtual/forgejo/default.nix"]
   c6["forgejo-lab"]
   c6 --> m4["features/cachix/default.nix"]
   c6 --> m34["features/forgejo/default.nix"]
@@ -211,7 +212,7 @@ flowchart LR
   c6 --> m65["features/nixos-base/default.nix"]
   c6 --> m74["features/server-locale/default.nix"]
   c6 --> m75["features/server-nix/default.nix"]
-  c6 --> m121["hosts/virtual/forgejo-lab/default.nix"]
+  c6 --> m122["hosts/virtual/forgejo-lab/default.nix"]
   c7["frigg"]
   c7 --> m0["features/annotation/default.nix"]
   c7 --> m1["features/boot/default.nix"]
@@ -237,9 +238,9 @@ flowchart LR
   c7 --> m65["features/nixos-base/default.nix"]
   c7 --> m68["features/plasma/default.nix"]
   c7 --> m76["features/storage-optimization/default.nix"]
-  c7 --> m84["features/terminal/default.nix"]
-  c7 --> m104["features/workstation-runtime/default.nix"]
-  c7 --> m111["hosts/physical/frigg/default.nix"]
+  c7 --> m85["features/terminal/default.nix"]
+  c7 --> m105["features/workstation-runtime/default.nix"]
+  c7 --> m112["hosts/physical/frigg/default.nix"]
   c8["homepage"]
   c8 --> m4["features/cachix/default.nix"]
   c8 --> m40["features/homepage/default.nix"]
@@ -248,7 +249,7 @@ flowchart LR
   c8 --> m71["features/proxmox-vm/default.nix"]
   c8 --> m74["features/server-locale/default.nix"]
   c8 --> m75["features/server-nix/default.nix"]
-  c8 --> m123["hosts/virtual/homepage/default.nix"]
+  c8 --> m124["hosts/virtual/homepage/default.nix"]
   c9["proxy"]
   c9 --> m4["features/cachix/default.nix"]
   c9 --> m45["features/internal-pki/default.nix"]
@@ -256,7 +257,7 @@ flowchart LR
   c9 --> m71["features/proxmox-vm/default.nix"]
   c9 --> m74["features/server-locale/default.nix"]
   c9 --> m75["features/server-nix/default.nix"]
-  c9 --> m125["hosts/virtual/proxy/default.nix"]
+  c9 --> m126["hosts/virtual/proxy/default.nix"]
   c10["wodan"]
   c10 --> m0["features/annotation/default.nix"]
   c10 --> m1["features/boot/default.nix"]
@@ -284,10 +285,10 @@ flowchart LR
   c10 --> m66["features/nvidia-workstation/default.nix"]
   c10 --> m68["features/plasma/default.nix"]
   c10 --> m76["features/storage-optimization/default.nix"]
-  c10 --> m84["features/terminal/default.nix"]
-  c10 --> m86["features/whatpulse/default.nix"]
-  c10 --> m104["features/workstation-runtime/default.nix"]
-  c10 --> m117["hosts/physical/wodan/default.nix"]
+  c10 --> m85["features/terminal/default.nix"]
+  c10 --> m87["features/whatpulse/default.nix"]
+  c10 --> m105["features/workstation-runtime/default.nix"]
+  c10 --> m118["hosts/physical/wodan/default.nix"]
   c11["loki"]
   c11 --> m0["features/annotation/default.nix"]
   c11 --> m7["features/common-tooling/default.nix"]
@@ -299,9 +300,9 @@ flowchart LR
   c11 --> m56["features/mcp/default.nix"]
   c11 --> m64["features/nix-index/default.nix"]
   c11 --> m70["features/portable-runtime/default.nix"]
-  c11 --> m84["features/terminal/default.nix"]
-  c11 --> m87["features/window-management/default.nix"]
-  c11 --> m113["hosts/physical/loki/default.nix"]
+  c11 --> m85["features/terminal/default.nix"]
+  c11 --> m88["features/window-management/default.nix"]
+  c11 --> m114["hosts/physical/loki/default.nix"]
   c12["mimir2"]
   c12 --> m0["features/annotation/default.nix"]
   c12 --> m7["features/common-tooling/default.nix"]
@@ -312,8 +313,8 @@ flowchart LR
   c12 --> m56["features/mcp/default.nix"]
   c12 --> m64["features/nix-index/default.nix"]
   c12 --> m70["features/portable-runtime/default.nix"]
-  c12 --> m84["features/terminal/default.nix"]
-  c12 --> m114["hosts/physical/mimir2/default.nix"]
+  c12 --> m85["features/terminal/default.nix"]
+  c12 --> m115["hosts/physical/mimir2/default.nix"]
   c13["mimir2 + workstation"]
   c13 --> m0["features/annotation/default.nix"]
   c13 --> m7["features/common-tooling/default.nix"]
@@ -323,9 +324,9 @@ flowchart LR
   c13 --> m56["features/mcp/default.nix"]
   c13 --> m64["features/nix-index/default.nix"]
   c13 --> m70["features/portable-runtime/default.nix"]
-  c13 --> m84["features/terminal/default.nix"]
-  c13 --> m105["flake.nix"]
-  c13 --> m114["hosts/physical/mimir2/default.nix"]
+  c13 --> m85["features/terminal/default.nix"]
+  c13 --> m106["flake.nix"]
+  c13 --> m115["hosts/physical/mimir2/default.nix"]
   c14["loki + workstation"]
   c14 --> m0["features/annotation/default.nix"]
   c14 --> m7["features/common-tooling/default.nix"]
@@ -336,10 +337,10 @@ flowchart LR
   c14 --> m56["features/mcp/default.nix"]
   c14 --> m64["features/nix-index/default.nix"]
   c14 --> m70["features/portable-runtime/default.nix"]
-  c14 --> m84["features/terminal/default.nix"]
-  c14 --> m87["features/window-management/default.nix"]
-  c14 --> m105["flake.nix"]
-  c14 --> m113["hosts/physical/loki/default.nix"]
+  c14 --> m85["features/terminal/default.nix"]
+  c14 --> m88["features/window-management/default.nix"]
+  c14 --> m106["flake.nix"]
+  c14 --> m114["hosts/physical/loki/default.nix"]
 ```
 
 ## Files outside the evaluated graphs
@@ -483,13 +484,14 @@ S = system import; H = Home Manager import; I = flake wiring import; A = selecte
 | [features/server-nix/default.nix](../features/server-nix/default.nix) | · | I | A/S | · | · | A/S | A/S | · | A/S | A/S | · | · | · | · | · |
 | [features/storage-optimization/default.nix](../features/storage-optimization/default.nix) | · | I | · | A/S | A/S | · | · | A/S | · | · | A/S | · | · | · | · |
 | [features/terminal/_archives.nix](../features/terminal/_archives.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [features/terminal/_config.nix](../features/terminal/_config.nix) | · | · | · | · | H | · | · | H | · | · | H | H | H | H | H |
+| [features/terminal/_config.nix](../features/terminal/_config.nix) | · | I | · | · | H | · | · | H | · | · | H | H | H | H | H |
 | [features/terminal/_data.nix](../features/terminal/_data.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
+| [features/terminal/_locate.nix](../features/terminal/_locate.nix) | · | I | · | H | H | · | · | H | · | · | H | H | H | H | H |
 | [features/terminal/_network.nix](../features/terminal/_network.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
 | [features/terminal/_packages.nix](../features/terminal/_packages.nix) | · | I | · | · | H | · | · | H | · | · | H | · | · | · | · |
 | [features/terminal/_shell.nix](../features/terminal/_shell.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
 | [features/terminal/_system.nix](../features/terminal/_system.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [features/terminal/default.nix](../features/terminal/default.nix) | · | I | · | · | A/H/S | · | · | A/H/S | · | · | A/H/S | A/H/S | A/H | H | H/S |
+| [features/terminal/default.nix](../features/terminal/default.nix) | · | I | · | A/H | A/H | · | · | A/H | · | · | A/H | A/H | A/H | H | H |
 | [features/whatpulse/_home.nix](../features/whatpulse/_home.nix) | · | I | · | · | H | · | · | · | · | · | H | · | · | · | · |
 | [features/whatpulse/default.nix](../features/whatpulse/default.nix) | · | I | · | · | A/H/S | · | · | · | · | · | A/H/S | · | · | · | · |
 | [features/window-management/default.nix](../features/window-management/default.nix) | · | I | · | · | · | · | · | · | · | · | · | A/S | · | · | S |

@@ -28,23 +28,24 @@ in {
     packages = builtins.filter (p: (p.pname or "") == "plocate") home.home.packages;
   in
     builtins.length packages == 1 && !(builtins.any (p: (p.pname or "") == "mlocate") home.home.packages)) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg"]); true;
-  linuxLocate = assert lib.all (name: let
-    service = flake.nixosConfigurations.${name}.config.services.locate;
+  userLocate = let
+    homes =
+      [mimir2 loki linuxWorkstation darwinWorkstation]
+      ++ map (host: host.config) (builtins.attrValues flake.homeConfigurations)
+      ++ lib.concatMap (host: builtins.attrValues (host.config.home-manager.users or {}))
+      (builtins.attrValues flake.nixosConfigurations ++ builtins.attrValues flake.darwinConfigurations);
   in
-    service.enable && service.package.pname == "plocate") ["wodan" "donar" "frigg"]; true;
+    assert lib.all (home: lib.all (name: home.home.file ? ".local/bin/${name}") ["locate" "plocate" "updatedb"] && home.xdg.configFile ? "plocate/updatedb.conf") homes; true;
+  linuxLocate = assert lib.all (host: !host.config.services.locate.enable) (builtins.attrValues flake.nixosConfigurations); assert mimir2.systemd.user.timers.plocate.Timer.Persistent; assert wodan.systemd.user.services.plocate.Service.Type == "oneshot"; true;
   macosLocate = let
-    daemon = flake.darwinConfigurations.loki.config.launchd.daemons.locate;
-    service = daemon.serviceConfig;
+    agent = loki.launchd.agents.plocate;
     package = builtins.head (builtins.filter (p: (p.pname or "") == "plocate") loki.home.packages);
   in
     assert package.src.rev == "4bfea2886010d1d4bcf63cac9b83753d1ab00cde";
-    assert lib.hasInfix (builtins.unsafeDiscardStringContext "${package}/bin/updatedb") daemon.script;
-    assert lib.hasInfix "/usr/bin/install -d -m 0755 -o nobody -g nobody /var/db/plocate" flake.darwinConfigurations.loki.config.system.activationScripts.preActivation.text;
-    assert lib.hasInfix "/bin/chmod 0644 /var/db/plocate/plocate.db" daemon.script;
-    assert service.UserName == "nobody" && service.GroupName == "nobody";
-    assert service.RunAtLoad;
-    assert service.ProcessType == "Background";
-    assert service.StartCalendarInterval
+    assert !(flake.darwinConfigurations.loki.config.launchd.daemons ? locate);
+    assert agent.enable && agent.config.RunAtLoad && agent.config.ProcessType == "Background";
+    assert agent.config.UserName == null && agent.config.GroupName == null;
+    assert agent.config.StartCalendarInterval
     == [
       {
         Day = null;
