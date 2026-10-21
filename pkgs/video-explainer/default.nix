@@ -11,7 +11,17 @@
   unstable,
 }: let
   # Cairo scenes use Text and vectors, so omit Manim's bundled TeX wrapper path.
-  manim = unstable.manim.overrideAttrs (_: {makeWrapperArgs = [];});
+  manim = unstable.manim.overrideAttrs (old: {
+    makeWrapperArgs = [];
+    # Click 8.4.2 marks optional subcommands with brackets in usage text.
+    postPatch =
+      (old.postPatch or "")
+      + ''
+        substituteInPlace tests/interface/test_commands.py \
+          --replace-fail 'Usage: manim init [OPTIONS] COMMAND [ARGS]...' \
+            'Usage: manim init [OPTIONS] [COMMAND] [ARGS]...'
+      '';
+  });
   voice = linkFarm "video-piper-pim" [
     {
       name = "nl_NL-pim-medium.onnx";
