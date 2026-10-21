@@ -36,8 +36,9 @@ _: {
           };
 
           kernelParams = [
-            # This is to fix the sleep breaking KDE Plasma issue
-            "mem_sleep_default=s2idle"
+            # Prefer firmware S3/deep suspend; Donar's BIOS is not configured for
+            # suspend-to-idle and s2idle hangs amdgpu during resume.
+            "mem_sleep_default=deep"
             "nvme_core.default_ps_max_latency_us=0"
           ];
         };

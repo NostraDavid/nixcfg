@@ -6,7 +6,9 @@ _: {
     nixos.imports = [
       {
         boot.kernelParams = [
-          "mem_sleep_default=s2idle"
+          # This Legion's firmware does not support suspend-to-idle reliably;
+          # S3/deep avoids the amdgpu resume hang seen after s2idle.
+          "mem_sleep_default=deep"
           "pcie_aspm=force"
           "amdgpu.dc=1"
         ];
