@@ -51,13 +51,20 @@ def merge_codex(document: dict, servers: dict) -> None:
     document["mcp_servers"] = managed
 
 
-def configure(home: Path, servers: dict, codex_overrides: dict | None = None) -> None:
+def configure(
+    home: Path,
+    servers: dict,
+    codex_overrides: dict | None = None,
+    removed_servers: tuple[str, ...] = (),
+) -> None:
     for relative in (".codex/config.toml", ".config/opencode/opencode.jsonc"):
         path = home / relative
         original = path.read_text() if path.exists() else ""
         if path.suffix == ".toml":
             document = tomlkit.loads(original)
             merge_codex(document, servers | (codex_overrides or {}))
+            for name in removed_servers:
+                document["mcp_servers"].pop(name, None)
             updated = tomlkit.dumps(document)
         else:
             document = json5.loads(original) if original else {}
@@ -77,6 +84,7 @@ def configure(home: Path, servers: dict, codex_overrides: dict | None = None) ->
                     current.setdefault("timeout", {})["startup"] = (
                         server["startup_timeout_sec"] * 1000
                     )
+            managed.pop("node_repl", None)
             updated = json.dumps(document, indent=2) + "\n"
         if updated == original:
             continue
@@ -99,4 +107,5 @@ if __name__ == "__main__":
         Path(sys.argv[1]),
         json.loads(sys.argv[2]),
         json.loads(sys.argv[3]) if len(sys.argv) > 3 else None,
+        tuple(json.loads(sys.argv[4])) if len(sys.argv) > 4 else (),
     )

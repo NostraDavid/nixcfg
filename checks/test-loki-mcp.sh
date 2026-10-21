@@ -43,7 +43,7 @@ PY
 # Separate launchers retain the browser bridge only for Codex.
 rg -q 'export NODE_REPL_TRUSTED_SERVICES=' "$wodan_launchers/codex-mcp-node-repl"
 rg -q '/.codex/plugins/cache/openai-bundled/browser/' "$wodan_launchers/codex-mcp-node-repl"
-if rg -q 'TRUSTED_SERVICES|BROWSER_USE_' "$wodan_launchers/opencode-mcp-node-repl"; then
+if rg -q 'TRUSTED_SERVICES|BROWSER_USE_' "$wodan_launchers/mcp-node-repl"; then
     echo 'OpenCode Node REPL must remain independent of the Codex browser bridge' >&2
     exit 1
 fi
@@ -59,8 +59,7 @@ import tomllib
 root, tmp = map(Path, sys.argv[1:])
 configure = runpy.run_path(root / "features/mcp/mcp-clients.py")["configure"]
 servers = json.loads((tmp / "servers.json").read_text())
-servers["node_repl"]["startup_timeout_sec"] = 120
-# Every physical host must produce the same eight local MCP registrations.
+# OpenCode and Pi omit Node REPL on every host.
 profiles = json.loads((tmp / "profile-servers.json").read_text())
 assert set(profiles) == {"wodan", "frigg", "donar", "bragi", "loki", "mimir2"}
 for name, entries in profiles.items():
@@ -96,7 +95,7 @@ assert all(path.read_text() == "preserve-existing-database" for path in database
 config = json.loads(opencode.read_text())
 assert config["providers"]["work"]["settings"]["apiKey"] == "{env:WORK_KEY}"
 assert set(config["mcp"]["servers"]) == {*servers, "custom"}
-assert config["mcp"]["servers"]["node_repl"]["timeout"]["startup"] == 120000
+assert "node_repl" not in config["mcp"]["servers"]
 (tmp / "native.jsonc").write_text(json.dumps({"update": "disable", "mcp": config["mcp"]}))
 assert opencode.with_name(opencode.name + ".before-mcp").read_text() == original
 assert opencode.stat().st_mode & 0o777 == 0o600
@@ -134,7 +133,7 @@ portable_home = tmp / "other user"
 bin_dir = portable_home / ".local/bin"
 bin_dir.mkdir(parents=True)
 expected = {"agent-memory": ["mcp"], "headroom": ["mcp", "serve", "--transport", "stdio"], "qartez": [], "node_repl": []}
-commands = {"agent-memory": "agent-memory", "headroom": "headroom", "qartez": "qartez", "node_repl": "opencode-mcp-node-repl"}
+commands = {"agent-memory": "agent-memory", "headroom": "headroom", "qartez": "qartez", "node_repl": "mcp-node-repl"}
 for command in commands.values():
     executable = bin_dir / command
     executable.write_text('#!/bin/sh\nfor arg do printf "%s\\n" "$arg"; done\n')
@@ -154,21 +153,32 @@ for name, server in tomllib.loads((root / "dotfiles/codex-0.140.0/.codex/config.
         result = subprocess.check_output([server["command"], *server.get("args", [])], env=dict(os.environ, HOME=str(portable_home), PATH="/nonexistent"), text=True)
         assert result.splitlines() == expected[name], name
 
-# Exercise the real launcher against a native-app fixture, including spaces.
-launcher = tmp / "node-repl.sh"
-launcher.write_text((root / "features/mcp/loki-node-repl.sh").read_text().replace("/Applications/", str(tmp / "Applications") + "/"))
-environment = dict(os.environ, HOME=str(home))
-missing = subprocess.run(["bash", launcher], env=environment, capture_output=True, text=True)
-assert missing.returncode == 1 and "requires Codex.app" in missing.stderr
-runtime = tmp / "Applications/Codex.app/Contents/Resources/cua_node"
-(runtime / "bin").mkdir(parents=True)
-for name in ("node", "node_repl"):
-    script = runtime / "bin" / name
-    script.write_text('#!/bin/sh\nprintf "%s\\n" "$NODE_REPL_NODE_PATH" "$NODE_REPL_NODE_MODULE_DIRS" "$@"\n')
-    script.chmod(0o755)
-result = subprocess.run(["bash", launcher, "argument with spaces"], env=environment, capture_output=True, text=True, check=True)
-assert result.stdout.splitlines() == [str(runtime / "bin/node"), str(runtime / "lib/node_modules"), "argument with spaces"]
-print("Loki MCP client migration, provider preservation and Node REPL launcher checks passed.")
+# OpenCode removes Node REPL while Codex retains its client-specific runtime.
+opencode.write_text("{}")
+configure(home, servers, {"node_repl": {"command": "codex-node-repl"}})
+assert tomllib.loads(codex.read_text())["mcp_servers"]["node_repl"]["command"] == "codex-node-repl"
+config = json.loads(opencode.read_text())
+config["mcp"]["servers"]["node_repl"] = {"command": ["old-node-repl"]}
+opencode.write_text(json.dumps(config))
+configure(home, servers, {"node_repl": {"command": "codex-node-repl"}})
+assert "node_repl" not in json.loads(opencode.read_text())["mcp"]["servers"]
+assert "node_repl" in tomllib.loads(codex.read_text())["mcp_servers"]
+
+# Activation also removes the Codex registration on Loki without touching others.
+for path, content in (
+    (codex, '[mcp_servers.node_repl]\ncommand = "old-node-repl"\n[mcp_servers.custom]\ncommand = "keep-me"\n'),
+    (opencode, json.dumps({"mcp": {"servers": {"node_repl": {"command": ["old-node-repl"]}, "custom": {"type": "remote", "url": "https://example.invalid"}}}})),
+):
+    path.write_text(content)
+configure(home, servers, removed_servers=("node_repl",))
+assert "node_repl" not in tomllib.loads(codex.read_text())["mcp_servers"]
+assert "node_repl" not in json.loads(opencode.read_text())["mcp"]["servers"]
+assert tomllib.loads(codex.read_text())["mcp_servers"]["custom"]["command"] == "keep-me"
+assert json.loads(opencode.read_text())["mcp"]["servers"]["custom"]["url"] == "https://example.invalid"
+first = (codex.read_bytes(), opencode.read_bytes())
+configure(home, servers, removed_servers=("node_repl",))
+assert first == (codex.read_bytes(), opencode.read_bytes())
+print("Loki MCP client migration and Node REPL removal checks passed.")
 PY
 
 # Normalize the generated MCP entries through the real OpenCode v2 parser.
@@ -185,8 +195,8 @@ import { readFileSync } from "node:fs";
 const output = JSON.parse(readFileSync(process.argv[2], "utf8"));
 const config = output.find(entry => entry.info?.mcp)?.info;
 assert.ok(config, JSON.stringify(output));
-assert.equal(Object.keys(config.mcp.servers).length, 9);
-assert.equal(config.mcp.servers.node_repl.timeout.startup, 120000);
+assert.equal(Object.keys(config.mcp.servers).length, 8);
+assert.ok(!("node_repl" in config.mcp.servers));
 assert.ok(config.mcp.servers.dbhub.command.includes("/Users/david/.config/dbhub/local.toml"));
 console.log("Generated Loki MCP connections normalize through OpenCode v2.");
 JS

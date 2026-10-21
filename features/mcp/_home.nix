@@ -12,16 +12,12 @@
     p.tomlkit
     p.json5
   ]);
-  nodeRepl = stable.writeShellScriptBin "opencode-mcp-node-repl" (
-    if darwin
-    then builtins.readFile ./loki-node-repl.sh
-    else ''
-      export NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS=1000
-      export NODE_REPL_NODE_MODULE_DIRS="${local.chatgpt}/lib/chatgpt/resources/cua_node/lib/node_modules"
-      export NODE_REPL_NODE_PATH="${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node"
-      exec "${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node_repl" "$@"
-    ''
-  );
+  nodeRepl = stable.writeShellScriptBin "mcp-node-repl" ''
+    export NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS=1000
+    export NODE_REPL_NODE_MODULE_DIRS="${local.chatgpt}/lib/chatgpt/resources/cua_node/lib/node_modules"
+    export NODE_REPL_NODE_PATH="${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node"
+    exec "${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node_repl" "$@"
+  '';
   browserArgs =
     [
       "--headless"
@@ -69,10 +65,6 @@
           "${config.xdg.configHome}/dbhub/local.toml"
         ];
       };
-      node_repl = {
-        command = "${bin}/opencode-mcp-node-repl";
-        startup_timeout_sec = 120;
-      };
     };
   clientServers =
     servers
@@ -94,6 +86,12 @@ in {
   };
   config = {
     nixcfg.agentMemory.provider = lib.mkDefault "engrim";
+    nixcfg.mcp.codexOverrides = lib.optionalAttrs (!darwin) {
+      node_repl = lib.mkDefault {
+        command = "${bin}/mcp-node-repl";
+        startup_timeout_sec = 120;
+      };
+    };
     programs.pi.coding-agent.mcp.mcpServers = lib.mapAttrs (_: server:
       builtins.removeAttrs server [
         "startup_timeout_sec"
@@ -107,10 +105,10 @@ in {
         [
           local.chrome-devtools-mcp
           local.dbhub
-          nodeRepl
           unstable.mcp-nixos
           unstable.playwright-mcp
         ]
+        ++ lib.optional (!darwin) nodeRepl
         ++ wrappers;
       file =
         {
@@ -118,9 +116,11 @@ in {
           ".local/bin/playwright-mcp".source = lib.getExe unstable.playwright-mcp;
           ".local/bin/chrome-devtools-mcp".source = lib.getExe local.chrome-devtools-mcp;
           ".local/bin/dbhub".source = lib.getExe local.dbhub;
-          ".local/bin/opencode-mcp-node-repl".source = lib.getExe nodeRepl;
         }
-        // lib.optionalAttrs (!darwin) {".local/bin/chromium".source = lib.getExe stable.chromium;}
+        // lib.optionalAttrs (!darwin) {
+          ".local/bin/chromium".source = lib.getExe stable.chromium;
+          ".local/bin/mcp-node-repl".source = lib.getExe nodeRepl;
+        }
         // builtins.listToAttrs (map (package: lib.nameValuePair ".local/bin/${lib.getName package}" {source = lib.getExe package;}) wrappers);
       activation = {
         dbhubLocalDatabase =
@@ -138,7 +138,8 @@ in {
             $DRY_RUN_CMD ${python}/bin/python ${./mcp-clients.py} \
               ${lib.escapeShellArg config.home.homeDirectory} \
               ${lib.escapeShellArg (builtins.toJSON clientServers)} \
-              ${lib.escapeShellArg (builtins.toJSON ({openaiDeveloperDocs.url = config.programs.pi.coding-agent.mcp.mcpServers.openaiDeveloperDocs.url;} // config.nixcfg.mcp.codexOverrides))}
+              ${lib.escapeShellArg (builtins.toJSON ({openaiDeveloperDocs.url = config.programs.pi.coding-agent.mcp.mcpServers.openaiDeveloperDocs.url;} // config.nixcfg.mcp.codexOverrides))} \
+              ${lib.escapeShellArg (builtins.toJSON (lib.optionals darwin ["node_repl"]))}
           '';
       };
     };

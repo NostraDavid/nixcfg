@@ -97,18 +97,6 @@
         ],
         "disabled": false
       },
-      "node_repl": {
-        "type": "local",
-        "command": [
-          "{env:HOME}/.local/bin/opencode-mcp-node-repl"
-        ],
-        "timeout": {
-          "startup": 120000,
-          "catalog": 120000,
-          "execution": 120000
-        },
-        "disabled": false
-      },
       "openaiDeveloperDocs": {
         "type": "remote",
         "url": "https://developers.openai.com/mcp",

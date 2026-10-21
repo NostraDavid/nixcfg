@@ -35,7 +35,7 @@ source = "/home/david/.cache/codex-runtimes/codex-primary-runtime/plugins/openai
 
 [mcp_servers.node_repl]
 command = "/bin/sh"
-args = ["-c", 'exec "$HOME/.local/bin/opencode-mcp-node-repl" "$@"', "node-repl"]
+args = ["-c", 'exec "$HOME/.local/bin/mcp-node-repl" "$@"', "node-repl"]
 startup_timeout_sec = 120
 
 [mcp_servers.openaiDeveloperDocs]

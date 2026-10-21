@@ -59,7 +59,7 @@ Dependencies, service-only packages, manual installations and external work prof
 | forgejo-lab | 81 |
 | frigg | 496 |
 | homepage | 85 |
-| loki | 84 |
+| loki | 83 |
 | mimir2 | 76 |
 | proxy | 83 |
 | wodan | 561 |
@@ -370,8 +370,7 @@ before merging. These checks do not establish semantic redundancy.
 | [features/browsers/_home.nix](../features/browsers/_home.nix) | 53 | features/browsers/default.nix |
 | [features/communication/_home.nix](../features/communication/_home.nix) | 10 | features/communication/default.nix |
 | [features/containers/_home.nix](../features/containers/_home.nix) | 15 | features/containers/default.nix |
-| [features/darwin-keyboard/_darwin.nix](../features/darwin-keyboard/_darwin.nix) | 46 | features/darwin-keyboard/default.nix |
-| [features/darwin-keyboard/_home.nix](../features/darwin-keyboard/_home.nix) | 60 | features/darwin-keyboard/default.nix |
+| [features/darwin-keyboard/_darwin.nix](../features/darwin-keyboard/_darwin.nix) | 37 | features/darwin-keyboard/default.nix |
 | [features/darwin-speech/_home.nix](../features/darwin-speech/_home.nix) | 45 | features/darwin-speech/default.nix |
 | [features/desktop-apps/_home.nix](../features/desktop-apps/_home.nix) | 21 | features/desktop-apps/default.nix |
 | [features/development/_core.nix](../features/development/_core.nix) | 49 | features/development/default.nix |

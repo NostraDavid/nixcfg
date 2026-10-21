@@ -5081,13 +5081,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 46,
+      "lines": 37,
       "merge_into": "features/darwin-keyboard/default.nix",
       "parents": [
         "features/darwin-keyboard/default.nix"
       ],
       "path": "features/darwin-keyboard/_darwin.nix",
-      "sha256": "9829977cdf6d7acb2f4d2b5271de594dbcf81d8c22a78f2b03ad0358a48ab9b5",
+      "sha256": "ccebe8f23d42f985fcc22dfe0fa4fc193e14be43c0a61ec726c527915709cbe6",
       "status": "used"
     },
     {
@@ -5098,13 +5098,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 60,
-      "merge_into": "features/darwin-keyboard/default.nix",
+      "lines": 76,
+      "merge_into": null,
       "parents": [
         "features/darwin-keyboard/default.nix"
       ],
       "path": "features/darwin-keyboard/_home.nix",
-      "sha256": "a0234425c2a8a68b6de24e3e781e56c2921c08386fe313197626e1f76613b586",
+      "sha256": "8dbd27f5dc01362e5ee9a42d9aa28088ac34f7b08e52e82c08019ba49821f2b3",
       "status": "used"
     },
     {
@@ -5828,13 +5828,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 152,
+      "lines": 153,
       "merge_into": null,
       "parents": [
         "features/mcp/default.nix"
       ],
       "path": "features/mcp/_home.nix",
-      "sha256": "ee9f6927f1f5097d4d72da25f4c5de7b650c644ae08e2c36b8aa3999eb10d80d",
+      "sha256": "a7445b72497d561a0d04d2c66bded3bf9140227b8dc40464f436e248e3f53681",
       "status": "used"
     },
     {
@@ -7246,11 +7246,11 @@
       "children": [],
       "contexts": [],
       "kind": "infrastructure",
-      "lines": 167,
+      "lines": 166,
       "merge_into": null,
       "parents": [],
       "path": "policy/native.nix",
-      "sha256": "daee15fcb0dfd5b02cc392016bc9482bdfdec31c2ac626c98f6ee884f8ad30df",
+      "sha256": "808f254dcbe92138367242f9c1da34825f9f519a6f9e5ed94f10c91c151d5207",
       "status": "unobserved"
     },
     {
@@ -8191,6 +8191,11 @@
           "version": "3.0.1"
         },
         {
+          "name": "mcp-node-repl",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mkpasswd",
           "origin": "system",
           "version": "5.6.6"
@@ -8322,11 +8327,6 @@
         },
         {
           "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-node-repl",
           "origin": "home:david",
           "version": ""
         },
@@ -9972,6 +9972,11 @@
           "version": "3.0.1"
         },
         {
+          "name": "mcp-node-repl",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcporter",
           "origin": "home:david",
           "version": "0.15.0"
@@ -10273,11 +10278,6 @@
         },
         {
           "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-node-repl",
           "origin": "home:david",
           "version": ""
         },
@@ -13530,6 +13530,11 @@
           "version": "3.0.1"
         },
         {
+          "name": "mcp-node-repl",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcporter",
           "origin": "home:david",
           "version": "0.15.0"
@@ -13806,11 +13811,6 @@
         },
         {
           "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-node-repl",
           "origin": "home:david",
           "version": ""
         },
@@ -15562,11 +15562,6 @@
           "version": ""
         },
         {
-          "name": "opencode-mcp-node-repl",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
           "name": "opencode-mcp-playwright",
           "origin": "home:david",
           "version": ""
@@ -15903,6 +15898,11 @@
           "version": "3.0.1"
         },
         {
+          "name": "mcp-node-repl",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcporter",
           "origin": "home:david",
           "version": "0.15.0"
@@ -15949,11 +15949,6 @@
         },
         {
           "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-node-repl",
           "origin": "home:david",
           "version": ""
         },
@@ -17960,6 +17955,11 @@
           "version": "3.0.1"
         },
         {
+          "name": "mcp-node-repl",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcporter",
           "origin": "home:david",
           "version": "0.15.0"
@@ -18261,11 +18261,6 @@
         },
         {
           "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-node-repl",
           "origin": "home:david",
           "version": ""
         },

@@ -4,7 +4,7 @@ let
   home = flake.darwinConfigurations.loki.config.home-manager.users.david;
   wodan = flake.nixosConfigurations.wodan.config.home-manager.users.david;
   work = (flake.lib.mkLoki {username = "work";}).config.home-manager.users.work;
-  names = ["agent-memory" "chrome-devtools" "dbhub" "headroom" "nixos" "node_repl" "playwright" "qartez"];
+  names = ["agent-memory" "chrome-devtools" "dbhub" "headroom" "nixos" "playwright" "qartez"];
   packages = ["engrim" "headroom-ai" "dbhub" "chrome-devtools-mcp" "playwright-mcp" "mcp-nixos" "qartez"];
   pkgs = flake.legacyPackages.x86_64-linux;
   profiles =
@@ -25,11 +25,13 @@ in {
   wodanLaunchers = pkgs.linkFarm "wodan-mcp-launchers" (map (name: {
     inherit name;
     path = wodan.home.file.".local/bin/${name}".source;
-  }) ["codex-mcp-node-repl" "opencode-mcp-node-repl" "opencode-mcp-chrome-devtools" "opencode-mcp-nixos" "opencode-mcp-playwright"]);
+  }) ["codex-mcp-node-repl" "mcp-node-repl" "opencode-mcp-chrome-devtools" "opencode-mcp-nixos" "opencode-mcp-playwright"]);
   checks = {
     chromium = assert lib.all (profile: builtins.length (builtins.filter (package: (package.pname or "") == "chromium") profile.home.packages) <= 1) allProfiles; true;
     nativeCodex = assert lib.all (profile: lib.all (name: profile.home.file ? ".local/bin/${name}") ["codex-mcp-node-repl" "cua-repl"] && profile.home.activation ? codexBrowserRuntime && profile.nixcfg.mcp.codexOverrides.node_repl.command == "${profile.home.homeDirectory}/.local/bin/codex-mcp-node-repl" && !profile.nixcfg.mcp.codexOverrides.cua_repl.enabled) (builtins.attrValues nativeCodexProfiles); true;
     clients = assert lib.all (profile: profile.home.activation ? mcpClients && lib.all (name: profile.programs.pi.coding-agent.mcp.mcpServers ? ${name}) names) allProfiles; true;
+    piNoNodeRepl = assert lib.all (profile: !(profile.programs.pi.coding-agent.mcp.mcpServers ? node_repl)) allProfiles; true;
+    lokiNoNodeRepl = assert lib.all (profile: !(profile.programs.pi.coding-agent.mcp.mcpServers ? node_repl) && !(profile.home.file ? ".local/bin/mcp-node-repl") && !(builtins.any (p: (p.name or "") == "mcp-node-repl") profile.home.packages)) [home work]; true;
     packages = assert lib.all (profile: lib.all (name: builtins.any (p: (p.pname or "") == name) profile.home.packages) packages) allProfiles; true;
     native = assert !(home.systemd.user.services ? ctx-history); assert !(builtins.any (p: builtins.elem (p.pname or "") ["ctx" "engram" "chatgpt" "blender-mcp"]) home.home.packages); true;
     database = assert lib.hasInfix "sqlite://${home.xdg.dataHome}/dbhub/local.sqlite" home.xdg.configFile."dbhub/local.toml".text; assert work.programs.pi.coding-agent.mcp.mcpServers.dbhub.args == ["--transport" "stdio" "--config" "/Users/work/.config/dbhub/local.toml"]; true;

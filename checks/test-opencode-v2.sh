@@ -65,11 +65,11 @@ assert.deepEqual(config.policies.filter(rule => rule.action === "provider.use"),
 assert.equal(config.providers.tensorx.package, "aisdk:@ai-sdk/openai-compatible");
 assert.equal(config.model.model, "z-ai/glm-5.3-flash");
 assert.equal(config.providers.tensorx.settings.baseURL, "https://api.tensorx.ai/v1");
-const expectedServers = ["agent-memory", "chrome-devtools", "dbhub", "headroom", "nixos", "node_repl", "openaiDeveloperDocs", "playwright", "qartez"];
+const expectedServers = ["agent-memory", "chrome-devtools", "dbhub", "headroom", "nixos", "openaiDeveloperDocs", "playwright", "qartez"];
 assert.deepEqual(Object.keys(config.mcp.servers).sort(), expectedServers);
 for (const server of Object.values(config.mcp.servers)) assert.equal(server.disabled, false);
 assert.equal(config.mcp.servers.openaiDeveloperDocs.url, "https://developers.openai.com/mcp");
-assert.ok(config.mcp.servers.node_repl.command[0].endsWith("/.local/bin/opencode-mcp-node-repl"));
+assert.ok(!("node_repl" in config.mcp.servers));
 assert.ok(config.mcp.servers.dbhub.command[0].endsWith("/.local/bin/dbhub"));
 assert.deepEqual(config.mcp.servers.dbhub.command.slice(1, 4), ["--transport", "stdio", "--config"]);
 assert.ok(config.mcp.servers.dbhub.command[4].endsWith("/.config/dbhub/local.toml"));

@@ -107,7 +107,6 @@
     "dbhub"
     "headroom"
     "nixos"
-    "node_repl"
     "playwright"
     "qartez"
   ];
@@ -118,7 +117,7 @@
     lib.hasPrefix prefix server.command && homeFiles ? ${relativeCommand} && !(lib.hasInfix "/nix/store/" (builtins.toJSON server));
   mcp =
     lib.optional (hasFeature "mcp" && !(builtins.all (name: servers ? ${name}) requiredServers))
-    (violation "required-mcp" homePath "MCP servers" "The selected MCP feature must deliver all eight local servers.")
+    (violation "required-mcp" homePath "MCP servers" "The selected MCP feature must deliver all local servers required for its platform.")
     ++ lib.optional (hasFeature "mcp" && !(lib.all (name: stableServer localServers.${name}) (builtins.attrNames localServers)))
     (violation "stable-mcp-command" homePath "MCP commands" "Every local server must use its installed stable launcher.");
   codex =
