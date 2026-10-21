@@ -64,7 +64,7 @@ tool.
 
 The managed configuration is
 `dotfiles/opencode-2.0.32/.config/opencode/opencode.jsonc`. It uses Tensorx with
-GLM 5.3 Flash for the primary agent and DeepSeek V4.1 Flash for the worker.
+GLM 5.3 Flash for the primary agent and DeepSeek V4.1 Flash 1017 for the worker.
 Provider policies allow only Tensorx for both agents. Authentication remains
 local; no credential is stored in the file.
 

@@ -10,7 +10,7 @@
     "npm:pi-term@0.1.1"
   ],
   "defaultProvider": "tensorx",
-  "defaultModel": "deepseek/deepseek-v4-flash",
+  "defaultModel": "deepseek/deepseek-v4.1-flash-1017",
   "defaultThinkingLevel": "medium",
   "defaultTools": [
     "+grep",

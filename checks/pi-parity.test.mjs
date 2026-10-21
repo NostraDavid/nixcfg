@@ -152,6 +152,8 @@ test("real Pi SDK loads workflow and upstream subagent", async (t) => {
   }
   const settings = JSON.parse(readFileSync(join(dot, "settings.json"), "utf8"));
   assert.deepEqual(settings.skills, ["~/.codex/skills", "~/.codex/skills/.system"]);
+  assert.equal(settings.defaultProvider, "tensorx");
+  assert.equal(settings.defaultModel, "deepseek/deepseek-v4.1-flash-1017");
   assert.ok(!settings.packages.includes("npm:pi-mcp-adapter"));
   assert.ok(settings.defaultTools.includes("+codemode"));
   assert.ok(settings.packages.includes("npm:pi-term@0.1.1"));

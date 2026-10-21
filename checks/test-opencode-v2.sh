@@ -65,6 +65,10 @@ assert.deepEqual(config.policies.filter(rule => rule.action === "provider.use"),
 ]);
 assert.equal(config.providers.tensorx.package, "aisdk:@ai-sdk/openai-compatible");
 assert.equal(config.model.model, "z-ai/glm-5.3-flash");
+assert.equal(config.agents["opencode-worker"].model.model, "deepseek/deepseek-v4.1-flash-1017");
+assert.deepEqual(Object.keys(config.providers.tensorx.models).sort(), [
+    "deepseek/deepseek-v4.1-flash-1017", "qwen/qwen3.8-flash-next", "z-ai/glm-5.3-flash",
+]);
 assert.equal(config.providers.tensorx.settings.baseURL, "https://api.tensorx.ai/v1");
 const expectedServers = ["agent-memory", "chrome-devtools", "dbhub", "headroom", "nixos", "openaiDeveloperDocs", "playwright", "qartez"];
 assert.deepEqual(Object.keys(config.mcp.servers).sort(), expectedServers);
