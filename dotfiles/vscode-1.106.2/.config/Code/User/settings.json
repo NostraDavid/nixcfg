@@ -421,7 +421,17 @@
       "path": "tmux"
     },
     "zellij": {
-      "path": "zellij"
+      "args": [
+        "vscode"
+      ],
+      "path": "${env:HOME}/.local/bin/zellij-workspace"
+    },
+    "Zellij: nieuwe sessie": {
+      "args": [
+        "vscode",
+        "--new"
+      ],
+      "path": "${env:HOME}/.local/bin/zellij-workspace"
     }
   },
   "terminal.integrated.rightClickBehavior": "default",
