@@ -44,6 +44,10 @@
   "instructions": [
     "~/AGENTS.md"
   ],
+  "skills": [
+    "~/.codex/skills",
+    "~/.codex/skills/.system"
+  ],
   "mcp": {
     "servers": {
       "dbhub": {

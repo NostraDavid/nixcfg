@@ -1,6 +1,10 @@
 {
   "lastChangelogVersion": "1.2.0",
   "theme": "dark",
+  "skills": [
+    "~/.codex/skills",
+    "~/.codex/skills/.system"
+  ],
   "packages": [
     "npm:@czottmann/pi-tensorx",
     "npm:pi-term@0.1.1"

@@ -42,6 +42,7 @@ assert.equal(config.update, "disable");
 assert.equal(config.default_agent, "codex");
 assert.equal(config.experimental.subagent_depth, 1);
 assert.deepEqual(config.plugins, ["opencode-queue@2.0.2"]);
+assert.deepEqual(config.skills, ["~/.codex/skills", "~/.codex/skills/.system"]);
 for (const [action, resource, effect] of [
     ["shell", "git push *", "deny"],
     ["shell", "git reset --hard *", "deny"],
