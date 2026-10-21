@@ -28,6 +28,47 @@ class SessionTests(unittest.TestCase):
         cache = self.enterContext(tempfile.TemporaryDirectory())
         self.enterContext(patch.dict(os.environ, {"XDG_CACHE_HOME": cache}))
 
+    def test_scrollback_ctrl_z_exits_and_preserves_unsaved_edits(self) -> None:
+        editor = Path(__file__).parents[1] / ".local/bin/zellij-scrollback.sh"
+        command = [str(editor), "--headless", "-u", "NONE", "-i", "NONE", "-n"]
+        for mode in ("", "v"):
+            result = sp.run(  # noqa: S603 - Run the repository editor with literal test keys.
+                [
+                    *command,
+                    "-c",
+                    "vsplit",
+                    "-c",
+                    f'execute "normal {mode}\\<C-z>"',
+                    "-c",
+                    "cquit 1",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+        result = sp.run(  # noqa: S603 - Edits are confined to an unnamed test buffer.
+            [
+                *command,
+                "-c",
+                "normal iX",
+                "-c",
+                "vnew",
+                "-c",
+                'silent! execute "normal \\<C-z>"',
+                "-c",
+                "lua assert(#vim.fn.getbufinfo({bufmodified=1}) == 1)",
+                "-c",
+                "qa!",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_latest_timestamp_respects_offsets_and_ignores_other_worktrees(
         self,
     ) -> None:
