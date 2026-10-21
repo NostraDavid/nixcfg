@@ -26,6 +26,7 @@ alias rg='rg -S'
 alias sed='sed -E'
 alias sudo='sudo '
 alias vi='nvim'
+alias lg='lazygit'
 
 missing_alias_commands=
 if command -v lsd >/dev/null 2>&1; then
