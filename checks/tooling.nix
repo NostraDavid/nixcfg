@@ -63,6 +63,22 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  fleetFonts = let
+    fonts = (import ../features/fonts/default.nix {}).den.aspects.fonts;
+    systems = builtins.attrValues flake.nixosConfigurations ++ builtins.attrValues flake.darwinConfigurations;
+    homes =
+      builtins.attrValues flake.homeConfigurations
+      ++ lib.concatMap (host:
+        map (config: {
+          inherit config;
+          inherit (host) pkgs;
+        }) (builtins.attrValues (host.config.home-manager.users or {})))
+      systems;
+    hasFonts = pkgs: packages:
+      lib.all (font: builtins.elem font.outPath (map (p: p.outPath) packages)) (fonts.nixos {inherit pkgs;}).fonts.packages;
+  in
+    assert lib.all (host: hasFonts host.pkgs host.config.fonts.packages) systems;
+    assert lib.all (home: hasFonts home.pkgs home.config.home.packages && (home.pkgs.stdenv.hostPlatform.isLinux -> home.config.fonts.fontconfig.enable)) homes; true;
   terminalEmulators = assert lib.all (host: let
     inherit (host) pkgs;
     unstable = unstableFor pkgs.stdenv.hostPlatform.system;

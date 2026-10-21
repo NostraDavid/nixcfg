@@ -1,11 +1,7 @@
 _: {
   den.aspects.desktop-runtime = {
     nixos.imports = [
-      ({
-        main-user,
-        stable,
-        ...
-      }: {
+      ({main-user, ...}: {
         nix.settings.experimental-features = [
           "nix-command"
           "flakes"
@@ -73,16 +69,6 @@ _: {
           </alias>
           </fontconfig>
         '';
-
-        fonts.packages = [
-          stable.monocraft # Monocraft
-          stable.nerd-fonts.bigblue-terminal # BigBlue Terminal Nerd Font
-          stable.nerd-fonts.iosevka # Iosevka Nerd Font, Iosevka Nerd Font Mono
-          stable.nerd-fonts.jetbrains-mono # JetBrainsMono Nerd Font Mono
-          stable.spleen # Spleen 6x12, Spleen 8x16, Spleen 12x24, Spleen 16x32, Spleen 32x64 (OTF)
-          stable.terminus_font_ttf # Terminus (TTF)
-          stable.ultimate-oldschool-pc-font-pack # IBM PC, CGA, EGA, VGA, DOS and BIOS fonts
-        ];
 
         hardware.graphics = {
           enable = true;

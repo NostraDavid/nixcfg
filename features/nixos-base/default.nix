@@ -2,6 +2,7 @@
   den.aspects.nixos-base = {
     includes = with den.aspects; [
       cachix
+      fonts
       internal-pki
     ];
     nixos = {pkgs, ...}: {

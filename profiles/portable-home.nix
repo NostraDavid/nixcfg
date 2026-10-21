@@ -3,6 +3,7 @@
     includes = with den.aspects; [
       darwin-speech
       development-core
+      fonts
       interactive
       portable-dotfiles
       portable-runtime

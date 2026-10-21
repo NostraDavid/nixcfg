@@ -3,6 +3,7 @@
     includes = with den.aspects; [
       boot
       desktop-runtime
+      fonts
       i18n
       interactive
       location

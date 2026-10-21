@@ -263,6 +263,7 @@
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/forgejo/_nixos.nix",
           "features/forgejo/default.nix",
           "features/full-workstation-apps/_home.nix",
@@ -374,6 +375,7 @@
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/forgejo/_nixos.nix",
         "features/forgejo/default.nix",
         "features/full-workstation-apps/_home.nix",
@@ -465,6 +467,7 @@
         "features/desktop-runtime/default.nix",
         "features/development/default.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/forgejo/default.nix",
         "features/full-workstation-apps/default.nix",
         "features/gaming/default.nix",
@@ -535,6 +538,10 @@
           ],
           [
             "nixos-base",
+            "fonts"
+          ],
+          [
+            "nixos-base",
             "internal-pki"
           ],
           [
@@ -560,6 +567,10 @@
           {
             "file": "features/cachix/default.nix",
             "id": "cachix"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "features/internal-pki/default.nix",
@@ -608,6 +619,7 @@
       "layers": {
         "aspects": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/nixos-base/default.nix",
           "features/proxmox-vm/default.nix",
@@ -619,6 +631,7 @@
         ],
         "system": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/nixos-base/default.nix",
           "features/proxmox-vm/default.nix",
@@ -632,6 +645,7 @@
       },
       "modules": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/nixos-base/default.nix",
         "features/proxmox-vm/default.nix",
@@ -644,6 +658,7 @@
       ],
       "roots": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/nixos-base/default.nix",
         "features/proxmox-vm/default.nix",
@@ -679,6 +694,10 @@
           [
             "desktop-base",
             "desktop-runtime"
+          ],
+          [
+            "desktop-base",
+            "fonts"
           ],
           [
             "desktop-base",
@@ -742,6 +761,10 @@
           ],
           [
             "nixos-base",
+            "fonts"
+          ],
+          [
+            "nixos-base",
             "internal-pki"
           ]
         ],
@@ -783,6 +806,10 @@
           {
             "file": "features/desktop-runtime/default.nix",
             "id": "desktop-runtime"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "features/mcp/default.nix",
@@ -905,6 +932,7 @@
           "features/common-tooling/default.nix",
           "features/desktop-runtime/default.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/hyprland/default.nix",
           "features/i18n/default.nix",
           "features/internal-pki/default.nix",
@@ -926,6 +954,7 @@
           "features/common-tooling/default.nix",
           "features/dotfiles/_worktrunk.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/keyboard/_home.nix",
           "features/keyboard/default.nix",
@@ -945,6 +974,7 @@
           "features/boot/default.nix",
           "features/cachix/default.nix",
           "features/desktop-runtime/default.nix",
+          "features/fonts/default.nix",
           "features/hyprland/default.nix",
           "features/i18n/default.nix",
           "features/internal-pki/default.nix",
@@ -966,6 +996,7 @@
         "features/desktop-runtime/default.nix",
         "features/dotfiles/_worktrunk.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/hyprland/default.nix",
         "features/i18n/default.nix",
         "features/internal-pki/default.nix",
@@ -995,6 +1026,7 @@
         "features/common-tooling/default.nix",
         "features/desktop-runtime/default.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/hyprland/default.nix",
         "features/i18n/default.nix",
         "features/internal-pki/default.nix",
@@ -1026,6 +1058,10 @@
           [
             "desktop-base",
             "desktop-runtime"
+          ],
+          [
+            "desktop-base",
+            "fonts"
           ],
           [
             "desktop-base",
@@ -1161,6 +1197,10 @@
           ],
           [
             "nixos-base",
+            "fonts"
+          ],
+          [
+            "nixos-base",
             "internal-pki"
           ],
           [
@@ -1290,6 +1330,10 @@
           {
             "file": "features/dotfiles/default.nix",
             "id": "dotfiles"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "profiles/full-workstation.nix",
@@ -1588,6 +1632,7 @@
           "features/desktop-runtime/default.nix",
           "features/development/default.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/full-workstation-apps/default.nix",
           "features/gaming/default.nix",
           "features/i18n/default.nix",
@@ -1635,6 +1680,7 @@
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/full-workstation-apps/_home.nix",
           "features/full-workstation-apps/_taskbar.nix",
           "features/full-workstation-apps/default.nix",
@@ -1674,6 +1720,7 @@
           "features/boot/default.nix",
           "features/cachix/default.nix",
           "features/desktop-runtime/default.nix",
+          "features/fonts/default.nix",
           "features/gaming/default.nix",
           "features/i18n/default.nix",
           "features/internal-pki/default.nix",
@@ -1716,6 +1763,7 @@
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/full-workstation-apps/_home.nix",
         "features/full-workstation-apps/_taskbar.nix",
         "features/full-workstation-apps/default.nix",
@@ -1771,6 +1819,7 @@
         "features/desktop-runtime/default.nix",
         "features/development/default.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/full-workstation-apps/default.nix",
         "features/gaming/default.nix",
         "features/i18n/default.nix",
@@ -1808,6 +1857,10 @@
           ],
           [
             "nixos-base",
+            "fonts"
+          ],
+          [
+            "nixos-base",
             "internal-pki"
           ],
           [
@@ -1833,6 +1886,10 @@
           {
             "file": "features/cachix/default.nix",
             "id": "cachix"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "features/forgejo/default.nix",
@@ -1877,6 +1934,7 @@
       "layers": {
         "aspects": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/forgejo/default.nix",
           "features/internal-pki/default.nix",
           "features/nixos-base/default.nix",
@@ -1888,6 +1946,7 @@
         ],
         "system": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/forgejo/_nixos.nix",
           "features/forgejo/default.nix",
           "features/internal-pki/default.nix",
@@ -1900,6 +1959,7 @@
       },
       "modules": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/forgejo/_nixos.nix",
         "features/forgejo/default.nix",
         "features/internal-pki/default.nix",
@@ -1911,6 +1971,7 @@
       ],
       "roots": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/forgejo/default.nix",
         "features/internal-pki/default.nix",
         "features/nixos-base/default.nix",
@@ -1941,6 +2002,10 @@
           ],
           [
             "nixos-base",
+            "fonts"
+          ],
+          [
+            "nixos-base",
             "internal-pki"
           ]
         ],
@@ -1954,6 +2019,10 @@
           {
             "file": "features/cachix/default.nix",
             "id": "cachix"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "features/forgejo/default.nix",
@@ -1990,6 +2059,7 @@
       "layers": {
         "aspects": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/forgejo/default.nix",
           "features/internal-pki/default.nix",
           "features/nixos-base/default.nix",
@@ -1999,6 +2069,7 @@
         ],
         "system": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/forgejo/_nixos.nix",
           "features/forgejo/default.nix",
           "features/internal-pki/default.nix",
@@ -2010,6 +2081,7 @@
       },
       "modules": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/forgejo/_nixos.nix",
         "features/forgejo/default.nix",
         "features/internal-pki/default.nix",
@@ -2020,6 +2092,7 @@
       ],
       "roots": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/forgejo/default.nix",
         "features/internal-pki/default.nix",
         "features/nixos-base/default.nix",
@@ -2050,6 +2123,10 @@
           [
             "desktop-base",
             "desktop-runtime"
+          ],
+          [
+            "desktop-base",
+            "fonts"
           ],
           [
             "desktop-base",
@@ -2150,6 +2227,10 @@
           [
             "nixos-base",
             "cachix"
+          ],
+          [
+            "nixos-base",
+            "fonts"
           ],
           [
             "nixos-base",
@@ -2282,6 +2363,10 @@
           {
             "file": "features/dotfiles/default.nix",
             "id": "dotfiles"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "features/mcp/default.nix",
@@ -2525,6 +2610,7 @@
           "features/desktop-runtime/default.nix",
           "features/development/default.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/i18n/default.nix",
           "features/internal-pki/default.nix",
           "features/kde-runtime/default.nix",
@@ -2567,6 +2653,7 @@
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/keyboard/_home.nix",
           "features/keyboard/default.nix",
@@ -2598,6 +2685,7 @@
           "features/boot/default.nix",
           "features/cachix/default.nix",
           "features/desktop-runtime/default.nix",
+          "features/fonts/default.nix",
           "features/i18n/default.nix",
           "features/internal-pki/default.nix",
           "features/kde-runtime/default.nix",
@@ -2637,6 +2725,7 @@
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/i18n/default.nix",
         "features/internal-pki/default.nix",
         "features/kde-runtime/default.nix",
@@ -2685,6 +2774,7 @@
         "features/desktop-runtime/default.nix",
         "features/development/default.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/i18n/default.nix",
         "features/internal-pki/default.nix",
         "features/kde-runtime/default.nix",
@@ -2719,6 +2809,10 @@
           ],
           [
             "nixos-base",
+            "fonts"
+          ],
+          [
+            "nixos-base",
             "internal-pki"
           ],
           [
@@ -2744,6 +2838,10 @@
           {
             "file": "features/cachix/default.nix",
             "id": "cachix"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "features/homepage/default.nix",
@@ -2788,6 +2886,7 @@
       "layers": {
         "aspects": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/homepage/default.nix",
           "features/internal-pki/default.nix",
           "features/nixos-base/default.nix",
@@ -2799,6 +2898,7 @@
         ],
         "system": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/homepage/default.nix",
           "features/internal-pki/default.nix",
           "features/nixos-base/default.nix",
@@ -2811,6 +2911,7 @@
       },
       "modules": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/homepage/default.nix",
         "features/internal-pki/default.nix",
         "features/nixos-base/default.nix",
@@ -2822,6 +2923,7 @@
       ],
       "roots": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/homepage/default.nix",
         "features/internal-pki/default.nix",
         "features/nixos-base/default.nix",
@@ -2841,6 +2943,10 @@
           [
             "nixos-base",
             "cachix"
+          ],
+          [
+            "nixos-base",
+            "fonts"
           ],
           [
             "nixos-base",
@@ -2869,6 +2975,10 @@
           {
             "file": "features/cachix/default.nix",
             "id": "cachix"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "features/internal-pki/default.nix",
@@ -2904,6 +3014,7 @@
       "layers": {
         "aspects": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/nixos-base/default.nix",
           "features/proxmox-vm/default.nix",
@@ -2914,6 +3025,7 @@
         ],
         "system": [
           "features/cachix/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/nixos-base/default.nix",
           "features/proxmox-vm/default.nix",
@@ -2924,6 +3036,7 @@
       },
       "modules": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/nixos-base/default.nix",
         "features/proxmox-vm/default.nix",
@@ -2933,6 +3046,7 @@
       ],
       "roots": [
         "features/cachix/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/nixos-base/default.nix",
         "features/proxmox-vm/default.nix",
@@ -2963,6 +3077,10 @@
           [
             "desktop-base",
             "desktop-runtime"
+          ],
+          [
+            "desktop-base",
+            "fonts"
           ],
           [
             "desktop-base",
@@ -3095,6 +3213,10 @@
           [
             "nixos-base",
             "cachix"
+          ],
+          [
+            "nixos-base",
+            "fonts"
           ],
           [
             "nixos-base",
@@ -3231,6 +3353,10 @@
           {
             "file": "features/dotfiles/default.nix",
             "id": "dotfiles"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "profiles/full-workstation.nix",
@@ -3538,6 +3664,7 @@
           "features/desktop-runtime/default.nix",
           "features/development/default.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/full-workstation-apps/default.nix",
           "features/gaming/default.nix",
           "features/i18n/default.nix",
@@ -3587,6 +3714,7 @@
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/full-workstation-apps/_home.nix",
           "features/full-workstation-apps/_taskbar.nix",
           "features/full-workstation-apps/default.nix",
@@ -3626,6 +3754,7 @@
           "features/boot/default.nix",
           "features/cachix/default.nix",
           "features/desktop-runtime/default.nix",
+          "features/fonts/default.nix",
           "features/gaming/default.nix",
           "features/i18n/default.nix",
           "features/internal-pki/default.nix",
@@ -3670,6 +3799,7 @@
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/full-workstation-apps/_home.nix",
         "features/full-workstation-apps/_taskbar.nix",
         "features/full-workstation-apps/default.nix",
@@ -3726,6 +3856,7 @@
         "features/desktop-runtime/default.nix",
         "features/development/default.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/full-workstation-apps/default.nix",
         "features/gaming/default.nix",
         "features/i18n/default.nix",
@@ -3815,6 +3946,10 @@
           ],
           [
             "nixos-base",
+            "fonts"
+          ],
+          [
+            "nixos-base",
             "internal-pki"
           ],
           [
@@ -3828,6 +3963,10 @@
           [
             "portable-home",
             "development-core"
+          ],
+          [
+            "portable-home",
+            "fonts"
           ],
           [
             "portable-home",
@@ -3884,6 +4023,10 @@
           {
             "file": "features/development/default.nix",
             "id": "development-core"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "features/mcp/default.nix",
@@ -4022,6 +4165,7 @@
           "features/darwin-speech/default.nix",
           "features/development/default.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/default.nix",
           "features/nix-index/default.nix",
@@ -4045,6 +4189,7 @@
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
@@ -4065,6 +4210,7 @@
           "features/annotation/default.nix",
           "features/darwin-keyboard/_darwin.nix",
           "features/darwin-keyboard/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/window-management/default.nix",
           "hosts/physical/loki/default.nix"
@@ -4083,6 +4229,7 @@
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
@@ -4107,6 +4254,7 @@
         "features/darwin-speech/default.nix",
         "features/development/default.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/default.nix",
         "features/nix-index/default.nix",
@@ -4177,6 +4325,10 @@
           ],
           [
             "nixos-base",
+            "fonts"
+          ],
+          [
+            "nixos-base",
             "internal-pki"
           ],
           [
@@ -4190,6 +4342,10 @@
           [
             "portable-home",
             "development-core"
+          ],
+          [
+            "portable-home",
+            "fonts"
           ],
           [
             "portable-home",
@@ -4242,6 +4398,10 @@
           {
             "file": "features/development/default.nix",
             "id": "development-core"
+          },
+          {
+            "file": "features/fonts/default.nix",
+            "id": "fonts"
           },
           {
             "file": "features/mcp/default.nix",
@@ -4367,6 +4527,7 @@
           "features/darwin-speech/default.nix",
           "features/development/default.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/default.nix",
           "features/nix-index/default.nix",
@@ -4387,6 +4548,7 @@
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
@@ -4415,6 +4577,7 @@
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
@@ -4437,6 +4600,7 @@
         "features/darwin-speech/default.nix",
         "features/development/default.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/default.nix",
         "features/nix-index/default.nix",
@@ -4592,6 +4756,7 @@
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
@@ -4639,6 +4804,7 @@
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
@@ -4678,6 +4844,7 @@
         "features/common-tooling/default.nix",
         "features/darwin-speech/default.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/default.nix",
         "features/nix-index/default.nix",
@@ -4844,6 +5011,7 @@
           "features/dotfiles/_portable-dotfiles.nix",
           "features/dotfiles/_worktrunk.nix",
           "features/dotfiles/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/_agent-memory.nix",
           "features/mcp/_headroom.nix",
@@ -4882,6 +5050,7 @@
           "features/annotation/default.nix",
           "features/darwin-keyboard/_darwin.nix",
           "features/darwin-keyboard/default.nix",
+          "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/window-management/default.nix",
           "hosts/physical/loki/default.nix"
@@ -4901,6 +5070,7 @@
         "features/dotfiles/_portable-dotfiles.nix",
         "features/dotfiles/_worktrunk.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/_agent-memory.nix",
         "features/mcp/_headroom.nix",
@@ -4942,6 +5112,7 @@
         "features/darwin-keyboard/default.nix",
         "features/darwin-speech/default.nix",
         "features/dotfiles/default.nix",
+        "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/default.nix",
         "features/nix-index/default.nix",
@@ -5336,11 +5507,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 94,
+      "lines": 80,
       "merge_into": null,
       "parents": [],
       "path": "features/desktop-runtime/default.nix",
-      "sha256": "ecf8995e71c8e8ba0d67a2963e2448ba72641accd48399057094e7743c4945d4",
+      "sha256": "ac82dea476149880f5ab8a07dc22e7220b6a55469136257da72e0a03c4e27f5f",
       "status": "used"
     },
     {
@@ -5531,13 +5702,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 63,
+      "lines": 64,
       "merge_into": null,
       "parents": [
         "features/dotfiles/default.nix"
       ],
       "path": "features/dotfiles/_portable-dotfiles.nix",
-      "sha256": "8736fadc901c5ebc2017e08c5ef2fc177d30b9efbaa23d397bea697793bb045e",
+      "sha256": "f1c36104dd503a58cee2bb324acb33d63e084411822e7a48cae59c230dc15854",
       "status": "used"
     },
     {
@@ -5586,6 +5757,32 @@
       "parents": [],
       "path": "features/dotfiles/default.nix",
       "sha256": "29c0f16bd6be281705bf6a09a20978fbf3dd896495fb36d319d12d17e40cf296",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:apps",
+        "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:forgejo",
+        "NixOS:forgejo-lab",
+        "NixOS:frigg",
+        "NixOS:homepage",
+        "NixOS:proxy",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "kind": "feature",
+      "lines": 23,
+      "merge_into": null,
+      "parents": [],
+      "path": "features/fonts/default.nix",
+      "sha256": "c07e1a14f8a5a060301abb9e025098ad626738f16d076e307bfe0c9badbaa96d",
       "status": "used"
     },
     {
@@ -6203,11 +6400,11 @@
         "Home Manager:mimir2"
       ],
       "kind": "feature",
-      "lines": 17,
+      "lines": 18,
       "merge_into": null,
       "parents": [],
       "path": "features/nixos-base/default.nix",
-      "sha256": "8633f65596c6833eb2729eb5a0cc76ced40f53e806bc4261b78a109b3069afc4",
+      "sha256": "dfb5afe4044d120bb5bf569b0b54c6ebdcc828fafe60d97df7fc40beff2dd6fb",
       "status": "used"
     },
     {
@@ -6799,7 +6996,7 @@
         "features/workstation-extra/_terminal-packages.nix"
       ],
       "path": "features/workstation-extra/_terminal-data.nix",
-      "sha256": "4a0e1e93253c90f3570c82a6a69efc58440522ef592c2cc1fc2da2c6be751f84",
+      "sha256": "fbe6686990bc2d4c6e3394457264ace3ae388eb48ea732c6de6b68523af7273f",
       "status": "optional-only"
     },
     {
@@ -6887,7 +7084,7 @@
         "features/workstation-extra/_terminal-packages.nix"
       ],
       "path": "features/workstation-extra/_terminal-system.nix",
-      "sha256": "9ab1302330f7c944cd36db0ed546d7799e1b708e0e9372c8e1e654fb91201e35",
+      "sha256": "b67a354939f698d0b765fd804fbbd168085741c113e5200285aed171dcdd7e99",
       "status": "optional-only"
     },
     {
@@ -7416,11 +7613,11 @@
         "NixOS:wodan"
       ],
       "kind": "profile",
-      "lines": 12,
+      "lines": 13,
       "merge_into": null,
       "parents": [],
       "path": "profiles/desktop-base.nix",
-      "sha256": "eb64fffaf27923f257c092db240d2d2024a79425979eb6d551f9103a23a56c29",
+      "sha256": "a09eb81a58fe6ef4e8f97fbfa07f6f5b33ebd8de9011389f4342c51f2db1c35f",
       "status": "used"
     },
     {
@@ -7507,11 +7704,11 @@
         "Home Manager:mimir2"
       ],
       "kind": "profile",
-      "lines": 12,
+      "lines": 13,
       "merge_into": null,
       "parents": [],
       "path": "profiles/portable-home.nix",
-      "sha256": "c016c8d4be6e95a8f9fef1cc6202ed54517cd89a4ed47466bf2ba676fe40163c",
+      "sha256": "7f8ff51c0bd2ec6030659dd88ef16f33851225cd852c91fcf29f2dba2c5bddbd",
       "status": "used"
     },
     {
@@ -8359,6 +8556,11 @@
           "version": "1.24.2"
         },
         {
+          "name": "monocraft",
+          "origin": "home:david",
+          "version": "4.2.1"
+        },
+        {
           "name": "mtools",
           "origin": "system",
           "version": "4.0.49"
@@ -8372,6 +8574,21 @@
           "name": "ncurses",
           "origin": "system",
           "version": "6.6"
+        },
+        {
+          "name": "nerd-fonts-bigblue-terminal",
+          "origin": "home:david",
+          "version": "3.4.0"
+        },
+        {
+          "name": "nerd-fonts-iosevka",
+          "origin": "home:david",
+          "version": "3.4.0+33.2.1"
+        },
+        {
+          "name": "nerd-fonts-jetbrains-mono",
+          "origin": "home:david",
+          "version": "3.4.0+2.304"
         },
         {
           "name": "networkmanager",
@@ -8589,6 +8806,11 @@
           "version": "0.12.1"
         },
         {
+          "name": "spleen",
+          "origin": "home:david",
+          "version": "2.1.0"
+        },
+        {
           "name": "sqruff",
           "origin": "home:david",
           "version": "0.40.0"
@@ -8609,6 +8831,11 @@
           "version": "260.5"
         },
         {
+          "name": "terminus-font-ttf",
+          "origin": "home:david",
+          "version": "4.49.3"
+        },
+        {
           "name": "texinfo-interactive",
           "origin": "system",
           "version": "7.2"
@@ -8627,6 +8854,11 @@
           "name": "tree",
           "origin": "system",
           "version": "2.3.2"
+        },
+        {
+          "name": "ultimate-oldschool-pc-font-pack",
+          "origin": "home:david",
+          "version": "2.2"
         },
         {
           "name": "util-linux",
@@ -10190,6 +10422,11 @@
           "version": "2.41.0"
         },
         {
+          "name": "monocraft",
+          "origin": "home:david",
+          "version": "4.2.1"
+        },
+        {
           "name": "most",
           "origin": "home:david",
           "version": "5.2.0"
@@ -10238,6 +10475,21 @@
           "name": "neovim",
           "origin": "home:david",
           "version": "0.12.6"
+        },
+        {
+          "name": "nerd-fonts-bigblue-terminal",
+          "origin": "home:david",
+          "version": "3.4.0"
+        },
+        {
+          "name": "nerd-fonts-iosevka",
+          "origin": "home:david",
+          "version": "3.4.0+33.2.1"
+        },
+        {
+          "name": "nerd-fonts-jetbrains-mono",
+          "origin": "home:david",
+          "version": "3.4.0+2.304"
         },
         {
           "name": "netcat-gnu",
@@ -11000,6 +11252,11 @@
           "version": "0.12-unstable-2024-12-02"
         },
         {
+          "name": "spleen",
+          "origin": "home:david",
+          "version": "2.1.0"
+        },
+        {
           "name": "spotify",
           "origin": "home:david",
           "version": "1.2.90.451.gb094aab0"
@@ -11105,6 +11362,11 @@
           "version": "0.10.0"
         },
         {
+          "name": "terminus-font-ttf",
+          "origin": "home:david",
+          "version": "4.49.3"
+        },
+        {
           "name": "texinfo-interactive",
           "origin": "system",
           "version": "7.2"
@@ -11163,6 +11425,11 @@
           "name": "udisks",
           "origin": "system",
           "version": "2.11.2"
+        },
+        {
+          "name": "ultimate-oldschool-pc-font-pack",
+          "origin": "home:david",
+          "version": "2.2"
         },
         {
           "name": "unzip",
@@ -13748,6 +14015,11 @@
           "version": "2.41.0"
         },
         {
+          "name": "monocraft",
+          "origin": "home:david",
+          "version": "4.2.1"
+        },
+        {
           "name": "most",
           "origin": "home:david",
           "version": "5.2.0"
@@ -13796,6 +14068,21 @@
           "name": "neovim",
           "origin": "home:david",
           "version": "0.12.6"
+        },
+        {
+          "name": "nerd-fonts-bigblue-terminal",
+          "origin": "home:david",
+          "version": "3.4.0"
+        },
+        {
+          "name": "nerd-fonts-iosevka",
+          "origin": "home:david",
+          "version": "3.4.0+33.2.1"
+        },
+        {
+          "name": "nerd-fonts-jetbrains-mono",
+          "origin": "home:david",
+          "version": "3.4.0+2.304"
         },
         {
           "name": "netcat-gnu",
@@ -14478,6 +14765,11 @@
           "version": "0.12-unstable-2024-12-02"
         },
         {
+          "name": "spleen",
+          "origin": "home:david",
+          "version": "2.1.0"
+        },
+        {
           "name": "spotify",
           "origin": "home:david",
           "version": "1.2.90.451.gb094aab0"
@@ -14578,6 +14870,11 @@
           "version": "0.10.0"
         },
         {
+          "name": "terminus-font-ttf",
+          "origin": "home:david",
+          "version": "4.49.3"
+        },
+        {
           "name": "texinfo-interactive",
           "origin": "system",
           "version": "7.2"
@@ -14636,6 +14933,11 @@
           "name": "udisks",
           "origin": "system",
           "version": "2.11.2"
+        },
+        {
+          "name": "ultimate-oldschool-pc-font-pack",
+          "origin": "home:david",
+          "version": "2.2"
         },
         {
           "name": "unzip",
@@ -15695,6 +15997,11 @@
           "version": "0.20.0"
         },
         {
+          "name": "monocraft",
+          "origin": "home:david",
+          "version": "4.2.1"
+        },
+        {
           "name": "msedit",
           "origin": "home:david",
           "version": "2.0.0"
@@ -15703,6 +16010,21 @@
           "name": "neovim",
           "origin": "home:david",
           "version": "0.12.6"
+        },
+        {
+          "name": "nerd-fonts-bigblue-terminal",
+          "origin": "home:david",
+          "version": "3.4.0"
+        },
+        {
+          "name": "nerd-fonts-iosevka",
+          "origin": "home:david",
+          "version": "3.4.0+33.2.1"
+        },
+        {
+          "name": "nerd-fonts-jetbrains-mono",
+          "origin": "home:david",
+          "version": "3.4.0+2.304"
         },
         {
           "name": "nix",
@@ -15805,6 +16127,11 @@
           "version": "15.2.0"
         },
         {
+          "name": "spleen",
+          "origin": "home:david",
+          "version": "2.1.0"
+        },
+        {
           "name": "sqruff",
           "origin": "home:david",
           "version": "0.40.0"
@@ -15813,6 +16140,11 @@
           "name": "starship",
           "origin": "home:david",
           "version": "1.26.0"
+        },
+        {
+          "name": "terminus-font-ttf",
+          "origin": "home:david",
+          "version": "4.49.3"
         },
         {
           "name": "texinfo-interactive",
@@ -15833,6 +16165,11 @@
           "name": "tree-sitter",
           "origin": "home:david",
           "version": "0.26.11"
+        },
+        {
+          "name": "ultimate-oldschool-pc-font-pack",
+          "origin": "home:david",
+          "version": "2.2"
         },
         {
           "name": "uv",
@@ -15954,6 +16291,16 @@
           "name": "direnv",
           "origin": "home:david",
           "version": "2.38.2"
+        },
+        {
+          "name": "dummy-fc-dir1",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "dummy-fc-dir2",
+          "origin": "home:david",
+          "version": ""
         },
         {
           "name": "dummy-xdg-mime-dirs1",
@@ -16106,6 +16453,11 @@
           "version": "0.20.0"
         },
         {
+          "name": "monocraft",
+          "origin": "home:david",
+          "version": "4.2.1"
+        },
+        {
           "name": "msedit",
           "origin": "home:david",
           "version": "2.0.0"
@@ -16114,6 +16466,21 @@
           "name": "neovim",
           "origin": "home:david",
           "version": "0.12.6"
+        },
+        {
+          "name": "nerd-fonts-bigblue-terminal",
+          "origin": "home:david",
+          "version": "3.4.0"
+        },
+        {
+          "name": "nerd-fonts-iosevka",
+          "origin": "home:david",
+          "version": "3.4.0+33.2.1"
+        },
+        {
+          "name": "nerd-fonts-jetbrains-mono",
+          "origin": "home:david",
+          "version": "3.4.0+2.304"
         },
         {
           "name": "nix-index",
@@ -16196,6 +16563,11 @@
           "version": "2.4"
         },
         {
+          "name": "spleen",
+          "origin": "home:david",
+          "version": "2.1.0"
+        },
+        {
           "name": "sqruff",
           "origin": "home:david",
           "version": "0.40.0"
@@ -16204,6 +16576,11 @@
           "name": "starship",
           "origin": "home:david",
           "version": "1.26.0"
+        },
+        {
+          "name": "terminus-font-ttf",
+          "origin": "home:david",
+          "version": "4.49.3"
         },
         {
           "name": "tmux",
@@ -16219,6 +16596,11 @@
           "name": "tree-sitter",
           "origin": "home:david",
           "version": "0.26.11"
+        },
+        {
+          "name": "ultimate-oldschool-pc-font-pack",
+          "origin": "home:david",
+          "version": "2.2"
         },
         {
           "name": "uv",
@@ -18208,6 +18590,11 @@
           "version": "2.41.0"
         },
         {
+          "name": "monocraft",
+          "origin": "home:david",
+          "version": "4.2.1"
+        },
+        {
           "name": "most",
           "origin": "home:david",
           "version": "5.2.0"
@@ -18261,6 +18648,21 @@
           "name": "neovim",
           "origin": "home:david",
           "version": "0.12.6"
+        },
+        {
+          "name": "nerd-fonts-bigblue-terminal",
+          "origin": "home:david",
+          "version": "3.4.0"
+        },
+        {
+          "name": "nerd-fonts-iosevka",
+          "origin": "home:david",
+          "version": "3.4.0+33.2.1"
+        },
+        {
+          "name": "nerd-fonts-jetbrains-mono",
+          "origin": "home:david",
+          "version": "3.4.0+2.304"
         },
         {
           "name": "netcat-gnu",
@@ -19053,6 +19455,11 @@
           "version": "0.12-unstable-2024-12-02"
         },
         {
+          "name": "spleen",
+          "origin": "home:david",
+          "version": "2.1.0"
+        },
+        {
           "name": "spotify",
           "origin": "home:david",
           "version": "1.2.90.451.gb094aab0"
@@ -19168,6 +19575,11 @@
           "version": "0.10.0"
         },
         {
+          "name": "terminus-font-ttf",
+          "origin": "home:david",
+          "version": "4.49.3"
+        },
+        {
           "name": "texinfo-interactive",
           "origin": "system",
           "version": "7.2"
@@ -19221,6 +19633,11 @@
           "name": "udisks",
           "origin": "system",
           "version": "2.11.2"
+        },
+        {
+          "name": "ultimate-oldschool-pc-font-pack",
+          "origin": "home:david",
+          "version": "2.2"
         },
         {
           "name": "unsloth",
