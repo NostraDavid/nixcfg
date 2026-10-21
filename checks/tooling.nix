@@ -18,12 +18,110 @@ let
     installed = map (p: p.outPath) home.home.packages;
   in
     assert lib.all (name: lib.assertMsg (builtins.elem pkgs.${name}.outPath installed) "Expected unstable.${name} in ${system} tooling profile") names; true;
-  cliTools = ["actionlint" "lnav" "nix-index" "nix-tree" "nvd" "watchexec"];
-  core = ["git" "git-lfs" "just" "ast-grep" "mergiraf" "fd" "fzf" "bat" "hurl" "lsd" "sqruff" "starship" "tmux" "tree" "worktrunk"] ++ cliTools;
-  workstation = ["ruff" "prek" "dprint" "shellcheck" "shfmt" "nixd" "pyrefly" "markdownlint-cli" "sbomnix" "grype" "opentofu" "sqlfluff" "jq"];
+  cliTools = [
+    "actionlint"
+    "lnav"
+    "nix-index"
+    "nix-tree"
+    "nvd"
+    "watchexec"
+  ];
+  core =
+    [
+      "ast-grep"
+      "bat"
+      "fd"
+      "fzf"
+      "git-lfs"
+      "git"
+      "hurl"
+      "just"
+      "lsd"
+      "mergiraf"
+      "sqruff"
+      "starship"
+      "tmux"
+      "tree"
+      "worktrunk"
+    ]
+    ++ cliTools;
+  workstation = [
+    "dprint"
+    "grype"
+    "jq"
+    "markdownlint-cli"
+    "nixd"
+    "opentofu"
+    "prek"
+    "pyrefly"
+    "ruff"
+    "sbomnix"
+    "shellcheck"
+    "shfmt"
+    "sqlfluff"
+  ];
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  terminalEmulators = assert lib.all (host: let
+    inherit (host) pkgs;
+    unstable = unstableFor pkgs.stdenv.hostPlatform.system;
+    packages = map (p: p.outPath) host.config.home-manager.users.david.home.packages;
+  in
+    lib.all (name: lib.any (source: builtins.elem source.${name}.outPath packages) [pkgs unstable]) [
+      (
+        if pkgs.stdenv.hostPlatform.isDarwin
+        then "ghostty-bin"
+        else "ghostty"
+      )
+      "alacritty"
+      "kitty"
+      "msedit"
+    ]) [flake.nixosConfigurations.wodan flake.darwinConfigurations.loki]; true;
+  portableWorkstationPackages = assert lib.all (profile: let
+    inherit (profile) pkgs;
+    unstable = unstableFor pkgs.stdenv.hostPlatform.system;
+    packages = map (p: p.outPath) profile.home.home.packages;
+  in
+    lib.all (name: lib.any (source: builtins.elem source.${name}.outPath packages) [pkgs unstable]) [
+      "bandwhich"
+      "cdo"
+      "dnstop"
+      "eccodes"
+      "gdal"
+      "h5glance"
+      "h5utils"
+      "inetutils"
+      "inxi"
+      "ipcalc"
+      "killall"
+      "mtr"
+      "net-tools"
+      "netcat-gnu"
+      "netcdf"
+      "ntfs3g"
+      "util-linux"
+    ])
+  [
+    {
+      home = linuxWorkstation;
+      pkgs = flake.homeConfigurations.mimir2.pkgs;
+    }
+    {
+      home = darwinWorkstation;
+      pkgs = flake.darwinConfigurations.loki.pkgs;
+    }
+  ]; true;
+  workstationAgentsAndJpegli = assert lib.all (home:
+    lib.all (name: builtins.any (package: (package.pname or "") == name) home.home.packages) [
+      "codex"
+      "github-copilot-cli"
+      "jpegli"
+    ]) [
+    linuxWorkstation
+    darwinWorkstation
+  ];
+  assert builtins.length (lib.unique (map (p: p.outPath) (builtins.filter (p: (p.pname or "") == "github-copilot-cli") darwinWorkstation.home.packages))) == 1; true;
   nixPlatformConfig = assert lib.all (home: lib.hasInfix "/nix.linux.conf" home.home.file.".config/nix/nix.platform.conf".source.buildCommand) [wodan mimir2 linuxWorkstation];
   assert lib.all (home: lib.hasInfix "/nix.darwin.conf" home.home.file.".config/nix/nix.platform.conf".source.buildCommand) [loki darwinWorkstation]; true;
   locatePackages = assert lib.all (home: let

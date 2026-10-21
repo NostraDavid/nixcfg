@@ -59,7 +59,7 @@ Dependencies, service-only packages, manual installations and external work prof
 | forgejo-lab | 81 |
 | frigg | 497 |
 | homepage | 85 |
-| loki | 85 |
+| loki | 89 |
 | mimir2 | 77 |
 | proxy | 83 |
 | wodan | 562 |
@@ -374,7 +374,7 @@ before merging. These checks do not establish semantic redundancy.
 | [features/darwin-keyboard/_darwin.nix](../features/darwin-keyboard/_darwin.nix) | 18 | features/darwin-keyboard/default.nix |
 | [features/darwin-speech/_home.nix](../features/darwin-speech/_home.nix) | 45 | features/darwin-speech/default.nix |
 | [features/desktop-apps/_home.nix](../features/desktop-apps/_home.nix) | 21 | features/desktop-apps/default.nix |
-| [features/development/_core.nix](../features/development/_core.nix) | 49 | features/development/default.nix |
+| [features/development/_core.nix](../features/development/_core.nix) | 52 | features/development/default.nix |
 | [features/dotfiles/_worktrunk.nix](../features/dotfiles/_worktrunk.nix) | 30 | features/dotfiles/default.nix |
 | [features/full-workstation-apps/_home.nix](../features/full-workstation-apps/_home.nix) | 15 | features/full-workstation-apps/default.nix |
 | [features/keyboard/_home.nix](../features/keyboard/_home.nix) | 11 | features/keyboard/default.nix |
@@ -387,17 +387,17 @@ before merging. These checks do not establish semantic redundancy.
 | [features/portable-runtime/_home.nix](../features/portable-runtime/_home.nix) | 34 | features/portable-runtime/default.nix |
 | [features/whatpulse/_home.nix](../features/whatpulse/_home.nix) | 11 | features/whatpulse/default.nix |
 | [features/workstation-extra/_default.nix](../features/workstation-extra/_default.nix) | 7 | features/workstation-extra/default.nix |
-| [features/workstation-extra/_development-core.nix](../features/workstation-extra/_development-core.nix) | 37 | features/workstation-extra/_development-packages.nix |
+| [features/workstation-extra/_development-core.nix](../features/workstation-extra/_development-core.nix) | 41 | features/workstation-extra/_development-packages.nix |
 | [features/workstation-extra/_development-mantle.nix](../features/workstation-extra/_development-mantle.nix) | 22 | features/workstation-extra/_development-default.nix |
 | [features/workstation-extra/_development-packages.nix](../features/workstation-extra/_development-packages.nix) | 7 | features/workstation-extra/_development-default.nix |
 | [features/workstation-extra/_development-security.nix](../features/workstation-extra/_development-security.nix) | 9 | features/workstation-extra/_development-packages.nix |
 | [features/workstation-extra/_development-tooling.nix](../features/workstation-extra/_development-tooling.nix) | 30 | features/workstation-extra/_development-packages.nix |
 | [features/workstation-extra/_terminal-archives.nix](../features/workstation-extra/_terminal-archives.nix) | 11 | features/workstation-extra/_terminal-packages.nix |
-| [features/workstation-extra/_terminal-data.nix](../features/workstation-extra/_terminal-data.nix) | 36 | features/workstation-extra/_terminal-packages.nix |
-| [features/workstation-extra/_terminal-network.nix](../features/workstation-extra/_terminal-network.nix) | 24 | features/workstation-extra/_terminal-packages.nix |
+| [features/workstation-extra/_terminal-data.nix](../features/workstation-extra/_terminal-data.nix) | 37 | features/workstation-extra/_terminal-packages.nix |
+| [features/workstation-extra/_terminal-network.nix](../features/workstation-extra/_terminal-network.nix) | 16 | features/workstation-extra/_terminal-packages.nix |
 | [features/workstation-extra/_terminal-packages.nix](../features/workstation-extra/_terminal-packages.nix) | 9 | features/workstation-extra/_terminal-default.nix |
 | [features/workstation-extra/_terminal-shell.nix](../features/workstation-extra/_terminal-shell.nix) | 32 | features/workstation-extra/_terminal-packages.nix |
-| [features/workstation-extra/_terminal-system.nix](../features/workstation-extra/_terminal-system.nix) | 26 | features/workstation-extra/_terminal-packages.nix |
+| [features/workstation-extra/_terminal-system.nix](../features/workstation-extra/_terminal-system.nix) | 25 | features/workstation-extra/_terminal-packages.nix |
 | [nix/default.nix](../nix/default.nix) | 53 | flake.nix |
 
 ## Machine-module matrix

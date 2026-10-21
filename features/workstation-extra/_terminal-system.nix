@@ -1,26 +1,25 @@
 {
   lib,
-  stable,
   unstable,
   ...
 }: {
   home.packages =
     [
-      stable.lsof # List open files
+      unstable.bandwhich
       unstable.duf # Disk usage utility
       unstable.dust # Disk usage analyzer
       unstable.gdu # Disk usage analyzer
       unstable.htop # Interactive process viewer
+      unstable.inxi # System information tool
+      unstable.killall # Kill processes by name
+      unstable.lsof # List open files
       unstable.ncdu # Disk usage analyzer
+      unstable.ntfs3g
       unstable.procs # Modern ps replacement
+      unstable.util-linux # Portable subset on macOS
     ]
-    ++ lib.optionals stable.stdenv.isLinux [
-      stable.bandwhich
-      stable.inotify-tools # File system event monitoring
-      stable.inxi # System information tool
-      stable.killall # Kill processes by name
-      stable.ntfs3g
-      stable.util-linux # Low-level Linux utilities
+    ++ lib.optionals unstable.stdenv.isLinux [
+      unstable.inotify-tools # File system event monitoring
       unstable.strace # System call tracer
     ];
 }

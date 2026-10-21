@@ -5373,13 +5373,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 49,
+      "lines": 52,
       "merge_into": "features/development/default.nix",
       "parents": [
         "features/development/default.nix"
       ],
       "path": "features/development/_core.nix",
-      "sha256": "a1fc8f54291da44cace441a13ac7da2d96c0495c9b34053cd6f03444f5ec6f30",
+      "sha256": "d12af5ab37ec2c3e9a20cac710b71f0ed39e1636997b6b665e3cfb178e60d711",
       "status": "used"
     },
     {
@@ -5531,13 +5531,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 56,
+      "lines": 63,
       "merge_into": null,
       "parents": [
         "features/dotfiles/default.nix"
       ],
       "path": "features/dotfiles/_portable-dotfiles.nix",
-      "sha256": "a63f97486bf0ed65a027c9b1ff3444934b94592c3c3858d8e5f39f83ab886db3",
+      "sha256": "8736fadc901c5ebc2017e08c5ef2fc177d30b9efbaa23d397bea697793bb045e",
       "status": "used"
     },
     {
@@ -6656,13 +6656,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 37,
+      "lines": 41,
       "merge_into": "features/workstation-extra/_development-packages.nix",
       "parents": [
         "features/workstation-extra/_development-packages.nix"
       ],
       "path": "features/workstation-extra/_development-core.nix",
-      "sha256": "12a31f28a62d0bb8eceb3ba90e4661a780f8727ce02ccfc4673b8c748153b9b4",
+      "sha256": "becb2bb98abb9403a1b6ed1e655aa3994fb843c91f9bf3390b93b89aeaae4625",
       "status": "optional-only"
     },
     {
@@ -6793,13 +6793,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 36,
+      "lines": 37,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
         "features/workstation-extra/_terminal-packages.nix"
       ],
       "path": "features/workstation-extra/_terminal-data.nix",
-      "sha256": "4a5810116eb2d4053ffbc5506cb46e8db0f2f444decc91b9b3cc3921ad2e62b1",
+      "sha256": "4a0e1e93253c90f3570c82a6a69efc58440522ef592c2cc1fc2da2c6be751f84",
       "status": "optional-only"
     },
     {
@@ -6827,13 +6827,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 24,
+      "lines": 16,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
         "features/workstation-extra/_terminal-packages.nix"
       ],
       "path": "features/workstation-extra/_terminal-network.nix",
-      "sha256": "baf6936377e89328598925fa34035b8086b20432082d7e122df32a3f8a2a6bf3",
+      "sha256": "b5f1523ff1c001918098433e4aeab61532d465a6686422dc10428452f495c76d",
       "status": "optional-only"
     },
     {
@@ -6881,13 +6881,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 26,
+      "lines": 25,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
         "features/workstation-extra/_terminal-packages.nix"
       ],
       "path": "features/workstation-extra/_terminal-system.nix",
-      "sha256": "94290250ccb81735e75052b7e8d28b08ba01c927bb52b8f444878f4036337982",
+      "sha256": "9ab1302330f7c944cd36db0ed546d7799e1b708e0e9372c8e1e654fb91201e35",
       "status": "optional-only"
     },
     {
@@ -6963,11 +6963,11 @@
         "NixOS:bragi"
       ],
       "kind": "host",
-      "lines": 78,
+      "lines": 83,
       "merge_into": null,
       "parents": [],
       "path": "hosts/physical/bragi/default.nix",
-      "sha256": "0f97c2cddb1e40d43855f4428246b40ec685faf4dc2562c917f3b1cb90c58f56",
+      "sha256": "783e0d28f140e0def260dd90066c25a918922f9205888566cea3c078562c7c82",
       "status": "used"
     },
     {
@@ -9792,7 +9792,7 @@
         {
           "name": "kitty",
           "origin": "home:david",
-          "version": "0.49.1"
+          "version": "0.49.2"
         },
         {
           "name": "kmenuedit",
@@ -13410,7 +13410,7 @@
         {
           "name": "kitty",
           "origin": "home:david",
-          "version": "0.49.1"
+          "version": "0.49.2"
         },
         {
           "name": "kmenuedit",
@@ -15420,6 +15420,11 @@
           "version": ""
         },
         {
+          "name": "alacritty",
+          "origin": "home:david",
+          "version": "0.17.0"
+        },
+        {
           "name": "alt-tab",
           "origin": "homebrew:casks",
           "version": ""
@@ -15565,6 +15570,11 @@
           "version": "0.74.5"
         },
         {
+          "name": "ghostty-bin",
+          "origin": "home:david",
+          "version": "1.3.1"
+        },
+        {
           "name": "git",
           "origin": "home:david",
           "version": "2.56.0"
@@ -15635,6 +15645,11 @@
           "version": ""
         },
         {
+          "name": "kitty",
+          "origin": "home:david",
+          "version": "0.49.2"
+        },
+        {
           "name": "ksnip",
           "origin": "homebrew:casks",
           "version": ""
@@ -15678,6 +15693,11 @@
           "name": "mergiraf",
           "origin": "home:david",
           "version": "0.20.0"
+        },
+        {
+          "name": "msedit",
+          "origin": "home:david",
+          "version": "2.0.0"
         },
         {
           "name": "neovim",
@@ -16033,7 +16053,7 @@
         {
           "name": "kitty",
           "origin": "home:david",
-          "version": "0.49.1"
+          "version": "0.49.2"
         },
         {
           "name": "ksnip",
@@ -17785,7 +17805,7 @@
         {
           "name": "kitty",
           "origin": "home:david",
-          "version": "0.49.1"
+          "version": "0.49.2"
         },
         {
           "name": "kmenuedit",
