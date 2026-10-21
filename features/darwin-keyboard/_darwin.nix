@@ -34,13 +34,4 @@ in {
     enableKeyMapping = true;
     userKeyMapping = [];
   };
-
-  launchd.user.agents.alt-tab.serviceConfig = {
-    ProgramArguments = [
-      "/usr/bin/open"
-      "-a"
-      "${altTab}/Applications/AltTab.app"
-    ];
-    RunAtLoad = true;
-  };
 }

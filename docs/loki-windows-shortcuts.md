@@ -26,10 +26,10 @@ sudo darwin-rebuild switch --flake .#loki
 ```
 
 The first activation may request your password for Homebrew's uninstall steps.
-It uses no `--zap`, so application preferences remain. AltTab starts from its
-Nix store path; Karabiner installs to its required native macOS locations. The
-Karabiner installation is a system side effect, so activate the desired Nix
-generation to reconcile its installed version after a rollback.
+It uses no `--zap`, so application preferences remain. Karabiner installs to its
+required native macOS locations. The Karabiner installation is a system side
+effect, so activate the desired Nix generation to reconcile its installed
+version after a rollback.
 
 The activation clears the previous global `hidutil` Control/Command swap and
 removes its login agent. Karabiner provides the Windows shortcut translations.
@@ -42,11 +42,9 @@ Driver Extension. These approvals cannot be granted by the Nix configuration.
 See the
 [Karabiner installation guide](https://karabiner-elements.pqrs.org/docs/getting-started/installation/).
 
-AltTab starts at login through a launchd agent. Complete AltTab's Accessibility
-and Screen Recording permission prompts when it first opens. Keep its primary
-shortcut at **Option+Tab**, which is the default. Its free functionality
-provides individual-window switching; no Pro license is required for that
-behavior.
+AltTab remains installed, but its login agent is disabled for now. Quit an
+already running AltTab once from its menu. Alt+Tab opens Mission Control through
+Karabiner instead.
 
 ## Managed profile and existing settings
 
@@ -65,25 +63,25 @@ instead of editing that managed profile in the Karabiner UI; the next activation
 reapplies it. Personal settings in other profiles are retained.
 
 The community rules normally turn Alt+Tab into macOS app switching. We omit
-those two forward/backward translations so that AltTab receives physical Alt+Tab
-and Alt+Shift+Tab and switches individual windows. The remaining community rules
-are retained. Rectangle remains installed, but the profile uses native macOS
-window tiling for Win+Arrow, so Rectangle needs no matching hotkeys.
+those two forward/backward translations and map physical Alt+Tab and
+Alt+Shift+Tab to Mission Control. The remaining community rules are retained.
+Rectangle remains installed, but the profile uses native macOS window tiling for
+Win+Arrow, so Rectangle needs no matching hotkeys.
 
 ## Shortcut checks
 
 Use an unsaved text document and a disposable terminal to check the physical
 keys after setup:
 
-| Keys                               | Expected behavior                            |
-| ---------------------------------- | -------------------------------------------- |
-| Ctrl+C / Ctrl+V in an editor       | Copy / paste                                 |
-| Ctrl+Left / Ctrl+Right             | Move by word                                 |
-| Ctrl+Shift+Left / Ctrl+Shift+Right | Select by word                               |
-| Alt+Tab / Alt+Shift+Tab            | Switch individual windows forward / backward |
-| Alt+F4                             | Close the active window                      |
-| Win+Left / Win+Right               | Tile the window left / right                 |
-| Win+Up / Win+Down                  | Native window maximize / restore actions     |
+| Keys                               | Expected behavior                        |
+| ---------------------------------- | ---------------------------------------- |
+| Ctrl+C / Ctrl+V in an editor       | Copy / paste                             |
+| Ctrl+Left / Ctrl+Right             | Move by word                             |
+| Ctrl+Shift+Left / Ctrl+Shift+Right | Select by word                           |
+| Alt+Tab / Alt+Shift+Tab            | Open Mission Control                     |
+| Alt+F4                             | Close the active window                  |
+| Win+Left / Win+Right               | Tile the window left / right             |
+| Win+Up / Win+Down                  | Native window maximize / restore actions |
 
 The complete coverage is documented in the upstream
 [shortcut matrix](https://github.com/Fuzzy-and-Fluffy/windows-keyboard-for-mac/blob/main/docs/shortcut-matrix.md).
@@ -119,5 +117,6 @@ The keyboard test evaluates Loki and a custom work user, checks Linux isolation,
 builds a small Linux Home Manager fixture, and runs the actual profile migration
 against temporary files. It covers preserved settings, backups, repeated
 activation, invalid input, fresh installation, dry runs, retained arrow rules,
-AltTab pass-through, and VS Code terminal bindings. It does not grant macOS
-permissions or exercise physical keyboard events; verify those on Loki.
+Mission Control mapping and disabled AltTab autostart, and VS Code terminal
+bindings. It does not grant macOS permissions or exercise physical keyboard
+events; verify those on Loki.

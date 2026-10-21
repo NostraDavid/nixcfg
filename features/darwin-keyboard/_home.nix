@@ -7,7 +7,7 @@
   ...
 }: let
   community = builtins.fromJSON (builtins.readFile "${inputs.karabiner-rules}/public/json/windows_keyboard_for_mac.json");
-  # AltTab handles Option+Tab directly; upstream translates it to app switching.
+  # Replace upstream app switching with Mission Control.
   keepManipulator = manipulator:
     !((manipulator.from.key_code or "")
       == "tab"
@@ -16,7 +16,23 @@
     name = "Windows Keyboard for Mac (nixcfg)";
     selected = true;
     complex_modifications.rules =
-      map (rule: rule // {manipulators = builtins.filter keepManipulator rule.manipulators;}) community.rules;
+      map (rule: rule // {manipulators = builtins.filter keepManipulator rule.manipulators;}) community.rules
+      ++ [
+        {
+          description = "Alt+Tab opens Mission Control";
+          manipulators = [
+            {
+              type = "basic";
+              from = {
+                key_code = "tab";
+                modifiers.mandatory = ["option"];
+                modifiers.optional = ["shift"];
+              };
+              to = [{apple_vendor_keyboard_key_code = "mission_control";}];
+            }
+          ];
+        }
+      ];
   };
   profileSource = config.home.file.".config/nixcfg/karabiner-profile.json".source;
 in {
