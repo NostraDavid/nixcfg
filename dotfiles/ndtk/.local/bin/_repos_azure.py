@@ -15,6 +15,7 @@ import argparse
 import base64
 import datetime as dt
 import os
+import re
 import shutil
 import signal
 import subprocess
@@ -52,7 +53,7 @@ HTTP_TIMEOUT = 15
 GIT_TIMEOUT = 300
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
 ALL_TAG_REFSPEC = "+refs/tags/*:refs/tags/*"
-DEFAULT_BRANCHES = ("main", "master", "dev")
+DEFAULT_BRANCHES = ("main", "master", "dev", "develop", "development")
 BARE_REPO_DIR = "worktree.git"
 RESERVED_WORKTREE_NAMES = {
     BARE_REPO_DIR,
@@ -297,6 +298,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Root folder for projects (default: ~/dev).",
     )
     parser.add_argument(
+        "--no-filter",
+        action="store_false",
+        dest="filter_refs",
+        help=f"Disable the default worktree filter ({', '.join(DEFAULT_BRANCHES)}; vX.Y.Z or X.Y.Z tags).",
+    )
+    parser.add_argument(
         "--branches",
         default=",".join(DEFAULT_BRANCHES),
         help=(
@@ -307,7 +314,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--all-branches",
         action="store_true",
         default=True,
-        help="Track all remote branches as flat worktrees (default: enabled).",
+        help="Consider all remote branches for worktrees; the default filter still applies.",
     )
     parser.add_argument(
         "--no-all-branches",
@@ -324,7 +331,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--all-tags",
         action="store_true",
         default=True,
-        help="Track all remote tags as detached flat worktrees (default: enabled).",
+        help="Consider all remote tags for worktrees; the default filter still applies.",
     )
     parser.add_argument(
         "--no-all-tags",
@@ -771,6 +778,7 @@ def clone_or_update_repo(
     *,
     clone_timeout: int = GIT_TIMEOUT,
     fetch_timeout: int = GIT_TIMEOUT,
+    filter_refs: bool = True,
 ) -> tuple[bool, str]:
     def _repo_identity(url: str) -> str:
         if not url:
@@ -898,6 +906,17 @@ def clone_or_update_repo(
         return False, str(error)
 
     expected_paths: set[Path] = set()
+    if filter_refs:
+        selected_branches = [
+            branch
+            for branch in selected_branches
+            if branch.casefold() in DEFAULT_BRANCHES
+        ]
+        selected_tags = [
+            tag
+            for tag in selected_tags
+            if re.fullmatch(r"v?[0-9]+\.[0-9]+\.[0-9]+", tag)
+        ]
 
     branches_ok, branches_reason, branch_paths = ensure_branch_worktrees(
         bare_dir,
@@ -1028,6 +1047,94 @@ def run_tests(verbose: bool) -> int:
         def setUp(self) -> None:
             stamina.set_testing(True, attempts=10)
             self.addCleanup(stamina.set_testing, False)
+
+        def test_default_worktree_filter_and_opt_out(self) -> None:
+            self.assertTrue(parse_args(["clone"]).filter_refs)
+            self.assertFalse(parse_args(["clone", "--no-filter"]).filter_refs)
+            branches = (
+                "main",
+                "master",
+                "dev",
+                "Develop",
+                "development",
+                "feature/dev",
+                "hotfix",
+                "develop-old",
+            )
+            tags = (
+                "v0.0.0",
+                "v1.2.3",
+                "v1",
+                "v1.2",
+                "1.2.3",
+                "V9.8.7",
+                "v1.2.3-rc.1",
+                "v1.2.3+build",
+                "release/v2.0.0",
+            )
+            with tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                source = root / "source"
+                with Repo.init(source, initial_branch="main") as repo:
+                    with repo.config_writer() as config:
+                        config.set_value("core", "fsmonitor", False)
+                        config.set_value("commit", "gpgsign", False)
+                        config.set_value("user", "name", "Local check")
+                        config.set_value("user", "email", "check@example.invalid")
+                    (source / "file.txt").write_text("initial\n")
+                    repo.index.add(["file.txt"])
+                    repo.index.commit("initial", skip_hooks=True)
+                    for branch in branches[1:]:
+                        repo.create_head(branch)
+                    for tag in tags:
+                        repo.create_tag(tag)
+                for enabled in (True, False):
+                    with self.subTest(filter_refs=enabled), paused_fsmonitor([root]):
+                        target = root / str(enabled)
+                        ok, reason = clone_or_update_repo(
+                            str(source),
+                            target,
+                            None,
+                            [],
+                            True,
+                            True,
+                            False,
+                            filter_refs=enabled,
+                        )
+                        self.assertTrue(ok, reason)
+                        paths = {
+                            path.name
+                            for path in target.iterdir()
+                            if (path / ".git").exists()
+                        }
+                        expected = {
+                            "main",
+                            "trunk",
+                            "dev",
+                            "Develop",
+                            "development",
+                            "v0.0.0",
+                            "v1.2.3",
+                            "1.2.3",
+                        }
+                        if not enabled:
+                            expected |= {
+                                "feature-dev",
+                                "hotfix",
+                                "develop-old",
+                                "v1",
+                                "v1.2",
+                                "V9.8.7",
+                                "v1.2.3-rc.1",
+                                "v1.2.3+build",
+                                "release-v2.0.0",
+                            }
+                        self.assertEqual(paths, expected)
+                        with Repo(target / BARE_REPO_DIR) as repo:
+                            self.assertEqual(
+                                len(repo.remotes.origin.refs), len(branches)
+                            )
+                            self.assertEqual(len(repo.tags), len(tags))
 
         def test_fsmonitor_restores_state_after_success_error_and_interrupt(
             self,
@@ -1671,6 +1778,7 @@ def sync_projects(
                             args.prune_worktrees,
                             clone_timeout=args.clone_timeout,
                             fetch_timeout=args.fetch_timeout,
+                            filter_refs=args.filter_refs,
                         ),
                     )
                 )

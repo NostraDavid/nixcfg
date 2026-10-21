@@ -104,6 +104,7 @@ def check_provider_checkout_updates() -> None:
                         True,
                         False,
                         fetch_timeout=300,
+                        **({"filter_refs": False} if provider == "azure" else {}),
                     )
 
                 with patch.dict(os.environ, env, clear=True):
@@ -114,7 +115,7 @@ def check_provider_checkout_updates() -> None:
                     if primary == "master":
                         git(source, "branch", "main")
                     if provider == "azure":
-                        git(source, "tag", "v1")
+                        git(source, "tag", "v1.0.0")
                         with patch.dict(
                             sync.__globals__,
                             list_remote_heads=Mock(
@@ -127,7 +128,7 @@ def check_provider_checkout_updates() -> None:
                             result = sync(
                                 str(source), repo, None, [], True, True, False
                             )
-                        assert git(repo / "v1", "rev-parse", "HEAD") == git(
+                        assert git(repo / "v1.0.0", "rev-parse", "HEAD") == git(
                             source, "rev-parse", "HEAD"
                         )
                     else:
