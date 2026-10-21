@@ -6902,11 +6902,11 @@
         "optional:loki + workstation"
       ],
       "kind": "host",
-      "lines": 58,
+      "lines": 59,
       "merge_into": null,
       "parents": [],
       "path": "hosts/physical/loki/default.nix",
-      "sha256": "6d9f1c22597a46cbcbbcc8d7e0ce7219fad6cd094cac5a8d25d2a81739248b8b",
+      "sha256": "b3c3bc8f3f772b752a15db3a08b29fcf35f5af811894d4d8dc351122c1cb5eb1",
       "status": "used"
     },
     {
@@ -15410,6 +15410,11 @@
           "name": "git-lfs",
           "origin": "home:david",
           "version": "3.8.0"
+        },
+        {
+          "name": "github-copilot-cli",
+          "origin": "home:david",
+          "version": "1.0.98"
         },
         {
           "name": "gnused",

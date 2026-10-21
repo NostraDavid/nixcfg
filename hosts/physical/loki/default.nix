@@ -46,7 +46,8 @@ in {
       };
       programs.bash.enable = true;
     };
-    homeManager = {
+    homeManager = {unstable, ...}: {
+      home.packages = [unstable.github-copilot-cli];
       programs.home-manager.enable = true;
       home = {
         inherit (spec) username;

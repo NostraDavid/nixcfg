@@ -59,7 +59,7 @@ Dependencies, service-only packages, manual installations and external work prof
 | forgejo-lab | 81 |
 | frigg | 496 |
 | homepage | 85 |
-| loki | 83 |
+| loki | 84 |
 | mimir2 | 76 |
 | proxy | 83 |
 | wodan | 561 |
