@@ -144,6 +144,9 @@ def main() -> int:
 
 if __name__ == "__main__":
     try:
+        if sys.platform == "darwin":
+            # macOS TMPDIR leaves too little room for session names in Unix socket paths.
+            os.environ.setdefault("ZELLIJ_SOCKET_DIR", f"/tmp/zellij-{os.getuid()}")  # noqa: S108 - Per-user socket directory, as in Zellij's default.
         sys.exit(main())
     except (OSError, RuntimeError, sp.SubprocessError) as error:
         print(f"zellij-workspace: {error}", file=sys.stderr)

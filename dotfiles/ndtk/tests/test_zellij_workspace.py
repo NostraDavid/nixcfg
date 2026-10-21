@@ -171,6 +171,52 @@ class SessionTests(unittest.TestCase):
             )
             execute.assert_not_called()
 
+    def test_macos_uses_short_socket_directory_and_preserves_overrides(self) -> None:
+        long_tmp = "/var/folders/n1/ktv6x7d50yb_n60s9gjny10m0000gp/T/"
+        for platform, override, expected in (
+            ("darwin", None, "/tmp/zellij-502"),  # noqa: S108 - Expected socket path, never created by this test.
+            ("darwin", "/custom/sockets", "/custom/sockets"),
+            ("linux", None, None),
+        ):
+            for app in ("vscode", "ghostty", "alacritty"):
+                environment = dict(os.environ, TMPDIR=long_tmp)
+                environment.pop("ZELLIJ_SOCKET_DIR", None)
+                if override is not None:
+                    environment["ZELLIJ_SOCKET_DIR"] = override
+
+                def execute(
+                    argv: list[str],
+                    *_: object,
+                    expected: str | None = expected,
+                    platform: str = platform,
+                    **__: object,
+                ) -> sp.CompletedProcess[str]:
+                    self.assertEqual(os.environ.get("ZELLIJ_SOCKET_DIR"), expected)
+                    if argv[0] == "git":
+                        return sp.CompletedProcess(
+                            argv,
+                            0,
+                            "/repos/nixcfg/trunk\n/repos/nixcfg/worktree.git\n",
+                            "",
+                        )
+                    if platform == "darwin":
+                        socket = f"{expected}/contract_version_1/{argv[-1]}"
+                        self.assertLessEqual(len(socket.encode()), 103)
+                    return sp.CompletedProcess(argv, 0, "", "")
+
+                with (
+                    self.subTest(platform=platform, override=override, app=app),
+                    patch.dict(os.environ, environment, clear=True),
+                    patch("sys.platform", platform),
+                    patch("os.getuid", return_value=502),
+                    patch("sys.argv", ["zellij-workspace", "--new", app]),
+                    patch.object(sp, "run", side_effect=execute),
+                    patch("os.execvp", side_effect=lambda _, argv: execute(argv)),
+                ):
+                    with self.assertRaises(SystemExit) as stopped:
+                        runpy.run_path(MODULE["__file__"], run_name="__main__")
+                    self.assertEqual(stopped.exception.code, 0)
+
     def test_attached_session_is_not_reused(self) -> None:
         existing = PREFIX + "2026-10-21T14:30:52.123+02:00"
 
