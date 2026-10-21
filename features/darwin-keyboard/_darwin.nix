@@ -1,12 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
-  karabiner = pkgs.callPackage ../../pkgs/karabiner-elements-installer {};
-  altTab = pkgs.callPackage ../../pkgs/alt-tab-macos {};
-in {
+{config, ...}: {
   nix-homebrew = {
     enable = true;
     user = config.system.primaryUser;
@@ -14,20 +6,9 @@ in {
   };
   homebrew = {
     enable = true;
+    casks = ["alt-tab" "karabiner-elements"];
     onActivation.cleanup = "none";
   };
-
-  environment.systemPackages = [
-    altTab
-    karabiner
-  ];
-
-  system.activationScripts.preActivation.text = ''
-    PATH="/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/usr/local/bin:$PATH" \
-      ${pkgs.bash}/bin/bash ${../../scripts/migrate-darwin-apps.sh} \
-        ${lib.escapeShellArg config.system.primaryUser} ${lib.escapeShellArg karabiner.version} \
-        ${karabiner}/share/Karabiner-Elements.pkg
-  '';
 
   # Clear our old global swap on switch; Karabiner now owns modifier translation.
   system.keyboard = {

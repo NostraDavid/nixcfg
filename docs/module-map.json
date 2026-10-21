@@ -5081,13 +5081,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 37,
+      "lines": 18,
       "merge_into": "features/darwin-keyboard/default.nix",
       "parents": [
         "features/darwin-keyboard/default.nix"
       ],
       "path": "features/darwin-keyboard/_darwin.nix",
-      "sha256": "ccebe8f23d42f985fcc22dfe0fa4fc193e14be43c0a61ec726c527915709cbe6",
+      "sha256": "7415f9cf05a89231f95568d258422c0f74688580c7daf184c90bedb16d422e5e",
       "status": "used"
     },
     {
@@ -6468,11 +6468,11 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 7,
+      "lines": 5,
       "merge_into": null,
       "parents": [],
       "path": "features/window-management/default.nix",
-      "sha256": "7100e2ecc1b310cdf5367e57de2347457d628887c95b7e9feed700b5de489f7c",
+      "sha256": "60a82561adc6b75c21ecd2702fdf31c2b08b194eb01b609186ed529915bd05d3",
       "status": "used"
     },
     {
@@ -15257,9 +15257,9 @@
           "version": ""
         },
         {
-          "name": "alt-tab-macos",
-          "origin": "system",
-          "version": "11.9.2"
+          "name": "alt-tab",
+          "origin": "homebrew:casks",
+          "version": ""
         },
         {
           "name": "ast-grep",
@@ -15467,9 +15467,9 @@
           "version": ""
         },
         {
-          "name": "karabiner-elements-installer",
-          "origin": "system",
-          "version": "16.3.0"
+          "name": "karabiner-elements",
+          "origin": "homebrew:casks",
+          "version": ""
         },
         {
           "name": "ksnip",
@@ -15603,8 +15603,8 @@
         },
         {
           "name": "rectangle",
-          "origin": "system",
-          "version": "2.0.3"
+          "origin": "homebrew:casks",
+          "version": ""
         },
         {
           "name": "riffdiff",

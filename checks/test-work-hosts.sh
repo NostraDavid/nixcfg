@@ -11,7 +11,7 @@ nix eval --raw "path:$root#nixosConfigurations.wodan.config.system.build.topleve
 
 nix eval --json "path:$root#darwinConfigurations.loki.config.homebrew.casks" \
     --apply 'map (cask: cask.name)' |
-    jq -e 'index("ksnip") != null' >/dev/null
+    jq -e 'index("ksnip") != null and index("rectangle") != null' >/dev/null
 nix eval --json "path:$root#nixosConfigurations.wodan.config.home-manager.users.david.home.packages" \
     --apply 'map (package: package.pname or package.name)' |
     jq -e 'index("ksnip") != null' >/dev/null

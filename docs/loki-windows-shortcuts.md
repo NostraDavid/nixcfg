@@ -1,21 +1,15 @@
 # Windows-style keyboard shortcuts on Loki
 
-Loki installs pinned Karabiner-Elements and AltTab releases through local Nix
-packages. The Karabiner package preserves the official signed installer and its
-virtual keyboard driver. Activation verifies the installer signature, removes
-only the Homebrew casks `karabiner-elements` and `alt-tab`, and installs
-Karabiner through macOS Installer when its installed version differs. It
-preserves user settings and unrelated Homebrew packages. `nix-homebrew` still
-manages Homebrew itself for those unrelated packages. BetterTouchTool is not
-installed.
+Loki installs Karabiner-Elements, AltTab and Rectangle through Homebrew casks
+managed by nix-darwin. Homebrew manages their app updates; Nix declares which
+apps to install. Activation preserves unrelated Homebrew packages.
+BetterTouchTool is not installed.
 
 The
 [Windows Keyboard for Mac community edition](https://github.com/Fuzzy-and-Fluffy/windows-keyboard-for-mac)
 is pinned through the `karabiner-rules` flake input. It requires **macOS 15 or
 newer and Karabiner-Elements 16 or newer**, and applies to all keyboards,
-including the built-in MacBook keyboard. Versions and source hashes are pinned
-in `pkgs/karabiner-elements-installer/default.nix` and
-`pkgs/alt-tab-macos/default.nix`.
+including the built-in MacBook keyboard.
 
 ## Activate on the Mac
 
@@ -25,11 +19,8 @@ From the checkout that defines your Loki configuration, run:
 sudo darwin-rebuild switch --flake .#loki
 ```
 
-The first activation may request your password for Homebrew's uninstall steps.
-It uses no `--zap`, so application preferences remain. Karabiner installs to its
-required native macOS locations. The Karabiner installation is a system side
-effect, so activate the desired Nix generation to reconcile its installed
-version after a rollback.
+Homebrew may request your password to run the Karabiner installer. macOS
+permissions still require approval on the Mac.
 
 The activation clears the previous global `hidutil` Control/Command swap and
 removes its login agent. Karabiner provides the Windows shortcut translations.
@@ -65,8 +56,9 @@ reapplies it. Personal settings in other profiles are retained.
 The community rules normally turn Alt+Tab into macOS app switching. We omit
 those two forward/backward translations and map physical Alt+Tab and
 Alt+Shift+Tab to Mission Control. The remaining community rules are retained.
-Rectangle remains installed, but the profile uses native macOS window tiling for
-Win+Arrow, so Rectangle needs no matching hotkeys.
+Rectangle is installed through the Homebrew cask managed by nix-darwin. The
+profile uses native macOS window tiling for Win+Arrow, so Rectangle needs no
+matching hotkeys.
 
 ## Shortcut checks
 

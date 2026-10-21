@@ -1,7 +1,5 @@
 {
-  den.aspects.rectangle.darwin = {unstable, ...}: {
-    environment.systemPackages = [
-      unstable.rectangle
-    ];
+  den.aspects.rectangle.darwin = {
+    homebrew.casks = ["rectangle"];
   };
 }
