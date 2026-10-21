@@ -15,9 +15,12 @@ import base64
 import datetime as dt
 import os
 import shutil
+import signal
 import subprocess
 import sys
+from collections.abc import Generator
 from concurrent.futures import Future, ThreadPoolExecutor, as_completed
+from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from urllib.parse import quote
 
@@ -939,6 +942,76 @@ def summarize(
         logger.error("summary_failure", repo_name=repo_name, reason=reason)
 
 
+@contextmanager
+def paused_fsmonitor(project_dirs: list[Path]) -> Generator[None]:
+    count = int(os.environ.get("GIT_CONFIG_COUNT", "0"))
+    overrides = {
+        "GIT_CONFIG_COUNT": str(count + 1),
+        f"GIT_CONFIG_KEY_{count}": "core.fsmonitor",
+        f"GIT_CONFIG_VALUE_{count}": "false",
+    }
+    previous_env = {key: os.environ.get(key) for key in overrides}
+    restart: list[Path] = []
+    previous_handler = signal.signal(
+        signal.SIGTERM, lambda signum, _frame: sys.exit(128 + signum)
+    )
+    try:
+        os.environ.update(overrides)
+        worktrees = {
+            worktree
+            for project in project_dirs
+            for bare_dir in project.glob(f"*/{BARE_REPO_DIR}")
+            for worktree in list_worktree_paths(bare_dir, [])
+            if (worktree / ".git").exists()
+        }
+        for worktree in sorted(worktrees):
+            status = run_git(
+                ["fsmonitor--daemon", "status"], worktree, capture=True, timeout=15
+            )
+            if status.returncode != 0:
+                continue
+            restart.append(worktree)
+            stopped = run_git(
+                ["fsmonitor--daemon", "stop"], worktree, capture=True, timeout=15
+            )
+            if stopped.returncode != 0:
+                raise RuntimeError(
+                    f"Cannot stop fsmonitor for {worktree}: {stopped.stderr}"
+                )
+            logger.info("fsmonitor_stopped", worktree=str(worktree))
+        yield
+    finally:
+        active_error = sys.exception()
+        for key, value in previous_env.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
+        failed = False
+        for worktree in restart:
+            if not (worktree / ".git").exists():
+                continue
+            try:
+                started = run_git(
+                    ["fsmonitor--daemon", "start"], worktree, capture=True, timeout=15
+                )
+                if started.returncode != 0:
+                    raise RuntimeError(started.stderr)
+                logger.info("fsmonitor_restarted", worktree=str(worktree))
+            except (OSError, subprocess.TimeoutExpired, RuntimeError) as error:
+                failed = True
+                logger.exception(
+                    "fsmonitor_restart_failed",
+                    worktree=str(worktree),
+                    reason=str(error),
+                )
+        signal.signal(signal.SIGTERM, previous_handler)
+        if failed and active_error is None:
+            raise RuntimeError(
+                "Failed to restart fsmonitor; see fsmonitor_restart_failed"
+            )
+
+
 def run_tests(verbose: bool) -> int:
     import tempfile
     import unittest
@@ -948,6 +1021,150 @@ def run_tests(verbose: bool) -> int:
         def setUp(self) -> None:
             stamina.set_testing(True, attempts=10)
             self.addCleanup(stamina.set_testing, False)
+
+        def test_fsmonitor_restores_state_after_success_error_and_interrupt(
+            self,
+        ) -> None:
+            for error, pruned in (
+                (None, False),
+                (RuntimeError("failure"), False),
+                (KeyboardInterrupt(), False),
+                (SystemExit(143), False),
+                (None, True),
+            ):
+                with (
+                    self.subTest(error=error, pruned=pruned),
+                    tempfile.TemporaryDirectory() as directory,
+                ):
+                    project = Path(directory)
+                    bare = project / "repo" / BARE_REPO_DIR
+                    bare.mkdir(parents=True)
+                    worktree = project / "repo" / "trunk"
+                    worktree.mkdir()
+                    (worktree / ".git").touch()
+                    commands: list[str] = []
+                    settings = {
+                        "GIT_CONFIG_COUNT": "1",
+                        "GIT_CONFIG_KEY_0": "core.fsmonitor",
+                        "GIT_CONFIG_VALUE_0": "true",
+                        "GIT_CONFIG_KEY_1": "original-key",
+                        "GIT_CONFIG_VALUE_1": "original-value",
+                    }
+
+                    def monitor(
+                        args: list[str],
+                        *_args: object,
+                        commands: list[str] = commands,
+                        settings: dict[str, str] = settings,
+                        **_kwargs: object,
+                    ) -> subprocess.CompletedProcess[str]:
+                        commands.append(args[1])
+                        if args[1] == "start":
+                            self.assertEqual(
+                                {key: os.environ[key] for key in settings}, settings
+                            )
+                        else:
+                            self.assertEqual(os.environ["GIT_CONFIG_VALUE_1"], "false")
+                        return subprocess.CompletedProcess(args, 0, "", "")
+
+                    with (
+                        patch.dict(os.environ, settings),
+                        patch(
+                            f"{__name__}.list_worktree_paths",
+                            return_value={bare, worktree},
+                        ),
+                        patch(f"{__name__}.run_git", side_effect=monitor),
+                    ):
+                        previous_handler = signal.getsignal(signal.SIGTERM)
+                        expected = (
+                            self.assertRaises(type(error))
+                            if error is not None
+                            else nullcontext()
+                        )
+                        with expected, paused_fsmonitor([project]):
+                            self.assertEqual(os.environ["GIT_CONFIG_COUNT"], "2")
+                            if pruned:
+                                (worktree / ".git").unlink()
+                                worktree.rmdir()
+                            if error is not None:
+                                raise error
+                        if error is not None:
+                            self.assertIs(expected.exception, error)
+                        self.assertEqual(
+                            {key: os.environ[key] for key in settings}, settings
+                        )
+                        self.assertEqual(
+                            signal.getsignal(signal.SIGTERM), previous_handler
+                        )
+                    self.assertEqual(
+                        commands,
+                        ["status", "stop"] if pruned else ["status", "stop", "start"],
+                    )
+
+        def test_fsmonitor_does_not_start_previously_stopped_daemons(self) -> None:
+            with tempfile.TemporaryDirectory() as directory:
+                project = Path(directory)
+                bare = project / "repo" / BARE_REPO_DIR
+                bare.mkdir(parents=True)
+                worktree = project / "repo" / "trunk"
+                worktree.mkdir()
+                (worktree / ".git").touch()
+                with (
+                    patch(f"{__name__}.list_worktree_paths", return_value={worktree}),
+                    patch(
+                        f"{__name__}.run_git",
+                        return_value=subprocess.CompletedProcess([], 1, "", ""),
+                    ) as git,
+                    paused_fsmonitor([project]),
+                ):
+                    pass
+                self.assertEqual(
+                    [call.args[0] for call in git.call_args_list],
+                    [["fsmonitor--daemon", "status"]],
+                )
+
+        def test_fsmonitor_cleanup_attempts_restart_when_stop_or_start_fails(
+            self,
+        ) -> None:
+            for failed_command in ("stop", "start"):
+                with (
+                    self.subTest(command=failed_command),
+                    tempfile.TemporaryDirectory() as directory,
+                ):
+                    project = Path(directory)
+                    bare = project / "repo" / BARE_REPO_DIR
+                    bare.mkdir(parents=True)
+                    worktree = project / "repo" / "trunk"
+                    worktree.mkdir()
+                    (worktree / ".git").touch()
+                    before = dict(os.environ)
+                    previous_handler = signal.getsignal(signal.SIGTERM)
+
+                    def monitor(
+                        args: list[str],
+                        *_args: object,
+                        failed_command: str = failed_command,
+                        **_kwargs: object,
+                    ) -> subprocess.CompletedProcess[str]:
+                        return subprocess.CompletedProcess(
+                            args, int(args[1] == failed_command), "", "test failure"
+                        )
+
+                    with (
+                        patch(
+                            f"{__name__}.list_worktree_paths", return_value={worktree}
+                        ),
+                        patch(f"{__name__}.run_git", side_effect=monitor) as git,
+                        self.assertRaises(RuntimeError),
+                        paused_fsmonitor([project]),
+                    ):
+                        pass
+                    self.assertEqual(
+                        [call.args[0][1] for call in git.call_args_list],
+                        ["status", "stop", "start"],
+                    )
+                    self.assertEqual(dict(os.environ), before)
+                    self.assertEqual(signal.getsignal(signal.SIGTERM), previous_handler)
 
         def test_existing_repo_uses_selected_transport_and_reports_lookup_failure(
             self,
@@ -1378,8 +1595,6 @@ def main() -> int:
         return 0
 
     root = Path(args.root).expanduser()
-    requested_branches = None if args.all_branches else parse_csv(args.branches)
-    requested_tags = parse_csv(args.tags)
 
     started_at = dt.datetime.now(dt.UTC)
     try:
@@ -1401,6 +1616,16 @@ def main() -> int:
         if not projects:
             logger.error("project_not_found", project=args.project)
             return 1
+
+    with paused_fsmonitor([root / project["name"] for project in projects]):
+        return sync_projects(projects, root, args, started_at)
+
+
+def sync_projects(
+    projects: list[dict], root: Path, args: argparse.Namespace, started_at: dt.datetime
+) -> int:
+    requested_branches = None if args.all_branches else parse_csv(args.branches)
+    requested_tags = parse_csv(args.tags)
 
     total_repos = 0
     successes = 0
@@ -1471,7 +1696,10 @@ def main() -> int:
                         f"timeout during Git operation (>{error.timeout}s)",
                     )
                 except OSError as error:
-                    ok, reason = False, f"Git operation failed: {type(error).__name__}"
+                    ok, reason = (
+                        False,
+                        f"Git operation failed: {type(error).__name__}",
+                    )
                 if ok:
                     successes += 1
                 else:
