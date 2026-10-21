@@ -1,10 +1,10 @@
 #!/usr/bin/env -S uv run --script
 # /// script
-# requires-python = ">=3.11"
+# requires-python = ">=3.14"
 # dependencies = [
-#   "typer>=0.12",
-#   "pydantic>=2.9",
-#   "structlog>=24.2"
+#   "typer==0.27.3",
+#   "pydantic==2.14.1",
+#   "structlog==26.1.0"
 # ]
 # ///
 from __future__ import annotations
@@ -23,7 +23,7 @@ app = typer.Typer(add_completion=False, no_args_is_help=True)
 
 
 class Settings(BaseModel):
-    path: Path = Field(default=Path("."))
+    path: Path = Field(default=Path())
     include_hidden: bool = Field(default=False)
     follow_symlinks: bool = Field(default=False)
     # non-recursive by design for “single folder” stats
@@ -157,7 +157,7 @@ def render_report(
 
 @app.command()
 def main(
-    path: Path = typer.Argument(Path(".")),
+    path: Path = typer.Argument(Path()),
     include_hidden: bool = typer.Option(False, "--hidden/--no-hidden"),
     follow_symlinks: bool = typer.Option(
         False, "--follow-symlinks/--no-follow-symlinks"

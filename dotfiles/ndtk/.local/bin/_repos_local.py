@@ -1,11 +1,11 @@
 #!/usr/bin/env -S uv run --script
 
 # /// script
-# requires-python = ">=3.13"
+# requires-python = ">=3.14"
 # dependencies = [
-#     "click",
-#     "stamina",
-#     "structlog",
+#     "click==8.5.0",
+#     "stamina==26.1.0",
+#     "structlog==26.1.0",
 # ]
 # ///
 
@@ -57,8 +57,8 @@ from structlog.stdlib import get_logger  # type: ignore
 
 # Load the shared module installed by Home Manager.
 sys.path.insert(0, str(Path.home() / ".local" / "bin"))
-from _repo_checkouts import update_checkout  # noqa: E402
-from repo_timestamps import (  # noqa: E402
+from _repo_checkouts import update_checkout
+from repo_timestamps import (
     ensure_dprint_config_link,
     refresh_repository_tree,
 )
@@ -2056,7 +2056,7 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
             repo.mkdir()
 
             def run_test_git(*args: str, env: dict[str, str] | None = None) -> None:
-                subprocess.run(  # noqa: S603, S607
+                subprocess.run(  # noqa: S603
                     ["git", "-C", str(repo), *args],  # noqa: S607
                     check=True,
                     env=env,

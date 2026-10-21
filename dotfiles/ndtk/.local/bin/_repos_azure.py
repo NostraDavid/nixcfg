@@ -1,11 +1,12 @@
 #!/usr/bin/env -S uv run --script
 
 # /// script
-# requires-python = ">=3.13"
+# requires-python = ">=3.14"
 # dependencies = [
-#     "dotenv",
-#     "niquests",
-#     "structlog",
+#     "dotenv==0.9.9",
+#     "niquests==3.21.2",
+#     "stamina==26.1.0",
+#     "structlog==26.1.0",
 # ]
 # ///
 
@@ -16,12 +17,12 @@ import os
 import shutil
 import subprocess
 import sys
-import time
 from concurrent.futures import Future, ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import quote
 
 import niquests as http
+import stamina
 from _repo_checkouts import update_checkout
 from dotenv import load_dotenv
 from structlog.stdlib import get_logger
@@ -58,6 +59,10 @@ logger = get_logger()
 
 
 class GitRemoteError(RuntimeError):
+    pass
+
+
+class RetryableGitError(Exception):
     pass
 
 
@@ -111,47 +116,44 @@ def run_git(
             **os.environ,
             "GIT_SSH_COMMAND": f"{os.environ.get('GIT_SSH_COMMAND', 'ssh')} -vvv",
         }
-    for attempt in range(3):
-        proc = subprocess.run(
-            base + args,
-            check=False,
-            timeout=timeout,
-            capture_output=capture,
-            text=capture,
-            env=env,
-        )
-        if SSH_DEBUG and capture and proc.stderr:
-            print(proc.stderr, file=sys.stderr, end="")
-        output = (proc.stderr or proc.stdout or "").lower()
-        if (
-            proc.returncode == 0
-            or args[0] not in {"clone", "fetch", "ls-remote"}
-            or attempt == 2
-            or "permission denied" in output
-            or "authentication failed" in output
-            or not any(
-                marker in output
-                for marker in (
-                    "kex_exchange_identification",
-                    "ssh_exchange_identification",
-                    "connection reset",
-                    "connection closed by",
-                    "connection timed out",
-                    "broken pipe",
+    try:
+        for attempt in stamina.retry_context(on=RetryableGitError):
+            with attempt:
+                proc = subprocess.run(
+                    base + args,
+                    check=False,
+                    timeout=timeout,
+                    capture_output=capture,
+                    text=capture,
+                    env=env,
                 )
-            )
-        ):
-            break
-        if args[0] == "clone":
-            cleanup_partial(Path(args[-1]))
-        delay = 2 ** (attempt + 1)
-        logger.warning(
-            "git_transport_retry",
-            operation=args[0],
-            attempt=attempt + 1,
-            delay_seconds=delay,
-        )
-        time.sleep(delay)
+                if SSH_DEBUG and capture and proc.stderr:
+                    print(proc.stderr, file=sys.stderr, end="")
+                output = (proc.stderr or proc.stdout or "").lower()
+                if (
+                    proc.returncode != 0
+                    and args[0] in {"clone", "fetch", "ls-remote"}
+                    and "permission denied" not in output
+                    and "authentication failed" not in output
+                    and any(
+                        marker in output
+                        for marker in (
+                            "kex_exchange_identification",
+                            "ssh_exchange_identification",
+                            "connection reset",
+                            "connection closed by",
+                            "connection timed out",
+                            "broken pipe",
+                        )
+                    )
+                ):
+                    if args[0] == "clone":
+                        cleanup_partial(Path(args[-1]))
+                    raise RetryableGitError(
+                        f"temporary Git {args[0]} transport failure"
+                    )
+    except RetryableGitError:
+        pass
     return proc
 
 
@@ -943,6 +945,10 @@ def run_tests(verbose: bool) -> int:
     from unittest.mock import patch
 
     class AzureReposTests(unittest.TestCase):
+        def setUp(self) -> None:
+            stamina.set_testing(True, attempts=10)
+            self.addCleanup(stamina.set_testing, False)
+
         def test_existing_repo_uses_selected_transport_and_reports_lookup_failure(
             self,
         ) -> None:
@@ -992,27 +998,28 @@ def run_tests(verbose: bool) -> int:
                 patch(
                     f"{__name__}.subprocess.run", side_effect=[failure, success]
                 ) as run,
-                patch("time.sleep") as sleep,
+                patch.object(
+                    stamina, "retry_context", wraps=stamina.retry_context
+                ) as retries,
             ):
                 result = run_git(["fetch", "origin"], capture=True)
             self.assertIs(result, success)
             self.assertEqual(run.call_count, 2)
-            sleep.assert_called_once_with(2)
+            retries.assert_called_once()
+            self.assertEqual(set(retries.call_args.kwargs), {"on"})
 
         def test_ssh_retries_are_bounded_and_auth_errors_are_not_retried(self) -> None:
             for message, attempts in (
-                ("Connection closed by 192.0.2.1 port 22", 3),
+                ("Connection closed by 192.0.2.1 port 22", 10),
                 ("Permission denied (publickey).", 1),
             ):
                 result = subprocess.CompletedProcess([], 128, "", message)
                 with (
                     self.subTest(message=message),
                     patch(f"{__name__}.subprocess.run", return_value=result) as run,
-                    patch("time.sleep") as sleep,
                 ):
                     self.assertIs(run_git(["fetch", "origin"], capture=True), result)
                 self.assertEqual(run.call_count, attempts)
-                self.assertEqual(sleep.call_count, attempts - 1)
 
         def test_clone_retry_cleans_only_its_partial_directory(self) -> None:
             with tempfile.TemporaryDirectory() as directory:
@@ -1032,10 +1039,7 @@ def run_tests(verbose: bool) -> int:
                         [], 128 if calls == 1 else 0, "", "Connection reset by peer"
                     )
 
-                with (
-                    patch(f"{__name__}.subprocess.run", side_effect=clone),
-                    patch("time.sleep"),
-                ):
+                with patch(f"{__name__}.subprocess.run", side_effect=clone):
                     result = run_git(
                         ["clone", "--bare", "ssh://example.test/repo", str(target)],
                         capture=True,

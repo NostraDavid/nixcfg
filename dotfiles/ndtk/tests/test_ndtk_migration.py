@@ -1,7 +1,12 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.14"
-# dependencies = ["click==8.4.2", "pytest==9.1.1", "pytest-cov==7.1.0", "structlog==26.1.0"]
+# dependencies = [
+#   "click==8.4.2",
+#   "pytest==9.1.1",
+#   "pytest-cov==7.1.0",
+#   "structlog==26.1.0"
+# ]
 # ///
 """Check shared commands against temporary repositories, without network access."""
 

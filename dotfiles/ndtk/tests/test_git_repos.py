@@ -1,7 +1,15 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.14"
-# dependencies = ["dotenv", "niquests", "structlog", "click", "pytest", "pytest-cov", "stamina"]
+# dependencies = [
+#   "dotenv==0.9.9",
+#   "niquests==3.21.2",
+#   "structlog==26.1.0",
+#   "click==8.5.0",
+#   "pytest==9.1.1",
+#   "pytest-cov==7.1.0",
+#   "stamina==26.1.0"
+# ]
 # ///
 
 """Run directly to check repository commands without accessing remote services."""

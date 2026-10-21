@@ -1,7 +1,10 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.14"
-# dependencies = ["jsonschema==4.26.0", "PyYAML==6.0.3"]
+# dependencies = [
+#     "jsonschema==4.26.0",
+#     "PyYAML==6.0.3",
+# ]
 # ///
 """Generate CTB daily-candle descriptors and validate Bitol YAML or JSON."""
 
