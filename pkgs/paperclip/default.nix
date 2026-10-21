@@ -73,6 +73,11 @@ in
         "$out/lib/node_modules/paperclipai/dist/index.js" \
         "$out/lib/node_modules/paperclipai/node_modules/embedded-postgres/dist/index.js" \
         --replace-fail 'postgresFlags: []' 'postgresFlags: ["-c", "unix_socket_directories="]'
+      # The npm ACP bundle otherwise overrides Paperclip's network setting each turn.
+      substituteInPlace \
+        "$out/lib/node_modules/paperclipai/node_modules/@agentclientprotocol/codex-acp/dist/index.js" \
+        --replace-fail 'networkAccess: false,' \
+        'networkAccess: process.env.PAPERCLIP_CODEX_ACP_NETWORK_ACCESS === "true" && process.env.PAPERCLIP_RUNNER_NETWORK_ACCESS !== "disabled",'
       mkdir -p "$out/share"
       cp -r ${desktopItem}/share/applications "$out/share/"
       install -Dm644 \
@@ -89,6 +94,7 @@ in
       test -s "$out/share/icons/hicolor/scalable/apps/paperclip.svg"
       test -f "$out/share/applications/paperclip.desktop"
       node ${./check-uuid.cjs} "$out/lib/node_modules/paperclipai"
+      node ${./check-codex-network.cjs} "$out/lib/node_modules/paperclipai"
       python3 ${./check-server.py} "$out/bin/paperclipai"
       runHook postInstallCheck
     '';
