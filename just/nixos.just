@@ -15,7 +15,7 @@ test host=default_host:
 switch host=`hostname --short`:
   @opts=(); \
   if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
-  sudo nixos-rebuild switch "${opts[@]}" --flake path:.#"{{host}}"
+  sudo nixos-rebuild switch "${opts[@]}" --flake path:.#"{{host}}" 2>&1 | tee /tmp/just-switch.log
 
 # Stage a host configuration for the next boot only.
 [group('nixos')]
