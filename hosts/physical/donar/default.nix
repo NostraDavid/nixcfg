@@ -40,7 +40,10 @@
       system.stateVersion = "26.05";
 
       boot = {
-        kernelPackages = stable.linuxPackages_latest;
+        # NVIDIA 595 does not yet build against Linux 7.2, where the kernel
+        # strncpy() API was removed. Use the stable kernel package set until
+        # the proprietary driver supports the new kernel API.
+        kernelPackages = stable.linuxPackages;
 
         # Donar was installed with systemd-boot. Keep using its existing EFI
         # entry instead of inheriting Wodan's removable GRUB setup.
