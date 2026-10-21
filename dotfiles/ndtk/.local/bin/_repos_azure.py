@@ -4,6 +4,7 @@
 # requires-python = ">=3.14"
 # dependencies = [
 #     "dotenv==0.9.9",
+#     "GitPython==3.2.1",
 #     "niquests==3.21.2",
 #     "stamina==26.1.0",
 #     "structlog==26.1.0",
@@ -28,6 +29,8 @@ import niquests as http
 import stamina
 from _repo_checkouts import update_checkout
 from dotenv import load_dotenv
+from git import Git, Repo
+from git.exc import GitError
 from structlog.stdlib import get_logger
 
 CONFIG_FILE = (
@@ -122,16 +125,23 @@ def run_git(
     try:
         for attempt in stamina.retry_context(on=RetryableGitError):
             with attempt:
-                proc = subprocess.run(
+                status, stdout, stderr = Git().execute(
                     base + args,
-                    check=False,
-                    timeout=timeout,
-                    capture_output=capture,
-                    text=capture,
+                    with_extended_output=True,
+                    with_exceptions=False,
+                    kill_after_timeout=timeout,
+                    universal_newlines=True,
+                    strip_newline_in_stdout=False,
                     env=env,
                 )
-                if SSH_DEBUG and capture and proc.stderr:
-                    print(proc.stderr, file=sys.stderr, end="")
+                # GitPython's timeout text contains the command, including auth headers.
+                if status != 0 and stderr.startswith("Timeout: the command "):
+                    raise subprocess.TimeoutExpired(args[0], timeout)
+                proc = subprocess.CompletedProcess(base + args, status, stdout, stderr)
+                if not capture:
+                    print(stdout, end="")
+                if stderr and (SSH_DEBUG or not capture):
+                    print(stderr, file=sys.stderr)
                 output = (proc.stderr or proc.stdout or "").lower()
                 if (
                     proc.returncode != 0
@@ -166,22 +176,17 @@ def run_git_with_git_dir(
     capture: bool = False,
     git_configs: list[str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
-    base = ["git"]
-    for config in git_configs or []:
-        base += ["-c", config]
-    base += ["--git-dir", str(git_dir)]
-    return subprocess.run(
-        base + args,
-        check=False,
-        timeout=GIT_TIMEOUT,
-        capture_output=capture,
-        text=capture,
+    return run_git(
+        ["--git-dir", str(git_dir), *args], capture=capture, git_configs=git_configs
     )
 
 
 def repo_is_bare_repo(repo_path: Path) -> bool:
-    proc = run_git(["rev-parse", "--is-bare-repository"], repo_path, capture=True)
-    return proc.returncode == 0 and proc.stdout.strip() == "true"
+    try:
+        with Repo(repo_path) as repo:
+            return repo.bare
+    except (GitError, OSError):
+        return False
 
 
 def cleanup_partial(repo_path: Path):
@@ -405,6 +410,19 @@ def tag_worktree_name(tag: str, branches: list[str]) -> str:
     return unique_worktree_name(sanitize_worktree_name(tag), branch_names, "tag")
 
 
+def list_fetched_refs(bare_dir: Path, prefix: str) -> list[str]:
+    try:
+        with Repo(bare_dir) as repo:
+            return sorted(
+                ref.path.removeprefix(prefix)
+                for ref in repo.refs
+                if ref.path.startswith(prefix)
+                and ref.path != "refs/remotes/origin/HEAD"
+            )
+    except (GitError, OSError) as error:
+        raise GitRemoteError(f"list fetched refs: {error}") from error
+
+
 def branch_fetch_refspec(branch: str) -> str:
     return f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
 
@@ -520,17 +538,16 @@ def ensure_fetch_refspecs(
     branch_refspecs: list[str],
     include_all_tags: bool,
     tag_refspecs: list[str],
-):
-    run_git(["config", "--unset-all", "remote.origin.fetch"], bare_dir)
-
-    for refspec in branch_refspecs:
-        run_git(["config", "--add", "remote.origin.fetch", refspec], bare_dir)
-
-    if include_all_tags:
-        run_git(["config", "--add", "remote.origin.fetch", ALL_TAG_REFSPEC], bare_dir)
-    else:
-        for refspec in tag_refspecs:
-            run_git(["config", "--add", "remote.origin.fetch", refspec], bare_dir)
+) -> None:
+    refspecs = branch_refspecs + (
+        [ALL_TAG_REFSPEC] if include_all_tags else tag_refspecs
+    )
+    with Repo(bare_dir) as repo, repo.config_writer() as config:
+        section = 'remote "origin"'
+        if config.has_option(section, "fetch"):
+            config.remove_option(section, "fetch")
+        for refspec in refspecs:
+            config.add_value(section, "fetch", refspec)
 
 
 def list_worktree_paths(bare_dir: Path, git_configs: list[str]) -> set[Path]:
@@ -550,26 +567,17 @@ def list_worktree_paths(bare_dir: Path, git_configs: list[str]) -> set[Path]:
     return paths
 
 
-def local_branch_exists(bare_dir: Path, branch: str, git_configs: list[str]) -> bool:
-    proc = run_git_with_git_dir(
-        ["show-ref", "--verify", "--quiet", f"refs/heads/{branch}"],
-        bare_dir,
-        capture=False,
-        git_configs=git_configs,
-    )
-    return proc.returncode == 0
+def local_branch_exists(bare_dir: Path, branch: str) -> bool:
+    with Repo(bare_dir) as repo:
+        return branch in repo.heads
 
 
-def worktree_is_dirty(repo_path: Path, git_configs: list[str]) -> bool:
-    proc = run_git(
-        ["status", "--porcelain"],
-        repo_path=repo_path,
-        capture=True,
-        git_configs=git_configs,
-    )
-    if proc.returncode != 0:
+def worktree_is_dirty(repo_path: Path) -> bool:
+    try:
+        with Repo(repo_path) as repo:
+            return repo.is_dirty(untracked_files=True)
+    except (GitError, OSError):
         return True
-    return bool(proc.stdout.strip())
 
 
 def ensure_branch_worktrees(
@@ -600,7 +608,7 @@ def ensure_branch_worktrees(
             )
 
         if not target.exists():
-            if local_branch_exists(bare_dir, branch, git_configs):
+            if local_branch_exists(bare_dir, branch):
                 add_args = ["worktree", "add", str(target), branch]
             else:
                 add_args = [
@@ -718,7 +726,7 @@ def prune_stale_worktrees(
         ):
             continue
 
-        if worktree_is_dirty(worktree_path, git_configs):
+        if worktree_is_dirty(worktree_path):
             logger.warning(
                 "worktree_prune_dirty_skip",
                 worktree_path=str(worktree_path),
@@ -793,27 +801,14 @@ def clone_or_update_repo(
         if not repo_is_bare_repo(bare_dir):
             return False, f"{bare_dir} exists but is not a bare git repo"
 
-        origin_proc = run_git(
-            ["remote", "get-url", "origin"],
-            bare_dir,
-            capture=True,
-            git_configs=auth_configs,
-        )
-        origin_url = origin_proc.stdout.strip() if origin_proc.returncode == 0 else ""
-        if origin_url and not urls_equivalent(origin_url, repo_url):
-            return False, f"origin url mismatch ({origin_url} != {repo_url})"
-        if origin_url != repo_url:
-            origin_update = run_git(
-                ["remote", "set-url", "origin", repo_url],
-                bare_dir,
-                capture=True,
-                git_configs=auth_configs,
-            )
-            if origin_update.returncode != 0:
-                return (
-                    False,
-                    f"origin url update failed: {(origin_update.stderr or origin_update.stdout).strip()}",
-                )
+        with Repo(bare_dir) as repo:
+            if "origin" not in repo.remotes:
+                return False, "origin remote missing"
+            origin = repo.remotes.origin
+            if not urls_equivalent(origin.url, repo_url):
+                return False, f"origin url mismatch ({origin.url} != {repo_url})"
+            if origin.url != repo_url:
+                origin.set_url(repo_url)
     else:
         bare_dir.parent.mkdir(parents=True, exist_ok=True)
         try:
@@ -836,11 +831,15 @@ def clone_or_update_repo(
         logger.info("repo_cloned", repo_url=repo_url, git_dir=str(bare_dir))
 
     try:
-        selected_branches = resolve_selected_branches(
-            repo_url, auth_configs, requested_branches
+        selected_branches = (
+            []
+            if requested_branches is None
+            else resolve_selected_branches(repo_url, auth_configs, requested_branches)
         )
-        selected_tags = resolve_selected_tags(
-            repo_url, auth_configs, requested_tags, all_tags
+        selected_tags = (
+            []
+            if all_tags
+            else resolve_selected_tags(repo_url, auth_configs, requested_tags, all_tags)
         )
     except GitRemoteError as error:
         return False, str(error)
@@ -889,6 +888,14 @@ def clone_or_update_repo(
 
     if not sync_worktrees:
         return True, f"{BARE_REPO_DIR} updated"
+
+    try:
+        if requested_branches is None:
+            selected_branches = list_fetched_refs(bare_dir, "refs/remotes/origin/")
+        if all_tags:
+            selected_tags = list_fetched_refs(bare_dir, "refs/tags/")
+    except GitRemoteError as error:
+        return False, str(error)
 
     expected_paths: set[Path] = set()
 
@@ -1173,21 +1180,11 @@ def run_tests(verbose: bool) -> int:
             old = "https://dev.azure.com/org/project/_git/repo"
             with tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
-                (root / BARE_REPO_DIR).mkdir()
-
-                def git(
-                    args: list[str], *_args: object, **_kwargs: object
-                ) -> subprocess.CompletedProcess[str]:
-                    return subprocess.CompletedProcess(
-                        args,
-                        0,
-                        old if args == ["remote", "get-url", "origin"] else "",
-                        "",
-                    )
+                with Repo.init(root / BARE_REPO_DIR, bare=True) as repo:
+                    repo.create_remote("origin", old)
 
                 with (
-                    patch(f"{__name__}.repo_is_bare_repo", return_value=True),
-                    patch(f"{__name__}.run_git", side_effect=git) as run,
+                    patch(f"{__name__}.run_git") as run,
                     patch(f"{__name__}.resolve_selected_branches", return_value=[]),
                     patch(
                         f"{__name__}.resolve_selected_tags",
@@ -1195,32 +1192,29 @@ def run_tests(verbose: bool) -> int:
                     ),
                 ):
                     ok, reason = clone_or_update_repo(
-                        selected, root, None, [], True, False, False
+                        selected, root, ["main"], [], False, False, False
                     )
                 self.assertFalse(ok)
                 self.assertEqual(reason, "list tags: Connection reset")
-                commands = [call.args[0] for call in run.call_args_list]
-                self.assertIn(["remote", "set-url", "origin", selected], commands)
-                self.assertFalse(any(command[0] == "fetch" for command in commands))
+                with Repo(root / BARE_REPO_DIR) as repo:
+                    self.assertEqual(repo.remotes.origin.url, selected)
+                run.assert_not_called()
 
         def test_transient_ssh_failure_is_retried(self) -> None:
-            failure = subprocess.CompletedProcess(
-                [],
+            failure = (
                 128,
                 "",
                 "kex_exchange_identification: read: Connection reset by peer",
             )
-            success = subprocess.CompletedProcess([], 0, "refs", "")
+            success = (0, "refs", "")
             with (
-                patch(
-                    f"{__name__}.subprocess.run", side_effect=[failure, success]
-                ) as run,
+                patch(f"{__name__}.Git.execute", side_effect=[failure, success]) as run,
                 patch.object(
                     stamina, "retry_context", wraps=stamina.retry_context
                 ) as retries,
             ):
                 result = run_git(["fetch", "origin"], capture=True)
-            self.assertIs(result, success)
+            self.assertEqual((result.returncode, result.stdout, result.stderr), success)
             self.assertEqual(run.call_count, 2)
             retries.assert_called_once()
             self.assertEqual(set(retries.call_args.kwargs), {"on"})
@@ -1230,12 +1224,15 @@ def run_tests(verbose: bool) -> int:
                 ("Connection closed by 192.0.2.1 port 22", 10),
                 ("Permission denied (publickey).", 1),
             ):
-                result = subprocess.CompletedProcess([], 128, "", message)
+                result = (128, "", message)
                 with (
                     self.subTest(message=message),
-                    patch(f"{__name__}.subprocess.run", return_value=result) as run,
+                    patch(f"{__name__}.Git.execute", return_value=result) as run,
                 ):
-                    self.assertIs(run_git(["fetch", "origin"], capture=True), result)
+                    proc = run_git(["fetch", "origin"], capture=True)
+                    self.assertEqual(
+                        (proc.returncode, proc.stdout, proc.stderr), result
+                    )
                 self.assertEqual(run.call_count, attempts)
 
         def test_clone_retry_cleans_only_its_partial_directory(self) -> None:
@@ -1245,18 +1242,14 @@ def run_tests(verbose: bool) -> int:
                 keep.write_text("keep")
                 calls = 0
 
-                def clone(
-                    *_args: object, **_kwargs: object
-                ) -> subprocess.CompletedProcess[str]:
+                def clone(*_args: object, **_kwargs: object) -> tuple[int, str, str]:
                     nonlocal calls
                     self.assertFalse(target.exists())
                     target.mkdir()
                     calls += 1
-                    return subprocess.CompletedProcess(
-                        [], 128 if calls == 1 else 0, "", "Connection reset by peer"
-                    )
+                    return (128 if calls == 1 else 0, "", "Connection reset by peer")
 
-                with patch(f"{__name__}.subprocess.run", side_effect=clone):
+                with patch(f"{__name__}.Git.execute", side_effect=clone):
                     result = run_git(
                         ["clone", "--bare", "ssh://example.test/repo", str(target)],
                         capture=True,
@@ -1358,28 +1351,25 @@ def run_tests(verbose: bool) -> int:
             )
 
         def test_ssh_debug_preserves_output_and_ssh_command(self) -> None:
-            result = subprocess.CompletedProcess(
-                [], 128, "refs", "Permission denied (publickey).\n"
-            )
+            result = (128, "refs", "Permission denied (publickey).")
             for enabled in (False, True):
                 with (
                     self.subTest(enabled=enabled),
                     patch(f"{__name__}.SSH_DEBUG", enabled),
                     patch.dict(os.environ, {"GIT_SSH_COMMAND": "ssh -i /tmp/test-key"}),
-                    patch(f"{__name__}.subprocess.run", return_value=result) as run,
+                    patch(f"{__name__}.Git.execute", return_value=result) as run,
                     patch("builtins.print") as output,
                 ):
-                    self.assertIs(
-                        run_git(["ls-remote", "origin"], capture=True), result
+                    proc = run_git(["ls-remote", "origin"], capture=True)
+                    self.assertEqual(
+                        (proc.returncode, proc.stdout, proc.stderr), result
                     )
                     if enabled:
                         self.assertEqual(
                             run.call_args.kwargs["env"]["GIT_SSH_COMMAND"],
                             "ssh -i /tmp/test-key -vvv",
                         )
-                        output.assert_called_once_with(
-                            result.stderr, file=sys.stderr, end=""
-                        )
+                        output.assert_called_once_with(result[2], file=sys.stderr)
                     else:
                         self.assertIsNone(run.call_args.kwargs["env"])
                         output.assert_not_called()
@@ -1519,7 +1509,7 @@ def run_tests(verbose: bool) -> int:
             with (
                 tempfile.TemporaryDirectory() as directory,
                 patch(f"{__name__}.local_branch_exists", return_value=True),
-                patch(f"{__name__}.subprocess.run") as run,
+                patch(f"{__name__}.Git.execute") as run,
             ):
                 repo_root = Path(directory) / "repo"
                 run.side_effect = subprocess.TimeoutExpired(
@@ -1531,14 +1521,16 @@ def run_tests(verbose: bool) -> int:
                     )
                 self.assertIn("worktree", run.call_args.args[0])
                 self.assertIn("add", run.call_args.args[0])
-                self.assertEqual(run.call_args.kwargs["timeout"], 300)
+                self.assertEqual(run.call_args.kwargs["kill_after_timeout"], 300)
 
         def test_git_uses_requested_timeout(self) -> None:
             with tempfile.TemporaryDirectory() as directory:
                 git = Path(directory) / "git"
                 git.write_text(f"#!{sys.executable}\nimport time\ntime.sleep(2)\n")
                 git.chmod(0o755)
-                with patch.dict(os.environ, {"PATH": directory}):
+                with patch.dict(
+                    os.environ, {"PATH": f"{directory}{os.pathsep}{os.environ['PATH']}"}
+                ):
                     with self.assertRaises(subprocess.TimeoutExpired) as raised:
                         run_git(["clone"], capture=True, timeout=1)
                 self.assertEqual(raised.exception.timeout, 1)
@@ -1695,7 +1687,7 @@ def sync_projects(
                         False,
                         f"timeout during Git operation (>{error.timeout}s)",
                     )
-                except OSError as error:
+                except (OSError, GitError) as error:
                     ok, reason = (
                         False,
                         f"Git operation failed: {type(error).__name__}",

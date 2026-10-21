@@ -3,6 +3,7 @@
 # requires-python = ">=3.14"
 # dependencies = [
 #   "dotenv==0.9.9",
+#   "GitPython==3.2.1",
 #   "niquests==3.21.2",
 #   "structlog==26.1.0",
 #   "click==8.5.0",
@@ -21,7 +22,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 BIN = Path(__file__).resolve().parents[1] / ".local/bin"
 PROVIDERS = tuple(
@@ -112,7 +113,25 @@ def check_provider_checkout_updates() -> None:
                     git(source, "branch", "z-other")
                     if primary == "master":
                         git(source, "branch", "main")
-                    result = update()
+                    if provider == "azure":
+                        git(source, "tag", "v1")
+                        with patch.dict(
+                            sync.__globals__,
+                            list_remote_heads=Mock(
+                                side_effect=AssertionError("unexpected SSH lookup")
+                            ),
+                            list_remote_tags=Mock(
+                                side_effect=AssertionError("unexpected SSH lookup")
+                            ),
+                        ):
+                            result = sync(
+                                str(source), repo, None, [], True, True, False
+                            )
+                        assert git(repo / "v1", "rev-parse", "HEAD") == git(
+                            source, "rev-parse", "HEAD"
+                        )
+                    else:
+                        result = update()
                     assert result[-2], result
                     trunk = repo / "trunk"
                     assert git(trunk, "branch", "--show-current") == primary
