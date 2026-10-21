@@ -26,7 +26,7 @@ A failed evaluation stops generation; partial results never replace the snapshot
 | Context | Kind | Imported local files |
 | --- | --- | ---: |
 | Flake wiring | wiring | 6 |
-| Registered Den aspects | wiring | 107 |
+| Registered Den aspects | wiring | 106 |
 | apps | NixOS | 10 |
 | bragi | NixOS | 27 |
 | donar | NixOS | 66 |
@@ -59,8 +59,8 @@ Dependencies, service-only packages, manual installations and external work prof
 | forgejo-lab | 81 |
 | frigg | 496 |
 | homepage | 85 |
-| loki | 83 |
-| mimir2 | 75 |
+| loki | 84 |
+| mimir2 | 76 |
 | proxy | 83 |
 | wodan | 561 |
 
@@ -385,7 +385,6 @@ before merging. These checks do not establish semantic redundancy.
 | [features/media/_tools.nix](../features/media/_tools.nix) | 31 | features/media/default.nix |
 | [features/nix-index/_home.nix](../features/nix-index/_home.nix) | 25 | features/nix-index/default.nix |
 | [features/portable-runtime/_home.nix](../features/portable-runtime/_home.nix) | 34 | features/portable-runtime/default.nix |
-| [features/terminal/_config.nix](../features/terminal/_config.nix) | 32 | features/terminal/default.nix |
 | [features/whatpulse/_home.nix](../features/whatpulse/_home.nix) | 11 | features/whatpulse/default.nix |
 | [features/workstation-extra/_default.nix](../features/workstation-extra/_default.nix) | 7 | features/workstation-extra/default.nix |
 | [features/workstation-extra/_development-core.nix](../features/workstation-extra/_development-core.nix) | 37 | features/workstation-extra/_development-packages.nix |
@@ -398,7 +397,7 @@ before merging. These checks do not establish semantic redundancy.
 | [features/workstation-extra/_terminal-network.nix](../features/workstation-extra/_terminal-network.nix) | 24 | features/workstation-extra/_terminal-packages.nix |
 | [features/workstation-extra/_terminal-packages.nix](../features/workstation-extra/_terminal-packages.nix) | 9 | features/workstation-extra/_terminal-default.nix |
 | [features/workstation-extra/_terminal-shell.nix](../features/workstation-extra/_terminal-shell.nix) | 32 | features/workstation-extra/_terminal-packages.nix |
-| [features/workstation-extra/_terminal-system.nix](../features/workstation-extra/_terminal-system.nix) | 27 | features/workstation-extra/_terminal-packages.nix |
+| [features/workstation-extra/_terminal-system.nix](../features/workstation-extra/_terminal-system.nix) | 26 | features/workstation-extra/_terminal-packages.nix |
 | [nix/default.nix](../nix/default.nix) | 53 | flake.nix |
 
 ## Machine-module matrix
@@ -485,13 +484,13 @@ S = system import; H = Home Manager import; I = flake wiring import; A = selecte
 | [features/server-nix/default.nix](../features/server-nix/default.nix) | · | I | A/S | · | · | A/S | A/S | · | A/S | A/S | · | · | · | · | · |
 | [features/storage-optimization/default.nix](../features/storage-optimization/default.nix) | · | I | · | A/S | A/S | · | · | A/S | · | · | A/S | · | · | · | · |
 | [features/terminal/_archives.nix](../features/terminal/_archives.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [features/terminal/_config.nix](../features/terminal/_config.nix) | · | I | · | · | H | · | · | H | · | · | H | H | H | H | H |
+| [features/terminal/_config.nix](../features/terminal/_config.nix) | · | · | · | · | H | · | · | H | · | · | H | H | H | H | H |
 | [features/terminal/_data.nix](../features/terminal/_data.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
 | [features/terminal/_network.nix](../features/terminal/_network.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
 | [features/terminal/_packages.nix](../features/terminal/_packages.nix) | · | I | · | · | H | · | · | H | · | · | H | · | · | · | · |
 | [features/terminal/_shell.nix](../features/terminal/_shell.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
 | [features/terminal/_system.nix](../features/terminal/_system.nix) | · | · | · | · | H | · | · | H | · | · | H | · | · | · | · |
-| [features/terminal/default.nix](../features/terminal/default.nix) | · | I | · | · | A/H | · | · | A/H | · | · | A/H | A/H | A/H | H | H |
+| [features/terminal/default.nix](../features/terminal/default.nix) | · | I | · | · | A/H/S | · | · | A/H/S | · | · | A/H/S | A/H/S | A/H | H | H/S |
 | [features/whatpulse/_home.nix](../features/whatpulse/_home.nix) | · | I | · | · | H | · | · | · | · | · | H | · | · | · | · |
 | [features/whatpulse/default.nix](../features/whatpulse/default.nix) | · | I | · | · | A/H/S | · | · | · | · | · | A/H/S | · | · | · | · |
 | [features/window-management/default.nix](../features/window-management/default.nix) | · | I | · | · | · | · | · | · | · | · | · | A/S | · | · | S |

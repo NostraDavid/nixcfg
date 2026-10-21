@@ -202,10 +202,6 @@
         ],
         [
           "features/terminal/default.nix",
-          "features/terminal/_config.nix"
-        ],
-        [
-          "features/terminal/default.nix",
           "features/terminal/_packages.nix"
         ],
         [
@@ -302,7 +298,6 @@
           "features/server-locale/default.nix",
           "features/server-nix/default.nix",
           "features/storage-optimization/default.nix",
-          "features/terminal/_config.nix",
           "features/terminal/_packages.nix",
           "features/terminal/default.nix",
           "features/whatpulse/_home.nix",
@@ -412,7 +407,6 @@
         "features/server-locale/default.nix",
         "features/server-nix/default.nix",
         "features/storage-optimization/default.nix",
-        "features/terminal/_config.nix",
         "features/terminal/_packages.nix",
         "features/terminal/default.nix",
         "features/whatpulse/_home.nix",
@@ -1643,6 +1637,7 @@
           "features/nixos-base/default.nix",
           "features/plasma/default.nix",
           "features/storage-optimization/default.nix",
+          "features/terminal/default.nix",
           "features/whatpulse/default.nix",
           "features/workstation-runtime/default.nix",
           "hosts/physical/donar/default.nix",
@@ -2548,6 +2543,7 @@
           "features/nixos-base/default.nix",
           "features/plasma/default.nix",
           "features/storage-optimization/default.nix",
+          "features/terminal/default.nix",
           "features/workstation-runtime/default.nix",
           "hosts/physical/frigg/default.nix",
           "hosts/physical/frigg/hardware-configuration.nix"
@@ -3559,6 +3555,7 @@
           "features/nvidia-workstation/default.nix",
           "features/plasma/default.nix",
           "features/storage-optimization/default.nix",
+          "features/terminal/default.nix",
           "features/whatpulse/default.nix",
           "features/workstation-runtime/default.nix",
           "hosts/physical/wodan/default.nix",
@@ -3971,6 +3968,7 @@
           "features/darwin-keyboard/_darwin.nix",
           "features/darwin-keyboard/default.nix",
           "features/internal-pki/default.nix",
+          "features/terminal/default.nix",
           "features/window-management/default.nix",
           "hosts/physical/loki/default.nix"
         ]
@@ -4758,6 +4756,7 @@
           "features/darwin-keyboard/_darwin.nix",
           "features/darwin-keyboard/default.nix",
           "features/internal-pki/default.nix",
+          "features/terminal/default.nix",
           "features/window-management/default.nix",
           "hosts/physical/loki/default.nix"
         ]
@@ -6294,7 +6293,6 @@
     {
       "children": [],
       "contexts": [
-        "wiring:Registered Den aspects",
         "NixOS:donar",
         "NixOS:frigg",
         "NixOS:wodan",
@@ -6305,7 +6303,7 @@
       ],
       "kind": "feature",
       "lines": 32,
-      "merge_into": "features/terminal/default.nix",
+      "merge_into": null,
       "parents": [
         "features/terminal/default.nix"
       ],
@@ -6379,13 +6377,13 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 39,
+      "lines": 38,
       "merge_into": null,
       "parents": [
         "features/terminal/_packages.nix"
       ],
       "path": "features/terminal/_shell.nix",
-      "sha256": "75452b8c9a8b5a62c76255d0783c306d88b88222394723d054c408be8a4274c6",
+      "sha256": "931482aeca764206d9705d0d7195016550abab211d5deb2c6ca37938aecc15fe",
       "status": "used"
     },
     {
@@ -6421,11 +6419,11 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 21,
+      "lines": 56,
       "merge_into": null,
       "parents": [],
       "path": "features/terminal/default.nix",
-      "sha256": "f8cacf9f02a012d97bb8ffe4e89a4351cf8d32a7f4638a4860a4911586f3670c",
+      "sha256": "4daaa8249ac2b498cfc1b7e43c05dd4484bbcfbbdfeda8ddf68607ede221faad",
       "status": "used"
     },
     {
@@ -6730,13 +6728,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 27,
+      "lines": 26,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
         "features/workstation-extra/_terminal-packages.nix"
       ],
       "path": "features/workstation-extra/_terminal-system.nix",
-      "sha256": "e374e3e2f7afc6db7bed73609f3be373b0a5da656c273a561e9b2c46ba9776c9",
+      "sha256": "94290250ccb81735e75052b7e8d28b08ba01c927bb52b8f444878f4036337982",
       "status": "optional-only"
     },
     {
@@ -10014,11 +10012,6 @@
           "version": "5.6.6"
         },
         {
-          "name": "mlocate",
-          "origin": "home:david",
-          "version": "0.26"
-        },
-        {
           "name": "modemmanager",
           "origin": "system",
           "version": "1.24.2"
@@ -10502,6 +10495,16 @@
           "name": "playwright-mcp",
           "origin": "home:david",
           "version": "0.0.83"
+        },
+        {
+          "name": "plocate",
+          "origin": "home:david",
+          "version": "1.1.24"
+        },
+        {
+          "name": "plocate",
+          "origin": "system",
+          "version": "1.1.24"
         },
         {
           "name": "pngcheck",
@@ -13567,11 +13570,6 @@
           "version": "5.6.6"
         },
         {
-          "name": "mlocate",
-          "origin": "home:david",
-          "version": "0.26"
-        },
-        {
           "name": "modemmanager",
           "origin": "system",
           "version": "1.24.2"
@@ -14010,6 +14008,16 @@
           "name": "playwright-mcp",
           "origin": "home:david",
           "version": "0.0.83"
+        },
+        {
+          "name": "plocate",
+          "origin": "home:david",
+          "version": "1.1.24"
+        },
+        {
+          "name": "plocate",
+          "origin": "system",
+          "version": "1.1.24"
         },
         {
           "name": "pngcheck",
@@ -15584,6 +15592,11 @@
           "version": "0.0.83"
         },
         {
+          "name": "plocate",
+          "origin": "home:david",
+          "version": "1.1.24-unstable-2025-03-11"
+        },
+        {
           "name": "qartez",
           "origin": "home:david",
           "version": "0.11.0"
@@ -15963,6 +15976,11 @@
           "name": "playwright-mcp",
           "origin": "home:david",
           "version": "0.0.83"
+        },
+        {
+          "name": "plocate",
+          "origin": "home:david",
+          "version": "1.1.24"
         },
         {
           "name": "qartez",
@@ -17982,11 +18000,6 @@
           "version": "5.6.6"
         },
         {
-          "name": "mlocate",
-          "origin": "home:david",
-          "version": "0.26"
-        },
-        {
           "name": "modemmanager",
           "origin": "system",
           "version": "1.24.2"
@@ -18490,6 +18503,16 @@
           "name": "playwright-mcp",
           "origin": "home:david",
           "version": "0.0.83"
+        },
+        {
+          "name": "plocate",
+          "origin": "home:david",
+          "version": "1.1.24"
+        },
+        {
+          "name": "plocate",
+          "origin": "system",
+          "version": "1.1.24"
         },
         {
           "name": "pngcheck",

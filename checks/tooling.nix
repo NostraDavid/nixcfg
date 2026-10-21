@@ -24,6 +24,36 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  locatePackages = assert lib.all (home: let
+    packages = builtins.filter (p: (p.pname or "") == "plocate") home.home.packages;
+  in
+    builtins.length packages == 1 && !(builtins.any (p: (p.pname or "") == "mlocate") home.home.packages)) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg"]); true;
+  linuxLocate = assert lib.all (name: let
+    service = flake.nixosConfigurations.${name}.config.services.locate;
+  in
+    service.enable && service.package.pname == "plocate") ["wodan" "donar" "frigg"]; true;
+  macosLocate = let
+    daemon = flake.darwinConfigurations.loki.config.launchd.daemons.locate;
+    service = daemon.serviceConfig;
+    package = builtins.head (builtins.filter (p: (p.pname or "") == "plocate") loki.home.packages);
+  in
+    assert package.src.rev == "4bfea2886010d1d4bcf63cac9b83753d1ab00cde";
+    assert lib.hasInfix (builtins.unsafeDiscardStringContext "${package}/bin/updatedb") daemon.script;
+    assert lib.hasInfix "/usr/bin/install -d -m 0755 -o nobody -g nobody /var/db/plocate" flake.darwinConfigurations.loki.config.system.activationScripts.preActivation.text;
+    assert lib.hasInfix "/bin/chmod 0644 /var/db/plocate/plocate.db" daemon.script;
+    assert service.UserName == "nobody" && service.GroupName == "nobody";
+    assert service.RunAtLoad;
+    assert service.ProcessType == "Background";
+    assert service.StartCalendarInterval
+    == [
+      {
+        Day = null;
+        Hour = 3;
+        Minute = 15;
+        Month = null;
+        Weekday = null;
+      }
+    ]; true;
   nixIndexInitialization = assert lib.all (home: home.home.activation ? nixIndex) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   macosTimeout = assert lib.all (home: toString home.home.file.".local/bin/timeout".source == "${(unstableFor "aarch64-darwin").coreutils}/bin/timeout" && lib.hasSuffix "-gtimeout" (toString home.home.file.".local/bin/gtimeout".source)) [loki darwinWorkstation]; assert !(mimir2.home.file ? ".local/bin/timeout"); true;
   macosSpeech = assert lib.all (home: lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["espeak-ng" "piper-tts" "coreutils" "gnused"] && lib.all (path: builtins.hasAttr path home.home.file) [".local/bin/say" ".local/bin/say-piper-tts" ".config/say/espeak-ng-data" ".config/say/piper.sed" ".local/share/piper-voices/nl_NL-pim-medium.onnx" ".local/share/piper-voices/nl_NL-pim-medium.onnx.json"]) [loki darwinWorkstation]; true;

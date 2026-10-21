@@ -43,8 +43,7 @@ the pinned unstable nixpkgs for the host platform. The database directory is
 - `mlr` (Miller), `csvkit`, `jq`, `xmllint`, `xq`, `yq`, `duckdb`, `sqlite3`,
   and `zsv` are in the NixOS terminal profile.
 - The workstation add-on adds `kcat`, `parquet-tools`, `xan`, and `psql`.
-- For global file lookup, use `locate` (`mlocate` in NixOS terminal, `plocate`
-  in the workstation add-on); inside a repository, prefer `rg`.
+- For global file lookup, use `plocate`; inside a repository, prefer `rg`.
 
 ## Build and verify
 

@@ -12,7 +12,6 @@
     stable.gnused # GNU sed
     stable.killall # Kill processes by name
     stable.less # Terminal pager
-    stable.mlocate # Locate files by name
     stable.most # Terminal pager with color support
     stable.powerline # Bash prompt and status line
     stable.wezterm # Terminal emulator

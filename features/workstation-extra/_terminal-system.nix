@@ -20,7 +20,6 @@
       stable.inxi # System information tool
       stable.killall # Kill processes by name
       stable.ntfs3g
-      stable.plocate # Locate command
       stable.util-linux # Low-level Linux utilities
       unstable.strace # System call tracer
     ];
