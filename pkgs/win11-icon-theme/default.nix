@@ -74,6 +74,19 @@ stdenvNoCC.mkDerivation {
       )
     fi
 
+    # Plasma uses battery-030; upstream supplies battery-level-30-symbolic.
+    for icons in "$out"/share/icons/Win11-*/status/symbolic; do
+      for level in $(seq 0 10 100); do
+        printf -v padded '%03d' "$level"
+        for state in "" -charging; do
+          target="battery-level-$level$state-symbolic.svg"
+          if [ "$level" = 100 ]; then target="battery-full$state-symbolic.svg"; fi
+          ln -sf "$target" "$icons/battery-$padded$state.svg"
+          test -f "$icons/battery-$padded$state.svg"
+        done
+      done
+    done
+
     runHook postInstall
   '';
 
