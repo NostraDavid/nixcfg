@@ -172,6 +172,7 @@ def run_git_with_git_dir(
 def gh_text(args: list[str]) -> str:
     result = run(["gh", *args], capture=True)
     if result.returncode != 0:
+        print(result.stderr, file=sys.stderr, end="")
         raise SystemExit(result.returncode)
     return result.stdout.strip()
 

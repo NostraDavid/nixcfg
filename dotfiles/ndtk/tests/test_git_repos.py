@@ -280,6 +280,16 @@ def check() -> None:
             assert tests.returncode == 0, (provider, tests.stderr)
         result = run("repos", "unknown-provider")
         assert result.returncode == 2 and "Unknown provider" in result.stderr
+        gh = commands / "gh"
+        login_message = "To get started with GitHub CLI, please run: gh auth login"
+        gh.write_text(f"#!/bin/sh\nprintf '%s\\n' '{login_message}' >&2\nexit 4\n")
+        gh.chmod(0o755)
+        with patch.dict(env, {"PATH": f"{commands}:{env['PATH']}"}):
+            result = run("repos", "github", "clone", "--dry-run")
+        gh.unlink()
+        assert result.returncode == 4, result.stderr
+        assert login_message in result.stderr, result.stderr
+        assert result.stdout == ""
         for option in ("--clone-timeout", "--fetch-timeout", "--workers"):
             for value in ("0", "-1"):
                 result = run("repos", "azure", "clone", option, value)
