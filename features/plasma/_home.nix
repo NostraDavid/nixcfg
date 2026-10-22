@@ -277,7 +277,7 @@ in {
         ];
       };
 
-      "org.kde.systemsettings.desktop"._launch = "none";
+      "services/systemsettings.desktop"._launch = "Meta+I";
 
       plasmashell = {
         "activate application launcher" = [
