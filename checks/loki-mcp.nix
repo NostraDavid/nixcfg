@@ -41,7 +41,6 @@ in {
         unstable = pkgs // {mcp-nixos = stub "nixos";};
         local = {
           codex = stub "codex";
-          opencode-v2 = stub "opencode";
         };
       };
     in
@@ -59,7 +58,7 @@ in {
               then linux
               else macos
             ).".local/bin/${name}".source;
-        }) (["codex" "opencode"] ++ map (name: "mcp-${name}") names)) ["linux" "macos"]
+        }) (["codex"] ++ map (name: "mcp-${name}") names)) ["linux" "macos"]
     );
   python = pkgs.python3;
   servers = lib.getAttrs names home.nixcfg.mcp.servers;
@@ -77,6 +76,17 @@ in {
     path = wodan.home.file.".local/bin/${name}".source;
   }) ["codex-mcp-node-repl" "mcp-node-repl" "opencode-mcp-chrome-devtools" "opencode-mcp-nixos" "opencode-mcp-playwright"]);
   checks = {
+    workPackageSet = let
+      loki = flake.darwinConfigurations.loki;
+      module = import ../features/mcp/_home.nix {
+        config = work;
+        inherit lib;
+        stable = loki.pkgs;
+        unstable = flake.lib.unstableFor "aarch64-darwin";
+        local = builtins.removeAttrs loki.config.home-manager.extraSpecialArgs.local ["opencode-v2"];
+      };
+    in
+      assert toString module.config.home.file.".local/bin/opencode".source == lib.getExe (loki.pkgs.callPackage ../pkgs/opencode-v2 {}); true;
     chromium = assert lib.all (profile: builtins.length (builtins.filter (package: (package.pname or "") == "chromium") profile.home.packages) <= 1) allProfiles; true;
     nativeCodex = assert lib.all (profile: lib.all (name: profile.home.file ? ".local/bin/${name}") ["codex-mcp-node-repl" "cua-repl"] && profile.home.activation ? codexBrowserRuntime && profile.home.file.".local/bin/mcp-node-repl".source == profile.home.file.".local/bin/codex-mcp-node-repl".source) (builtins.attrValues nativeCodexProfiles); true;
     clients = assert lib.all (profile: profile.home.file ? ".local/bin/codex" && profile.home.file ? ".local/bin/opencode" && lib.all (name: profile.nixcfg.mcp.servers ? ${name}) names) allProfiles; true;

@@ -105,7 +105,7 @@ in {
       file =
         {
           ".local/bin/codex".source = codex;
-          ".local/bin/opencode".source = lib.getExe local.opencode-v2;
+          ".local/bin/opencode".source = lib.getExe (stable.callPackage ../../pkgs/opencode-v2 {});
           ".local/bin/mcp-nixos".source = lib.getExe unstable.mcp-nixos;
           ".local/bin/playwright-mcp".source = lib.getExe unstable.playwright-mcp;
           ".local/bin/chrome-devtools-mcp".source = lib.getExe local.chrome-devtools-mcp;

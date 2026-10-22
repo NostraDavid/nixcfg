@@ -86,15 +86,6 @@ for platform in ("linux", "macos"):
         assert result["args"][:2] == ["--config", "mcp_servers.node_repl.enabled=false"]
     else:
         assert result["args"] == ["mcp", "list"]
-    custom = '{"model":"work/model"}'
-    subprocess.run(
-        [wrappers / (platform + "-opencode"), "debug", "config"],
-        env=dict(env, OPENCODE_CONFIG_CONTENT=custom),
-        check=True,
-    )
-    result = json.loads(capture.read_text())
-    assert result["args"] == ["debug", "config"]
-    assert result["config"] == custom
     for name, server in fixture_servers[platform].items():
         subprocess.run(
             [wrappers / (platform + "-mcp-" + name), "extra argument"],
