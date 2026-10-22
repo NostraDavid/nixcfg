@@ -104,6 +104,10 @@
       "allowedModels": []
     }
   },
+  "chat.pluginLocations": {
+    "~/.local/share/vscode/agent-plugins/databricks": true
+  },
+  "chat.plugins.enabled": true,
   "chat.sessionSync.enabled": false,
   "chat.tools.terminal.autoApprove": {
     "./utils/profile_parsing-raw.sh": true,
@@ -140,10 +144,6 @@
       "approveResponse": false
     }
   },
-  "chat.pluginLocations": {
-    "~/.local/share/vscode/agent-plugins/databricks": true
-  },
-  "chat.plugins.enabled": true,
   "chat.useClaudeHooks": true,
   "chat.viewSessions.orientation": "stacked",
   "chatgpt.localeOverride": "Dutch",
@@ -408,6 +408,13 @@
   "terminal.integrated.mouseWheelZoom": true,
   "terminal.integrated.persistentSessionScrollback": 1000,
   "terminal.integrated.profiles.linux": {
+    "Zellij: nieuwe sessie": {
+      "args": [
+        "vscode",
+        "--new"
+      ],
+      "path": "${env:HOME}/.local/bin/zellij-workspace"
+    },
     "bash": {
       "args": [
         "bash"
@@ -423,13 +430,6 @@
     "zellij": {
       "args": [
         "vscode"
-      ],
-      "path": "${env:HOME}/.local/bin/zellij-workspace"
-    },
-    "Zellij: nieuwe sessie": {
-      "args": [
-        "vscode",
-        "--new"
       ],
       "path": "${env:HOME}/.local/bin/zellij-workspace"
     }
