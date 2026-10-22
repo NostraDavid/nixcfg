@@ -1555,9 +1555,16 @@ def dirty_command(project: Path) -> None:
                 continue
             seen.add(worktree)
             try:
+                # shortcut: bypass Git's empty-path fsmonitor crash until upstream fixes it.
                 status = _run_git(
                     worktree,
-                    ["--no-optional-locks", "status", "--porcelain"],
+                    [
+                        "-c",
+                        "core.fsmonitor=false",
+                        "--no-optional-locks",
+                        "status",
+                        "--porcelain",
+                    ],
                     capture=True,
                     check=True,
                     timeout=30,
@@ -1798,6 +1805,20 @@ class TestLocalCheckoutUpdates(unittest.TestCase):
         assert (self.repo / "file.txt").read_text() == "unstaged\n"
         assert (linked / "untracked.txt").read_text() == "new\n"
         assert not self.git(self.repo, "stash", "list")
+
+    def test_dirty_command_bypasses_fsmonitor(self) -> None:
+        marker = self.root / "fsmonitor-called"
+        hook = self.root / "fsmonitor-hook"
+        hook.write_text(f"#!/bin/sh\ntouch '{marker}'\nprintf 'token\\0\\0'\n")
+        hook.chmod(0o755)
+        self.git(self.repo, "config", "core.fsmonitor", str(hook))
+        self.git(self.repo, "config", "core.fsmonitorHookVersion", "2")
+        (self.repo / "file.txt").write_text("local\n")
+        result = CliRunner().invoke(cli, ["dirty", "--project", str(self.repo)])
+        assert result.exit_code == 0, result.output
+        assert result.stdout.splitlines() == [str(self.repo)]
+        assert not marker.exists()
+        assert self.git(self.repo, "config", "core.fsmonitor") == str(hook)
 
     def test_dirty_command_handles_worktree_git_layout(self) -> None:
         layout = self.project / "layout"
