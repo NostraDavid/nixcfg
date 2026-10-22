@@ -17,6 +17,7 @@ _: {
       ] (_: {source = "${local.asd-ste100-skill}/asd-ste100";});
       home.packages = with unstable; [
         actionlint
+        flameshot
         hurl
         lnav
         nix-index

@@ -20,6 +20,7 @@ let
     assert lib.all (name: lib.assertMsg (builtins.elem pkgs.${name}.outPath installed) "Expected unstable.${name} in ${system} tooling profile") names; true;
   cliTools = [
     "actionlint"
+    "flameshot"
     "lnav"
     "nix-index"
     "nix-tree"
