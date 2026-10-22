@@ -1,4 +1,7 @@
-{stable, ...}: {
+{stable, ...}: let
+  # Firefox's NVIDIA VA-API driver fails to initialize inside the RDD sandbox.
+  firefoxExec = "env -u MOZ_DRM_DEVICE -u MOZ_ENABLE_WAYLAND MOZ_X11_EGL=1 LIBVA_DRIVER_NAME=nvidia MOZ_DISABLE_RDD_SANDBOX=1 firefox-esr";
+in {
   home.packages = [
     stable.lynx # Terminal web browser
     stable.w3m # Terminal web browser
@@ -14,7 +17,7 @@
   xdg.desktopEntries.firefox-esr = {
     name = "Firefox ESR";
     genericName = "Web Browser";
-    exec = "firefox-esr %U";
+    exec = "${firefoxExec} %U";
     icon = "firefox-esr";
     terminal = false;
     type = "Application";
@@ -38,15 +41,15 @@
     actions = {
       new-private-window = {
         name = "New Private Window";
-        exec = "firefox-esr --private-window %U";
+        exec = "${firefoxExec} --private-window %U";
       };
       new-window = {
         name = "New Window";
-        exec = "firefox-esr --new-window %U";
+        exec = "${firefoxExec} --new-window %U";
       };
       profile-manager-window = {
         name = "Profile Manager";
-        exec = "firefox-esr --ProfileManager";
+        exec = "${firefoxExec} --ProfileManager";
       };
     };
   };

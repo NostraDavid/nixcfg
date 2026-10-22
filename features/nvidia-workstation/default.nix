@@ -36,9 +36,12 @@ _: {
             stable.libGL
             stable.libglvnd
           ];
-          firefox.preferences = {
-            "media.ffmpeg.vaapi.enabled" = true;
-            "media.hardware-video-decoding.force-enabled" = true;
+          firefox = {
+            preferences = {
+              "gfx.x11-egl.force-enabled" = true;
+              "media.ffmpeg.vaapi.enabled" = true;
+              "media.hardware-video-decoding.force-enabled" = true;
+            };
           };
         };
 
