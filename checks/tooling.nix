@@ -64,6 +64,17 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  asdSte100WorkPackages = let
+    pkgs = flake.darwinConfigurations.loki.pkgs;
+    module = (import ../features/common-tooling/default.nix {inherit (flake) inputs;}).den.aspects.common-tooling.homeManager;
+    home = module {
+      inherit lib;
+      stable = pkgs;
+      unstable = unstableFor "aarch64-darwin";
+      local = builtins.removeAttrs flake.darwinConfigurations.loki.config.home-manager.extraSpecialArgs.local ["asd-ste100-skill"];
+    };
+  in
+    assert lib.hasSuffix "/asd-ste100" (toString home.home.file.".config/opencode/skills/asd-ste100".source); true;
   asdSte100 = let
     homes = [mimir2 loki linuxWorkstation darwinWorkstation] ++ lib.concatMap (host: builtins.attrValues (host.config.home-manager.users or {})) (builtins.attrValues flake.nixosConfigurations);
     clients = ["agents" "claude" "codex" "config/opencode" "copilot" "pi/agent"];
