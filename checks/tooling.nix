@@ -63,6 +63,11 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  asdSte100 = let
+    homes = [mimir2 loki linuxWorkstation darwinWorkstation] ++ lib.concatMap (host: builtins.attrValues (host.config.home-manager.users or {})) (builtins.attrValues flake.nixosConfigurations);
+    clients = ["agents" "claude" "codex" "config/opencode" "copilot" "pi/agent"];
+  in
+    assert lib.all (home: lib.all (client: home.home.file.".${client}/skills/asd-ste100".source == home.home.file.".agents/skills/asd-ste100".source) clients) homes; true;
   pandacode = assert lib.all (home: builtins.any (p: (p.pname or "") == "pandacode" && p.outPath == flake.packages.${p.system}.pandacode.outPath) home.home.packages) [wodan mimir2 loki]; true;
   fleetGitLfs = let
     systems = builtins.attrValues flake.nixosConfigurations;

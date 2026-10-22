@@ -8,6 +8,7 @@
     "agentwrite": "Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md.",
     "analyze-data-quality": "Assess whether structured data, query results, dashboards, or analytical evidence are trustworthy enough to use. Use when the task is to check data quality, reconcile conflicting sources or metric definitions, or decide whether evidence is safe to cite.",
     "arch": "Sketch types, signatures, and module boundaries before substantial implementation. Use for architecture requests or when immediate coding would commit to an uncertain design; continue coordinating as implementation progresses.",
+    "asd-ste100": "Rewrite ambiguous English instructions, tool descriptions, errors, prompts, and agent messages using ASD-STE100 principles. Preserve meaning and uncertainty. Exclude creative and marketing writing.",
     "ask": "Interview when requested or when missing purpose, audience, success criteria, or constraints prevent useful work. Route adversarial plan reviews to grill. Exclude clear mechanical requests, non-interactive runs, and customer research.",
     "assess-patch-risk": "Assess an immutable patch or commit range for runtime impact, regressions, test coverage, recoverability, and merge eligibility. Produce a read-only risk assessment; do not modify or merge the patch.",
     "attack-path-analysis": "Trace security findings from source to sink and calibrate severity during attack-path analysis or on explicit request. Do not use as the entry point for repository or diff scans.",

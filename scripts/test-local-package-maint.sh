@@ -10,7 +10,7 @@ cd "${repo_root}"
 source <(sed '$d' scripts/local-package-maint.sh)
 
 # These bundles must reach their flake updater, even with unstable versions.
-for package in awesome-copilot-skills databricks-agent-skills matt-pocock-skills pi-coding-agent-bun polars-skills ponytail-skills pstack-skills; do
+for package in asd-ste100-skill awesome-copilot-skills databricks-agent-skills matt-pocock-skills pi-coding-agent-bun polars-skills ponytail-skills pstack-skills; do
     if [[ "${package}" == polars-skills ]]; then
         [[ "$(package_version "${repo_root}" "${package}")" =~ ^0\.[0-9]+\.[0-9]+$ ]]
     elif [[ "${package}" == matt-pocock-skills || "${package}" == ponytail-skills ]]; then

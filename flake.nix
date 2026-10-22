@@ -43,6 +43,10 @@
       url = "github:NixOS/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    asd-ste100-skill = {
+      url = "github:danyuchn/asd-ste100-skill";
+      flake = false;
+    };
     awesome-copilot-skills = {
       url = "github:github/awesome-copilot";
       flake = false;

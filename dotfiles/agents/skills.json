@@ -36,6 +36,7 @@
     "cli-output"
   ],
   "aliases": {
+    "asd-ste100": "asd-ste100",
     "agent-memory": "mem",
     "architect": "arch",
     "audio-notify": "notify",
