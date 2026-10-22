@@ -113,6 +113,7 @@ in {
       local.emdash
       local.kandev
       local.orca-ide
+      local.pandacode
       local.paperclip
       local.paseo-desktop
       local.pi-desktop

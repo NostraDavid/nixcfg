@@ -23,6 +23,10 @@ kandev) repo=kdlbs/kandev ;;
 mdschema) repo=jackchuka/mdschema ;;
 orca-ide) repo=stablyai/orca ;;
 outlook-cli) repo=rvben/outlook-cli ;;
+pandacode)
+    repo=aicodeking/pandacode
+    systems=(x86_64-linux aarch64-linux aarch64-darwin)
+    ;;
 paseo-desktop)
     repo=getpaseo/paseo
     systems=(x86_64-linux x86_64-darwin aarch64-darwin)
@@ -128,6 +132,13 @@ for system in "${systems[@]}"; do
         esac
         ;;
     outlook-cli) asset="outlook-v${version}-${rust}.tar.gz" ;;
+    pandacode)
+        case "$system" in
+        x86_64-linux) asset=PandaCode-Linux-x86_64.AppImage ;;
+        aarch64-linux) asset=PandaCode-Linux-aarch64.AppImage ;;
+        aarch64-darwin) asset=PandaCode-macOS-arm64.app.tar.gz ;;
+        esac
+        ;;
     paseo-desktop)
         case "$system" in
         x86_64-linux) asset=Paseo-x86_64.AppImage ;;

@@ -33,6 +33,9 @@ ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-emdash.sh"
 mkdir -p "${TEST_REPO}/pkgs/paseo-desktop"
 cp "${repo_root}/pkgs/paseo-desktop/default.nix" "${TEST_REPO}/pkgs/paseo-desktop/"
 ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-paseo-desktop.sh"
+mkdir -p "${TEST_REPO}/pkgs/pandacode"
+cp "${repo_root}/pkgs/pandacode/default.nix" "${TEST_REPO}/pkgs/pandacode/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-pandacode.sh"
 mkdir -p "${TEST_REPO}/pkgs/agent-orchestrator"
 cp "${repo_root}/pkgs/agent-orchestrator/default.nix" "${TEST_REPO}/pkgs/agent-orchestrator/"
 ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-agent-orchestrator.sh"
@@ -137,6 +140,16 @@ if [[ "$2" == repos/OrchestratorInc/agent-orchestrator/releases/latest ]]; then
     printf '{"name":"agent-orchestrator-darwin-x64.zip","digest":"sha256:%064d"}' 1
     if [[ "${TEST_AO_MISSING_ASSET:-0}" == 0 ]]; then
         printf ',{"name":"agent-orchestrator-darwin-arm64.zip","digest":"sha256:%064d"}' 2
+    fi
+    printf ']}\n'
+    exit
+fi
+if [[ "$2" == repos/aicodeking/pandacode/releases/latest ]]; then
+    printf '{"tag_name":"v2.0.0","assets":['
+    printf '{"name":"PandaCode-Linux-x86_64.AppImage","digest":"sha256:%064d"},' 0
+    printf '{"name":"PandaCode-Linux-aarch64.AppImage","digest":"sha256:%064d"}' 1
+    if [[ "${TEST_PANDACODE_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"PandaCode-macOS-arm64.app.tar.gz","digest":"sha256:%064d"}' 2
     fi
     printf ']}\n'
     exit
@@ -339,6 +352,17 @@ if TEST_EMDASH_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-emdash.sh" >/dev/nul
     exit 1
 fi
 cmp "${repo_root}/pkgs/emdash/default.nix" "${TEST_REPO}/pkgs/emdash/default.nix"
+
+"${TEST_REPO}/scripts/update-pandacode.sh" >/dev/null
+rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/pandacode/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/pandacode/default.nix")" -eq 3 ]]
+rg -q '^build .#pandacode --no-link$' "${TEST_REPO}/builds.log"
+cp "${repo_root}/pkgs/pandacode/default.nix" "${TEST_REPO}/pkgs/pandacode/"
+if TEST_PANDACODE_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-pandacode.sh" >/dev/null 2>&1; then
+    echo 'Expected PandaCode missing asset failure' >&2
+    exit 1
+fi
+cmp "${repo_root}/pkgs/pandacode/default.nix" "${TEST_REPO}/pkgs/pandacode/default.nix"
 
 "${TEST_REPO}/scripts/update-paseo-desktop.sh" >/dev/null
 rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/paseo-desktop/default.nix"

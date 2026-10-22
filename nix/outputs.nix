@@ -10,8 +10,12 @@ in {
   systems = [
     "x86_64-linux"
   ];
-  flake.overlays.default = packageSets.overlay-local;
-  flake.packages.aarch64-darwin.video-explainer = (pkgsFor "aarch64-darwin").video-explainer;
+  flake = {
+    overlays.default = packageSets.overlay-local;
+    packages.aarch64-darwin = {
+      inherit (pkgsFor "aarch64-darwin") pandacode video-explainer;
+    };
+  };
   perSystem = {system, ...}: let
     stable = pkgsFor system;
     unstable = unstableFor system;

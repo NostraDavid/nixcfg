@@ -63,6 +63,7 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  pandacode = assert lib.all (home: builtins.any (p: (p.pname or "") == "pandacode" && p.outPath == flake.packages.${p.system}.pandacode.outPath) home.home.packages) [wodan mimir2 loki]; true;
   fleetGitLfs = let
     systems = builtins.attrValues flake.nixosConfigurations;
     homes = [mimir2 loki linuxWorkstation darwinWorkstation];

@@ -14,7 +14,8 @@
     includes = [
       den.aspects.portable-home
     ];
-    homeManager = {
+    homeManager = {local, ...}: {
+      home.packages = [local.pandacode];
       programs.home-manager.enable = true;
       targets.genericLinux = {
         enable = true;
