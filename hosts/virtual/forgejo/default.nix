@@ -56,11 +56,20 @@
       };
       services = {
         qemuGuest.enable = true;
-        forgejo.settings.server.HTTP_ADDR = lib.mkForce "127.0.0.1";
-        forgejo.settings."cron.sync_external_users" = {
-          ENABLED = true;
-          RUN_AT_START = true;
-          SCHEDULE = "@every 1h";
+        forgejo.settings = {
+          server.HTTP_ADDR = lib.mkForce "127.0.0.1";
+          repository = {
+            DEFAULT_BRANCH = "master";
+            DEFAULT_PRIVATE = "private";
+            ENABLE_PUSH_CREATE_USER = true;
+            ENABLE_PUSH_CREATE_ORG = true;
+          };
+          # security.GLOBAL_TWO_FACTOR_REQUIREMENT = "admin";
+          "cron.sync_external_users" = {
+            ENABLED = true;
+            RUN_AT_START = true;
+            SCHEDULE = "@every 1h";
+          };
         };
         caddy = {
           enable = true;
