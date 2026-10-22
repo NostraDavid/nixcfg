@@ -22,6 +22,8 @@ import sys
 import tomllib
 
 root, tmp, wrappers, real_codex, real_opencode, pi_backup = map(Path, sys.argv[1:])
+source_config = (root / "dotfiles/codex-0.140.0/.codex/config.toml").read_text()
+assert "/nix/store/" not in source_config, "Keep Codex's Nix store paths in ~/.local/bin wrappers."
 servers = json.loads((tmp / "servers.json").read_text())
 fixture_servers = json.loads((tmp / "fixture-servers.json").read_text())
 home = tmp / "user home"

@@ -50,6 +50,11 @@ source = "/home/david/.cache/codex-runtimes/codex-primary-runtime/plugins/openai
 [mcp_servers.node_repl]
 command = "/bin/sh"
 args = ["-c", 'exec "$HOME/.local/bin/mcp-node-repl" "$@"', "node-repl"]
+env_vars = [
+  "BROWSER_USE_ACCESS_EXECUTOR_ID",
+  "BROWSER_USE_ACCESS_PIPE_PATH",
+  "BROWSER_USE_ACCESS_VERIFYING_IDENTITY",
+]
 startup_timeout_sec = 120
 
 [mcp_servers.openaiDeveloperDocs]
