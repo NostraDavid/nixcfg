@@ -27,6 +27,30 @@
   coverageFailures = builtins.filter (entry: !entry.assertion) coverage;
   failures = lib.concatMap (config: builtins.filter (entry: !entry.assertion) config.assertions) configs;
 in {
+  bootConfiguration = let
+    donar = flake.nixosConfigurations.donar.config;
+    whatpulse = donar.systemd.services.whatpulse-pcap-service.serviceConfig;
+    localeAvailable = system:
+      lib.all (home: let
+        locale = home.programs.plasma.configFile.plasma-localerc.Formats.LC_TIME.value or null;
+      in
+        locale == null || builtins.elem "${locale}/UTF-8" system.config.i18n.supportedLocales)
+      (builtins.attrValues (system.config.home-manager.users or {}));
+  in
+    assert donar.services.displayManager.defaultSession == "plasmax11";
+    assert builtins.elem "plasmax11" donar.services.displayManager.sessionData.sessionNames;
+    assert donar.services.tlp.settings.STOP_CHARGE_THRESH_BAT0 == 1;
+    assert donar.powerManagement.cpuFreqGovernor == null;
+    assert !(builtins.elem "cpufreq_schedutil" donar.boot.kernelModules);
+    assert donar.services.libinput.mouse.scrollMethod == "none";
+    assert donar.services.libinput.touchpad.scrollMethod == "twofinger";
+    assert !donar.services.devmon.enable;
+    assert lib.hasSuffix " --log-file ''" whatpulse.ExecStart;
+    assert whatpulse.ProtectSystem == "strict";
+    assert donar.home-manager.users.david.xdg.configFile ? "autostart/whatpulse.desktop";
+    assert donar.home-manager.users.david.programs.plasma.configFile.bluedevilglobalrc.Adapters."F4:B3:01:11:B5:B5_powered".value;
+    assert lib.hasInfix "Hidden=true" (builtins.readFile donar.home-manager.users.david.xdg.configFile."autostart/org.kde.discover.notifier.desktop".source);
+    assert lib.all localeAvailable (builtins.attrValues flake.nixosConfigurations); true;
   certificateTrust = let
     blacklist = [
       "Comodo AAA Services root"

@@ -10,6 +10,8 @@ stdenvNoCC.mkDerivation {
 
   nativeBuildInputs = [gzip];
 
+  patches = [./splash-animation.patch];
+
   src = fetchFromGitHub {
     owner = "yeyushengfan258";
     repo = "Win11OS-kde";
@@ -56,6 +58,18 @@ stdenvNoCC.mkDerivation {
       "$darkLookAndFeel/contents/lockscreen/background.jpeg"
 
     runHook postInstall
+  '';
+
+  doInstallCheck = true;
+  installCheckPhase = ''
+    runHook preInstallCheck
+    splash=$out/share/plasma/look-and-feel/com.github.yeyushengfan258.Win11OS-dark/contents/splash/Splash.qml
+    if grep -q bottomRect "$splash"; then
+      echo "Splash animation references missing bottomRect" >&2
+      exit 1
+    fi
+    grep -q 'target: topRect' "$splash"
+    runHook postInstallCheck
   '';
 
   meta = {

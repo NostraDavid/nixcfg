@@ -5157,11 +5157,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 47,
+      "lines": 48,
       "merge_into": null,
       "parents": [],
       "path": "features/boot/default.nix",
-      "sha256": "652d6a2a844ee229bd1494c5d9f0a4f0b7d4272d846ceb168079c120354c9d35",
+      "sha256": "efd2ce935a30d0c68db24f82d9b44220c766d97a6267da47cdd683382b29f0e3",
       "status": "used"
     },
     {
@@ -5274,11 +5274,11 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 16,
+      "lines": 27,
       "merge_into": null,
       "parents": [],
       "path": "features/common-tooling/default.nix",
-      "sha256": "6e6326a54bd288ca0dfedaf26876bec4752ff48ebb4f7de9d43b29abe13337e3",
+      "sha256": "afd7c79974bdd7080f7107529ed26a266b663b3eb8a5aa78f451569cc6247540",
       "status": "used"
     },
     {
@@ -5307,13 +5307,13 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 17,
+      "lines": 5,
       "merge_into": null,
       "parents": [
         "features/communication/default.nix"
       ],
       "path": "features/communication/_work.nix",
-      "sha256": "397d96065bd9165b9427e6eb31354346b80309df8f60f82709e25fe00deb03d6",
+      "sha256": "a3dc19c0ad5e012ec945400706ea776b8513954322a1b528a065e485faff125d",
       "status": "used"
     },
     {
@@ -5433,13 +5433,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 45,
+      "lines": 38,
       "merge_into": "features/darwin-speech/default.nix",
       "parents": [
         "features/darwin-speech/default.nix"
       ],
       "path": "features/darwin-speech/_home.nix",
-      "sha256": "227f4f05c5ed38f8283285622afcd11e75986f8ed10bb0c4460e423734144589",
+      "sha256": "9f4fa51bd1f84cdd40cb83b8c19be3a7226b6837aa4f9da0b33dbc6e7dc252f5",
       "status": "used"
     },
     {
@@ -6068,11 +6068,11 @@
         "NixOS:frigg"
       ],
       "kind": "feature",
-      "lines": 43,
+      "lines": 45,
       "merge_into": null,
       "parents": [],
       "path": "features/laptop/default.nix",
-      "sha256": "9c5042a9d16a607b9f0c614aa69f10aa38200500c514af7bda4c4156610f0199",
+      "sha256": "cabb5fcbeae43ab105447cf74f3909bab67eadb8cbeeb81cf3a3359c3802d0be",
       "status": "used"
     },
     {
@@ -6351,13 +6351,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 25,
+      "lines": 29,
       "merge_into": "features/nix-index/default.nix",
       "parents": [
         "features/nix-index/default.nix"
       ],
       "path": "features/nix-index/_home.nix",
-      "sha256": "39b3d35c4e235652fa16948981ed4b0bdcc117d245e57d0e2f460113c12bff38",
+      "sha256": "2589b538f3eeb715b6e02a50a4fd0c1f94757e87b34d7439cd3c39bfcfcbd788",
       "status": "used"
     },
     {
@@ -6400,11 +6400,11 @@
         "Home Manager:mimir2"
       ],
       "kind": "feature",
-      "lines": 18,
+      "lines": 22,
       "merge_into": null,
       "parents": [],
       "path": "features/nixos-base/default.nix",
-      "sha256": "dfb5afe4044d120bb5bf569b0b54c6ebdcc828fafe60d97df7fc40beff2dd6fb",
+      "sha256": "66a3c8ee39fab3c06626550f68132b667aff6b684624e72139197b8dab255336",
       "status": "used"
     },
     {
@@ -6430,13 +6430,13 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 405,
+      "lines": 411,
       "merge_into": null,
       "parents": [
         "features/plasma/default.nix"
       ],
       "path": "features/plasma/_home.nix",
-      "sha256": "2f74ad8e8b9ceade81ecf2120dffe7c08150699a15bf26c55ddde9c5d1510f92",
+      "sha256": "092cc4880e5c6dfcad4e62ac7b665c5dead7b7a6a15b02dc8e311cac32c28cf8",
       "status": "used"
     },
     {
@@ -6644,13 +6644,13 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 20,
+      "lines": 22,
       "merge_into": null,
       "parents": [
         "features/terminal/_packages.nix"
       ],
       "path": "features/terminal/_data.nix",
-      "sha256": "8bbc40b98eb69620d1dcdcc8f11603d73662d32823b1517b1e58d1620b7ed9da",
+      "sha256": "b7be21fce6d5400a38170b5e10291f8db5d7c3ba9c08585eeb3cde09183b1115",
       "status": "used"
     },
     {
@@ -6807,7 +6807,7 @@
       "merge_into": null,
       "parents": [],
       "path": "features/whatpulse/default.nix",
-      "sha256": "7364a90223219550508af466ec3814299867ffb422828036c907d989e7e0d811",
+      "sha256": "74006be652c269b9319aa32a07cad86e69083e1cf7900e243ce248d6d41939a4",
       "status": "used"
     },
     {
@@ -6990,13 +6990,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 37,
+      "lines": 39,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
         "features/workstation-extra/_terminal-packages.nix"
       ],
       "path": "features/workstation-extra/_terminal-data.nix",
-      "sha256": "fbe6686990bc2d4c6e3394457264ace3ae388eb48ea732c6de6b68523af7273f",
+      "sha256": "a25882ea6d298ed2e0cb5ad6028ae58daa81efa7f38aab3bdc76bd77b12bd976",
       "status": "optional-only"
     },
     {
@@ -7191,11 +7191,11 @@
         "NixOS:donar"
       ],
       "kind": "host",
-      "lines": 114,
+      "lines": 131,
       "merge_into": null,
       "parents": [],
       "path": "hosts/physical/donar/default.nix",
-      "sha256": "d95ff3de6d6eddf437084a764df3a5ced8f426e9084e5ac318ef9efd55e5aeba",
+      "sha256": "958d2742b15147d9c0e398958efed92f40eb85d8582ff8a23fb33142246c0588",
       "status": "used"
     },
     {
@@ -7504,7 +7504,7 @@
         "nix/default.nix"
       ],
       "path": "nix/outputs.nix",
-      "sha256": "70c7696d495250f20377539958fdd340b32d7b6d6fb7a75e624908fd3f0aa1af",
+      "sha256": "4c843ac5b7d6058aa4f141912c93ad571499eaea769c75a82853df60cf1f13f0",
       "status": "wiring-only"
     },
     {
@@ -7760,6 +7760,7 @@
   ],
   "policy": {
     "effective": {
+      "bootConfiguration": true,
       "certificateTrust": true,
       "coverage": true,
       "effective": true,
@@ -7888,6 +7889,11 @@
           "name": "git",
           "origin": "system",
           "version": "2.54.0"
+        },
+        {
+          "name": "git-lfs",
+          "origin": "system",
+          "version": "3.7.1"
         },
         {
           "name": "glibc",
@@ -8097,7 +8103,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "openresolv",
@@ -8343,12 +8349,17 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.4.0"
+          "version": "3.5.2"
         },
         {
           "name": "engrim",
           "origin": "home:david",
           "version": "1.4.11"
+        },
+        {
+          "name": "espeak-ng",
+          "origin": "home:david",
+          "version": "1.52.0-unstable-2026-09-22"
         },
         {
           "name": "exfatprogs",
@@ -8384,6 +8395,16 @@
           "name": "gawk",
           "origin": "system",
           "version": "5.4.1"
+        },
+        {
+          "name": "git",
+          "origin": "system",
+          "version": "2.54.0"
+        },
+        {
+          "name": "git-lfs",
+          "origin": "system",
+          "version": "3.7.1"
         },
         {
           "name": "glibc",
@@ -8708,7 +8729,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "openresolv",
@@ -8734,6 +8755,11 @@
           "name": "pi",
           "origin": "home:david",
           "version": ""
+        },
+        {
+          "name": "piper-tts",
+          "origin": "home:david",
+          "version": "1.4.2"
         },
         {
           "name": "pipewire",
@@ -8848,7 +8874,7 @@
         {
           "name": "tmux",
           "origin": "home:david",
-          "version": "3.7c"
+          "version": "3.8"
         },
         {
           "name": "tree",
@@ -8994,7 +9020,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "at-spi2-core",
@@ -9129,7 +9155,7 @@
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1013.40934"
+          "version": "26.1016.51333"
         },
         {
           "name": "chrome-devtools-mcp",
@@ -9187,11 +9213,6 @@
           "version": "2.15"
         },
         {
-          "name": "cpupower",
-          "origin": "system",
-          "version": "7.3"
-        },
-        {
           "name": "csvkit",
           "origin": "home:david",
           "version": "2.2.0"
@@ -9204,7 +9225,7 @@
         {
           "name": "ctx7",
           "origin": "home:david",
-          "version": "0.5.14"
+          "version": "0.8.0"
         },
         {
           "name": "curl",
@@ -9369,7 +9390,7 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.4.0"
+          "version": "3.5.2"
         },
         {
           "name": "engrim",
@@ -9469,7 +9490,7 @@
         {
           "name": "forgejo-cli",
           "origin": "home:david",
-          "version": "0.6.0"
+          "version": "0.7.0"
         },
         {
           "name": "frameworkintegration",
@@ -9563,8 +9584,18 @@
         },
         {
           "name": "git",
+          "origin": "system",
+          "version": "2.54.0"
+        },
+        {
+          "name": "git",
           "origin": "home:david",
           "version": "2.56.0"
+        },
+        {
+          "name": "git-lfs",
+          "origin": "system",
+          "version": "3.7.1"
         },
         {
           "name": "git-lfs",
@@ -10684,7 +10715,7 @@
         {
           "name": "opencode-desktop",
           "origin": "home:david",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "opencode-mcp-chrome-devtools",
@@ -10704,7 +10735,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "openjdk",
@@ -10754,7 +10785,7 @@
         {
           "name": "osv-scanner",
           "origin": "home:david",
-          "version": "2.5.1"
+          "version": "2.7.0"
         },
         {
           "name": "oxipng",
@@ -11034,7 +11065,7 @@
         {
           "name": "python-voiceio",
           "origin": "home:david",
-          "version": "1.9.2"
+          "version": "1.10.0"
         },
         {
           "name": "python3",
@@ -11102,6 +11133,11 @@
           "version": "6.11.2"
         },
         {
+          "name": "rainfrog",
+          "origin": "home:david",
+          "version": "0.4.6"
+        },
+        {
           "name": "rar",
           "origin": "home:david",
           "version": "7.21"
@@ -11139,7 +11175,7 @@
         {
           "name": "rtk",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "1.0.1"
         },
         {
           "name": "rtkit",
@@ -11150,6 +11186,11 @@
           "name": "ruff",
           "origin": "home:david",
           "version": "0.17.1"
+        },
+        {
+          "name": "sabiql",
+          "origin": "home:david",
+          "version": "3.0.1"
         },
         {
           "name": "sbomnix",
@@ -11284,7 +11325,7 @@
         {
           "name": "starship",
           "origin": "home:david",
-          "version": "1.26.0"
+          "version": "1.27.0"
         },
         {
           "name": "statix",
@@ -11319,7 +11360,7 @@
         {
           "name": "stylua",
           "origin": "home:david",
-          "version": "2.5.2"
+          "version": "2.6.0"
         },
         {
           "name": "sudo",
@@ -11399,7 +11440,7 @@
         {
           "name": "tmux",
           "origin": "home:david",
-          "version": "3.7c"
+          "version": "3.8"
         },
         {
           "name": "tree",
@@ -11459,7 +11500,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.0"
+          "version": "0.13.1"
         },
         {
           "name": "viddy",
@@ -11479,12 +11520,12 @@
         {
           "name": "vscode",
           "origin": "home:david",
-          "version": "1.142.0"
+          "version": "1.143.0"
         },
         {
           "name": "vscode-langservers-extracted",
           "origin": "home:david",
-          "version": "1.126.04524"
+          "version": "1.140.06880"
         },
         {
           "name": "vulnix",
@@ -11918,6 +11959,11 @@
           "version": "2.54.0"
         },
         {
+          "name": "git-lfs",
+          "origin": "system",
+          "version": "3.7.1"
+        },
+        {
           "name": "glibc",
           "origin": "system",
           "version": "2.42"
@@ -12125,7 +12171,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "openresolv",
@@ -12344,6 +12390,11 @@
           "version": "2.54.0"
         },
         {
+          "name": "git-lfs",
+          "origin": "system",
+          "version": "3.7.1"
+        },
+        {
           "name": "glibc",
           "origin": "system",
           "version": "2.42"
@@ -12546,7 +12597,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "openresolv",
@@ -12717,7 +12768,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "at-spi2-core",
@@ -12847,7 +12898,7 @@
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1013.40934"
+          "version": "26.1016.51333"
         },
         {
           "name": "chrome-devtools-mcp",
@@ -12917,7 +12968,7 @@
         {
           "name": "ctx7",
           "origin": "home:david",
-          "version": "0.5.14"
+          "version": "0.8.0"
         },
         {
           "name": "curl",
@@ -13077,12 +13128,17 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.4.0"
+          "version": "3.5.2"
         },
         {
           "name": "engrim",
           "origin": "home:david",
           "version": "1.4.11"
+        },
+        {
+          "name": "espeak-ng",
+          "origin": "home:david",
+          "version": "1.52.0-unstable-2026-09-22"
         },
         {
           "name": "evolution",
@@ -13157,7 +13213,7 @@
         {
           "name": "forgejo-cli",
           "origin": "home:david",
-          "version": "0.6.0"
+          "version": "0.7.0"
         },
         {
           "name": "frameworkintegration",
@@ -13241,8 +13297,18 @@
         },
         {
           "name": "git",
+          "origin": "system",
+          "version": "2.54.0"
+        },
+        {
+          "name": "git",
           "origin": "home:david",
           "version": "2.56.0"
+        },
+        {
+          "name": "git-lfs",
+          "origin": "system",
+          "version": "3.7.1"
         },
         {
           "name": "git-lfs",
@@ -14252,7 +14318,7 @@
         {
           "name": "opencode-desktop",
           "origin": "home:david",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "opencode-mcp-chrome-devtools",
@@ -14272,7 +14338,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "openjdk",
@@ -14317,7 +14383,7 @@
         {
           "name": "osv-scanner",
           "origin": "home:david",
-          "version": "2.5.1"
+          "version": "2.7.0"
         },
         {
           "name": "oxipng",
@@ -14388,6 +14454,11 @@
           "name": "pigz",
           "origin": "home:david",
           "version": "2.8"
+        },
+        {
+          "name": "piper-tts",
+          "origin": "home:david",
+          "version": "1.4.2"
         },
         {
           "name": "pipewire",
@@ -14630,6 +14701,11 @@
           "version": "6.11.2"
         },
         {
+          "name": "rainfrog",
+          "origin": "home:david",
+          "version": "0.4.6"
+        },
+        {
           "name": "rar",
           "origin": "home:david",
           "version": "7.21"
@@ -14657,7 +14733,7 @@
         {
           "name": "rtk",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "1.0.1"
         },
         {
           "name": "rtkit",
@@ -14668,6 +14744,11 @@
           "name": "ruff",
           "origin": "home:david",
           "version": "0.17.1"
+        },
+        {
+          "name": "sabiql",
+          "origin": "home:david",
+          "version": "3.0.1"
         },
         {
           "name": "sbomnix",
@@ -14797,7 +14878,7 @@
         {
           "name": "starship",
           "origin": "home:david",
-          "version": "1.26.0"
+          "version": "1.27.0"
         },
         {
           "name": "statix",
@@ -14822,7 +14903,7 @@
         {
           "name": "stylua",
           "origin": "home:david",
-          "version": "2.5.2"
+          "version": "2.6.0"
         },
         {
           "name": "sudo",
@@ -14862,7 +14943,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.0"
+          "version": "0.1.1"
         },
         {
           "name": "taplo",
@@ -14907,7 +14988,7 @@
         {
           "name": "tmux",
           "origin": "home:david",
-          "version": "3.7c"
+          "version": "3.8"
         },
         {
           "name": "tree",
@@ -14967,7 +15048,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.0"
+          "version": "0.13.1"
         },
         {
           "name": "viddy",
@@ -14982,12 +15063,12 @@
         {
           "name": "vscode",
           "origin": "home:david",
-          "version": "1.142.0"
+          "version": "1.143.0"
         },
         {
           "name": "vscode-langservers-extracted",
           "origin": "home:david",
-          "version": "1.126.04524"
+          "version": "1.140.06880"
         },
         {
           "name": "vulnix",
@@ -15386,6 +15467,11 @@
           "version": "2.54.0"
         },
         {
+          "name": "git-lfs",
+          "origin": "system",
+          "version": "3.7.1"
+        },
+        {
           "name": "glibc",
           "origin": "system",
           "version": "2.42"
@@ -15593,7 +15679,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "openresolv",
@@ -15734,7 +15820,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "bash-interactive",
@@ -16079,7 +16165,7 @@
         {
           "name": "opencode-v2",
           "origin": "home:david",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "pi",
@@ -16139,7 +16225,7 @@
         {
           "name": "starship",
           "origin": "home:david",
-          "version": "1.26.0"
+          "version": "1.27.0"
         },
         {
           "name": "terminus-font-ttf",
@@ -16154,7 +16240,7 @@
         {
           "name": "tmux",
           "origin": "home:david",
-          "version": "3.7c"
+          "version": "3.8"
         },
         {
           "name": "tree",
@@ -16174,7 +16260,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.0"
+          "version": "0.13.1"
         },
         {
           "name": "watchexec",
@@ -16220,7 +16306,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "bash-interactive",
@@ -16315,12 +16401,17 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.4.0"
+          "version": "3.5.2"
         },
         {
           "name": "engrim",
           "origin": "home:david",
           "version": "1.4.11"
+        },
+        {
+          "name": "espeak-ng",
+          "origin": "home:david",
+          "version": "1.52.0-unstable-2026-09-22"
         },
         {
           "name": "fd",
@@ -16520,12 +16611,17 @@
         {
           "name": "opencode-v2",
           "origin": "home:david",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "pi",
           "origin": "home:david",
           "version": ""
+        },
+        {
+          "name": "piper-tts",
+          "origin": "home:david",
+          "version": "1.4.2"
         },
         {
           "name": "playwright-mcp",
@@ -16575,7 +16671,7 @@
         {
           "name": "starship",
           "origin": "home:david",
-          "version": "1.26.0"
+          "version": "1.27.0"
         },
         {
           "name": "terminus-font-ttf",
@@ -16585,7 +16681,7 @@
         {
           "name": "tmux",
           "origin": "home:david",
-          "version": "3.7c"
+          "version": "3.8"
         },
         {
           "name": "tree",
@@ -16605,7 +16701,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.0"
+          "version": "0.13.1"
         },
         {
           "name": "watchexec",
@@ -16742,6 +16838,11 @@
           "name": "git",
           "origin": "system",
           "version": "2.54.0"
+        },
+        {
+          "name": "git-lfs",
+          "origin": "system",
+          "version": "3.7.1"
         },
         {
           "name": "glibc",
@@ -16951,7 +17052,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "openresolv",
@@ -17097,7 +17198,7 @@
         {
           "name": "agent-orchestrator",
           "origin": "home:david",
-          "version": "0.14.3"
+          "version": "0.14.4"
         },
         {
           "name": "akonadi",
@@ -17132,7 +17233,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "at-spi2-core",
@@ -17187,7 +17288,7 @@
         {
           "name": "bend",
           "origin": "home:david",
-          "version": "2.0.37"
+          "version": "2.0.38"
         },
         {
           "name": "bind",
@@ -17257,7 +17358,7 @@
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1013.40934"
+          "version": "26.1016.51333"
         },
         {
           "name": "chrome-devtools-mcp",
@@ -17332,7 +17433,7 @@
         {
           "name": "ctx7",
           "origin": "home:david",
-          "version": "0.5.14"
+          "version": "0.8.0"
         },
         {
           "name": "cuda-merged",
@@ -17517,7 +17618,7 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.4.0"
+          "version": "3.5.2"
         },
         {
           "name": "engrim",
@@ -17627,7 +17728,7 @@
         {
           "name": "forgejo-cli",
           "origin": "home:david",
-          "version": "0.6.0"
+          "version": "0.7.0"
         },
         {
           "name": "frameworkintegration",
@@ -17721,8 +17822,18 @@
         },
         {
           "name": "git",
+          "origin": "system",
+          "version": "2.54.0"
+        },
+        {
+          "name": "git",
           "origin": "home:david",
           "version": "2.56.0"
+        },
+        {
+          "name": "git-lfs",
+          "origin": "system",
+          "version": "3.7.1"
         },
         {
           "name": "git-lfs",
@@ -18852,7 +18963,7 @@
         {
           "name": "opencode-desktop",
           "origin": "home:david",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "opencode-mcp-chrome-devtools",
@@ -18872,7 +18983,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.0"
+          "version": "2.1.2"
         },
         {
           "name": "openjdk",
@@ -18912,7 +19023,7 @@
         {
           "name": "orca-ide",
           "origin": "home:david",
-          "version": "1.4.232"
+          "version": "1.4.237"
         },
         {
           "name": "osv-detector",
@@ -18922,7 +19033,7 @@
         {
           "name": "osv-scanner",
           "origin": "home:david",
-          "version": "2.5.1"
+          "version": "2.7.0"
         },
         {
           "name": "oxipng",
@@ -19232,7 +19343,7 @@
         {
           "name": "python-voiceio",
           "origin": "home:david",
-          "version": "1.9.2"
+          "version": "1.10.0"
         },
         {
           "name": "python3",
@@ -19305,6 +19416,11 @@
           "version": "6.11.2"
         },
         {
+          "name": "rainfrog",
+          "origin": "home:david",
+          "version": "0.4.6"
+        },
+        {
           "name": "rar",
           "origin": "home:david",
           "version": "7.21"
@@ -19342,7 +19458,7 @@
         {
           "name": "rtk",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "1.0.1"
         },
         {
           "name": "rtkit",
@@ -19353,6 +19469,11 @@
           "name": "ruff",
           "origin": "home:david",
           "version": "0.17.1"
+        },
+        {
+          "name": "sabiql",
+          "origin": "home:david",
+          "version": "3.0.1"
         },
         {
           "name": "sbomnix",
@@ -19487,7 +19608,7 @@
         {
           "name": "starship",
           "origin": "home:david",
-          "version": "1.26.0"
+          "version": "1.27.0"
         },
         {
           "name": "statix",
@@ -19522,7 +19643,7 @@
         {
           "name": "stylua",
           "origin": "home:david",
-          "version": "2.5.2"
+          "version": "2.6.0"
         },
         {
           "name": "sudo",
@@ -19567,7 +19688,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.0"
+          "version": "0.1.1"
         },
         {
           "name": "taplo",
@@ -19607,7 +19728,7 @@
         {
           "name": "tmux",
           "origin": "home:david",
-          "version": "3.7c"
+          "version": "3.8"
         },
         {
           "name": "tree",
@@ -19672,7 +19793,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.0"
+          "version": "0.13.1"
         },
         {
           "name": "viddy",
@@ -19697,12 +19818,12 @@
         {
           "name": "vscode",
           "origin": "home:david",
-          "version": "1.142.0"
+          "version": "1.143.0"
         },
         {
           "name": "vscode-langservers-extracted",
           "origin": "home:david",
-          "version": "1.126.04524"
+          "version": "1.140.06880"
         },
         {
           "name": "vulnix",

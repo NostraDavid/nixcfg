@@ -33,7 +33,7 @@ _: {
             Type = "simple";
             User = "root";
             Group = "root";
-            ExecStart = "${local.whatpulse-pcap-service}/bin/whatpulse-pcap-service";
+            ExecStart = "${local.whatpulse-pcap-service}/bin/whatpulse-pcap-service --log-file ''";
             Restart = "always";
             RestartSec = 5;
             NoNewPrivileges = true;

@@ -39,6 +39,16 @@
 
       system.stateVersion = "26.05";
 
+      # TLP selects governors supported by amd-pstate-epp on AC and battery.
+      powerManagement.cpuFreqGovernor = lib.mkForce null;
+      services = {
+        tlp.settings.STOP_CHARGE_THRESH_BAT0 = lib.mkForce 1;
+        displayManager.defaultSession = lib.mkForce "plasmax11";
+        libinput.mouse.scrollMethod = "none";
+        # Plasma and UDisks2 handle removable drives without a second automounter.
+        devmon.enable = lib.mkForce false;
+      };
+
       boot = {
         # NVIDIA 595 does not yet build against Linux 7.2, where the kernel
         # strncpy() API was removed. Use the stable kernel package set until
@@ -100,13 +110,17 @@
         ];
       };
     };
-    homeManager = {
+    homeManager = {local, ...}: {
       imports = [
         # These integrations declare options; host features select their settings.
         inputs.plasma-manager.homeModules.plasma-manager
         inputs.codex-desktop-linux.homeManagerModules.default
       ];
       programs.home-manager.enable = true;
+      # KDE otherwise restores its saved powered-off state after BlueZ enables it.
+      programs.plasma.configFile.bluedevilglobalrc.Adapters."F4:B3:01:11:B5:B5_powered" = true;
+      xdg.configFile."autostart/whatpulse.desktop".source = "${local.whatpulse}/share/applications/whatpulse.desktop";
+      xdg.configFile."autostart/org.kde.discover.notifier.desktop".source = ./discover-notifier.desktop;
       home = {
         username = "david";
         homeDirectory = "/home/david";

@@ -1,0 +1,11 @@
+--- a/plasma/look-and-feel/com.github.yeyushengfan258.Win11OS-dark/contents/splash/Splash.qml
++++ b/plasma/look-and-feel/com.github.yeyushengfan258.Win11OS-dark/contents/splash/Splash.qml
+@@ -86,8 +85,0 @@
+-            PropertyAnimation {
+-                property: "y"
+-                target: bottomRect
+-                to: 2 * (root.height / 3) - bottomRect.height
+-                duration: 1000
+-                easing.type: Easing.InOutBack
+-                easing.overshoot: 1.0
+-            }

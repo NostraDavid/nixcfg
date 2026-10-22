@@ -402,7 +402,7 @@ in {
 
       plasma-localerc.Formats = {
         LANG = "en_US.UTF-8";
-        LC_TIME = "en_SE.UTF-8";
+        LC_TIME = "en_DK.UTF-8";
       };
 
       plasmarc.Theme.name = "Win11OS-dark-nixcfg";
