@@ -178,6 +178,15 @@ in {
       }
     ]; true;
   nixIndexInitialization = assert lib.all (home: home.home.activation ? nixIndex) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
+  plasmaCrashLauncher = assert lib.all (name: let
+    home = flake.nixosConfigurations.${name}.config.home-manager.users.david;
+    launcher = home.systemd.user.services."drkonqi-coredump-launcher@";
+  in
+    launcher.Unit.X-SwitchMethod
+    == "keep-old"
+    && launcher.Service.Restart == "no"
+    && launcher.Service.LimitCORE == 0
+    && lib.elem "drkonqi-coredump-launcher" (lib.splitString "," home.programs.plasma.session.sessionRestore.excludeApplications)) ["wodan" "donar" "frigg"]; true;
   macosTimeout = assert lib.all (home: toString home.home.file.".local/bin/timeout".source == "${(unstableFor "aarch64-darwin").coreutils}/bin/timeout" && lib.hasSuffix "-gtimeout" (toString home.home.file.".local/bin/gtimeout".source)) [loki darwinWorkstation]; assert !(mimir2.home.file ? ".local/bin/timeout"); true;
   linuxSpeech = assert lib.all (home: lib.all (package: builtins.any (p: (p.pname or "") == package) home.home.packages) ["espeak-ng" "piper-tts"]) ([mimir2] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   macosSpeech = assert lib.all (home: lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["espeak-ng" "piper-tts" "coreutils" "gnused"] && lib.all (path: builtins.hasAttr path home.home.file) [".local/bin/say" ".local/bin/say-piper-tts" ".config/say/espeak-ng-data" ".config/say/piper.sed" ".local/share/piper-voices/nl_NL-pim-medium.onnx" ".local/share/piper-voices/nl_NL-pim-medium.onnx.json"]) [loki darwinWorkstation]; true;

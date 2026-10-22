@@ -118,6 +118,8 @@ in {
         "graphical-session.target"
       ];
       ConditionUser = "!@system";
+      # Socket-activated instances cannot be restarted without their accepted socket.
+      X-SwitchMethod = "keep-old";
     };
     Service = {
       WorkingDirectory = "%T";
@@ -130,6 +132,10 @@ in {
 
   programs.plasma = {
     enable = true;
+
+    session.sessionRestore.excludeApplications = [
+      "drkonqi-coredump-launcher"
+    ];
 
     workspace = {
       iconTheme = "Win11-black-dark";
