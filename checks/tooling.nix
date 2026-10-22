@@ -21,10 +21,13 @@ let
   cliTools = [
     "actionlint"
     "flameshot"
+    "fast-resume"
     "lnav"
+    "lazyjournal"
     "nix-index"
     "nix-tree"
     "nvd"
+    "posting"
     "shfmt"
     "ov"
     "watchexec"

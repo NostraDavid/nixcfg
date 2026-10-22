@@ -63,12 +63,15 @@ _: {
         packages = with unstable; [
           actionlint
           flameshot
+          fast-resume
           hurl
+          lazyjournal
           lnav
           nix-index
           nix-tree
           nvd
           ov
+          posting
           shfmt
           sqruff
           watchexec
