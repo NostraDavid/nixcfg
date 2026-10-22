@@ -22,6 +22,8 @@
       unstable.parquet-tools # Parquet file viewer and converter
       unstable.pgcli # psql replacement
       unstable.postgresql # Stable PostgreSQL CLI
+      unstable.rainfrog # Database management TUI
+      unstable.sabiql # PostgreSQL TUI
       unstable.sqlfluff # SQL linter and formatter
       unstable.sqlite # SQLite CLI
       unstable.sqls # SQL language server
