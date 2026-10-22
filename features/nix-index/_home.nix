@@ -17,7 +17,11 @@
           ${unstable.nix-index}/bin/nix-index \
             --nixpkgs ${inputs.nixpkgs-unstable} \
             --system ${unstable.stdenv.hostPlatform.system} \
-            --db "$temporary"
+            --db "$temporary" \
+            --extra-scopes haskellPackages \
+            --extra-scopes rPackages \
+            --extra-scopes rocqPackages \
+            --extra-scopes texlive.pkgs
           mv "$temporary/files" "$index_dir/files"
         fi
       )
