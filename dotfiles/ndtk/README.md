@@ -21,13 +21,16 @@ inventory.
 `repos github clone [TARGET_DIR]` synchronizes personal and organization GitHub
 repositories. `repos azure clone --root TARGET_DIR` synchronizes Azure DevOps
 repositories. Both default to `~/dev`. Run `repos github --help` or
-`repos azure --help` to list commands. Run `repos PROVIDER help COMMAND` or
-`repos PROVIDER COMMAND --help` for command options.
+`repos azure --help` to list commands. Run `repos PROVIDER COMMAND --help` for
+command options.
 
 `repos PROVIDER` without a command shows help and does not synchronize anything.
-Every provider supports `help`, `check` for local readiness, and `test` for
+Every provider supports `--help`, `check` for local readiness, and `test` for
 network-free regression tests. Azure's `check` validates configuration and Git
 availability without testing the token against Azure.
+
+Azure defaults to four parallel repository updates per project. Use `--workers`
+to change this. Clone option names must be written in full.
 
 Azure Git operations, including worktree creation, allow 300 seconds each by
 default. Azure API requests retain a separate 15-second timeout. Increase the
@@ -41,10 +44,12 @@ disk, or add `--dry-run` to preview the updates. `repos local check` verifies
 the local setup.
 
 To add a provider, add an executable `_repos_PROVIDER.py` helper with its own
-dependency metadata and register the provider in `repos.sh`. Home Manager keeps
-underscore-prefixed helpers importable with their file extensions. The commit
-hook discovers every `_repos_*.py` helper and checks the shared commands, help
-behavior, rejection of unknown commands, and provider tests. Run
+dependency metadata. `repos` discovers executable helpers in `~/.local/bin/`;
+provider names must start with a lowercase letter and contain only lowercase
+letters, digits, underscores, or hyphens. Home Manager keeps underscore-prefixed
+helpers importable with their file extensions. The commit hook discovers every
+`_repos_*.py` helper and checks the shared commands, help behavior, rejection of
+unknown commands, and provider tests. Run
 `./dotfiles/ndtk/tests/test_git_repos.py` from the repository root to run the
 same checks manually.
 

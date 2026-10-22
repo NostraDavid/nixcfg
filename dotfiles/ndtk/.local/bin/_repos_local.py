@@ -1512,24 +1512,6 @@ def cli(ctx: click.Context) -> None:
         click.echo(ctx.get_help(), nl=False, color=True)
 
 
-@cli.command(
-    "help", short_help="Print this message or the help of the given subcommand."
-)
-@click.argument("command", required=False)
-@click.pass_context
-def help_command(ctx: click.Context, command: str | None) -> None:
-    if not command:
-        click.echo(ctx.parent.get_help(), nl=False, color=True)
-        return
-
-    cmd = ctx.parent.command.get_command(ctx.parent, command)
-    if cmd is None:
-        raise click.UsageError(f"Unknown command: {command}")
-
-    child_ctx = click.Context(cmd, info_name=command, parent=ctx.parent)
-    click.echo(cmd.get_help(child_ctx), nl=False, color=True)
-
-
 @cli.command("check", short_help="Check Git and the local repository root.")
 @click.option(
     "--project",

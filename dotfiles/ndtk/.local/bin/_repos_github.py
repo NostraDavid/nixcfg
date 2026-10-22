@@ -958,12 +958,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     test_parser = commands.add_parser("test", help="Run network-free regression tests.")
     test_parser.add_argument("-v", "--verbose", action="store_true")
-    help_parser = commands.add_parser(
-        "help", help="Show help for this provider or a command."
-    )
-    help_parser.add_argument(
-        "topic", nargs="?", choices=("clone", "check", "test", "help")
-    )
     root_parser = parser
     parser = commands.add_parser(
         "clone", help="Clone or update repositories and their worktrees."
@@ -1048,9 +1042,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Discover repositories and validate remote selections without writing or fetching.",
     )
     args = root_parser.parse_args(argv)
-    if args.command is None or args.command == "help":
-        topic = getattr(args, "topic", None)
-        (commands.choices[topic] if topic else root_parser).print_help()
+    if args.command is None:
+        root_parser.print_help()
         raise SystemExit(0)
     return args
 

@@ -1,27 +1,49 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-case "${1:-}" in
-azure | github | local)
-    provider="$1"
-    shift
-    exec "${HOME}/.local/bin/_repos_${provider}.py" "$@"
-    ;;
-"" | help | -h | --help)
+bin_dir="${HOME}/.local/bin"
+
+usage() {
     cat <<'EOF'
 Usage: repos <source> <command> [options]
 
-Manage repositories by source:
-  azure     Azure DevOps repositories
-  github    Personal and organization GitHub repositories
-  local     Update repositories already present on disk
-
-Run 'repos <source>' to list its commands.
-Every source supports help, check and test.
+Run 'repos <source> --help' for source options.
+Available sources are executable _repos_<source>.py plugins in ~/.local/bin:
 EOF
-    ;;
-*)
-    printf 'Unknown provider: %s. Choose azure, github or local.\n' "$1" >&2
-    exit 2
+
+    local plugin plugin_name found=false
+    for plugin in "${bin_dir}"/_repos_*.py; do
+        [[ -x "$plugin" ]] || continue
+        plugin_name="${plugin##*/_repos_}"
+        plugin_name="${plugin_name%.py}"
+        [[ "$plugin_name" =~ ^[a-z][a-z0-9_-]*$ ]] || continue
+        printf '  %s\n' "$plugin_name"
+        found=true
+    done
+    if [[ "$found" == false ]]; then
+        printf '  (none)\n'
+    fi
+}
+
+provider="${1:-}"
+case "$provider" in
+"" | -h | --help)
+    usage
+    exit 0
     ;;
 esac
+
+if [[ ! "$provider" =~ ^[a-z][a-z0-9_-]*$ ]]; then
+    printf 'Invalid provider name: %s\n' "$provider" >&2
+    exit 2
+fi
+
+shift
+plugin="${bin_dir}/_repos_${provider}.py"
+if [[ ! -x "$plugin" ]]; then
+    printf 'Unknown provider: %s\n' "$provider" >&2
+    usage >&2
+    exit 2
+fi
+
+exec "$plugin" "$@"

@@ -252,15 +252,17 @@ def check() -> None:
         for name in SCRIPTS:
             result = run(name, "--help")
             assert result.returncode == 0, (name, result.stderr)
-        for arguments in ((), ("help",)):
+        for arguments in ((), ("-h",)):
             result = run("repos", *arguments)
             assert result.returncode == 0, result.stderr
             assert result.stdout == run("repos", "--help").stdout
+        assert run("repos", "help").returncode == 2
+        assert all(f"  {provider}\n" in result.stdout for provider in PROVIDERS)
         for provider in PROVIDERS:
             result = run("repos", provider, "--help")
             assert result.returncode == 0, (provider, result.stderr)
             assert f"repos {provider}" in result.stdout
-            for command in ("help", "check", "test"):
+            for command in ("check", "test"):
                 assert command in result.stdout, (provider, command, result.stdout)
                 command_help = run("repos", provider, command, "--help")
                 assert command_help.returncode == 0, (
@@ -268,20 +270,10 @@ def check() -> None:
                     command,
                     command_help.stderr,
                 )
-                topic_help = run("repos", provider, "help", command)
-                assert topic_help.returncode == 0, topic_help.stderr
-                assert topic_help.stdout.strip() == command_help.stdout.strip()
-            for arguments in ((), ("help",)):
-                help_result = run("repos", provider, *arguments)
-                assert help_result.returncode == 0, (
-                    provider,
-                    arguments,
-                    help_result.stderr,
-                )
-                assert help_result.stdout.strip() == result.stdout.strip(), (
-                    provider,
-                    arguments,
-                )
+            help_result = run("repos", provider)
+            assert help_result.returncode == 0, (provider, help_result.stderr)
+            assert help_result.stdout.strip() == result.stdout.strip(), provider
+            assert run("repos", provider, "help").returncode == 2
             invalid = run("repos", provider, "unknown-command")
             assert invalid.returncode == 2, (provider, invalid.stderr)
             tests = run("repos", provider, "test")
@@ -296,6 +288,10 @@ def check() -> None:
         result = run("repos", "azure", "clone", "--workers", "invalid")
         assert result.returncode == 2 and "invalid int value" in result.stderr
         assert "--workers" in run("repos", "azure", "clone", "--help").stdout
+        assert "(default: 4)" in run("repos", "azure", "clone", "--help").stdout
+        for option in ("--work", "--worke"):
+            result = run("repos", "azure", "clone", option, "8")
+            assert result.returncode == 2 and "unrecognized arguments" in result.stderr
         assert "--dry-run" in run("repos", "local", "update", "--help").stdout
         assert "dirty" in run("repos", "local", "--help").stdout
         assert "--project" in run("repos", "local", "dirty", "--help").stdout
@@ -387,6 +383,21 @@ def check() -> None:
         assert result.returncode == 7
         assert result.stdout.splitlines() == list(arguments)
         assert result.stderr == ""
+
+        extra = helpers / "_repos_custom-source.py"
+        extra.write_text('#!/bin/sh\nprintf "%s\\n" "$@"\nexit 7\n')
+        extra.chmod(0o755)
+        assert "  custom-source\n" in run("repos", "--help").stdout
+        result = run("repos", "custom-source", *arguments)
+        assert result.returncode == 7
+        assert result.stdout.splitlines() == list(arguments)
+        extra.chmod(0o644)
+        assert "  custom-source\n" not in run("repos", "--help").stdout
+        assert run("repos", "custom-source").returncode == 2
+        assert run("repos", "../custom-source").returncode == 2
+        for plugin in helpers.glob("_repos_*.py"):
+            plugin.unlink()
+        assert "  (none)\n" in run("repos", "--help").stdout
 
         env["XDG_CONFIG_HOME"] = ""
         env["XDG_STATE_HOME"] = ""

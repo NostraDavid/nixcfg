@@ -45,7 +45,7 @@ HEADERS: dict[str, str] = {}
 
 # --- CONSTANTS ---
 PROJECT_ROOT = Path("~/dev").expanduser()
-DEFAULT_WORKERS = 1
+DEFAULT_WORKERS = 4
 SSH_DEBUG = False
 
 # Timeouts (seconds)
@@ -235,15 +235,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     test_parser = commands.add_parser("test", help="Run network-free regression tests.")
     test_parser.add_argument("-v", "--verbose", action="store_true")
-    help_parser = commands.add_parser(
-        "help", help="Show help for this provider or a command."
-    )
-    help_parser.add_argument(
-        "topic", nargs="?", choices=("clone", "check", "test", "help")
-    )
     root_parser = parser
     parser = commands.add_parser(
-        "clone", help="Clone or update repositories and their worktrees."
+        "clone",
+        help="Clone or update repositories and their worktrees.",
+        allow_abbrev=False,
     )
     parser.add_argument(
         "--project",
@@ -361,9 +357,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         root_parser.error("workers must be greater than zero")
     if args.command == "clone" and (args.clone_timeout <= 0 or args.fetch_timeout <= 0):
         root_parser.error("clone and fetch timeouts must be greater than zero")
-    if args.command is None or args.command == "help":
-        topic = getattr(args, "topic", None)
-        (commands.choices[topic] if topic else root_parser).print_help()
+    if args.command is None:
+        root_parser.print_help()
         raise SystemExit(0)
     return args
 
@@ -1529,7 +1524,7 @@ def run_tests(verbose: bool) -> int:
                 git.assert_not_called()
 
         def test_workers_default_and_override(self) -> None:
-            self.assertEqual(parse_args(["clone"]).workers, 1)
+            self.assertEqual(parse_args(["clone"]).workers, 4)
             self.assertEqual(parse_args(["clone", "--workers", "1"]).workers, 1)
             self.assertEqual(parse_args(["clone", "--workers", "8"]).workers, 8)
 
