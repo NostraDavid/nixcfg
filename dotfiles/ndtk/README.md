@@ -32,6 +32,11 @@ availability without testing the token against Azure.
 Azure defaults to four parallel repository updates per project. Use `--workers`
 to change this. Clone option names must be written in full.
 
+Transient SSH failures retry with exponential pauses starting at 1 second,
+without a backoff cap, plus up to 1 second of jitter. Each Git operation has a
+120-second retry budget; this does not interrupt a running Git command, which
+retains its own timeout. Authentication failures are not retried.
+
 Azure Git operations, including worktree creation, allow 300 seconds each by
 default. Azure API requests retain a separate 15-second timeout. Increase the
 clone and fetch limits for large repositories with

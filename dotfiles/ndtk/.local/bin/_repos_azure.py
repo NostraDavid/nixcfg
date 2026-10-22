@@ -124,7 +124,9 @@ def run_git(
             "GIT_SSH_COMMAND": f"{os.environ.get('GIT_SSH_COMMAND', 'ssh')} -vvv",
         }
     try:
-        for attempt in stamina.retry_context(on=RetryableGitError):
+        for attempt in stamina.retry_context(
+            on=RetryableGitError, timeout=120, wait_initial=1, wait_max=float("inf")
+        ):
             with attempt:
                 status, stdout, stderr = Git().execute(
                     base + args,
@@ -1318,8 +1320,9 @@ def run_tests(verbose: bool) -> int:
                 result = run_git(["fetch", "origin"], capture=True)
             self.assertEqual((result.returncode, result.stdout, result.stderr), success)
             self.assertEqual(run.call_count, 2)
-            retries.assert_called_once()
-            self.assertEqual(set(retries.call_args.kwargs), {"on"})
+            retries.assert_called_once_with(
+                on=RetryableGitError, timeout=120, wait_initial=1, wait_max=float("inf")
+            )
 
         def test_ssh_retries_are_bounded_and_auth_errors_are_not_retried(self) -> None:
             for message, attempts in (
