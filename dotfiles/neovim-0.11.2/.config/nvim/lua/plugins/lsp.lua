@@ -56,7 +56,7 @@ return {
         "mason-org/mason.nvim",
         version = "v2.1.0",
         build = ":MasonUpdate",
-        opts = {},
+        opts = { PATH = "append" },
         config = function(_, opts)
             local ok, mason = pcall(require, "mason")
             if ok then

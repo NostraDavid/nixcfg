@@ -15,35 +15,85 @@ let
   allProfiles = builtins.attrValues profiles ++ [work];
   nativeCodexProfiles = lib.getAttrs ["wodan" "frigg" "bragi"] profiles;
 in {
-  python = pkgs.python3.withPackages (p: [p.tomlkit p.json5]);
-  servers = lib.getAttrs names home.programs.pi.coding-agent.mcp.mcpServers;
-  profileServers = lib.mapAttrs (_: profile: lib.getAttrs names profile.programs.pi.coding-agent.mcp.mcpServers) profiles;
+  realCodex = wodan.home.file.".local/bin/codex".source;
+  realOpenCode = pkgs.opencode-v2;
+  piBackup = pkgs.writeShellScript "pi-config-backup" wodan.home.activation.piConfigBackup.data;
+  clientWrappers = let
+    stub = name:
+      pkgs.writeScriptBin name ''
+        #!${pkgs.python3}/bin/python
+        import json, os, pathlib, sys
+        pathlib.Path(os.environ["MCP_CAPTURE"]).write_text(json.dumps({
+            "args": sys.argv[1:],
+            "config": os.environ.get("OPENCODE_CONFIG_CONTENT"),
+            "path": os.environ["PATH"],
+        }))
+      '';
+    launchers = profile: darwin: let
+      module = import ../features/mcp/_home.nix {
+        config = lib.recursiveUpdate profile {
+          nixcfg.mcp.servers = lib.mapAttrs (name: server:
+            lib.optionalAttrs (server ? command) {command = lib.getExe (stub name);})
+          profile.nixcfg.mcp.servers;
+        };
+        inherit lib;
+        stable = pkgs // {stdenv = pkgs.stdenv // {hostPlatform = pkgs.stdenv.hostPlatform // {isDarwin = darwin;};};};
+        unstable = pkgs // {mcp-nixos = stub "nixos";};
+        local = {
+          codex = stub "codex";
+          opencode-v2 = stub "opencode";
+        };
+      };
+    in
+      module.config.home.file;
+    linux = launchers wodan false;
+    macos = launchers home true;
+  in
+    pkgs.linkFarm "mcp-client-wrapper-tests" (
+      lib.concatMap (platform:
+        map (name: {
+          name = "${platform}-${name}";
+          path =
+            (
+              if platform == "linux"
+              then linux
+              else macos
+            ).".local/bin/${name}".source;
+        }) (["codex" "opencode"] ++ map (name: "mcp-${name}") names)) ["linux" "macos"]
+    );
+  python = pkgs.python3;
+  servers = lib.getAttrs names home.nixcfg.mcp.servers;
+  fixtureServers = {
+    linux = lib.getAttrs names wodan.nixcfg.mcp.servers;
+    macos = lib.getAttrs names home.nixcfg.mcp.servers;
+  };
+  profileServers = lib.mapAttrs (_: profile: lib.getAttrs names profile.nixcfg.mcp.servers) profiles;
   wodanScripts = pkgs.linkFarm "wodan-mcp-client-checks" (map (name: {
     inherit name;
     path = pkgs.writeShellScript name wodan.home.activation.${name}.data;
-  }) ["headroomClients" "mcpClients"]);
+  }) ["headroomClients"]);
   wodanLaunchers = pkgs.linkFarm "wodan-mcp-launchers" (map (name: {
     inherit name;
     path = wodan.home.file.".local/bin/${name}".source;
   }) ["codex-mcp-node-repl" "mcp-node-repl" "opencode-mcp-chrome-devtools" "opencode-mcp-nixos" "opencode-mcp-playwright"]);
   checks = {
     chromium = assert lib.all (profile: builtins.length (builtins.filter (package: (package.pname or "") == "chromium") profile.home.packages) <= 1) allProfiles; true;
-    nativeCodex = assert lib.all (profile: lib.all (name: profile.home.file ? ".local/bin/${name}") ["codex-mcp-node-repl" "cua-repl"] && profile.home.activation ? codexBrowserRuntime && profile.nixcfg.mcp.codexOverrides.node_repl.command == "${profile.home.homeDirectory}/.local/bin/codex-mcp-node-repl" && !profile.nixcfg.mcp.codexOverrides.cua_repl.enabled) (builtins.attrValues nativeCodexProfiles); true;
-    clients = assert lib.all (profile: profile.home.activation ? mcpClients && lib.all (name: profile.programs.pi.coding-agent.mcp.mcpServers ? ${name}) names) allProfiles; true;
-    piNoNodeRepl = assert lib.all (profile: !(profile.programs.pi.coding-agent.mcp.mcpServers ? node_repl)) allProfiles; true;
-    lokiNoNodeRepl = assert lib.all (profile: !(profile.programs.pi.coding-agent.mcp.mcpServers ? node_repl) && !(profile.home.file ? ".local/bin/mcp-node-repl") && !(builtins.any (p: (p.name or "") == "mcp-node-repl") profile.home.packages)) [home work]; true;
+    nativeCodex = assert lib.all (profile: lib.all (name: profile.home.file ? ".local/bin/${name}") ["codex-mcp-node-repl" "cua-repl"] && profile.home.activation ? codexBrowserRuntime && profile.home.file.".local/bin/mcp-node-repl".source == profile.home.file.".local/bin/codex-mcp-node-repl".source) (builtins.attrValues nativeCodexProfiles); true;
+    clients = assert lib.all (profile: profile.home.file ? ".local/bin/codex" && profile.home.file ? ".local/bin/opencode" && lib.all (name: profile.nixcfg.mcp.servers ? ${name}) names) allProfiles; true;
+    piNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl)) allProfiles; true;
+    lokiNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl) && !(profile.home.file ? ".local/bin/mcp-node-repl") && !(builtins.any (p: (p.name or "") == "mcp-node-repl") profile.home.packages)) [home work]; true;
     packages = assert lib.all (profile: lib.all (name: builtins.any (p: (p.pname or "") == name) profile.home.packages) packages) allProfiles; true;
     native = assert !(home.systemd.user.services ? ctx-history); assert !(builtins.any (p: builtins.elem (p.pname or "") ["ctx" "engram" "chatgpt" "blender-mcp"]) home.home.packages); true;
-    database = assert lib.hasInfix "sqlite://${home.xdg.dataHome}/dbhub/local.sqlite" home.xdg.configFile."dbhub/local.toml".text; assert work.programs.pi.coding-agent.mcp.mcpServers.dbhub.args == ["--transport" "stdio" "--config" "/Users/work/.config/dbhub/local.toml"]; true;
-    browsers = assert home.programs.pi.coding-agent.mcp.mcpServers.playwright.args == ["--headless" "--isolated" "--browser" "chrome"]; assert builtins.elem "--no-usage-statistics" home.programs.pi.coding-agent.mcp.mcpServers.chrome-devtools.args; true;
+    database = assert lib.hasInfix "sqlite://${home.xdg.dataHome}/dbhub/local.sqlite" home.xdg.configFile."dbhub/local.toml".text; assert work.nixcfg.mcp.servers.dbhub.args == ["--transport" "stdio" "--config" "/Users/work/.config/dbhub/local.toml"]; true;
+    browsers = assert home.nixcfg.mcp.servers.playwright.args == ["--headless" "--isolated" "--browser" "chrome"]; assert builtins.elem "--no-usage-statistics" home.nixcfg.mcp.servers.chrome-devtools.args; true;
     stableCommands = assert lib.all (profile:
       lib.all (name: let
-        server = profile.programs.pi.coding-agent.mcp.mcpServers.${name};
+        server = profile.nixcfg.mcp.servers.${name};
         relative = lib.removePrefix "${profile.home.homeDirectory}/" server.command;
       in
         lib.hasPrefix "${profile.home.homeDirectory}/.local/bin/" server.command && profile.home.file ? ${relative} && !(lib.hasInfix "/nix/store/" (builtins.toJSON server)))
-      (builtins.attrNames (lib.filterAttrs (_: server: server ? command) profile.programs.pi.coding-agent.mcp.mcpServers)))
+      (builtins.attrNames (lib.filterAttrs (_: server: server ? command) profile.nixcfg.mcp.servers)))
     allProfiles; true;
-    stablePi = assert lib.all (profile: lib.all (server: !(lib.hasInfix "/nix/store/" (builtins.toJSON server))) (builtins.attrValues profile.programs.pi.coding-agent.mcp.mcpServers)) allProfiles; true;
+    stablePi = assert lib.all (profile: lib.all (server: !(lib.hasInfix "/nix/store/" (builtins.toJSON server))) (builtins.attrValues profile.nixcfg.mcp.servers)) allProfiles; true;
   };
 }

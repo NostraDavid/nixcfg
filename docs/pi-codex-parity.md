@@ -38,17 +38,16 @@ checks.
       development core on NixOS, Debian with Home Manager, and macOS.
 - [x] Keep editable settings, extensions, agent roles, and prompts in dotfiles.
 - [x] Use native MCP instead of the old `pi-mcp-adapter` package.
-- [x] Configure Qartez, durable agent memory, Headroom, and Blender through
-      their Home Manager modules, with absolute executable paths. Configure
-      official OpenAI documentation by URL in the native `mcp.json` format.
+- [x] Use the shared `~/.local/bin/mcp-*` launchers for local servers, including
+      Qartez, durable agent memory, and Headroom. Configure official OpenAI
+      documentation by URL in the native `mcp.json` format.
 - [x] Configure Exa's hosted MCP service for public web search and page
       fetching. Anonymous access needs no API key and has rate limits. Search
       queries and requested URLs go to Exa.
-- [x] Merge managed servers into `~/.pi/agent/mcp.json` through Pi's Nix module.
-      Unmanaged servers and fields are preserved; managed fields take
-      precedence. Work configuration can override managed values through Home
-      Manager, and native project `.pi/mcp.json` entries override user-level
-      servers.
+- [x] Link `~/.pi/agent/settings.json` and `~/.pi/agent/mcp.json` directly to
+      dotfiles. Home Manager installs the platform-specific command wrappers.
+      Work configuration can select its own directly linked MCP file, and native
+      project `.pi/mcp.json` entries override user-level servers.
 - [x] Disable shell history through the Pi launch environment.
 - [x] Add `/plan`, `/plan on`, and `/plan off` with a tool-level read-only gate.
 - [x] Block shell execution, file mutation, MCP calls, codemode, tool search,
@@ -105,16 +104,15 @@ session's directory. Worktrees are never removed automatically.
 Apply the host or Home Manager configuration, then start a new `pi` process. Use
 `/reload` for later edits to the linked extensions and prompt files.
 
-The Nix launcher merges managed settings on every start. Apply the configuration
-after changing `settings.json`; `pi install` alone cannot override its package
-list. Run `pi update --extensions` to reconcile installed packages. Tensorx
-tracks its npm release, while `pi-term` stays pinned to 0.1.1.
+Edit the linked `settings.json` and `mcp.json` sources to change native Pi
+configuration. Start a new Pi process to load the changes. No Nix switch is
+needed for dotfile edits. Run `pi update --extensions` to reconcile installed
+packages. Tensorx tracks its npm release, while `pi-term` stays pinned to 0.1.1.
 
-The launcher also merges native MCP configuration on each start. Public services
-are defined in `dotfiles/pi-1.2.0/.pi/agent/mcp.json`. Each local service's Home
-Manager module contributes its server entry when that module is installed. Pi
-owns the resulting writable file, so `pi mcp list` can inspect all configured
-connections without loading extensions. The old `services` extension is removed.
+The MCP dotfile contains the public service URLs and portable local launcher
+names. Machine-specific arguments belong to the `~/.local/bin/mcp-*` wrappers.
+Use `pi mcp list` to inspect the configured connections without loading
+extensions. The old `services` extension is removed.
 
 An extension that registers `/mcp`, including the old `pi-mcp-adapter`, replaces
 Pi's built-in MCP support. Remove that adapter from user or project package and
@@ -155,11 +153,11 @@ worktree, and use the `cwd` argument when starting a terminal in a worktree. On
 Linux, `/term` prints a `tmux attach` command. On macOS, it tries Ghostty and
 then Terminal.app. Plan mode blocks the model's `term` tool and Exa calls.
 
-Only the named dotfile resources and declared MCP fields are managed.
-Credentials, model stores, session history, and unmanaged MCP entries remain
-owned by Pi and your work configuration. Optional local servers are contributed
-by the modules that install them. Check `/mcp` or `pi mcp list` to verify actual
-connectivity; valid configuration does not establish a working connection.
+Nix installs the launchers and direct dotfile links. Pi and your work
+configuration retain credentials, model stores, and session history. Local
+server modules install their command wrappers; the native MCP file selects which
+servers Pi loads. Check `/mcp` or `pi mcp list` to verify actual connectivity;
+valid configuration does not establish a working connection.
 
 ## Verify
 

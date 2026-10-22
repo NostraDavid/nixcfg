@@ -19,14 +19,15 @@ VS Code and the shared MCP JSON use the same stable commands.
 Nix installs the server packages. Headroom uses the pinned macOS ARM64 wheels
 from [Headroom 0.41.0](https://pypi.org/project/headroom-ai/0.41.0/).
 
-Home Manager links local MCP commands under `~/.local/bin`. Client
-configurations use these absolute paths, derived from the configured home
-directory. Package updates change the link targets without changing the MCP
-configuration.
+Home Manager installs local MCP commands under `~/.local/bin/mcp-*`. Native
+client dotfiles refer to those commands with supported environment expansion or
+a `/bin/sh` launcher. Platform-specific arguments belong to the command
+wrappers. Package updates change the executables without changing the client
+files.
 
-Node REPL is excluded from OpenCode and Pi on every host. Activation removes
-existing OpenCode registrations. On Loki it is also excluded from Codex and Home
-Manager no longer installs its launcher.
+Node REPL is excluded from the OpenCode and Pi dotfiles on every host. On Loki,
+the Codex command wrapper disables Node REPL, and Home Manager omits its
+runtime.
 
 On Linux, Nix supplies the Codex Node REPL runtime and a stable Chromium link.
 The `codex-browser` aspect in `features/codex-browser/default.nix` retains the
@@ -48,18 +49,21 @@ Apply each machine's existing NixOS, Home Manager or nix-darwin configuration.
 The shared `mkLoki` constructor includes this setup, including when the work
 repository supplies a different username or home directory.
 
-Activation merges the platform-specific servers into `~/.codex/config.toml` and
-the native v2 `mcp.servers` section in `~/.config/opencode/opencode.jsonc`.
-Existing model, provider and unrelated MCP settings are retained. First-change
-backups have the suffix `.before-mcp`. OpenCode JSONC comments are accepted; the
-updated file is written as formatted JSON. A symlink is replaced locally,
-preserving its original target. Pi receives its connections through its native
-Nix module.
+The client configurations remain directly linked to their live dotfiles.
+Activation never replaces these links with generated copies. Edit the native
+client file to select servers; source edits need no Nix switch. A work module
+that selects its own configuration must include the wanted MCP entries there.
+The existing `opencode-mcp-*` browser names remain aliases for work
+repositories.
 
-Engram and Engrim remain memory backends behind the `agent-memory` command. The
-migration removes their old separate Codex registration names, leaving their
-databases untouched. LeanCTX's registration is removed separately because
-Headroom replaced that integration.
+Pi's Nix wrapper supplies its environment and leaves `settings.json` and
+`mcp.json` untouched. The first switch backs up old generated Pi files through
+Home Manager's configured backup mechanism. Standalone activation defaults to
+`.before-direct-dotfiles` when no backup policy was selected.
+
+Engram and Engrim remain memory backends behind the `agent-memory` command.
+Their databases are retained. The legacy LeanCTX resource cleanup also keeps
+client configuration files intact.
 
 Restart Codex and Pi, and run `opencode service restart` before checking:
 

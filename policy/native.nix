@@ -90,11 +90,9 @@
   hasPackage = pname: builtins.any (pkg: lib.toLower (pkg.pname or (lib.getName pkg)) == pname) packages;
   servers =
     lib.attrByPath [
-      "programs"
-      "pi"
-      "coding-agent"
+      "nixcfg"
       "mcp"
-      "mcpServers"
+      "servers"
     ] {}
     config;
   localServers = lib.filterAttrs (_: server: server ? command) servers;
@@ -120,21 +118,14 @@
     (violation "required-mcp" homePath "MCP servers" "The selected MCP feature must deliver all local servers required for its platform.")
     ++ lib.optional (hasFeature "mcp" && !(lib.all (name: stableServer localServers.${name}) (builtins.attrNames localServers)))
     (violation "stable-mcp-command" homePath "MCP commands" "Every local server must use its installed stable launcher.");
-  codex =
-    lib.attrByPath [
-      "nixcfg"
-      "mcp"
-      "codexOverrides"
-    ] {}
-    config;
   nativeCodex = lib.optional (hasFeature "codex-browser"
     && !(
       homeFiles ? ".local/bin/codex-mcp-node-repl"
       && homeFiles ? ".local/bin/cua-repl"
-      && (codex.node_repl.command or "") == "${homePath}/.local/bin/codex-mcp-node-repl"
-      && (codex.cua_repl.enabled or true) == false
+      && homeFiles ? ".local/bin/mcp-node-repl"
+      && toString homeFiles.".local/bin/mcp-node-repl".source == toString homeFiles.".local/bin/codex-mcp-node-repl".source
     ))
-  (violation "native-codex-mcp" homePath "Codex MCP" "Preserve both native launchers and the disabled CUA setting.");
+  (violation "native-codex-mcp" homePath "Codex MCP" "Preserve the native launchers and route the shared Node REPL command to the Codex runtime.");
   expected =
     if expectedHome == null
     then []

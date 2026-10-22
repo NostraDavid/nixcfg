@@ -6,7 +6,6 @@
   stable,
   ...
 }: let
-  bin = "${config.home.homeDirectory}/.local/bin";
   codexNodeRepl = stable.writeShellScriptBin "codex-mcp-node-repl" ''
     export NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS=1000
     export NODE_REPL_NODE_MODULE_DIRS="${local.chatgpt}/lib/chatgpt/resources/cua_node/lib/node_modules"
@@ -24,26 +23,14 @@
     exec "${local.chatgpt}/lib/chatgpt/resources/cua_node/bin/node_repl" "$@"
   '';
 in {
-  nixcfg.mcp.codexOverrides = {
-    node_repl = {
-      command = "${bin}/codex-mcp-node-repl";
-      args = [];
-      startup_timeout_sec = 120;
-    };
-    cua_repl = {
-      command = "${bin}/cua-repl";
-      enabled = false;
-    };
-  };
   home = {
     file = {
       ".local/bin/codex-mcp-node-repl".source = lib.getExe codexNodeRepl;
+      ".local/bin/mcp-node-repl".source = lib.mkForce (lib.getExe codexNodeRepl);
       ".local/bin/cua-repl".source = "${local.chatgpt}/lib/chatgpt/ChatGPT";
     };
     activation.codexBrowserRuntime =
-      lib.hm.dag.entryBetween [
-        "mcpClients"
-      ] [
+      lib.hm.dag.entryAfter [
         "linkGeneration"
       ] ''
         for plugin in browser chrome; do

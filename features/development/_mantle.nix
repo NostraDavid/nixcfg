@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   local,
   stable,
   unstable,
@@ -12,7 +11,7 @@
     name = "Visual Studio Code";
     genericName = "Text Editor";
     comment = "Code Editing. Redefined.";
-    exec = "${config.home.homeDirectory}/.local/bin/ide --no-picker %F";
+    exec = ''"${config.home.homeDirectory}/.local/bin/ide-desktop" %F'';
     icon = "vscode";
     terminal = false;
     type = "Application";
@@ -31,11 +30,15 @@
     actions.new-empty-window = {
       name = "New Empty Window";
       icon = "vscode";
-      exec = "${lib.getExe local.vscode} --new-window %F";
+      exec = ''"${config.home.homeDirectory}/.local/bin/ide-desktop" --new-window %F'';
     };
   };
 
   home = {
+    file.".local/bin/ide-desktop".source = stable.writeShellScript "ide-desktop" ''
+      export PATH="$HOME/.local/bin:$PATH"
+      exec "$HOME/.local/bin/ide" --no-picker -- "$@"
+    '';
     packages = [
       local.codex # llm agent
       local.cool-retro-term # terminal emulator with retro style
@@ -64,20 +67,5 @@
       unstable.zed-editor # vscode alternative
       unstable.zigfetch # neofetch alternative
     ];
-
-    activation = {
-      dprintVscodeExtension =
-        lib.hm.dag.entryAfter [
-          "writeBoundary"
-        ] ''
-          if ! $DRY_RUN_CMD ${lib.getExe local.vscode} --list-extensions 2>/dev/null \
-              | ${lib.getExe stable.gnugrep} -Fx 'dprint.dprint' >/dev/null 2>&1; then
-            if ! $DRY_RUN_CMD ${lib.getExe local.vscode} \
-              --install-extension dprint.dprint; then
-              echo "warning: failed to install VS Code extension dprint.dprint" >&2
-            fi
-          fi
-        '';
-    };
   };
 }

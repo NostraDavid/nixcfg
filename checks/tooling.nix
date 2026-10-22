@@ -25,6 +25,8 @@ let
     "nix-index"
     "nix-tree"
     "nvd"
+    "shfmt"
+    "ov"
     "watchexec"
   ];
   core =
@@ -64,17 +66,51 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  vscodeExtensionActivation = wodan.home.activation.vscodeExtensions.data;
+  desktopIdeLauncher = wodan.home.file.".local/bin/ide-desktop".source.text;
+  commandPaths = let
+    workLoki =
+      (flake.lib.mkLoki {
+        username = "work-user";
+        homeDirectory = "/Users/work home";
+      }).config.home-manager.users."work-user";
+    homes = [mimir2 loki linuxWorkstation darwinWorkstation workLoki] ++ lib.concatMap (host: builtins.attrValues (host.config.home-manager.users or {})) (builtins.attrValues flake.nixosConfigurations);
+    settings = builtins.fromJSON (builtins.readFile ../dotfiles/vscode-1.106.2/.config/Code/User/settings.json);
+    terminalFiles = [".config/alacritty/alacritty.toml" ".config/bat/config" ".config/starship.toml" ".config/zellij/config.kdl"];
+    direct = home: name: let
+      script = home.home.file.${name}.source.buildCommand or "";
+    in
+      lib.hasInfix "ln -s" script && lib.hasInfix "/dotfiles/" script;
+  in
+    assert settings."dprint.path" == "~/.local/bin/dprint" && settings."git.path" == "git" && settings."shfmt.executablePath" == "shfmt";
+    assert !(settings ? "shellformat.path") && settings."todo-tree.ripgrep.ripgrep" == "~/.local/bin/rg";
+    assert direct wodan ".config/Code/User/settings.json";
+    assert lib.all (home:
+      !(home.home.file ? ".config/Code/User/settings.json")
+      && !(home.home.file ? "Library/Application Support/Code/User/settings.json")) [mimir2 loki linuxWorkstation darwinWorkstation workLoki];
+    assert lib.all (home: let
+      activation = home.home.activation.linkPackageCommands;
+    in
+      lib.all (name: home.home.file ? ${name} -> direct home name) terminalFiles
+      && lib.all (name: direct home name) [".pi/agent/settings.json" ".pi/agent/mcp.json"]
+      && home.programs.pi.coding-agent.settings == {}
+      && home.programs.pi.coding-agent.mcp == {}
+      && lib.hasInfix (lib.escapeShellArg home.home.profileDirectory) activation.data
+      && lib.all (step: builtins.elem step activation.after) ["installPackages" "linkGeneration"])
+    homes; true;
   asdSte100WorkPackages = let
     pkgs = flake.darwinConfigurations.loki.pkgs;
-    module = (import ../features/common-tooling/default.nix {inherit (flake) inputs;}).den.aspects.common-tooling.homeManager;
+    module = (import ../features/common-tooling/default.nix {}).den.aspects.common-tooling.homeManager;
     home = module {
+      config = {};
+      repoRoot = "/unused";
       inherit lib;
       stable = pkgs;
       unstable = unstableFor "aarch64-darwin";
       local = builtins.removeAttrs flake.darwinConfigurations.loki.config.home-manager.extraSpecialArgs.local ["asd-ste100-skill"];
     };
   in
-    assert lib.hasSuffix "/asd-ste100" (toString home.home.file.".config/opencode/skills/asd-ste100".source); true;
+    assert home.home.file.".config/opencode/skills/asd-ste100".source == loki.home.file.".config/opencode/skills/asd-ste100".source; true;
   asdSte100 = let
     homes = [mimir2 loki linuxWorkstation darwinWorkstation] ++ lib.concatMap (host: builtins.attrValues (host.config.home-manager.users or {})) (builtins.attrValues flake.nixosConfigurations);
     clients = ["agents" "claude" "codex" "config/opencode" "copilot" "pi/agent"];
@@ -213,10 +249,10 @@ in {
   playwrightCli = assert builtins.elem stable.playwright-cli.outPath installed; assert lib.all (path: toString wodan.home.file.${path}.source == "${stable.playwright-cli}/share/skills/playwright-cli") [".agents/skills/playwright-cli" ".codex/skills/playwright-cli" ".copilot/skills/playwright-cli" ".config/opencode/skills/playwright-cli"]; assert lib.all (host: host.config.networking.hostName == "wodan" || !(builtins.any (p: (p.pname or "") == "playwright-cli") (host.config.home-manager.users.david.home.packages or []))) (builtins.attrValues flake.nixosConfigurations); true;
   browserMcp = assert lib.all (package: builtins.elem package.outPath installed) [stable.chrome-devtools-mcp (unstableFor "x86_64-linux").playwright-mcp]; true;
   workMcp = assert lib.all (home: lib.all (name: builtins.any (package: (package.pname or "") == name) home.home.packages) ["chrome-devtools-mcp" "mcp-nixos" "playwright-mcp"]) [mimir2 loki linuxWorkstation darwinWorkstation]; true;
-  opencodeMcpLaunchers = assert lib.all (name: builtins.any (package: (package.name or "") == "opencode-mcp-${name}") wodan.home.packages) ["chrome-devtools" "nixos" "playwright"]; true;
+  opencodeMcpLaunchers = assert lib.all (name: wodan.home.file.".local/bin/opencode-mcp-${name}".source == wodan.home.file.".local/bin/mcp-${name}".source) ["chrome-devtools" "nixos" "playwright"]; true;
   opencodeCli = assert lib.all (home: lib.hasInfix "/dotfiles/opencode-2.0.32/.config/opencode/cli.json" home.home.file.".config/opencode/cli.json".source.buildCommand) [wodan mimir2 loki linuxWorkstation darwinWorkstation]; true;
-  dbhub = assert builtins.elem stable.dbhub.outPath installed; assert wodan.home.activation ? dbhubLocalDatabase; assert wodan.programs.pi.coding-agent.mcp.mcpServers.dbhub.args == ["--transport" "stdio" "--config" "${wodan.xdg.configHome}/dbhub/local.toml"]; assert lib.hasInfix "sqlite://${wodan.xdg.dataHome}/dbhub/local.sqlite" wodan.xdg.configFile."dbhub/local.toml".text; true;
-  nixosMcp = assert lib.all (home: home.home.activation ? mcpClients) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
+  dbhub = assert builtins.elem stable.dbhub.outPath installed; assert wodan.home.activation ? dbhubLocalDatabase; assert wodan.nixcfg.mcp.servers.dbhub.args == ["--transport" "stdio" "--config" "${wodan.xdg.configHome}/dbhub/local.toml"]; assert lib.hasInfix "sqlite://${wodan.xdg.dataHome}/dbhub/local.sqlite" wodan.xdg.configFile."dbhub/local.toml".text; true;
+  nixosMcp = assert lib.all (home: lib.all (name: home.home.file ? ".local/bin/${name}") ["codex" "opencode"]) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   opencode = assert lib.all (host: builtins.elem host.pkgs.opencode-v2.outPath (map (p: p.outPath) host.config.environment.systemPackages)) (builtins.attrValues flake.nixosConfigurations); assert builtins.elem stable.opencode-v2.outPath (map (p: p.outPath) mimir2.home.packages); assert builtins.any (p: (p.pname or "") == "opencode-v2" && lib.hasPrefix "2." p.version) loki.home.packages; assert builtins.elem stable.opencode-v2-desktop.outPath installed; assert !(builtins.any (p: lib.hasPrefix "opencode" (p.pname or "") && lib.hasPrefix "1." (p.version or "")) (wodan.home.packages ++ linuxWorkstation.home.packages ++ darwinWorkstation.home.packages)); true;
   cmux = assert lib.all (host: builtins.elem host.pkgs.cmux-tui.outPath (map (p: p.outPath) host.config.environment.systemPackages)) (builtins.attrValues flake.nixosConfigurations); assert builtins.elem stable.cmux-tui.outPath (map (p: p.outPath) mimir2.home.packages); assert builtins.elem (unstableFor "aarch64-darwin").cmux.outPath (map (p: p.outPath) loki.home.packages); assert builtins.any (p: (p.pname or "") == "cmux-tui" && p.system == "aarch64-darwin" && (p.meta.priority or 5) < ((unstableFor "aarch64-darwin").cmux.meta.priority or 5)) loki.home.packages; true;
   wodan = checkSources "x86_64-linux" wodan (core ++ builtins.filter (name: name != "opentofu") workstation ++ ["lua-language-server"]);

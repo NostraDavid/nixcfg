@@ -225,9 +225,9 @@ in {
           ".config/mcp/mcp.json" = {source = mk "${dot}/mcp/.config/mcp/mcp.json";};
 
           # The rest
+          ".config/Code/User/settings.json" = {source = mk "${dot}/vscode-1.106.2/.config/Code/User/settings.json";};
           ".config/Code/User/keybindings.json" = {source = mk "${dot}/vscode-1.106.2/.config/Code/User/keybindings.json";};
           ".config/Code/User/mcp.json" = {source = mk "${dot}/vscode-1.106.2/.config/Code/User/mcp.json";};
-          ".config/Code/User/settings.json" = {source = mk "${dot}/vscode-1.106.2/.config/Code/User/settings.json";};
           ".config/git/identity.conf" = {source = mk "${dot}/git-2.49.0/.config/git/identity.conf";};
           ".config/i3/config" = {source = mk "${dot}/i3-4.24/.config/i3/config";};
           ".config/mpv/mpv.conf" = {source = mk "${dot}/mpv-0.41.0/.config/mpv/mpv.conf";};

@@ -40,7 +40,7 @@ in {
     };
     xdg.configFile."agent-memory/provider".text = provider + "\n";
 
-    programs.pi.coding-agent.mcp.mcpServers.agent-memory = {
+    nixcfg.mcp.servers.agent-memory = {
       command = "${config.home.homeDirectory}/.local/bin/agent-memory";
       args = [
         "mcp"

@@ -1,6 +1,7 @@
 " Use Vim settings, rather than Vi settings (much better!)
 " This must be first, because it changes other options as a side effect.
 set nocompatible
+let $PATH = expand('~/.local/bin') . ':' . $PATH
 
 " This vimrc stays intentionally small and portable.
 " It now assumes a regular Vim build (not Debian's `vim-tiny`) so we can use

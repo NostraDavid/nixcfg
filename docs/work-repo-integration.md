@@ -87,14 +87,23 @@ clear the mapping. Apply the work flake again or log in again to restore it. See
 
 ## Put work settings in the work repository
 
-Create `home/work.nix`:
+Create `home/work.nix`. Adjust the checkout path to your work repository. Every
+deployed dotfile must link directly to its live source, with no exceptions:
 
 ```nix
-{
-  home.file.".bash_profile.work".source = ../dotfiles/bash_profile.work;
-  home.file.".bashrc.work".source = ../dotfiles/bashrc.work;
-  home.file.".bash_aliases.work".source = ../dotfiles/bash_aliases.work;
-  home.file.".config/git/identity.conf".source = ../dotfiles/git-2.49.0/identity.conf;
+{config, pkgs, ...}: let
+  dot = "${config.home.homeDirectory}/work/nixcfg/trunk/dotfiles";
+  mk = config.lib.file.mkOutOfStoreSymlink;
+  vscodeSettings =
+    if pkgs.stdenv.hostPlatform.isDarwin
+    then "Library/Application Support/Code/User/settings.json"
+    else ".config/Code/User/settings.json";
+in {
+  home.file.".bash_profile.work".source = mk "${dot}/bash_profile.work";
+  home.file.".bashrc.work".source = mk "${dot}/bashrc.work";
+  home.file.".bash_aliases.work".source = mk "${dot}/bash_aliases.work";
+  home.file.".config/git/identity.conf".source = mk "${dot}/git-2.49.0/identity.conf";
+  home.file.${vscodeSettings}.source = mk "${dot}/vscode/settings.json";
 }
 ```
 
@@ -163,6 +172,20 @@ on that `home.file` entry in the work module. The portable module also installs
 Git, Git LFS, Neovim, uv, direnv, and Node.js 24. The opt-in workstation module
 adds common workstation tools; keep only work-specific packages in the work
 module.
+
+## Keep VS Code settings editable
+
+The personal VS Code settings belong to the full `dotfiles` profile. The
+portable work profiles do not install those settings. The work module above
+links both Linux and macOS to the work repository's own `vscode/settings.json`.
+Tools use `~/.local/bin` or normal command lookup through `PATH`. Shell scripts
+use `mkhl.shfmt`. Nix supplies Todo Tree as a local VSIX with home-relative
+executable path support, so `~/.local/bin/rg` works without rendering
+`settings.json`. That extension's updates follow the Nix input.
+
+The first switch installs the new launchers and extensions when VS Code is
+present. Restart VS Code after that migration. Later settings edits need no Nix
+switch.
 
 ## Select the OpenCode work configuration
 

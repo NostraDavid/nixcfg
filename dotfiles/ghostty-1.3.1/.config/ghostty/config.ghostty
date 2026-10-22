@@ -1,5 +1,5 @@
 # Start Zellij with the Home Manager login environment.
-command = bash -lc 'exec zellij-workspace ghostty'
+command = shell:"$HOME/.local/bin/nix-bash" -lc 'exec "$HOME/.local/bin/zellij-workspace" ghostty'
 confirm-close-surface = false
 
 # font-family = Spleen

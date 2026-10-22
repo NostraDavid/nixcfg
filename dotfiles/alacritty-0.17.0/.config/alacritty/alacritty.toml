@@ -1,3 +1,6 @@
 [terminal.shell]
-program = "bash"
-args = ["--login", "-c", "exec zellij-workspace alacritty"]
+program = "/bin/sh"
+args = [
+  "-c",
+  "exec \"$HOME/.local/bin/nix-bash\" --login -c 'exec \"$HOME/.local/bin/zellij-workspace\" alacritty'",
+]

@@ -13,7 +13,8 @@ end
 config.front_end = "OpenGL"
 config.enable_wayland = false
 
-config.default_prog = { "bash", "--login", "-c", "exec zellij" }
+local bin = wezterm.home_dir .. "/.local/bin/"
+config.default_prog = { bin .. "nix-bash", "--login", "-c", 'exec "$HOME/.local/bin/zellij"' }
 -- config.font = wezterm.font("JetBrainsMono Nerd Font")
 -- config.font = wezterm.font("scientifica")
 config.font = wezterm.font("Spleen")
@@ -68,7 +69,7 @@ config.keys = {
 config.launch_menu = {
     {
         label = "tmux",
-        args = { "tmux" },
+        args = { bin .. "tmux" },
     },
     {
         label = "dev-machine",

@@ -54,36 +54,27 @@
       "dbhub": {
         "type": "local",
         "command": [
-          "{env:HOME}/.local/bin/dbhub",
-          "--transport",
-          "stdio",
-          "--config",
-          "{env:HOME}/.config/dbhub/local.toml"
+          "{env:HOME}/.local/bin/mcp-dbhub"
         ],
         "disabled": false
       },
       "agent-memory": {
         "command": [
-          "{env:HOME}/.local/bin/agent-memory",
-          "mcp"
+          "{env:HOME}/.local/bin/mcp-agent-memory"
         ],
         "disabled": false,
         "type": "local"
       },
       "headroom": {
         "command": [
-          "{env:HOME}/.local/bin/headroom",
-          "mcp",
-          "serve",
-          "--transport",
-          "stdio"
+          "{env:HOME}/.local/bin/mcp-headroom"
         ],
         "disabled": false,
         "type": "local"
       },
       "qartez": {
         "command": [
-          "{env:HOME}/.local/bin/qartez"
+          "{env:HOME}/.local/bin/mcp-qartez"
         ],
         "disabled": false,
         "type": "local"
@@ -91,14 +82,14 @@
       "chrome-devtools": {
         "type": "local",
         "command": [
-          "{env:HOME}/.local/bin/opencode-mcp-chrome-devtools"
+          "{env:HOME}/.local/bin/mcp-chrome-devtools"
         ],
         "disabled": false
       },
       "nixos": {
         "type": "local",
         "command": [
-          "{env:HOME}/.local/bin/opencode-mcp-nixos"
+          "{env:HOME}/.local/bin/mcp-nixos"
         ],
         "disabled": false
       },
@@ -110,7 +101,7 @@
       "playwright": {
         "type": "local",
         "command": [
-          "{env:HOME}/.local/bin/opencode-mcp-playwright"
+          "{env:HOME}/.local/bin/mcp-playwright"
         ],
         "disabled": false
       }

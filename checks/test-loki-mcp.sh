@@ -6,48 +6,13 @@ tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 nix eval --impure --json --file "$root/checks/loki-mcp.nix" checks
 nix eval --impure --json --file "$root/checks/loki-mcp.nix" servers >"$tmp/servers.json"
-nix eval --impure --json --file "$root/checks/loki-mcp.nix" profileServers >"$tmp/profile-servers.json"
+nix eval --impure --json --file "$root/checks/loki-mcp.nix" fixtureServers >"$tmp/fixture-servers.json"
 python=$(nix build --impure --file "$root/checks/loki-mcp.nix" python --no-link --print-out-paths)
-wodan_scripts=$(nix build --impure --file "$root/checks/loki-mcp.nix" wodanScripts --no-link --print-out-paths)
-wodan_launchers=$(nix build --impure --file "$root/checks/loki-mcp.nix" wodanLaunchers --no-link --print-out-paths)
-mkdir -p "$tmp/wodan/.codex"
-cp "$root/dotfiles/codex-0.140.0/.codex/config.toml" "$tmp/wodan/.codex/config.toml"
-cat >>"$tmp/wodan/.codex/config.toml" <<'EOF'
-
-[mcp_servers.node_repl.env]
-CUSTOM_KEEP = "fixture-value"
-NODE_REPL_NODE_PATH = "/nix/store/old-runtime/node"
-EOF
-for pass in first second; do
-    for writer in headroomClients mcpClients; do
-        sed "s#/home/david#${tmp}/wodan#g" "$wodan_scripts/$writer" | HOME="$tmp/wodan" DRY_RUN_CMD="" bash
-    done
-    if [[ "$pass" == first ]]; then
-        cp "$tmp/wodan/.codex/config.toml" "$tmp/wodan-first.toml"
-    else
-        cmp "$tmp/wodan-first.toml" "$tmp/wodan/.codex/config.toml"
-    fi
-done
-"$python/bin/python" - "$tmp/wodan/.codex/config.toml" <<'PY'
-from pathlib import Path
-import sys
-import tomllib
-
-servers = tomllib.loads(Path(sys.argv[1]).read_text())["mcp_servers"]
-assert len(servers) == 10
-assert "/nix/store/" not in str(servers)
-assert servers["node_repl"]["env"] == {"CUSTOM_KEEP": "fixture-value"}
-assert servers["node_repl"]["command"].endswith("/.local/bin/codex-mcp-node-repl")
-assert not servers["cua_repl"]["enabled"]
-PY
-# Separate launchers retain the browser bridge only for Codex.
-rg -q 'export NODE_REPL_TRUSTED_SERVICES=' "$wodan_launchers/codex-mcp-node-repl"
-rg -q '/.codex/plugins/cache/openai-bundled/browser/' "$wodan_launchers/codex-mcp-node-repl"
-if rg -q 'TRUSTED_SERVICES|BROWSER_USE_' "$wodan_launchers/mcp-node-repl"; then
-    echo 'OpenCode Node REPL must remain independent of the Codex browser bridge' >&2
-    exit 1
-fi
-"$python/bin/python" - "$root" "$tmp" <<'PY'
+wrappers=$(nix build --impure --file "$root/checks/loki-mcp.nix" clientWrappers --no-link --print-out-paths)
+real_codex=$(nix build --impure --file "$root/checks/loki-mcp.nix" realCodex --no-link --print-out-paths)
+real_opencode="$(nix build --impure --file "$root/checks/loki-mcp.nix" realOpenCode --no-link --print-out-paths)/bin/opencode"
+pi_backup=$(nix build --impure --file "$root/checks/loki-mcp.nix" piBackup --no-link --print-out-paths)
+"$python/bin/python" - "$root" "$tmp" "$wrappers" "$real_codex" "$real_opencode" "$pi_backup" <<'PYTHON'
 import json
 import os
 from pathlib import Path
@@ -56,147 +21,201 @@ import subprocess
 import sys
 import tomllib
 
-root, tmp = map(Path, sys.argv[1:])
-configure = runpy.run_path(root / "features/mcp/mcp-clients.py")["configure"]
+root, tmp, wrappers, real_codex, real_opencode, pi_backup = map(Path, sys.argv[1:])
 servers = json.loads((tmp / "servers.json").read_text())
-# OpenCode and Pi omit Node REPL on every host.
-profiles = json.loads((tmp / "profile-servers.json").read_text())
-assert set(profiles) == {"wodan", "frigg", "donar", "bragi", "loki", "mimir2"}
-for name, entries in profiles.items():
-    assert set(entries) == set(servers), name
-    fixture_home = tmp / "profiles" / name
-    configure(fixture_home, entries)
-    registered = tomllib.loads((fixture_home / ".codex/config.toml").read_text())["mcp_servers"]
-    assert all(registered[key]["command"] == value["command"] for key, value in entries.items()), name
-    assert "/nix/store/" not in str(registered), name
-
-home = tmp / "home"
+fixture_servers = json.loads((tmp / "fixture-servers.json").read_text())
+home = tmp / "user home"
 codex = home / ".codex/config.toml"
 opencode = home / ".config/opencode/opencode.jsonc"
-codex.parent.mkdir(parents=True)
-opencode.parent.mkdir(parents=True)
-codex.write_text('model = "existing-model"\n[mcp_servers.custom]\ncommand = "custom-server"\n')
-with codex.open("a") as stream:
-    stream.write('[mcp_servers.engram]\ncommand = "old-name"\n[mcp_servers.engrim]\ncommand = "old-name"\n[mcp_servers.lean-ctx]\ncommand = "old-name"\n')
-databases = [home / f".local/share/{backend}/fixture.db" for backend in ("engram", "engrim")]
-for path in databases:
-    path.parent.mkdir(parents=True)
-    path.write_text("preserve-existing-database")
-original = '{\n// Keep work authentication and providers\n"providers":{"work":{"settings":{"apiKey":"{env:WORK_KEY}"}}},"mcp":{"servers":{"custom":{"type":"remote","url":"https://example.invalid"}}}}'
-source = tmp / "user-config.jsonc"
-source.write_text(original)
-opencode.symlink_to(source)
-configure(home, servers)
-assert source.read_text() == original
-assert not opencode.is_symlink()
-assert tomllib.loads(codex.read_text())["model"] == "existing-model"
-assert set(tomllib.loads(codex.read_text())["mcp_servers"]) == {*servers, "custom"}
-assert all(path.read_text() == "preserve-existing-database" for path in databases)
-config = json.loads(opencode.read_text())
-assert config["providers"]["work"]["settings"]["apiKey"] == "{env:WORK_KEY}"
-assert set(config["mcp"]["servers"]) == {*servers, "custom"}
-assert "node_repl" not in config["mcp"]["servers"]
-(tmp / "native.jsonc").write_text(json.dumps({"update": "disable", "mcp": config["mcp"]}))
-assert opencode.with_name(opencode.name + ".before-mcp").read_text() == original
-assert opencode.stat().st_mode & 0o777 == 0o600
-first = (codex.read_bytes(), opencode.read_bytes())
-configure(home, servers)
-assert first == (codex.read_bytes(), opencode.read_bytes())
+settings = home / ".pi/agent/settings.json"
+codex_source = "".join(
+    f'[mcp_servers.{name}]\ncommand="/bin/sh"\nargs='
+    + json.dumps(["-c", f'exec "$HOME/.local/bin/mcp-{name}"'])
+    + "\n"
+    for name in servers
+)
+codex_source += (
+    '[mcp_servers.node_repl]\ncommand="/bin/sh"\nargs='
+    + json.dumps(["-c", 'exec "$HOME/.local/bin/mcp-node-repl"'])
+    + '\n[mcp_servers.custom]\ncommand="custom-server"\n'
+)
+for path, text in (
+    (codex, codex_source),
+    (
+        opencode,
+        json.dumps(
+            {
+                "update": "disable",
+                "mcp": {
+                    "servers": {
+                        **{
+                            name: {
+                                "type": "local",
+                                "command": ["{env:HOME}/.local/bin/mcp-" + name],
+                            }
+                            for name in servers
+                        },
+                        "custom": {"type": "remote", "url": "https://example.invalid"},
+                    }
+                },
+            }
+        ),
+    ),
+    (settings, '{"packages":["npm:pi-lean-ctx"]}'),
+):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    source = tmp / (path.parent.name + "-source" + path.suffix)
+    source.write_text(text)
+    path.symlink_to(source)
+before = {
+    p: (p.read_bytes(), p.resolve().stat().st_mtime_ns)
+    for p in (codex, opencode, settings)
+}
+capture = tmp / "capture.json"
+env = dict(
+    os.environ, HOME=str(home), CODEX_HOME=str(codex.parent), MCP_CAPTURE=str(capture)
+)
+for platform in ("linux", "macos"):
+    subprocess.run(
+        [wrappers / (platform + "-codex"), "mcp", "list"], env=env, check=True
+    )
+    result = json.loads(capture.read_text())
+    assert result["args"][-2:] == ["mcp", "list"]
+    assert result["path"].split(os.pathsep)[0] == str(home / ".local/bin")
+    if platform == "macos":
+        assert result["args"][:2] == ["--config", "mcp_servers.node_repl.enabled=false"]
+    else:
+        assert result["args"] == ["mcp", "list"]
+    custom = '{"model":"work/model"}'
+    subprocess.run(
+        [wrappers / (platform + "-opencode"), "debug", "config"],
+        env=dict(env, OPENCODE_CONFIG_CONTENT=custom),
+        check=True,
+    )
+    result = json.loads(capture.read_text())
+    assert result["args"] == ["debug", "config"]
+    assert result["config"] == custom
+    for name, server in fixture_servers[platform].items():
+        subprocess.run(
+            [wrappers / (platform + "-mcp-" + name), "extra argument"],
+            env=env,
+            check=True,
+        )
+        result = json.loads(capture.read_text())
+        assert result["args"] == [*server.get("args", []), "extra argument"], (
+            platform,
+            name,
+            result,
+        )
 
-# Upgrading the backing executable must not rewrite either client configuration.
-link = home / ".local/bin/fixture-mcp"
-link.parent.mkdir(parents=True)
-fixture = {"fixture": {"command": str(link)}}
-configure(home, fixture)
-before = [(path.read_bytes(), path.stat().st_mtime_ns) for path in (codex, opencode)]
-for version in ("old", "new"):
-    executable = tmp / version
-    executable.write_text(f"#!/bin/sh\nprintf '%s\\n' {version}\n")
-    executable.chmod(0o755)
-    link.unlink(missing_ok=True)
-    link.symlink_to(executable)
-    configure(home, fixture)
-    assert before == [(path.read_bytes(), path.stat().st_mtime_ns) for path in (codex, opencode)]
-    assert subprocess.check_output([link], text=True).strip() == version
 
-opencode.write_text('{broken')
-try:
-    configure(home, servers)
-except ValueError:
-    pass
-else:
-    raise AssertionError("Malformed user configuration must be rejected")
-assert opencode.read_text() == '{broken'
+# Home Manager backs up old generated Pi files before linking the dotfiles.
+def backup_extension(child_env):
+    return subprocess.check_output(
+        [
+            "bash",
+            "-c",
+            '. "$1"; printf "%s" "${HOME_MANAGER_BACKUP_EXT-}"',
+            "backup",
+            str(pi_backup),
+        ],
+        env=child_env,
+        text=True,
+    )
 
-# Native dotfiles must work with a different username, a space in HOME and no PATH lookup.
-portable_home = tmp / "other user"
-bin_dir = portable_home / ".local/bin"
+
+backup_env = dict(env, HOME_MANAGER_BACKUP_EXT="", HOME_MANAGER_BACKUP_COMMAND="")
+assert backup_extension(backup_env) == ""
+legacy_home = tmp / "legacy home"
+legacy = legacy_home / ".pi/agent/settings.json"
+legacy.parent.mkdir(parents=True)
+legacy.write_text("preserve this file")
+backup_env["HOME"] = str(legacy_home)
+assert backup_extension(backup_env) == "before-direct-dotfiles"
+assert legacy.read_text() == "preserve this file"
+assert (
+    backup_extension(dict(backup_env, HOME_MANAGER_BACKUP_EXT="chosen-by-user"))
+    == "chosen-by-user"
+)
+
+runpy.run_path(root / "features/mcp/headroom-clients.py")["configure"](home)
+# Native JSON clients use portable shell launchers without PATH lookup.
+bin_dir = home / ".local/bin"
 bin_dir.mkdir(parents=True)
-expected = {"agent-memory": ["mcp"], "headroom": ["mcp", "serve", "--transport", "stdio"], "qartez": [], "node_repl": []}
-commands = {"agent-memory": "agent-memory", "headroom": "headroom", "qartez": "qartez", "node_repl": "mcp-node-repl"}
-for command in commands.values():
-    executable = bin_dir / command
+commands = {name: "mcp-" + name for name in servers}
+expected = dict.fromkeys(servers, [])
+for name in commands.values():
+    executable = bin_dir / name
     executable.write_text('#!/bin/sh\nfor arg do printf "%s\\n" "$arg"; done\n')
     executable.chmod(0o755)
-documents = [
+for relative, key in (
     ("dotfiles/copilot-1.0.65/.copilot/mcp-config.json", "mcpServers"),
     ("dotfiles/mcp/.config/mcp/mcp.json", "mcpServers"),
     ("dotfiles/vscode-1.106.2/.config/Code/User/mcp.json", "servers"),
-]
-for relative, key in documents:
-    entries = json.loads((root / relative).read_text())[key]
-    for name, server in entries.items():
-        result = subprocess.check_output([server["command"], *server.get("args", [])], env=dict(os.environ, HOME=str(portable_home), PATH="/nonexistent"), text=True)
-        assert result.splitlines() == expected[name], (relative, name, result)
-for name, server in tomllib.loads((root / "dotfiles/codex-0.140.0/.codex/config.toml").read_text())["mcp_servers"].items():
-    if server.get("enabled", True) and "command" in server:
-        result = subprocess.check_output([server["command"], *server.get("args", [])], env=dict(os.environ, HOME=str(portable_home), PATH="/nonexistent"), text=True)
-        assert result.splitlines() == expected[name], name
-
-# OpenCode removes Node REPL while Codex retains its client-specific runtime.
-opencode.write_text("{}")
-configure(home, servers, {"node_repl": {"command": "codex-node-repl"}})
-assert tomllib.loads(codex.read_text())["mcp_servers"]["node_repl"]["command"] == "codex-node-repl"
-config = json.loads(opencode.read_text())
-config["mcp"]["servers"]["node_repl"] = {"command": ["old-node-repl"]}
-opencode.write_text(json.dumps(config))
-configure(home, servers, {"node_repl": {"command": "codex-node-repl"}})
-assert "node_repl" not in json.loads(opencode.read_text())["mcp"]["servers"]
-assert "node_repl" in tomllib.loads(codex.read_text())["mcp_servers"]
-
-# Activation also removes the Codex registration on Loki without touching others.
-for path, content in (
-    (codex, '[mcp_servers.node_repl]\ncommand = "old-node-repl"\n[mcp_servers.custom]\ncommand = "keep-me"\n'),
-    (opencode, json.dumps({"mcp": {"servers": {"node_repl": {"command": ["old-node-repl"]}, "custom": {"type": "remote", "url": "https://example.invalid"}}}})),
+    ("dotfiles/pi-1.2.0/.pi/agent/mcp.json", "mcpServers"),
 ):
-    path.write_text(content)
-configure(home, servers, removed_servers=("node_repl",))
-assert "node_repl" not in tomllib.loads(codex.read_text())["mcp_servers"]
-assert "node_repl" not in json.loads(opencode.read_text())["mcp"]["servers"]
-assert tomllib.loads(codex.read_text())["mcp_servers"]["custom"]["command"] == "keep-me"
-assert json.loads(opencode.read_text())["mcp"]["servers"]["custom"]["url"] == "https://example.invalid"
-first = (codex.read_bytes(), opencode.read_bytes())
-configure(home, servers, removed_servers=("node_repl",))
-assert first == (codex.read_bytes(), opencode.read_bytes())
-print("Loki MCP client migration and Node REPL removal checks passed.")
-PY
+    for name, server in json.loads((root / relative).read_text())[key].items():
+        if "command" not in server or not server.get("enabled", True):
+            continue
+        result = subprocess.check_output(
+            [server["command"], *server.get("args", [])],
+            env=dict(env, PATH="/nonexistent"),
+            text=True,
+        )
+        assert result.splitlines() == expected[name], (relative, name, result)
 
-# Normalize the generated MCP entries through the real OpenCode v2 parser.
-package=$(nix build "path:$root#opencode-v2" --no-link --print-out-paths)
-export XDG_CONFIG_HOME="$tmp/config" XDG_DATA_HOME="$tmp/data" XDG_STATE_HOME="$tmp/state" XDG_CACHE_HOME="$tmp/cache"
-export OPENCODE_CONFIG="$tmp/native.jsonc" OPENCODE_DISABLE_MODELS_FETCH=1
-unset OPENCODE_CONFIG_DIR OPENCODE_CONFIG_CONTENT OPENCODE_DB
-cd "$tmp"
-"$package/bin/opencode" service set disabled true
-"$package/bin/opencode" debug config >"$tmp/native.json"
-node --input-type=module - "$tmp/native.json" <<'JS'
-import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-const output = JSON.parse(readFileSync(process.argv[2], "utf8"));
-const config = output.find(entry => entry.info?.mcp)?.info;
-assert.ok(config, JSON.stringify(output));
-assert.equal(Object.keys(config.mcp.servers).length, 8);
-assert.ok(!("node_repl" in config.mcp.servers));
-assert.ok(config.mcp.servers.dbhub.command.includes("/Users/david/.config/dbhub/local.toml"));
-console.log("Generated Loki MCP connections normalize through OpenCode v2.");
-JS
+# Check linked configuration through the real Codex parser without starting servers.
+result = subprocess.run(
+    [real_codex, "mcp", "list", "--json"],
+    env=env,
+    capture_output=True,
+    text=True,
+    check=True,
+    timeout=30,
+)
+entries = {entry["name"]: entry for entry in json.loads(result.stdout)}
+assert {*servers, "custom"} <= entries.keys()
+assert entries["node_repl"]["transport"]["command"] == "/bin/sh"
+
+# Check linked configuration through the real OpenCode parser.
+child_env = dict(
+    env,
+    XDG_CONFIG_HOME=str(home / ".config"),
+    XDG_DATA_HOME=str(tmp / "data"),
+    XDG_STATE_HOME=str(tmp / "state"),
+    XDG_CACHE_HOME=str(tmp / "cache"),
+    OPENCODE_CONFIG=str(opencode),
+    OPENCODE_DISABLE_MODELS_FETCH="1",
+)
+for name in ("OPENCODE_CONFIG_CONTENT", "OPENCODE_CONFIG_DIR", "OPENCODE_DB"):
+    child_env.pop(name, None)
+subprocess.run(
+    [real_opencode, "service", "set", "disabled", "true"],
+    env=child_env,
+    check=True,
+    cwd=tmp,
+    timeout=30,
+)
+result = subprocess.run(
+    [real_opencode, "debug", "config"],
+    env=child_env,
+    capture_output=True,
+    text=True,
+    check=True,
+    cwd=tmp,
+    timeout=30,
+)
+config = next(
+    entry["info"]
+    for entry in json.loads(result.stdout)
+    if entry.get("info", {}).get("mcp")
+)
+assert set(config["mcp"]["servers"]) == {*servers, "custom"}, config["mcp"]["servers"]
+assert config["mcp"]["servers"]["dbhub"]["command"] == [
+    str(home / ".local/bin/mcp-dbhub")
+]
+for path, original in before.items():
+    assert path.is_symlink(), path
+    assert (path.read_bytes(), path.resolve().stat().st_mtime_ns) == original, path
+print("MCP launchers preserve linked configs and native client parsing.")
+PYTHON

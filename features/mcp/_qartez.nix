@@ -10,7 +10,7 @@ in
     home.packages = [
       package
     ];
-    programs.pi.coding-agent.mcp.mcpServers.qartez = {
+    nixcfg.mcp.servers.qartez = {
       command = "${config.home.homeDirectory}/.local/bin/qartez";
       description = "Indexed code navigation, source lookup and impact analysis";
     };

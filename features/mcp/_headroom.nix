@@ -12,7 +12,7 @@ in {
       local.headroom
     ];
     file.".local/bin/headroom".source = "${local.headroom}/bin/headroom";
-    # Run after other client configuration writers and Home Manager symlinks.
+    # Retire legacy resources after Home Manager creates its symlinks.
     activation.headroomClients =
       lib.hm.dag.entryAfter [
         "linkGeneration"
@@ -22,7 +22,7 @@ in {
       '';
   };
 
-  programs.pi.coding-agent.mcp.mcpServers.headroom = {
+  nixcfg.mcp.servers.headroom = {
     command = "${config.home.homeDirectory}/.local/bin/headroom";
     args = [
       "mcp"

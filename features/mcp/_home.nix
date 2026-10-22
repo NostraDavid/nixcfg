@@ -8,10 +8,6 @@
 }: let
   bin = "${config.home.homeDirectory}/.local/bin";
   darwin = stable.stdenv.hostPlatform.isDarwin;
-  python = stable.python3.withPackages (p: [
-    p.tomlkit
-    p.json5
-  ]);
   nodeRepl = stable.writeShellScriptBin "mcp-node-repl" ''
     export NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS=1000
     export NODE_REPL_NODE_MODULE_DIRS="${local.chatgpt}/lib/chatgpt/resources/cua_node/lib/node_modules"
@@ -48,11 +44,7 @@
         ];
     };
   };
-  wrappers = lib.mapAttrsToList (name: server:
-    stable.writeShellScriptBin "opencode-mcp-${name}" ''
-      exec ${lib.escapeShellArg server.command} ${lib.escapeShellArgs (server.args or [])} "$@"
-    '')
-  browserServers;
+
   servers =
     browserServers
     // {
@@ -66,37 +58,37 @@
         ];
       };
     };
-  clientServers =
-    servers
-    // lib.genAttrs [
-      "agent-memory"
-      "headroom"
-      "qartez"
-    ] (
-      name:
-        builtins.removeAttrs config.programs.pi.coding-agent.mcp.mcpServers.${name} [
-          "description"
-        ]
-    );
+  localServers = lib.filterAttrs (_: server: server ? command) config.nixcfg.mcp.servers;
+  wrappers = lib.mapAttrsToList (name: server:
+    stable.writeShellScriptBin "mcp-${name}" ''
+      exec ${lib.escapeShellArg server.command} ${lib.escapeShellArgs (server.args or [])} "$@"
+    '')
+  (builtins.removeAttrs localServers ["nixos"]);
+  codex = stable.writeShellScript "codex" ''
+    export PATH="$HOME/.local/bin:$PATH"
+    exec ${lib.getExe local.codex} \
+      ${lib.optionalString darwin "--config mcp_servers.node_repl.enabled=false"} \
+      "$@"
+  '';
 in {
-  options.nixcfg.mcp.codexOverrides = lib.mkOption {
-    type = lib.types.attrsOf lib.types.attrs;
-    default = {};
-    description = "Client-specific MCP settings, such as Codex's native browser runtime.";
+  options.nixcfg.mcp = {
+    servers = lib.mkOption {
+      type = lib.types.attrsOf lib.types.attrs;
+      default = {};
+      description = "Shared MCP server commands and arguments for client launchers.";
+    };
   };
   config = {
-    nixcfg.agentMemory.provider = lib.mkDefault "engrim";
-    nixcfg.mcp.codexOverrides = lib.optionalAttrs (!darwin) {
-      node_repl = lib.mkDefault {
-        command = "${bin}/mcp-node-repl";
-        startup_timeout_sec = 120;
+    nixcfg = {
+      agentMemory.provider = lib.mkDefault "engrim";
+      mcp = {
+        servers = lib.mapAttrs (_: server:
+          builtins.removeAttrs server [
+            "startup_timeout_sec"
+          ])
+        servers;
       };
     };
-    programs.pi.coding-agent.mcp.mcpServers = lib.mapAttrs (_: server:
-      builtins.removeAttrs server [
-        "startup_timeout_sec"
-      ])
-    servers;
     home = {
       sessionPath = [
         bin
@@ -112,6 +104,8 @@ in {
         ++ wrappers;
       file =
         {
+          ".local/bin/codex".source = codex;
+          ".local/bin/opencode".source = lib.getExe local.opencode-v2;
           ".local/bin/mcp-nixos".source = lib.getExe unstable.mcp-nixos;
           ".local/bin/playwright-mcp".source = lib.getExe unstable.playwright-mcp;
           ".local/bin/chrome-devtools-mcp".source = lib.getExe local.chrome-devtools-mcp;
@@ -121,25 +115,18 @@ in {
           ".local/bin/chromium".source = lib.getExe stable.chromium;
           ".local/bin/mcp-node-repl".source = lib.getExe nodeRepl;
         }
-        // builtins.listToAttrs (map (package: lib.nameValuePair ".local/bin/${lib.getName package}" {source = lib.getExe package;}) wrappers);
+        // builtins.listToAttrs (map (package: lib.nameValuePair ".local/bin/${lib.getName package}" {source = lib.getExe package;}) wrappers)
+        # Work repositories also use the existing browser launcher names.
+        // builtins.listToAttrs (map (name:
+          lib.nameValuePair ".local/bin/opencode-mcp-${name}" {
+            source = config.home.file.".local/bin/mcp-${name}".source;
+          }) ["chrome-devtools" "nixos" "playwright"]);
       activation = {
         dbhubLocalDatabase =
           lib.hm.dag.entryAfter [
             "writeBoundary"
           ] ''
             $DRY_RUN_CMD ${stable.coreutils}/bin/install -d -m 700 ${lib.escapeShellArg "${config.xdg.dataHome}/dbhub"}
-          '';
-        mcpClients =
-          lib.hm.dag.entryAfter [
-            "headroomClients"
-            "linkGeneration"
-            "dbhubLocalDatabase"
-          ] ''
-            $DRY_RUN_CMD ${python}/bin/python ${./mcp-clients.py} \
-              ${lib.escapeShellArg config.home.homeDirectory} \
-              ${lib.escapeShellArg (builtins.toJSON clientServers)} \
-              ${lib.escapeShellArg (builtins.toJSON ({openaiDeveloperDocs.url = config.programs.pi.coding-agent.mcp.mcpServers.openaiDeveloperDocs.url;} // config.nixcfg.mcp.codexOverrides))} \
-              ${lib.escapeShellArg (builtins.toJSON (lib.optionals darwin ["node_repl"]))}
           '';
       };
     };

@@ -75,9 +75,7 @@ assert.deepEqual(Object.keys(config.mcp.servers).sort(), expectedServers);
 for (const server of Object.values(config.mcp.servers)) assert.equal(server.disabled, false);
 assert.equal(config.mcp.servers.openaiDeveloperDocs.url, "https://developers.openai.com/mcp");
 assert.ok(!("node_repl" in config.mcp.servers));
-assert.ok(config.mcp.servers.dbhub.command[0].endsWith("/.local/bin/dbhub"));
-assert.deepEqual(config.mcp.servers.dbhub.command.slice(1, 4), ["--transport", "stdio", "--config"]);
-assert.ok(config.mcp.servers.dbhub.command[4].endsWith("/.config/dbhub/local.toml"));
+assert.deepEqual(config.mcp.servers.dbhub.command, [`${process.env.HOME}/.local/bin/mcp-dbhub`]);
 JS
 
 # Path inspection must preserve the old nixpkgs database selection without opening it.

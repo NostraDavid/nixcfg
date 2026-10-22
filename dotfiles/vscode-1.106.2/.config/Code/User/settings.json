@@ -56,7 +56,8 @@
   },
   "[shellscript]": {
     "editor.insertSpaces": true,
-    "editor.tabSize": 4
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "mkhl.shfmt"
   },
   "[skill]": {
     "diffEditor.ignoreTrimWhitespace": false,
@@ -146,6 +147,7 @@
   },
   "chat.useClaudeHooks": true,
   "chat.viewSessions.orientation": "stacked",
+  "chatgpt.cliExecutable": "codex",
   "chatgpt.localeOverride": "Dutch",
   "chatgpt.openOnStartup": true,
   "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
@@ -162,7 +164,7 @@
   "diffEditor.diffAlgorithm": "advanced",
   "diffEditor.ignoreTrimWhitespace": false,
   "docker.extension.enableComposeLanguageServer": false,
-  "dprint.path": "/etc/profiles/per-user/david/bin/dprint",
+  "dprint.path": "~/.local/bin/dprint",
   "dprint.useGlobalConfig": true,
   "editor.aiStats.enabled": true,
   "editor.bracketPairColorization.enabled": true,
@@ -275,6 +277,7 @@
   "git.enableSmartCommit": true,
   "git.fetchOnPull": true,
   "git.ignoreRebaseWarning": true,
+  "git.path": "git",
   "github.copilot.chat.localeOverride": "en",
   "github.copilot.chat.rateLimitAutoSwitchToAuto": true,
   "github.copilot.enable": {
@@ -395,12 +398,11 @@
     "**/result/**": true
   },
   "security.workspace.trust.untrustedFiles": "open",
-  "shellformat.flag": "-i 4",
-  "shellformat.path": "/etc/profiles/per-user/david/bin/shfmt",
-  "shellformat.useEditorConfig": true,
+  "shfmt.executablePath": "shfmt",
   "terminal.external.linuxExec": "wezterm",
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.defaultProfile.linux": "zellij",
+  "terminal.integrated.defaultProfile.osx": "zellij",
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.enableMultiLinePasteWarning": "never",
   "terminal.integrated.fontFamily": "'Iosevka Nerd Font', 'JetBrainsMono NF', monospace",
@@ -417,15 +419,42 @@
     },
     "bash": {
       "args": [
-        "bash"
+        "--login"
       ],
       "icon": "terminal-bash",
       "overrideName": true,
-      "path": "host-spawn"
+      "path": "${env:HOME}/.local/bin/nix-bash"
     },
     "tmux": {
       "icon": "terminal-tmux",
-      "path": "tmux"
+      "path": "${env:HOME}/.local/bin/tmux"
+    },
+    "zellij": {
+      "args": [
+        "vscode"
+      ],
+      "path": "${env:HOME}/.local/bin/zellij-workspace"
+    }
+  },
+  "terminal.integrated.profiles.osx": {
+    "Zellij: nieuwe sessie": {
+      "args": [
+        "vscode",
+        "--new"
+      ],
+      "path": "${env:HOME}/.local/bin/zellij-workspace"
+    },
+    "bash": {
+      "args": [
+        "--login"
+      ],
+      "icon": "terminal-bash",
+      "overrideName": true,
+      "path": "${env:HOME}/.local/bin/nix-bash"
+    },
+    "tmux": {
+      "icon": "terminal-tmux",
+      "path": "${env:HOME}/.local/bin/tmux"
     },
     "zellij": {
       "args": [
@@ -446,7 +475,7 @@
     "red": 0,
     "yellow": 60
   },
-  "todo-tree.ripgrep.ripgrep": "/etc/profiles/per-user/david/bin/rg",
+  "todo-tree.ripgrep.ripgrep": "~/.local/bin/rg",
   "update.mode": "none",
   "vsicons.dontShowNewVersionMessage": true,
   "window.menuBarVisibility": "visible",

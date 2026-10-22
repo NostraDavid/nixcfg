@@ -3,28 +3,23 @@
     "agent-memory": {
       "args": [
         "-c",
-        "exec \"$HOME/.local/bin/agent-memory\" \"$@\"",
-        "agent-memory",
-        "mcp"
+        "exec \"$HOME/.local/bin/mcp-agent-memory\" \"$@\"",
+        "agent-memory"
       ],
       "command": "/bin/sh"
     },
     "headroom": {
       "args": [
         "-c",
-        "exec \"$HOME/.local/bin/headroom\" \"$@\"",
-        "headroom",
-        "mcp",
-        "serve",
-        "--transport",
-        "stdio"
+        "exec \"$HOME/.local/bin/mcp-headroom\" \"$@\"",
+        "headroom"
       ],
       "command": "/bin/sh"
     },
     "qartez": {
       "args": [
         "-c",
-        "exec \"$HOME/.local/bin/qartez\" \"$@\"",
+        "exec \"$HOME/.local/bin/mcp-qartez\" \"$@\"",
         "qartez"
       ],
       "command": "/bin/sh"

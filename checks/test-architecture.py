@@ -88,7 +88,7 @@ class ArchitectureTests(unittest.TestCase):
                 home.stateVersion = lib.mkOption {type = lib.types.str;};
                 home.packages = lib.mkOption {type = lib.types.listOf lib.types.package; default = [];};
                 home.file = lib.mkOption {type = lib.types.attrsOf lib.types.anything; default = {};};
-                programs.pi.coding-agent.mcp.mcpServers = lib.mkOption {type = lib.types.attrsOf lib.types.anything; default = {};};
+                nixcfg.mcp.servers = lib.mkOption {type = lib.types.attrsOf lib.types.anything; default = {};};
               };
             }""",
         )
@@ -250,7 +250,7 @@ class ArchitectureTests(unittest.TestCase):
     def test_mcp_store_command_is_rejected(self) -> None:
         self.native(
             """{lib, ...}: {
-              programs.pi.coding-agent.mcp.mcpServers = lib.genAttrs
+              nixcfg.mcp.servers = lib.genAttrs
                 ["agent-memory" "chrome-devtools" "dbhub" "headroom" "nixos" "node_repl" "playwright" "qartez"]
                 (_: {command = "/nix/store/example/bin/mcp";});
             }""",

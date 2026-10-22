@@ -1,6 +1,8 @@
 -- Neovim 0.11+ Starter Config (Modular)
 -- Path managed via Home Manager (programs.nix -> .config/nvim symlink)
 -- Modules live in lua/core and lua/plugins.
+vim.env.PATH = vim.fn.expand("~/.local/bin") .. ":" .. (vim.env.PATH or "")
+
 local function load_module(name, opts)
     opts = opts or {}
     local ok, err = pcall(require, name)

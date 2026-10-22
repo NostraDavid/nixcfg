@@ -1,7 +1,5 @@
-"""Configure standalone Headroom and retire generated LeanCTX integrations."""
+"""Retire legacy LeanCTX resources without rewriting client dotfiles."""
 
-import json
-import os
 import shutil
 import sys
 import tempfile
@@ -9,28 +7,6 @@ from pathlib import Path
 
 
 def configure(home: Path) -> None:
-    path = home / ".pi/agent/settings.json"
-    if path.exists():
-        path = path.resolve()
-        original = path.read_text()
-        document = json.loads(original)
-        document["packages"] = [
-            p for p in document.get("packages", []) if p != "npm:pi-lean-ctx"
-        ]
-        updated = json.dumps(document, indent=2) + "\n"
-        if updated != original:
-            backup = path.with_name(path.name + ".before-headroom")
-            if not backup.exists():
-                shutil.copy2(path, backup)
-            fd, temporary = tempfile.mkstemp(dir=path.parent)
-            temporary = Path(temporary)
-            try:
-                with os.fdopen(fd, "w") as stream:
-                    stream.write(updated)
-                temporary.replace(path)
-            finally:
-                temporary.unlink(missing_ok=True)
-
     # Move generated integrations out of client discovery; retain user data.
     for relative in [
         ".codex/skills/lean-ctx",

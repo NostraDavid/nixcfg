@@ -7,6 +7,62 @@
     "openaiDeveloperDocs": {
       "url": "https://developers.openai.com/mcp",
       "description": "Official OpenAI and Codex documentation"
+    },
+    "agent-memory": {
+      "command": "/bin/sh",
+      "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/mcp-agent-memory\" \"$@\"",
+        "agent-memory"
+      ]
+    },
+    "headroom": {
+      "command": "/bin/sh",
+      "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/mcp-headroom\" \"$@\"",
+        "headroom"
+      ]
+    },
+    "qartez": {
+      "command": "/bin/sh",
+      "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/mcp-qartez\" \"$@\"",
+        "qartez"
+      ]
+    },
+    "nixos": {
+      "command": "/bin/sh",
+      "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/mcp-nixos\" \"$@\"",
+        "nixos"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "/bin/sh",
+      "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/mcp-chrome-devtools\" \"$@\"",
+        "chrome-devtools"
+      ]
+    },
+    "playwright": {
+      "command": "/bin/sh",
+      "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/mcp-playwright\" \"$@\"",
+        "playwright"
+      ]
+    },
+    "dbhub": {
+      "command": "/bin/sh",
+      "args": [
+        "-c",
+        "exec \"$HOME/.local/bin/mcp-dbhub\" \"$@\"",
+        "dbhub"
+      ]
     }
   }
 }

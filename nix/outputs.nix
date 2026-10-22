@@ -13,7 +13,7 @@ in {
   flake = {
     overlays.default = packageSets.overlay-local;
     packages.aarch64-darwin = {
-      inherit (pkgsFor "aarch64-darwin") asd-ste100-skill pandacode video-explainer;
+      inherit (pkgsFor "aarch64-darwin") asd-ste100-skill pandacode video-explainer vscode-todo-tree;
     };
   };
   perSystem = {system, ...}: let

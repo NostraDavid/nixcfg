@@ -72,7 +72,7 @@ command = "printf ''"
 when = 'test -n "$VIRTUAL_ENV"'
 require_repo = true
 format = "[](fg:prev_bg bg:gray2)"
-shell = ["bash", "--noprofile", "--norc"]
+shell = ["nix-bash", "--noprofile", "--norc"]
 
 [git_branch]
 style = 'fg:gray9 bg:gray2'
@@ -88,18 +88,18 @@ disabled = true # replaced by custom.git_branch_clean / custom.git_branch_dirty 
 # Custom branch modules to color branch green when repo is clean, gray otherwise.
 # We split into two modules with mutually exclusive 'when' conditions for clarity & minimal logic.
 [custom.git_branch_clean]
-command = "b=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
-when = 'test -z "$(git status --porcelain 2>/dev/null)"'
+command = "b=$(\"$HOME/.local/bin/git\" symbolic-ref --quiet --short HEAD 2>/dev/null || \"$HOME/.local/bin/git\" rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
+when = 'test -z "$("$HOME/.local/bin/git" status --porcelain 2>/dev/null)"'
 require_repo = true
 format = "[ $output](fg:mediumgreen bg:gray2)"
-shell = ["bash", "--noprofile", "--norc"]
+shell = ["nix-bash", "--noprofile", "--norc"]
 
 [custom.git_branch_dirty]
-command = "b=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
-when = 'test -n "$(git status --porcelain 2>/dev/null)"'
+command = "b=$(\"$HOME/.local/bin/git\" symbolic-ref --quiet --short HEAD 2>/dev/null || \"$HOME/.local/bin/git\" rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
+when = 'test -n "$("$HOME/.local/bin/git" status --porcelain 2>/dev/null)"'
 require_repo = true
 format = "[ $output](fg:gray9 bg:gray2)"
-shell = ["bash", "--noprofile", "--norc"]
+shell = ["nix-bash", "--noprofile", "--norc"]
 
 # [git_status]
 # style = 'bg:dark_bg'
@@ -161,7 +161,7 @@ command = "printf ''"
 when = true
 require_repo = true
 format = "[](fg:prev_bg bg:gray4)"
-shell = ["bash", "--noprofile", "--norc"]
+shell = ["nix-bash", "--noprofile", "--norc"]
 
 [directory]
 style = 'fg:gray10 bg:gray4'

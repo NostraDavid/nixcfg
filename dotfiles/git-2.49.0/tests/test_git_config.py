@@ -130,6 +130,37 @@ class GitConfigTests(unittest.TestCase):
         self.assertEqual(result.returncode, 7)
         self.assertIn("pre-push origin https://github.com/team/repo.git", result.stdout)
 
+    def test_diff_tools_use_local_bin_with_spaces_in_home(self) -> None:
+        self.env["HOME"] = str(self.home / "user home")
+        local_bin = Path(self.env["HOME"]) / ".local/bin"
+        local_bin.mkdir(parents=True)
+        for name in ("difft", "delta", "mergiraf"):
+            self.executable(local_bin / name, f"printf 'local {name}\\n'")
+            self.executable(self.bin / name, "exit 99")
+        document = self.repo / "example.txt"
+        document.write_text("before\n")
+        self.git("add", "example.txt")
+        self.git("commit", "-qm", "test: add example")
+        document.write_text("after\n")
+        for args in (("diff",), ("ddiff",), ("difftool",)):
+            self.assertEqual(self.git(*args), "local difft")
+        self.git("config", "diff.external", "false")
+        for args in (
+            ("ddiff",),
+            ("dlog", "--format=", "-p", "-1"),
+            ("dshow", "--format="),
+        ):
+            self.assertEqual(self.git(*args), "local difft")
+        for key, expected in (
+            ("pager.diff", "local delta"),
+            ("pager.show", "local delta"),
+            ("pager.log", "local delta"),
+            ("merge.mergiraf.driver", "local mergiraf"),
+        ):
+            result = self.run_command("sh", "-c", self.git("config", "--get", key))
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout.strip(), expected)
+
     def test_aliases_set_upstream_and_preserve_failures(self) -> None:
         self.git("update-ref", "refs/remotes/origin/feature", "HEAD")
         self.git("config", "remote.origin.url", str(self.repo))

@@ -29,6 +29,27 @@ repos:
         files: '^(scripts/bootstrap-host\.sh|checks/test-bootstrap-host\.sh|hosts/default\.nix)$'
         pass_filenames: false
 
+      - id: check-command-paths
+        name: check portable command paths
+        entry: bash checks/test-command-paths.sh
+        language: system
+        files: '^(features/(common-tooling|terminal|mcp)/|checks/(live-dotfiles\.nix|test-command-paths\.sh|tooling\.nix)$|dotfiles/(alacritty-[^/]+|starship-[^/]+|zellij-[^/]+|vscode-[^/]+|pi-[^/]+)/)'
+        pass_filenames: false
+
+      - id: check-asd-ste100
+        name: check ASD-STE100 without work-flake inputs or packages
+        entry: nix eval --impure --file checks/tooling.nix asdSte100WorkPackages
+        language: system
+        files: '^(features/common-tooling/|pkgs/asd-ste100-skill/|checks/tooling\.nix$|flake\.(nix|lock)$)'
+        pass_filenames: false
+
+      - id: check-vscode-todo-tree
+        name: check Todo Tree native executable paths
+        entry: bash checks/test-vscode-todo-tree.sh
+        language: system
+        files: '^(pkgs/vscode-todo-tree/|checks/(vscode-todo-tree\.nix|test-vscode-todo-tree\.sh)$|features/common-tooling/|dotfiles/vscode-[^/]+/\.config/Code/User/settings\.json$)'
+        pass_filenames: false
+
       - id: check-user-locate
         name: check user-owned plocate database
         entry: bash checks/test-user-locate.sh
