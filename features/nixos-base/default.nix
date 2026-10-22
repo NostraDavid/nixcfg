@@ -6,6 +6,10 @@
       internal-pki
     ];
     nixos = {pkgs, ...}: {
+      programs.git = {
+        enable = true;
+        lfs.enable = true;
+      };
       environment.systemPackages = [
         pkgs.cmux-tui
         pkgs.iperf3
