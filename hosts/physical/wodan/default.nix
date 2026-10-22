@@ -61,7 +61,7 @@
             extraModprobeConfig = ''
               install jfs ${stable.coreutils}/bin/false
             '';
-            kernel.sysctl."fs.inotify.max_user_watches" = 4194304;
+            kernel.sysctl."fs.inotify.max_user_watches" = 33554432;
           };
 
           services = {
