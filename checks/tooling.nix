@@ -108,6 +108,7 @@ in {
       && lib.all (name: direct home name) [".pi/agent/settings.json" ".pi/agent/mcp.json"]
       && home.programs.pi.coding-agent.settings == {}
       && home.programs.pi.coding-agent.mcp == {}
+      && (!(home.home.file ? ".config/zellij/config.kdl") || (home.home.file ? ".config/zellij/layouts/default.kdl" && direct home ".config/zellij/layouts/default.kdl"))
       && lib.hasInfix (lib.escapeShellArg home.home.profileDirectory) activation.data
       && lib.all (step: builtins.elem step activation.after) ["installPackages" "linkGeneration"])
     homes; true;

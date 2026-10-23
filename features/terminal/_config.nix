@@ -24,6 +24,7 @@
       ".config/starship.toml" = {source = mk "${dot}/starship-1.23.0/.config/starship.toml";};
       ".config/wezterm/wezterm.lua" = {source = mk "${dot}/wezterm-0-unstable-2025-05-18/.config/wezterm/wezterm.lua";};
       ".config/zellij/config.kdl" = {source = mk "${dot}/zellij-0.45.1/.config/zellij/config.kdl";};
+      ".config/zellij/layouts/default.kdl".source = mk "${dot}/zellij-0.45.1/.config/zellij/layouts/default.kdl";
       ".config/zigfetch/" = {source = mk "${dot}/zigfetch-0.25.0/.config/zigfetch";};
       ".inputrc" = {source = mk "${dot}/readline-8.2p13/.inputrc";};
       ".local/bin/nix-bash".source = "${stable.bashInteractive}/bin/bash";
