@@ -7,6 +7,13 @@ case "${2-}" in
     ;;
 esac
 
+# Forgejo's SSH endpoint lacks git-lfs-authenticate; use its HTTPS LFS API.
+case "${2-}" in
+ssh://forgejo@forgejo.powerlan.empire:2222/nostradavid/*.git)
+    set -- "$1" "https://forgejo.powerlan.empire/nostradavid/${2##*/}"
+    ;;
+esac
+
 command -v git-lfs >/dev/null 2>&1 || {
     printf >&2 "\n%s\n\n" "This repository is configured for Git LFS but 'git-lfs' was not found on your path. If you no longer wish to use Git LFS, remove this hook by deleting the 'pre-push' file in the hooks directory (set by 'core.hookspath'; usually '.git/hooks')."
     exit 2

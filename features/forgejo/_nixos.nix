@@ -58,6 +58,8 @@ in {
             DOMAIN = cfg.domain;
             ROOT_URL = cfg.rootUrl;
             HTTP_ADDR = "0.0.0.0";
+            LFS_START_SERVER = true;
+            LFS_JWT_SECRET_URI = "file:/srv/forgejo/forgejo/custom/conf/lfs_jwt_secret";
             START_SSH_SERVER = true;
             SSH_DOMAIN = cfg.domain;
             SSH_PORT = 2222;
