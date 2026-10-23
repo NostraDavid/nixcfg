@@ -17,7 +17,7 @@
       unstable.duckdb # DuckDB CLI
       unstable.freetype # Font rendering library for data tooling
       unstable.jq # JSON processor
-      unstable.kcat # Kafka CLI
+      stable.kcat # The same version; unstable's GCC 16 dependency chain fails.
       unstable.miller # CSV processor
       unstable.parquet-tools # Parquet file viewer and converter
       unstable.pgcli # psql replacement

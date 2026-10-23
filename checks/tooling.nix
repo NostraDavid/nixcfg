@@ -85,6 +85,14 @@ in {
     in
       lib.hasInfix "ln -s" script && lib.hasInfix "/dotfiles/" script;
   in
+    assert lib.all (
+      home:
+        !(home.home.file ? ".config/git/common.conf")
+        || home.home.file ? ".local/bin/delta"
+    )
+    homes;
+    assert mimir2.home.file.".local/bin/delta".source == lib.getExe (unstableFor "x86_64-linux").delta;
+    assert loki.home.file.".local/bin/delta".source == lib.getExe (unstableFor "aarch64-darwin").delta;
     assert settings."dprint.path" == "~/.local/bin/dprint" && settings."git.path" == "git" && settings."shfmt.executablePath" == "shfmt";
     assert !(settings ? "shellformat.path") && settings."todo-tree.ripgrep.ripgrep" == "~/.local/bin/rg";
     assert direct wodan ".config/Code/User/settings.json";
