@@ -22,6 +22,7 @@ let
     "actionlint"
     "flameshot"
     "fast-resume"
+    "herdr"
     "just"
     "just-lsp"
     "lnav"

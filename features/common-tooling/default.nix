@@ -64,6 +64,7 @@ _: {
           actionlint
           flameshot
           fast-resume
+          herdr
           hurl
           just
           just-lsp
