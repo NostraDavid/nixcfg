@@ -26,7 +26,6 @@
     unstable.tealdeer # tldr in Rust
     unstable.tree # Display directory trees
     unstable.vim # Classic editor
-    unstable.zellij # Terminal workspace and multiplexer
     unstable.zoxide # Directory jumper
   ];
 }

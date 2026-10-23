@@ -65,6 +65,8 @@ _: {
           flameshot
           fast-resume
           hurl
+          just
+          just-lsp
           lazyjournal
           lnav
           nix-index
@@ -75,6 +77,7 @@ _: {
           shfmt
           sqruff
           watchexec
+          zellij
           local.espeak-ng
           (stable.piper-tts.override {
             withAlignment = false;

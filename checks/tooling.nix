@@ -22,6 +22,8 @@ let
     "actionlint"
     "flameshot"
     "fast-resume"
+    "just"
+    "just-lsp"
     "lnav"
     "lazyjournal"
     "nix-index"
@@ -31,6 +33,7 @@ let
     "shfmt"
     "ov"
     "watchexec"
+    "zellij"
   ];
   core =
     [
@@ -41,8 +44,6 @@ let
       "git-lfs"
       "git"
       "hurl"
-      "just"
-      "just-lsp"
       "lsd"
       "mergiraf"
       "sqruff"

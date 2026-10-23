@@ -32,7 +32,6 @@
     unstable.tmux # Terminal multiplexer
     unstable.tree # Display directory trees
     unstable.viddy # Interactive watch alternative
-    unstable.zellij # Terminal workspace and multiplexer
     unstable.zoxide # Directory jumper
   ];
 }

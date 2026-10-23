@@ -12,7 +12,6 @@
     unstable.alejandra # Nix formatter
     unstable.ctx7 # Context7 documentation CLI
     unstable.dprint # Extensible code formatter
-    unstable.just-lsp # Just language server
     unstable.markdownlint-cli # Markdown linter
     unstable.nixd # Nix LSP
     unstable.nixfmt # Nix formatter

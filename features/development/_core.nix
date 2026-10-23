@@ -27,7 +27,6 @@
       unstable.git-lfs # Git Large File Storage
       unstable.helix # Modal text editor
       unstable.jujutsu # Version control system
-      unstable.just # Project command runner
       unstable.kakoune # Modal text editor
       unstable.kitty # Alternative terminal emulator
       unstable.lazygit # Terminal Git client
