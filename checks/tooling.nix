@@ -27,6 +27,7 @@ let
     "just-lsp"
     "lnav"
     "lazyjournal"
+    "mise"
     "nix-index"
     "nix-tree"
     "nvd"

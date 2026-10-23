@@ -70,6 +70,7 @@ _: {
           just-lsp
           lazyjournal
           lnav
+          mise
           nix-index
           nix-tree
           nvd
