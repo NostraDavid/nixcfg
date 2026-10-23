@@ -42,6 +42,7 @@ let
       "git"
       "hurl"
       "just"
+      "just-lsp"
       "lsd"
       "mergiraf"
       "sqruff"
@@ -134,6 +135,16 @@ in {
   in
     assert lib.all (host: host.config.programs.git.enable && host.config.programs.git.lfs.enable && builtins.elem host.config.programs.git.lfs.package.outPath (map (p: p.outPath) host.config.environment.systemPackages) && lib.hasInfix "git-lfs filter-process" host.config.environment.etc.gitconfig.text) systems;
     assert lib.all (home: builtins.any (p: (p.pname or "") == "git-lfs") home.home.packages && lib.hasInfix "/dotfiles/git-2.49.0/.config/git/common.conf" home.home.file.".config/git/common.conf".source.buildCommand) homes; true;
+  forgejoLfs = let
+    forgejo = flake.nixosConfigurations.forgejo.config;
+    secretFile = "/srv/forgejo/forgejo/custom/conf/lfs_jwt_secret";
+    secretService = forgejo.systemd.services.forgejo-secrets.script;
+    server = forgejo.services.forgejo.settings.server;
+  in
+    assert server.LFS_START_SERVER;
+    assert server.LFS_JWT_SECRET_URI == "file:${secretFile}";
+    assert lib.hasInfix "if [ ! -s ${secretFile} ]" secretService;
+    assert lib.hasInfix "generate secret LFS_JWT_SECRET > ${secretFile}" secretService; true;
   fleetFonts = let
     fonts = (import ../features/fonts/default.nix {}).den.aspects.fonts;
     systems = builtins.attrValues flake.nixosConfigurations ++ builtins.attrValues flake.darwinConfigurations;

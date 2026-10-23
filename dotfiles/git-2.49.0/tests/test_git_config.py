@@ -129,6 +129,16 @@ class GitConfigTests(unittest.TestCase):
         result = self.run_command(hook, "origin", "https://github.com/team/repo.git")
         self.assertEqual(result.returncode, 7)
         self.assertIn("pre-push origin https://github.com/team/repo.git", result.stdout)
+        result = self.run_command(
+            hook,
+            "origin",
+            "ssh://forgejo@forgejo.powerlan.empire:2222/nostradavid/repo.git",
+        )
+        self.assertEqual(result.returncode, 7)
+        self.assertEqual(
+            result.stdout,
+            "pre-push origin https://forgejo.powerlan.empire/nostradavid/repo.git\n",
+        )
 
     def test_diff_tools_use_local_bin_with_spaces_in_home(self) -> None:
         self.env["HOME"] = str(self.home / "user home")

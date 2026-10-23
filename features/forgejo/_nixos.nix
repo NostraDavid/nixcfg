@@ -16,6 +16,7 @@
     text = builtins.readFile ../../scripts/lab-initialize-disk.sh;
   };
   forgejo = "${config.services.forgejo.package}/bin/forgejo --work-path /srv/forgejo/forgejo --config /srv/forgejo/forgejo/custom/conf/app.ini";
+  lfsJwtSecretFile = "/srv/forgejo/forgejo/custom/conf/lfs_jwt_secret";
   requireData = {
     requires = [
       "srv-forgejo.mount"
@@ -59,7 +60,7 @@ in {
             ROOT_URL = cfg.rootUrl;
             HTTP_ADDR = "0.0.0.0";
             LFS_START_SERVER = true;
-            LFS_JWT_SECRET_URI = "file:/srv/forgejo/forgejo/custom/conf/lfs_jwt_secret";
+            LFS_JWT_SECRET_URI = "file:${lfsJwtSecretFile}";
             START_SSH_SERVER = true;
             SSH_DOMAIN = cfg.domain;
             SSH_PORT = 2222;
@@ -139,7 +140,16 @@ in {
 
       postgresql = requireData;
       forgejo = requireData;
-      forgejo-secrets = requireData;
+      forgejo-secrets = lib.mkMerge [
+        requireData
+        {
+          script = lib.mkAfter ''
+            if [ ! -s ${lib.escapeShellArg lfsJwtSecretFile} ]; then
+              ${config.services.forgejo.package}/bin/forgejo generate secret LFS_JWT_SECRET > ${lib.escapeShellArg lfsJwtSecretFile}
+            fi
+          '';
+        }
+      ];
       forgejo-admin = lib.mkMerge [
         requireData
         {
