@@ -32,7 +32,7 @@ in {
       rectangle
     ];
     darwin = {pkgs, ...}: {
-      homebrew.casks = ["vorssaint"];
+      homebrew.casks = ["chatgpt" "vorssaint"];
       environment.shells = [
         pkgs.bashInteractive
       ];
