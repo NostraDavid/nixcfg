@@ -1,0 +1,120 @@
+--- a/conf.cpp
++++ b/conf.cpp
+@@ -130,10 +130,11 @@
+ 	list->erase(new_end, list->end());
+ }
+ 
+-/* UPDATEDB_CONF parsing */
++/* Configuration file parsing */
+ 
+-/* UPDATEDB_CONF (locked) */
++/* Configuration file (locked) */
+ static FILE *uc_file;
++static const char *uc_file_path;
+ /* Line number at token start; type matches error_at_line () */
+ static unsigned uc_line;
+ /* Current line number; type matches error_at_line () */
+@@ -191,7 +192,7 @@
+ 		while ((c = getc_unlocked(uc_file)) != '"') {
+ 			if (c == EOF || c == '\n') {
+ 				fprintf(stderr, "%s:%u: missing closing `\"'\n",
+-				        UPDATEDB_CONF, uc_line);
++				        uc_file_path, uc_line);
+ 				exit(EXIT_FAILURE);
+ 			}
+ 			uc_lex_buf.push_back(c);
+@@ -233,10 +234,12 @@
+ 	bool had_prune_firmlinks;
+ #endif
+ 
+-	uc_file = fopen(UPDATEDB_CONF, "r");
++	const char *custom_conf = getenv("PLOCATE_UPDATEDB_CONF");
++	uc_file_path = custom_conf ? custom_conf : UPDATEDB_CONF;
++	uc_file = fopen(uc_file_path, "r");
+ 	if (uc_file == NULL) {
+-		if (errno != ENOENT) {
+-			perror(UPDATEDB_CONF);
++		if (errno != ENOENT || custom_conf != nullptr) {
++			perror(uc_file_path);
+ 			exit(EXIT_FAILURE);
+ 		}
+ 		return;
+@@ -286,17 +289,17 @@
+ 
+ 		case UCT_IDENTIFIER:
+ 			fprintf(stderr, "%s:%u: unknown variable: `%s'\n",
+-			        UPDATEDB_CONF, uc_line, uc_lex_buf.c_str());
++			        uc_file_path, uc_line, uc_lex_buf.c_str());
+ 			exit(EXIT_FAILURE);
+ 
+ 		default:
+ 			fprintf(stderr, "%s:%u: variable name expected\n",
+-			        UPDATEDB_CONF, uc_line);
++			        uc_file_path, uc_line);
+ 			exit(EXIT_FAILURE);
+ 		}
+ 		if (*had_var != false) {
+ 			fprintf(stderr, "%s:%u: variable `%s' was already defined\n",
+-			        UPDATEDB_CONF, uc_line, uc_lex_buf.c_str());
++			        uc_file_path, uc_line, uc_lex_buf.c_str());
+ 			exit(EXIT_FAILURE);
+ 		}
+ 		*had_var = true;
+@@ -304,26 +307,26 @@
+ 		token = uc_lex();
+ 		if (token != UCT_EQUAL) {
+ 			fprintf(stderr, "%s:%u: `=' expected after variable name\n",
+-			        UPDATEDB_CONF, uc_line);
++			        uc_file_path, uc_line);
+ 			exit(EXIT_FAILURE);
+ 		}
+ 		token = uc_lex();
+ 		if (token != UCT_QUOTED) {
+ 			fprintf(stderr, "%s:%u: value in quotes expected after `='\n",
+-			        UPDATEDB_CONF, uc_line);
++			        uc_file_path, uc_line);
+ 			exit(EXIT_FAILURE);
+ 		}
+ 		if (var_token == UCT_PRUNE_BIND_MOUNTS) {
+ 			if (parse_bool(&conf_prune_bind_mounts, uc_lex_buf.c_str()) != 0) {
+ 				fprintf(stderr, "%s:%u: invalid value `%s' of PRUNE_BIND_MOUNTS\n",
+-				        UPDATEDB_CONF, uc_line, uc_lex_buf.c_str());
++				        uc_file_path, uc_line, uc_lex_buf.c_str());
+ 				exit(EXIT_FAILURE);
+ 			}
+ #ifdef HAS_FIRMLINKS_DARWIN_H
+ 		} else if (var_token == UCT_PRUNE_FIRMLINKS) {
+ 			if (parse_bool(&conf_prune_firmlinks, uc_lex_buf.c_str()) != 0) {
+ 				fprintf(stderr, "%s:%u: invalid value `%s' of PRUNE_FIRMLINKS\n",
+-				        UPDATEDB_CONF, uc_line, uc_lex_buf.c_str());
++				        uc_file_path, uc_line, uc_lex_buf.c_str());
+ 				exit(EXIT_FAILURE);
+ 			}
+ #endif
+@@ -338,7 +341,7 @@
+ 		token = uc_lex();
+ 		if (token != UCT_EOL && token != UCT_EOF) {
+ 			fprintf(stderr, "%s:%u: unexpected data after variable value\n",
+-			        UPDATEDB_CONF, uc_line);
++			        uc_file_path, uc_line);
+ 			exit(EXIT_FAILURE);
+ 		}
+ 		/* Fall through */
+@@ -350,7 +353,7 @@
+ 	}
+ eof:
+ 	if (ferror(uc_file)) {
+-		perror(UPDATEDB_CONF);
++		perror(uc_file_path);
+ 		exit(EXIT_FAILURE);
+ 	}
+ 	funlockfile(uc_file);
+@@ -396,7 +399,7 @@
+ 	       "\n"
+ 	       "The configuration defaults to values read from\n"
+ 	       "`%s'.\n",
+-	       DBFILE, UPDATEDB_CONF);
++	       DBFILE, uc_file_path);
+ 	printf("\n"
+ 	       "Report bugs to %s.\n",
+ 	       PACKAGE_BUGREPORT);

@@ -12,13 +12,16 @@
     else stable.plocate;
   directory = "${config.xdg.cacheHome}/plocate";
   database = "${directory}/plocate.db";
+  configFile = "${config.xdg.configHome}/plocate/updatedb.conf";
   update = stable.writeShellScript "updatedb" ''
     set -eu
     umask 077
     ${stable.coreutils}/bin/mkdir -p ${lib.escapeShellArg directory}
     ${stable.coreutils}/bin/chmod 0700 ${lib.escapeShellArg directory}
+    # The macOS fork predates --config-file, so use its per-user config override.
+    ${lib.optionalString darwin "export PLOCATE_UPDATEDB_CONF=${lib.escapeShellArg configFile}"}
+    ${lib.optionalString (!darwin) "set -- --config-file=${lib.escapeShellArg configFile} \"$@\""}
     exec ${plocate}/bin/updatedb \
-      --config-file=${lib.escapeShellArg "${config.xdg.configHome}/plocate/updatedb.conf"} \
       --output=${lib.escapeShellArg database} --require-visibility=no "$@"
   '';
   query = stable.writeShellScript "plocate" ''
