@@ -127,6 +127,22 @@ class SessionTests(unittest.TestCase):
                 ("vscode_workspace_", "/workspace"),
             )
 
+    def test_invocation_without_app_defaults_to_vscode(self) -> None:
+        def run(argv: list[str], **_: object) -> sp.CompletedProcess[str]:
+            if argv[0] == "git":
+                return sp.CompletedProcess(argv, 128, "", "not a repository")
+            code = 1 if argv[0] == "zellij" and "list-sessions" in argv else 0
+            return sp.CompletedProcess(argv, code, "", "")
+
+        with (
+            patch("sys.argv", ["zellij-workspace"]),
+            patch.object(sp, "run", side_effect=run) as execute,
+        ):
+            self.assertEqual(MODULE["main"](), 0)
+        commands = [call.args[0] for call in execute.call_args_list]
+        self.assertEqual(commands[2][1:3], ["attach", "--create-background"])
+        self.assertEqual(commands[3][1:3], ["attach", "--create"])
+
     def test_vscode_reuses_session_and_new_profile_creates_another(self) -> None:
         existing = PREFIX + "2026-10-21T14:30:52.123+02:00"
 

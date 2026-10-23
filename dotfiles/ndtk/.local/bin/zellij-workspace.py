@@ -149,7 +149,9 @@ def reserve_new_session(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("app", choices=("vscode", "ghostty", "alacritty"))
+    parser.add_argument(
+        "app", nargs="?", default="vscode", choices=("vscode", "ghostty", "alacritty")
+    )
     parser.add_argument(
         "--new", action="store_true", help="Start a new session even in VS Code"
     )
