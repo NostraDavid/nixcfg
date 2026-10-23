@@ -186,22 +186,10 @@ NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "323bc3e687e17d7e377238d9f4c69111c4d0
 
 [projects]
 
-[projects."/home/david/data/dev"]
-trust_level = "trusted"
-
-[projects."/home/david/data/Dropbox"]
-trust_level = "trusted"
-
-[projects."/home/david/data/Downloads/whatsapp_export"]
-trust_level = "trusted"
-
 [projects."/home/david/SynologyDrive"]
 trust_level = "trusted"
 
 [projects."/home/david"]
-trust_level = "trusted"
-
-[projects."/home/david/.local/share/Steam/steamapps/common/Windrose"]
 trust_level = "trusted"
 
 [projects."/home/david/dev/t-Bataafsche-Broederschap/tbb/trunk"]
@@ -229,15 +217,6 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/david/dev/NostraDavid/infinity-fps/trunk"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/AUTOMATIC1111/stable-diffusion-webui-assets/trunk"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/AUTOMATIC1111/stable-diffusion-webui/trunk"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/Eddie-Wang1120/llama.cpp/trunk"]
 trust_level = "trusted"
 
 [projects."/home/david/dev/HandmadeHero/ada/trunk"]
@@ -477,15 +456,6 @@ trust_level = "trusted"
 [projects."/home/david/dev/bitvavo/python-bitvavo-api/trunk"]
 trust_level = "trusted"
 
-[projects."/home/david/dev/crg/trunk"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/crowsonkb/k-diffusion/trunk"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/dkb/trunk"]
-trust_level = "trusted"
-
 [projects."/home/david/dev/erikrose/parsimonious/trunk"]
 trust_level = "trusted"
 
@@ -498,20 +468,5 @@ trust_level = "trusted"
 [projects."/home/david/dev/playground/trunk"]
 trust_level = "trusted"
 
-[projects."/home/david/dev/private/trunk"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/sibr_core/trunk"]
-trust_level = "trusted"
-
 [projects."/home/david/dev/t-Bataafsche-Broederschap/tbataafschebroederschap.nl/trunk"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/tmp-contour/trunk"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/virchau13/automatic1111-webui-nix/trunk"]
-trust_level = "trusted"
-
-[projects."/home/david/dev/NostraDavid/ctb/full-rewrite-v2"]
 trust_level = "trusted"
