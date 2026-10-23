@@ -32,6 +32,7 @@ in {
       rectangle
     ];
     darwin = {pkgs, ...}: {
+      homebrew.casks = ["vorssaint"];
       environment.shells = [
         pkgs.bashInteractive
       ];
@@ -54,6 +55,7 @@ in {
       home.packages = [
         local.pandacode
         unstable.github-copilot-cli
+        unstable.raycast
       ];
       programs.home-manager.enable = true;
       home = {
