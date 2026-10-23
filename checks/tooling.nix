@@ -34,6 +34,7 @@ let
     "shfmt"
     "ov"
     "watchexec"
+    "yazi"
     "zellij"
   ];
   core =

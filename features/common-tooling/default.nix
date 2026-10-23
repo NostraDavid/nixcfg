@@ -78,6 +78,7 @@ _: {
           shfmt
           sqruff
           watchexec
+          yazi
           zellij
           local.espeak-ng
           (stable.piper-tts.override {
