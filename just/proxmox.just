@@ -1,3 +1,22 @@
+# Keep these 30-day windows aligned with https://forgejo.org/docs/v17.0/admin/release-schedule/.
+[private]
+forgejo-support-warning today=`date -u +%F`:
+  @today={{quote(today)}}; \
+  if [[ "$today" < "2026-09-29" ]]; then exit 0; fi; \
+  version="$(nix eval --raw path:.#nixosConfigurations.forgejo.config.services.forgejo.package.version 2>/dev/null)" || version=unknown; \
+  case "$version" in \
+    15.*) warning_from=2027-06-15; eol=2027-07-15 ;; \
+    16.*) warning_from=2026-09-29; eol=2026-10-29 ;; \
+    17.*) warning_from=2026-12-29; eol=2027-01-28 ;; \
+    18.*) warning_from=2027-03-30; eol=2027-04-29 ;; \
+    19.*) warning_from=2028-06-13; eol=2028-07-13 ;; \
+    *) red="$(printf '\033[1;31m')"; reset="$(printf '\033[0m')"; printf '%sWARNING: check the support deadline for Forgejo %s before updating or switching.%s\n' "$red" "$version" "$reset"; exit 0 ;; \
+  esac; \
+  if [[ "$today" < "$warning_from" ]]; then exit 0; fi; \
+  red="$(printf '\033[1;31m')"; reset="$(printf '\033[0m')"; \
+  if [[ "$today" > "$eol" ]]; then state='is past support'; else state='support ends'; fi; \
+  printf '%sWARNING: Forgejo %s %s on %s. Plan an upgrade now.%s\n' "$red" "$version" "$state" "$eol" "$reset"
+
 # Evaluate an app VM configuration, including untracked local files.
 [group('proxmox')]
 app-vm-check host:
@@ -14,7 +33,8 @@ app-vms-check:
 # Deploy an app VM configuration to a remote NixOS guest.
 [group('proxmox')]
 app-vm-deploy host target:
-  @nixos-rebuild switch --flake path:.#"{{host}}" --target-host "{{target}}" --use-remote-sudo
+  @if [ "{{host}}" = "forgejo" ]; then just forgejo-support-warning; fi; \
+  nixos-rebuild switch --flake path:.#"{{host}}" --target-host "{{target}}" --use-remote-sudo
 
 # Deploy the Homepage VM configuration.
 [group('proxmox')]

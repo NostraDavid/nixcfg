@@ -13,7 +13,8 @@ test host=default_host:
 # Apply a host configuration immediately and persist across reboots.
 [group('nixos')]
 switch host=`hostname --short`:
-  @opts=(); \
+  @just forgejo-support-warning; \
+  opts=(); \
   if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
   sudo nixos-rebuild switch "${opts[@]}" --flake path:.#"{{host}}" 2>&1 | tee /tmp/just-switch.log
 
@@ -32,6 +33,7 @@ build-vm host=default_host:
 # Safer deploy when disk pressure is high.
 [group('nixos')]
 switch-clean host=default_host days="14":
+  @just forgejo-support-warning
   @just gc-old "{{days}}"
   @just optimise-store
   @sudo nixos-rebuild test --flake .#"{{host}}"
