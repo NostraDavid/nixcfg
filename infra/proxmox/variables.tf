@@ -54,3 +54,19 @@ variable "network_bridge" {
   type        = string
   default     = "vmbr0"
 }
+
+variable "certs_datastore_id" {
+  description = "Datastore for the dedicated certificate VM's system and CA state disks."
+  type        = string
+  default     = "vm_storage_1"
+}
+
+variable "certs_image_path" {
+  description = "Absolute path to the Nix-built certs QCOW2 image."
+  type        = string
+}
+
+variable "homepage_image_path" {
+  description = "Absolute path to the Nix-built Homepage QCOW2 image."
+  type        = string
+}

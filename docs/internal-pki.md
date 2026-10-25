@@ -3,16 +3,20 @@
 Gebruik de publieke rootcertificaten uit `certs/` voor interne diensten:
 
 - `freeipa.crt` voor `ldap.powerlan.empire`, inclusief LDAPS en StartTLS.
-- `forgejo-ca.crt` voor `forgejo.powerlan.empire` via proxy-VM 111.
+- `forgejo-ca.crt` voor Forgejo, OpenBao en de Pi-hole-webinterface.
+
+Zie [Pi-hole via HTTPS](pihole-https.md) voor de certificaatnamen, instellingen
+en het vernieuwingspad van `pi.hole` en `pihole.powerlan.empire`.
 
 Na installatie van de Forgejo-CA is de website beveiligd bereikbaar via
-<https://192.168.2.111/>. Gebruik bij de eerste installatie
-<http://192.168.2.111/> om beide certificaten te downloaden. Deze pagina werkt
-zonder vooraf geïnstalleerde CA. Vergelijk de fingerprints via een
-onafhankelijk, vertrouwd kanaal; de HTTP-pagina zelf bewijst niet wie het
-certificaat uitgeeft. De proxy serveert alleen de twee publieke CA's, de
-controlebestanden en de downloadpagina. Fingerprints op de pagina komen uit
-`certs/fingerprints.txt`.
+<https://certs.powerlan.empire/>. Het bestaande HTTPS-adres op het IP blijft
+beschikbaar. Pi-hole wijst `certs.powerlan.empire` naar `192.168.2.113`. Gebruik
+bij de eerste installatie <http://192.168.2.113/> om beide certificaten te
+downloaden. Deze pagina werkt zonder vooraf geïnstalleerde CA. Vergelijk de
+fingerprints via een onafhankelijk, vertrouwd kanaal; de HTTP-pagina zelf
+bewijst niet wie het certificaat uitgeeft. De certificaten-VM serveert de twee
+publieke CA's, de controlebestanden en de downloadpagina. Fingerprints op de
+pagina komen uit `certs/fingerprints.txt`.
 
 Controleer bestandschecksums met `cd certs && sha256sum -c SHA256SUMS`.
 Vergelijk de certificaatfingerprints met `certs/fingerprints.txt` via een
@@ -43,12 +47,17 @@ checksums en fingerprints. De vaste release-URL is `/releases/1.0.0/`; de ZIP
 bevat de volledige SemVer-versie in `version.txt`. De eerdere hash-URL blijft
 beschikbaar voor bestaande downloads als archief van vóór de SemVer-overgang.
 
-Oude versies blijven onder `/srv/proxy/certificates/releases/` op de persistente
-proxydisk staan en zijn via <http://192.168.2.111/releases/> beschikbaar. Een
-release wordt volledig klaargezet voordat ze zichtbaar wordt en wordt bij
-opnieuw deployen niet overschreven. Neem deze map mee in de proxydiskback-up.
-Gebruik voor nieuwe installaties de nieuwste versie. Controleer de uitrol met
-`just internal-pki-bundle-check`.
+Oude versies blijven onder `/srv/certs/certificates/releases/` op de persistente
+certificatendisk staan en zijn via <http://192.168.2.111/releases/> beschikbaar.
+Een release wordt volledig klaargezet voordat ze zichtbaar wordt en wordt bij
+opnieuw deployen niet overschreven. Neem deze map mee in de back-up van de
+certificaten-VM. Gebruik voor nieuwe installaties de nieuwste versie. Controleer
+de uitrol met `just internal-pki-bundle-check`.
+
+De bestaande downloadroutes op `192.168.2.111` blijven doorsturen naar VM 113.
+De CA-privésleutel staat uitsluitend op de certificaten-VM. De proxy vraagt via
+ACME jaarcertificaten aan en bewaart eigen serversleutels in
+`/srv/proxy/caddy-acme`. Zie [de VM-indeling](service-vm-split.md).
 
 ## NixOS
 

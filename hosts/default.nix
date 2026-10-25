@@ -7,6 +7,7 @@
     ./physical/mimir2
     ./physical/wodan
     ./virtual/apps
+    ./virtual/certs
     ./virtual/forgejo
     ./virtual/forgejo-lab
     ./virtual/homepage

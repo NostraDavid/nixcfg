@@ -18,14 +18,15 @@ provider "proxmox" {
 locals {
   app_vms = {
     homepage = {
-      vm_id       = 210
-      description = "Homepage dashboard VM. OS managed by NixOS; state on homepage-data disk."
+      vm_id       = 114
+      description = "Dedicated Homepage dashboard. NixOS OS/config are declarative; the spare data disk is retained."
       cpu_cores   = 1
       memory_mb   = 1024
       disks = [
         {
           datastore_id = var.datastore_id
           interface    = "scsi0"
+          import_from  = proxmox_virtual_environment_file.homepage_image.id
           size         = 16
         },
         {
@@ -65,13 +66,14 @@ locals {
 resource "proxmox_virtual_environment_vm" "app" {
   for_each = local.app_vms
 
-  name        = each.key
+  name        = each.key == "homepage" ? "prd-svc-homepage-01" : each.key
   description = each.value.description
   node_name   = var.node_name
   vm_id       = each.value.vm_id
 
-  started = false
-  on_boot = false
+  started    = each.key == "homepage"
+  on_boot    = each.key == "homepage"
+  boot_order = each.key == "homepage" ? ["scsi0"] : null
 
   agent {
     enabled = true
@@ -103,9 +105,25 @@ resource "proxmox_virtual_environment_vm" "app" {
     content {
       datastore_id = disk.value.datastore_id
       interface    = disk.value.interface
+      import_from  = try(disk.value.import_from, null)
       size         = disk.value.size
       file_format  = "raw"
     }
+  }
+  lifecycle {
+    ignore_changes = [disk[0].import_from]
+  }
+}
+
+resource "proxmox_virtual_environment_file" "homepage_image" {
+  content_type = "import"
+  datastore_id = "local"
+  node_name    = var.node_name
+  overwrite    = false
+  source_file {
+    path      = var.homepage_image_path
+    file_name = "homepage-${substr(filesha256(var.homepage_image_path), 0, 12)}.qcow2"
+    checksum  = filesha256(var.homepage_image_path)
   }
 }
 
@@ -241,6 +259,77 @@ resource "proxmox_virtual_environment_vm" "proxy" {
     size         = 8
     file_format  = "raw"
     serial       = "proxy-state"
+  }
+
+  serial_device {}
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = [disk[0].import_from]
+  }
+}
+
+resource "proxmox_virtual_environment_file" "certs_image" {
+  content_type = "import"
+  datastore_id = "local"
+  node_name    = var.node_name
+  overwrite    = false
+
+  source_file {
+    path      = var.certs_image_path
+    file_name = "certs-${substr(filesha256(var.certs_image_path), 0, 12)}.qcow2"
+    checksum  = filesha256(var.certs_image_path)
+  }
+}
+
+resource "proxmox_virtual_environment_vm" "certs" {
+  name        = "prd-svc-certs-01"
+  description = "Dedicated internal CA, certificate portal and renewal. Persistent authority state uses a separate disk."
+  node_name   = var.node_name
+  vm_id       = 113
+
+  started    = true
+  on_boot    = true
+  bios       = "seabios"
+  boot_order = ["virtio0"]
+
+  agent {
+    enabled = true
+  }
+
+  cpu {
+    cores = 1
+    type  = "host"
+  }
+
+  memory {
+    dedicated = 1024
+  }
+
+  operating_system {
+    type = "l26"
+  }
+
+  network_device {
+    bridge = var.network_bridge
+    model  = "virtio"
+  }
+
+  disk {
+    datastore_id = var.certs_datastore_id
+    interface    = "virtio0"
+    import_from  = proxmox_virtual_environment_file.certs_image.id
+    size         = 16
+    file_format  = "raw"
+    serial       = "certs-root"
+  }
+
+  disk {
+    datastore_id = var.certs_datastore_id
+    interface    = "virtio1"
+    size         = 8
+    file_format  = "raw"
+    serial       = "certs-state"
   }
 
   serial_device {}

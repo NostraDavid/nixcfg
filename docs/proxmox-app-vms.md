@@ -1,11 +1,14 @@
 # Proxmox app VMs
 
-Deze repo definieert vijf NixOS guests voor Proxmox:
+Deze repo definieert zes NixOS guests voor Proxmox:
 
-- `homepage`: dashboard host voor Homepage.
+- `homepage`: dashboard op VM 114, `prd-svc-homepage-01`; zie
+  [Homepage](homepage.md).
 - `apps`: gedeelde host voor het huishoudboekje en de recepten/boodschappen app.
 - `forgejo`: eigen Git-dienst op VM 110, `prd-svc-forgejo-01`.
-- `proxy`: gedeelde HTTPS-ingang op VM 111, `prd-svc-proxy-01`.
+- `proxy`: HTTPS-ingang en SSH-doorsturing op VM 111, `prd-svc-proxy-01`.
+- `certs`: CA, certificaatuitgifte, downloads en bewaking op VM 113,
+  `prd-svc-certs-01`.
 - `openbao`: servicegeheimen op VM 112, `prd-svc-secrets-01`. Zie
   [OpenBao inrichten en herstellen](openbao.md).
 
@@ -14,12 +17,12 @@ die NixOS mount via filesystem labels.
 
 ## Waar voer je wat uit?
 
-| Stap               | Locatie     | Voorbeeld                   |
-| ------------------ | ----------- | --------------------------- |
-| Nix-config checken | Werkstation | `just app-vms-check`        |
-| VM's maken         | Werkstation | `just tofu-proxmox-apply`   |
-| Disks formatteren  | Gast-VM     | `just format-homepage-data` |
-| NixOS deployen     | Werkstation | `just deploy-proxy`         |
+| Stap               | Locatie     | Voorbeeld                 |
+| ------------------ | ----------- | ------------------------- |
+| Nix-config checken | Werkstation | `just app-vms-check`      |
+| VM's maken         | Werkstation | `just tofu-proxmox-apply` |
+| Disks formatteren  | Gast-VM     | `just format-apps-data`   |
+| NixOS deployen     | Werkstation | `just deploy-proxy`       |
 
 De `just` recipes staan in deze repo en voer je dus normaal uit vanaf je laptop
 of werkstation. De formatteer-recipes moeten tegen een block device in de VM
@@ -28,26 +31,24 @@ aangekoppeld.
 
 ## OpenTofu
 
-OpenTofu beheert de Proxmox VM's en disks in `infra/proxmox`. VM 210
-(`homepage`) en 211 (`apps`) gebruiken `datastore_id`, standaard `local`. VM 110
-gebruikt `forgejo_datastore_id` en VM 111 `proxy_datastore_id`, beide standaard
-`vm_storage_1`. De `tofu-proxmox-plan`- en `tofu-proxmox-apply`-recipes bouwen
-images voor beide VM's. OpenTofu uploadt die als importbestanden naar `local` en
-importeert ze als systeemdisks op `vm_storage_1`. De datadisks staan daar ook.
-Op Proxmox moet `local` daarvoor het contenttype `Import` toelaten.
+De configuratie in `infra/proxmox` definieert Homepage op VM 114 en `apps` op VM
+211 met opslag `datastore_id`, standaard `local`. Forgejo 110, proxy 111 en
+certificaten 113 gebruiken standaard `vm_storage_1`. De plan- en apply-recipes
+bouwen vier NixOS-images en bieden die via het contenttype `Import` op `local`
+aan. OpenBao 112 heeft zijn eigen stapel `infra/openbao`.
 
-De lokale OpenTofu-state staat in `infra/proxmox/terraform.tfstate` en blijft
-buiten Git. VM 210 en 211 zijn daarin geïmporteerd; VM 110 en 111 zijn via
-OpenTofu aangemaakt. Bewaar deze state bij een verhuizing van de checkout.
-Zonder state zou een nieuwe `apply` de bestaande VM's opnieuw proberen aan te
-maken. Een momentopname na het installeren van Forgejo staat in
-`~/.local/state/nixcfg/proxmox/terraform.tfstate-after-forgejo-image-20260927`.
-Een momentopname na het aanmaken van VM 111 staat in
-`~/.local/state/nixcfg/proxmox/terraform.tfstate-after-proxy111-20260927`. De
-state na het bijwerken van beide import-images staat in
-`~/.local/state/nixcfg/proxmox/terraform.tfstate-after-proxy-images-20260927`.
+De huidige checkout bevat geen state voor de hoofdstack. De uitbreiding met VM
+113 en de verhuizing van 210 naar 114 zijn via Proxmox uitgevoerd. Gebruik geen
+lege hoofdstack voor `apply`. Herstel eerst de bijbehorende state of importeer
+de bestaande resources, inclusief
+`proxmox_virtual_environment_vm.app["homepage"]` met ID 114 en
+`proxmox_virtual_environment_vm.certs` met ID 113. Controleer daarna een plan
+zonder vervanging of verwijdering van bestaande disks. Bestaande historische
+statekopieën onder `~/.local/state/nixcfg/proxmox/` beschrijven de oude
+indeling.
 
-De Proxmox API is bereikbaar via `https://192.168.2.100:8006/api2/json/`. De
+De webinterface staat op [proxmox.powerlan.empire](proxmox-web.md). De directe
+Proxmox API blijft bereikbaar via `https://192.168.2.100:8006/api2/json/`. De
 `bpg/proxmox` provider verwacht in `proxmox_endpoint` de root URL, dus
 `https://192.168.2.100:8006/`; de provider voegt het API-pad zelf toe. De plan-
 en apply-recipes gebruiken het vastgelegde certificaat in
@@ -113,26 +114,41 @@ Test daarna `apply` en maak later een beperktere rol voor VM beheer.
 
 VM 110 en 111 starten na de eerste `apply` automatisch vanaf hun vooraf gebouwde
 NixOS-systeemdisk. Hun modules initialiseren alleen hun aangewezen volledig lege
-datadisk. Voor VM 210 en 211 blijft de NixOS-installatie een aparte stap. De
-Forgejo- en proxyresources hebben `prevent_destroy`, zodat een gewone
-OpenTofu-destroy hun datadisks niet wist.
+datadisk. VM 113 en 114 gebruiken eveneens een vooraf gebouwd NixOS-image.
+Alleen VM 211 houdt een aparte installatiestap. De Forgejo- en proxyresources
+hebben `prevent_destroy`, zodat een gewone OpenTofu-destroy hun datadisks niet
+wist.
 
-De images worden alleen bij het aanmaken van VM 110 en 111 naar de systeemdisk
-geïmporteerd. Gebruik `just deploy-forgejo` en `just deploy-proxy` voor latere
-NixOS-wijzigingen. Een volgende OpenTofu-apply vernieuwt de opgeslagen
-importbestanden, maar overschrijft de draaiende systeemdisks niet.
+De images worden alleen bij het aanmaken van de vier image-VM's naar de
+systeemdisk geïmporteerd. Gebruik `just deploy-forgejo`, `just deploy-proxy`,
+`just deploy-certs` en `just deploy-homepage` voor latere NixOS-wijzigingen. Een
+volgende OpenTofu-apply vernieuwt de opgeslagen importbestanden, maar
+overschrijft de draaiende systeemdisks niet.
 
 ## Proxmox VM layout
 
-`homepage` en `apps` krijgen hun netwerkconfiguratie via DHCP. `forgejo` en
-`proxy` gebruiken de vaste adressen `192.168.2.110/24` en `192.168.2.111/24` op
-`ens18`, met gateway `192.168.2.1` en DNS `192.168.2.102`. SSH moet bereikbaar
-zijn om later te deployen.
+Homepage draait op VM 114 onder `https://home.powerlan.empire/`, met de naam
+`prd-svc-homepage-01`. De proxy op VM 111 verzorgt HTTPS. De certificaten-VM 113
+biedt `https://certs.powerlan.empire/` rechtstreeks aan. Zie
+[de scheiding en herstelgegevens](service-vm-split.md). VM 210 is na een
+geverifieerde kopie van beide disks verwijderd. De afzonderlijke, draaiende VM
+103 valt buiten deze migratie.
+
+Alleen `apps` gebruikt DHCP. Forgejo, proxy, certificaten en Homepage gebruiken
+respectievelijk `192.168.2.110/24`, `.111/24`, `.113/24` en `.114/24` op
+`ens18`, met gateway `192.168.2.1` en DNS `192.168.2.102`.
 
 `homepage`:
 
-- root disk voor NixOS.
-- extra disk voor Homepage state.
+- 16 GiB rootdisk voor NixOS.
+- 8 GiB oorspronkelijke sparedisk, behouden zonder formatteren of mount.
+- 1 CPU-core en 1 GiB RAM.
+
+`certs`:
+
+- 16 GiB systeemdisk en 8 GiB persistente disk met label `certs-state`.
+- Mount `/srv/certs` voor de vertrouwde CA, uitgifte en openbare releases.
+- 1 CPU-core en 1 GiB RAM.
 
 `apps`:
 
@@ -150,8 +166,8 @@ zijn om later te deployen.
 `proxy`:
 
 - 16 GiB systeemdisk (`virtio0`) voor NixOS.
-- 8 GiB datadisk (`virtio1`, serienummer `proxy-state`) voor Caddy's CA en
-  certificaten.
+- 8 GiB datadisk (`virtio1`, serienummer `proxy-state`) voor Caddy's eigen
+  serversleutels en ACME-state.
 - 1 CPU-core, 1 GiB RAM en netwerk via `vmbr0`.
 
 De root disk moet uiteindelijk een filesystem met label `nixos` hebben. De extra
@@ -161,10 +177,9 @@ state disks krijgen de labels hieronder.
 
 `homepage`:
 
-| mountpoint          | label           | purpose               |
-| ------------------- | --------------- | --------------------- |
-| `/`                 | `nixos`         | OS/root disk          |
-| `/var/lib/homepage` | `homepage-data` | Homepage config/state |
+| mountpoint | label   | purpose      |
+| ---------- | ------- | ------------ |
+| `/`        | `nixos` | OS/root disk |
 
 `apps`:
 
@@ -183,10 +198,10 @@ state disks krijgen de labels hieronder.
 
 `proxy`:
 
-| mountpoint   | label         | purpose                    |
-| ------------ | ------------- | -------------------------- |
-| `/`          | `nixos`       | OS/root disk               |
-| `/srv/proxy` | `proxy-state` | Caddy's CA en certificaten |
+| mountpoint   | label         | purpose                      |
+| ------------ | ------------- | ---------------------------- |
+| `/`          | `nixos`       | OS/root disk                 |
+| `/srv/proxy` | `proxy-state` | serversleutels en ACME-state |
 
 Laat de nieuwe Forgejo-datadisk leeg. De NixOS-module controleert het opgegeven
 virtio-apparaat en initialiseert alleen een volledig lege disk met het label
@@ -208,7 +223,6 @@ lsblk -f
 Gebruik daarna de passende recipe vanuit deze repo:
 
 ```bash
-just format-homepage-data /dev/disk/by-id/<homepage-data-disk>
 just format-apps-postgres /dev/disk/by-id/<apps-postgres-disk>
 just format-apps-data /dev/disk/by-id/<apps-data-disk>
 ```
@@ -232,7 +246,7 @@ niet door Git getrackt zijn.
 Voer dit uit op je laptop/werkstation in deze repo, zodra SSH naar de VM werkt:
 
 ```bash
-just deploy-homepage root@<homepage-ip>
+just deploy-homepage
 just deploy-apps root@<apps-ip>
 just deploy-forgejo
 just deploy-proxy
@@ -241,7 +255,7 @@ just deploy-proxy
 Als DNS werkt, kan dit ook:
 
 ```bash
-just deploy-homepage root@homepage
+just deploy-homepage
 just deploy-apps root@apps
 ```
 
@@ -269,13 +283,13 @@ Caddy-vhost toe in `hosts/virtual/proxy/default.nix` en wijs de bijbehorende
 DNS-naam naar `.111`. Elke backend kan zijn eigen HTTPS-certificaat en
 toegangsregels hebben.
 
-Caddy gebruikt twee interne CA's. De publieke CA en sleutels staan op de
-persistente proxydisk onder `/srv/proxy/caddy`. De backend-CA staat op de
-Forgejo-disk onder `/srv/forgejo/caddy`; VM 111 vertrouwt het publieke
-backend-rootcertificaat in `/srv/proxy/backend-root.crt`. Neem beide datadisks
-mee in de backup. Bij de verhuizing is de bestaande publieke CA van VM 110 naar
-VM 111 overgezet, zodat Chromium hetzelfde rootcertificaat blijft vertrouwen. De
-oude publieke CA-sleutels zijn van VM 110 verwijderd.
+De publieke CA en haar sleutels staan op VM 113 onder `/srv/certs/caddy`. De
+proxy vraagt via een afgeschermde ACME-server jaarcertificaten aan en bewaart
+eigen serversleutels onder `/srv/proxy/caddy-acme`. Het vertrouwde
+rootcertificaat is bij de migratie behouden. De oude CA-privésleutels zijn van
+VM 111 verwijderd. De backend-CA blijft op de Forgejo-disk onder
+`/srv/forgejo/caddy`; VM 111 vertrouwt het publieke backend-rootcertificaat in
+`/srv/proxy/backend-root.crt`. Neem de persistente disks mee in de back-ups.
 
 Na een herstel met een lege proxydisk moet het publieke backend-rootcertificaat
 opnieuw naar VM 111. Kopieer alleen het certificaat:
@@ -294,8 +308,8 @@ Haal het publieke rootcertificaat op en vertrouw het op elk apparaat dat Forgejo
 gebruikt:
 
 ```bash
-ssh david@192.168.2.111 \
-  sudo cat /srv/proxy/caddy/.local/share/caddy/pki/authorities/local/root.crt \
+ssh david@192.168.2.113 \
+  sudo cat /srv/certs/caddy/.local/share/caddy/pki/authorities/local/root.crt \
   > forgejo-ca.crt
 ```
 
@@ -309,7 +323,7 @@ curl --fail --cacert forgejo-ca.crt \
 
 De checks voor cache en database moeten allebei `pass` melden. Importeer
 `forgejo-ca.crt` in de vertrouwde CA's van de client of browser voordat je
-Forgejo via de browser gebruikt. De publieke CA-sleutel blijft op VM 111. De
+Forgejo via de browser gebruikt. De publieke CA-sleutel blijft op VM 113. De
 geverifieerde rootcertificaten staan centraal in `certs/`. Volg
 [Interne certificaten vertrouwen](internal-pki.md) voor NixOS, Debian, Android
 en LDAP-containers.

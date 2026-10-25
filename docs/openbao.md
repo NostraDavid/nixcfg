@@ -84,10 +84,11 @@ tijdens de productie-uitrol.
    ```
 
 De eerste opdracht bewaart ook een versleutelde herstelkopie op Wodan. Het
-TLS-beheer laat de CA-privésleutel op de bestaande proxy-VM. De kluis maakt zelf
-zijn eigen privésleutel. Alleen een CSR en het ondertekende certificaat gaan
-over het netwerk. Een bestaande, geldige leaf-certificaatsleutel en de lokale
-sealsleutel zijn voldoende om zonder de proxy opnieuw te starten.
+TLS-beheer laat de CA-privésleutel op de certificaten-VM 113. De kluis maakt
+zelf zijn eigen privésleutel. Alleen een CSR en het ondertekende certificaat
+gaan over het netwerk. Een bestaande, geldige leaf-certificaatsleutel en de
+lokale sealsleutel zijn voldoende om zonder de certificaten-VM opnieuw te
+starten.
 
 Bewaar lokale noodtoegang tot Proxmox en FreeIPA buiten deze kluis.
 

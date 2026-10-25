@@ -51,18 +51,37 @@ in {
     assert donar.home-manager.users.david.programs.plasma.configFile.bluedevilglobalrc.Adapters."F4:B3:01:11:B5:B5_powered".value;
     assert lib.hasInfix "Hidden=true" (builtins.readFile donar.home-manager.users.david.xdg.configFile."autostart/org.kde.discover.notifier.desktop".source);
     assert lib.all localeAvailable (builtins.attrValues flake.nixosConfigurations); true;
+  homepage = let
+    proxy = flake.nixosConfigurations.proxy.config;
+    homepage = flake.nixosConfigurations.homepage.config;
+    dashboard = homepage.services.homepage-dashboard;
+    certs = flake.nixosConfigurations.certs.config;
+  in
+    assert dashboard.enable;
+    assert dashboard.allowedHosts == "home.powerlan.empire,localhost:3000,127.0.0.1:3000";
+    assert !dashboard.openFirewall;
+    assert homepage.systemd.services.homepage-dashboard.environment.HOSTNAME == "0.0.0.0";
+    assert !proxy.services.homepage-dashboard.enable;
+    assert !homepage.services.caddy.enable;
+    assert !(proxy.systemd.services ? pihole-tls-publish);
+    assert certs.services.caddy.enable;
+    assert certs.systemd.services.caddy.unitConfig.ConditionPathExists == "/srv/certs/caddy/.local/share/caddy/pki/authorities/local/root.key";
+    assert lib.hasInfix "-s 192.168.2.111 -p tcp --dport 8443" certs.networking.firewall.extraCommands;
+    assert lib.hasInfix "-s 192.168.2.111 -p tcp --dport 3000" homepage.networking.firewall.extraCommands;
+    assert lib.hasInfix "reverse_proxy 192.168.2.114:3000" proxy.services.caddy.virtualHosts."home.powerlan.empire".extraConfig;
+    assert lib.hasInfix "https://192.168.2.113:8443/acme/local/directory" proxy.services.caddy.virtualHosts."home.powerlan.empire".extraConfig; true;
   certificateTrust = let
     blacklist = pkgs: import ../nix/ca-blacklist.nix pkgs.cacert.version;
     systems = builtins.attrValues flake.nixosConfigurations ++ builtins.attrValues flake.darwinConfigurations;
     standaloneHomes = builtins.filter (home: home.config.targets.genericLinux.enable) (builtins.attrValues flake.homeConfigurations);
     homepage = flake.nixosConfigurations.homepage.config;
-    container = homepage.virtualisation.oci-containers.containers.homepage;
+    homepageEnvironment = homepage.systemd.services.homepage-dashboard.environment;
   in
-    assert builtins.elem "${homepage.environment.etc."ssl/certs/ca-certificates.crt".source}:/etc/ssl/certs/ca-certificates.crt:ro" container.volumes;
-    assert builtins.elem "${flake.nixosConfigurations.homepage.pkgs.emptyDirectory}:/etc/ssl/nix-empty:ro" container.volumes;
-    assert container.environment.NODE_OPTIONS == "--use-openssl-ca";
-    assert container.environment.SSL_CERT_FILE == "/etc/ssl/certs/ca-certificates.crt";
-    assert container.environment.SSL_CERT_DIR == "/etc/ssl/nix-empty";
+    assert homepage.services.homepage-dashboard.enable;
+    assert homepageEnvironment.HOSTNAME == "0.0.0.0";
+    assert homepageEnvironment.NODE_OPTIONS == "--use-openssl-ca";
+    assert homepageEnvironment.SSL_CERT_FILE == "/etc/ssl/certs/ca-certificates.crt";
+    assert homepageEnvironment.SSL_CERT_DIR == toString flake.nixosConfigurations.homepage.pkgs.emptyDirectory;
     assert lib.all (system: lib.all (name: builtins.elem name system.config.security.pki.caCertificateBlacklist) (blacklist system.pkgs)) systems;
     assert lib.all (system: system.config.security.pki.installCACerts) (builtins.attrValues flake.darwinConfigurations);
     assert lib.all (system: system.config.environment.variables.SSL_CERT_FILE == "/etc/ssl/certs/ca-certificates.crt") (builtins.attrValues flake.darwinConfigurations);

@@ -26,3 +26,12 @@ output "proxy_vm" {
     started = proxmox_virtual_environment_vm.proxy.started
   }
 }
+
+output "certs_vm" {
+  description = "Dedicated certificate VM."
+  value = {
+    id      = proxmox_virtual_environment_vm.certs.id
+    vm_id   = proxmox_virtual_environment_vm.certs.vm_id
+    started = proxmox_virtual_environment_vm.certs.started
+  }
+}

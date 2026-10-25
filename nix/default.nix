@@ -37,6 +37,7 @@ in {
     ./outputs.nix
     ./proxmox-lab.nix
     ./proxy-image.nix
+    ./service-images.nix
     inputs.flake-parts.flakeModules.modules
   ];
   flake = {

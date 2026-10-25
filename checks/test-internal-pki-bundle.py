@@ -9,6 +9,7 @@ import os
 import pty
 import re
 import select
+import shutil
 import signal
 import ssl
 import subprocess
@@ -16,22 +17,30 @@ import tempfile
 import time
 import urllib.request
 import zipfile
+from email.message import Message
 from pathlib import Path
 
+BASH = shutil.which("bash")
+CURL = shutil.which("curl")
+NIX = shutil.which("nix")
+assert BASH and CURL and NIX, "bash, curl, and nix are required"
+
 ROOT = Path(__file__).resolve().parent.parent
-BASE = "http://192.168.2.111"
+BASE = "http://192.168.2.113"
 FILES = ["freeipa.crt", "forgejo-ca.crt", "SHA256SUMS", "fingerprints.txt"]
 VERSION = (ROOT / "certs" / "VERSION").read_text().strip()
 
 
-def download(path):
-    with urllib.request.urlopen(BASE + path, timeout=10) as response:
+def download(path: str) -> tuple[bytes, str, Message]:
+    with urllib.request.urlopen(BASE + path, timeout=10) as response:  # noqa: S310 - Fixed internal URL and fixture paths.
         return response.read(), response.geturl(), response.headers
 
 
-def check_install_commands():
+def check_install_commands() -> None:  # noqa: C901, PLR0912, PLR0915 - Exercise each installer response.
     page = (ROOT / "certs/index.html").read_text()
-    match = re.search(r'<pre id="debian-install"><code>(.*?)</code></pre>', page, re.S)
+    match = re.search(
+        r'<pre id="debian-install"><code>(.*?)</code></pre>', page, re.DOTALL
+    )
     script = html.unescape(match.group(1))
     assert (
         page[
@@ -42,10 +51,10 @@ def check_install_commands():
         == 1
     )
     assert script in (ROOT / "docs/internal-pki.md").read_text()
-    subprocess.run(["bash", "-n"], input=script, text=True, check=True)
-    tools = subprocess.check_output(
+    subprocess.run([BASH, "-n"], input=script, text=True, check=True)  # noqa: S603 - Trusted checkout scripts and test executables.
+    tools = subprocess.check_output(  # noqa: S603 - Trusted checkout scripts and test executables.
         [
-            "nix",
+            NIX,
             "build",
             "--no-link",
             "--print-out-paths",
@@ -75,7 +84,7 @@ def check_install_commands():
             ][:profile_count]
             for profile in profiles:
                 profile.mkdir(parents=True)
-                subprocess.run(
+                subprocess.run(  # noqa: S603 - Trusted checkout scripts and test executables.
                     [certutil, "-N", "-d", f"sql:{profile}", "--empty-password"],
                     check=True,
                 )
@@ -87,7 +96,7 @@ def check_install_commands():
             }
             pid, fd = pty.fork()
             if pid == 0:
-                os.execvpe("bash", ["bash", str(path)], env)
+                os.execvpe(BASH, [BASH, str(path)], env)  # noqa: S606 - Trusted checkout scripts and test executables.
             output = bytearray()
             try:
                 os.write(fd, choice)
@@ -125,7 +134,7 @@ def check_install_commands():
                     for line in calls.splitlines()
                 )
             for index, profile in enumerate(profiles):
-                certificates = subprocess.check_output(
+                certificates = subprocess.check_output(  # noqa: S603 - Trusted checkout scripts and test executables.
                     [certutil, "-L", "-d", f"sql:{profile}"], text=True
                 )
                 imported = choice.startswith(b"ja\n999") and index == 1
@@ -138,7 +147,7 @@ def check_install_commands():
     )
 
 
-def check_https_site():
+def check_https_site() -> None:
     context = ssl.create_default_context(cafile=str(ROOT / "certs/forgejo-ca.crt"))
     with urllib.request.urlopen(
         "https://192.168.2.111/", context=context, timeout=10
@@ -157,13 +166,13 @@ def check_https_site():
     )
 
 
-def main():
+def main() -> None:
     check_https_site()
     check_install_commands()
     for extension in ["zip", "pem"]:
-        latest_headers = subprocess.check_output(
+        latest_headers = subprocess.check_output(  # noqa: S603 - Trusted checkout scripts and test executables.
             [
-                "curl",
+                CURL,
                 "--fail",
                 "--silent",
                 "--show-error",
@@ -209,31 +218,34 @@ def main():
     _, _, index_headers = download("/releases/")
     assert index_headers.get("Cache-Control") == "no-store"
 
-    script = subprocess.check_output(
+    script = subprocess.check_output(  # noqa: S603 - Trusted checkout scripts and test executables.
         [
-            "nix",
+            NIX,
             "eval",
             "--raw",
-            "path:.#nixosConfigurations.proxy.config.systemd.services.certificate-releases.script",
+            "path:.#nixosConfigurations.certs.config.systemd.services.certificate-releases.script",
         ],
         cwd=ROOT,
         text=True,
     )
-    assert VERSION in script and "/srv/proxy/certificates" in script
+    assert VERSION in script and "/srv/certs/certificates" in script
     with tempfile.TemporaryDirectory(prefix="internal-ca-archive-") as directory:
-        local = script.replace("/srv/proxy/certificates", directory)
-        subprocess.run(["bash", "-euo", "pipefail", "-c", local], check=True)
+        local = script.replace("/srv/certs/certificates", directory)
+        subprocess.run([BASH, "-euo", "pipefail", "-c", local], check=True)  # noqa: S603 - Trusted checkout scripts and test executables.
         first = Path(directory) / "releases" / VERSION
         assert (first / "powerlan-ca.zip").read_bytes() == archive
         marker = first / "retention-check"
         marker.write_text("keep existing releases")
-        subprocess.run(["bash", "-euo", "pipefail", "-c", local], check=True)
+        subprocess.run([BASH, "-euo", "pipefail", "-c", local], check=True)  # noqa: S603 - Trusted checkout scripts and test executables.
         assert marker.exists(), "Retry replaced an existing release"
         checksum_file = first / "powerlan-ca.zip.sha256"
         original_checksum = checksum_file.read_bytes()
         checksum_file.write_text("0" * 64 + "  powerlan-ca.zip\n")
-        rejected = subprocess.run(
-            ["bash", "-euo", "pipefail", "-c", local], capture_output=True, text=True
+        rejected = subprocess.run(  # noqa: S603 - Trusted checkout scripts and test executables.
+            [BASH, "-euo", "pipefail", "-c", local],
+            check=False,
+            capture_output=True,
+            text=True,
         )
         assert rejected.returncode != 0 and "certs/VERSION" in rejected.stderr
         assert checksum_file.read_bytes() != original_checksum, (
@@ -241,8 +253,8 @@ def main():
         )
         checksum_file.write_bytes(original_checksum)
         second_version = "2.0.0" if VERSION != "2.0.0" else "3.0.0"
-        subprocess.run(
-            ["bash", "-euo", "pipefail", "-c", local.replace(VERSION, second_version)],
+        subprocess.run(  # noqa: S603 - Trusted checkout scripts and test executables.
+            [BASH, "-euo", "pipefail", "-c", local.replace(VERSION, second_version)],
             check=True,
         )
         assert marker.exists(), (

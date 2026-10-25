@@ -29,6 +29,7 @@ app-vms-check:
   @just app-vm-check apps
   @just app-vm-check forgejo
   @just app-vm-check proxy
+  @just app-vm-check certs
   @just app-vm-check openbao
 
 # Deploy an app VM configuration to a remote NixOS guest.
@@ -37,9 +38,9 @@ app-vm-deploy host target:
   @if [ "{{host}}" = "forgejo" ]; then just forgejo-support-warning; fi; \
   nixos-rebuild switch --flake path:.#"{{host}}" --target-host "{{target}}" --use-remote-sudo
 
-# Deploy the Homepage VM configuration.
+# Deploy Homepage on its dedicated VM.
 [group('proxmox')]
-deploy-homepage target="david@homepage":
+deploy-homepage target="david@192.168.2.114":
   @just app-vm-deploy homepage "{{target}}"
 
 # Deploy the shared apps VM configuration.
@@ -56,6 +57,21 @@ deploy-forgejo target="david@192.168.2.110":
 [group('proxmox')]
 deploy-proxy target="david@192.168.2.111":
   @just app-vm-deploy proxy "{{target}}"
+
+# Deploy the dedicated certificate authority and download portal.
+[group('proxmox')]
+deploy-certs target="david@192.168.2.113":
+  @just app-vm-deploy certs "{{target}}"
+
+# Check the current Pi-hole certificate, its publication and all HTTPS identities.
+[group('proxmox')]
+pihole-tls-check:
+  @python3 ./scripts/pihole-tls.py check --ca ./certs/forgejo-ca.crt
+
+# Exercise certificate validation, idempotence and failed-install recovery locally.
+[group('proxmox')]
+pihole-tls-test:
+  @python3 ./checks/test-pihole-tls.py
 
 [group('proxmox')]
 deploy-openbao target="david@192.168.2.112":
@@ -74,9 +90,9 @@ internal-pki-check:
 # Verify the deployed CA page and byte-for-byte downloads.
 [group('proxmox')]
 internal-pki-site-check:
-  @for file in freeipa.crt forgejo-ca.crt fingerprints.txt SHA256SUMS; do cmp "certs/$file" <(curl --fail --silent --show-error "http://192.168.2.111/$file"); done
-  @curl --fail --silent --show-error http://192.168.2.111/ | grep 'Interne certificaten' >/dev/null
-  @test "$(curl --silent --output /dev/null --write-out '%{http_code}' http://192.168.2.111/root.key)" = 404
+  @for file in freeipa.crt forgejo-ca.crt fingerprints.txt SHA256SUMS; do cmp "certs/$file" <(curl --fail --silent --show-error "http://192.168.2.113/$file"); done
+  @curl --fail --silent --show-error http://192.168.2.113/ | grep 'Interne certificaten' >/dev/null
+  @test "$(curl --silent --output /dev/null --write-out '%{http_code}' http://192.168.2.113/root.key)" = 404
 
 # Verify versioned bundles, PEM trust, retries and retained releases.
 [group('proxmox')]
@@ -194,12 +210,12 @@ tofu-proxmox-check:
 # Plan Proxmox VM changes.
 [group('tofu')]
 tofu-proxmox-plan:
-  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; test -s "$forgejo_image_dir/nixos.qcow2"; test -s "$proxy_image_dir/nixos.qcow2"; SSL_CERT_FILE="$PWD/hosts/physical/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox plan
+  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; certs_image_dir="$(nix build path:.#certs-image --no-link --print-out-paths)"; homepage_image_dir="$(nix build path:.#homepage-image --no-link --print-out-paths)"; test -s "$forgejo_image_dir/nixos.qcow2"; test -s "$proxy_image_dir/nixos.qcow2"; SSL_CERT_FILE="$PWD/hosts/physical/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" TF_VAR_certs_image_path="$certs_image_dir/nixos.qcow2" TF_VAR_homepage_image_path="$homepage_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox plan
 
 # Build the NixOS image and apply Proxmox VM changes.
 [group('tofu')]
 tofu-proxmox-apply:
-  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; test -s "$forgejo_image_dir/nixos.qcow2"; test -s "$proxy_image_dir/nixos.qcow2"; SSL_CERT_FILE="$PWD/hosts/physical/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox apply
+  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; certs_image_dir="$(nix build path:.#certs-image --no-link --print-out-paths)"; homepage_image_dir="$(nix build path:.#homepage-image --no-link --print-out-paths)"; test -s "$forgejo_image_dir/nixos.qcow2"; test -s "$proxy_image_dir/nixos.qcow2"; SSL_CERT_FILE="$PWD/hosts/physical/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" TF_VAR_certs_image_path="$certs_image_dir/nixos.qcow2" TF_VAR_homepage_image_path="$homepage_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox apply
 
 # Show OpenTofu-managed Proxmox VM outputs.
 [group('tofu')]
@@ -214,9 +230,9 @@ tofu-proxmox-state:
 # Plan destroying OpenTofu-managed Proxmox resources.
 [group('tofu')]
 tofu-proxmox-plan-destroy:
-  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; SSL_CERT_FILE="$PWD/hosts/physical/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox plan -destroy
+  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; certs_image_dir="$(nix build path:.#certs-image --no-link --print-out-paths)"; homepage_image_dir="$(nix build path:.#homepage-image --no-link --print-out-paths)"; SSL_CERT_FILE="$PWD/hosts/physical/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" TF_VAR_certs_image_path="$certs_image_dir/nixos.qcow2" TF_VAR_homepage_image_path="$homepage_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox plan -destroy
 
 # Destroy OpenTofu-managed Proxmox resources.
 [group('tofu')]
 tofu-proxmox-destroy:
-  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; SSL_CERT_FILE="$PWD/hosts/physical/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox destroy
+  @forgejo_image_dir="$(nix build path:.#forgejo-image --no-link --print-out-paths)"; proxy_image_dir="$(nix build path:.#proxy-image --no-link --print-out-paths)"; certs_image_dir="$(nix build path:.#certs-image --no-link --print-out-paths)"; homepage_image_dir="$(nix build path:.#homepage-image --no-link --print-out-paths)"; SSL_CERT_FILE="$PWD/hosts/physical/wodan/certs/proxmox.crt" TF_VAR_forgejo_image_path="$forgejo_image_dir/nixos.qcow2" TF_VAR_proxy_image_path="$proxy_image_dir/nixos.qcow2" TF_VAR_certs_image_path="$certs_image_dir/nixos.qcow2" TF_VAR_homepage_image_path="$homepage_image_dir/nixos.qcow2" tofu -chdir=infra/proxmox destroy

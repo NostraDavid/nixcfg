@@ -51,11 +51,9 @@ Alle dotfiles blijven direct naar de live checkout gesymlinked. De uv-dotfile
 vereist minimaal 0.13.5; de beheerde `uv`- en `uvx`-launchers leveren die
 versie.
 
-De Homepage-container gebruikt eveneens de gefilterde hostbundel via een
-alleen-lezen mount. Node gebruikt daarin expliciet OpenSSL-certificaten. Dit
-vervangt de onafhankelijke oude Node-truststore zonder de applicatieversie of de
-persistente configuratiemap te veranderen. Activeer daarvoor ook de bijgewerkte
-configuratie van de Homepage-VM.
+De Homepage-service gebruikt eveneens de gefilterde hostbundel. Node gebruikt
+daarin expliciet OpenSSL-certificaten. Activeer daarvoor ook de bijgewerkte
+configuratie van de betreffende VM.
 
 ## Controleer bestaande projectomgevingen
 

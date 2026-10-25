@@ -13,7 +13,7 @@ import time
 from pathlib import Path
 
 VAULT = "david@192.168.2.112"
-PROXY = "david@192.168.2.111"
+CERTS = "david@192.168.2.113"
 SSH = [
     shutil.which("ssh") or "/usr/bin/ssh",
     "-F",
@@ -102,7 +102,7 @@ def backup(directory: Path) -> None:
 
 def tls() -> None:
     csr = remote(VAULT, "sudo -n openbao-ops csr")
-    # Only the public CSR and certificate cross hosts; the trusted CA key stays on the proxy.
+    # Only the public CSR and certificate cross hosts; the trusted CA key stays on the certificate VM.
     body = """set -euo pipefail
 umask 077
 work=$(mktemp -d)
@@ -114,10 +114,10 @@ keyUsage=critical,digitalSignature
 extendedKeyUsage=serverAuth
 subjectAltName=DNS:openbao.powerlan.empire,DNS:secrets.powerlan.empire,IP:192.168.2.112
 EOF
-openssl x509 -req -in "$work/request.csr" -CA /srv/proxy/caddy/.local/share/caddy/pki/authorities/local/root.crt -CAkey /srv/proxy/caddy/.local/share/caddy/pki/authorities/local/root.key -set_serial "0x$(openssl rand -hex 16)" -days 90 -sha256 -extfile "$work/extensions" 2>/dev/null
+openssl x509 -req -in "$work/request.csr" -CA /srv/certs/caddy/.local/share/caddy/pki/authorities/local/root.crt -CAkey /srv/certs/caddy/.local/share/caddy/pki/authorities/local/root.key -set_serial "0x$(openssl rand -hex 16)" -days 90 -sha256 -extfile "$work/extensions" 2>/dev/null
 """
     sign = "sudo -n bash -c " + shlex.quote(body)
-    certificate = remote(PROXY, sign, csr)
+    certificate = remote(CERTS, sign, csr)
     remote(VAULT, "sudo -n openbao-ops install-certificate", certificate)
     print("Vault TLS certificate renewed using the existing trusted internal CA")
 

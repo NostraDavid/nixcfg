@@ -31,78 +31,19 @@
         text = builtins.readFile ../../../scripts/lab-initialize-disk.sh;
       };
       backendCaCert = "/srv/proxy/backend-root.crt";
-      certificateFiles = [
-        "fingerprints.txt"
-        "forgejo-ca.crt"
-        "freeipa.crt"
-        "SHA256SUMS"
-      ];
-      bundleVersion = let
-        version = lib.removeSuffix "\n" (builtins.readFile ../../../certs/VERSION);
-      in
-        assert lib.assertMsg
-        (builtins.match "(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)" version != null)
-        "certs/VERSION must contain stable SemVer: MAJOR.MINOR.PATCH."; version;
-      certificateRelease =
-        pkgs.runCommand "powerlan-ca-release" {
-          nativeBuildInputs = [
-            pkgs.zip
-          ];
-        } ''
-          mkdir -p "$out"
-          cd "$out"
-          cp ${../../../certs/freeipa.crt} freeipa.crt
-          cp ${../../../certs/forgejo-ca.crt} forgejo-ca.crt
-          cp ${../../../certs/fingerprints.txt} fingerprints.txt
-          cat freeipa.crt forgejo-ca.crt > powerlan-ca.pem
-          printf '%s\n' '${bundleVersion}' > version.txt
-          sha256sum freeipa.crt forgejo-ca.crt powerlan-ca.pem fingerprints.txt version.txt > SHA256SUMS
-          touch -t 198001010000 ./*
-          zip -X -0 powerlan-ca.zip freeipa.crt forgejo-ca.crt powerlan-ca.pem fingerprints.txt version.txt SHA256SUMS
-          sha256sum powerlan-ca.zip > powerlan-ca.zip.sha256
-        '';
-      certificateSite = pkgs.linkFarm "internal-ca-site" (
-        [
-          {
-            name = "index.html";
-            path = pkgs.writeText "internal-ca-index.html" (builtins.replaceStrings
-              [
-                "@FINGERPRINTS@"
-                "@BUNDLE_VERSION@"
-              ]
-              [
-                (builtins.readFile ../../../certs/fingerprints.txt)
-                bundleVersion
-              ]
-              (builtins.readFile ../../../certs/index.html));
+      acmeTls = ''
+        tls {
+          issuer acme {
+            dir https://192.168.2.113:8443/acme/local/directory
+            trusted_roots ${../../../certs/forgejo-ca.crt}
           }
-        ]
-        ++ map (name: {
-          inherit name;
-          path = ../../../certs + "/${name}";
-        })
-        certificateFiles
-      );
+        }
+      '';
       certificateSiteConfig = ''
-        @latest path /powerlan-ca-latest.zip /powerlan-ca-latest.pem
-        header @latest Cache-Control no-store
-        redir /powerlan-ca-latest.zip /releases/${bundleVersion}/powerlan-ca.zip 302
-        redir /powerlan-ca-latest.pem /releases/${bundleVersion}/powerlan-ca.pem 302
-        @certificates path /freeipa.crt /forgejo-ca.crt
-        header @certificates {
-          Content-Type application/x-x509-ca-cert
-          Content-Disposition attachment
-        }
-        handle /releases/* {
-          @versioned not path /releases/
-          header @versioned Cache-Control "public, max-age=31536000, immutable"
-          header /releases/ Cache-Control no-store
-          root * /srv/proxy/certificates
-          file_server browse
-        }
-        handle {
-          root * ${certificateSite}
-          file_server
+        reverse_proxy https://192.168.2.113 {
+          transport http {
+            tls_trust_pool file ${../../../certs/forgejo-ca.crt}
+          }
         }
       '';
     in {
@@ -151,16 +92,27 @@
         qemuGuest.enable = true;
         caddy = {
           enable = true;
-          dataDir = "/srv/proxy/caddy";
+          dataDir = "/srv/proxy/caddy-acme";
           globalConfig = "skip_install_trust";
           virtualHosts = {
             "http://192.168.2.111".extraConfig = certificateSiteConfig;
-            "https://192.168.2.111".extraConfig = "tls internal\n" + certificateSiteConfig;
+            "https://192.168.2.111".extraConfig = acmeTls + certificateSiteConfig;
+            "home.powerlan.empire".extraConfig =
+              acmeTls
+              + ''
+                handle_path /icons/* {
+                  root * ${../../../features/homepage/icons}
+                  file_server
+                }
+                handle {
+                  reverse_proxy 192.168.2.114:3000
+                }
+              '';
             "proxmox.powerlan.empire" = {
               # Console URLs contain short-lived authentication tickets.
               logFormat = lib.mkForce null;
               extraConfig = ''
-                tls internal
+                ${acmeTls}
                 reverse_proxy https://192.168.2.100:8006 {
                   header_up Host {host}
                   flush_interval -1
@@ -175,12 +127,12 @@
             "homeassistant.powerlan.empire" = {
               logFormat = lib.mkForce null;
               extraConfig = ''
-                tls internal
+                ${acmeTls}
                 reverse_proxy 192.168.2.109:8123
               '';
             };
             "forgejo.powerlan.empire".extraConfig = ''
-              tls internal
+              ${acmeTls}
               reverse_proxy https://192.168.2.110:8443 {
                 header_up Host forgejo-backend.powerlan.empire
                 transport http {
@@ -190,7 +142,7 @@
               }
             '';
             "forgejo.home.arpa".extraConfig = ''
-              tls internal
+              ${acmeTls}
               redir https://forgejo.powerlan.empire{uri} permanent
             '';
           };
@@ -198,52 +150,6 @@
       };
 
       systemd.services = {
-        certificate-releases = {
-          description = "Preserve immutable public CA bundles on the proxy state disk";
-          wantedBy = [
-            "multi-user.target"
-          ];
-          requiredBy = [
-            "caddy.service"
-          ];
-          before = [
-            "caddy.service"
-          ];
-          requires = [
-            "srv-proxy.mount"
-          ];
-          after = [
-            "srv-proxy.mount"
-          ];
-          unitConfig.AssertPathIsMountPoint = "/srv/proxy";
-          restartTriggers = [
-            certificateRelease
-          ];
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-          };
-          path = [
-            pkgs.coreutils
-          ];
-          script = ''
-            install -d -m 0755 /srv/proxy/certificates/releases
-            destination=/srv/proxy/certificates/releases/${bundleVersion}
-            if [ -d "$destination" ]; then
-              if ! ${pkgs.diffutils}/bin/cmp -s ${certificateRelease}/powerlan-ca.zip.sha256 "$destination/powerlan-ca.zip.sha256"; then
-                echo 'Bundle contents changed: bump certs/VERSION before publishing.' >&2
-                exit 1
-              fi
-            else
-              staging=$(mktemp -d /srv/proxy/certificates/.release.XXXXXXXX)
-              trap 'rm -rf "$staging"' EXIT
-              install -m 0644 ${certificateRelease}/* "$staging/"
-              chmod 0755 "$staging"
-              mv -T "$staging" "$destination"
-              trap - EXIT
-            fi
-          '';
-        };
         proxy-data-init = {
           description = "Initialize only the designated, zero-filled proxy data disk";
           requiredBy = [
@@ -298,7 +204,7 @@
             pkgs.coreutils
           ];
           script = ''
-            install -d -m 0700 -o caddy -g caddy /srv/proxy/caddy
+            install -d -m 0700 -o caddy -g caddy /srv/proxy/caddy-acme
           '';
         };
         caddy = {
