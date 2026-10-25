@@ -23,7 +23,8 @@
     "software-architecture-design",
     "test-design",
     "tiger-style",
-    "video-explainer"
+    "video-explainer",
+    "website-design"
   ],
   "workflow": [
     "context7",
@@ -115,6 +116,7 @@
     "video-explainer": "video",
     "why": "why",
     "worktrunk": "worktrunk",
+    "website-design": "webdesign",
     "writing-for-agents": "agentwrite",
     "new-nostradavid-repo": "new-repo"
   }

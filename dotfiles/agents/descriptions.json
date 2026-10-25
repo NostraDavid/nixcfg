@@ -137,7 +137,8 @@
     "write": "Layered write standard: Diátaxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for /write or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages.",
     "worktrunk": "Use Worktrunk's wt CLI for Git worktree management, configuration, hooks, aliases, and commit message generation. Consult for Worktrunk setup or troubleshooting; follow the local wt skill for repository layout and isolation policy.",
     "wt": "Create, reuse, or hand off an isolated Git worktree when the user requests one or isolation has a concrete benefit for the task. Routine work stays in the current checkout.",
-    "new-repo": "Bootstrap new NostraDavid repositories, or apply their repository baseline on request, with Just, Nix, prek, locked dependencies, and quality gates. Exclude ordinary feature work and unrelated repositories."
+    "new-repo": "Bootstrap new NostraDavid repositories, or apply their repository baseline on request, with Just, Nix, prek, locked dependencies, and quality gates. Exclude ordinary feature work and unrelated repositories.",
+    "webdesign": "Design website UIs with generated image mockups, then implement and visually compare when requested. Use for new site designs or visual redesigns. Exclude isolated assets, backend work, and small UI fixes."
   },
   "model": "gpt-5"
 }
