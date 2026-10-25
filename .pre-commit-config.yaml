@@ -54,7 +54,7 @@ repos:
         name: check actual certificate bundles and Python CA repair
         entry: just certificate-trust-check
         language: system
-        files: '^(features/(internal-pki|homepage)/|nix/(ca-security|ca-blacklist|packages|constructors|outputs)\.nix$|checks/(certificate-trust\.nix|test-ca-trust\.py)$|scripts/repair-python-ca\.py$|dotfiles/uv-[^/]+/|certs/|flake\.lock$)'
+        files: '^(features/(internal-pki|homepage)/|nix/(ca-security|ca-blacklist|packages|constructors|outputs)\.nix$|pkgs/uv/|checks/(certificate-trust\.nix|test-ca-trust\.py)$|scripts/repair-python-ca\.py$|dotfiles/uv-[^/]+/|certs/|flake\.lock$)'
         pass_filenames: false
 
       - id: check-nix-index

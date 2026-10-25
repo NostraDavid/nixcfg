@@ -1,5 +1,6 @@
 {
   lib,
+  local,
   stable,
   unstable,
   ...
@@ -32,7 +33,7 @@
       unstable.msedit # Microsoft terminal editor
       unstable.neovim # Primary editor
       unstable.riffdiff # Side-by-side diff viewer
-      unstable.uv # Python project and package manager
+      local.uv # Python project and package manager
     ]
     ++ lib.optionals unstable.stdenv.hostPlatform.isLinux [
       unstable.bubblewrap # Linux sandbox for coding agents

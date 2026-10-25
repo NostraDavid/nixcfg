@@ -32,7 +32,7 @@ done
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
 rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
-for package in cmux-tui fixit dockerfile-roast jsongrep mdschema gigatoken paperclip pico-8-font ponytail-codex; do
+for package in cmux-tui fixit dockerfile-roast jsongrep mdschema gigatoken paperclip pico-8-font ponytail-codex uv; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 for package in cmux-tui pico-8-font ponytail-codex; do
@@ -53,12 +53,11 @@ for package in espeak-ng sqlline tamzen-otf; do
 done
 
 # Generated outputs and input-derived packages have no independent update.
-if list_packages | rg -q '^(forgejo-lab-image|proxmox-lab|vscode-todo-tree)$'; then
+if list_packages | rg -q '^(forgejo-lab-image|proxmox-lab)$'; then
     echo 'Generated and explicitly managed packages must not be included in bulk updates' >&2
     exit 1
 fi
 [[ "$(probe_skip_reason "${repo_root}" forgejo-lab-image)" == *"generated flake output"* ]]
-[[ "$(probe_skip_reason "${repo_root}" vscode-todo-tree)" == "Follows nixpkgs; updated through flake.lock" ]]
 
 if output="$(./scripts/local-package-maint.sh update nonexistent-regression-test-package 2>&1)"; then
     echo "Unknown packages must fail" >&2

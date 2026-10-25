@@ -38,7 +38,7 @@ in {
       config,
       lib,
       pkgs,
-      unstable,
+      local,
       repoRoot,
       ...
     }: let
@@ -51,16 +51,16 @@ in {
         sessionVariables = variables pkgs bundle;
         file = {
           ".local/bin/uv" = {
-            source = lib.getExe unstable.uv;
+            source = lib.getExe local.uv;
             force = true;
           };
           ".local/bin/uvx" = {
-            source = "${unstable.uv}/bin/uvx";
+            source = "${local.uv}/bin/uvx";
             force = true;
           };
         };
         activation.repairPythonTrust = lib.hm.dag.entryAfter ["writeBoundary"] ''
-          for directory in "$(${lib.getExe unstable.uv} python dir)" "$(${lib.getExe unstable.uv} tool dir)" ${lib.escapeShellArg "${repoRoot}/.venv"}; do
+          for directory in "$(${lib.getExe local.uv} python dir)" "$(${lib.getExe local.uv} tool dir)" ${lib.escapeShellArg "${repoRoot}/.venv"}; do
             if [ -d "$directory" ]; then
               run ${pkgs.python3}/bin/python3 ${../../scripts/repair-python-ca.py} --apply "$directory"
             fi

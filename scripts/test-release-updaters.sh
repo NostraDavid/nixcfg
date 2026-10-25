@@ -33,6 +33,9 @@ ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-pandacode.sh"
 mkdir -p "${TEST_REPO}/pkgs/agent-orchestrator"
 cp "${repo_root}/pkgs/agent-orchestrator/default.nix" "${TEST_REPO}/pkgs/agent-orchestrator/"
 ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-agent-orchestrator.sh"
+mkdir -p "${TEST_REPO}/pkgs/uv"
+cp "${repo_root}/pkgs/uv/default.nix" "${TEST_REPO}/pkgs/uv/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-uv.sh"
 mkdir -p "${TEST_REPO}/pkgs/kandev"
 cp "${repo_root}/pkgs/kandev/default.nix" "${TEST_REPO}/pkgs/kandev/"
 ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-kandev.sh"
@@ -127,6 +130,17 @@ if [[ "$2" == repos/OrchestratorInc/agent-orchestrator/releases/latest ]]; then
     printf '{"name":"agent-orchestrator-darwin-x64.zip","digest":"sha256:%064d"}' 1
     if [[ "${TEST_AO_MISSING_ASSET:-0}" == 0 ]]; then
         printf ',{"name":"agent-orchestrator-darwin-arm64.zip","digest":"sha256:%064d"}' 2
+    fi
+    printf ']}\n'
+    exit
+fi
+if [[ "$2" == repos/astral-sh/uv/releases/latest ]]; then
+    printf '{"tag_name":"0.14.0","assets":['
+    printf '{"name":"uv-x86_64-unknown-linux-musl.tar.gz","digest":"sha256:%064d"},' 0
+    printf '{"name":"uv-aarch64-unknown-linux-musl.tar.gz","digest":"sha256:%064d"},' 1
+    printf '{"name":"uv-x86_64-apple-darwin.tar.gz","digest":"sha256:%064d"}' 2
+    if [[ "${TEST_UV_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"uv-aarch64-apple-darwin.tar.gz","digest":"sha256:%064d"}' 3
     fi
     printf ']}\n'
     exit
@@ -341,6 +355,17 @@ if TEST_AO_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-agent-orchestrator.sh" >
     exit 1
 fi
 cmp "${repo_root}/pkgs/agent-orchestrator/default.nix" "${TEST_REPO}/pkgs/agent-orchestrator/default.nix"
+
+"${TEST_REPO}/scripts/update-uv.sh" >/dev/null
+rg -q 'version = "0.14.0";' "${TEST_REPO}/pkgs/uv/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/uv/default.nix")" -eq 4 ]]
+rg -q '^build .#uv --no-link$' "${TEST_REPO}/builds.log"
+cp "${repo_root}/pkgs/uv/default.nix" "${TEST_REPO}/pkgs/uv/"
+if TEST_UV_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-uv.sh" >/dev/null 2>&1; then
+    echo 'Expected uv missing asset failure' >&2
+    exit 1
+fi
+cmp "${repo_root}/pkgs/uv/default.nix" "${TEST_REPO}/pkgs/uv/default.nix"
 
 "${TEST_REPO}/scripts/update-kandev.sh" >/dev/null
 rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/kandev/default.nix"

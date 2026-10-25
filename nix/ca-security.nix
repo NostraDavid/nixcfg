@@ -36,25 +36,6 @@ final: prev: let
         '';
     });
   };
-  uvAssets = {
-    x86_64-linux = {
-      target = "x86_64-unknown-linux-musl";
-      hash = "sha256-V++dnMsB+xvZmN+ZWw3SIbUvfXhB++qT8tRGO/Yft6k=";
-    };
-    aarch64-linux = {
-      target = "aarch64-unknown-linux-musl";
-      hash = "sha256-eQbHmtshyBq9VZhBuna7HZr515GsrHoEGyly4DrhZTg=";
-    };
-    aarch64-darwin = {
-      target = "aarch64-apple-darwin";
-      hash = "sha256-dD+FA1oZluyzUGWeAc2frqlwmCm+CbG0sDxz6vPJzXM=";
-    };
-    x86_64-darwin = {
-      target = "x86_64-apple-darwin";
-      hash = "sha256-sPUrDjlFtBB9iQJOo45iVoMBH7/AWg2Y+fotbc7ijGY=";
-    };
-  };
-  uvAsset = uvAssets.${prev.stdenv.hostPlatform.system};
 in
   builtins.listToAttrs (map fixPython interpreters)
   // {
@@ -92,40 +73,7 @@ in
               });
         })
       ];
-    uv =
-      if lib.versionAtLeast prev.uv.version "0.13.5"
-      then prev.uv
-      else
-        prev.stdenvNoCC.mkDerivation {
-          pname = "uv";
-          version = "0.13.5";
-          src = prev.fetchurl {
-            url = "https://github.com/astral-sh/uv/releases/download/0.13.5/uv-${uvAsset.target}.tar.gz";
-            inherit (uvAsset) hash;
-          };
-          dontBuild = true;
-          nativeBuildInputs = [prev.installShellFiles];
-          installPhase = ''
-            runHook preInstall
-            install -Dm755 uv uvx -t "$out/bin"
-            installShellCompletion --cmd uv \
-              --bash <("$out/bin/uv" generate-shell-completion bash) \
-              --fish <("$out/bin/uv" generate-shell-completion fish) \
-              --zsh <("$out/bin/uv" generate-shell-completion zsh)
-            runHook postInstall
-          '';
-          doInstallCheck = true;
-          installCheckPhase = ''
-            "$out/bin/uv" --version | grep -F 'uv 0.13.5'
-            "$out/bin/uvx" --version | grep -F 'uvx 0.13.5'
-          '';
-          meta =
-            prev.uv.meta
-            // {
-              platforms = builtins.attrNames uvAssets;
-              sourceProvenance = [lib.sourceTypes.binaryNativeCode];
-            };
-        };
+    uv = prev.callPackage ../pkgs/uv {};
     nodejs-slim_24 =
       if lib.versionAtLeast prev.nodejs-slim_24.version "24.22.1"
       then prev.nodejs-slim_24

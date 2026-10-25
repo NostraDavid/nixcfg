@@ -38,6 +38,10 @@ superset)
     systems=(x86_64-linux x86_64-darwin aarch64-darwin)
     tag_prefix=desktop-v
     ;;
+uv)
+    repo=astral-sh/uv
+    tag_prefix=''
+    ;;
 *)
     echo "Unsupported package: $package" >&2
     exit 1
@@ -144,6 +148,7 @@ for system in "${systems[@]}"; do
         ;;
     rtk) asset="rtk-${rtk_target}.tar.gz" ;;
     snip) asset="snip_${version}_${go}.tar.gz" ;;
+    uv) asset="uv-${rust}.tar.gz" ;;
     superset)
         case "$system" in
         x86_64-linux) asset="superset-${version}-x86_64.AppImage" ;;
