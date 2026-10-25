@@ -70,7 +70,7 @@ assert.deepEqual(Object.keys(config.providers.tensorx.models).sort(), [
     "deepseek/deepseek-v4.1-flash-1017", "qwen/qwen3.8-flash-next", "z-ai/glm-5.3-flash",
 ]);
 assert.equal(config.providers.tensorx.settings.baseURL, "https://api.tensorx.ai/v1");
-const expectedServers = ["agent-memory", "chrome-devtools", "dbhub", "headroom", "nixos", "openaiDeveloperDocs", "playwright", "qartez"];
+const expectedServers = ["agent-memory", "chrome-devtools", "dbhub", "headroom", "nixos", "openaiDeveloperDocs", "playwright"];
 assert.deepEqual(Object.keys(config.mcp.servers).sort(), expectedServers);
 for (const server of Object.values(config.mcp.servers)) assert.equal(server.disabled, false);
 assert.equal(config.mcp.servers.openaiDeveloperDocs.url, "https://developers.openai.com/mcp");

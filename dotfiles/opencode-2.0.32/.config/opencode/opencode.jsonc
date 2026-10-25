@@ -72,13 +72,6 @@
         "disabled": false,
         "type": "local"
       },
-      "qartez": {
-        "command": [
-          "{env:HOME}/.local/bin/mcp-qartez"
-        ],
-        "disabled": false,
-        "type": "local"
-      },
       "chrome-devtools": {
         "type": "local",
         "command": [

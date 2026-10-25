@@ -2,6 +2,7 @@
   den.aspects.interactive = {
     includes = with den.aspects; [
       annotation
+      code-navigation
       common-tooling
       locate
       mcp

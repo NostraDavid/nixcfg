@@ -31,10 +31,6 @@ paseo-desktop)
     repo=getpaseo/paseo
     systems=(x86_64-linux x86_64-darwin aarch64-darwin)
     ;;
-qartez)
-    repo=kuberstar/qartez-mcp
-    systems=(x86_64-linux aarch64-darwin)
-    ;;
 rtk) repo=rtk-ai/rtk ;;
 snip) repo=edouard-claude/snip ;;
 superset)
@@ -146,7 +142,6 @@ for system in "${systems[@]}"; do
         aarch64-darwin) asset="Paseo-${version}-arm64.zip" ;;
         esac
         ;;
-    qartez) asset="qartez-${version}-${rust/musl/gnu}.tar.xz" ;;
     rtk) asset="rtk-${rtk_target}.tar.gz" ;;
     snip) asset="snip_${version}_${go}.tar.gz" ;;
     superset)

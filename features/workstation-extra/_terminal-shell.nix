@@ -22,7 +22,6 @@
     unstable.moor # Terminal pager
     unstable.nnn # Terminal file manager
     unstable.parallel # Parallel builds
-    unstable.sd # Find and replace tool
     unstable.tealdeer # tldr in Rust
     unstable.tree # Display directory trees
     unstable.vim # Classic editor

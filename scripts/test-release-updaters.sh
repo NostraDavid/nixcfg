@@ -20,10 +20,7 @@ cp "${repo_root}/scripts/update-cmux-tui.sh" "${repo_root}/scripts/update-databr
 cp "${repo_root}/pkgs/headroom/default.nix" "${TEST_REPO}/pkgs/headroom/"
 cp "${repo_root}/scripts/update-headroom.sh" "${TEST_REPO}/scripts/"
 mkdir -p "${TEST_REPO}/pkgs/codex"
-mkdir -p "${TEST_REPO}/pkgs/qartez"
-cp "${repo_root}/pkgs/qartez/default.nix" "${TEST_REPO}/pkgs/qartez/"
 cp "${repo_root}/scripts/update-prebuilt-github.sh" "${TEST_REPO}/scripts/"
-ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-qartez.sh"
 mkdir -p "${TEST_REPO}/pkgs/orca-ide"
 cp "${repo_root}/pkgs/orca-ide/default.nix" "${TEST_REPO}/pkgs/orca-ide/"
 ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-orca-ide.sh"
@@ -186,15 +183,6 @@ if [[ "$2" == repos/stablyai/orca/releases/latest ]]; then
     printf ']}\n'
     exit
 fi
-if [[ "$2" == repos/kuberstar/qartez-mcp/releases/latest ]]; then
-    printf '{"tag_name":"%s","assets":[' "${TEST_QARTEZ_RELEASE:-v0.12.0}"
-    printf '{"name":"qartez-0.12.0-x86_64-unknown-linux-gnu.tar.xz","digest":"sha256:%064d"}' 0
-    if [[ "${TEST_QARTEZ_MISSING_ASSET:-0}" == 0 ]]; then
-        printf ',{"name":"qartez-0.12.0-aarch64-apple-darwin.tar.xz","digest":"sha256:%064d"}' 1
-    fi
-    printf ']}\n'
-    exit
-fi
 if [[ "$2" == repos/openai/codex/releases/latest ]]; then
     printf '{"tag_name":"%s","assets":[' "${TEST_CODEX_RELEASE:-rust-v0.200.0}"
     printf '{"name":"codex-package-x86_64-unknown-linux-musl.tar.gz","digest":"sha256:%064d"}' 0
@@ -310,26 +298,6 @@ TEST_OPENCODE_RELEASE=3.0.0 "${TEST_REPO}/scripts/update-opencode-v2-desktop.sh"
 for package in opencode-v2 opencode-v2-desktop; do
     rg -q 'version = "2.1.0";' "${TEST_REPO}/pkgs/${package}/default.nix"
 done
-
-"${TEST_REPO}/scripts/update-qartez.sh" >/dev/null
-rg -q 'version = "0.12.0";' "${TEST_REPO}/pkgs/qartez/default.nix"
-[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/qartez/default.nix")" -eq 2 ]]
-rg -q '^build .#qartez --no-link$' "${TEST_REPO}/builds.log"
-for failure in tag asset build; do
-    cp "${repo_root}/pkgs/qartez/default.nix" "${TEST_REPO}/pkgs/qartez/"
-    export TEST_QARTEZ_RELEASE=v0.12.0 TEST_QARTEZ_MISSING_ASSET=0 TEST_BUILD_FAILURE=0
-    case "$failure" in
-    tag) TEST_QARTEZ_RELEASE=v0.12.0-alpha ;;
-    asset) TEST_QARTEZ_MISSING_ASSET=1 ;;
-    build) TEST_BUILD_FAILURE=1 ;;
-    esac
-    if "${TEST_REPO}/scripts/update-qartez.sh" >/dev/null 2>&1; then
-        echo "Expected Qartez ${failure} failure" >&2
-        exit 1
-    fi
-    cmp "${repo_root}/pkgs/qartez/default.nix" "${TEST_REPO}/pkgs/qartez/default.nix"
-done
-unset TEST_QARTEZ_RELEASE TEST_QARTEZ_MISSING_ASSET TEST_BUILD_FAILURE
 
 "${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null
 rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/orca-ide/default.nix"

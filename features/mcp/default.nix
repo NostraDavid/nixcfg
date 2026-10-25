@@ -14,13 +14,6 @@
         ];
       };
     };
-    qartez = {
-      homeManager = {
-        imports = [
-          ./_qartez.nix
-        ];
-      };
-    };
     pi = {
       homeManager = {
         imports = [
@@ -33,7 +26,6 @@
         agent-memory
         headroom
         pi
-        qartez
       ];
       homeManager = {
         imports = [

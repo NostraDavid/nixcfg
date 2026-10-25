@@ -3,6 +3,7 @@
     workstation-extra = {
       includes = with den.aspects; [
         cloud
+        code-navigation
       ];
       homeManager = {
         imports = [

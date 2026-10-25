@@ -4,8 +4,8 @@ let
   home = flake.darwinConfigurations.loki.config.home-manager.users.david;
   wodan = flake.nixosConfigurations.wodan.config.home-manager.users.david;
   work = (flake.lib.mkLoki {username = "work";}).config.home-manager.users.work;
-  names = ["agent-memory" "chrome-devtools" "dbhub" "headroom" "nixos" "playwright" "qartez"];
-  packages = ["engrim" "headroom-ai" "dbhub" "chrome-devtools-mcp" "playwright-mcp" "mcp-nixos" "qartez"];
+  names = ["agent-memory" "chrome-devtools" "dbhub" "headroom" "nixos" "playwright"];
+  packages = ["engrim" "headroom-ai" "dbhub" "chrome-devtools-mcp" "playwright-mcp" "mcp-nixos"];
   pkgs = flake.legacyPackages.x86_64-linux;
   profiles =
     (lib.mapAttrs (_: host: host.config.home-manager.users.david)

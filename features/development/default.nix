@@ -3,7 +3,6 @@
     development-core = {
       includes = with den.aspects; [
         pi
-        qartez
       ];
       homeManager = {
         imports = [

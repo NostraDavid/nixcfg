@@ -15,9 +15,12 @@ let
     }).config.home-manager.users.david;
   checkSources = system: home: names: let
     pkgs = unstableFor system;
-    installed = map (p: p.outPath) home.home.packages;
   in
-    assert lib.all (name: lib.assertMsg (builtins.elem pkgs.${name}.outPath installed) "Expected unstable.${name} in ${system} tooling profile") names; true;
+    assert lib.all (name:
+      lib.assertMsg
+      (builtins.any (p: (p.pname or "") == pkgs.${name}.pname && p.outPath == pkgs.${name}.outPath) home.home.packages)
+      "Expected unstable.${name} in ${system} tooling profile")
+    names; true;
   cliTools = [
     "actionlint"
     "flameshot"
@@ -42,6 +45,7 @@ let
     [
       "ast-grep"
       "bat"
+      "cloc"
       "fd"
       "fzf"
       "git-lfs"
@@ -53,6 +57,8 @@ let
       "starship"
       "tmux"
       "tree"
+      "tree-sitter"
+      "universal-ctags"
       "worktrunk"
     ]
     ++ cliTools;
@@ -283,6 +289,48 @@ in {
   opencode = assert lib.all (host: builtins.elem host.pkgs.opencode-v2.outPath (map (p: p.outPath) host.config.environment.systemPackages)) (builtins.attrValues flake.nixosConfigurations); assert builtins.elem stable.opencode-v2.outPath (map (p: p.outPath) mimir2.home.packages); assert builtins.any (p: (p.pname or "") == "opencode-v2" && lib.hasPrefix "2." p.version) loki.home.packages; assert builtins.elem stable.opencode-v2-desktop.outPath installed; assert !(builtins.any (p: lib.hasPrefix "opencode" (p.pname or "") && lib.hasPrefix "1." (p.version or "")) (wodan.home.packages ++ linuxWorkstation.home.packages ++ darwinWorkstation.home.packages)); true;
   cmux = assert lib.all (host: builtins.elem host.pkgs.cmux-tui.outPath (map (p: p.outPath) host.config.environment.systemPackages)) (builtins.attrValues flake.nixosConfigurations); assert builtins.elem stable.cmux-tui.outPath (map (p: p.outPath) mimir2.home.packages); assert builtins.elem (unstableFor "aarch64-darwin").cmux.outPath (map (p: p.outPath) loki.home.packages); assert builtins.any (p: (p.pname or "") == "cmux-tui" && p.system == "aarch64-darwin" && (p.meta.priority or 5) < ((unstableFor "aarch64-darwin").cmux.meta.priority or 5)) loki.home.packages; true;
   wodan = checkSources "x86_64-linux" wodan (core ++ builtins.filter (name: name != "opentofu") workstation ++ ["lua-language-server"]);
+  codeNavigation = let
+    profiles =
+      map (name: {
+        home = flake.nixosConfigurations.${name}.config.home-manager.users.david;
+        system = "x86_64-linux";
+      }) ["wodan" "donar" "frigg" "bragi"]
+      ++ map (home: {
+        inherit home;
+        system = "x86_64-linux";
+      }) [mimir2 linuxWorkstation]
+      ++ map (home: {
+        inherit home;
+        system = "aarch64-darwin";
+      }) [loki darwinWorkstation];
+  in
+    assert lib.all ({
+      home,
+      system,
+    }: let
+      pkgs = unstableFor system;
+      native = (import ../nix/packages.nix {inherit (flake) inputs;}).pkgsFor system;
+    in
+      lib.all (package:
+        lib.any (installed: (installed.pname or "") == package.pname && installed.outPath == package.outPath)
+        home.home.packages) ([
+          pkgs.ast-grep
+          pkgs.cloc
+          pkgs.fd
+          pkgs.fzf
+          pkgs.python3Packages.lizard
+          pkgs.ripgrep
+          pkgs.sd
+          pkgs.tree-sitter
+          pkgs.universal-ctags
+          native.probe
+        ]
+        ++ lib.optionals (system == "x86_64-linux") [native.semble])
+      && (system == "x86_64-linux" || !(builtins.any (p: (p.pname or "") == "semble") home.home.packages)))
+    profiles; true;
+  editorTooling = assert checkSources "x86_64-linux" wodan ["bash-language-server" "lua-language-server" "marksman" "nixd" "sqls" "taplo" "vscode-langservers-extracted" "yaml-language-server" "zuban"];
+  assert checkSources "x86_64-linux" linuxWorkstation ["basedpyright" "nixd" "ruby-lsp" "sqls"];
+  assert checkSources "aarch64-darwin" darwinWorkstation ["basedpyright" "nixd" "ruby-lsp" "sqls"]; true;
   debian = checkSources "x86_64-linux" mimir2 core;
   macos = checkSources "aarch64-darwin" loki core;
   debianWorkstation = checkSources "x86_64-linux" linuxWorkstation (core ++ workstation);

@@ -180,8 +180,8 @@ class AgentInstructions(unittest.TestCase):
         work = Path(work_links["AGENTS.md"])
         for document in [base, work]:
             self.assertIn("~/.agents/instructions/shared.md", document.read_text())
-        self.assertNotIn(
-            "<!-- qartez-mcp-instructions -->",
+        self.assertIn(
+            "~/.agents/instructions/code-navigation.md",
             (self.source / "instructions" / "shared.md").read_text(),
         )
 

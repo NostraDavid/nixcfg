@@ -106,7 +106,6 @@
     "headroom"
     "nixos"
     "playwright"
-    "qartez"
   ];
   stableServer = server: let
     prefix = "${homePath}/.local/bin/";

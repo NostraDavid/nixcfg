@@ -38,8 +38,8 @@ existing Python workflow.
 
 ### Code navigation
 
-`~/.agents/instructions/qartez.md` to choose code navigation tools and their
-fallbacks.
+`~/.agents/instructions/code-navigation.md` to choose CLI tools for source
+discovery, symbols, references, complexity, and structural edits.
 
 `~/.agents/instructions/semble.md` to locate code by meaning when exact text
 searches are too broad.

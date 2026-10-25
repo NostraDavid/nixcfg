@@ -32,7 +32,7 @@ done
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
 rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
-for package in cmux-tui fixit dockerfile-roast jsongrep mdschema gigatoken pico-8-font ponytail-codex qartez; do
+for package in cmux-tui fixit dockerfile-roast jsongrep mdschema gigatoken pico-8-font ponytail-codex; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 for package in cmux-tui pico-8-font ponytail-codex; do

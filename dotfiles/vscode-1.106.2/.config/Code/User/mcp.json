@@ -29,15 +29,6 @@
       "command": "/bin/sh",
       "type": "stdio"
     },
-    "qartez": {
-      "args": [
-        "-c",
-        "exec \"$HOME/.local/bin/mcp-qartez\" \"$@\"",
-        "qartez"
-      ],
-      "command": "/bin/sh",
-      "type": "stdio"
-    },
     "headroom": {
       "args": [
         "-c",

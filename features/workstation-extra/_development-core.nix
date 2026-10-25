@@ -21,9 +21,8 @@
     stable.gradle # Build and test tool
     stable.mold # Fast linker
     stable.mosh # Mobile shell
-    unstable.basedpyright # Python type checker
+    unstable.basedpyright # Python type checker and language server
     unstable.cachix # Cachix CLI
-    unstable.cloc # Count lines of code
     unstable.deadnix # Find unused dependencies in Nix projects
     unstable.entr # Run commands when files change
     unstable.gh # GitHub CLI

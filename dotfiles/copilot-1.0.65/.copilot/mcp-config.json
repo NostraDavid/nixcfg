@@ -12,18 +12,6 @@
       ],
       "type": "local"
     },
-    "qartez": {
-      "args": [
-        "-c",
-        "exec \"$HOME/.local/bin/mcp-qartez\" \"$@\"",
-        "qartez"
-      ],
-      "command": "/bin/sh",
-      "tools": [
-        "*"
-      ],
-      "type": "local"
-    },
     "headroom": {
       "args": [
         "-c",

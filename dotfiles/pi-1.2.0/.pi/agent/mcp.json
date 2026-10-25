@@ -24,14 +24,6 @@
         "headroom"
       ]
     },
-    "qartez": {
-      "command": "/bin/sh",
-      "args": [
-        "-c",
-        "exec \"$HOME/.local/bin/mcp-qartez\" \"$@\"",
-        "qartez"
-      ]
-    },
     "nixos": {
       "command": "/bin/sh",
       "args": [

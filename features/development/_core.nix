@@ -15,14 +15,11 @@
     [
       stable.nodejs_24 # JavaScript runtime and npx
       unstable.alacritty # Alternative terminal emulator
-      unstable.ast-grep # Structural code search and rewriting
       unstable.colordiff # Colorize diff output
       unstable.delta # Syntax-highlighting diff pager
       unstable.devenv # Development environment manager | using unstable for 2.x
       unstable.diff-so-fancy # Human-friendly diff formatter
       unstable.difftastic # Syntax-aware diff tool
-      unstable.fd # Fast file finder
-      unstable.fzf # Fuzzy finder
       unstable.git # Version control
       unstable.git-lfs # Git Large File Storage
       unstable.helix # Modal text editor
@@ -35,8 +32,6 @@
       unstable.msedit # Microsoft terminal editor
       unstable.neovim # Primary editor
       unstable.riffdiff # Side-by-side diff viewer
-      unstable.ripgrep # Fast recursive text search
-      unstable.tree-sitter # Parser tooling used by Neovim
       unstable.uv # Python project and package manager
     ]
     ++ lib.optionals unstable.stdenv.hostPlatform.isLinux [

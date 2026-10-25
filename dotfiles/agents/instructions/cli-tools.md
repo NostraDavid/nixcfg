@@ -16,9 +16,19 @@ The shared profiles include `nix-index`, `nvd`, `nix-tree`, `actionlint`,
 
 ## Find and change code
 
-- `rg` for exact text; `fd` for paths; `ast-grep` for structural search.
-- `qartez` and `semble` for indexed or semantic code search (`semble` is x86_64
-  Linux only).
+- `rg` and `git grep` for exact text; `fd` for paths; `ast-grep` for structural
+  search and rewrite previews; `tree-sitter` for queries with a configured
+  grammar. Use `fzf` to select results and `sd` to replace text.
+- `probe` for ranked code discovery, symbol outlines, and AST extraction;
+  Universal Ctags (`ctags`) for definitions, `cloc` for language counts, and
+  `lizard` for function complexity and duplicate analysis. The shared
+  `code-navigation` aspect supplies these tools on all six physical hosts.
+- `semble` for semantic code search on x86_64 Linux. Use Probe and `rg` where
+  Semble is unavailable. Read [code-navigation.md](code-navigation.md) for the
+  tool selection workflow. These CLI commands run on demand.
+- `features/code-navigation/` owns directly invoked terminal navigation tools.
+  Language servers and editor extensions stay with the development and editor
+  tooling. Semble stays limited to x86_64 Linux.
 - `git`, `jj`, `git-lfs`, `mergiraf`, `delta`, `difftastic`, and `riffdiff` for
   source control and diffs.
 - `just`, `devenv`, `direnv`, `uv`, and `node`/`npm`/`npx` for project tasks.

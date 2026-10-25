@@ -228,12 +228,10 @@ to the work repository's actual location:
 ```
 
 Codex, Pi, OpenCode, and Copilot follow this source automatically. Keep
-`~/.agents/instructions` linked to the base checkout. The out-of-store link
-allows Qartez to inject its marked section into the work-owned `AGENTS.md`. Keep
-that section out of `shared.md` and exclude it when comparing the manually
-maintained instructions between repositories. Changes to the shared rules belong
-in the base repository. Agent skills and MCP configuration remain separate from
-these instruction files.
+`~/.agents/instructions` linked to the base checkout. Changes to the shared
+rules belong in the base repository. Code navigation follows the shared
+`code-navigation.md` instructions and the `nav` skill. Agent skills and MCP
+configuration remain separate from these instruction files.
 
 ## Keep the host contract
 

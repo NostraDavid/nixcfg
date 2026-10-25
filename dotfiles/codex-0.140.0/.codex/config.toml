@@ -60,10 +60,6 @@ startup_timeout_sec = 120
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
 
-[mcp_servers.qartez]
-command = "/bin/sh"
-args = ["-c", 'exec "$HOME/.local/bin/mcp-qartez" "$@"', "qartez"]
-
 [mcp_servers.cua_repl]
 command = "/bin/sh"
 args = ["-c", 'exec "$HOME/.local/bin/cua-repl" "$@"', "cua-repl"]
