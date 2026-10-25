@@ -17,7 +17,7 @@
     stable.wezterm # Terminal emulator
     stable.xxd # Hex dump utility
     stable.yank # Copy terminal output to the clipboard
-    stable.ydotool # Desktop input (previously lean-ctx) automation
+    stable.ydotool # Desktop input automation
     unstable.atuin # Searchable shell history
     unstable.bat # cat replacement with syntax highlighting
     unstable.eza # Modern ls replacement

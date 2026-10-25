@@ -16,7 +16,6 @@ pi_backup=$(nix build --impure --file "$root/checks/loki-mcp.nix" piBackup --no-
 import json
 import os
 from pathlib import Path
-import runpy
 import subprocess
 import sys
 import tomllib
@@ -63,7 +62,7 @@ for path, text in (
             }
         ),
     ),
-    (settings, '{"packages":["npm:pi-lean-ctx"]}'),
+    (settings, '{"packages":["npm:custom-package"]}'),
 ):
     path.parent.mkdir(parents=True, exist_ok=True)
     source = tmp / (path.parent.name + "-source" + path.suffix)
@@ -131,7 +130,6 @@ assert (
     == "chosen-by-user"
 )
 
-runpy.run_path(root / "features/mcp/headroom-clients.py")["configure"](home)
 # Native JSON clients use portable shell launchers without PATH lookup.
 bin_dir = home / ".local/bin"
 bin_dir.mkdir(parents=True)

@@ -16,14 +16,6 @@
         "agent-memory"
       ]
     },
-    "headroom": {
-      "command": "/bin/sh",
-      "args": [
-        "-c",
-        "exec \"$HOME/.local/bin/mcp-headroom\" \"$@\"",
-        "headroom"
-      ]
-    },
     "nixos": {
       "command": "/bin/sh",
       "args": [

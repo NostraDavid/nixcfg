@@ -2,6 +2,7 @@
   den.aspects = {
     development-core = {
       includes = with den.aspects; [
+        code-navigation
         pi
       ];
       homeManager = {
@@ -13,7 +14,6 @@
     development-mantle = {
       includes = with den.aspects; [
         agent-memory
-        headroom
       ];
       homeManager = {
         imports = [

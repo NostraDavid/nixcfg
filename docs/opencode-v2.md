@@ -73,10 +73,10 @@ link selects the remaining personal configuration.
 
 ## MCP servers
 
-The personal profile includes all nine servers declared in the active Codex
-configuration on Wodan: `agent-memory`, `chrome-devtools`, `dbhub`, `headroom`,
-`nixos`, `node_repl`, `openaiDeveloperDocs`, `playwright`, and `qartez`. The
-disabled `cua_repl` entry in the old Codex dotfile is not an active server.
+The personal profile includes all seven servers declared in the active Codex
+configuration on Wodan: `agent-memory`, `chrome-devtools`, `dbhub`, `nixos`,
+`node_repl`, `openaiDeveloperDocs`, `playwright`. The disabled `cua_repl` entry
+in the old Codex dotfile is not an active server.
 
 DBHub uses the [local SQLite sandbox](dbhub-local.md).
 
@@ -151,10 +151,8 @@ so archive an old local `opencode.json` outside the configuration directory
 after checking for settings absent from the managed file.
 
 V2 loads global and project `AGENTS.md` files, plus files listed in
-`instructions`. Our global file links to the shared agent instructions. Qartez
-handles code navigation and Headroom handles output compression through MCP. The
-old `rules/lean-ctx.md` belongs to the removed LeanCTX integration and is not
-part of this instruction setup.
+`instructions`. Our global file links to the shared agent instructions. Code
+navigation uses the shared CLI workflow.
 
 Verify models and credentials, agent selection, MCP connectivity, permissions,
 and a disposable session before relying on the migration for ongoing work. For

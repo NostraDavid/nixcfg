@@ -39,8 +39,10 @@ checks.
 - [x] Keep editable settings, extensions, agent roles, and prompts in dotfiles.
 - [x] Use native MCP instead of the old `pi-mcp-adapter` package.
 - [x] Use the shared `~/.local/bin/mcp-*` launchers for local servers, including
-      Qartez, durable agent memory, and Headroom. Configure official OpenAI
-      documentation by URL in the native `mcp.json` format.
+      durable agent memory. Configure official OpenAI documentation by URL in
+      the native `mcp.json` format.
+- [x] Use the shared on-demand code-navigation CLIs, including Probe, through
+      the global instructions and `nav` skill.
 - [x] Configure Exa's hosted MCP service for public web search and page
       fetching. Anonymous access needs no API key and has rate limits. Search
       queries and requested URLs go to Exa.

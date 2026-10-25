@@ -11,18 +11,6 @@
         "*"
       ],
       "type": "local"
-    },
-    "headroom": {
-      "args": [
-        "-c",
-        "exec \"$HOME/.local/bin/mcp-headroom\" \"$@\"",
-        "headroom"
-      ],
-      "command": "/bin/sh",
-      "tools": [
-        "*"
-      ],
-      "type": "local"
     }
   }
 }

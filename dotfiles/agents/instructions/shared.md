@@ -88,12 +88,6 @@ When external library documentation is needed, use
 `~/.agents/skills/c7/SKILL.md` to retrieve documentation for the relevant API
 and version.
 
-### Large tool outputs
-
-When large raw outputs need compression or compressed details need retrieval,
-use `~/.agents/skills/hr/SKILL.md` to compress output and recover original
-details before relying on them.
-
 ### Task tracking
 
 When tracking work in a repository configured for Beads, use

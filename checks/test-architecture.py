@@ -251,7 +251,7 @@ class ArchitectureTests(unittest.TestCase):
         self.native(
             """{lib, ...}: {
               nixcfg.mcp.servers = lib.genAttrs
-                ["agent-memory" "chrome-devtools" "dbhub" "headroom" "nixos" "node_repl" "playwright"]
+                ["agent-memory" "chrome-devtools" "dbhub" "nixos" "node_repl" "playwright"]
                 (_: {command = "/nix/store/example/bin/mcp";});
             }""",
             "stable-mcp-command",

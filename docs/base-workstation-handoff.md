@@ -22,8 +22,7 @@ Do not import those two modules again alongside `workstation`.
   `portable-cli` are omitted, including Git, Neovim, bat, and Node.js 24. The
   diff's Node.js 26 override is omitted.
 - The diff's `direnv` override is omitted. The base profile keeps its existing
-  `direnv` settings. The extra Engrim and headroom setup runs only on
-  `x86_64-linux`; Linux-only packages keep their platform guards.
+  `direnv` settings. Linux-only packages keep their platform guards.
 - Packages that came from `profile.packages` use base packages where needed. The
   existing agent-memory module already installs Engram and Engrim.
 - Wodan, Frigg, `mkMimir2`, and `mkLoki` do not import `workstation`

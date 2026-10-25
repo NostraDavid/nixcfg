@@ -16,7 +16,6 @@ in {
     ] ''
       $DRY_RUN_CMD rm -f \
         ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json"} \
-        ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json.before-headroom"} \
         ${lib.escapeShellArg "${config.home.homeDirectory}/.claude.json.before-agent-memory"}
     '';
 

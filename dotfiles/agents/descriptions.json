@@ -48,7 +48,6 @@
     "grillme": "A relentless interview to sharpen a plan or design.",
     "handoff": "Compact the current conversation into a handoff document for another agent to pick up.",
     "how": "Explain how code works, including architecture, runtime flow, ownership, and module placement. Use for walkthroughs and onboarding before changes. Use why for design motivation.",
-    "hr": "Compress large raw tool outputs, logs, JSON, or retrieved documents with Headroom, and retrieve the original before relying on omitted details.",
     "htk": "Retrieve public web documentation with HyperText Token Killer and remove HTML boilerplate. Use for explicit tool requests or cleaned documentation. Exclude PDFs, JSON, authenticated pages, and tasks requiring JavaScript or the original DOM.",
     "idem": "Apply when designing commands, lifecycle steps, or processing loops that run amid crashes, restarts, and retries. Converge to the same end state regardless of partial prior runs.",
     "imagegen": "Generate or edit raster images from prompts or references: photos, illustrations, textures, sprites, mockups, and cutouts. Use for bitmap output; prefer existing SVG, vector, or HTML/CSS assets when those fit the task.",

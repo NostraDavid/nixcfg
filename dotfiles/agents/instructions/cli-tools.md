@@ -80,8 +80,8 @@ per-user scan and other machines can take a different amount of time.
 ## Agent and task support
 
 - `lnav` to filter and query logs. For a single error, use `journalctl` or `rg`.
-- Context/output: `ctx`, `ctx7`, `headroom`, `agent-memory`, `engram`, `engrim`,
-  `rtk`, and `snip`; `mcporter` is in `portable-cli`.
+- Context/output: `ctx`, `ctx7`, `agent-memory`, `engram`, `engrim`, `rtk`, and
+  `snip`; `mcporter` is in `portable-cli`.
 - Other installed coding-agent CLIs: `codex`, `copilot`, `opencode`, and `pi`;
   invoke only when a task calls for them.
 - Infrastructure tasks: `podman`, `podman-compose`, `kubectl`, `helm`, `tofu`,

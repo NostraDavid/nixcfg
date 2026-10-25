@@ -69,10 +69,6 @@ enabled = false
 command = "/bin/sh"
 args = ["-c", 'exec "$HOME/.local/bin/mcp-agent-memory" "$@"', "agent-memory"]
 
-[mcp_servers.headroom]
-command = "/bin/sh"
-args = ["-c", 'exec "$HOME/.local/bin/mcp-headroom" "$@"', "headroom"]
-
 [mcp_servers.nixos]
 command = "/bin/sh"
 args = ["-c", 'exec "$HOME/.local/bin/mcp-nixos" "$@"', "nixos"]

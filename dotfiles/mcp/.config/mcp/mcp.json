@@ -7,14 +7,6 @@
         "agent-memory"
       ],
       "command": "/bin/sh"
-    },
-    "headroom": {
-      "args": [
-        "-c",
-        "exec \"$HOME/.local/bin/mcp-headroom\" \"$@\"",
-        "headroom"
-      ],
-      "command": "/bin/sh"
     }
   }
 }

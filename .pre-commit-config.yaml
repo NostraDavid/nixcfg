@@ -75,7 +75,7 @@ repos:
         name: check stable MCP launchers and client configuration
         entry: bash checks/test-loki-mcp.sh
         language: system
-        files: '^(features/(mcp|codex-browser|portable-runtime)/|profiles/|hosts/|nix/|checks/(loki-mcp\.nix|test-loki-mcp\.sh)$|pkgs/(headroom|dbhub)/|dotfiles/(codex-[^/]+/\.codex/config\.toml|copilot-[^/]+/\.copilot/mcp-config\.json|mcp/\.config/mcp/mcp\.json|vscode-[^/]+/\.config/Code/User/mcp\.json|opencode-[^/]+/\.config/opencode/opencode\.jsonc)$)'
+        files: '^(features/(mcp|codex-browser|portable-runtime)/|profiles/|hosts/|nix/|checks/(loki-mcp\.nix|test-loki-mcp\.sh)$|pkgs/dbhub/|dotfiles/(codex-[^/]+/\.codex/config\.toml|copilot-[^/]+/\.copilot/mcp-config\.json|mcp/\.config/mcp/mcp\.json|vscode-[^/]+/\.config/Code/User/mcp\.json|opencode-[^/]+/\.config/opencode/opencode\.jsonc)$)'
         pass_filenames: false
 
       - id: check-video-explainer
@@ -124,7 +124,7 @@ repos:
         name: check package release updaters
         entry: bash scripts/test-release-updaters.sh
         language: system
-        files: "^scripts/(update-opencode-v2(-desktop)?|update-headroom|update-cmux-tui|update-databricks-agent-skills|test-release-updaters)\\.sh$"
+        files: "^scripts/(update-opencode-v2(-desktop)?|update-cmux-tui|update-databricks-agent-skills|test-release-updaters)\\.sh$"
         pass_filenames: false
 
       - id: check-alejandra

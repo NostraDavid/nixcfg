@@ -27,7 +27,6 @@
   ],
   "workflow": [
     "context7",
-    "headroom",
     "git-worktrees",
     "code-navigation",
     "beads",
@@ -59,7 +58,6 @@
     "grill-me": "grillme",
     "grilling": "grill",
     "handoff": "handoff",
-    "headroom": "hr",
     "how": "how",
     "hypertext-token-killer": "htk",
     "interview-me": "ask",

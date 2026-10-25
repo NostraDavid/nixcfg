@@ -4,8 +4,8 @@ let
   home = flake.darwinConfigurations.loki.config.home-manager.users.david;
   wodan = flake.nixosConfigurations.wodan.config.home-manager.users.david;
   work = (flake.lib.mkLoki {username = "work";}).config.home-manager.users.work;
-  names = ["agent-memory" "chrome-devtools" "dbhub" "headroom" "nixos" "playwright"];
-  packages = ["engrim" "headroom-ai" "dbhub" "chrome-devtools-mcp" "playwright-mcp" "mcp-nixos"];
+  names = ["agent-memory" "chrome-devtools" "dbhub" "nixos" "playwright"];
+  packages = ["engrim" "dbhub" "chrome-devtools-mcp" "playwright-mcp" "mcp-nixos"];
   pkgs = flake.legacyPackages.x86_64-linux;
   profiles =
     (lib.mapAttrs (_: host: host.config.home-manager.users.david)
@@ -67,10 +67,6 @@ in {
     macos = lib.getAttrs names home.nixcfg.mcp.servers;
   };
   profileServers = lib.mapAttrs (_: profile: lib.getAttrs names profile.nixcfg.mcp.servers) profiles;
-  wodanScripts = pkgs.linkFarm "wodan-mcp-client-checks" (map (name: {
-    inherit name;
-    path = pkgs.writeShellScript name wodan.home.activation.${name}.data;
-  }) ["headroomClients"]);
   wodanLaunchers = pkgs.linkFarm "wodan-mcp-launchers" (map (name: {
     inherit name;
     path = wodan.home.file.".local/bin/${name}".source;
@@ -93,6 +89,13 @@ in {
     piNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl)) allProfiles; true;
     lokiNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl) && !(profile.home.file ? ".local/bin/mcp-node-repl") && !(builtins.any (p: (p.name or "") == "mcp-node-repl") profile.home.packages)) [home work]; true;
     packages = assert lib.all (profile: lib.all (name: builtins.any (p: (p.pname or "") == name) profile.home.packages) packages) allProfiles; true;
+    noHeadroom = assert lib.all (profile:
+      !(profile.nixcfg.mcp.servers ? headroom)
+      && !(profile.home.file ? ".local/bin/headroom")
+      && !(profile.home.file ? ".local/bin/mcp-headroom")
+      && !(profile.home.file ? ".codex/skills/hr")
+      && !(builtins.any (p: (p.pname or "") == "headroom-ai") profile.home.packages))
+    allProfiles; true;
     native = assert !(home.systemd.user.services ? ctx-history); assert !(builtins.any (p: builtins.elem (p.pname or "") ["ctx" "engram" "chatgpt" "blender-mcp"]) home.home.packages); true;
     database = assert lib.hasInfix "sqlite://${home.xdg.dataHome}/dbhub/local.sqlite" home.xdg.configFile."dbhub/local.toml".text; assert work.nixcfg.mcp.servers.dbhub.args == ["--transport" "stdio" "--config" "/Users/work/.config/dbhub/local.toml"]; true;
     browsers = assert home.nixcfg.mcp.servers.playwright.args == ["--headless" "--isolated" "--browser" "chrome"]; assert builtins.elem "--no-usage-statistics" home.nixcfg.mcp.servers.chrome-devtools.args; true;

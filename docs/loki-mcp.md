@@ -4,20 +4,17 @@ The `mcp` Den aspect in `features/mcp/default.nix` configures these servers for
 Codex, OpenCode and Pi on Wodan, Donar, Frigg, Bragi, Mimir2 and Loki:
 
 - Agent-memory, using Engrim
-- Headroom
 - DBHub
 - Chrome DevTools
 - Playwright
 - NixOS
-- Qartez
 
 Pi also retains its existing Exa and OpenAI Developer Docs connections. Copilot,
 VS Code and the shared MCP JSON use the same stable commands.
 
 ## Dependencies
 
-Nix installs the server packages. Headroom uses the pinned macOS ARM64 wheels
-from [Headroom 0.41.0](https://pypi.org/project/headroom-ai/0.41.0/).
+Nix installs the server packages.
 
 Home Manager installs local MCP commands under `~/.local/bin/mcp-*`. Native
 client dotfiles refer to those commands with supported environment expansion or
@@ -62,8 +59,7 @@ Home Manager's configured backup mechanism. Standalone activation defaults to
 `.before-direct-dotfiles` when no backup policy was selected.
 
 Engram and Engrim remain memory backends behind the `agent-memory` command.
-Their databases are retained. The legacy LeanCTX resource cleanup also keeps
-client configuration files intact.
+Their databases are retained.
 
 Restart Codex and Pi, and run `opencode service restart` before checking:
 

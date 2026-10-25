@@ -13,9 +13,9 @@ incidentele opdrachten zijn de aanwezige CLI's voldoende.
 ## Wat er al is
 
 Wodan draait Linux op x86_64. De lokale PATH bevat onder meer `nix`, `gh`,
-`kubectl`, `podman`, `psql`, `dbhub`, `qartez`, `ctx7`, `mcporter`,
-`playwright-mcp`, `mcp-nixos` en `chrome-devtools-mcp`. Aanwezigheid zegt nog
-niets over een werkende verbinding of toegangsrechten.
+`kubectl`, `podman`, `psql`, `dbhub`, `ctx7`, `mcporter`, `playwright-mcp`,
+`mcp-nixos` en `chrome-devtools-mcp`. Aanwezigheid zegt nog niets over een
+werkende verbinding of toegangsrechten.
 
 [features/mcp/_home.nix](../features/mcp/_home.nix) configureert MCP-NixOS,
 Playwright en Chrome DevTools voor Codex en OpenCode. Playwright en Chrome
@@ -28,11 +28,11 @@ DBHub-pakket.
 
 De gecontroleerde lokale configuraties bevatten deze servernamen:
 
-| Configuratie                       | Servernamen                                                                                        |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `~/.codex/config.toml`             | agent-memory, chrome-devtools, headroom, nixos, node_repl, openaiDeveloperDocs, playwright, qartez |
-| `~/.config/opencode/opencode.json` | chrome-devtools, engram, headroom, nixos, playwright, qartez                                       |
-| `~/.config/mcp/mcp.json`           | agent-memory, headroom, qartez                                                                     |
+| Configuratie                       | Servernamen                                                                      |
+| ---------------------------------- | -------------------------------------------------------------------------------- |
+| `~/.codex/config.toml`             | agent-memory, chrome-devtools, nixos, node_repl, openaiDeveloperDocs, playwright |
+| `~/.config/opencode/opencode.json` | chrome-devtools, engram, nixos, playwright                                       |
+| `~/.config/mcp/mcp.json`           | agent-memory                                                                     |
 
 Deze lijsten tonen configuratieverschillen. Ze bewijzen geen fout, aliasgedrag
 of geslaagde verbinding. Ook Pi heeft configuratie in de repository via
@@ -169,6 +169,6 @@ documentatie kan verder zijn dan de lokaal gepinde pakketten. Dit rapport is
 geen audit van de veiligheid of onderhoudskwaliteit van de servercode.
 
 Een algemene filesystem-, git- of shell-MCP en een tweede codeserver zijn
-overgeslagen. Voor deze taken bestaan hier al shelltools, Qartez en bestaande
+overgeslagen. Voor deze taken bestaan hier al shelltools en bestaande
 integraties. Nieuwe MCP-aansluitingen kunnen gegevens aan de gebruikte AI-client
 doorgeven. Alleen-lezenrechten voorkomen geen uitlekken van leesbare gegevens.

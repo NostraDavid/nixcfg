@@ -103,7 +103,6 @@
     "agent-memory"
     "chrome-devtools"
     "dbhub"
-    "headroom"
     "nixos"
     "playwright"
   ];

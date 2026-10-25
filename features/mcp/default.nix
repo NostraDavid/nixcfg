@@ -7,13 +7,6 @@
         ];
       };
     };
-    headroom = {
-      homeManager = {
-        imports = [
-          ./_headroom.nix
-        ];
-      };
-    };
     pi = {
       homeManager = {
         imports = [
@@ -24,7 +17,6 @@
     mcp = {
       includes = with den.aspects; [
         agent-memory
-        headroom
         pi
       ];
       homeManager = {
