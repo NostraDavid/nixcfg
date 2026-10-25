@@ -8,9 +8,3 @@ variable "proxmox_api_token" {
   type        = string
   sensitive   = true
 }
-
-variable "ldap_bind_password_path" {
-  description = "Local password file created by the Proxmox LDAP reader bootstrap."
-  type        = string
-  default     = "~/.local/state/nixcfg/proxmox-ldap-bind-password"
-}

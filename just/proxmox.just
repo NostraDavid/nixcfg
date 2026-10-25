@@ -29,6 +29,7 @@ app-vms-check:
   @just app-vm-check apps
   @just app-vm-check forgejo
   @just app-vm-check proxy
+  @just app-vm-check openbao
 
 # Deploy an app VM configuration to a remote NixOS guest.
 [group('proxmox')]
@@ -55,6 +56,10 @@ deploy-forgejo target="david@192.168.2.110":
 [group('proxmox')]
 deploy-proxy target="david@192.168.2.111":
   @just app-vm-deploy proxy "{{target}}"
+
+[group('proxmox')]
+deploy-openbao target="david@192.168.2.112":
+  @just app-vm-deploy openbao "{{target}}"
 
 # Verify the shared CA files and their inclusion in every NixOS host.
 [group('proxmox')]

@@ -28,6 +28,7 @@
           full-workstation
           nvidia-workstation
           proxmox-lab-host
+          openbao-backup
           wodan
         ];
         nixos = {

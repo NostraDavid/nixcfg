@@ -32,12 +32,16 @@ resource "proxmox_realm_ldap" "freeipa" {
   group_filter          = "(|(cn=grp-ro-monitor)(cn=grp-proxmox-admin)(cn=grp-vm-operator))"
   sync_attributes       = "email=mail,firstname=givenName,lastname=sn"
   bind_dn               = "uid=proxmox-reader,cn=sysaccounts,cn=etc,dc=powerlan,dc=empire"
-  bind_password         = trimspace(file(pathexpand(var.ldap_bind_password_path)))
   mode                  = "ldaps"
   verify                = true
   ca_path               = "/etc/pve/priv/freeipa-ca.crt"
   comment               = "FreeIPA identities and access groups; managed by nixcfg"
   sync_defaults_options = "scope=both,enable-new=1,remove-vanished=entry;acl"
+
+  lifecycle {
+    # OpenBao owns this value; a realm update must preserve its current password.
+    ignore_changes = [bind_password]
+  }
 }
 
 resource "terraform_data" "freeipa_policy" {

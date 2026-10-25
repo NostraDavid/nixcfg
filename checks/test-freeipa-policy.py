@@ -2,6 +2,7 @@
 """Check the Git policy and the removal path without contacting FreeIPA."""
 
 import importlib.util
+import tempfile
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -93,3 +94,35 @@ def fake_hbactest(args, **_kwargs):
 with patch.object(policy.subprocess, "run", side_effect=fake_hbactest):
     policy.test_hbac({})
 print("FreeIPA policy expansion and exact membership diff passed.")
+
+with (
+    patch.object(
+        policy, "ldap_entry", return_value={"description": ["Managed by OpenBao"]}
+    ),
+    patch.object(policy, "command") as command,
+):
+    policy.bootstrap_proxmox_reader({})
+    command.assert_not_called()
+
+with tempfile.TemporaryDirectory() as directory:
+    password_path = Path(directory) / "rotator-password"
+    with (
+        patch.object(policy, "OPENBAO_ROTATOR_PASSWORD", password_path),
+        patch.object(policy, "ldap_entry", return_value=None),
+        patch.object(
+            policy.subprocess, "run", return_value=SimpleNamespace(returncode=0)
+        ) as modify,
+    ):
+        policy.bootstrap_openbao({})
+        ldif = modify.call_args.kwargs["input"]
+        assert password_path.stat().st_mode & 0o777 == 0o600
+        assert '(targetattr="userPassword")' in ldif
+        assert (
+            '(targetfilter="(|(uid=openbao-rotator)(uid=forgejo-reader)(uid=proxmox-reader))")'
+            in ldif
+        )
+        assert 'allow (write) userdn="ldap:///uid=openbao-rotator,' in ldif
+        assert '(targetattr="uid || objectClass")' in ldif
+        assert "Directory Manager" not in ldif
+
+print("OpenBao directory delegation and legacy password-reset guard passed.")

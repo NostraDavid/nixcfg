@@ -33,6 +33,7 @@
 in {
   imports = [
     ./forgejo-image.nix
+    ./openbao-image.nix
     ./outputs.nix
     ./proxmox-lab.nix
     ./proxy-image.nix

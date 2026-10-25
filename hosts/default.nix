@@ -10,6 +10,7 @@
     ./virtual/forgejo
     ./virtual/forgejo-lab
     ./virtual/homepage
+    ./virtual/openbao
     ./virtual/proxy
   ];
 }

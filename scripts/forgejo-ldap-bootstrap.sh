@@ -42,6 +42,12 @@ if [[ ${1:-} == --check ]]; then
     exit 0
 fi
 
+if ssh -o BatchMode=yes "$forgejo_target" 'sudo test -s /srv/forgejo/openbao-consumer/credentials.json'; then
+    ssh -o BatchMode=yes "$forgejo_target" 'sudo systemctl start openbao-consumer.service'
+    echo 'OpenBao beheert dit bindwachtwoord; de actuele waarde is opnieuw toegepast.'
+    exit 0
+fi
+
 umask 077
 temp_dir=$(mktemp -d /tmp/forgejo-ldap.XXXXXXXXXX)
 trap 'rm -rf "$temp_dir"' EXIT

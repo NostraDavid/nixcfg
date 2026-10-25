@@ -26,6 +26,7 @@ SERVER = "ldap.powerlan.empire"
 NAME = re.compile(r"[a-z][a-z0-9_-]*\Z")
 PROXMOX_READER_DN = f"uid=proxmox-reader,cn=sysaccounts,cn=etc,{DOMAIN}"
 PROXMOX_READER_PASSWORD = Path.home() / ".local/state/nixcfg/proxmox-ldap-bind-password"
+OPENBAO_ROTATOR_PASSWORD = Path.home() / ".local/state/nixcfg/openbao-rotator-password"
 
 
 def require(condition, message):
@@ -474,7 +475,12 @@ def test_hbac(env):
 
 def bootstrap_proxmox_reader(env):
     password_path = PROXMOX_READER_PASSWORD
-    entry = ldap_entry(PROXMOX_READER_DN, ["uid"], env)
+    entry = ldap_entry(PROXMOX_READER_DN, ["uid", "description"], env)
+    if entry and "Managed by OpenBao" in entry.get("description", []):
+        print(
+            "OpenBao owns proxmox-reader; reconcile its consumer instead of restoring a local password."
+        )
+        return
     if entry and not password_path.is_file():
         raise RuntimeError(
             "proxmox-reader exists, but its local password file is missing"
@@ -563,6 +569,66 @@ def bootstrap_proxmox_reader(env):
     print(f"proxmox-reader works; password remains in {password_path}.")
 
 
+def bootstrap_openbao(env: dict[str, str]) -> None:
+    container = f"cn=sysaccounts,cn=etc,{DOMAIN}"
+    rotator = f"uid=openbao-rotator,{container}"
+    password_path = OPENBAO_ROTATOR_PASSWORD
+    changes = []
+    for name in ("openbao-rotator", "forgejo-reader", "proxmox-reader"):
+        dn = f"uid={name},{container}"
+        entry = ldap_entry(dn, ["uid", "description"], env)
+        if not entry:
+            password = secrets.token_urlsafe(48)
+            if name == "openbao-rotator":
+                password_path.parent.mkdir(parents=True, mode=0o700, exist_ok=True)
+                with os.fdopen(
+                    os.open(password_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600),
+                    "w",
+                ) as stream:
+                    stream.write(password)
+            changes.append(
+                f"dn: {dn}\nchangetype: add\nobjectClass: account\n"
+                f"objectClass: simpleSecurityObject\nuid: {name}\nuserPassword: {password}\n"
+                "description: Managed by OpenBao\npasswordExpirationTime: 20380119031407Z\nnsIdleTimeout: 0\n"
+            )
+        elif "Managed by OpenBao" not in entry.get("description", []):
+            changes.append(
+                f"dn: {dn}\nchangetype: modify\nadd: description\ndescription: Managed by OpenBao\n"
+            )
+    target = "(|(uid=openbao-rotator)(uid=forgejo-reader)(uid=proxmox-reader))"
+    acis = [
+        f'(targetfilter="{target}")(targetattr="userPassword")(version 3.0; acl "OpenBao service password rotation"; allow (write) userdn="ldap:///{rotator}";)',
+        f'(targetfilter="{target}")(targetattr="uid || objectClass")(version 3.0; acl "OpenBao service account lookup"; allow (read,search,compare) userdn="ldap:///{rotator}";)',
+    ]
+    existing = ldap_entry(container, ["aci"], env) or {}
+    missing = [aci for aci in acis if aci not in existing.get("aci", [])]
+    if missing:
+        changes.append(
+            f"dn: {container}\nchangetype: modify\nadd: aci\n"
+            + "".join(f"aci: {aci}\n" for aci in missing)
+        )
+    if changes:
+        result = subprocess.run(  # noqa: S603 - Fixed command and host; LDIF goes through stdin.
+            ["ldapmodify", "-Q", "-Y", "GSSAPI", "-N", "-H", f"ldaps://{SERVER}"],  # noqa: S607 - Supplied by the Nix shell.
+            input="\n".join(changes),
+            text=True,
+            capture_output=True,
+            env=env,
+            check=False,
+        )
+        require(
+            result.returncode == 0,
+            "Could not provision the restricted OpenBao directory account; no credentials are logged",
+        )
+    print(
+        "OpenBao may change only its own password and the two selected bind passwords."
+    )
+    if password_path.exists():
+        print(
+            f"Initial rotator credential: {password_path}; never re-import it after OpenBao rotates it."
+        )
+
+
 def runtime_env(temp_dir):
     (temp_dir / "default.conf").write_text(
         "[global]\n"
@@ -595,9 +661,10 @@ def main():
         "apply",
         "check",
         "bootstrap-proxmox-reader",
+        "bootstrap-openbao",
     }:
         raise SystemExit(
-            "Usage: freeipa-policy.py {validate|plan|apply|check|bootstrap-proxmox-reader}"
+            "Usage: freeipa-policy.py {validate|plan|apply|check|bootstrap-proxmox-reader|bootstrap-openbao}"
         )
     known, groups, hostgroups, hbac, sudo_rules, enforce_hbac = policy_groups()
     if sys.argv[1] == "validate":
@@ -616,6 +683,9 @@ def main():
         subprocess.run(["kinit", "admin@POWERLAN.EMPIRE"], env=env, check=True)
         if sys.argv[1] == "bootstrap-proxmox-reader":
             bootstrap_proxmox_reader(env)
+            return
+        if sys.argv[1] == "bootstrap-openbao":
+            bootstrap_openbao(env)
             return
         forgejo_emails = set()
         for user in sorted(known):

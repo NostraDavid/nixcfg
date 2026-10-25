@@ -27,6 +27,7 @@
     unitConfig.AssertPathIsMountPoint = "/srv/forgejo";
   };
 in {
+  imports = [./_openbao.nix];
   options.nixcfg.forgejo = {
     enable = lib.mkEnableOption "the Forgejo service with a separate persistent disk";
     domain = lib.mkOption {type = lib.types.str;};

@@ -106,6 +106,7 @@
         }
       '';
     in {
+      environment.systemPackages = [pkgs.openssl];
       networking = {
         hostName = "proxy";
         useDHCP = false;

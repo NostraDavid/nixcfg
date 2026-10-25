@@ -76,17 +76,12 @@ pveum aclmod / -user ipa-access@pve -role Administrator
 pveum user token add ipa-access@pve access --privsep=0
 ```
 
-Maak eerst het beperkte LDAP-zoekaccount en lokale wachtwoordbestand:
-
-```bash
-just freeipa-proxmox-reader-bootstrap
-```
-
-Het wachtwoord staat daarna in
-`~/.local/state/nixcfg/proxmox-ldap-bind-password` met mode `0600`. De nieuwe
-OpenTofu-state bevat dit geheim ook en moet daarom privé blijven. Installeer de
-publieke FreeIPA-CA uit `certs/freeipa.crt` op de Proxmox-host als
-`/etc/pve/priv/freeipa-ca.crt` voordat de realm wordt aangemaakt.
+Volg [OpenBao inrichten](openbao.md) voor het beperkte LDAP-zoekaccount en de
+automatische wachtwoordrotatie. OpenTofu leest dit wachtwoord niet meer en mag
+het niet terugzetten. Oude OpenTofu-state kan het geheim nog bevatten en moet
+privé blijven. Installeer de publieke FreeIPA-CA uit `certs/freeipa.crt` op de
+Proxmox-host als `/etc/pve/priv/freeipa-ca.crt` voordat de realm wordt
+aangemaakt.
 
 ```bash
 just tofu-proxmox-access-init

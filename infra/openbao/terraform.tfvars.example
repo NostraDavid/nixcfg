@@ -1,0 +1,2 @@
+# Copy to terraform.tfvars with mode 0600. Never commit the token.
+proxmox_api_token = "user@realm!token-id=secret"

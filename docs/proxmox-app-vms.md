@@ -1,11 +1,13 @@
 # Proxmox app VMs
 
-Deze repo definieert vier NixOS guests voor Proxmox:
+Deze repo definieert vijf NixOS guests voor Proxmox:
 
 - `homepage`: dashboard host voor Homepage.
 - `apps`: gedeelde host voor het huishoudboekje en de recepten/boodschappen app.
 - `forgejo`: eigen Git-dienst op VM 110, `prd-svc-forgejo-01`.
 - `proxy`: gedeelde HTTPS-ingang op VM 111, `prd-svc-proxy-01`.
+- `openbao`: servicegeheimen op VM 112, `prd-svc-secrets-01`. Zie
+  [OpenBao inrichten en herstellen](openbao.md).
 
 De root disks zijn vervangbaar. Applicatie-state staat op aparte Proxmox disks
 die NixOS mount via filesystem labels.

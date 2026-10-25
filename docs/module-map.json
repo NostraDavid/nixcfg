@@ -154,19 +154,11 @@
         ],
         [
           "features/mcp/default.nix",
-          "features/mcp/_headroom.nix"
-        ],
-        [
-          "features/mcp/default.nix",
           "features/mcp/_home.nix"
         ],
         [
           "features/mcp/default.nix",
           "features/mcp/_pi.nix"
-        ],
-        [
-          "features/mcp/default.nix",
-          "features/mcp/_qartez.nix"
         ],
         [
           "features/media/default.nix",
@@ -235,6 +227,7 @@
           "features/browsers/_home.nix",
           "features/browsers/default.nix",
           "features/cachix/default.nix",
+          "features/code-navigation/default.nix",
           "features/codex-browser/_home.nix",
           "features/codex-browser/default.nix",
           "features/common-tooling/default.nix",
@@ -282,10 +275,8 @@
           "features/laptop/default.nix",
           "features/location/default.nix",
           "features/mcp/_agent-memory.nix",
-          "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
-          "features/mcp/_qartez.nix",
           "features/mcp/default.nix",
           "features/media/_apps.nix",
           "features/media/_production.nix",
@@ -347,6 +338,7 @@
         "features/browsers/_home.nix",
         "features/browsers/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/codex-browser/_home.nix",
         "features/codex-browser/default.nix",
         "features/common-tooling/default.nix",
@@ -394,10 +386,8 @@
         "features/laptop/default.nix",
         "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
         "features/mcp/default.nix",
         "features/media/_apps.nix",
         "features/media/_production.nix",
@@ -457,6 +447,7 @@
         "features/boot/default.nix",
         "features/browsers/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/codex-browser/default.nix",
         "features/common-tooling/default.nix",
         "features/communication/default.nix",
@@ -721,6 +712,10 @@
           ],
           [
             "interactive",
+            "code-navigation"
+          ],
+          [
+            "interactive",
             "common-tooling"
           ],
           [
@@ -745,15 +740,7 @@
           ],
           [
             "mcp",
-            "headroom"
-          ],
-          [
-            "mcp",
             "pi"
-          ],
-          [
-            "mcp",
-            "qartez"
           ],
           [
             "nixos-base",
@@ -792,6 +779,10 @@
             "id": "cachix"
           },
           {
+            "file": "features/code-navigation/default.nix",
+            "id": "code-navigation"
+          },
+          {
             "file": "features/codex-browser/default.nix",
             "id": "codex-browser"
           },
@@ -810,10 +801,6 @@
           {
             "file": "features/fonts/default.nix",
             "id": "fonts"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "headroom"
           },
           {
             "file": "features/hyprland/default.nix",
@@ -860,10 +847,6 @@
             "id": "pi"
           },
           {
-            "file": "features/mcp/default.nix",
-            "id": "qartez"
-          },
-          {
             "file": "features/storage-optimization/default.nix",
             "id": "storage-optimization"
           },
@@ -893,19 +876,11 @@
         ],
         [
           "features/mcp/default.nix",
-          "features/mcp/_headroom.nix"
-        ],
-        [
-          "features/mcp/default.nix",
           "features/mcp/_home.nix"
         ],
         [
           "features/mcp/default.nix",
           "features/mcp/_pi.nix"
-        ],
-        [
-          "features/mcp/default.nix",
-          "features/mcp/_qartez.nix"
         ],
         [
           "features/nix-index/default.nix",
@@ -928,6 +903,7 @@
           "features/annotation/default.nix",
           "features/boot/default.nix",
           "features/cachix/default.nix",
+          "features/code-navigation/default.nix",
           "features/codex-browser/default.nix",
           "features/common-tooling/default.nix",
           "features/desktop-runtime/default.nix",
@@ -949,6 +925,7 @@
         ],
         "home:david": [
           "features/annotation/default.nix",
+          "features/code-navigation/default.nix",
           "features/codex-browser/_home.nix",
           "features/codex-browser/default.nix",
           "features/common-tooling/default.nix",
@@ -959,10 +936,8 @@
           "features/keyboard/_home.nix",
           "features/keyboard/default.nix",
           "features/mcp/_agent-memory.nix",
-          "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
-          "features/mcp/_qartez.nix",
           "features/mcp/default.nix",
           "features/nix-index/_home.nix",
           "features/nix-index/default.nix",
@@ -990,6 +965,7 @@
         "features/annotation/default.nix",
         "features/boot/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/codex-browser/_home.nix",
         "features/codex-browser/default.nix",
         "features/common-tooling/default.nix",
@@ -1004,10 +980,8 @@
         "features/keyboard/default.nix",
         "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
         "features/mcp/default.nix",
         "features/nix-index/_home.nix",
         "features/nix-index/default.nix",
@@ -1022,6 +996,7 @@
         "features/annotation/default.nix",
         "features/boot/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/codex-browser/default.nix",
         "features/common-tooling/default.nix",
         "features/desktop-runtime/default.nix",
@@ -1089,19 +1064,15 @@
           ],
           [
             "development-core",
-            "pi"
+            "code-navigation"
           ],
           [
             "development-core",
-            "qartez"
+            "pi"
           ],
           [
             "development-mantle",
             "agent-memory"
-          ],
-          [
-            "development-mantle",
-            "headroom"
           ],
           [
             "dotfiles",
@@ -1145,6 +1116,10 @@
           ],
           [
             "interactive",
+            "code-navigation"
+          ],
+          [
+            "interactive",
             "common-tooling"
           ],
           [
@@ -1181,15 +1156,7 @@
           ],
           [
             "mcp",
-            "headroom"
-          ],
-          [
-            "mcp",
             "pi"
-          ],
-          [
-            "mcp",
-            "qartez"
           ],
           [
             "nixos-base",
@@ -1288,6 +1255,10 @@
             "id": "cachix"
           },
           {
+            "file": "features/code-navigation/default.nix",
+            "id": "code-navigation"
+          },
+          {
             "file": "features/common-tooling/default.nix",
             "id": "common-tooling"
           },
@@ -1350,10 +1321,6 @@
           {
             "file": "features/gaming/default.nix",
             "id": "gaming"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "headroom"
           },
           {
             "file": "features/i18n/default.nix",
@@ -1422,10 +1389,6 @@
           {
             "file": "features/dotfiles/default.nix",
             "id": "portable-dotfiles"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "qartez"
           },
           {
             "file": "features/storage-optimization/default.nix",
@@ -1541,19 +1504,11 @@
         ],
         [
           "features/mcp/default.nix",
-          "features/mcp/_headroom.nix"
-        ],
-        [
-          "features/mcp/default.nix",
           "features/mcp/_home.nix"
         ],
         [
           "features/mcp/default.nix",
           "features/mcp/_pi.nix"
-        ],
-        [
-          "features/mcp/default.nix",
-          "features/mcp/_qartez.nix"
         ],
         [
           "features/media/default.nix",
@@ -1625,6 +1580,7 @@
           "features/boot/default.nix",
           "features/browsers/default.nix",
           "features/cachix/default.nix",
+          "features/code-navigation/default.nix",
           "features/common-tooling/default.nix",
           "features/communication/default.nix",
           "features/containers/default.nix",
@@ -1661,6 +1617,7 @@
           "features/annotation/default.nix",
           "features/browsers/_home.nix",
           "features/browsers/default.nix",
+          "features/code-navigation/default.nix",
           "features/common-tooling/default.nix",
           "features/communication/_home.nix",
           "features/communication/_work.nix",
@@ -1690,10 +1647,8 @@
           "features/keyboard/_home.nix",
           "features/keyboard/default.nix",
           "features/mcp/_agent-memory.nix",
-          "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
-          "features/mcp/_qartez.nix",
           "features/mcp/default.nix",
           "features/media/_apps.nix",
           "features/media/_production.nix",
@@ -1743,6 +1698,7 @@
         "features/browsers/_home.nix",
         "features/browsers/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/common-tooling/default.nix",
         "features/communication/_home.nix",
         "features/communication/_work.nix",
@@ -1777,10 +1733,8 @@
         "features/laptop/default.nix",
         "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
         "features/mcp/default.nix",
         "features/media/_apps.nix",
         "features/media/_production.nix",
@@ -1812,6 +1766,7 @@
         "features/boot/default.nix",
         "features/browsers/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/common-tooling/default.nix",
         "features/communication/default.nix",
         "features/containers/default.nix",
@@ -2154,19 +2109,15 @@
           ],
           [
             "development-core",
-            "pi"
+            "code-navigation"
           ],
           [
             "development-core",
-            "qartez"
+            "pi"
           ],
           [
             "development-mantle",
             "agent-memory"
-          ],
-          [
-            "development-mantle",
-            "headroom"
           ],
           [
             "dotfiles",
@@ -2175,6 +2126,10 @@
           [
             "interactive",
             "annotation"
+          ],
+          [
+            "interactive",
+            "code-navigation"
           ],
           [
             "interactive",
@@ -2214,15 +2169,7 @@
           ],
           [
             "mcp",
-            "headroom"
-          ],
-          [
-            "mcp",
             "pi"
-          ],
-          [
-            "mcp",
-            "qartez"
           ],
           [
             "nixos-base",
@@ -2321,6 +2268,10 @@
             "id": "cachix"
           },
           {
+            "file": "features/code-navigation/default.nix",
+            "id": "code-navigation"
+          },
+          {
             "file": "features/codex-browser/default.nix",
             "id": "codex-browser"
           },
@@ -2367,10 +2318,6 @@
           {
             "file": "features/fonts/default.nix",
             "id": "fonts"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "headroom"
           },
           {
             "file": "features/i18n/default.nix",
@@ -2435,10 +2382,6 @@
           {
             "file": "features/dotfiles/default.nix",
             "id": "portable-dotfiles"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "qartez"
           },
           {
             "file": "features/storage-optimization/default.nix",
@@ -2526,19 +2469,11 @@
         ],
         [
           "features/mcp/default.nix",
-          "features/mcp/_headroom.nix"
-        ],
-        [
-          "features/mcp/default.nix",
           "features/mcp/_home.nix"
         ],
         [
           "features/mcp/default.nix",
           "features/mcp/_pi.nix"
-        ],
-        [
-          "features/mcp/default.nix",
-          "features/mcp/_qartez.nix"
         ],
         [
           "features/media/default.nix",
@@ -2602,6 +2537,7 @@
           "features/boot/default.nix",
           "features/browsers/default.nix",
           "features/cachix/default.nix",
+          "features/code-navigation/default.nix",
           "features/codex-browser/default.nix",
           "features/common-tooling/default.nix",
           "features/communication/default.nix",
@@ -2635,6 +2571,7 @@
           "features/annotation/default.nix",
           "features/browsers/_home.nix",
           "features/browsers/default.nix",
+          "features/code-navigation/default.nix",
           "features/codex-browser/_home.nix",
           "features/codex-browser/default.nix",
           "features/common-tooling/default.nix",
@@ -2658,10 +2595,8 @@
           "features/keyboard/_home.nix",
           "features/keyboard/default.nix",
           "features/mcp/_agent-memory.nix",
-          "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
-          "features/mcp/_qartez.nix",
           "features/mcp/default.nix",
           "features/media/_apps.nix",
           "features/media/_tools.nix",
@@ -2706,6 +2641,7 @@
         "features/browsers/_home.nix",
         "features/browsers/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/codex-browser/_home.nix",
         "features/codex-browser/default.nix",
         "features/common-tooling/default.nix",
@@ -2734,10 +2670,8 @@
         "features/laptop/default.nix",
         "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
         "features/mcp/default.nix",
         "features/media/_apps.nix",
         "features/media/_tools.nix",
@@ -2766,6 +2700,7 @@
         "features/boot/default.nix",
         "features/browsers/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/codex-browser/default.nix",
         "features/common-tooling/default.nix",
         "features/communication/default.nix",
@@ -3108,19 +3043,15 @@
           ],
           [
             "development-core",
-            "pi"
+            "code-navigation"
           ],
           [
             "development-core",
-            "qartez"
+            "pi"
           ],
           [
             "development-mantle",
             "agent-memory"
-          ],
-          [
-            "development-mantle",
-            "headroom"
           ],
           [
             "dotfiles",
@@ -3164,6 +3095,10 @@
           ],
           [
             "interactive",
+            "code-navigation"
+          ],
+          [
+            "interactive",
             "common-tooling"
           ],
           [
@@ -3200,15 +3135,7 @@
           ],
           [
             "mcp",
-            "headroom"
-          ],
-          [
-            "mcp",
             "pi"
-          ],
-          [
-            "mcp",
-            "qartez"
           ],
           [
             "nixos-base",
@@ -3307,6 +3234,10 @@
             "id": "cachix"
           },
           {
+            "file": "features/code-navigation/default.nix",
+            "id": "code-navigation"
+          },
+          {
             "file": "features/codex-browser/default.nix",
             "id": "codex-browser"
           },
@@ -3373,10 +3304,6 @@
           {
             "file": "features/gaming/default.nix",
             "id": "gaming"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "headroom"
           },
           {
             "file": "features/i18n/default.nix",
@@ -3449,10 +3376,6 @@
           {
             "file": "hosts/physical/wodan/default.nix",
             "id": "proxmox-lab-host"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "qartez"
           },
           {
             "file": "features/storage-optimization/default.nix",
@@ -3572,19 +3495,11 @@
         ],
         [
           "features/mcp/default.nix",
-          "features/mcp/_headroom.nix"
-        ],
-        [
-          "features/mcp/default.nix",
           "features/mcp/_home.nix"
         ],
         [
           "features/mcp/default.nix",
           "features/mcp/_pi.nix"
-        ],
-        [
-          "features/mcp/default.nix",
-          "features/mcp/_qartez.nix"
         ],
         [
           "features/media/default.nix",
@@ -3656,6 +3571,7 @@
           "features/boot/default.nix",
           "features/browsers/default.nix",
           "features/cachix/default.nix",
+          "features/code-navigation/default.nix",
           "features/codex-browser/default.nix",
           "features/common-tooling/default.nix",
           "features/communication/default.nix",
@@ -3693,6 +3609,7 @@
           "features/annotation/default.nix",
           "features/browsers/_home.nix",
           "features/browsers/default.nix",
+          "features/code-navigation/default.nix",
           "features/codex-browser/_home.nix",
           "features/codex-browser/default.nix",
           "features/common-tooling/default.nix",
@@ -3724,10 +3641,8 @@
           "features/keyboard/_home.nix",
           "features/keyboard/default.nix",
           "features/mcp/_agent-memory.nix",
-          "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
-          "features/mcp/_qartez.nix",
           "features/mcp/default.nix",
           "features/media/_apps.nix",
           "features/media/_production.nix",
@@ -3777,6 +3692,7 @@
         "features/browsers/_home.nix",
         "features/browsers/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/codex-browser/_home.nix",
         "features/codex-browser/default.nix",
         "features/common-tooling/default.nix",
@@ -3812,10 +3728,8 @@
         "features/keyboard/default.nix",
         "features/location/default.nix",
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
         "features/mcp/default.nix",
         "features/media/_apps.nix",
         "features/media/_production.nix",
@@ -3848,6 +3762,7 @@
         "features/boot/default.nix",
         "features/browsers/default.nix",
         "features/cachix/default.nix",
+        "features/code-navigation/default.nix",
         "features/codex-browser/default.nix",
         "features/common-tooling/default.nix",
         "features/communication/default.nix",
@@ -3894,15 +3809,19 @@
           ],
           [
             "development-core",
-            "pi"
+            "code-navigation"
           ],
           [
             "development-core",
-            "qartez"
+            "pi"
           ],
           [
             "interactive",
             "annotation"
+          ],
+          [
+            "interactive",
+            "code-navigation"
           ],
           [
             "interactive",
@@ -3930,15 +3849,7 @@
           ],
           [
             "mcp",
-            "headroom"
-          ],
-          [
-            "mcp",
             "pi"
-          ],
-          [
-            "mcp",
-            "qartez"
           ],
           [
             "nixos-base",
@@ -4009,6 +3920,10 @@
             "id": "cachix"
           },
           {
+            "file": "features/code-navigation/default.nix",
+            "id": "code-navigation"
+          },
+          {
             "file": "features/common-tooling/default.nix",
             "id": "common-tooling"
           },
@@ -4027,10 +3942,6 @@
           {
             "file": "features/fonts/default.nix",
             "id": "fonts"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "headroom"
           },
           {
             "file": "profiles/interactive.nix",
@@ -4071,10 +3982,6 @@
           {
             "file": "features/portable-runtime/default.nix",
             "id": "portable-runtime"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "qartez"
           },
           {
             "file": "features/window-management/default.nix",
@@ -4122,19 +4029,11 @@
         ],
         [
           "features/mcp/default.nix",
-          "features/mcp/_headroom.nix"
-        ],
-        [
-          "features/mcp/default.nix",
           "features/mcp/_home.nix"
         ],
         [
           "features/mcp/default.nix",
           "features/mcp/_pi.nix"
-        ],
-        [
-          "features/mcp/default.nix",
-          "features/mcp/_qartez.nix"
         ],
         [
           "features/nix-index/default.nix",
@@ -4160,6 +4059,7 @@
         "aspects": [
           "features/annotation/default.nix",
           "features/cachix/default.nix",
+          "features/code-navigation/default.nix",
           "features/common-tooling/default.nix",
           "features/darwin-keyboard/default.nix",
           "features/darwin-speech/default.nix",
@@ -4179,6 +4079,7 @@
         ],
         "home:david": [
           "features/annotation/default.nix",
+          "features/code-navigation/default.nix",
           "features/common-tooling/default.nix",
           "features/darwin-keyboard/_home.nix",
           "features/darwin-keyboard/default.nix",
@@ -4192,10 +4093,8 @@
           "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/_agent-memory.nix",
-          "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
-          "features/mcp/_qartez.nix",
           "features/mcp/default.nix",
           "features/nix-index/_home.nix",
           "features/nix-index/default.nix",
@@ -4218,6 +4117,7 @@
       },
       "modules": [
         "features/annotation/default.nix",
+        "features/code-navigation/default.nix",
         "features/common-tooling/default.nix",
         "features/darwin-keyboard/_darwin.nix",
         "features/darwin-keyboard/_home.nix",
@@ -4232,10 +4132,8 @@
         "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
         "features/mcp/default.nix",
         "features/nix-index/_home.nix",
         "features/nix-index/default.nix",
@@ -4249,6 +4147,7 @@
       ],
       "roots": [
         "features/annotation/default.nix",
+        "features/code-navigation/default.nix",
         "features/common-tooling/default.nix",
         "features/darwin-keyboard/default.nix",
         "features/darwin-speech/default.nix",
@@ -4273,15 +4172,19 @@
           ],
           [
             "development-core",
-            "pi"
+            "code-navigation"
           ],
           [
             "development-core",
-            "qartez"
+            "pi"
           ],
           [
             "interactive",
             "annotation"
+          ],
+          [
+            "interactive",
+            "code-navigation"
           ],
           [
             "interactive",
@@ -4309,15 +4212,7 @@
           ],
           [
             "mcp",
-            "headroom"
-          ],
-          [
-            "mcp",
             "pi"
-          ],
-          [
-            "mcp",
-            "qartez"
           ],
           [
             "nixos-base",
@@ -4388,6 +4283,10 @@
             "id": "cachix"
           },
           {
+            "file": "features/code-navigation/default.nix",
+            "id": "code-navigation"
+          },
+          {
             "file": "features/common-tooling/default.nix",
             "id": "common-tooling"
           },
@@ -4402,10 +4301,6 @@
           {
             "file": "features/fonts/default.nix",
             "id": "fonts"
-          },
-          {
-            "file": "features/mcp/default.nix",
-            "id": "headroom"
           },
           {
             "file": "profiles/interactive.nix",
@@ -4448,10 +4343,6 @@
             "id": "portable-runtime"
           },
           {
-            "file": "features/mcp/default.nix",
-            "id": "qartez"
-          },
-          {
             "file": "features/terminal/default.nix",
             "id": "terminal-core"
           },
@@ -4485,19 +4376,11 @@
         ],
         [
           "features/mcp/default.nix",
-          "features/mcp/_headroom.nix"
-        ],
-        [
-          "features/mcp/default.nix",
           "features/mcp/_home.nix"
         ],
         [
           "features/mcp/default.nix",
           "features/mcp/_pi.nix"
-        ],
-        [
-          "features/mcp/default.nix",
-          "features/mcp/_qartez.nix"
         ],
         [
           "features/nix-index/default.nix",
@@ -4523,6 +4406,7 @@
         "aspects": [
           "features/annotation/default.nix",
           "features/cachix/default.nix",
+          "features/code-navigation/default.nix",
           "features/common-tooling/default.nix",
           "features/darwin-speech/default.nix",
           "features/development/default.nix",
@@ -4540,6 +4424,7 @@
         ],
         "home:david": [
           "features/annotation/default.nix",
+          "features/code-navigation/default.nix",
           "features/common-tooling/default.nix",
           "features/darwin-speech/_home.nix",
           "features/darwin-speech/default.nix",
@@ -4551,10 +4436,8 @@
           "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/_agent-memory.nix",
-          "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
-          "features/mcp/_qartez.nix",
           "features/mcp/default.nix",
           "features/nix-index/_home.nix",
           "features/nix-index/default.nix",
@@ -4569,6 +4452,7 @@
       },
       "modules": [
         "features/annotation/default.nix",
+        "features/code-navigation/default.nix",
         "features/common-tooling/default.nix",
         "features/darwin-speech/_home.nix",
         "features/darwin-speech/default.nix",
@@ -4580,10 +4464,8 @@
         "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
         "features/mcp/default.nix",
         "features/nix-index/_home.nix",
         "features/nix-index/default.nix",
@@ -4596,6 +4478,7 @@
       ],
       "roots": [
         "features/annotation/default.nix",
+        "features/code-navigation/default.nix",
         "features/common-tooling/default.nix",
         "features/darwin-speech/default.nix",
         "features/development/default.nix",
@@ -4638,19 +4521,11 @@
         ],
         [
           "features/mcp/default.nix",
-          "features/mcp/_headroom.nix"
-        ],
-        [
-          "features/mcp/default.nix",
           "features/mcp/_home.nix"
         ],
         [
           "features/mcp/default.nix",
           "features/mcp/_pi.nix"
-        ],
-        [
-          "features/mcp/default.nix",
-          "features/mcp/_qartez.nix"
         ],
         [
           "features/nix-index/default.nix",
@@ -4734,6 +4609,10 @@
         ],
         [
           "nix/default.nix",
+          "features/code-navigation/default.nix"
+        ],
+        [
+          "nix/default.nix",
           "features/development/default.nix"
         ],
         [
@@ -4747,6 +4626,7 @@
       "layers": {
         "home:david": [
           "features/annotation/default.nix",
+          "features/code-navigation/default.nix",
           "features/common-tooling/default.nix",
           "features/darwin-speech/_home.nix",
           "features/darwin-speech/default.nix",
@@ -4759,10 +4639,8 @@
           "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/_agent-memory.nix",
-          "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
-          "features/mcp/_qartez.nix",
           "features/mcp/default.nix",
           "features/nix-index/_home.nix",
           "features/nix-index/default.nix",
@@ -4795,6 +4673,7 @@
       },
       "modules": [
         "features/annotation/default.nix",
+        "features/code-navigation/default.nix",
         "features/common-tooling/default.nix",
         "features/darwin-speech/_home.nix",
         "features/darwin-speech/default.nix",
@@ -4807,10 +4686,8 @@
         "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
         "features/mcp/default.nix",
         "features/nix-index/_home.nix",
         "features/nix-index/default.nix",
@@ -4891,19 +4768,11 @@
         ],
         [
           "features/mcp/default.nix",
-          "features/mcp/_headroom.nix"
-        ],
-        [
-          "features/mcp/default.nix",
           "features/mcp/_home.nix"
         ],
         [
           "features/mcp/default.nix",
           "features/mcp/_pi.nix"
-        ],
-        [
-          "features/mcp/default.nix",
-          "features/mcp/_qartez.nix"
         ],
         [
           "features/nix-index/default.nix",
@@ -4987,6 +4856,10 @@
         ],
         [
           "nix/default.nix",
+          "features/code-navigation/default.nix"
+        ],
+        [
+          "nix/default.nix",
           "features/development/default.nix"
         ],
         [
@@ -5000,6 +4873,7 @@
       "layers": {
         "home:david": [
           "features/annotation/default.nix",
+          "features/code-navigation/default.nix",
           "features/common-tooling/default.nix",
           "features/darwin-keyboard/_home.nix",
           "features/darwin-keyboard/default.nix",
@@ -5014,10 +4888,8 @@
           "features/fonts/default.nix",
           "features/internal-pki/default.nix",
           "features/mcp/_agent-memory.nix",
-          "features/mcp/_headroom.nix",
           "features/mcp/_home.nix",
           "features/mcp/_pi.nix",
-          "features/mcp/_qartez.nix",
           "features/mcp/default.nix",
           "features/nix-index/_home.nix",
           "features/nix-index/default.nix",
@@ -5058,6 +4930,7 @@
       },
       "modules": [
         "features/annotation/default.nix",
+        "features/code-navigation/default.nix",
         "features/common-tooling/default.nix",
         "features/darwin-keyboard/_darwin.nix",
         "features/darwin-keyboard/_home.nix",
@@ -5073,10 +4946,8 @@
         "features/fonts/default.nix",
         "features/internal-pki/default.nix",
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
         "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix",
         "features/mcp/default.nix",
         "features/nix-index/_home.nix",
         "features/nix-index/default.nix",
@@ -5124,7 +4995,7 @@
       ]
     }
   ],
-  "generator": "66d825e3e38cdee558a3fc81d53372951306c3515b0f397780d45c9b2a549b3f",
+  "generator": "dfd99b9da4d3eea247898101dc3a4ea682e7f30e0ac3cceb3adb3b34e92c0b43",
   "modules": [
     {
       "children": [],
@@ -5173,13 +5044,13 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 53,
+      "lines": 56,
       "merge_into": "features/browsers/default.nix",
       "parents": [
         "features/browsers/default.nix"
       ],
       "path": "features/browsers/_home.nix",
-      "sha256": "57251ee20ee2320e74b76cd4b2d24180ccb387bfa4307e23e9ccbc2bbbf9179a",
+      "sha256": "013f614b8987ace4d929da9aa6fc3c0d52e23d5c24b7d0f82f51037ca1e5b167",
       "status": "used"
     },
     {
@@ -5229,17 +5100,40 @@
       "contexts": [
         "wiring:Registered Den aspects",
         "NixOS:bragi",
+        "NixOS:donar",
+        "NixOS:frigg",
+        "NixOS:wodan",
+        "Darwin:loki",
+        "Home Manager:mimir2",
+        "optional:mimir2 + workstation",
+        "optional:loki + workstation"
+      ],
+      "kind": "feature",
+      "lines": 25,
+      "merge_into": null,
+      "parents": [
+        "nix/default.nix"
+      ],
+      "path": "features/code-navigation/default.nix",
+      "sha256": "9c6c3d7bd30e2fb5843c69c763385ba79a6e7b951855d0a94bcd3bda0b9d1aa3",
+      "status": "used"
+    },
+    {
+      "children": [],
+      "contexts": [
+        "wiring:Registered Den aspects",
+        "NixOS:bragi",
         "NixOS:frigg",
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 66,
-      "merge_into": null,
+      "lines": 53,
+      "merge_into": "features/codex-browser/default.nix",
       "parents": [
         "features/codex-browser/default.nix"
       ],
       "path": "features/codex-browser/_home.nix",
-      "sha256": "ab2c1102386465adeedbeab02ef097f7d8cf64fca5dd499c3364391d9d02ed42",
+      "sha256": "7baf9b81c2862fcb1d29bee762fa6d1776ead79d5267d89539d2c4ab8a613303",
       "status": "used"
     },
     {
@@ -5274,11 +5168,11 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 27,
+      "lines": 94,
       "merge_into": null,
       "parents": [],
       "path": "features/common-tooling/default.nix",
-      "sha256": "afd7c79974bdd7080f7107529ed26a266b663b3eb8a5aa78f451569cc6247540",
+      "sha256": "b138b7decdf06ff4e23d65fbfb959b833a5fece25c018a6da0adeaa61551d94a",
       "status": "used"
     },
     {
@@ -5544,13 +5438,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 52,
+      "lines": 46,
       "merge_into": "features/development/default.nix",
       "parents": [
         "features/development/default.nix"
       ],
       "path": "features/development/_core.nix",
-      "sha256": "d12af5ab37ec2c3e9a20cac710b71f0ed39e1636997b6b665e3cfb178e60d711",
+      "sha256": "163686d5bee3c3bd47617094c45b6b98f0ae7370be9ab94324d0f61852895fd2",
       "status": "used"
     },
     {
@@ -5596,13 +5490,13 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 83,
+      "lines": 71,
       "merge_into": null,
       "parents": [
         "features/development/default.nix"
       ],
       "path": "features/development/_mantle.nix",
-      "sha256": "40fbdfb55b94881f290995cc7077d17d6af2fa145251269daac924611cdcd096",
+      "sha256": "034d52fa092924c1f19a13b5846e44aded87b510ffe4e0511b1230057f31473b",
       "status": "used"
     },
     {
@@ -5632,13 +5526,13 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 61,
+      "lines": 54,
       "merge_into": null,
       "parents": [
         "features/development/default.nix"
       ],
       "path": "features/development/_tooling.nix",
-      "sha256": "7787dafaac34df0854d91f6c9f95722ede28357559347a6d2f16dd73f300dd1a",
+      "sha256": "a172b95955cfc2f1e8ccb6d3c64d6c0de2b55f8fbde367e44a845a0cd446794d",
       "status": "used"
     },
     {
@@ -5662,13 +5556,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 59,
+      "lines": 58,
       "merge_into": null,
       "parents": [
         "nix/default.nix"
       ],
       "path": "features/development/default.nix",
-      "sha256": "ac231ae58b74f1db6a90ea36ecaa69370738a24ad32ec30ac3ad355ff9fe9b33",
+      "sha256": "1e701497912b7f679ecc0912ccef7ffa5dd3283b4dee0ff01b43533bbd7ce9b6",
       "status": "used"
     },
     {
@@ -5686,7 +5580,7 @@
         "features/dotfiles/default.nix"
       ],
       "path": "features/dotfiles/_dotfiles.nix",
-      "sha256": "34db2436ff200fa32c99e3d8df7dff3bd478253ef44339a84fef15cd15675ece",
+      "sha256": "2557ef75f2a1a67a7527adfec1c447b74a8b56780c70c13645bc3c6f50b226c9",
       "status": "used"
     },
     {
@@ -5702,13 +5596,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 64,
+      "lines": 65,
       "merge_into": null,
       "parents": [
         "features/dotfiles/default.nix"
       ],
       "path": "features/dotfiles/_portable-dotfiles.nix",
-      "sha256": "f1c36104dd503a58cee2bb324acb33d63e084411822e7a48cae59c230dc15854",
+      "sha256": "711d69a8594af6e8c65ad71a41122a3eaaa18c92670fd0308863826ed43c3018",
       "status": "used"
     },
     {
@@ -5793,13 +5687,13 @@
         "NixOS:forgejo-lab"
       ],
       "kind": "feature",
-      "lines": 191,
+      "lines": 203,
       "merge_into": null,
       "parents": [
         "features/forgejo/default.nix"
       ],
       "path": "features/forgejo/_nixos.nix",
-      "sha256": "eead457685db2752a5cfbdc8e46255946bfcd9baf65014692dd3b933bc3347fc",
+      "sha256": "407ec0d79a76a20af09554d81565edd3e432b779253c51b164516e552abf3ecb",
       "status": "used"
     },
     {
@@ -6112,7 +6006,7 @@
         "features/mcp/default.nix"
       ],
       "path": "features/mcp/_agent-memory.nix",
-      "sha256": "8138482487c42d5c21ae2850488d8f67676419b40e201cfdd4e956a09a57be60",
+      "sha256": "fa189fd896f47120574960f87b9f1d20c317d3f11142d593bd936c794b74adf5",
       "status": "used"
     },
     {
@@ -6129,36 +6023,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 35,
-      "merge_into": "features/mcp/default.nix",
-      "parents": [
-        "features/mcp/default.nix"
-      ],
-      "path": "features/mcp/_headroom.nix",
-      "sha256": "eaa6139322981076981e6f52f01cc1bdd28fab4900d4e5d80a3e8d847c49bb62",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan",
-        "Darwin:loki",
-        "Home Manager:mimir2",
-        "optional:mimir2 + workstation",
-        "optional:loki + workstation"
-      ],
-      "kind": "feature",
-      "lines": 153,
+      "lines": 140,
       "merge_into": null,
       "parents": [
         "features/mcp/default.nix"
       ],
       "path": "features/mcp/_home.nix",
-      "sha256": "a7445b72497d561a0d04d2c66bded3bf9140227b8dc40464f436e248e3f53681",
+      "sha256": "5d21f1df122476a78d64e2fb8112cadfbf47337b5f12114460391acacbae75af",
       "status": "used"
     },
     {
@@ -6175,45 +6046,20 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 40,
+      "lines": 57,
       "merge_into": "features/mcp/default.nix",
       "parents": [
         "features/mcp/default.nix"
       ],
       "path": "features/mcp/_pi.nix",
-      "sha256": "01d0c137590a54be5ceed5f521c9faa0597ffbf73141d3de0d0f60cbe0388bab",
-      "status": "used"
-    },
-    {
-      "children": [],
-      "contexts": [
-        "wiring:Registered Den aspects",
-        "NixOS:bragi",
-        "NixOS:donar",
-        "NixOS:frigg",
-        "NixOS:wodan",
-        "Darwin:loki",
-        "Home Manager:mimir2",
-        "optional:mimir2 + workstation",
-        "optional:loki + workstation"
-      ],
-      "kind": "feature",
-      "lines": 31,
-      "merge_into": "features/mcp/default.nix",
-      "parents": [
-        "features/mcp/default.nix"
-      ],
-      "path": "features/mcp/_qartez.nix",
-      "sha256": "ad50a2960a102c1d67b25679a8788906ce0f98bcb48ae0011984f3c5179629ed",
+      "sha256": "2583e29d519e3096a6b8214b8a0b945deb6cb307332e934177ab0150584b1537",
       "status": "used"
     },
     {
       "children": [
         "features/mcp/_agent-memory.nix",
-        "features/mcp/_headroom.nix",
         "features/mcp/_home.nix",
-        "features/mcp/_pi.nix",
-        "features/mcp/_qartez.nix"
+        "features/mcp/_pi.nix"
       ],
       "contexts": [
         "wiring:Registered Den aspects",
@@ -6227,11 +6073,11 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 45,
+      "lines": 29,
       "merge_into": null,
       "parents": [],
       "path": "features/mcp/default.nix",
-      "sha256": "4f4d3b81af872b25789e2648d7ba9a342ac1e30ba7b92e86e5b81798bdead904",
+      "sha256": "5464515da90712504f8cdf9f15494857716884a6768d59492ddce12d2d282359",
       "status": "used"
     },
     {
@@ -6414,11 +6260,11 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 79,
+      "lines": 82,
       "merge_into": null,
       "parents": [],
       "path": "features/nvidia-workstation/default.nix",
-      "sha256": "675598870e717ab747171e778893e6833c015a69875be26d4e5046c708055847",
+      "sha256": "400d4b368c43e89e9fca4e1cd07e5c2681d900a1a75f7d1d57e155ef0237c232",
       "status": "used"
     },
     {
@@ -6436,7 +6282,7 @@
         "features/plasma/default.nix"
       ],
       "path": "features/plasma/_home.nix",
-      "sha256": "092cc4880e5c6dfcad4e62ac7b665c5dead7b7a6a15b02dc8e311cac32c28cf8",
+      "sha256": "77471f4dede7cd990938ab34297408bedd5e16430e98bfb0b36cde9743fe03aa",
       "status": "used"
     },
     {
@@ -6627,13 +6473,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 32,
+      "lines": 33,
       "merge_into": null,
       "parents": [
         "features/terminal/default.nix"
       ],
       "path": "features/terminal/_config.nix",
-      "sha256": "2fdf868b590b63279f06f5298d236d2f0dfc84288f1de79415155e5a3282a4cc",
+      "sha256": "27f0252f5c8fecc3471caf4e59a0c56dbb517909e41b552f4ba20e18594efe2c",
       "status": "used"
     },
     {
@@ -6667,13 +6513,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 76,
+      "lines": 79,
       "merge_into": null,
       "parents": [
         "features/terminal/default.nix"
       ],
       "path": "features/terminal/_locate.nix",
-      "sha256": "f0118e1ae75535ba1597a44bf7615cfbfe688664c35857356f4c6155969834c1",
+      "sha256": "a077cf82bef5da6217a4d370164ff41707f3d38bddeb936ef67a950f61917a16",
       "status": "used"
     },
     {
@@ -6725,13 +6571,13 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 38,
+      "lines": 37,
       "merge_into": null,
       "parents": [
         "features/terminal/_packages.nix"
       ],
       "path": "features/terminal/_shell.nix",
-      "sha256": "931482aeca764206d9705d0d7195016550abab211d5deb2c6ca37938aecc15fe",
+      "sha256": "fd74d1e86b7d18f3cca54c4f18535d343812fc9ea14f04d4c4b75d587ae9010a",
       "status": "used"
     },
     {
@@ -6853,13 +6699,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 41,
+      "lines": 40,
       "merge_into": "features/workstation-extra/_development-packages.nix",
       "parents": [
         "features/workstation-extra/_development-packages.nix"
       ],
       "path": "features/workstation-extra/_development-core.nix",
-      "sha256": "becb2bb98abb9403a1b6ed1e655aa3994fb843c91f9bf3390b93b89aeaae4625",
+      "sha256": "7cc453587358fa2f4e7a13b21e80de40f6589a559aa6b1f64d8dbb5bcfca326e",
       "status": "optional-only"
     },
     {
@@ -6888,13 +6734,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 22,
+      "lines": 17,
       "merge_into": "features/workstation-extra/_development-default.nix",
       "parents": [
         "features/workstation-extra/_development-default.nix"
       ],
       "path": "features/workstation-extra/_development-mantle.nix",
-      "sha256": "80d7cd5ae3fc135ac7af1363fd39b5e3fb4f6ca87b6b1d83791f437c91c92f1c",
+      "sha256": "8bb3a7a7bba409f123a5d2ad99976f46b7417ebc957da54c44158146a491041a",
       "status": "optional-only"
     },
     {
@@ -6940,13 +6786,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 30,
+      "lines": 29,
       "merge_into": "features/workstation-extra/_development-packages.nix",
       "parents": [
         "features/workstation-extra/_development-packages.nix"
       ],
       "path": "features/workstation-extra/_development-tooling.nix",
-      "sha256": "810461bf6388224e31aa7b32f040a040bf11f5f9357689daea351fc203f65d8b",
+      "sha256": "7bfcfa271d77bb67ff12bcaa33d4cfc79b5c9f5475ca697ff202ff1037727ba9",
       "status": "optional-only"
     },
     {
@@ -6996,7 +6842,7 @@
         "features/workstation-extra/_terminal-packages.nix"
       ],
       "path": "features/workstation-extra/_terminal-data.nix",
-      "sha256": "a25882ea6d298ed2e0cb5ad6028ae58daa81efa7f38aab3bdc76bd77b12bd976",
+      "sha256": "b03e23c93499e01110aa1b7e41506d6ac4de533eb71717644ef7c1b11b7924b0",
       "status": "optional-only"
     },
     {
@@ -7062,13 +6908,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 32,
+      "lines": 30,
       "merge_into": "features/workstation-extra/_terminal-packages.nix",
       "parents": [
         "features/workstation-extra/_terminal-packages.nix"
       ],
       "path": "features/workstation-extra/_terminal-shell.nix",
-      "sha256": "9acef41c81a4d1498fe31b0316c19eba52c3eb9a02a694820c1ef36b469bfc8f",
+      "sha256": "09822fffea6d2d8536ce4afa0b5e560b44bb4cb8b6605f25f4b54c3a2513d240",
       "status": "optional-only"
     },
     {
@@ -7098,13 +6944,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 21,
+      "lines": 22,
       "merge_into": null,
       "parents": [
         "nix/default.nix"
       ],
       "path": "features/workstation-extra/default.nix",
-      "sha256": "c50b7ad8432f5e4f9509ad54b0a28c433678ee85b167b2a0d128f084d72dd429",
+      "sha256": "6ed714b4717901229a6969fd5713c674ed9a2308ff10fd718c1683a40801a076",
       "status": "optional-only"
     },
     {
@@ -7133,11 +6979,11 @@
         "optional:loki + workstation"
       ],
       "kind": "infrastructure",
-      "lines": 78,
+      "lines": 82,
       "merge_into": null,
       "parents": [],
       "path": "flake.nix",
-      "sha256": "97c49dccd46020271d483461fff8edf38a375d9e69dc883757ebd0fa237fbabc",
+      "sha256": "f98c7288f990430829b85b7e363f3ed972ba8bed73d9a79c1e0ed79b796178f9",
       "status": "optional-only"
     },
     {
@@ -7252,11 +7098,11 @@
         "optional:loki + workstation"
       ],
       "kind": "host",
-      "lines": 59,
+      "lines": 68,
       "merge_into": null,
       "parents": [],
       "path": "hosts/physical/loki/default.nix",
-      "sha256": "b3c3bc8f3f772b752a15db3a08b29fcf35f5af811894d4d8dc351122c1cb5eb1",
+      "sha256": "f289b97f157a425c04dd82ae48180b5c3d93e406dd66895bfa8a9fbe5af8e5d5",
       "status": "used"
     },
     {
@@ -7267,22 +7113,22 @@
         "optional:mimir2 + workstation"
       ],
       "kind": "host",
-      "lines": 30,
+      "lines": 31,
       "merge_into": null,
       "parents": [],
       "path": "hosts/physical/mimir2/default.nix",
-      "sha256": "994af132c52238208917c3ee273360fb139ed285c862e259a69a057f5dcea8c0",
+      "sha256": "45462ae9cd49d12890956a8e0f44ad5bd6f499a196d9752f32f5601cc85e6f22",
       "status": "used"
     },
     {
       "children": [],
       "contexts": [],
       "kind": "host",
-      "lines": 179,
+      "lines": 180,
       "merge_into": null,
       "parents": [],
       "path": "hosts/physical/wodan/_home.nix",
-      "sha256": "1748f2c1c54ba9d4d8b3a1e605706fdd9da3eed85a72b7c8cf8bba338c9780b4",
+      "sha256": "03272212053685ede34bae8953d2f2d8cb229fa35d224dbd1ce64f95530117a5",
       "status": "unobserved"
     },
     {
@@ -7309,7 +7155,7 @@
       "merge_into": null,
       "parents": [],
       "path": "hosts/physical/wodan/default.nix",
-      "sha256": "842bfa7feb13cae4c800ae4ed753cc773c3c74764f5c165b70adb905502e2315",
+      "sha256": "e176a7be74fffe713a55ad545fba04ebd016fd5790f599b30b2d05bc53b3cd75",
       "status": "used"
     },
     {
@@ -7379,11 +7225,11 @@
         "NixOS:forgejo"
       ],
       "kind": "host",
-      "lines": 134,
+      "lines": 143,
       "merge_into": null,
       "parents": [],
       "path": "hosts/virtual/forgejo/default.nix",
-      "sha256": "4526d9acaa65151e827bdc9ce38e2076491a20a9f90854835bbc4dc232a7306e",
+      "sha256": "0573ff86e470e47aed503a4d49f3b051465bf8b055e3496d54ee5dc1f75ee91f",
       "status": "used"
     },
     {
@@ -7444,6 +7290,7 @@
     },
     {
       "children": [
+        "features/code-navigation/default.nix",
         "features/development/default.nix",
         "features/workstation-extra/default.nix",
         "nix/forgejo-image.nix",
@@ -7498,13 +7345,13 @@
         "wiring:Flake wiring"
       ],
       "kind": "infrastructure",
-      "lines": 92,
+      "lines": 96,
       "merge_into": null,
       "parents": [
         "nix/default.nix"
       ],
       "path": "nix/outputs.nix",
-      "sha256": "4c843ac5b7d6058aa4f141912c93ad571499eaea769c75a82853df60cf1f13f0",
+      "sha256": "fedebdd1838946b0ed7d20b6380807b770047eaf59bd63d8d5a8483001c8d50a",
       "status": "wiring-only"
     },
     {
@@ -7596,11 +7443,11 @@
       "children": [],
       "contexts": [],
       "kind": "infrastructure",
-      "lines": 166,
+      "lines": 155,
       "merge_into": null,
       "parents": [],
       "path": "policy/native.nix",
-      "sha256": "808f254dcbe92138367242f9c1da34825f9f519a6f9e5ed94f10c91c151d5207",
+      "sha256": "fed19441c917416e645296a13bd246f0a000f6b865d39e6d8165a3cc0165b32d",
       "status": "unobserved"
     },
     {
@@ -7673,11 +7520,11 @@
         "Home Manager:mimir2"
       ],
       "kind": "profile",
-      "lines": 12,
+      "lines": 13,
       "merge_into": null,
       "parents": [],
       "path": "profiles/interactive.nix",
-      "sha256": "95c23be7adb48faf8dab32a4be41aeeb3b0b701c23d99dc0afba86da0621acf9",
+      "sha256": "78dc13dcf6e65ff3b295c123c511d1c8ea50f2225ad4461ee81232010abc5072",
       "status": "used"
     },
     {
@@ -7813,7 +7660,7 @@
         {
           "name": "cmux-tui",
           "origin": "system",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "coreutils-full",
@@ -8103,7 +7950,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.2"
+          "version": "2.1.4"
         },
         {
           "name": "openresolv",
@@ -8237,6 +8084,11 @@
           "version": ""
         },
         {
+          "name": "ast-grep",
+          "origin": "home:david",
+          "version": "0.51.0"
+        },
+        {
           "name": "attr",
           "origin": "system",
           "version": "2.6.0"
@@ -8264,12 +8116,17 @@
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.11.0"
+          "version": "1.12.0"
+        },
+        {
+          "name": "cloc",
+          "origin": "home:david",
+          "version": "2.10"
         },
         {
           "name": "cmux-tui",
           "origin": "system",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "coreutils-full",
@@ -8349,7 +8206,7 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.5.2"
+          "version": "3.6.0"
         },
         {
           "name": "engrim",
@@ -8367,6 +8224,16 @@
           "version": "1.3.2"
         },
         {
+          "name": "fast-resume",
+          "origin": "home:david",
+          "version": "2.14.0"
+        },
+        {
+          "name": "fd",
+          "origin": "home:david",
+          "version": "10.5.0"
+        },
+        {
           "name": "findutils",
           "origin": "system",
           "version": "4.10.0"
@@ -8374,7 +8241,12 @@
         {
           "name": "firefox",
           "origin": "system",
-          "version": "153.5.0esr"
+          "version": "153.5.1esr"
+        },
+        {
+          "name": "flameshot",
+          "origin": "home:david",
+          "version": "14.0.0"
         },
         {
           "name": "fontconfig",
@@ -8390,6 +8262,11 @@
           "name": "fuse",
           "origin": "system",
           "version": "3.17.4"
+        },
+        {
+          "name": "fzf",
+          "origin": "home:david",
+          "version": "0.74.5"
         },
         {
           "name": "gawk",
@@ -8437,9 +8314,9 @@
           "version": "1.14"
         },
         {
-          "name": "headroom-ai",
+          "name": "herdr",
           "origin": "home:david",
-          "version": "0.41.0"
+          "version": "0.9.5"
         },
         {
           "name": "hicolor-icon-theme",
@@ -8492,6 +8369,16 @@
           "version": "20250605"
         },
         {
+          "name": "just",
+          "origin": "home:david",
+          "version": "1.58.0"
+        },
+        {
+          "name": "just-lsp",
+          "origin": "home:david",
+          "version": "0.10.0"
+        },
+        {
           "name": "kbd",
           "origin": "system",
           "version": "2.9.0"
@@ -8512,6 +8399,11 @@
           "version": "1.10.1-unstable-2026-02-27"
         },
         {
+          "name": "lazyjournal",
+          "origin": "home:david",
+          "version": "0.8.6"
+        },
+        {
           "name": "less",
           "origin": "system",
           "version": "692"
@@ -8530,6 +8422,11 @@
           "name": "linux-pam",
           "origin": "system",
           "version": "1.7.2"
+        },
+        {
+          "name": "lizard",
+          "origin": "home:david",
+          "version": "1.24.1"
         },
         {
           "name": "lnav",
@@ -8557,14 +8454,39 @@
           "version": "4.8.33"
         },
         {
+          "name": "mcp-agent-memory",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-chrome-devtools",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-dbhub",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcp-nixos",
           "origin": "home:david",
-          "version": "3.0.1"
+          "version": "2.4.3"
         },
         {
           "name": "mcp-node-repl",
           "origin": "home:david",
           "version": ""
+        },
+        {
+          "name": "mcp-playwright",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mise",
+          "origin": "home:david",
+          "version": "2026.10.3"
         },
         {
           "name": "mkpasswd",
@@ -8712,24 +8634,9 @@
           "version": "0.2.4"
         },
         {
-          "name": "opencode-mcp-chrome-devtools",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-playwright",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.2"
+          "version": "2.1.4"
         },
         {
           "name": "openresolv",
@@ -8740,6 +8647,11 @@
           "name": "openssh",
           "origin": "system",
           "version": "10.5p1"
+        },
+        {
+          "name": "ov",
+          "origin": "home:david",
+          "version": "0.55.0"
         },
         {
           "name": "patch",
@@ -8787,14 +8699,24 @@
           "version": "127"
         },
         {
+          "name": "posting",
+          "origin": "home:david",
+          "version": "2.11.2"
+        },
+        {
+          "name": "probe",
+          "origin": "home:david",
+          "version": "0.6.0-rc343"
+        },
+        {
           "name": "procps",
           "origin": "system",
           "version": "4.0.6"
         },
         {
-          "name": "qartez",
+          "name": "ripgrep",
           "origin": "home:david",
-          "version": "0.11.0"
+          "version": "15.2.0"
         },
         {
           "name": "rsync",
@@ -8805,6 +8727,16 @@
           "name": "rtkit",
           "origin": "system",
           "version": "0.14"
+        },
+        {
+          "name": "sd",
+          "origin": "home:david",
+          "version": "1.1.0"
+        },
+        {
+          "name": "semble",
+          "origin": "home:david",
+          "version": "0.7.0"
         },
         {
           "name": "shadow",
@@ -8820,6 +8752,11 @@
           "name": "shared-mime-info",
           "origin": "system",
           "version": "2.4"
+        },
+        {
+          "name": "shfmt",
+          "origin": "home:david",
+          "version": "3.14.1"
         },
         {
           "name": "sound-theme-freedesktop",
@@ -8882,9 +8819,19 @@
           "version": "2.3.2"
         },
         {
+          "name": "tree-sitter",
+          "origin": "home:david",
+          "version": "0.26.11"
+        },
+        {
           "name": "ultimate-oldschool-pc-font-pack",
           "origin": "home:david",
           "version": "2.2"
+        },
+        {
+          "name": "universal-ctags",
+          "origin": "home:david",
+          "version": "6.2.1"
         },
         {
           "name": "util-linux",
@@ -8947,6 +8894,16 @@
           "version": "5.8.4"
         },
         {
+          "name": "yazi",
+          "origin": "home:david",
+          "version": "26.9.1"
+        },
+        {
+          "name": "zellij",
+          "origin": "home:david",
+          "version": "0.45.1"
+        },
+        {
           "name": "zstd",
           "origin": "system",
           "version": "1.5.7"
@@ -9005,7 +8962,7 @@
         {
           "name": "alejandra",
           "origin": "home:david",
-          "version": "4.0.0"
+          "version": "4.1.0"
         },
         {
           "name": "appimage-run",
@@ -9035,7 +8992,7 @@
         {
           "name": "atuin",
           "origin": "home:david",
-          "version": "18.23.0"
+          "version": "18.24.2"
         },
         {
           "name": "aurorae",
@@ -9155,12 +9112,12 @@
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1016.51333"
+          "version": "26.1021.22027"
         },
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.11.0"
+          "version": "1.12.0"
         },
         {
           "name": "chromium",
@@ -9175,7 +9132,7 @@
         {
           "name": "cmux-tui",
           "origin": "system",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "code.desktop",
@@ -9185,7 +9142,7 @@
         {
           "name": "codex",
           "origin": "home:david",
-          "version": "0.163.0"
+          "version": "0.164.0"
         },
         {
           "name": "colordiff",
@@ -9335,7 +9292,7 @@
         {
           "name": "dprint",
           "origin": "home:david",
-          "version": "0.61.1"
+          "version": "0.64.1"
         },
         {
           "name": "drkonqi",
@@ -9390,7 +9347,7 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.5.2"
+          "version": "3.6.0"
         },
         {
           "name": "engrim",
@@ -9428,6 +9385,11 @@
           "version": ""
         },
         {
+          "name": "fast-resume",
+          "origin": "home:david",
+          "version": "2.14.0"
+        },
+        {
           "name": "fastfetch",
           "origin": "home:david",
           "version": "2.70.0"
@@ -9460,7 +9422,7 @@
         {
           "name": "firefox",
           "origin": "system",
-          "version": "153.5.0esr"
+          "version": "153.5.1esr"
         },
         {
           "name": "firefox-esr.desktop",
@@ -9471,6 +9433,11 @@
           "name": "fixit",
           "origin": "home:david",
           "version": "1.0.0"
+        },
+        {
+          "name": "flameshot",
+          "origin": "home:david",
+          "version": "14.0.0"
         },
         {
           "name": "flite",
@@ -9565,7 +9532,7 @@
         {
           "name": "gh",
           "origin": "home:david",
-          "version": "2.102.0"
+          "version": "2.103.0"
         },
         {
           "name": "ghostty",
@@ -9723,14 +9690,14 @@
           "version": "2.2.16"
         },
         {
-          "name": "headroom-ai",
-          "origin": "home:david",
-          "version": "0.41.0"
-        },
-        {
           "name": "helix",
           "origin": "home:david",
           "version": "25.07.1"
+        },
+        {
+          "name": "herdr",
+          "origin": "home:david",
+          "version": "0.9.5"
         },
         {
           "name": "hicolor-icon-theme",
@@ -9876,6 +9843,11 @@
           "name": "just",
           "origin": "home:david",
           "version": "1.58.0"
+        },
+        {
+          "name": "just-lsp",
+          "origin": "home:david",
+          "version": "0.10.0"
         },
         {
           "name": "k3d",
@@ -10168,6 +10140,11 @@
           "version": "0.66.2"
         },
         {
+          "name": "lazyjournal",
+          "origin": "home:david",
+          "version": "0.8.6"
+        },
+        {
           "name": "ld-library-path",
           "origin": "system",
           "version": ""
@@ -10313,6 +10290,11 @@
           "version": "1.7.2"
         },
         {
+          "name": "lizard",
+          "origin": "home:david",
+          "version": "1.24.1"
+        },
+        {
           "name": "lnav",
           "origin": "home:david",
           "version": "0.14.1"
@@ -10393,12 +10375,32 @@
           "version": "4.8.33"
         },
         {
+          "name": "mcp-agent-memory",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-chrome-devtools",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-dbhub",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcp-nixos",
           "origin": "home:david",
-          "version": "3.0.1"
+          "version": "2.4.3"
         },
         {
           "name": "mcp-node-repl",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-playwright",
           "origin": "home:david",
           "version": ""
         },
@@ -10431,6 +10433,11 @@
           "name": "milou",
           "origin": "system",
           "version": "6.6.6"
+        },
+        {
+          "name": "mise",
+          "origin": "home:david",
+          "version": "2026.10.3"
         },
         {
           "name": "mission-center",
@@ -10715,27 +10722,12 @@
         {
           "name": "opencode-desktop",
           "origin": "home:david",
-          "version": "2.1.2"
-        },
-        {
-          "name": "opencode-mcp-chrome-devtools",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-playwright",
-          "origin": "home:david",
-          "version": ""
+          "version": "2.1.4"
         },
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.2"
+          "version": "2.1.4"
         },
         {
           "name": "openjdk",
@@ -10786,6 +10778,11 @@
           "name": "osv-scanner",
           "origin": "home:david",
           "version": "2.7.0"
+        },
+        {
+          "name": "ov",
+          "origin": "home:david",
+          "version": "0.55.0"
         },
         {
           "name": "oxipng",
@@ -11008,6 +11005,11 @@
           "version": "17.11"
         },
         {
+          "name": "posting",
+          "origin": "home:david",
+          "version": "2.11.2"
+        },
+        {
           "name": "powerdevil",
           "origin": "system",
           "version": "6.6.6"
@@ -11021,6 +11023,11 @@
           "name": "prek",
           "origin": "home:david",
           "version": "0.5.5"
+        },
+        {
+          "name": "probe",
+          "origin": "home:david",
+          "version": "0.6.0-rc343"
         },
         {
           "name": "procps",
@@ -11065,17 +11072,12 @@
         {
           "name": "python-voiceio",
           "origin": "home:david",
-          "version": "1.10.0"
+          "version": "1.14.0"
         },
         {
           "name": "python3",
           "origin": "home:david",
           "version": ""
-        },
-        {
-          "name": "qartez",
-          "origin": "home:david",
-          "version": "0.11.0"
         },
         {
           "name": "qbittorrent-enhanced",
@@ -11185,7 +11187,7 @@
         {
           "name": "ruff",
           "origin": "home:david",
-          "version": "0.17.1"
+          "version": "0.17.2"
         },
         {
           "name": "sabiql",
@@ -11201,6 +11203,11 @@
           "name": "scalene",
           "origin": "home:david",
           "version": "2.2.1"
+        },
+        {
+          "name": "sd",
+          "origin": "home:david",
+          "version": "1.1.0"
         },
         {
           "name": "sddm",
@@ -11375,7 +11382,7 @@
         {
           "name": "syft",
           "origin": "home:david",
-          "version": "1.54.0"
+          "version": "1.54.1"
         },
         {
           "name": "synology-drive-client",
@@ -11460,7 +11467,7 @@
         {
           "name": "ty",
           "origin": "home:david",
-          "version": "0.0.87"
+          "version": "0.0.91"
         },
         {
           "name": "udisks",
@@ -11471,6 +11478,11 @@
           "name": "ultimate-oldschool-pc-font-pack",
           "origin": "home:david",
           "version": "2.2"
+        },
+        {
+          "name": "universal-ctags",
+          "origin": "home:david",
+          "version": "6.2.1"
         },
         {
           "name": "unzip",
@@ -11500,7 +11512,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.1"
+          "version": "0.13.4"
         },
         {
           "name": "viddy",
@@ -11520,7 +11532,7 @@
         {
           "name": "vscode",
           "origin": "home:david",
-          "version": "1.143.0"
+          "version": "1.143.1"
         },
         {
           "name": "vscode-langservers-extracted",
@@ -11778,6 +11790,11 @@
           "version": "1.3.0"
         },
         {
+          "name": "yazi",
+          "origin": "home:david",
+          "version": "26.9.1"
+        },
+        {
           "name": "ydotool",
           "origin": "home:david",
           "version": "1.0.4"
@@ -11795,7 +11812,7 @@
         {
           "name": "zed-editor",
           "origin": "home:david",
-          "version": "1.24.2"
+          "version": "1.25.2"
         },
         {
           "name": "zellij",
@@ -11886,7 +11903,7 @@
         {
           "name": "cmux-tui",
           "origin": "system",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "coreutils-full",
@@ -12171,7 +12188,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.2"
+          "version": "2.1.4"
         },
         {
           "name": "openresolv",
@@ -12317,7 +12334,7 @@
         {
           "name": "cmux-tui",
           "origin": "system",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "coreutils-full",
@@ -12597,7 +12614,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.2"
+          "version": "2.1.4"
         },
         {
           "name": "openresolv",
@@ -12753,7 +12770,7 @@
         {
           "name": "alejandra",
           "origin": "home:david",
-          "version": "4.0.0"
+          "version": "4.1.0"
         },
         {
           "name": "appimage-run",
@@ -12783,7 +12800,7 @@
         {
           "name": "atuin",
           "origin": "home:david",
-          "version": "18.23.0"
+          "version": "18.24.2"
         },
         {
           "name": "aurorae",
@@ -12898,12 +12915,12 @@
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1016.51333"
+          "version": "26.1021.22027"
         },
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.11.0"
+          "version": "1.12.0"
         },
         {
           "name": "chromium",
@@ -12918,7 +12935,7 @@
         {
           "name": "cmux-tui",
           "origin": "system",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "code.desktop",
@@ -12928,7 +12945,7 @@
         {
           "name": "codex",
           "origin": "home:david",
-          "version": "0.163.0"
+          "version": "0.164.0"
         },
         {
           "name": "colordiff",
@@ -13073,7 +13090,7 @@
         {
           "name": "dprint",
           "origin": "home:david",
-          "version": "0.61.1"
+          "version": "0.64.1"
         },
         {
           "name": "drkonqi",
@@ -13128,7 +13145,7 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.5.2"
+          "version": "3.6.0"
         },
         {
           "name": "engrim",
@@ -13159,6 +13176,11 @@
           "name": "fallback-cursor-theme",
           "origin": "system",
           "version": ""
+        },
+        {
+          "name": "fast-resume",
+          "origin": "home:david",
+          "version": "2.14.0"
         },
         {
           "name": "fastfetch",
@@ -13193,7 +13215,7 @@
         {
           "name": "firefox",
           "origin": "system",
-          "version": "153.5.0esr"
+          "version": "153.5.1esr"
         },
         {
           "name": "firefox-esr.desktop",
@@ -13204,6 +13226,11 @@
           "name": "fixit",
           "origin": "home:david",
           "version": "1.0.0"
+        },
+        {
+          "name": "flameshot",
+          "origin": "home:david",
+          "version": "14.0.0"
         },
         {
           "name": "fontconfig",
@@ -13278,7 +13305,7 @@
         {
           "name": "gh",
           "origin": "home:david",
-          "version": "2.102.0"
+          "version": "2.103.0"
         },
         {
           "name": "ghostty",
@@ -13426,14 +13453,14 @@
           "version": "2.2.16"
         },
         {
-          "name": "headroom-ai",
-          "origin": "home:david",
-          "version": "0.41.0"
-        },
-        {
           "name": "helix",
           "origin": "home:david",
           "version": "25.07.1"
+        },
+        {
+          "name": "herdr",
+          "origin": "home:david",
+          "version": "0.9.5"
         },
         {
           "name": "hicolor-icon-theme",
@@ -13574,6 +13601,11 @@
           "name": "just",
           "origin": "home:david",
           "version": "1.58.0"
+        },
+        {
+          "name": "just-lsp",
+          "origin": "home:david",
+          "version": "0.10.0"
         },
         {
           "name": "k9s",
@@ -13851,6 +13883,11 @@
           "version": "0.66.2"
         },
         {
+          "name": "lazyjournal",
+          "origin": "home:david",
+          "version": "0.8.6"
+        },
+        {
           "name": "ld-library-path",
           "origin": "system",
           "version": ""
@@ -13946,6 +13983,11 @@
           "version": "1.7.2"
         },
         {
+          "name": "lizard",
+          "origin": "home:david",
+          "version": "1.24.1"
+        },
+        {
           "name": "lnav",
           "origin": "home:david",
           "version": "0.14.1"
@@ -14021,12 +14063,32 @@
           "version": "4.8.33"
         },
         {
+          "name": "mcp-agent-memory",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-chrome-devtools",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-dbhub",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcp-nixos",
           "origin": "home:david",
-          "version": "3.0.1"
+          "version": "2.4.3"
         },
         {
           "name": "mcp-node-repl",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-playwright",
           "origin": "home:david",
           "version": ""
         },
@@ -14059,6 +14121,11 @@
           "name": "milou",
           "origin": "system",
           "version": "6.6.6"
+        },
+        {
+          "name": "mise",
+          "origin": "home:david",
+          "version": "2026.10.3"
         },
         {
           "name": "mission-center",
@@ -14318,27 +14385,12 @@
         {
           "name": "opencode-desktop",
           "origin": "home:david",
-          "version": "2.1.2"
-        },
-        {
-          "name": "opencode-mcp-chrome-devtools",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-playwright",
-          "origin": "home:david",
-          "version": ""
+          "version": "2.1.4"
         },
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.2"
+          "version": "2.1.4"
         },
         {
           "name": "openjdk",
@@ -14384,6 +14436,11 @@
           "name": "osv-scanner",
           "origin": "home:david",
           "version": "2.7.0"
+        },
+        {
+          "name": "ov",
+          "origin": "home:david",
+          "version": "0.55.0"
         },
         {
           "name": "oxipng",
@@ -14586,6 +14643,11 @@
           "version": "26.06.0"
         },
         {
+          "name": "posting",
+          "origin": "home:david",
+          "version": "2.11.2"
+        },
+        {
           "name": "powerdevil",
           "origin": "system",
           "version": "6.6.6"
@@ -14599,6 +14661,11 @@
           "name": "prek",
           "origin": "home:david",
           "version": "0.5.5"
+        },
+        {
+          "name": "probe",
+          "origin": "home:david",
+          "version": "0.6.0-rc343"
         },
         {
           "name": "procps",
@@ -14639,11 +14706,6 @@
           "name": "python3",
           "origin": "home:david",
           "version": ""
-        },
-        {
-          "name": "qartez",
-          "origin": "home:david",
-          "version": "0.11.0"
         },
         {
           "name": "qbittorrent-enhanced",
@@ -14743,7 +14805,7 @@
         {
           "name": "ruff",
           "origin": "home:david",
-          "version": "0.17.1"
+          "version": "0.17.2"
         },
         {
           "name": "sabiql",
@@ -14759,6 +14821,11 @@
           "name": "scalene",
           "origin": "home:david",
           "version": "2.2.1"
+        },
+        {
+          "name": "sd",
+          "origin": "home:david",
+          "version": "1.1.0"
         },
         {
           "name": "sddm",
@@ -14918,7 +14985,7 @@
         {
           "name": "syft",
           "origin": "home:david",
-          "version": "1.54.0"
+          "version": "1.54.1"
         },
         {
           "name": "synology-drive-client",
@@ -14943,7 +15010,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.1"
+          "version": "0.1.2"
         },
         {
           "name": "taplo",
@@ -15008,7 +15075,7 @@
         {
           "name": "ty",
           "origin": "home:david",
-          "version": "0.0.87"
+          "version": "0.0.91"
         },
         {
           "name": "udisks",
@@ -15019,6 +15086,11 @@
           "name": "ultimate-oldschool-pc-font-pack",
           "origin": "home:david",
           "version": "2.2"
+        },
+        {
+          "name": "universal-ctags",
+          "origin": "home:david",
+          "version": "6.2.1"
         },
         {
           "name": "unzip",
@@ -15048,7 +15120,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.1"
+          "version": "0.13.4"
         },
         {
           "name": "viddy",
@@ -15063,7 +15135,7 @@
         {
           "name": "vscode",
           "origin": "home:david",
-          "version": "1.143.0"
+          "version": "1.143.1"
         },
         {
           "name": "vscode-langservers-extracted",
@@ -15281,6 +15353,11 @@
           "version": "1.3.0"
         },
         {
+          "name": "yazi",
+          "origin": "home:david",
+          "version": "26.9.1"
+        },
+        {
           "name": "ydotool",
           "origin": "home:david",
           "version": "1.0.4"
@@ -15298,7 +15375,7 @@
         {
           "name": "zed-editor",
           "origin": "home:david",
-          "version": "1.24.2"
+          "version": "1.25.2"
         },
         {
           "name": "zellij",
@@ -15389,7 +15466,7 @@
         {
           "name": "cmux-tui",
           "origin": "system",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "coreutils-full",
@@ -15679,7 +15756,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.2"
+          "version": "2.1.4"
         },
         {
           "name": "openresolv",
@@ -15848,9 +15925,19 @@
           "version": "1.4.7"
         },
         {
+          "name": "chatgpt",
+          "origin": "homebrew:casks",
+          "version": ""
+        },
+        {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.11.0"
+          "version": "1.12.0"
+        },
+        {
+          "name": "cloc",
+          "origin": "home:david",
+          "version": "2.10"
         },
         {
           "name": "cmux",
@@ -15860,7 +15947,7 @@
         {
           "name": "cmux-tui",
           "origin": "home:david",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "colordiff",
@@ -15948,9 +16035,19 @@
           "version": "1.52.0-unstable-2026-09-22"
         },
         {
+          "name": "fast-resume",
+          "origin": "home:david",
+          "version": "2.14.0"
+        },
+        {
           "name": "fd",
           "origin": "home:david",
           "version": "10.5.0"
+        },
+        {
+          "name": "flameshot",
+          "origin": "home:david",
+          "version": "14.0.0"
         },
         {
           "name": "fzf",
@@ -15983,14 +16080,14 @@
           "version": "4.10"
         },
         {
-          "name": "headroom-ai",
-          "origin": "home:david",
-          "version": "0.41.0"
-        },
-        {
           "name": "helix",
           "origin": "home:david",
           "version": "25.07.1"
+        },
+        {
+          "name": "herdr",
+          "origin": "home:david",
+          "version": "0.9.5"
         },
         {
           "name": "hm-session-vars.sh",
@@ -16023,6 +16120,11 @@
           "version": "1.58.0"
         },
         {
+          "name": "just-lsp",
+          "origin": "home:david",
+          "version": "0.10.0"
+        },
+        {
           "name": "kakoune",
           "origin": "home:david",
           "version": ""
@@ -16048,6 +16150,16 @@
           "version": "0.66.2"
         },
         {
+          "name": "lazyjournal",
+          "origin": "home:david",
+          "version": "0.8.6"
+        },
+        {
+          "name": "lizard",
+          "origin": "home:david",
+          "version": "1.24.1"
+        },
+        {
           "name": "lnav",
           "origin": "home:david",
           "version": "0.14.1"
@@ -16068,9 +16180,29 @@
           "version": "4.8.33"
         },
         {
+          "name": "mcp-agent-memory",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-chrome-devtools",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-dbhub",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcp-nixos",
           "origin": "home:david",
-          "version": "3.0.1"
+          "version": "2.4.3"
+        },
+        {
+          "name": "mcp-playwright",
+          "origin": "home:david",
+          "version": ""
         },
         {
           "name": "mcporter",
@@ -16081,6 +16213,11 @@
           "name": "mergiraf",
           "origin": "home:david",
           "version": "0.20.0"
+        },
+        {
+          "name": "mise",
+          "origin": "home:david",
+          "version": "2026.10.3"
         },
         {
           "name": "monocraft",
@@ -16148,24 +16285,19 @@
           "version": "0.2.4"
         },
         {
-          "name": "opencode-mcp-chrome-devtools",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-playwright",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
           "name": "opencode-v2",
           "origin": "home:david",
-          "version": "2.1.2"
+          "version": "2.1.4"
+        },
+        {
+          "name": "ov",
+          "origin": "home:david",
+          "version": "0.55.0"
+        },
+        {
+          "name": "pandacode",
+          "origin": "home:david",
+          "version": "0.3.43"
         },
         {
           "name": "pi",
@@ -16193,9 +16325,19 @@
           "version": ""
         },
         {
-          "name": "qartez",
+          "name": "posting",
           "origin": "home:david",
-          "version": "0.11.0"
+          "version": "2.11.2"
+        },
+        {
+          "name": "probe",
+          "origin": "home:david",
+          "version": "0.6.0-rc343"
+        },
+        {
+          "name": "raycast",
+          "origin": "home:david",
+          "version": "2.7.3.0"
         },
         {
           "name": "rectangle",
@@ -16211,6 +16353,16 @@
           "name": "ripgrep",
           "origin": "home:david",
           "version": "15.2.0"
+        },
+        {
+          "name": "sd",
+          "origin": "home:david",
+          "version": "1.1.0"
+        },
+        {
+          "name": "shfmt",
+          "origin": "home:david",
+          "version": "3.14.1"
         },
         {
           "name": "spleen",
@@ -16258,9 +16410,19 @@
           "version": "2.2"
         },
         {
+          "name": "universal-ctags",
+          "origin": "home:david",
+          "version": "6.2.1"
+        },
+        {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.1"
+          "version": "0.13.4"
+        },
+        {
+          "name": "vorssaint",
+          "origin": "homebrew:casks",
+          "version": ""
         },
         {
           "name": "watchexec",
@@ -16271,6 +16433,16 @@
           "name": "worktrunk",
           "origin": "home:david",
           "version": "0.80.0"
+        },
+        {
+          "name": "yazi",
+          "origin": "home:david",
+          "version": "26.9.1"
+        },
+        {
+          "name": "zellij",
+          "origin": "home:david",
+          "version": "0.45.1"
         },
         {
           "name": "zsh",
@@ -16331,12 +16503,17 @@
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.11.0"
+          "version": "1.12.0"
+        },
+        {
+          "name": "cloc",
+          "origin": "home:david",
+          "version": "2.10"
         },
         {
           "name": "cmux-tui",
           "origin": "home:david",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "colordiff",
@@ -16401,7 +16578,7 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.5.2"
+          "version": "3.6.0"
         },
         {
           "name": "engrim",
@@ -16414,9 +16591,19 @@
           "version": "1.52.0-unstable-2026-09-22"
         },
         {
+          "name": "fast-resume",
+          "origin": "home:david",
+          "version": "2.14.0"
+        },
+        {
           "name": "fd",
           "origin": "home:david",
           "version": "10.5.0"
+        },
+        {
+          "name": "flameshot",
+          "origin": "home:david",
+          "version": "14.0.0"
         },
         {
           "name": "fzf",
@@ -16439,14 +16626,14 @@
           "version": "3.8.0"
         },
         {
-          "name": "headroom-ai",
-          "origin": "home:david",
-          "version": "0.41.0"
-        },
-        {
           "name": "helix",
           "origin": "home:david",
           "version": "25.07.1"
+        },
+        {
+          "name": "herdr",
+          "origin": "home:david",
+          "version": "0.9.5"
         },
         {
           "name": "hm-session-vars.sh",
@@ -16484,6 +16671,11 @@
           "version": "1.58.0"
         },
         {
+          "name": "just-lsp",
+          "origin": "home:david",
+          "version": "0.10.0"
+        },
+        {
           "name": "kakoune",
           "origin": "home:david",
           "version": ""
@@ -16502,6 +16694,16 @@
           "name": "lazygit",
           "origin": "home:david",
           "version": "0.66.2"
+        },
+        {
+          "name": "lazyjournal",
+          "origin": "home:david",
+          "version": "0.8.6"
+        },
+        {
+          "name": "lizard",
+          "origin": "home:david",
+          "version": "1.24.1"
         },
         {
           "name": "lnav",
@@ -16524,12 +16726,32 @@
           "version": "4.8.33"
         },
         {
+          "name": "mcp-agent-memory",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-chrome-devtools",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-dbhub",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcp-nixos",
           "origin": "home:david",
-          "version": "3.0.1"
+          "version": "2.4.3"
         },
         {
           "name": "mcp-node-repl",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-playwright",
           "origin": "home:david",
           "version": ""
         },
@@ -16542,6 +16764,11 @@
           "name": "mergiraf",
           "origin": "home:david",
           "version": "0.20.0"
+        },
+        {
+          "name": "mise",
+          "origin": "home:david",
+          "version": "2026.10.3"
         },
         {
           "name": "monocraft",
@@ -16594,24 +16821,19 @@
           "version": "0.2.4"
         },
         {
-          "name": "opencode-mcp-chrome-devtools",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-playwright",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
           "name": "opencode-v2",
           "origin": "home:david",
-          "version": "2.1.2"
+          "version": "2.1.4"
+        },
+        {
+          "name": "ov",
+          "origin": "home:david",
+          "version": "0.55.0"
+        },
+        {
+          "name": "pandacode",
+          "origin": "home:david",
+          "version": "0.3.43"
         },
         {
           "name": "pi",
@@ -16639,9 +16861,14 @@
           "version": ""
         },
         {
-          "name": "qartez",
+          "name": "posting",
           "origin": "home:david",
-          "version": "0.11.0"
+          "version": "2.11.2"
+        },
+        {
+          "name": "probe",
+          "origin": "home:david",
+          "version": "0.6.0-rc343"
         },
         {
           "name": "riffdiff",
@@ -16654,9 +16881,24 @@
           "version": "15.2.0"
         },
         {
+          "name": "sd",
+          "origin": "home:david",
+          "version": "1.1.0"
+        },
+        {
+          "name": "semble",
+          "origin": "home:david",
+          "version": "0.7.0"
+        },
+        {
           "name": "shared-mime-info",
           "origin": "home:david",
           "version": "2.4"
+        },
+        {
+          "name": "shfmt",
+          "origin": "home:david",
+          "version": "3.14.1"
         },
         {
           "name": "spleen",
@@ -16699,9 +16941,14 @@
           "version": "2.2"
         },
         {
+          "name": "universal-ctags",
+          "origin": "home:david",
+          "version": "6.2.1"
+        },
+        {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.1"
+          "version": "0.13.4"
         },
         {
           "name": "watchexec",
@@ -16722,6 +16969,16 @@
           "name": "xclip",
           "origin": "home:david",
           "version": "0.13"
+        },
+        {
+          "name": "yazi",
+          "origin": "home:david",
+          "version": "26.9.1"
+        },
+        {
+          "name": "zellij",
+          "origin": "home:david",
+          "version": "0.45.1"
         }
       ]
     },
@@ -16767,7 +17024,7 @@
         {
           "name": "cmux-tui",
           "origin": "system",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "coreutils-full",
@@ -17052,7 +17309,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.2"
+          "version": "2.1.4"
         },
         {
           "name": "openresolv",
@@ -17198,7 +17455,7 @@
         {
           "name": "agent-orchestrator",
           "origin": "home:david",
-          "version": "0.14.4"
+          "version": "0.14.6"
         },
         {
           "name": "akonadi",
@@ -17213,7 +17470,7 @@
         {
           "name": "alejandra",
           "origin": "home:david",
-          "version": "4.0.0"
+          "version": "4.1.0"
         },
         {
           "name": "android-tools",
@@ -17248,7 +17505,7 @@
         {
           "name": "atuin",
           "origin": "home:david",
-          "version": "18.23.0"
+          "version": "18.24.2"
         },
         {
           "name": "aurorae",
@@ -17288,7 +17545,7 @@
         {
           "name": "bend",
           "origin": "home:david",
-          "version": "2.0.38"
+          "version": "2.0.39"
         },
         {
           "name": "bind",
@@ -17358,12 +17615,12 @@
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1016.51333"
+          "version": "26.1021.22027"
         },
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.11.0"
+          "version": "1.12.0"
         },
         {
           "name": "chromium",
@@ -17378,7 +17635,7 @@
         {
           "name": "cmux-tui",
           "origin": "system",
-          "version": "0.1.0-unstable-2026-10-20"
+          "version": "0.1.0-unstable-2026-10-22"
         },
         {
           "name": "code.desktop",
@@ -17388,7 +17645,7 @@
         {
           "name": "codex",
           "origin": "home:david",
-          "version": "0.163.0"
+          "version": "0.164.0"
         },
         {
           "name": "codex-desktop-safe",
@@ -17553,7 +17810,7 @@
         {
           "name": "dprint",
           "origin": "home:david",
-          "version": "0.61.1"
+          "version": "0.64.1"
         },
         {
           "name": "drkonqi",
@@ -17608,7 +17865,7 @@
         {
           "name": "emdash",
           "origin": "home:david",
-          "version": "1.2.8"
+          "version": "1.2.9"
         },
         {
           "name": "endless-sky",
@@ -17618,7 +17875,7 @@
         {
           "name": "engram",
           "origin": "home:david",
-          "version": "3.5.2"
+          "version": "3.6.0"
         },
         {
           "name": "engrim",
@@ -17661,6 +17918,11 @@
           "version": ""
         },
         {
+          "name": "fast-resume",
+          "origin": "home:david",
+          "version": "2.14.0"
+        },
+        {
           "name": "fastfetch",
           "origin": "home:david",
           "version": "2.70.0"
@@ -17693,7 +17955,7 @@
         {
           "name": "firefox",
           "origin": "system",
-          "version": "153.5.0esr"
+          "version": "153.5.1esr"
         },
         {
           "name": "firefox-esr.desktop",
@@ -17704,6 +17966,11 @@
           "name": "fixit",
           "origin": "home:david",
           "version": "1.0.0"
+        },
+        {
+          "name": "flameshot",
+          "origin": "home:david",
+          "version": "14.0.0"
         },
         {
           "name": "flite",
@@ -17803,7 +18070,7 @@
         {
           "name": "gh",
           "origin": "home:david",
-          "version": "2.102.0"
+          "version": "2.103.0"
         },
         {
           "name": "ghostty",
@@ -17961,14 +18228,14 @@
           "version": "2.2.16"
         },
         {
-          "name": "headroom-ai",
-          "origin": "home:david",
-          "version": "0.41.0"
-        },
-        {
           "name": "helix",
           "origin": "home:david",
           "version": "25.07.1"
+        },
+        {
+          "name": "herdr",
+          "origin": "home:david",
+          "version": "0.9.5"
         },
         {
           "name": "hicolor-icon-theme",
@@ -18116,6 +18383,11 @@
           "version": "1.58.0"
         },
         {
+          "name": "just-lsp",
+          "origin": "home:david",
+          "version": "0.10.0"
+        },
+        {
           "name": "k3d",
           "origin": "home:david",
           "version": "5.9.0"
@@ -18143,7 +18415,7 @@
         {
           "name": "kandev",
           "origin": "home:david",
-          "version": "0.97.0"
+          "version": "0.98.0"
         },
         {
           "name": "kate",
@@ -18411,6 +18683,11 @@
           "version": "0.66.2"
         },
         {
+          "name": "lazyjournal",
+          "origin": "home:david",
+          "version": "0.8.6"
+        },
+        {
           "name": "ld-library-path",
           "origin": "system",
           "version": ""
@@ -18561,6 +18838,11 @@
           "version": "1.7.2"
         },
         {
+          "name": "lizard",
+          "origin": "home:david",
+          "version": "1.24.1"
+        },
+        {
           "name": "lnav",
           "origin": "home:david",
           "version": "0.14.1"
@@ -18641,12 +18923,32 @@
           "version": "4.8.33"
         },
         {
+          "name": "mcp-agent-memory",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-chrome-devtools",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-dbhub",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
           "name": "mcp-nixos",
           "origin": "home:david",
-          "version": "3.0.1"
+          "version": "2.4.3"
         },
         {
           "name": "mcp-node-repl",
+          "origin": "home:david",
+          "version": ""
+        },
+        {
+          "name": "mcp-playwright",
           "origin": "home:david",
           "version": ""
         },
@@ -18679,6 +18981,11 @@
           "name": "milou",
           "origin": "system",
           "version": "6.6.6"
+        },
+        {
+          "name": "mise",
+          "origin": "home:david",
+          "version": "2026.10.3"
         },
         {
           "name": "mission-center",
@@ -18963,27 +19270,12 @@
         {
           "name": "opencode-desktop",
           "origin": "home:david",
-          "version": "2.1.2"
-        },
-        {
-          "name": "opencode-mcp-chrome-devtools",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-nixos",
-          "origin": "home:david",
-          "version": ""
-        },
-        {
-          "name": "opencode-mcp-playwright",
-          "origin": "home:david",
-          "version": ""
+          "version": "2.1.4"
         },
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.1.2"
+          "version": "2.1.4"
         },
         {
           "name": "openjdk",
@@ -19023,7 +19315,7 @@
         {
           "name": "orca-ide",
           "origin": "home:david",
-          "version": "1.4.237"
+          "version": "1.4.240"
         },
         {
           "name": "osv-detector",
@@ -19034,6 +19326,11 @@
           "name": "osv-scanner",
           "origin": "home:david",
           "version": "2.7.0"
+        },
+        {
+          "name": "ov",
+          "origin": "home:david",
+          "version": "0.55.0"
         },
         {
           "name": "oxipng",
@@ -19051,9 +19348,14 @@
           "version": "17.06"
         },
         {
+          "name": "pandacode",
+          "origin": "home:david",
+          "version": "0.3.43"
+        },
+        {
           "name": "paperclip",
           "origin": "home:david",
-          "version": "2026.1012.0"
+          "version": "2026.1023.0"
         },
         {
           "name": "parallel",
@@ -19068,7 +19370,7 @@
         {
           "name": "paseo-desktop",
           "origin": "home:david",
-          "version": "0.12.0"
+          "version": "0.13.0"
         },
         {
           "name": "patch",
@@ -19123,7 +19425,7 @@
         {
           "name": "pi-desktop",
           "origin": "home:david",
-          "version": "0.20.1"
+          "version": "0.21.0"
         },
         {
           "name": "pigz",
@@ -19276,6 +19578,11 @@
           "version": "17.11"
         },
         {
+          "name": "posting",
+          "origin": "home:david",
+          "version": "2.11.2"
+        },
+        {
           "name": "power-profiles-daemon",
           "origin": "system",
           "version": "0.30"
@@ -19294,6 +19601,11 @@
           "name": "prek",
           "origin": "home:david",
           "version": "0.5.5"
+        },
+        {
+          "name": "probe",
+          "origin": "home:david",
+          "version": "0.6.0-rc343"
         },
         {
           "name": "procps",
@@ -19343,17 +19655,12 @@
         {
           "name": "python-voiceio",
           "origin": "home:david",
-          "version": "1.10.0"
+          "version": "1.14.0"
         },
         {
           "name": "python3",
           "origin": "home:david",
           "version": ""
-        },
-        {
-          "name": "qartez",
-          "origin": "home:david",
-          "version": "0.11.0"
         },
         {
           "name": "qbittorrent-enhanced",
@@ -19468,7 +19775,7 @@
         {
           "name": "ruff",
           "origin": "home:david",
-          "version": "0.17.1"
+          "version": "0.17.2"
         },
         {
           "name": "sabiql",
@@ -19484,6 +19791,11 @@
           "name": "scalene",
           "origin": "home:david",
           "version": "2.2.1"
+        },
+        {
+          "name": "sd",
+          "origin": "home:david",
+          "version": "1.1.0"
         },
         {
           "name": "sddm",
@@ -19653,7 +19965,7 @@
         {
           "name": "superset",
           "origin": "home:david",
-          "version": "1.39.0"
+          "version": "1.40.0"
         },
         {
           "name": "svgo",
@@ -19663,7 +19975,7 @@
         {
           "name": "syft",
           "origin": "home:david",
-          "version": "1.54.0"
+          "version": "1.54.1"
         },
         {
           "name": "synology-drive-client",
@@ -19688,7 +20000,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.1"
+          "version": "0.1.2"
         },
         {
           "name": "taplo",
@@ -19748,7 +20060,7 @@
         {
           "name": "ty",
           "origin": "home:david",
-          "version": "0.0.87"
+          "version": "0.0.91"
         },
         {
           "name": "udisks",
@@ -19761,9 +20073,14 @@
           "version": "2.2"
         },
         {
+          "name": "universal-ctags",
+          "origin": "home:david",
+          "version": "6.2.1"
+        },
+        {
           "name": "unsloth",
           "origin": "home:david",
-          "version": "0.1.909-beta"
+          "version": "0.1.910-beta"
         },
         {
           "name": "unzip",
@@ -19793,7 +20110,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.1"
+          "version": "0.13.4"
         },
         {
           "name": "viddy",
@@ -19818,7 +20135,7 @@
         {
           "name": "vscode",
           "origin": "home:david",
-          "version": "1.143.0"
+          "version": "1.143.1"
         },
         {
           "name": "vscode-langservers-extracted",
@@ -20071,6 +20388,11 @@
           "version": "1.3.0"
         },
         {
+          "name": "yazi",
+          "origin": "home:david",
+          "version": "26.9.1"
+        },
+        {
           "name": "ydotool",
           "origin": "home:david",
           "version": "1.0.4"
@@ -20088,7 +20410,7 @@
         {
           "name": "zed-editor",
           "origin": "home:david",
-          "version": "1.24.2"
+          "version": "1.25.2"
         },
         {
           "name": "zellij",
