@@ -7,19 +7,19 @@
   unzip,
 }: let
   pname = "agent-orchestrator";
-  version = "0.14.4";
+  version = "0.14.6";
   assets = {
     x86_64-linux = {
       name = "agent-orchestrator-linux-x64.AppImage";
-      hash = "sha256-MqhJ9nmHswq4+zYXqvAWjqGRRbfbUSV2EMYdWjDStvw=";
+      hash = "sha256-uJ8nAtvzRguA6R1Hauag1JrsfNuvS4SuFlpXHwHoQxg=";
     };
     x86_64-darwin = {
       name = "agent-orchestrator-darwin-x64.zip";
-      hash = "sha256-GMQj7lTDCIt8xTbcNqGR93Hu3t1gl0Lxp2B0yJikz+s=";
+      hash = "sha256-ZXi7eBgm9R2MVbmoj6Xp+NGbm9bC7IPJBEb5Nt7WHwQ=";
     };
     aarch64-darwin = {
       name = "agent-orchestrator-darwin-arm64.zip";
-      hash = "sha256-0WZN7aaffl+jNunucF1ttSkHlyFTA/IxTwWY+zYrcms=";
+      hash = "sha256-dtQWfWWO6iDD30Xu286lIihBjRgSe4tZgjv11rj18bk=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};

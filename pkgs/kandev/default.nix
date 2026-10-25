@@ -6,23 +6,23 @@
   stdenvNoCC,
 }: let
   pname = "kandev";
-  version = "0.97.0";
+  version = "0.98.0";
   assets = {
     x86_64-linux = {
       name = "kandev-desktop-linux-x64-Kandev_${version}_amd64.AppImage";
-      hash = "sha256-COKMW92ZgT2SxRzXgatLbmWpwZr5goFhSmy2Y6YcNs8=";
+      hash = "sha256-Nvhulhq88ZjE4lH6MtqDmDYwPg3+SbZbnmvY+ughtRE=";
     };
     aarch64-linux = {
       name = "kandev-desktop-linux-arm64-Kandev_${version}_aarch64.AppImage";
-      hash = "sha256-r2n2IHGrl2EJOcCsY/us9fo08CJeeKWUfIqpuV542zw=";
+      hash = "sha256-FXhbEDsls0psi1E1V2WpL10gD/RXvKlkn9ytEkfEvck=";
     };
     x86_64-darwin = {
       name = "kandev-desktop-macos-x64-Kandev.app.tar.gz";
-      hash = "sha256-CFn01F2FMMpZqI0kte8H8VEcyQHG/S4iididyJMZRuk=";
+      hash = "sha256-p31odyAtPmGCOj02fY+C8F3k4vHK2lVXzwbBtndAwxQ=";
     };
     aarch64-darwin = {
       name = "kandev-desktop-macos-arm64-Kandev.app.tar.gz";
-      hash = "sha256-o+Hv3XG5GhcM3Gaaywqf+K+4nU6Abd1JZe/5cIMfTDs=";
+      hash = "sha256-Zrrm0BLcA/TZirtrZ7Jra/wIfcYc9MC06ZoLhqXaKYY=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};

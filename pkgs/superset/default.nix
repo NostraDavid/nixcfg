@@ -7,19 +7,19 @@
   unzip,
 }: let
   pname = "superset";
-  version = "1.39.0";
+  version = "1.40.0";
   assets = {
     x86_64-linux = {
       name = "superset-${version}-x86_64.AppImage";
-      hash = "sha256-IEExeepWDMrTcDa/BmNDVpivAtoGYJEAoerOJEIJfbc=";
+      hash = "sha256-UZAOQkcHuijNvcRw8ble/nrINdlK/gGIKrA9YUKx+Gs=";
     };
     x86_64-darwin = {
       name = "Superset-${version}-mac.zip";
-      hash = "sha256-G2xxKK3WVOEldpMdlkvtHy3pxYDdHlt9m7niNhYVNNg=";
+      hash = "sha256-erRjEloATmOqOWs51AlYk3ga+c1E6GWDQZ1CgADAEVU=";
     };
     aarch64-darwin = {
       name = "Superset-${version}-arm64-mac.zip";
-      hash = "sha256-aXMwTr6MtpEjOg94EdNwsEaD2gM36u8u+5QCDyz4mlo=";
+      hash = "sha256-zBdfdEAihWgrSf0yRePhEVJplcRm0ozSQ7zXLBkB5Bk=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};

@@ -6,26 +6,26 @@
   assets = {
     x86_64-linux = {
       target = "x86_64-unknown-linux-musl";
-      hash = "sha256-5AI1LmxclBwjuLCeh9xHUJteyf463Weo02bTt4WrEcs=";
+      hash = "sha256-39jZK6fwBnkHsGnAMPwgk+zN0g4lVFN6gksflQO4arQ=";
     };
     aarch64-linux = {
       target = "aarch64-unknown-linux-musl";
-      hash = "sha256-hRLMh392O+9ZLqKRbWU5i8iFyPlp+z6IVYf8lEZAshM=";
+      hash = "sha256-pf70FtEWMZ0p5vIY1GZ0lrjpyoKXX6n5nHpxdwCE6dw=";
     };
     x86_64-darwin = {
       target = "x86_64-apple-darwin";
-      hash = "sha256-CnDMyy/A53rKZZwZkR4W8w4R501n2irBqkjFF8c/Cug=";
+      hash = "sha256-ll6glAVdQ+EGOL8xabntATEQ64Ykx73b/7jo/HlKyyk=";
     };
     aarch64-darwin = {
       target = "aarch64-apple-darwin";
-      hash = "sha256-poJSEoQtGhlwG8XywDmSDUmpaFVAb4zzvZXogTHq3+g=";
+      hash = "sha256-l9gfnuH6T2+P9UXAgU2WnHSuJLG95CEyyRFjEvrxdJQ=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported probe platform: ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "probe";
-    version = "0.6.0-rc342";
+    version = "0.6.0-rc343";
 
     src = fetchurl {
       url = "https://github.com/probelabs/probe/releases/download/v${finalAttrs.version}/probe-v${finalAttrs.version}-${asset.target}.tar.gz";

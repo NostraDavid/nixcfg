@@ -7,23 +7,23 @@
   unzip,
 }: let
   pname = "emdash";
-  version = "1.2.8";
+  version = "1.2.9";
   assets = {
     x86_64-linux = {
       name = "emdash-x86_64.AppImage";
-      hash = "sha256-zYlzjgu8zICn+/AJ3eyyvRuMb9hYsU11seTHwfLu5/U=";
+      hash = "sha256-7yDvIuDS3zvP29i0ox/OMe4B3RRrOjio0twc2AjRMC0=";
     };
     aarch64-linux = {
       name = "emdash-arm64.AppImage";
-      hash = "sha256-LBNCyIkOj+s9I16n/MfjWYFGPgS5eerufymq1wkD/vw=";
+      hash = "sha256-y1npu7HGdcp4Jf/0jA6ogLt6tnFrqw6ZvCJA8+0680Q=";
     };
     x86_64-darwin = {
       name = "emdash-x64.zip";
-      hash = "sha256-TdS46AQvhokDpXZl/hk8ZWaZ4xi+Zlq3nJ/oS+/eSNM=";
+      hash = "sha256-OVismtxt8ikBuQP6ncZQTBz7GTgDMwqYX6Mi4mi5g3A=";
     };
     aarch64-darwin = {
       name = "emdash-arm64.zip";
-      hash = "sha256-u/YcAYrpYU3CIF/kX5cHy2b8H8/ChGQ8JUiMZqoY3/Q=";
+      hash = "sha256-6OEfEKCY6rCGl34iXDQQXW98fs9GNpuIiE5o1F1iMs4=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};
