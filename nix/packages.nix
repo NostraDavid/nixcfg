@@ -95,15 +95,6 @@
             prev.pythonPackagesExtensions
             ++ [
               (_pyFinal: pyPrev: {
-                diff-cover = pyPrev.diff-cover.overridePythonAttrs (old: {
-                  # Pygments no longer escapes quotes in highlighted HTML text.
-                  postPatch =
-                    (old.postPatch or "")
-                    + ''
-                      substituteInPlace tests/fixtures/{pycodestyle,pyflakes,pylint}_violations_report.html \
-                        --replace-fail '&quot;' '"'
-                    '';
-                });
                 # sphinxHook reads a space-separated string, not a structured array.
                 reuse = pyPrev.reuse.overridePythonAttrs (_old: {
                   sphinxBuilders = "html man";
