@@ -9,7 +9,8 @@ cachix-push package cache=default_cachix_cache:
 cachix-push-all cache=default_cachix_cache:
   @system="$(nix eval --impure --raw --expr 'builtins.currentSystem')"; \
   mapfile -t refs < <(nix eval --json .#packages.$system --apply 'pkgs: builtins.attrNames pkgs' | jq -r '.[] | ".#\(.)"'); \
-  nix build --no-link --print-out-paths "${refs[@]}" | cachix push "{{cache}}"
+  paths="$(nix build --no-link --print-out-paths "${refs[@]}")"; \
+  printf '%s\n' "$paths" | cachix push "{{cache}}"
 
 # Build, push, and pin a local flake package in Cachix forever.
 [group('cachix')]
