@@ -382,6 +382,7 @@
     "src",
     "tests"
   ],
+  "python.defaultInterpreterPath": "${env:HOME}/.local/bin/python3",
   "python.languageServer": "None",
   "python.terminal.activateEnvInCurrentTerminal": true,
   "python.terminal.activateEnvironment": false,

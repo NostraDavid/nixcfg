@@ -4,7 +4,7 @@
   "nixEnvSelector.useFlakes": true,
   "peacock.color": "#612edc",
   "peacock.remoteColor": "#612edc",
-  "python.defaultInterpreterPath": ".venv/bin/python3",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
   "stylua.targetReleaseVersion": "latest",
   "window.title": "nixcfg",
   "workbench.colorCustomizations": {
