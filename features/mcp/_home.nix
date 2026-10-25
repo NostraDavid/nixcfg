@@ -97,7 +97,7 @@ in {
         [
           local.chrome-devtools-mcp
           local.dbhub
-          unstable.mcp-nixos
+          stable.mcp-nixos # Unstable's FastMCP is incompatible with MCP SDK 2.x.
           unstable.playwright-mcp
         ]
         ++ lib.optional (!darwin) nodeRepl
@@ -106,7 +106,7 @@ in {
         {
           ".local/bin/codex".source = codex;
           ".local/bin/opencode".source = lib.getExe (stable.callPackage ../../pkgs/opencode-v2 {});
-          ".local/bin/mcp-nixos".source = lib.getExe unstable.mcp-nixos;
+          ".local/bin/mcp-nixos".source = lib.getExe stable.mcp-nixos;
           ".local/bin/playwright-mcp".source = lib.getExe unstable.playwright-mcp;
           ".local/bin/chrome-devtools-mcp".source = lib.getExe local.chrome-devtools-mcp;
           ".local/bin/dbhub".source = lib.getExe local.dbhub;

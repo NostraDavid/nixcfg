@@ -37,8 +37,13 @@ in {
           profile.nixcfg.mcp.servers;
         };
         inherit lib;
-        stable = pkgs // {stdenv = pkgs.stdenv // {hostPlatform = pkgs.stdenv.hostPlatform // {isDarwin = darwin;};};};
-        unstable = pkgs // {mcp-nixos = stub "nixos";};
+        stable =
+          pkgs
+          // {
+            mcp-nixos = stub "nixos";
+            stdenv = pkgs.stdenv // {hostPlatform = pkgs.stdenv.hostPlatform // {isDarwin = darwin;};};
+          };
+        unstable = pkgs;
         local = {
           codex = stub "codex";
         };
@@ -89,6 +94,12 @@ in {
     piNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl)) allProfiles; true;
     lokiNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl) && !(profile.home.file ? ".local/bin/mcp-node-repl") && !(builtins.any (p: (p.name or "") == "mcp-node-repl") profile.home.packages)) [home work]; true;
     packages = assert lib.all (profile: lib.all (name: builtins.any (p: (p.pname or "") == name) profile.home.packages) packages) allProfiles; true;
+    stableNixos = assert lib.all (profile:
+      builtins.elem (toString profile.home.file.".local/bin/mcp-nixos".source) [
+        (lib.getExe pkgs.mcp-nixos)
+        (lib.getExe flake.darwinConfigurations.loki.pkgs.mcp-nixos)
+      ])
+    allProfiles; true;
     noHeadroom = assert lib.all (profile:
       !(profile.nixcfg.mcp.servers ? headroom)
       && !(profile.home.file ? ".local/bin/headroom")

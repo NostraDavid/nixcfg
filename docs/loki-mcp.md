@@ -14,7 +14,8 @@ VS Code and the shared MCP JSON use the same stable commands.
 
 ## Dependencies
 
-Nix installs the server packages.
+Nix installs the server packages. The NixOS MCP server uses stable nixpkgs
+because unstable's FastMCP dependency is incompatible with MCP SDK 2.x.
 
 Home Manager installs local MCP commands under `~/.local/bin/mcp-*`. Native
 client dotfiles refer to those commands with supported environment expansion or
