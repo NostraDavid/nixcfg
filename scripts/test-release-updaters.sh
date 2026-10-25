@@ -163,7 +163,7 @@ if [[ "$2" == repos/generalaction/emdash/releases/latest ]]; then
     exit
 fi
 if [[ "$2" == repos/stablyai/orca/releases/latest ]]; then
-    printf '{"tag_name":"v2.0.0","assets":['
+    printf '{"tag_name":"%s","assets":[' "${TEST_ORCA_RELEASE:-v2.0.0}"
     printf '{"name":"orca-linux.AppImage","digest":"sha256:%064d"},' 0
     printf '{"name":"orca-linux-arm64.AppImage","digest":"sha256:%064d"},' 1
     printf '{"name":"Orca-2.0.0-mac.zip","digest":"sha256:%064d"}' 2
@@ -281,11 +281,22 @@ rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/orca-ide/default.nix"
 [[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/orca-ide/default.nix")" -eq 4 ]]
 rg -q '^build .#orca-ide --no-link$' "${TEST_REPO}/builds.log"
 cp "${repo_root}/pkgs/orca-ide/default.nix" "${TEST_REPO}/pkgs/orca-ide/"
-if TEST_ORCA_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null 2>&1; then
-    echo 'Expected Orca missing asset failure' >&2
-    exit 1
-fi
-cmp "${repo_root}/pkgs/orca-ide/default.nix" "${TEST_REPO}/pkgs/orca-ide/default.nix"
+printf '# existing user changes\n' >>"${TEST_REPO}/pkgs/orca-ide/default.nix"
+cp "${TEST_REPO}/pkgs/orca-ide/default.nix" "${test_root}/orca.before"
+for failure in tag asset build; do
+    export TEST_ORCA_RELEASE=v2.0.0 TEST_ORCA_MISSING_ASSET=0 TEST_BUILD_FAILURE=0
+    case "$failure" in
+    tag) TEST_ORCA_RELEASE=v2.0.0-alpha ;;
+    asset) TEST_ORCA_MISSING_ASSET=1 ;;
+    build) TEST_BUILD_FAILURE=1 ;;
+    esac
+    if "${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null 2>&1; then
+        echo "Expected Orca ${failure} failure" >&2
+        exit 1
+    fi
+    cmp "${test_root}/orca.before" "${TEST_REPO}/pkgs/orca-ide/default.nix"
+done
+unset TEST_ORCA_RELEASE TEST_ORCA_MISSING_ASSET TEST_BUILD_FAILURE
 
 "${TEST_REPO}/scripts/update-emdash.sh" >/dev/null
 rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/emdash/default.nix"

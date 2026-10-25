@@ -10,6 +10,7 @@ in
     inherit (upstream) version;
     nativeBuildInputs = [python3];
     TODO_TREE_VSIX = upstream.src;
+    passthru.updateSkipReason = "Follows nixpkgs; updated through flake.lock";
     meta = {
       description = "Todo Tree with home-relative executable paths";
       inherit (upstream.meta) homepage license;

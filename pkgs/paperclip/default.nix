@@ -3,7 +3,7 @@
   buildNpmPackage,
   fetchurl,
   makeDesktopItem,
-  nix-update-script,
+  nodejs,
   autoPatchelfHook,
   patchelfUnstable,
   stdenv,
@@ -32,22 +32,22 @@
 in
   buildNpmPackage (finalAttrs: {
     pname = "paperclip";
-    version = "2026.1012.0";
+    version = "2026.1023.0";
 
     src = fetchurl {
       url = "https://registry.npmjs.org/paperclipai/-/paperclipai-${finalAttrs.version}.tgz";
-      hash = "sha256-zCMxBYvZPLbU7hjNKbz2PAYh/E9u8MfPeMUkPL6cUK4=";
+      hash = "sha256-wF6KKFpdDmpthbYKuFClUaAqfInynGaJXULoHNus8AI=";
     };
     sourceRoot = "package";
 
     postPatch = ''
       # uuid 11 retains CommonJS support and fixes CVE-2026-41907.
       substituteInPlace package.json --replace-fail '"dependencies": {' \
-        '"overrides": {"svix": {"uuid": "11.1.1"}}, "dependencies": {'
+        '"overrides": ${builtins.toJSON finalAttrs.passthru.npmOverrides}, "dependencies": {'
       cp ${./package-lock.json} package-lock.json
     '';
 
-    npmDepsHash = "sha256-PP8CvwB+Ul+jG/1ZPhlLnneK/do+lq32pPPiLV57518=";
+    npmDepsHash = "sha256-pd4hIHPO2fLQ7UAO/FlNZxqX6JdAw9DRvbK03OSB8k0=";
     npmFlags = ["--omit=dev"];
     npmRebuildFlags = ["--ignore-scripts"];
     dontNpmBuild = true;
@@ -99,7 +99,11 @@ in
       runHook postInstallCheck
     '';
 
-    passthru.updateScript = nix-update-script {extraArgs = ["--generate-lockfile"];};
+    passthru = {
+      inherit nodejs;
+      npmOverrides.svix.uuid = "11.1.1";
+      updateScript = ../../scripts/update-paperclip.sh;
+    };
 
     meta = {
       description = "Orchestrate AI agents with a local server and web dashboard";
