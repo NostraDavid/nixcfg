@@ -4,6 +4,9 @@ import json
 import os
 import re
 import runpy
+import shutil
+import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -153,6 +156,60 @@ class AgentInstructions(unittest.TestCase):
             for target in references(document, self.source):
                 with self.subTest(document=document, target=target):
                     self.assertTrue(target.is_file(), f"Missing reference: {target}")
+
+    def test_new_repo_gitinclude_example(self) -> None:
+        source = self.source / ".agents/new-nostradavid-repo/references/tooling.md"
+        match = re.search(r"```gitignore\n(.*?)\n```", source.read_text(), re.DOTALL)
+        self.assertIsNotNone(match)
+        git = shutil.which("git")
+        self.assertIsNotNone(git)
+        env = dict(os.environ, GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM="1")
+        with tempfile.TemporaryDirectory(prefix="gitinclude-") as directory:
+            root = Path(directory) / "repo with spaces"
+            subprocess.run(  # noqa: S603
+                [git, "init", "--quiet", "--initial-branch=master", str(root)],
+                env=env,
+                check=True,
+                capture_output=True,
+            )
+            (root / ".gitignore").write_text(match[1] + "\n")
+            allowed = [
+                ".gitignore",
+                "README.md",
+                "Justfile",
+                "flake.nix",
+                "flake.lock",
+                ".envrc",
+                ".pre-commit-config.yaml",
+                "pyproject.toml",
+                "uv.lock",
+                "src/example.py",
+                "tests/test_example.py",
+                "docs/adr/0001.md",
+            ]
+            ignored = [
+                f"unlisted-{Path(directory).name}.py",
+                "unlisted-dir/example.py",
+                "var/data.sqlite",
+                "src/.env",
+                "src/.env.local",
+                "src/.venv/private.py",
+                "src/__pycache__/example.pyc",
+            ]
+            for name in allowed + ignored:
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.touch()
+            result = subprocess.run(  # noqa: S603
+                [git, "-C", str(root), "check-ignore", "--no-index", "--stdin"],
+                input="\n".join(allowed + ignored) + "\n",
+                env=env,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(set(result.stdout.splitlines()), set(ignored))
 
     def test_shared_instructions_and_work_override(self):
         work_links = json.loads(Path(os.environ["WORK_AGENT_LINKS"]).read_text())

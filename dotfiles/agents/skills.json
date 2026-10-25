@@ -32,7 +32,8 @@
     "beads",
     "agent-memory",
     "mcporter",
-    "cli-output"
+    "cli-output",
+    "new-nostradavid-repo"
   ],
   "aliases": {
     "asd-ste100": "asd-ste100",
@@ -114,6 +115,7 @@
     "video-explainer": "video",
     "why": "why",
     "worktrunk": "worktrunk",
-    "writing-for-agents": "agentwrite"
+    "writing-for-agents": "agentwrite",
+    "new-nostradavid-repo": "new-repo"
   }
 }

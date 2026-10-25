@@ -37,7 +37,7 @@
     wanted);
 in
   pkgs.runCommand "agent-instructions-check" {
-    nativeBuildInputs = [(pkgs.python3.withPackages (ps: [ps.pyyaml ps.tiktoken]))];
+    nativeBuildInputs = [pkgs.git (pkgs.python3.withPackages (ps: [ps.pyyaml ps.tiktoken]))];
     AGENT_SOURCE = ../dotfiles/agents;
     DESCRIPTION_REWRITER = ../features/dotfiles/skill-descriptions.py;
     TRIGGER_CASES = ./skill-trigger-cases.json;

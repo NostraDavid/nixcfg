@@ -196,6 +196,24 @@
         "Publish this movie to YouTube.",
         "Answer this arithmetic question in one sentence."
       ]
+    },
+    "new-repo": {
+      "original_description": "Bootstrap new NostraDavid repositories, or apply their repository baseline on request, with Just, Nix, prek, locked dependencies, and quality gates. Exclude ordinary feature work and unrelated repositories.",
+      "required_patterns": [
+        "NostraDavid repositories",
+        "baseline on request",
+        "Just.*Nix.*prek",
+        "Exclude ordinary feature work"
+      ],
+      "positive_prompts": [
+        "Maak een nieuwe NostraDavid repo voor een kleine Python CLI met onze standaard tooling.",
+        "Breng deze repository op onze NostraDavid-basis met Just, Nix en prek."
+      ],
+      "negative_prompts": [
+        "Los alleen deze bug in de bestaande API op.",
+        "Werk een dependency bij in een externe repository.",
+        "Leg uit wat een Justfile doet."
+      ]
     }
   }
 }
