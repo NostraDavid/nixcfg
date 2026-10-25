@@ -1,0 +1,12 @@
+[Unit]
+Description=Check the Pi-hole HTTPS certificate every day
+
+[Timer]
+OnCalendar=*-*-* 03:15:00
+OnBootSec=5min
+RandomizedDelaySec=5min
+Persistent=true
+Unit=pihole-tls-renew.service
+
+[Install]
+WantedBy=timers.target

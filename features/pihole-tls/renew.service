@@ -1,0 +1,20 @@
+[Unit]
+Description=Renew and verify the Pi-hole HTTPS certificate
+After=network-online.target pihole-FTL.service
+Wants=network-online.target
+AssertPathExists=/etc/pihole/tls.pem
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/libexec/pihole-tls.py renew
+Environment=PATH=/usr/sbin:/usr/bin:/sbin:/bin
+StateDirectory=pihole-tls
+StateDirectoryMode=0700
+UMask=0077
+TimeoutStartSec=10min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/etc/pihole
+ReadWritePaths=/var/www/html/admin

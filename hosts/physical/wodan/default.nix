@@ -29,6 +29,7 @@
           nvidia-workstation
           proxmox-lab-host
           openbao-backup
+          pihole-tls
           wodan
         ];
         nixos = {
