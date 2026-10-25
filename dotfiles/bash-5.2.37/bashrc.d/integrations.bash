@@ -48,4 +48,4 @@ fi
 
 # Keep history syncing last so prompt integrations can safely extend
 # PROMPT_COMMAND without clobbering each other.
-append_prompt_command 'history -a' 'history -n'
+append_prompt_command reset_terminal_mouse 'history -a' 'history -n'

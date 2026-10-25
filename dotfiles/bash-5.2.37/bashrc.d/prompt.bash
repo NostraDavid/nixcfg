@@ -59,3 +59,12 @@ fi
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+reset_terminal_mouse() {
+    local exit_status=$?
+    # An interrupted TUI can leave mouse tracking enabled at the shell prompt.
+    if [[ -t 1 && ${TERM:-dumb} != dumb ]]; then
+        printf '\e[?9;1000;1002;1003l'
+    fi
+    return "$exit_status"
+}

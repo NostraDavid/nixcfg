@@ -26,6 +26,8 @@ EOF
     [[ $HISTCONTROL == erasedups:ignoredups:ignorespace ]] || exit 1
     [[ $(type -t path_prepend) == function ]] || exit 1
     [[ $(type -t check_and_activate_venv) == function ]] || exit 1
+    [[ $(type -t reset_terminal_mouse) == function ]] || exit 1
+    [[ ${PROMPT_COMMAND[*]} == *reset_terminal_mouse* ]] || exit 1
     [[ $(type -t gitbulk) == file ]] || exit 1
     [[ $COLORTERM == truecolor ]] || exit 1
     alias plasma_restart >/dev/null || exit 1
@@ -142,3 +144,43 @@ export MARKDOWNLINT_TEST_STATUS=1
     source "$root/bashrc.d/environment.bash"
     [[ $COLORTERM == 24bit ]]
 )
+
+BASH_TEST_ROOT="$root" BASH_TEST_BINARY="$bash_bin" python3 - <<'PY'
+import os
+import subprocess
+
+command = [
+    os.environ["BASH_TEST_BINARY"], "--noprofile", "--norc", "-c",
+    'source "$1"; false; reset_terminal_mouse; printf "\\nEXIT_STATUS=%s\\n" "$?"',
+    "test", os.environ["BASH_TEST_ROOT"] + "/bashrc.d/prompt.bash",
+]
+reset = b"\x1b[?9;1000;1002;1003l"
+for term in ("xterm-256color", "dumb"):
+    master, slave = os.openpty()
+    try:
+        subprocess.run(command, stdin=subprocess.DEVNULL, stdout=slave,
+                       stderr=subprocess.PIPE, env=os.environ | {"TERM": term},
+                       check=True)
+        os.close(slave)
+        slave = None
+        output = b""
+        while True:
+            try:
+                part = os.read(master, 4096)
+            except OSError:
+                break
+            if not part:
+                break
+            output += part
+        assert (reset in output) == (term != "dumb"), (term, output)
+        assert b"EXIT_STATUS=1" in output, output
+    finally:
+        if slave is not None:
+            os.close(slave)
+        os.close(master)
+result = subprocess.run(command, capture_output=True, check=True,
+                        env=os.environ | {"TERM": "xterm-256color"})
+assert reset not in result.stdout, result.stdout
+assert b"EXIT_STATUS=1" in result.stdout, result.stdout
+print("Mouse reset preserves exit status and skips dumb/non-TTY output.")
+PY
