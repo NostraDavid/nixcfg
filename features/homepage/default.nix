@@ -1,7 +1,11 @@
 _: {
   den.aspects.homepage = {
     nixos.imports = [
-      ({config, ...}: let
+      ({
+        config,
+        pkgs,
+        ...
+      }: let
         homepageHosts = "homepage,homepage.local,homepage.home.arpa,192.168.2.101";
       in {
         systemd.tmpfiles.rules = [
@@ -29,11 +33,17 @@ _: {
               ];
               volumes = [
                 "/var/lib/homepage/config:/app/config"
+                "${config.environment.etc."ssl/certs/ca-certificates.crt".source}:/etc/ssl/certs/ca-certificates.crt:ro"
+                "${pkgs.emptyDirectory}:/etc/ssl/nix-empty:ro"
               ];
               environment = {
                 HOMEPAGE_ALLOWED_HOSTS = homepageHosts;
                 PUID = toString config.users.users.homepage.uid;
                 PGID = toString config.users.groups.homepage.gid;
+                # The image's independent Node roots predate the CA incident.
+                NODE_OPTIONS = "--use-openssl-ca";
+                SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
+                SSL_CERT_DIR = "/etc/ssl/nix-empty";
               };
             };
           };

@@ -48,3 +48,17 @@ security-smoke host=default_host:
   @just security-sbom "{{host}}" reports/security-smoke
   @just security-osv "{{host}}" reports/security-smoke
   @just security-grype "{{host}}" reports/security-smoke critical
+
+[group('security')]
+certificate-trust-check:
+  nix build .#checks.x86_64-linux.certificate-trust --no-link
+
+[group('security')]
+[positional-arguments]
+python-ca-audit *paths:
+  python3 scripts/repair-python-ca.py "$@"
+
+[group('security')]
+[positional-arguments]
+python-ca-repair *paths:
+  python3 scripts/repair-python-ca.py --apply "$@"

@@ -4,7 +4,7 @@
   den,
 }: let
   inherit (inputs.nixpkgs) lib;
-  inherit (packageSets) pkgsFor unstableFor mkLocal overlays nixpkgsConfig;
+  inherit (packageSets) pkgsFor unstableFor mkLocal overlays overlay-ca-security nixpkgsConfig;
   selected = entity: map (aspect: aspect.name) entity.hasAspect.allAspects;
   guard = class: entity:
     import ../policy/module.nix {
@@ -130,6 +130,7 @@ in {
             nixpkgs = {
               config = nixpkgsConfig;
               overlays = [
+                overlay-ca-security
                 (_final: _prev: {inherit (pkgsFor system) bashInteractive;})
               ];
             };

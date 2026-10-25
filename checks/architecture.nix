@@ -52,22 +52,30 @@ in {
     assert lib.hasInfix "Hidden=true" (builtins.readFile donar.home-manager.users.david.xdg.configFile."autostart/org.kde.discover.notifier.desktop".source);
     assert lib.all localeAvailable (builtins.attrValues flake.nixosConfigurations); true;
   certificateTrust = let
-    blacklist = [
-      "Comodo AAA Services root"
-      "emSign ECC Root CA - G3"
-    ];
+    blacklist = pkgs: import ../nix/ca-blacklist.nix pkgs.cacert.version;
     systems = builtins.attrValues flake.nixosConfigurations ++ builtins.attrValues flake.darwinConfigurations;
     standaloneHomes = builtins.filter (home: home.config.targets.genericLinux.enable) (builtins.attrValues flake.homeConfigurations);
+    homepage = flake.nixosConfigurations.homepage.config;
+    container = homepage.virtualisation.oci-containers.containers.homepage;
   in
-    assert lib.all (system: lib.all (name: builtins.elem name system.config.security.pki.caCertificateBlacklist) blacklist) systems;
+    assert builtins.elem "${homepage.environment.etc."ssl/certs/ca-certificates.crt".source}:/etc/ssl/certs/ca-certificates.crt:ro" container.volumes;
+    assert builtins.elem "${flake.nixosConfigurations.homepage.pkgs.emptyDirectory}:/etc/ssl/nix-empty:ro" container.volumes;
+    assert container.environment.NODE_OPTIONS == "--use-openssl-ca";
+    assert container.environment.SSL_CERT_FILE == "/etc/ssl/certs/ca-certificates.crt";
+    assert container.environment.SSL_CERT_DIR == "/etc/ssl/nix-empty";
+    assert lib.all (system: lib.all (name: builtins.elem name system.config.security.pki.caCertificateBlacklist) (blacklist system.pkgs)) systems;
     assert lib.all (system: system.config.security.pki.installCACerts) (builtins.attrValues flake.darwinConfigurations);
     assert lib.all (system: system.config.environment.variables.SSL_CERT_FILE == "/etc/ssl/certs/ca-certificates.crt") (builtins.attrValues flake.darwinConfigurations);
+    assert lib.all (system: system.config.environment.variables.SSL_CERT_DIR == toString system.pkgs.emptyDirectory) systems;
+    assert lib.all (system: system.config.environment.variables.NIX_SSL_CERT_FILE == "/etc/ssl/certs/ca-certificates.crt" && system.config.environment.variables.REQUESTS_CA_BUNDLE == "/etc/ssl/certs/ca-certificates.crt" && system.config.environment.variables.PIP_CERT == "/etc/ssl/certs/ca-certificates.crt") systems;
+    assert lib.all (system: lib.versionAtLeast system.pkgs.python3Packages.pip.version "26.2.2" && lib.versionAtLeast system.pkgs.uv.version "0.13.5" && lib.versionAtLeast system.pkgs.nodejs_24.version "24.22.1") systems;
     assert lib.all (home: let
-      bundle = "${home.pkgs.cacert.override {inherit blacklist;}}/etc/ssl/certs/ca-bundle.crt";
+      bundle = "${home.pkgs.cacert.override {blacklist = blacklist home.pkgs;}}/etc/ssl/certs/ca-bundle.crt";
     in
       home.config.home.sessionVariables.SSL_CERT_FILE
       == bundle
-      && home.config.home.sessionVariables.NIX_SSL_CERT_FILE == bundle)
+      && home.config.home.sessionVariables.NIX_SSL_CERT_FILE == bundle
+      && home.config.home.sessionVariables.REQUESTS_CA_BUNDLE == bundle)
     standaloneHomes; true;
   structure =
     if structural.valid

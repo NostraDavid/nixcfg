@@ -75,7 +75,9 @@
   overlay-build-tools = _final: prev: {
     moldStdenv = prev.useMoldLinker prev.stdenv;
   };
+  overlay-ca-security = import ./ca-security.nix;
   overlays = [
+    overlay-ca-security
     overlay-fixes
     overlay-build-tools
     overlay-local
@@ -86,6 +88,7 @@
       inherit system;
       config = nixpkgsConfig;
       overlays = [
+        overlay-ca-security
         (_final: prev: {
           # Structured wrapper arguments must contain one argument per element.
           sbomnix = prev.sbomnix.overrideAttrs (old: {
@@ -120,5 +123,5 @@
       config = nixpkgsConfig;
     };
 in {
-  inherit mkLocal overlays overlay-local pkgsFor unstableFor nixpkgsConfig;
+  inherit mkLocal overlays overlay-local overlay-ca-security pkgsFor unstableFor nixpkgsConfig;
 }

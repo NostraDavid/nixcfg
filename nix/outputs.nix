@@ -25,6 +25,11 @@ in {
     legacyPackages = stable // {inherit unstable;};
 
     checks = {
+      certificate-trust = import ../checks/certificate-trust.nix {
+        pkgs = stable;
+        inherit unstable;
+        flake = self;
+      };
       architecture = let
         result = import ../checks/architecture.nix {flake = self;};
       in
