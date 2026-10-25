@@ -64,6 +64,13 @@ repos:
         files: '^(features/(internal-pki|homepage)/|nix/(ca-security|ca-blacklist|packages|constructors|outputs)\.nix$|pkgs/uv/|checks/(certificate-trust\.nix|test-ca-trust\.py)$|scripts/repair-python-ca\.py$|dotfiles/uv-[^/]+/|certs/|flake\.lock$)'
         pass_filenames: false
 
+      - id: check-security-intel
+        name: check EUVD and NixOS tracker reporting offline
+        entry: just security-intel-check
+        language: system
+        files: '^(scripts/security-(report\.sh|intel\.py)$|checks/test-security-(report|intel)\.py$|just/security\.just$)'
+        pass_filenames: false
+
       - id: check-nix-index
         name: check initial nix-index generation
         entry: bash checks/test-nix-index.sh

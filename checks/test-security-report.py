@@ -77,6 +77,11 @@ elif tool == "osv-scanner":
 elif tool == "vulnix":
     assert "--json" in args
     step, value = "vulnix", []
+elif tool == "security-intel.py":
+    step = "intelligence"
+    value = {"schema_version": 1, "status": "complete", "advisory_only": True, "advisories": []}
+    target = pathlib.Path(args[args.index("--output") + 1])
+    target.write_text("broken json" if os.environ.get("TEST_BAD_JSON") == step else json.dumps(value))
 else:
     raise AssertionError(tool)
 if os.environ.get("TEST_BAD_JSON") == step:
@@ -91,7 +96,7 @@ sys.exit(status)
 
 
 class SecurityReportTests(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
@@ -100,6 +105,8 @@ class SecurityReportTests(unittest.TestCase):
         shutil.copy(ROOT / "scripts/github-auth.sh", scripts)
         snapshot = self.root / "snapshot"
         snapshot.mkdir()
+        (snapshot / "scripts").mkdir()
+        (snapshot / "scripts/security-intel.py").write_text(MOCK)
         (snapshot / "flake.lock").write_text(
             json.dumps(
                 {
@@ -140,13 +147,13 @@ class SecurityReportTests(unittest.TestCase):
 
     def run_report(
         self,
-        mode="report",
-        failures=None,
-        bad_json="",
-        unsupported=False,
-        changed_db=False,
-    ):
-        result = subprocess.run(
+        mode: str = "report",
+        failures: dict[str, int] | None = None,
+        bad_json: str = "",
+        unsupported: bool = False,
+        changed_db: bool = False,
+    ) -> tuple[subprocess.CompletedProcess[str], Path, dict]:
+        result = subprocess.run(  # noqa: S603 - repository script and isolated fixtures.
             [
                 str(ROOT / "scripts/security-report.sh"),
                 mode,
@@ -162,6 +169,7 @@ class SecurityReportTests(unittest.TestCase):
             },
             text=True,
             capture_output=True,
+            check=False,
         )
         directory = Path(
             result.stdout.splitlines()[0].removeprefix("Security report: ")
@@ -169,7 +177,7 @@ class SecurityReportTests(unittest.TestCase):
         manifest = json.loads((directory / "manifest.json").read_text())
         return result, directory, manifest
 
-    def test_clean_report_and_provenance(self):
+    def test_clean_report_and_provenance(self) -> None:
         result, directory, manifest = self.run_report()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(manifest["exit_status"], 0)
@@ -208,7 +216,7 @@ class SecurityReportTests(unittest.TestCase):
             )
         )
 
-    def test_raw_critical_remains_blocking_and_all_scans_run(self):
+    def test_raw_critical_remains_blocking_and_all_scans_run(self) -> None:
         result, directory, manifest = self.run_report(failures={"grype-raw": 2})
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(manifest["steps"]["grype-raw"]["exit_status"], 2)
@@ -217,7 +225,7 @@ class SecurityReportTests(unittest.TestCase):
         self.assertEqual(manifest["steps"]["vulnix"]["exit_status"], 0)
         self.assertTrue((directory / "grype-raw.stderr.log").read_text())
 
-    def test_other_finding_gates_are_preserved(self):
+    def test_other_finding_gates_are_preserved(self) -> None:
         for tool, code in [("osv", 1), ("vulnix", 2)]:
             with self.subTest(tool=tool):
                 result, _, manifest = self.run_report(failures={tool: code})
@@ -225,7 +233,19 @@ class SecurityReportTests(unittest.TestCase):
                 self.assertEqual(manifest["steps"][tool]["exit_status"], code)
                 self.assertIn("vulnix", manifest["steps"])
 
-    def test_scanner_error_does_not_hide_other_reports(self):
+    def test_intelligence_errors_preserve_raw_reports(self) -> None:
+        for options in [
+            {"failures": {"intelligence": 2}},
+            {"bad_json": "intelligence"},
+        ]:
+            with self.subTest(options=options):
+                result, directory, manifest = self.run_report(**options)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("intelligence", manifest["steps"])
+                self.assertTrue((directory / "grype.raw.json").is_file())
+                self.assertTrue((directory / "intelligence.json").is_file())
+
+    def test_scanner_error_does_not_hide_other_reports(self) -> None:
         result, directory, manifest = self.run_report(
             failures={"grype-db-update": 1, "osv": 129}
         )
@@ -234,7 +254,7 @@ class SecurityReportTests(unittest.TestCase):
         self.assertTrue((directory / "vex.openvex.json").exists())
         self.assertTrue((directory / "sbom.cdx.json").exists())
 
-    def test_invalid_json_is_an_error(self):
+    def test_invalid_json_is_an_error(self) -> None:
         for tool in ["grype-raw", "grype-advisory", "osv", "vulnix"]:
             with self.subTest(tool=tool):
                 result, _, manifest = self.run_report(bad_json=tool)
@@ -244,25 +264,25 @@ class SecurityReportTests(unittest.TestCase):
                 )
                 self.assertIn("vulnix", manifest["steps"])
 
-    def test_fresh_directory_per_run(self):
+    def test_fresh_directory_per_run(self) -> None:
         _, first, _ = self.run_report()
         _, second, _ = self.run_report()
         self.assertNotEqual(first, second)
         self.assertTrue((first / "manifest.json").exists())
 
-    def test_changed_database_fails_the_run(self):
+    def test_changed_database_fails_the_run(self) -> None:
         result, _, manifest = self.run_report(changed_db=True)
         self.assertNotEqual(result.returncode, 0)
         self.assertNotEqual(manifest["steps"]["compare-grype-db"]["exit_status"], 0)
         self.assertIn("vulnix", manifest["steps"])
 
-    def test_vex_only_does_not_build_system_or_scan(self):
+    def test_vex_only_does_not_build_system_or_scan(self) -> None:
         result, _, manifest = self.run_report(mode="vex")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertNotIn("system", manifest["steps"])
         self.assertNotIn("grype-raw", manifest["steps"])
 
-    def test_unsupported_host_is_clear_and_does_not_scan(self):
+    def test_unsupported_host_is_clear_and_does_not_scan(self) -> None:
         result, _, manifest = self.run_report(unsupported=True)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("does not export system.build.vexFeed", result.stderr)

@@ -6,8 +6,75 @@ a failing raw scan pass.
 
 ## Generate a report
 
+For an additional advisory check without building a system, run:
+
+```bash
+just security-check
+just security-check --sbom /path/to/sbom.cdx.json
+just security-check --sbom /path/to/sbom.cdx.json --package uv
+```
+
+The default scans the running NixOS generation at `/run/current-system`.
+`--target` accepts another existing store output, including a user profile on
+Linux or macOS. It rejects flake references and derivation files. sbomnix reads
+that realized output; the command never invokes `nix build` or activates a
+configuration. An existing CycloneDX SBOM needs only Python and network access.
+
+The check queries the
+[NixOS Security Tracker](https://tracker.security.nixos.org/) for accepted or
+published package bindings and [EUVD](https://euvd.enisa.europa.eu/) for exact
+product-name matches. It follows pagination, merges matching CVE IDs, and puts
+known exploited EUVD records first. Product-name candidates are not proof that
+the installed version is affected. Both sources' version constraints, tracker
+branch context, local versions, and available SBOM derivation properties remain
+in the JSON for review. A local backport needs evidence for that exact
+derivation; the latest tracker branch status does not settle an older pinned
+revision.
+
+EUVD's EPSS value is retained as `epss_raw`, without converting its scale.
+
+Each standalone run creates `reports/security-intel/run.*/intelligence.json`.
+`--output FILE` chooses another report path. `--vex FILE` retains OpenVEX as
+context without applying suppressions. These options work together:
+
+```bash
+just security-check --sbom sbom.cdx.json --vex vex.openvex.json --output intelligence.json
+```
+
+Responses are cached for 24 hours under
+`${XDG_CACHE_HOME:-~/.cache}/nixcfg-security-intel`; `--refresh` fetches new
+data. The report records each response URL, fetch timestamp, and cache use.
+SBOMs stay local; requests contain package names. Python-package prefixes,
+renamed Nix attributes, vendor bundles, and unknown product names can limit
+matching.
+
+Exit status 0 means all requested source queries completed, even when candidates
+were found. Empty results are marked `unknown`, never safe. Exit status 2 means
+an input, source, schema, or pagination error made the report `incomplete`.
+Independent results survive a source failure. Missing exploitation data remains
+unknown rather than being interpreted as no exploitation. The check does not
+block `just switch`, change locks, or apply fixes.
+
+An exploitation value of false means the record was not in the retrieved EUVD
+known-exploited listing, not that exploitation is impossible. A full inventory
+can require many API requests; `--package` limits a quick check to selected
+components. A rate limit or network outage stops further requests to that source
+for the current run and leaves its remaining queries unavailable.
+
+The existing full report and scheduled security job also retain
+`intelligence.json` next to the scanner outputs. They reuse the generated SBOM
+and immutable source snapshot. Their existing build behavior and raw scanner
+failure gates remain unchanged; an incomplete intelligence result fails the
+report without deleting other artifacts.
+
+Run the offline API/cache and report-orchestration regression tests with:
+
+```bash
+just security-intel-check
+```
+
 Run on a machine with Nix, Git, Bash, jq, sbomnix, Grype, OSV-Scanner, and
-vulnix:
+vulnix, plus Python for the advisory-source step:
 
 ```bash
 just security-vex wodan
@@ -45,6 +112,7 @@ commands remain available.
 | `grype.advisory.json`                         | The same SBOM scanned with the advisory VEX feed                                                                     |
 | `grype-db.json`, `grype-db-after.json`        | Database identity before and after the paired scans                                                                  |
 | `osv.json`, `vulnix.json`                     | Independent scanner results, without upstream VEX filtering                                                          |
+| `intelligence.json`                           | EUVD and NixOS tracker candidates, response provenance, coverage limits, and unapplied VEX context                   |
 | `*.stderr.log`, `*.validation.log`            | Tool diagnostics and artifact validation results                                                                     |
 
 The command archives one source snapshot with its existing lock file and uses

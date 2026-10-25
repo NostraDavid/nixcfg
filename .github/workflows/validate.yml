@@ -66,7 +66,10 @@ jobs:
           nix shell \
             .#legacyPackages.x86_64-linux.python3 \
             .#legacyPackages.x86_64-linux.unstable.jq \
-            --command python3 checks/test-security-report.py
+            --command bash -e -c '
+              python3 checks/test-security-report.py
+              python3 checks/test-security-intel.py
+            '
           nix eval --impure --json --file checks/vex.nix
       - name: Reject insecure package exceptions
         run: |
@@ -92,6 +95,7 @@ jobs:
       - name: Generate raw and advisory Wodan security reports
         run: |
           nix shell \
+            .#legacyPackages.x86_64-linux.python3 \
             .#legacyPackages.x86_64-linux.unstable.just \
             .#legacyPackages.x86_64-linux.unstable.jq \
             .#legacyPackages.x86_64-linux.unstable.sbomnix \

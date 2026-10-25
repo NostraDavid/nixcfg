@@ -66,3 +66,13 @@ python-ca-audit *paths:
 [positional-arguments]
 python-ca-repair *paths:
   python3 scripts/repair-python-ca.py --apply "$@"
+
+[group('security')]
+[positional-arguments]
+security-check *args:
+  @python3 scripts/security-intel.py "$@"
+
+[group('security')]
+security-intel-check:
+  @python3 checks/test-security-intel.py
+  @python3 checks/test-security-report.py

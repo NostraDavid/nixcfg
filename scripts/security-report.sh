@@ -132,5 +132,11 @@ validate_json osv osv.json 'type == "object" and (.results | type) == "array"' |
 run_step vulnix vulnix.json vulnix --json "$system_path" || true
 validate_json vulnix vulnix.json 'type == "array"' || true
 
+run_step intelligence intelligence.stdout.log python3 "$snapshot/scripts/security-intel.py" \
+    --sbom "$report_dir/sbom.cdx.json" --vex "$report_dir/vex.openvex.json" \
+    --output "$report_dir/intelligence.json" || true
+validate_json intelligence intelligence.json \
+    '.schema_version == 1 and .status == "complete" and .advisory_only == true and (.advisories | type) == "array"' || true
+
 printf 'Reports retained in %s\n' "$report_dir"
 exit "$failed"
