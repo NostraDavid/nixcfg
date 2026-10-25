@@ -156,6 +156,29 @@
           virtualHosts = {
             "http://192.168.2.111".extraConfig = certificateSiteConfig;
             "https://192.168.2.111".extraConfig = "tls internal\n" + certificateSiteConfig;
+            "proxmox.powerlan.empire" = {
+              # Console URLs contain short-lived authentication tickets.
+              logFormat = lib.mkForce null;
+              extraConfig = ''
+                tls internal
+                reverse_proxy https://192.168.2.100:8006 {
+                  header_up Host {host}
+                  flush_interval -1
+                  stream_close_delay 5m
+                  transport http {
+                    tls_server_name 192.168.2.100
+                    tls_trust_pool file ${./proxmox-ca.crt}
+                  }
+                }
+              '';
+            };
+            "homeassistant.powerlan.empire" = {
+              logFormat = lib.mkForce null;
+              extraConfig = ''
+                tls internal
+                reverse_proxy 192.168.2.109:8123
+              '';
+            };
             "forgejo.powerlan.empire".extraConfig = ''
               tls internal
               reverse_proxy https://192.168.2.110:8443 {
