@@ -80,7 +80,6 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
-  vscodeExtensionActivation = wodan.home.activation.vscodeExtensions.data;
   desktopIdeLauncher = wodan.home.file.".local/bin/ide-desktop".source.text;
   commandPaths = let
     workLoki =
@@ -96,6 +95,12 @@ in {
     in
       lib.hasInfix "ln -s" script && lib.hasInfix "/dotfiles/" script;
   in
+    assert lib.all (home:
+      !(home.home.activation ? vscodeExtensions)
+      && lib.all (step:
+        lib.all (command: !(lib.hasInfix command (step.data or ""))) ["--install-extension" "--uninstall-extension"])
+      (builtins.attrValues home.home.activation))
+    homes;
     assert lib.all (
       home:
         !(home.home.file ? ".config/git/common.conf")

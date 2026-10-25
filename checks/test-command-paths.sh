@@ -73,56 +73,15 @@ for directory, _, files in os.walk(links):
         count += 1
 assert count == 6, count
 PY
-nix eval --impure --raw --file "$root/checks/tooling.nix" vscodeExtensionActivation >"$tmp/vscode-extensions.sh"
 nix eval --impure --raw --file "$root/checks/tooling.nix" desktopIdeLauncher >"$tmp/ide-desktop.sh"
 python3 - "$tmp" <<'PY'
 import json
 import os
 from pathlib import Path
-import re
-import shlex
-import shutil
 import subprocess
 import sys
 
 tmp = Path(sys.argv[1])
-code = tmp / "code with spaces"
-code.write_text(f"#!{sys.executable}\n" + '''
-import json, os, pathlib, sys
-path = pathlib.Path(os.environ["EXTENSION_STATE"])
-installed = set(json.loads(path.read_text()))
-operation, *args = sys.argv[1:]
-if operation == "--list-extensions":
-    print("\\n".join(sorted(installed)))
-elif operation == "--install-extension":
-    if args[0] == "mkhl.shfmt" and os.environ.get("FAIL_SHFMT"):
-        sys.exit(1)
-    installed.add("gruntfuggly.todo-tree" if args[0].endswith(".vsix") else args[0])
-elif operation == "--uninstall-extension":
-    installed.remove(args[0])
-else:
-    sys.exit(2)
-path.write_text(json.dumps(sorted(installed)))
-''')
-code.chmod(0o755)
-script = (tmp / "vscode-extensions.sh").read_text()
-script, count = re.subn(r"for candidate in.*?; do", "for candidate in /nonexistent/vscode " + shlex.quote(str(code)) + "; do", script, flags=re.DOTALL)
-assert count == 1
-script = re.sub(r"/nix/store/[^\s]+/bin/grep", shlex.quote(shutil.which("grep")), script)
-state = tmp / "extensions.json"
-for failure in (False, True):
-    state.write_text(json.dumps(["foxundermoon.shell-format"]))
-    env = dict(os.environ, EXTENSION_STATE=str(state), DRY_RUN_CMD="")
-    env.pop("FAIL_SHFMT", None)
-    if failure:
-        env["FAIL_SHFMT"] = "1"
-    for _ in range(2):
-        subprocess.run(["bash", "-euo", "pipefail", "-c", script], env=env, check=True, capture_output=True)
-        installed = set(json.loads(state.read_text()))
-        assert {"dprint.dprint", "gruntfuggly.todo-tree"} <= installed
-        assert ("mkhl.shfmt" in installed) is not failure
-        assert ("foxundermoon.shell-format" in installed) is failure
-
 home = tmp / "desktop home"
 bin_dir = home / ".local/bin"
 bin_dir.mkdir(parents=True)

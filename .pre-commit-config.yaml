@@ -43,13 +43,6 @@ repos:
         files: '^(features/common-tooling/|pkgs/asd-ste100-skill/|checks/tooling\.nix$|flake\.(nix|lock)$)'
         pass_filenames: false
 
-      - id: check-vscode-todo-tree
-        name: check Todo Tree native executable paths
-        entry: bash checks/test-vscode-todo-tree.sh
-        language: system
-        files: '^(pkgs/vscode-todo-tree/|checks/(vscode-todo-tree\.nix|test-vscode-todo-tree\.sh)$|features/common-tooling/|dotfiles/vscode-[^/]+/\.config/Code/User/settings\.json$)'
-        pass_filenames: false
-
       - id: check-user-locate
         name: check user-owned plocate database
         entry: bash checks/test-user-locate.sh
