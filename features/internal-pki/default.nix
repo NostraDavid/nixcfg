@@ -37,8 +37,8 @@ in {
     homeManager = {
       config,
       lib,
-      pkgs,
       local,
+      pkgs,
       repoRoot,
       ...
     }: let
@@ -48,8 +48,17 @@ in {
         else "/etc/ssl/certs/ca-certificates.crt";
     in {
       home = {
+        packages = [(lib.hiPrio pkgs.python3Ca)];
         sessionVariables = variables pkgs bundle;
         file = {
+          ".local/bin/python" = {
+            source = "${pkgs.python3Ca}/bin/python";
+            force = true;
+          };
+          ".local/bin/python3" = {
+            source = "${pkgs.python3Ca}/bin/python3";
+            force = true;
+          };
           ".local/bin/uv" = {
             source = lib.getExe local.uv;
             force = true;

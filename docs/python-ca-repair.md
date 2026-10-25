@@ -4,11 +4,22 @@ De configuratie filtert de getroffen roots op NixOS, nix-darwin en standalone
 Home Manager. Ze filtert ook de losse Nix-CA-bundel waar Nix-certifi op
 terugvalt. De interne CA's van NixOS blijven in de hostbundel staan.
 
-De gerichte backports in `nix/ca-security.nix` leveren minimaal uv 0.13.5, pip
-26.2.2 en Node 24.22.1. CPythons `ensurepip` krijgt de geverifieerde pip-wheel
-26.2.2 wanneer de meegeleverde versie ouder is. De ingebouwde pip-wheels van
-`virtualenv` worden afzonderlijk gefilterd. Nieuwere upstream-versies worden
-niet door een oudere backport vervangen.
+Vanaf NSS 3.131.1 gebruikt die losse bundel het ongewijzigde upstream-pakket,
+zodat de officiële binary cache bruikbaar blijft. NSS weigert de getroffen
+servercertificaten zelf. De AAA-root houdt upstream nog vertrouwen voor e-mail;
+de expliciete blacklist in de systeem- en standalone Home Manager-bundels blijft
+deze root volledig verwijderen. Oudere NSS-bundels houden de lokale filtering.
+
+Het lokale pakket `pkgs/uv` levert uv 0.13.5 of nieuwer. Bijwerken kan met
+`just pkg-update uv`. De gerichte backports in `nix/ca-security.nix` leveren pip
+26.2.2 en Node 24.22.1. De gebruikerscommando's `~/.local/bin/python` en
+`~/.local/bin/python3` gebruiken een kopie van de bestaande Nix-interpreter.
+Alleen diens `ensurepip` krijgt de geverifieerde pip-wheel 26.2.2 wanneer de
+meegeleverde versie ouder is. Python wordt daarvoor niet opnieuw gecompileerd.
+De Python-interpreters voor builds blijven ongewijzigd, zodat deze CA-fix niet
+alle afhankelijke compilers en pakketten opnieuw laat bouwen. De ingebouwde
+pip-wheels van `virtualenv` worden afzonderlijk gefilterd. Nieuwere
+upstream-versies worden niet door een oudere backport vervangen.
 
 ## Activeer de configuratie
 
@@ -98,7 +109,9 @@ deze fixtures, zodat verlopen testcertificaten geen schijnbescherming geven.
 
 De check onderzoekt ook geïnstalleerde pip, `ensurepip`, nieuwe `venv`- en
 `virtualenv`-omgevingen, normale interne trust, herstelmetadata, een onderbroken
-back-up en herhaalde uitvoering. De pre-commithook voert dezelfde check uit bij
+back-up en herhaalde uitvoering. Ze controleert de werkelijke truststore-context
+van nieuw geïnstalleerde pip en bewaakt dat de CA-overlay de bouwinterpreter en
+Rust-toolchain niet verandert. De pre-commithook voert dezelfde check uit bij
 relevante wijzigingen.
 
 Het [bronnenonderzoek](emudhra-ca-incident-research.md) bevat de oorspronkelijke

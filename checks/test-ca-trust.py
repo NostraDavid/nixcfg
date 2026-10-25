@@ -8,6 +8,7 @@ import io
 import os
 import runpy
 import shutil
+import ssl
 import subprocess
 import tempfile
 import unittest
@@ -209,6 +210,52 @@ class CertificateTrustTests(unittest.TestCase):
         bundle = self.root / "node-builtin.pem"
         bundle.write_bytes(roots)
         self.verify_chains(bundle, accepted=False)
+
+    def test_seeded_pip_truststore_context(self) -> None:
+        bundle = self.root / "filtered.pem"
+        bundle.write_bytes(REPAIR["filter_bundle"](self.old + self.private))
+        empty = self.root / "empty"
+        empty.mkdir()
+        environment = os.environ | {
+            "SSL_CERT_FILE": str(bundle),
+            "SSL_CERT_DIR": str(empty),
+            "PIP_CERT": str(bundle),
+        }
+        for root in os.environ["CA_SEEDED_PIP"].split():
+            with self.subTest(root=root):
+                result = subprocess.run(  # noqa: S603
+                    [
+                        str(Path(root) / "bin/python"),
+                        "-c",
+                        (
+                            "from pip._internal.cli.index_command import _create_truststore_ssl_context; "
+                            "import base64, os, ssl; "
+                            "ctx = _create_truststore_ssl_context(); "
+                            "ctx.load_verify_locations(os.environ['PIP_CERT']); "
+                            "ctx.wrap_bio(ssl.MemoryBIO(), ssl.MemoryBIO(), server_hostname='example.com'); "
+                            "print('\\n'.join(base64.b64encode(c).decode() for c in ctx._ctx.get_ca_certs(binary_form=True)))"
+                        ),
+                    ],
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                    timeout=10,
+                    env=environment,
+                )
+                certificates = [
+                    base64.b64decode(line) for line in result.stdout.splitlines()
+                ]
+                context_bundle = self.root / "pip-context.pem"
+                context_bundle.write_text(
+                    "".join(ssl.DER_cert_to_PEM_cert(der) for der in certificates)
+                )
+                self.verify_chains(context_bundle, accepted=False)
+                self.assertIn(
+                    hashlib.sha256(
+                        ssl.PEM_cert_to_DER_cert(self.private.decode())
+                    ).hexdigest(),
+                    {hashlib.sha256(der).hexdigest() for der in certificates},
+                )
 
 
 if __name__ == "__main__":

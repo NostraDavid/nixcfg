@@ -69,6 +69,7 @@ in {
     assert lib.all (system: system.config.environment.variables.SSL_CERT_DIR == toString system.pkgs.emptyDirectory) systems;
     assert lib.all (system: system.config.environment.variables.NIX_SSL_CERT_FILE == "/etc/ssl/certs/ca-certificates.crt" && system.config.environment.variables.REQUESTS_CA_BUNDLE == "/etc/ssl/certs/ca-certificates.crt" && system.config.environment.variables.PIP_CERT == "/etc/ssl/certs/ca-certificates.crt") systems;
     assert lib.all (system: lib.versionAtLeast system.pkgs.python3Packages.pip.version "26.2.2" && lib.versionAtLeast system.pkgs.uv.version "0.13.5" && lib.versionAtLeast system.pkgs.nodejs_24.version "24.22.1") systems;
+    assert lib.all (home: lib.hasSuffix "-ca/bin/python3" (toString home.home.file.".local/bin/python3".source)) homes;
     assert lib.all (home: let
       bundle = "${home.pkgs.cacert.override {blacklist = blacklist home.pkgs;}}/etc/ssl/certs/ca-bundle.crt";
     in
