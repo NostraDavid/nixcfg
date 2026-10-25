@@ -7,7 +7,10 @@
   unstable,
   ...
 }: let
-  package = inputs.pi.packages.${stable.stdenv.hostPlatform.system}.coding-agent;
+  package = stable.callPackage ../../pkgs/pi-coding-agent {
+    inherit (inputs) pi;
+    system = stable.stdenv.hostPlatform.system;
+  };
   dot = "${repoRoot}/dotfiles/pi-1.2.0/.pi/agent";
   mk = config.lib.file.mkOutOfStoreSymlink;
 in {

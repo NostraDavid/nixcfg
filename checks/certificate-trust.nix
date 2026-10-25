@@ -5,7 +5,7 @@
 }: let
   builders = import pkgs.path {
     system = pkgs.stdenv.hostPlatform.system;
-    overlays = [];
+    overlays = [(import ../nix/brotli-security.nix)];
   };
   upstream = import unstable.path {
     system = unstable.stdenv.hostPlatform.system;

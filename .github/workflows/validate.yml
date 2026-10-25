@@ -57,8 +57,8 @@ jobs:
               just check
               just lint
             '
-      - name: Evaluate the flake
-        run: nix flake check --no-build
+      - name: Evaluate base configurations and non-image outputs
+        run: nix eval --impure --json --file checks/runtime-configuration.nix
       - name: Check tooling package sources
         run: nix eval --impure --json --file checks/tooling.nix
       - name: Test advisory security reporting

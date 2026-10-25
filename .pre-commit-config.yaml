@@ -50,6 +50,13 @@ repos:
         files: '^(features/terminal/|dotfiles/plocate/|pkgs/plocate-xnu/|checks/(user-locate\.nix|test-user-locate\.sh|tooling\.nix)$)'
         pass_filenames: false
 
+      - id: check-brotli-security
+        name: check shared and bundled Brotli decoder fixes
+        entry: just brotli-security-check
+        language: system
+        files: '^(nix/(brotli-security|packages|constructors|outputs)\.nix$|checks/(brotli-(security|graft)\.nix|brotli-graft-consumer\.c|test-brotli-security\.py|test-brotli-runtime\.mjs|duckdb-brotli-ffi\.cpp)$|pkgs/pi-coding-agent(-bun)?/|features/mcp/_pi\.nix$|flake\.lock$)'
+        pass_filenames: false
+
       - id: check-certificate-trust
         name: check actual certificate bundles and Python CA repair
         entry: just certificate-trust-check
