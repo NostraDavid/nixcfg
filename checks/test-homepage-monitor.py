@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Check freshness, credential boundaries and the sanitized monitoring API."""
 
+import contextlib
 import importlib.util
+import io
 import json
 import re
 import sys
@@ -30,6 +32,45 @@ maintenance_spec.loader.exec_module(maintenance)
 
 
 class MonitoringTests(unittest.TestCase):
+    def test_failed_backup_verification_never_counts_as_success(self) -> None:
+        for failed in (True, False):
+            with tempfile.TemporaryDirectory() as temporary:
+                directory = Path(temporary)
+
+                def verify(
+                    command: list,
+                    directory: Path = directory,
+                    failed: bool = failed,
+                    **_: object,
+                ) -> object:
+                    self.assertFalse(list((directory / "backups").glob("*.tar.age")))
+                    self.assertTrue(Path(command[-1]).is_file())
+                    return maintenance.subprocess.CompletedProcess(command, int(failed))
+
+                with (
+                    mock.patch.object(
+                        maintenance,
+                        "remote",
+                        return_value=b"age-encryption.org/v1\nfixture",
+                    ),
+                    mock.patch.object(
+                        maintenance.subprocess, "run", side_effect=verify
+                    ),
+                    contextlib.redirect_stdout(io.StringIO()),
+                ):
+                    if failed:
+                        with self.assertRaises(RuntimeError):
+                            maintenance.backup(directory)
+                    else:
+                        maintenance.backup(directory)
+                self.assertEqual(
+                    len(list((directory / "backups").glob("*.tar.age"))),
+                    int(not failed),
+                )
+                self.assertEqual(
+                    len(list((directory / "backups").iterdir())), int(not failed)
+                )
+
     def test_policy_excludes_ldap_passwords_and_wildcard_access(self) -> None:
         policy = (
             Path(__file__).resolve().parents[1] / "features/homepage/policy.hcl"

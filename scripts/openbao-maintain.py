@@ -78,24 +78,27 @@ def backup(directory: Path) -> None:
         temporary.write(content)
         temporary.flush()
         os.fsync(temporary.fileno())
-    staging.replace(destination)
-    # A successful transfer alone does not prove that the independent key works.
-    result = subprocess.run(  # noqa: S603 -- Both file paths are inside the private recovery directory.
-        [
-            shutil.which("age") or "/usr/bin/age",
-            "-d",
-            "-i",
-            str(directory / "recovery.agekey"),
-            str(destination),
-        ],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.PIPE,
-        check=False,
-    )
-    if result.returncode:
-        raise RuntimeError(
-            "The off-host backup cannot be decrypted with the workstation recovery key"
+    try:
+        # A successful transfer alone does not prove that the independent key works.
+        result = subprocess.run(  # noqa: S603 -- Both file paths are inside the private recovery directory.
+            [
+                shutil.which("age") or "/usr/bin/age",
+                "-d",
+                "-i",
+                str(directory / "recovery.agekey"),
+                str(staging),
+            ],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+            check=False,
         )
+        if result.returncode:
+            raise RuntimeError(
+                "The off-host backup cannot be decrypted with the workstation recovery key"
+            )
+        staging.replace(destination)
+    finally:
+        staging.unlink(missing_ok=True)
     for previous in backups.glob("*.tar.age"):
         if previous.stat().st_mtime < time.time() - 7 * 86400:
             previous.unlink()

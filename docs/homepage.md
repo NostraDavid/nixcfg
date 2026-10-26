@@ -137,6 +137,7 @@ van beide LDAP-geheimen en van de OpenBao-beheerpolicy.
 Een volledige VM-herstart heeft bevestigd dat Homepage zijn geheimen zelf
 opnieuw ophaalt. De runtimebestanden hebben mode `0600`; de openbare API en logs
 bevatten geen widgetgeheimen. De lokale status-API weigert andere bestandspaden
-en oude gegevens. `just homepage-monitor-test` bevat zeven tests voor deze
-grenzen. Pi-hole heeft de nieuwe appinstelling zonder herstart geladen; DNS en
-het bestaande beheerderswachtwoord zijn behouden.
+en oude gegevens. `just homepage-monitor-test` bevat acht tests voor deze
+grenzen en de publicatie van uitsluitend geverifieerde back-ups. Pi-hole heeft
+de nieuwe appinstelling zonder herstart geladen; DNS en het bestaande
+beheerderswachtwoord zijn behouden.
