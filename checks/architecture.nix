@@ -56,6 +56,7 @@ in {
     homepage = flake.nixosConfigurations.homepage.config;
     dashboard = homepage.services.homepage-dashboard;
     certs = flake.nixosConfigurations.certs.config;
+    wodan = flake.nixosConfigurations.wodan.config;
   in
     assert dashboard.enable;
     assert homepage.networking.interfaces.ens18.ipv4.addresses
@@ -74,6 +75,11 @@ in {
     assert homepage.systemd.services.homepage-monitor-api.serviceConfig.IPAddressAllow == "localhost";
     assert builtins.elem "-/run/homepage-monitor/credentials.env" homepage.systemd.services.homepage-dashboard.serviceConfig.EnvironmentFile;
     assert !(proxy.systemd.services ? pihole-tls-publish);
+    assert !(wodan.systemd.services ? pihole-tls-publish);
+    assert !(wodan.systemd.services ? pihole-tls-report);
+    assert wodan.home-manager.users.david.systemd.user.services ? pihole-tls-watch;
+    assert certs.systemd.services ? pihole-tls-publish;
+    assert certs.systemd.services ? pihole-tls-report;
     assert certs.services.caddy.enable;
     assert certs.systemd.services.caddy.unitConfig.ConditionPathExists == "/srv/certs/caddy/.local/share/caddy/pki/authorities/local/root.key";
     assert lib.hasInfix "-s 192.168.2.111 -p tcp --dport 8443" certs.networking.firewall.extraCommands;

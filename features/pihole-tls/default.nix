@@ -1,5 +1,5 @@
 _: {
-  den.aspects.pihole-tls = {
+  den.aspects.pihole-tls-server = {
     nixos = {pkgs, ...}: let
       bootstrap = pkgs.linkFarm "pihole-tls-bootstrap" [
         {
@@ -89,6 +89,8 @@ _: {
         };
       };
     };
+  };
+  den.aspects.pihole-tls = {
     homeManager = {pkgs, ...}: {
       systemd.user.services = {
         pihole-tls-watch = {

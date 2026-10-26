@@ -8,7 +8,7 @@
     instantiate = constructors.nixos {hostname = "certs";};
   };
   den.aspects.host-certs = {
-    includes = with den.aspects; [pihole-tls proxmox-guest];
+    includes = with den.aspects; [pihole-tls-server proxmox-guest];
     nixos = {
       config,
       lib,
