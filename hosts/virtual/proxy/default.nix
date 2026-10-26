@@ -117,6 +117,42 @@
               + ''
                 reverse_proxy 192.168.2.106:8080
               '';
+            "k3s.powerlan.empire" = {
+              # OIDC callbacks contain short-lived authorization codes.
+              logFormat = lib.mkForce null;
+              extraConfig = ''
+                ${acmeTls}
+                header Referrer-Policy no-referrer
+                @oidcDenied {
+                  path /oidc-callback
+                  query errors=*
+                }
+                handle @oidcDenied {
+                  header Content-Type "text/html; charset=utf-8"
+                  header Cache-Control no-store
+                  respond <<HTML
+                  <!doctype html>
+                  <html lang="nl">
+                  <meta charset="utf-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1">
+                  <title>Headlamp: aanmelding geweigerd</title>
+                  <main>
+                    <h1>Aanmelden bij Headlamp is niet gelukt</h1>
+                    <p>Gebruik LDAP met je FreeIPA-beheeraccount dat eindigt op -adm en lid is van grp-infra-admin.</p>
+                    <p>OpenBao onthoudt je vorige account. Meld daar eerst af als het verkeerde account wordt gebruikt.</p>
+                    <ol>
+                      <li><a href="https://openbao.powerlan.empire/ui/vault/logout" target="_blank" rel="noopener noreferrer">Afmelden bij OpenBao</a>, keer daarna terug naar dit venster.</li>
+                      <li><a href="/oidc?cluster=main">Een nieuwe aanmelding starten</a>.</li>
+                    </ol>
+                  </main>
+                  </html>
+                  HTML 403
+                }
+                handle {
+                  reverse_proxy 192.168.2.106:8080
+                }
+              '';
+            };
             "home.powerlan.empire".extraConfig =
               acmeTls
               + ''

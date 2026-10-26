@@ -70,6 +70,15 @@ _: {
         {
           Infrastructuur = [
             {
+              "K3s Dashboard" = {
+                icon = "/icons/k3s.svg";
+                href = "https://k3s.powerlan.empire/";
+                description = "Headlamp · cluster, workloads en logs";
+                siteMonitor = "https://k3s.powerlan.empire/";
+                widget = tls "k3s";
+              };
+            }
+            {
               Proxmox = {
                 icon = "/icons/proxmox.svg";
                 href = "https://proxmox.powerlan.empire/";

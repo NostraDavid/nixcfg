@@ -43,7 +43,8 @@ Alle vier adressen tonen voorlopig dezelfde, duidelijk gemarkeerde testapp:
 De echte CTB-, huishoudboekje- en receptenapp zijn nog niet uitgerold. Zij
 krijgen later ieder een eigen namespace, deployment, geheimbeleid en eventueel
 opslag. Alle POC-adressen worden op Homepage geregistreerd, inclusief TLS- en
-bereikbaarheidscontrole.
+bereikbaarheidscontrole. Headlamp op `https://k3s.powerlan.empire/` gebruikt
+persoonlijke FreeIPA-beheeraccounts; zie [het dashboard](k3s-dashboard.md).
 
 ## Geheimen en rechten
 

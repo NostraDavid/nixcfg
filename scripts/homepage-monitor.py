@@ -21,6 +21,7 @@ STATE = Path("/var/lib/homepage-monitor")
 RUNTIME = Path("/run/homepage-monitor")
 SERVICES = ("forgejo-reader", "proxmox-reader")
 SITES = {
+    "k3s": "k3s.powerlan.empire",
     "home": "home.powerlan.empire",
     "proxmox": "proxmox.powerlan.empire",
     "pihole": "pihole.powerlan.empire",

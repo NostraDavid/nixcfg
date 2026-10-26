@@ -80,6 +80,42 @@ in {
     assert lib.hasInfix "-s 192.168.2.111 -p tcp --dport 3000" homepage.networking.firewall.extraCommands;
     assert lib.hasInfix "reverse_proxy 192.168.2.103:3000" proxy.services.caddy.virtualHosts."home.powerlan.empire".extraConfig;
     assert lib.hasInfix "https://192.168.2.113:8443/acme/local/directory" proxy.services.caddy.virtualHosts."home.powerlan.empire".extraConfig; true;
+  headlampDashboard = let
+    node = flake.nixosConfigurations.k3s.config;
+    proxy = flake.nixosConfigurations.proxy.config;
+    manifests = node.services.k3s.manifests.headlamp.content;
+    deployment = builtins.head (builtins.filter (item: item.kind == "Deployment") manifests);
+    pod = deployment.spec.template.spec;
+    web = builtins.head pod.containers;
+    auth = builtins.fromJSON node.environment.etc."kubernetes/headlamp-authentication.json".text;
+    jwt = builtins.head auth.jwt;
+    roles = builtins.filter (item: builtins.elem item.kind ["Role" "ClusterRole"]) manifests;
+    bindings = builtins.filter (item: builtins.elem item.kind ["RoleBinding" "ClusterRoleBinding"]) manifests;
+    metadata = builtins.fromJSON (builtins.readFile ../features/k3s/headlamp-oidc.json);
+  in
+    assert builtins.attrNames metadata == ["client_id" "issuer"];
+    assert jwt.issuer.url == "https://openbao.powerlan.empire/v1/identity/oidc/provider/k3s";
+    assert jwt.issuer.audiences == [metadata.client_id];
+    assert jwt.issuer.certificateAuthority == builtins.readFile ../certs/forgejo-ca.crt;
+    assert lib.any (rule: lib.hasInfix "endsWith" rule.expression && lib.hasInfix "-adm" rule.expression) jwt.claimValidationRules;
+    assert lib.any (rule: lib.hasInfix "grp-infra-admin" rule.expression) jwt.claimValidationRules;
+    assert jwt.claimMappings.username.prefix == "freeipa:";
+    assert jwt.claimMappings.groups.prefix == "freeipa:";
+    assert pod.securityContext.runAsNonRoot;
+    assert web.securityContext.readOnlyRootFilesystem;
+    assert !web.securityContext.allowPrivilegeEscalation;
+    assert web.imagePullPolicy == "Never";
+    assert builtins.elem "-oidc-use-pkce" web.args;
+    assert builtins.elem "-unsafe-use-service-account-token=false" web.args;
+    assert !(lib.any (arg: lib.hasInfix "skip-tls-verify" arg || lib.hasInfix "client-secret" arg) web.args);
+    assert lib.all (binding: lib.all (subject: subject.kind == "Group" && subject.name == "freeipa:grp-infra-admin") binding.subjects) bindings;
+    assert lib.all (role: lib.all (rule: !(lib.any (name: builtins.elem name ["*" "secrets" "pods/exec" "clusterroles" "clusterrolebindings"]) rule.resources)) role.rules) roles;
+    assert lib.all (role: role.kind != "Role" || role.metadata.namespace == "apps-poc") roles;
+    assert lib.any (item: item.kind == "Middleware" && item.spec.headers.customRequestHeaders."X-Forwarded-Proto" == "https") manifests;
+    assert proxy.services.caddy.virtualHosts."k3s.powerlan.empire".logFormat == null;
+    assert lib.hasInfix "query errors=*" proxy.services.caddy.virtualHosts."k3s.powerlan.empire".extraConfig;
+    assert lib.hasInfix "HTML 403" proxy.services.caddy.virtualHosts."k3s.powerlan.empire".extraConfig;
+    assert lib.hasInfix "reverse_proxy 192.168.2.106:8080" proxy.services.caddy.virtualHosts."k3s.powerlan.empire".extraConfig; true;
   k3sPoc = let
     node = flake.nixosConfigurations.k3s.config;
     manifests = node.services.k3s.manifests.poc.content;

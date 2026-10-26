@@ -54,6 +54,16 @@ homepage-monitor-test:
 deploy-k3s target="david@192.168.2.106":
   @just app-vm-deploy k3s "{{target}}"
 
+# Check that identity setup refuses conflicting clients and groups before writing.
+[group('proxmox')]
+k3s-headlamp-test:
+  @python3 checks/test-headlamp-identity.py
+
+# Verify the public OIDC issuer used by the Headlamp dashboard.
+[group('proxmox')]
+k3s-headlamp-check:
+  @nix run path:.#headlamp-identity -- check --ca certs/forgejo-ca.crt
+
 # Check the POC health endpoint and secret redaction.
 [group('proxmox')]
 k3s-poc-test:
