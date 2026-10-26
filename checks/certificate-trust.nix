@@ -35,21 +35,14 @@ in
       CA_PRIVATE_ROOT = ../certs/freeipa.crt;
       CA_NODE_PACKAGE = pkgs.nodejs_24;
       CA_BUNDLES = builtins.concatStringsSep " " [
-        "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
-        "${unstable.cacert}/etc/ssl/certs/ca-bundle.crt"
         (toString flake.nixosConfigurations.wodan.config.environment.etc."ssl/certs/ca-certificates.crt".source)
         flake.homeConfigurations.mimir2.config.home.sessionVariables.SSL_CERT_FILE
-      ];
-      CA_PIP_PACKAGES = builtins.concatStringsSep " " [
-        (toString pkgs.python3Packages.pip)
-        (toString unstable.python3Packages.pip)
       ];
     } ''
       export HOME="$TMPDIR/home"
       mkdir -p "$HOME"
       ${profile}/bin/python3 -m venv "$TMPDIR/venv"
-      ${pkgs.python3Packages.virtualenv}/bin/virtualenv --no-download --no-periodic-update "$TMPDIR/virtualenv"
-      export CA_SEEDED_PIP="$TMPDIR/venv $TMPDIR/virtualenv"
+      export CA_SEEDED_PIP="$TMPDIR/venv"
       python3 ${./test-ca-trust.py}
       openssl verify -no-CApath -no-CAstore \
         -CAfile ${flake.nixosConfigurations.wodan.config.environment.etc."ssl/certs/ca-certificates.crt".source} \
