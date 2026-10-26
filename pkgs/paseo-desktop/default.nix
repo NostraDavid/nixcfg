@@ -7,19 +7,19 @@
   unzip,
 }: let
   pname = "paseo-desktop";
-  version = "0.13.0";
+  version = "0.13.2";
   assets = {
     x86_64-linux = {
       name = "Paseo-x86_64.AppImage";
-      hash = "sha256-jFzqM/w86IsPU6I51lghiMcL1YcRNwTvaX25qDEBQ18=";
+      hash = "sha256-JxHPRoVWW3S9lV6qlIxCAsZtIhtaprQ7GsSV2Oywp+0=";
     };
     x86_64-darwin = {
       name = "Paseo-${version}-x64.zip";
-      hash = "sha256-rc2x77mtmPqsCPNiRQdiQDXVTEq17c+H8TsFt4TeCqA=";
+      hash = "sha256-9zPRTcXIc2csdJk1h8N1GPhsHfm69E+gu560Ril3p2E=";
     };
     aarch64-darwin = {
       name = "Paseo-${version}-arm64.zip";
-      hash = "sha256-qWiwdYPVgls0RtltSA1ogb/YYe5I0+TAVag3k4ldAck=";
+      hash = "sha256-y913Ui4x+NwDv8VetsutD0KpDgKcU+9fMkj/9wv7KQU=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};
