@@ -97,6 +97,26 @@
           virtualHosts = {
             "http://192.168.2.111".extraConfig = certificateSiteConfig;
             "https://192.168.2.111".extraConfig = acmeTls + certificateSiteConfig;
+            "poc.apps.powerlan.empire".extraConfig =
+              acmeTls
+              + ''
+                reverse_proxy 192.168.2.106:8080
+              '';
+            "ctb.apps.powerlan.empire".extraConfig =
+              acmeTls
+              + ''
+                reverse_proxy 192.168.2.106:8080
+              '';
+            "huishoudboekje.apps.powerlan.empire".extraConfig =
+              acmeTls
+              + ''
+                reverse_proxy 192.168.2.106:8080
+              '';
+            "recepten.apps.powerlan.empire".extraConfig =
+              acmeTls
+              + ''
+                reverse_proxy 192.168.2.106:8080
+              '';
             "home.powerlan.empire".extraConfig =
               acmeTls
               + ''

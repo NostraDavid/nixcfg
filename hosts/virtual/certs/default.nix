@@ -166,7 +166,7 @@
                   lifetime 8760h
                   resolvers 192.168.2.102
                   allow {
-                    domains forgejo.powerlan.empire forgejo.home.arpa proxmox.powerlan.empire home.powerlan.empire homeassistant.powerlan.empire
+                    domains forgejo.powerlan.empire forgejo.home.arpa proxmox.powerlan.empire home.powerlan.empire homeassistant.powerlan.empire poc.apps.powerlan.empire ctb.apps.powerlan.empire huishoudboekje.apps.powerlan.empire recepten.apps.powerlan.empire
                     ip_ranges 192.168.2.111/32
                   }
                 }

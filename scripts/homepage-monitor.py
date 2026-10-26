@@ -29,6 +29,10 @@ SITES = {
     "openbao": "openbao.powerlan.empire",
     "homeassistant": "homeassistant.powerlan.empire",
     "certs": "certs.powerlan.empire",
+    "k3s-poc": "poc.apps.powerlan.empire",
+    "ctb": "ctb.apps.powerlan.empire",
+    "huishoudboekje": "huishoudboekje.apps.powerlan.empire",
+    "recepten": "recepten.apps.powerlan.empire",
 }
 
 

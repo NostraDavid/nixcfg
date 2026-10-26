@@ -1,6 +1,6 @@
 # Proxmox app VMs
 
-Deze repo definieert zes NixOS guests voor Proxmox:
+Deze repo definieert zeven NixOS guests voor Proxmox:
 
 - `homepage`: dashboard op VM 103, `prd-svc-homepage-01`; zie
   [Homepage](homepage.md).
@@ -11,6 +11,7 @@ Deze repo definieert zes NixOS guests voor Proxmox:
   `prd-svc-certs-01`.
 - `openbao`: servicegeheimen op VM 112, `prd-svc-secrets-01`. Zie
   [OpenBao inrichten en herstellen](openbao.md).
+- `k3s`: servernode op VM 106, `prd-svc-k3s-01`; zie [de K3s-POC](k3s-poc.md).
 
 De root disks zijn vervangbaar. Applicatie-state staat op aparte Proxmox disks
 die NixOS mount via filesystem labels.

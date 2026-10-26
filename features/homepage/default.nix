@@ -190,6 +190,46 @@ _: {
           ];
         }
         {
+          Apps = [
+            {
+              "K3s POC" = {
+                icon = "/icons/k3s.svg";
+                href = "https://poc.apps.powerlan.empire/";
+                description = "Testapp op K3s; de productieapp volgt later";
+                siteMonitor = "https://poc.apps.powerlan.empire/healthz";
+                widget = tls "k3s-poc";
+              };
+            }
+            {
+              "CTB · POC" = {
+                icon = "/icons/k3s.svg";
+                href = "https://ctb.apps.powerlan.empire/";
+                description = "Testapp op K3s; de productieapp volgt later";
+                siteMonitor = "https://ctb.apps.powerlan.empire/healthz";
+                widget = tls "ctb";
+              };
+            }
+            {
+              "Huishoudboekje · POC" = {
+                icon = "/icons/k3s.svg";
+                href = "https://huishoudboekje.apps.powerlan.empire/";
+                description = "Testapp op K3s; de productieapp volgt later";
+                siteMonitor = "https://huishoudboekje.apps.powerlan.empire/healthz";
+                widget = tls "huishoudboekje";
+              };
+            }
+            {
+              "Recepten · POC" = {
+                icon = "/icons/k3s.svg";
+                href = "https://recepten.apps.powerlan.empire/";
+                description = "Testapp op K3s; de productieapp volgt later";
+                siteMonitor = "https://recepten.apps.powerlan.empire/healthz";
+                widget = tls "recepten";
+              };
+            }
+          ];
+        }
+        {
           Beheer = [
             {
               "Kluisback-up" = {

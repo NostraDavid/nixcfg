@@ -31,6 +31,7 @@ app-vms-check:
   @just app-vm-check proxy
   @just app-vm-check certs
   @just app-vm-check openbao
+  @just app-vm-check k3s
 
 # Deploy an app VM configuration to a remote NixOS guest.
 [group('proxmox')]
@@ -47,6 +48,16 @@ deploy-homepage target="david@192.168.2.103":
 [group('proxmox')]
 homepage-monitor-test:
   @python3 checks/test-homepage-monitor.py
+
+# Deploy the declarative K3s node after its initial VM installation.
+[group('proxmox')]
+deploy-k3s target="david@192.168.2.106":
+  @just app-vm-deploy k3s "{{target}}"
+
+# Check the POC health endpoint and secret redaction.
+[group('proxmox')]
+k3s-poc-test:
+  @python3 checks/test-k3s-poc.py
 
 # Deploy the shared apps VM configuration.
 [group('proxmox')]

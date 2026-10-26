@@ -80,6 +80,28 @@ in {
     assert lib.hasInfix "-s 192.168.2.111 -p tcp --dport 3000" homepage.networking.firewall.extraCommands;
     assert lib.hasInfix "reverse_proxy 192.168.2.103:3000" proxy.services.caddy.virtualHosts."home.powerlan.empire".extraConfig;
     assert lib.hasInfix "https://192.168.2.113:8443/acme/local/directory" proxy.services.caddy.virtualHosts."home.powerlan.empire".extraConfig; true;
+  k3sPoc = let
+    node = flake.nixosConfigurations.k3s.config;
+    manifests = node.services.k3s.manifests.poc.content;
+    deployment = builtins.head (builtins.filter (item: item.kind == "Deployment") manifests);
+    pod = deployment.spec.template.spec;
+    agent = builtins.elemAt pod.containers 1;
+    policy = builtins.readFile ../features/k3s/policy.hcl;
+  in
+    assert node.services.k3s.enable;
+    assert lib.versionAtLeast node.services.k3s.package.version "1.36.5";
+    assert node.services.k3s.disable == ["servicelb"];
+    assert (builtins.fromJSON node.services.k3s.manifests.traefik-config.content.spec.valuesContent).ports.traefik.port == 9000;
+    assert builtins.elem "--secrets-encryption-provider=secretbox" node.services.k3s.extraFlags;
+    assert node.fileSystems."/var/lib/rancher/k3s".device == "/dev/disk/by-label/k3s-state";
+    assert !pod.automountServiceAccountToken;
+    assert pod.securityContext.runAsNonRoot;
+    assert lib.all (container: container.securityContext.readOnlyRootFilesystem && !container.securityContext.allowPrivilegeEscalation && container.imagePullPolicy == "Never") pod.containers;
+    assert !(lib.any (mount: mount.name == "identity") (builtins.head pod.containers).volumeMounts);
+    assert lib.any (mount: mount.name == "identity") agent.volumeMounts;
+    assert lib.hasInfix "services/data/k3s/poc" policy;
+    assert !(lib.hasInfix "services/data/*" policy);
+    assert !(lib.any (item: item.kind == "Secret") manifests); true;
   certificateTrust = let
     blacklist = pkgs: import ../nix/ca-blacklist.nix pkgs.cacert.version;
     systems = builtins.attrValues flake.nixosConfigurations ++ builtins.attrValues flake.darwinConfigurations;
