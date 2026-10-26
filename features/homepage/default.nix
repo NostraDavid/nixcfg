@@ -1,5 +1,24 @@
 _: {
-  den.aspects.homepage.nixos = {pkgs, ...}: {
+  den.aspects.homepage.nixos = {pkgs, ...}: let
+    health = mappings: {
+      type = "customapi";
+      url = "http://127.0.0.1:3001/status.json";
+      refreshInterval = 30000;
+      inherit mappings;
+    };
+    tls = name:
+      health [
+        {
+          field = "certificates.${name}.status";
+          label = "HTTPS";
+        }
+        {
+          field = "certificates.${name}.days";
+          label = "Dagen geldig";
+        }
+      ];
+  in {
+    imports = [./_monitor.nix];
     services.homepage-dashboard = {
       enable = true;
       listenPort = 3000;
@@ -52,26 +71,75 @@ _: {
           Infrastructuur = [
             {
               Proxmox = {
-                icon = "proxmox.svg";
+                icon = "/icons/proxmox.svg";
                 href = "https://proxmox.powerlan.empire/";
                 description = "POwerMonolith · virtuele machines en opslag";
                 siteMonitor = "https://proxmox.powerlan.empire/";
+                widgets = [
+                  {
+                    type = "proxmox";
+                    url = "https://proxmox.powerlan.empire";
+                    username = "{{HOMEPAGE_VAR_PROXMOX_USER}}";
+                    password = "{{HOMEPAGE_VAR_PROXMOX_TOKEN}}";
+                    node = "POwerMonolith";
+                    fields = ["vms" "resources.cpu" "resources.mem"];
+                  }
+                  (tls "proxmox")
+                ];
               };
             }
             {
               "Pi-hole" = {
-                icon = "pi-hole.svg";
+                icon = "/icons/pi-hole.svg";
                 href = "https://pihole.powerlan.empire/admin/";
                 description = "DNS en netwerkfiltering";
                 siteMonitor = "https://pihole.powerlan.empire/admin/";
+                widgets = [
+                  {
+                    type = "pihole";
+                    url = "https://pihole.powerlan.empire";
+                    version = 6;
+                    key = "{{HOMEPAGE_VAR_PIHOLE_KEY}}";
+                    fields = ["queries" "blocked" "blocked_percent"];
+                  }
+                  (health [
+                    {
+                      field = "dns.status";
+                      label = "DNS-query";
+                    }
+                    {
+                      field = "certificates.pihole.status";
+                      label = "HTTPS";
+                    }
+                    {
+                      field = "certificates.pihole.days";
+                      label = "Dagen geldig";
+                    }
+                  ])
+                ];
               };
             }
             {
               FreeIPA = {
-                icon = "freeipa.svg";
+                icon = "/icons/freeipa.svg";
                 href = "https://ldap.powerlan.empire/ipa/ui/";
                 description = "Accounts, groepen en aanmeldingen";
                 siteMonitor = "https://ldap.powerlan.empire/ipa/ui/";
+                widgets = [
+                  (health [
+                    {
+                      field = "ldap.status";
+                      label = "LDAP-aanmeldingen";
+                    }
+                    {
+                      field = "ldap.last";
+                      label = "Laatste controle";
+                      format = "relativeDate";
+                      locale = "nl";
+                    }
+                  ])
+                  (tls "freeipa")
+                ];
               };
             }
           ];
@@ -80,26 +148,43 @@ _: {
           Diensten = [
             {
               Forgejo = {
-                icon = "forgejo.svg";
+                icon = "/icons/forgejo.svg";
                 href = "https://forgejo.powerlan.empire/";
                 description = "Git-repositories en samenwerking";
                 siteMonitor = "https://forgejo.powerlan.empire/";
+                widget = tls "forgejo";
               };
             }
             {
               OpenBao = {
-                icon = "openbao.svg";
+                icon = "/icons/openbao.svg";
                 href = "https://openbao.powerlan.empire/";
                 description = "Servicegeheimen en wachtwoordrotatie";
                 siteMonitor = "https://openbao.powerlan.empire/v1/sys/health";
+                widgets = [
+                  (tls "openbao")
+                  (health [
+                    {
+                      field = "rotation.status";
+                      label = "Wachtwoordrotatie";
+                    }
+                    {
+                      field = "rotation.last";
+                      label = "Oudste rotatie";
+                      format = "relativeDate";
+                      locale = "nl";
+                    }
+                  ])
+                ];
               };
             }
             {
               "Home Assistant" = {
-                icon = "home-assistant.svg";
+                icon = "/icons/home-assistant.svg";
                 href = "https://homeassistant.powerlan.empire/";
                 description = "Slimme woning en automatisering";
                 siteMonitor = "https://homeassistant.powerlan.empire/";
+                widget = tls "homeassistant";
               };
             }
           ];
@@ -107,32 +192,64 @@ _: {
         {
           Beheer = [
             {
+              "Kluisback-up" = {
+                icon = "/icons/openbao.svg";
+                href = "https://openbao.powerlan.empire/";
+                description = "Versleutelde herstelkopie buiten Proxmox op Wodan";
+                widget = health [
+                  {
+                    field = "backup.status";
+                    label = "Back-up";
+                  }
+                  {
+                    field = "backup.last";
+                    label = "Laatste succes";
+                    format = "relativeDate";
+                    locale = "nl";
+                  }
+                  {
+                    field = "credentials.status";
+                    label = "Kluisverbinding";
+                  }
+                ];
+              };
+            }
+            {
               Certificaten = {
-                icon = "mdi-certificate-outline";
+                icon = "/icons/certificate.svg";
                 href = "https://certs.powerlan.empire/";
                 description = "Certificaatdownloads en Pi-hole HTTPS";
                 siteMonitor = "https://certs.powerlan.empire/";
-                widget = {
-                  type = "customapi";
-                  url = "https://certs.powerlan.empire/pihole-tls/status.json";
-                  refreshInterval = 60000;
-                  mappings = [
+                widgets = [
+                  (tls "certs")
+                  (health [
                     {
-                      field = "status";
-                      label = "Pi-hole HTTPS";
+                      field = "certificates.home.status";
+                      label = "Homepage HTTPS";
                     }
                     {
-                      field = "days";
-                      label = "Dagen geldig";
+                      field = "certificates.home.days";
+                      label = "Homepage dagen";
                     }
-                    {
-                      field = "checked";
-                      label = "Controle";
-                      format = "relativeDate";
-                      locale = "nl";
-                    }
-                  ];
-                };
+                  ])
+                  {
+                    type = "customapi";
+                    url = "https://certs.powerlan.empire/pihole-tls/status.json";
+                    refreshInterval = 60000;
+                    mappings = [
+                      {
+                        field = "status";
+                        label = "Pi-hole vernieuwing";
+                      }
+                      {
+                        field = "checked";
+                        label = "Controle";
+                        format = "relativeDate";
+                        locale = "nl";
+                      }
+                    ];
+                  }
+                ];
               };
             }
           ];

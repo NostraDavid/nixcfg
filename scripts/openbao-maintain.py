@@ -3,6 +3,7 @@
 
 import argparse
 import datetime as dt
+import json
 import os
 import shlex
 import shutil
@@ -14,6 +15,7 @@ from pathlib import Path
 
 VAULT = "david@192.168.2.112"
 CERTS = "david@192.168.2.113"
+HOMEPAGE = "david@192.168.2.103"
 SSH = [
     shutil.which("ssh") or "/usr/bin/ssh",
     "-F",
@@ -135,9 +137,38 @@ def check(directory: Path) -> None:
     print("ok")
 
 
+def report(directory: Path) -> None:
+    backups = list((directory / "backups").glob("*.tar.age"))
+    last = max((path.stat().st_mtime for path in backups), default=0)
+    result = subprocess.run(  # noqa: S603 -- Fixed command resolved from the declared service path.
+        [
+            shutil.which("systemctl") or "/usr/bin/systemctl",
+            "--user",
+            "show",
+            "openbao-backup.service",
+            "-p",
+            "Result",
+            "--value",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    ).stdout.strip()
+    payload = {"checked_at": time.time(), "last_success": last, "result": result}
+    remote(
+        HOMEPAGE,
+        "sudo -n homepage-monitor receive-backup",
+        json.dumps(payload).encode(),
+    )
+    print("Sanitized off-host backup status published to Homepage")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["setup", "backup", "tls", "check"])
+    parser.add_argument(
+        "command", choices=["setup", "backup", "tls", "check", "report"]
+    )
     parser.add_argument("--directory", type=Path, default=STATE)
     args = parser.parse_args()
     os.umask(0o077)
@@ -147,6 +178,8 @@ def main() -> None:
         backup(args.directory)
     elif args.command == "tls":
         tls()
+    elif args.command == "report":
+        report(args.directory)
     else:
         check(args.directory)
 

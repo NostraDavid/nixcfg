@@ -2,7 +2,7 @@
 
 Deze repo definieert zes NixOS guests voor Proxmox:
 
-- `homepage`: dashboard op VM 114, `prd-svc-homepage-01`; zie
+- `homepage`: dashboard op VM 103, `prd-svc-homepage-01`; zie
   [Homepage](homepage.md).
 - `apps`: gedeelde host voor het huishoudboekje en de recepten/boodschappen app.
 - `forgejo`: eigen Git-dienst op VM 110, `prd-svc-forgejo-01`.
@@ -31,17 +31,17 @@ aangekoppeld.
 
 ## OpenTofu
 
-De configuratie in `infra/proxmox` definieert Homepage op VM 114 en `apps` op VM
+De configuratie in `infra/proxmox` definieert Homepage op VM 103 en `apps` op VM
 211 met opslag `datastore_id`, standaard `local`. Forgejo 110, proxy 111 en
 certificaten 113 gebruiken standaard `vm_storage_1`. De plan- en apply-recipes
 bouwen vier NixOS-images en bieden die via het contenttype `Import` op `local`
 aan. OpenBao 112 heeft zijn eigen stapel `infra/openbao`.
 
 De huidige checkout bevat geen state voor de hoofdstack. De uitbreiding met VM
-113 en de verhuizing van 210 naar 114 zijn via Proxmox uitgevoerd. Gebruik geen
-lege hoofdstack voor `apply`. Herstel eerst de bijbehorende state of importeer
-de bestaande resources, inclusief
-`proxmox_virtual_environment_vm.app["homepage"]` met ID 114 en
+113 en de verhuizingen van 210 naar 114 en daarna naar 103 zijn via Proxmox
+uitgevoerd. Gebruik geen lege hoofdstack voor `apply`. Herstel eerst de
+bijbehorende state of importeer de bestaande resources, inclusief
+`proxmox_virtual_environment_vm.app["homepage"]` met ID 103 en
 `proxmox_virtual_environment_vm.certs` met ID 113. Controleer daarna een plan
 zonder vervanging of verwijdering van bestaande disks. Bestaande historische
 statekopieën onder `~/.local/state/nixcfg/proxmox/` beschrijven de oude
@@ -114,7 +114,7 @@ Test daarna `apply` en maak later een beperktere rol voor VM beheer.
 
 VM 110 en 111 starten na de eerste `apply` automatisch vanaf hun vooraf gebouwde
 NixOS-systeemdisk. Hun modules initialiseren alleen hun aangewezen volledig lege
-datadisk. VM 113 en 114 gebruiken eveneens een vooraf gebouwd NixOS-image.
+datadisk. VM 103 en 113 gebruiken eveneens een vooraf gebouwd NixOS-image.
 Alleen VM 211 houdt een aparte installatiestap. De Forgejo- en proxyresources
 hebben `prevent_destroy`, zodat een gewone OpenTofu-destroy hun datadisks niet
 wist.
@@ -127,15 +127,15 @@ overschrijft de draaiende systeemdisks niet.
 
 ## Proxmox VM layout
 
-Homepage draait op VM 114 onder `https://home.powerlan.empire/`, met de naam
+Homepage draait op VM 103 onder `https://home.powerlan.empire/`, met de naam
 `prd-svc-homepage-01`. De proxy op VM 111 verzorgt HTTPS. De certificaten-VM 113
 biedt `https://certs.powerlan.empire/` rechtstreeks aan. Zie
 [de scheiding en herstelgegevens](service-vm-split.md). VM 210 is na een
-geverifieerde kopie van beide disks verwijderd. De afzonderlijke, draaiende VM
-103 valt buiten deze migratie.
+geverifieerde kopie van beide disks verwijderd. De oude disks van VM 103 blijven
+losgekoppeld bewaard. VM 114 blijft uitgeschakeld als herstelkopie.
 
 Alleen `apps` gebruikt DHCP. Forgejo, proxy, certificaten en Homepage gebruiken
-respectievelijk `192.168.2.110/24`, `.111/24`, `.113/24` en `.114/24` op
+respectievelijk `192.168.2.110/24`, `.111/24`, `.113/24` en `.103/24` op
 `ens18`, met gateway `192.168.2.1` en DNS `192.168.2.102`.
 
 `homepage`:

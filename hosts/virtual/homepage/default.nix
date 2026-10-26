@@ -29,7 +29,7 @@
         useDHCP = lib.mkForce false;
         interfaces.ens18.ipv4.addresses = [
           {
-            address = "192.168.2.114";
+            address = "192.168.2.103";
             prefixLength = 24;
           }
         ];

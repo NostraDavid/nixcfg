@@ -31,6 +31,22 @@ _: {
       openbao-backup = service "backup";
       openbao-tls = service "tls";
       openbao-watch = service "check";
+      homepage-backup-report =
+        (service "report")
+        // {
+          Unit = {
+            Description = "Publish the off-host backup status to Homepage";
+            OnFailure = ["homepage-report-alert.service"];
+            ConditionPathExists = "%h/.local/state/nixcfg/openbao/enabled";
+          };
+        };
+      homepage-report-alert = {
+        Unit.Description = "Report a stale Homepage backup status";
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.libnotify}/bin/notify-send --urgency=normal Homepage 'De back-upstatus kon niet worden bijgewerkt. Controleer homepage-backup-report.service.'";
+        };
+      };
       openbao-alert = {
         Unit.Description = "Report OpenBao rotation, health or backup failure";
         Service = {
@@ -43,6 +59,7 @@ _: {
       openbao-backup = timer "*-*-* *:10:00";
       openbao-tls = timer "*-*-01,15 03:00:00";
       openbao-watch = timer "*:0/5";
+      homepage-backup-report = timer "*:0/5";
     };
   };
 }

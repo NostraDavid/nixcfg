@@ -18,7 +18,7 @@ provider "proxmox" {
 locals {
   app_vms = {
     homepage = {
-      vm_id       = 114
+      vm_id       = 103
       description = "Dedicated Homepage dashboard. NixOS OS/config are declarative; the spare data disk is retained."
       cpu_cores   = 1
       memory_mb   = 1024
@@ -95,8 +95,9 @@ resource "proxmox_virtual_environment_vm" "app" {
   scsi_hardware = "virtio-scsi-single"
 
   network_device {
-    bridge = var.network_bridge
-    model  = "virtio"
+    bridge   = var.network_bridge
+    model    = "virtio"
+    firewall = each.key == "homepage"
   }
 
   dynamic "disk" {

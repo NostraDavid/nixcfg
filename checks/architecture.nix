@@ -58,17 +58,27 @@ in {
     certs = flake.nixosConfigurations.certs.config;
   in
     assert dashboard.enable;
+    assert homepage.networking.interfaces.ens18.ipv4.addresses
+    == [
+      {
+        address = "192.168.2.103";
+        prefixLength = 24;
+      }
+    ];
     assert dashboard.allowedHosts == "home.powerlan.empire,localhost:3000,127.0.0.1:3000";
     assert !dashboard.openFirewall;
     assert homepage.systemd.services.homepage-dashboard.environment.HOSTNAME == "0.0.0.0";
     assert !proxy.services.homepage-dashboard.enable;
     assert !homepage.services.caddy.enable;
+    assert homepage.systemd.services.homepage-monitor-api.serviceConfig.IPAddressDeny == "any";
+    assert homepage.systemd.services.homepage-monitor-api.serviceConfig.IPAddressAllow == "localhost";
+    assert builtins.elem "-/run/homepage-monitor/credentials.env" homepage.systemd.services.homepage-dashboard.serviceConfig.EnvironmentFile;
     assert !(proxy.systemd.services ? pihole-tls-publish);
     assert certs.services.caddy.enable;
     assert certs.systemd.services.caddy.unitConfig.ConditionPathExists == "/srv/certs/caddy/.local/share/caddy/pki/authorities/local/root.key";
     assert lib.hasInfix "-s 192.168.2.111 -p tcp --dport 8443" certs.networking.firewall.extraCommands;
     assert lib.hasInfix "-s 192.168.2.111 -p tcp --dport 3000" homepage.networking.firewall.extraCommands;
-    assert lib.hasInfix "reverse_proxy 192.168.2.114:3000" proxy.services.caddy.virtualHosts."home.powerlan.empire".extraConfig;
+    assert lib.hasInfix "reverse_proxy 192.168.2.103:3000" proxy.services.caddy.virtualHosts."home.powerlan.empire".extraConfig;
     assert lib.hasInfix "https://192.168.2.113:8443/acme/local/directory" proxy.services.caddy.virtualHosts."home.powerlan.empire".extraConfig; true;
   certificateTrust = let
     blacklist = pkgs: import ../nix/ca-blacklist.nix pkgs.cacert.version;

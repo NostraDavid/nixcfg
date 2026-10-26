@@ -8,19 +8,27 @@ images en uitrolcommando's staan in deze repository.
 | --- | --------------------- | --------------- | ----------------------- |
 | 111 | `prd-svc-proxy-01`    | `192.168.2.111` | HTTPS en Forgejo SSH    |
 | 113 | `prd-svc-certs-01`    | `192.168.2.113` | CA en certificaatbeheer |
-| 114 | `prd-svc-homepage-01` | `192.168.2.114` | Homepage                |
+| 103 | `prd-svc-homepage-01` | `192.168.2.103` | Homepage                |
 
 `home.powerlan.empire` blijft naar de proxy wijzen. De proxy vraagt Homepage op
-VM 114 op poort 3000 op. De Homepage-firewall laat alleen VM 111 op deze poort
+VM 103 op poort 3000 op. De Homepage-firewall laat alleen VM 111 op deze poort
 toe. `certs.powerlan.empire` wijst rechtstreeks naar VM 113. De bestaande
 IP-downloadroutes op VM 111 sturen door naar de certificaten-VM, zodat bestaande
 installatiecommando's blijven werken. Forgejo SSH op poort 2222 blijft bij de
 proxy horen.
 
-Homepage gebruikt de eerdere reservering 210. Beide disks zijn vóór het starten
-van VM 114 volledig vergeleken en identiek bevonden. De oorspronkelijke
-sparedisk van 8 GiB is behouden, zonder formatteren of mount. De afzonderlijke,
-draaiende VM 103 valt buiten deze migratie.
+Homepage is eerst vanaf reservering 210 naar VM 114 verplaatst. Op verzoek is de
+werkende NixOS-installatie daarna naar VM 103 verhuisd. De systeemdisk en de
+ongebruikte disk van 8 GiB zijn vóór het starten volledig gekopieerd en met de
+bron vergeleken. De bestaande disks van de oude VM 103 blijven losgekoppeld
+bewaard. De oude VM 114 blijft uitgeschakeld als herstelkopie, met automatisch
+starten uit. De oorspronkelijke VM-configuraties staan op de Proxmox-host onder
+`/root/homepage-before-103-20261025/`.
+
+De Homepage-AppRole is uitsluitend aan `192.168.2.103/32` gekoppeld. De oude
+bootstrapgegevens zijn ingetrokken. Terugrollen naar VM 114 vereist een nieuwe
+bootstrap voor het dan gebruikte adres. De twee VM's mogen niet tegelijk met
+dezelfde Homepage-identiteit starten.
 
 ## Certificaatvertrouwen en vernieuwing
 

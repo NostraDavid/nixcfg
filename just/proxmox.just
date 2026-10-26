@@ -40,8 +40,13 @@ app-vm-deploy host target:
 
 # Deploy Homepage on its dedicated VM.
 [group('proxmox')]
-deploy-homepage target="david@192.168.2.114":
+deploy-homepage target="david@192.168.2.103":
   @just app-vm-deploy homepage "{{target}}"
+
+# Check monitoring freshness, credential boundaries and the local status API.
+[group('proxmox')]
+homepage-monitor-test:
+  @python3 checks/test-homepage-monitor.py
 
 # Deploy the shared apps VM configuration.
 [group('proxmox')]

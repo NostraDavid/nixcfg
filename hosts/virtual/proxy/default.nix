@@ -105,7 +105,7 @@
                   file_server
                 }
                 handle {
-                  reverse_proxy 192.168.2.114:3000
+                  reverse_proxy 192.168.2.103:3000
                 }
               '';
             "proxmox.powerlan.empire" = {
