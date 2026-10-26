@@ -50,10 +50,6 @@ security-smoke host=default_host:
   @just security-grype "{{host}}" reports/security-smoke critical
 
 [group('security')]
-brotli-security-check:
-  nix build .#checks.x86_64-linux.brotli-security .#checks.x86_64-linux.brotli-graft --no-link
-
-[group('security')]
 certificate-trust-check:
   nix build .#checks.x86_64-linux.certificate-trust --no-link
 

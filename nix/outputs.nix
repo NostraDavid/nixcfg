@@ -25,13 +25,6 @@ in {
     legacyPackages = stable // {inherit unstable;};
 
     checks = {
-      brotli-graft = import ../checks/brotli-graft.nix {
-        pkgs = stable;
-        inherit unstable;
-        replacements = packageSets.brotliReplacements [stable unstable];
-        graftRuntime = packageSets.graftBrotliRuntime stable [stable unstable];
-      };
-      brotli-security = import ../checks/brotli-security.nix {pkgs = stable;};
       certificate-trust = import ../checks/certificate-trust.nix {
         pkgs = stable;
         inherit unstable;
@@ -91,20 +84,18 @@ in {
           }) {});
       };
 
-    devShells.default = stable.lib.lazyDerivation {
-      derivation = stable.mkShell {
-        # Tools needed before the first Home Manager activation.
-        packages = map (packageSets.graftBrotliRuntime stable [stable unstable]) [
-          stable.git
-          stable.git-lfs
-          stable.just
-        ];
+    devShells.default = stable.mkShell {
+      # Tools needed before the first Home Manager activation.
+      packages = [
+        stable.git
+        stable.git-lfs
+        stable.just
+      ];
 
-        shellHook = ''
-          export NIX_CONFIG="experimental-features = nix-command flakes
-          ''${NIX_CONFIG:-}"
-        '';
-      };
+      shellHook = ''
+        export NIX_CONFIG="experimental-features = nix-command flakes
+        ''${NIX_CONFIG:-}"
+      '';
     };
   };
 }

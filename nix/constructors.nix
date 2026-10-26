@@ -4,7 +4,7 @@
   den,
 }: let
   inherit (inputs.nixpkgs) lib;
-  inherit (packageSets) pkgsFor unstableFor mkLocal overlays overlay-ca-security overlay-brotli-security nixpkgsConfig graftBrotliRuntime brotliReplacements checkBrotliRuntime;
+  inherit (packageSets) pkgsFor unstableFor mkLocal overlays overlay-ca-security nixpkgsConfig;
   selected = entity: map (aspect: aspect.name) entity.hasAspect.allAspects;
   guard = class: entity:
     import ../policy/module.nix {
@@ -68,27 +68,14 @@ in {
         modules
         ++ [
           (guard "nixos" entity)
-          ({
-            config,
-            pkgs,
-            ...
-          }: {
-            options.system.build.toplevel = lib.mkOption {
-              apply = drv:
-                if config.system.replaceDependencies.replacements == []
-                then drv
-                else checkBrotliRuntime pkgs (brotliReplacements [pkgs unstable]) drv;
+          ({pkgs, ...}: {
+            nixpkgs = {
+              inherit overlays;
+              config = nixpkgsConfig;
             };
-            config = {
-              nixpkgs = {
-                inherit overlays;
-                config = nixpkgsConfig;
-              };
-              system.replaceDependencies.replacements = brotliReplacements [pkgs unstable];
-              _module.args = {
-                stable = pkgs;
-                local = mkLocal pkgs;
-              };
+            _module.args = {
+              stable = pkgs;
+              local = mkLocal pkgs;
             };
           })
         ]
@@ -144,7 +131,6 @@ in {
               config = nixpkgsConfig;
               overlays = [
                 overlay-ca-security
-                overlay-brotli-security
                 (_final: _prev: {inherit (pkgsFor system) bashInteractive;})
               ];
             };
@@ -180,11 +166,6 @@ in {
         modules
         ++ [
           (guard "homeManager" entity)
-          ({pkgs, ...}: let
-            graft = graftBrotliRuntime pkgs [pkgs (unstableFor pkgs.stdenv.hostPlatform.system)];
-          in {
-            options.home.activationPackage = lib.mkOption {apply = graft;};
-          })
         ]
         ++ extraHomeModules;
       extraSpecialArgs = {

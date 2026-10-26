@@ -76,10 +76,8 @@
     moldStdenv = prev.useMoldLinker prev.stdenv;
   };
   overlay-ca-security = import ./ca-security.nix;
-  overlay-brotli-security = import ./brotli-security.nix;
   overlays = [
     overlay-ca-security
-    overlay-brotli-security
     overlay-fixes
     overlay-build-tools
     overlay-local
@@ -91,7 +89,6 @@
       config = nixpkgsConfig;
       overlays = [
         overlay-ca-security
-        overlay-brotli-security
         (_final: prev: {
           # Structured wrapper arguments must contain one argument per element.
           sbomnix = prev.sbomnix.overrideAttrs (old: {
@@ -125,55 +122,6 @@
       inherit system overlays;
       config = nixpkgsConfig;
     };
-  brotliReplacements = packageSets:
-    inputs.nixpkgs.lib.unique (inputs.nixpkgs.lib.concatMap
-      (pkgs:
-        pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux
-        (map (output: {
-            oldDependency = pkgs.lib.getOutput output pkgs.brotli;
-            newDependency = pkgs.lib.getOutput output pkgs.brotliPatched;
-          })
-          pkgs.brotli.outputs))
-      packageSets);
-  checkBrotliRuntime = pkgs: replacements: drv: let
-    builders = import pkgs.path {system = pkgs.stdenv.buildPlatform.system;};
-    # Always copy the NAR, including self references; never rebuild an unchanged app.
-    copy = builders.replaceDirectDependencies {
-      inherit drv;
-      replacements = [
-        {
-          oldDependency = drv;
-          newDependency = builtins.placeholder "out";
-        }
-      ];
-    };
-  in
-    copy.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [pkgs.python3];
-      exportReferencesGraph = (old.exportReferencesGraph or []) ++ ["brotli-runtime" drv];
-      disallowedRequisites = (old.disallowedRequisites or []) ++ map (r: r.oldDependency) replacements;
-      buildCommand =
-        old.buildCommand
-        + "\n"
-        + ''
-          while read -r dependency; do
-            library="$dependency/lib/libbrotlidec.so"
-            if [ -f "$library" ]; then
-              BROTLI_LIBRARY="$library" BROTLI_CLI=${pkgs.lib.getExe pkgs.brotliPatched} \
-                ${pkgs.python3}/bin/python3 ${../checks/test-brotli-security.py}
-            fi
-          done < brotli-runtime
-        '';
-    });
-  graftBrotliRuntime = pkgs: packageSets: drv: let
-    # NAR rewriting needs no locally modified Nix or its build toolchain.
-    builders = import pkgs.path {system = pkgs.stdenv.buildPlatform.system;};
-    replacements = brotliReplacements packageSets;
-  in
-    checkBrotliRuntime pkgs replacements (builders.replaceDependencies {
-      inherit drv replacements;
-      verbose = false;
-    });
 in {
-  inherit mkLocal overlays overlay-local overlay-ca-security overlay-brotli-security pkgsFor unstableFor nixpkgsConfig brotliReplacements checkBrotliRuntime graftBrotliRuntime;
+  inherit mkLocal overlays overlay-local overlay-ca-security pkgsFor unstableFor nixpkgsConfig;
 }
