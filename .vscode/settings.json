@@ -1,11 +1,7 @@
 {
-  "nixEnvSelector.flakeShell": "default",
-  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
-  "nixEnvSelector.useFlakes": true,
+
   "peacock.color": "#612edc",
   "peacock.remoteColor": "#612edc",
-  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
-  "stylua.targetReleaseVersion": "latest",
   "window.title": "nixcfg",
   "workbench.colorCustomizations": {
     "statusBar.inactiveBackground": "#612edc",
