@@ -1,4 +1,4 @@
-default_host := `hostname --short`
+default_host := `hostname | cut -d . -f 1`
 default_cachix_cache := "thaumatorium"
 nix_clean_env := "env -u LD_LIBRARY_PATH -u NIX_LD_LIBRARY_PATH -u LD_PRELOAD"
 flake_update_delay_seconds := "5"
