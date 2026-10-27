@@ -6,7 +6,7 @@
   };
   homebrew = {
     enable = true;
-    casks = ["alt-tab" "karabiner-elements"];
+    casks = ["karabiner-elements"];
     onActivation.cleanup = "none";
   };
 
