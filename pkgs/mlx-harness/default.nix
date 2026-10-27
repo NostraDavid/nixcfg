@@ -12,8 +12,8 @@ stdenvNoCC.mkDerivation {
     hash = "sha256-BYR9LDshKb+0rmRmlE1baVpqLaopgh5kUTqAjOGNhoM=";
   };
   nativeBuildInputs = [_7zz];
-  unlockPhase = ''
-    runHook preUnlock
+  unpackPhase = ''
+    runHook preUnpack
     7zz x "$src" -y
     runHook postUnpack
   '';
