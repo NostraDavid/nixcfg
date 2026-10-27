@@ -2,5 +2,5 @@
 keyring-provider = "subprocess"
 python-downloads = "automatic"
 python-preference = "only-managed"
-required-version = ">=0.13.0"
+required-version = ">=0.13.4"
 system-certs = true
