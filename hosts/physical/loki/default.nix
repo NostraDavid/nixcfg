@@ -32,7 +32,11 @@ in {
       rectangle
     ];
     darwin = {pkgs, ...}: {
-      homebrew.casks = ["chatgpt" "vorssaint"];
+      homebrew.casks = [
+        "chatgpt"
+        "jan"
+        "vorssaint"
+      ];
       environment.shells = [
         pkgs.bashInteractive
       ];
@@ -53,6 +57,7 @@ in {
       ...
     }: {
       home.packages = [
+        local.mlx-harness
         local.pandacode
         unstable.github-copilot-cli
         unstable.raycast
