@@ -2,7 +2,7 @@
   fetchurl,
   lib,
   stdenvNoCC,
-  undmg,
+  _7zz,
 }:
 stdenvNoCC.mkDerivation {
   pname = "mlx-harness";
@@ -11,7 +11,12 @@ stdenvNoCC.mkDerivation {
     url = "https://github.com/MLXapp/Harness/releases/download/v0.5.6/MLX-Harness-0.5.6-arm64.dmg";
     hash = "sha256-BYR9LDshKb+0rmRmlE1baVpqLaopgh5kUTqAjOGNhoM=";
   };
-  nativeBuildInputs = [undmg];
+  nativeBuildInputs = [_7zz];
+  unlockPhase = ''
+    runHook preUnlock
+    7zz x "$src" -y
+    runHook postUnpack
+  '';
   sourceRoot = ".";
   dontBuild = true;
   dontFixup = true;
