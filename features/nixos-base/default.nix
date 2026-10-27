@@ -6,6 +6,11 @@
       internal-pki
     ];
     nixos = {pkgs, ...}: {
+      environment.etc."xdg/plasma_workspace.notifyrc".text = ''
+        [Event/notification]
+        Action=Popup|Sound
+        Sound=message
+      '';
       programs.git = {
         enable = true;
         lfs.enable = true;
