@@ -34,6 +34,7 @@ in {
     darwin = {pkgs, ...}: {
       homebrew.casks = [
         "chatgpt"
+        "iterm2"
         "jan"
         "vorssaint"
       ];
