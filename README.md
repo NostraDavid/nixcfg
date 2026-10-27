@@ -39,6 +39,18 @@ This flake defines `mimir2` and `loki`. The work repository extends them with
 [Connect a work configuration to nixcfg](docs/work-repo-integration.md) for the
 flake input, module hooks, work files, and switch commands.
 
+To install multi-user Nix on macOS before applying nix-darwin, run:
+
+```bash
+./scripts/bootstrap-macos.sh
+# Or, when `just` is already available:
+just bootstrap-macos
+```
+
+The installer uses build-user IDs starting at 600 and build-group ID 600. It
+prompts for administrator access and skips installation when Nix is present.
+Open a new terminal afterward and follow the nix-darwin instructions linked above.
+
 ### Bootstrap a new machine
 
 From a checkout on a standard NixOS installation, add the current machine with:
