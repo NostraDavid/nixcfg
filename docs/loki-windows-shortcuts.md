@@ -1,9 +1,8 @@
 # Windows-style keyboard shortcuts on Loki
 
-Loki installs Karabiner-Elements, AltTab and Rectangle through Homebrew casks
-managed by nix-darwin. Homebrew manages their app updates; Nix declares which
-apps to install. Activation preserves unrelated Homebrew packages.
-BetterTouchTool is not installed.
+Loki installs Karabiner-Elements through a Homebrew cask managed by nix-darwin.
+Homebrew manages app updates; Nix declares which apps to install. Activation
+preserves unrelated Homebrew packages. BetterTouchTool is not installed.
 
 The
 [Windows Keyboard for Mac community edition](https://github.com/Fuzzy-and-Fluffy/windows-keyboard-for-mac)
@@ -56,9 +55,7 @@ reapplies it. Personal settings in other profiles are retained.
 The community rules normally turn Alt+Tab into macOS app switching. We omit
 those two forward/backward translations and map physical Alt+Tab and
 Alt+Shift+Tab to Mission Control. The remaining community rules are retained.
-Rectangle is installed through the Homebrew cask managed by nix-darwin. The
-profile uses native macOS window tiling for Win+Arrow, so Rectangle needs no
-matching hotkeys.
+The profile uses native macOS window tiling for Win+Arrow.
 
 ## Shortcut checks
 

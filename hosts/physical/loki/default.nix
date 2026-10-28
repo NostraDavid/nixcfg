@@ -29,10 +29,10 @@ in {
     includes = with den.aspects; [
       darwin-keyboard
       portable-home
-      rectangle
     ];
     darwin = {pkgs, ...}: {
       homebrew.casks = [
+        "alfred"
         "chatgpt"
         "iterm2"
         "jan"
