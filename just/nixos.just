@@ -13,7 +13,8 @@ test host=default_host:
 # Apply a host configuration immediately and persist across reboots.
 [group('nixos')]
 switch host=default_host:
-  @just forgejo-support-warning; \
+  @sudo -v; \
+  just forgejo-support-warning; \
   opts=(); \
   if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
   sudo nixos-rebuild switch "${opts[@]}" --flake path:.#"{{host}}" 2>&1 | tee /tmp/just-switch.log
