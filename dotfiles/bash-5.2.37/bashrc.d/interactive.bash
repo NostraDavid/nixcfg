@@ -42,13 +42,13 @@ export VISUAL="$EDITOR"
 # Color for manpages in less makes manpages a little easier to read
 export MANPAGER="${MANPAGER:-less}"
 export MANROFFOPT="${MANROFFOPT:--c}"
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_mb=$'\E[91m'
+export LESS_TERMCAP_md=$'\E[91m'
 export LESS_TERMCAP_me=$'\E[0m'
 export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_so=$'\E[93;44m'
 export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;32m'
+export LESS_TERMCAP_us=$'\E[92m'
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x "$HOME/.local/bin/lesspipe" ] && eval "$(SHELL=/bin/sh "$HOME/.local/bin/lesspipe")"
