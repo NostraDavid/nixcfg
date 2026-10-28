@@ -10,8 +10,6 @@
     stable.findutils # Finding
     stable.gnugrep # GNU grep
     stable.gnused # GNU sed
-    stable.less # Terminal pager
-    stable.most # Terminal pager
     stable.powerline # Terminal prompt support
     stable.readline # Improved command-line editing
     stable.yank # Clipboard utility

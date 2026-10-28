@@ -26,29 +26,34 @@ _: {
           ".copilot/skills/asd-ste100"
           ".pi/agent/skills/asd-ste100"
         ] (_: {source = "${asdSte100}/asd-ste100";});
-        packages = with unstable; [
-          actionlint
-          flameshot
-          fast-resume
-          herdr
-          hurl
-          just
-          just-lsp
-          lazyjournal
-          lnav
-          mise
-          nix-index
-          nix-tree
-          nvd
-          ov
-          posting
-          shfmt
-          sqruff
-          watchexec
-          yazi
-          zellij
-          local.espeak-ng
+        packages = [
+          unstable.actionlint # Check GitHub Actions workflows
+          unstable.flameshot # Capture and annotate screenshots
+          unstable.fast-resume # Find and resume coding agent sessions
+          unstable.herdr # Manage coding agents in a terminal
+          unstable.hurl # Run and test HTTP requests
+          unstable.just # Run project commands from a justfile
+          unstable.just-lsp # Language server for justfiles
+          unstable.lazyjournal # Browse system, file, and container logs
+          unstable.less # Page through terminal output
+          unstable.lnav # Browse and analyze logs
+          unstable.mise # Manage development tools and environments
+          unstable.more # Page through terminal output
+          unstable.most # Page through terminal output with color and multiple windows
+          unstable.nix-index # Find packages that provide files
+          unstable.nix-tree # Explore Nix dependency trees
+          unstable.nvd # Compare Nix package versions between generations
+          unstable.ov # Page through text with search and table navigation
+          unstable.posting # Send HTTP requests from a terminal interface
+          unstable.shfmt # Format shell scripts
+          unstable.sqruff # Lint and format SQL
+          unstable.watchexec # Run commands when files change
+          unstable.yazi # Browse files in a terminal
+          unstable.zellij # Manage terminal panes and sessions
+          unstable.bat-extras.batman # Read man pages with bat syntax highlighting
+          local.espeak-ng # Convert text to speech
           (stable.piper-tts.override {
+            # Convert text to speech with neural voices
             withAlignment = false;
             withHTTP = false;
             withTrain = false;

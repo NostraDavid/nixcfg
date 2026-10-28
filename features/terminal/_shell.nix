@@ -11,8 +11,6 @@
     stable.gnugrep # GNU grep
     stable.gnused # GNU sed
     stable.killall # Kill processes by name
-    stable.less # Terminal pager
-    stable.most # Terminal pager with color support
     stable.powerline # Bash prompt and status line
     stable.wezterm # Terminal emulator
     stable.xxd # Hex dump utility

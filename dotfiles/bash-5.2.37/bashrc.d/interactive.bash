@@ -40,6 +40,8 @@ export EDITOR="$HOME/.local/bin/vi"
 export VISUAL="$EDITOR"
 
 # Color for manpages in less makes manpages a little easier to read
+export MANPAGER="${MANPAGER:-less}"
+export MANROFFOPT="${MANROFFOPT:--c}"
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'
 export LESS_TERMCAP_me=$'\E[0m'
