@@ -55,8 +55,10 @@ let
       "mergiraf"
       "sqruff"
       "starship"
+      "superfile"
       "tmux"
       "tree"
+      "tuios"
       "tree-sitter"
       "universal-ctags"
       "worktrunk"
@@ -80,6 +82,7 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  portableToolsNixos = assert lib.all (host: lib.all (name: builtins.elem (unstableFor "x86_64-linux").${name}.outPath (map (p: p.outPath) host.config.environment.systemPackages)) ["superfile" "tuios"]) (builtins.attrValues flake.nixosConfigurations); true;
   desktopIdeLauncher = wodan.home.file.".local/bin/ide-desktop".source.text;
   commandPaths = let
     workLoki =

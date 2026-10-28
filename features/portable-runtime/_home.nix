@@ -18,15 +18,14 @@
       stable.bashInteractive
       stable.iperf3
       stable.mc
-
       unstable.bat
       unstable.btop
-
       unstable.lsd
-
       unstable.starship
+      unstable.superfile
       unstable.tmux
       unstable.tree
+      unstable.tuios
     ]
     ++ lib.optionals stable.stdenv.hostPlatform.isDarwin [
       unstable.cmux

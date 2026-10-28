@@ -5,7 +5,11 @@
       fonts
       internal-pki
     ];
-    nixos = {pkgs, ...}: {
+    nixos = {
+      pkgs,
+      unstable,
+      ...
+    }: {
       environment.etc."xdg/plasma_workspace.notifyrc".text = ''
         [Event/notification]
         Action=Popup|Sound
@@ -21,6 +25,8 @@
         pkgs.mc
         pkgs.opencode-v2
         pkgs.tree
+        unstable.superfile
+        unstable.tuios
       ];
     };
   };
