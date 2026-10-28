@@ -32,7 +32,10 @@ mkdir "$repo"
 git_init "$repo"
 printf 'base\n' >"$repo/value.txt"
 printf 'base lock\n' >"$repo/flake.lock"
-git -C "$repo" add value.txt flake.lock
+printf 'committed deletion\n' >"$repo/committed.txt"
+printf 'staged deletion\n' >"$repo/staged.txt"
+printf 'unstaged deletion\n' >"$repo/unstaged.txt"
+git -C "$repo" add value.txt flake.lock committed.txt staged.txt unstaged.txt
 git -C "$repo" commit -q -m 'fixture: create base commit'
 git -C "$repo" branch dev
 git -C "$repo" branch develop
@@ -96,5 +99,17 @@ report=$(bash "$script" --repo "$repo" --base dev)
 assert_contains "$report" $'untracked\t-\tnew.txt'
 patch_dir=$(sed -n 's/^- Patch output directory: //p' <<<"$report")
 assert_contains "$(cat "$patch_dir/new.txt.patch")" 'only untracked'
+
+git -C "$repo" checkout -q feature
+git -C "$repo" rm -q committed.txt
+git -C "$repo" commit -qm 'fixture: delete file'
+git -C "$repo" rm -q staged.txt
+rm "$repo/unstaged.txt"
+report=$(bash "$script" --repo "$repo" --base dev)
+patch_dir=$(sed -n 's/^- Patch output directory: //p' <<<"$report")
+for path in committed staged unstaged; do
+    assert_contains "$report" $'tracked\tD\t'"$path.txt"
+    assert_contains "$(cat "$patch_dir/$path.txt.patch")" "-$path deletion"
+done
 
 printf 'branch-compare tests passed\n'

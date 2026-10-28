@@ -184,7 +184,7 @@ write_patch_file() {
     local patch_file="$patch_output_dir/$path.patch"
 
     mkdir -p "$(dirname "$patch_file")"
-    if git ls-files --error-unmatch -- ":(literal)$path" >/dev/null 2>&1; then
+    if git cat-file -e "$merge_base:$path" 2>/dev/null || git ls-files --error-unmatch -- ":(literal)$path" >/dev/null 2>&1; then
         git --no-pager diff \
             --no-ext-diff \
             --no-textconv \
@@ -192,7 +192,7 @@ write_patch_file() {
             --find-renames \
             --find-copies \
             "$merge_base" \
-            -- "$path" >"$patch_file"
+            -- ":(literal)$path" >"$patch_file"
     else
         git --no-pager diff --no-index --no-ext-diff --no-textconv --no-color \
             -- /dev/null "$path" >"$patch_file" || [ "$?" -eq 1 ]
