@@ -47,7 +47,7 @@ in
       cp ${./package-lock.json} package-lock.json
     '';
 
-    npmDepsHash = "sha256-pd4hIHPO2fLQ7UAO/FlNZxqX6JdAw9DRvbK03OSB8k0=";
+    npmDepsHash = "sha256-TFxkJfa57yFFui8sWZoGfeG67XnJ1vcNQ+l85791xqY=";
     npmFlags = ["--omit=dev"];
     npmRebuildFlags = ["--ignore-scripts"];
     dontNpmBuild = true;
@@ -101,7 +101,10 @@ in
 
     passthru = {
       inherit nodejs;
-      npmOverrides.svix.uuid = "11.1.1";
+      npmOverrides = {
+        svix.uuid = "11.1.1";
+        "@vercel/cli-config".zod = "4.6.7";
+      };
       updateScript = ../../scripts/update-paperclip.sh;
     };
 

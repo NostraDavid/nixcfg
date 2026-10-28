@@ -17,12 +17,14 @@ buildNpmPackage (finalAttrs: {
   # so Nix can fetch every dependency reproducibly.
   postPatch = ''
     substituteInPlace package.json \
-      --replace-fail '"follow-redirects": "1.16.0"' '"follow-redirects": "1.16.1"'
+      --replace-fail '"follow-redirects": "1.16.0"' '"follow-redirects": "1.16.1"' \
+      --replace-fail '"serialize-javascript": "7.0.5"' '"serialize-javascript": "7.1.4"' \
+      --replace-fail '"adaptive-expressions": {' '"@actions/http-client": {"undici": "6.29.1"}, "adaptive-expressions": {'
     cp ${./package-lock.json} package-lock.json
     rm npm-shrinkwrap.json
   '';
 
-  npmDepsHash = "sha256-d5Iw+5w2O2i073d+BKtMyOak8W7IQyhPcs4rwZv5zeY=";
+  npmDepsHash = "sha256-xc/i0sLPW6vDQAtavqSHhMYKkVzFNqtXpX9xgduKeZ0=";
   npmConfigProduction = true;
   npmFlags = ["--omit=dev"];
   dontNpmBuild = true;
