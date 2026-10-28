@@ -64,6 +64,7 @@
     "metric-diagnostics": "Diagnose why a metric changed or differs from expectation. Use when the task is to identify likely drivers of a metric movement, anomaly, gap, or discrepancy.",
     "migrate": "Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserving compatibility layers.",
     "minimal-skill": "Helps with repositories.",
+    "nietzschian-debugger": "Guide the user to diagnose a bug through pointed, evidence-driven questions when explicitly invoked.",
     "nav": "Choose code navigation tools for symbols, cross-file impact, and structural searches or rewrites with ast-grep.",
     "mcporter": "Discover and call MCP tools from the terminal with mcporter when a task needs CLI access to MCP servers or an agent lacks a native MCP connection.",
     "ctb-data-contracts": "Draft, review, and validate Bitol ODCS contracts and ODPS products in CTB, including runtime-schema agreement, product references, and compatibility. Exclude trading advice and unrelated API contracts.",
