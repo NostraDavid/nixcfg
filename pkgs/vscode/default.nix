@@ -16,10 +16,10 @@
   webkitgtk_4_1,
   libsoup_3,
 }: let
-  version = "1.143.1";
+  version = "1.144.0";
   # to grab the hash, run:
   # nix store prefetch-file https://update.code.visualstudio.com/<version>/linux-x64/stable
-  srcHash = "sha256-SPZYBS5U4CChwb57N6wPmuOfB+jM2oBcY/BTz9pysr4=";
+  srcHash = "sha256-F7cqfm9ApbXc6YUPEO6hPOc0pjBStn+gIcwB5xWtTPE=";
   src = fetchurl {
     url = "https://update.code.visualstudio.com/${version}/linux-x64/stable";
     name = "vscode-${version}.tar.gz";

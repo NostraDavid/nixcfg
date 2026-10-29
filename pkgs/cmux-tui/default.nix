@@ -3,30 +3,30 @@
   lib,
   stdenvNoCC,
 }: let
-  rev = "316d139feaf89d9ab7c99dc9cffdce59309bef93";
+  rev = "a6d89d443f5f9ffb66c296d7a9680e307bbe6c58";
   assets = {
     aarch64-darwin = {
       target = "aarch64-apple-darwin";
-      hash = "sha256-5qntRii7OIMAcz8KZeNcftYMveeEomi3xMHS24uEys0=";
+      hash = "sha256-++trvGR0pCbcl+AFX8fx0bqO4Q/UZRWQbRNnCdyW07k=";
     };
     x86_64-darwin = {
       target = "x86_64-apple-darwin";
-      hash = "sha256-RmqPMLpme6fjCOpXFygCtiXJ4wuKG/6UXmCujPzmoko=";
+      hash = "sha256-K66kRXrQH++Q1GdcjHmeFuCNZ+aS3Wn2zRatz2v+fwo=";
     };
     x86_64-linux = {
       target = "x86_64-unknown-linux-musl";
-      hash = "sha256-X3f0rD0DEy5MNAVy5S8Avm9PKsP83VLDSXytPr7mvDw=";
+      hash = "sha256-VZmyzRjTWHrP7qLwLUL4Ay1yXhWx4jtVYgQF5hu+kEM=";
     };
     aarch64-linux = {
       target = "aarch64-unknown-linux-musl";
-      hash = "sha256-jToNHlM2F+ZrIKromf7d1yf78tE5+R9pe1hrbfCBUWo=";
+      hash = "sha256-hCX+3v+n6LpYuhJvXz0AIqCSpHETxNWYIBUKyBs/1tU=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported cmux TUI platform: ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation {
     pname = "cmux-tui";
-    version = "0.1.0-unstable-2026-10-22";
+    version = "0.1.0-unstable-2026-10-29";
     src = fetchurl {
       url = "https://files.cmux.com/cmux-tui/${rev}/cmux-tui-${asset.target}";
       inherit (asset) hash;

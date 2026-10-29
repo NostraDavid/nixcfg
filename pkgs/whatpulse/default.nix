@@ -4,13 +4,13 @@
   lib,
 }: let
   pname = "whatpulse";
-  version = "6.3.2";
+  version = "7.0";
 
   src = fetchurl {
     # WhatPulse does not expose a stable Linux release URL on /downloads; pin the
     # versioned AppImage URL from https://whatpulse.org/releasenotes instead.
     url = "https://releases-dev.whatpulse.org/${version}/linux/whatpulse-linux-${version}_amd64.AppImage";
-    hash = "sha256-/XAFqiJD1NItaFkKQyA++hCSb/99UtUMltAFClvzqmQ=";
+    hash = "sha256-yqpus5wQ7mefFTbZkbVMozGDMqf83DZ0yKr0yaLTyD0=";
   };
 
   appimageContents = appimageTools.extractType2 {

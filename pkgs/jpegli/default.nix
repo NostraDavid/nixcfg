@@ -14,10 +14,10 @@
   fetchzip,
 }: let
   version = "unstable-2026-06-01";
-  libjpegTurboVersion = "3.2.0";
+  libjpegTurboVersion = "3.2.1";
   libjpegTurboSrc = fetchzip {
     url = "https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/${libjpegTurboVersion}/libjpeg-turbo-${libjpegTurboVersion}.tar.gz";
-    hash = "sha256-SPxWCDt9hFQ8uRaaKLkpWp9oPhfcRkDBm5MarTgdmV4=";
+    hash = "sha256-CJFKco3RfZK9QS4Ft16TsFmAxte0j53RgmkWprwIdRE=";
   };
   sjpegSrc = fetchFromGitHub {
     owner = "webmproject";

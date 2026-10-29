@@ -7,26 +7,26 @@
   assets = {
     x86_64-linux = {
       target = "linux_amd64";
-      hash = "sha256-+CpseYIONs1SRlvM+uvtqUsqgBRnXMcFTYMbelfqIE8=";
+      hash = "sha256-0PS+W+medaynxknBHUuPT6mch8yp5AAlzbXhxOOlm/c=";
     };
     aarch64-linux = {
       target = "linux_arm64";
-      hash = "sha256-7gRpuQPzrkT5T7S8LXsEnEUmd2M4UNyDgIvGylTd9ss=";
+      hash = "sha256-KtwEeyS3pFyLBU56UYC3demGlw1/BVsXjodDBOIVhk0=";
     };
     x86_64-darwin = {
       target = "darwin_amd64";
-      hash = "sha256-PvjVhGa9QD2n+Db7H+Tz8f+m3hyeBMV4OPAPoFpa9NE=";
+      hash = "sha256-iCykN9iWpBQh6ZpBsW4fA1D3dSoFmEXiXfzLsnJ8cng=";
     };
     aarch64-darwin = {
       target = "darwin_arm64";
-      hash = "sha256-gflG9ecUy42HI2JpALuihQ7AcHxViG0OSSp8hYeWFg0=";
+      hash = "sha256-MEUT0ddBKI1YXlggk4O9To9scH1Ud0phy8C9dI/G6QA=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported mdschema platform: ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "mdschema";
-    version = "0.15.5";
+    version = "0.15.6";
 
     src = fetchurl {
       url = "https://github.com/jackchuka/mdschema/releases/download/v${finalAttrs.version}/mdschema_${finalAttrs.version}_${asset.target}.tar.gz";

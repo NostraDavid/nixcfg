@@ -64,7 +64,7 @@
       flake = false;
     };
     ponytail-skills = {
-      url = "github:DietrichGebert/ponytail/v5.3.2";
+      url = "github:DietrichGebert/ponytail/v5.3.3";
       flake = false;
     };
     pstack-skills = {
