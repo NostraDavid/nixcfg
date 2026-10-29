@@ -134,7 +134,9 @@ assert (
 bin_dir = home / ".local/bin"
 bin_dir.mkdir(parents=True)
 commands = {name: "mcp-" + name for name in servers}
+commands["nixos"] = "mcp-nixos"  # Client dotfiles retain the temporarily uninstalled server.
 expected = dict.fromkeys(servers, [])
+expected["nixos"] = []
 for name in commands.values():
     executable = bin_dir / name
     executable.write_text('#!/bin/sh\nfor arg do printf "%s\\n" "$arg"; done\n')

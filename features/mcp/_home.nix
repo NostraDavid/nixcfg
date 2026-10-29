@@ -24,7 +24,7 @@
       "${bin}/chromium"
     ];
   browserServers = {
-    nixos.command = "${bin}/mcp-nixos";
+    # nixos.command = "${bin}/mcp-nixos"; # Disabled until FastMCP builds.
     playwright = {
       command = "${bin}/playwright-mcp";
       args =
@@ -97,7 +97,7 @@ in {
         [
           local.chrome-devtools-mcp
           local.dbhub
-          stable.mcp-nixos # Unstable's FastMCP is incompatible with MCP SDK 2.x.
+          # stable.mcp-nixos # Disabled: FastMCP's stateful proxy tests fail.
           unstable.playwright-mcp
         ]
         ++ lib.optional (!darwin) nodeRepl
@@ -106,7 +106,7 @@ in {
         {
           ".local/bin/codex".source = codex;
           ".local/bin/opencode".source = lib.getExe (stable.callPackage ../../pkgs/opencode-v2 {});
-          ".local/bin/mcp-nixos".source = lib.getExe stable.mcp-nixos;
+          # ".local/bin/mcp-nixos".source = lib.getExe stable.mcp-nixos;
           ".local/bin/playwright-mcp".source = lib.getExe unstable.playwright-mcp;
           ".local/bin/chrome-devtools-mcp".source = lib.getExe local.chrome-devtools-mcp;
           ".local/bin/dbhub".source = lib.getExe local.dbhub;
@@ -120,7 +120,7 @@ in {
         // builtins.listToAttrs (map (name:
           lib.nameValuePair ".local/bin/opencode-mcp-${name}" {
             source = config.home.file.".local/bin/mcp-${name}".source;
-          }) ["chrome-devtools" "nixos" "playwright"]);
+          }) ["chrome-devtools" "playwright"]);
       activation = {
         dbhubLocalDatabase =
           lib.hm.dag.entryAfter [
