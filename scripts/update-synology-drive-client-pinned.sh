@@ -8,7 +8,16 @@ pkg_file="${repo_root}/pkgs/synology-drive-client-pinned/default.nix"
 version="${1:-}"
 
 if [[ -z "${version}" ]]; then
-    version="$(curl -fsSL 'https://www.synology.com/api/releaseNote/findChangeLog?identify=SynologyDriveClient&lang=en-uk' | jq -er '.info.versions | to_entries[0].value.all_versions[0].version')"
+    version="$(curl -fsSL 'https://www.synology.com/api/releaseNote/findChangeLog?identify=SynologyDriveClient&lang=en-uk' | jq -er '[.info.versions[].all_versions[].version | select(test("^[0-9]+(\\.[0-9]+)+-[0-9]+$"))] | max_by(split("[.-]"; "") | map(tonumber))')"
+fi
+
+current_version="$(sed -nE 's/^[[:space:]]*version = "([^"]+)";.*/\1/p' "${pkg_file}")"
+if ! jq -en --arg version "${version}" --arg current "${current_version}" '
+    def parts: if test("^[0-9]+(\\.[0-9]+)+-[0-9]+$") then split("[.-]"; "") | map(tonumber) else error("Invalid version") end;
+    ($version | parts) >= ($current | parts)
+' >/dev/null; then
+    echo "Refusing invalid version or downgrade: ${current_version} -> ${version}" >&2
+    exit 1
 fi
 
 build="${version##*-}"
