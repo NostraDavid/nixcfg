@@ -57,14 +57,13 @@ in {
     };
     homeManager = {
       local,
-      pkgs,
       unstable,
       ...
     }: {
+      imports = [({pkgs, ...}: {home.packages = [pkgs.jdk17];})];
       home.packages = [
         local.mlx-harness
         local.pandacode
-        pkgs.jdk17
         unstable.github-copilot-cli
         unstable.raycast
       ];
