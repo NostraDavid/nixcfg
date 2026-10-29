@@ -5,6 +5,8 @@ root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
+nix eval --impure --expr "let f = builtins.getFlake \"path:$root\"; p = f.darwinConfigurations.loki.pkgs; m = f.lib.den.aspects.host-loki.homeManager { pkgs = p; local = { mlx-harness = null; pandacode = null; }; unstable = { github-copilot-cli = null; raycast = null; }; }; in assert builtins.elem p.jdk17 m.home.packages; true" | grep -qx true
+
 nix eval --raw "path:$root#homeConfigurations.\"mimir2\".activationPackage.drvPath" >/dev/null
 nix eval --raw "path:$root#darwinConfigurations.loki.config.system.build.toplevel.drvPath" >/dev/null
 nix eval --raw "path:$root#nixosConfigurations.wodan.config.system.build.toplevel.drvPath" >/dev/null

@@ -57,14 +57,14 @@ in {
     };
     homeManager = {
       local,
-      stable,
+      pkgs,
       unstable,
       ...
     }: {
       home.packages = [
         local.mlx-harness
         local.pandacode
-        stable.jdk17
+        pkgs.jdk17
         unstable.github-copilot-cli
         unstable.raycast
       ];
