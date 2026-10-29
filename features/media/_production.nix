@@ -14,7 +14,6 @@
     stable.pocket-tts # Lightweight, CPU-friendly text-to-speech
     stable.pulseaudio # provides pactl for PipeWire/PulseAudio debugging
     stable.renderdoc # Graphics debugger for Vulkan, OpenGL, and Direct3D
-    stable.tts # coqui-tts
     unstable.blender # 3D modeling and animation software
     unstable.friture # Real-time audio analyzer
   ];
