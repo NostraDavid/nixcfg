@@ -54,7 +54,6 @@
       local.vscode
       local.xdgctl # TUI for managing XDG default applications
       local.yafc # Yet Another Ftp Client
-      stable.openjdk25 # openjdk for nvim-lsp-java
       unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
       unstable.dprint # Extensible code formatter; prettier replacement
       unstable.fastfetch # neofetch alternative

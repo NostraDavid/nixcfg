@@ -9,7 +9,7 @@ match:
 pipeline:
   - action: "strip_ansi"
   - action: "keep_lines"
-    pattern: '^(Updating|warning:|error:|building|installing|copying path|recipe .* failed|sqlline wraps upstream|\s*$|\/nix\/store\/.*)$'
+    pattern: '^(Updating|warning:|error:|building|installing|copying path|recipe .* failed|\s*$|\/nix\/store\/.*)$'
   - action: "remove_lines"
     pattern: '^\s*$'
   - action: "head"

@@ -43,7 +43,7 @@ for package in cmux-tui pico-8-font ponytail-codex; do
     fi
 done
 
-for package in espeak-ng sqlline tamzen-otf; do
+for package in espeak-ng tamzen-otf; do
     if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
         printf '%s must have a locally updatable version: %s\n' "${package}" "${reason}" >&2
         exit 1

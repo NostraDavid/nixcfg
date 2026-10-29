@@ -84,7 +84,7 @@ Standalone development tools, formatters, linters, language servers,
 vulnerability scanners, and modern CLI utilities follow the pinned unstable
 package set. CI uses the same packages through
 `legacyPackages.x86_64-linux.unstable`. System components, compiler/runtime
-compatibility pairs, and explicit major versions such as Node 24, JDK 17/25,
+compatibility pairs, and explicit major versions such as Node 24, JDK 17,
 PostgreSQL 17, and Helm 3 retain their existing package sources. Local release
 packages retain their explicit pins.
 

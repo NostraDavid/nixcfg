@@ -10730,11 +10730,6 @@
           "version": "2.1.4"
         },
         {
-          "name": "openjdk",
-          "origin": "home:david",
-          "version": "25.0.4.1+1"
-        },
-        {
           "name": "openobex",
           "origin": "system",
           "version": "1.7.2"
@@ -14391,11 +14386,6 @@
           "name": "opencode-v2",
           "origin": "system",
           "version": "2.1.4"
-        },
-        {
-          "name": "openjdk",
-          "origin": "home:david",
-          "version": "25.0.4.1+1"
         },
         {
           "name": "openobex",
@@ -19276,11 +19266,6 @@
           "name": "opencode-v2",
           "origin": "system",
           "version": "2.1.4"
-        },
-        {
-          "name": "openjdk",
-          "origin": "home:david",
-          "version": "25.0.4.1+1"
         },
         {
           "name": "openrct2",
