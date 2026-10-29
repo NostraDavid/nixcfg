@@ -31,6 +31,9 @@ in {
       portable-home
     ];
     darwin = {pkgs, ...}: {
+      homebrew.brews = [
+        "libomp" # OpenMP runtime for Databricks
+      ];
       homebrew.casks = [
         "alfred"
         "chatgpt"
@@ -61,8 +64,6 @@ in {
         local.mlx-harness
         local.pandacode
         unstable.github-copilot-cli
-        unstable.llvmPackages.openmp # OpenMP runtime for parallel programs
-        unstable.llvmPackages.openmp.dev # OpenMP headers for compiling programs
         unstable.raycast
       ];
       programs.home-manager.enable = true;
