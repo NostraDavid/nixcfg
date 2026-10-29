@@ -1,0 +1,8 @@
+--- a/src/fastmcp/server/providers/proxy.py
++++ b/src/fastmcp/server/providers/proxy.py
+@@ -16,0 +17 @@
++import anyio
+@@ -1074 +1075,2 @@
+-                await proxy_client._disconnect(force=True)
++                with anyio.CancelScope(shield=True):
++                    await proxy_client._disconnect(force=True)

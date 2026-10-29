@@ -8,15 +8,15 @@ let
     "agent-memory"
     "chrome-devtools"
     "dbhub"
-    # "nixos" # Disabled until FastMCP builds.
+    "nixos"
     "playwright"
   ];
   packages = [
     "engrim"
     "dbhub"
     "chrome-devtools-mcp"
-    # "mcp-nixos" # Disabled until FastMCP builds.
     "playwright-mcp"
+    "mcp-nixos"
   ];
   pkgs = flake.legacyPackages.x86_64-linux;
   profiles =
@@ -87,7 +87,7 @@ in {
   wodanLaunchers = pkgs.linkFarm "wodan-mcp-launchers" (map (name: {
     inherit name;
     path = wodan.home.file.".local/bin/${name}".source;
-  }) ["codex-mcp-node-repl" "mcp-node-repl" "opencode-mcp-chrome-devtools" "opencode-mcp-playwright"]);
+  }) ["codex-mcp-node-repl" "mcp-node-repl" "opencode-mcp-chrome-devtools" "opencode-mcp-nixos" "opencode-mcp-playwright"]);
   checks = {
     workPackageSet = let
       loki = flake.darwinConfigurations.loki;
@@ -106,9 +106,11 @@ in {
     piNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl)) allProfiles; true;
     lokiNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl) && !(profile.home.file ? ".local/bin/mcp-node-repl") && !(builtins.any (p: (p.name or "") == "mcp-node-repl") profile.home.packages)) [home work]; true;
     packages = assert lib.all (profile: lib.all (name: builtins.any (p: (p.pname or "") == name) profile.home.packages) packages) allProfiles; true;
-    disabledNixos = assert lib.all (profile:
-      !(profile.home.file ? ".local/bin/mcp-nixos")
-      && !(builtins.any (p: (p.pname or "") == "mcp-nixos") profile.home.packages))
+    stableNixos = assert lib.all (profile:
+      builtins.elem (toString profile.home.file.".local/bin/mcp-nixos".source) [
+        (lib.getExe pkgs.mcp-nixos)
+        (lib.getExe flake.darwinConfigurations.loki.pkgs.mcp-nixos)
+      ])
     allProfiles; true;
     noHeadroom = assert lib.all (profile:
       !(profile.nixcfg.mcp.servers ? headroom)

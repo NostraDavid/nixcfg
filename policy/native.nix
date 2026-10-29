@@ -103,7 +103,7 @@
     "agent-memory"
     "chrome-devtools"
     "dbhub"
-    # "nixos" # Disabled until FastMCP builds.
+    "nixos"
     "playwright"
   ];
   stableServer = server: let

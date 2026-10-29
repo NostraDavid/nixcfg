@@ -45,6 +45,20 @@
       })
       localPackageNames);
   overlay-fixes = _final: prev: {
+    pythonPackagesExtensions =
+      prev.pythonPackagesExtensions
+      ++ [
+        (_pyFinal: pyPrev: {
+          # Backport https://github.com/PrefectHQ/fastmcp/pull/4363 for AnyIO 4.14+.
+          fastmcp =
+            if pyPrev.fastmcp.version == "3.2.3"
+            then
+              pyPrev.fastmcp.overridePythonAttrs (old: {
+                patches = (old.patches or []) ++ [../pkgs/fastmcp-anyio.patch];
+              })
+            else pyPrev.fastmcp;
+        })
+      ];
     kdash = prev.kdash.overrideAttrs (old: {
       doCheck = false;
       src = prev.fetchFromGitHub {
