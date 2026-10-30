@@ -9,6 +9,12 @@ Gebruik Worktrunk (`wt`) voor worktreebeheer. Raadpleeg de skill `worktrunk`
 voor commando's, configuratie en hooks. De map- en branchafspraken hieronder
 blijven leidend; inspecteer `wt config show` voordat je een worktree aanmaakt.
 
+Wijzig projectbestanden uitsluitend in de huidige worktree. Wissel nooit de
+branch van een bestaande checkout; gebruik `wt` voor worktreebeheer. Geef elke
+parallelle ontwikkeltaak een eigen worktree. Controleer bij elke opdracht de
+werkdirectory expliciet: `cd` of `wt switch` verandert niet noodzakelijk de
+werkdirectory van de agentsessie.
+
 Repositories zijn ingedeeld met een aparte checkout voor de gebruiker genaamd
 `trunk`, eventueel met daarnaast worktrees voor agents:
 
@@ -48,3 +54,6 @@ Maak voor alleen-lezenvragen en gewone inspectie geen worktree aan.
 Als een agent-worktree is gebruikt, houd dan alle taakwijzigingen beperkt tot de
 bijbehorende branch en worktree. Meld bij de overdracht aan de gebruiker de
 bijbehorende paden en branchnaam.
+
+Controleer op ongecommitte wijzigingen en verwijder een worktree alleen met
+expliciete toestemming van de gebruiker.
