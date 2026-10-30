@@ -7,7 +7,7 @@
     "codex": {
       "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
       "mode": "primary",
-      "model": "tensorx/z-ai/glm-5.3-flash",
+      "model": "openai/gpt-6.1-terra#medium",
       "permissions": [
         {
           "action": "subagent",
@@ -25,7 +25,7 @@
     "opencode-worker": {
       "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by Codex.",
       "mode": "subagent",
-      "model": "tensorx/deepseek/deepseek-v4.1-flash-1017",
+      "model": "openai/gpt-6-luna#xhigh",
       "permissions": [
         {
           "action": "subagent",
@@ -93,7 +93,7 @@
       }
     }
   },
-  "model": "tensorx/z-ai/glm-5.3-flash",
+  "model": "openai/gpt-6.1-terra",
   "permissions": [
     {
       "action": "*",
@@ -158,17 +158,17 @@
     {
       "action": "shell",
       "resource": "git push *",
-      "effect": "deny"
+      "effect": "allow"
     },
     {
       "action": "shell",
       "resource": "git push --force *",
-      "effect": "deny"
+      "effect": "ask"
     },
     {
       "action": "shell",
       "resource": "git push --force-with-lease *",
-      "effect": "deny"
+      "effect": "ask"
     },
     {
       "action": "shell",
@@ -178,7 +178,7 @@
     {
       "action": "shell",
       "resource": "git reset --hard *",
-      "effect": "deny"
+      "effect": "ask"
     },
     {
       "action": "shell",
@@ -198,7 +198,7 @@
     {
       "action": "shell",
       "resource": "git tag -d *",
-      "effect": "deny"
+      "effect": "ask"
     },
     {
       "action": "shell",

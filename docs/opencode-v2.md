@@ -63,12 +63,20 @@ settings are identical. The orchestrator prompt refers to the renamed `subagent`
 tool.
 
 The managed configuration is
-`dotfiles/opencode-2.0.32/.config/opencode/opencode.jsonc`. It uses Tensorx with
-GLM 5.3 Flash for the primary agent and DeepSeek V4.1 Flash 1017 for the worker.
+`dotfiles/opencode-2.0.32/.config/opencode/opencode.jsonc`. It uses OpenAI's
+GPT-6.1 Terra with the `medium` reasoning variant for the primary `codex` agent,
+and GPT-6 Luna with the `xhigh` variant for the `opencode-worker` subagent. The
+root `model` default is `openai/gpt-6.1-terra` without a variant: V2 keeps a
+variant only on agent, command, session, and run model references, so the
+variant belongs on the agent. Selecting the `codex` agent therefore resolves to
+`gpt-6.1-terra#medium`.
+
 Provider policies allow Tensorx and OpenAI. Authentication remains local; no
 credential is stored in the file. To connect OpenAI, use `/connect` in OpenCode
-and choose OpenAI and the desired sign-in method. Then use `/models` to select
-an OpenAI model. Alternatively, run `opencode auth login openai` in a terminal.
+and choose OpenAI and the desired sign-in method. Alternatively, run
+`opencode auth login openai` in a terminal. Without OpenAI credentials the
+default model is unavailable; connect the provider or select another model with
+`/models`.
 
 The retired v1 and work-proxy configurations have been removed. The workstation
 link selects the remaining personal configuration.

@@ -44,8 +44,8 @@ assert.equal(config.experimental.subagent_depth, 1);
 assert.deepEqual(config.plugins, ["opencode-queue@2.0.2"]);
 assert.deepEqual(config.skills, ["~/.codex/skills", "~/.codex/skills/.system", "~/.codex/plugins/cache"]);
 for (const [action, resource, effect] of [
-    ["shell", "git push *", "deny"],
-    ["shell", "git reset --hard *", "deny"],
+    ["shell", "git push *", "allow"],
+    ["shell", "git reset --hard *", "ask"],
     ["shell", "git commit *", "ask"],
     ["external_directory", "*", "ask"],
 ]) {
@@ -57,16 +57,23 @@ assert.deepEqual(config.agents.codex.permissions, [
 ]);
 const provider = "tensorx";
 assert.deepEqual(Object.keys(config.providers), [provider]);
-assert.equal(config.model.providerID, provider);
-for (const agent of Object.values(config.agents)) assert.equal(agent.model.providerID, provider);
+assert.equal(config.model.providerID, "openai");
+assert.equal(config.model.model, "gpt-6.1-terra");
+assert.ok(!("variant" in config.model), "The v2 root model does not retain a variant");
+assert.deepEqual(config.agents.codex.model, {
+    providerID: "openai",
+    model: "gpt-6.1-terra",
+    variant: "medium",
+});
+assert.equal(config.agents["opencode-worker"].model.providerID, "openai");
 assert.deepEqual(config.policies.filter(rule => rule.action === "provider.use"), [
     { action: "provider.use", resource: "*", effect: "deny" },
     { action: "provider.use", resource: provider, effect: "allow" },
     { action: "provider.use", resource: "openai", effect: "allow" },
 ]);
 assert.equal(config.providers.tensorx.package, "aisdk:@ai-sdk/openai-compatible");
-assert.equal(config.model.model, "z-ai/glm-5.3-flash");
-assert.equal(config.agents["opencode-worker"].model.model, "deepseek/deepseek-v4.1-flash-1017");
+assert.equal(config.agents["opencode-worker"].model.model, "gpt-6-luna");
+assert.equal(config.agents["opencode-worker"].model.variant, "xhigh");
 assert.deepEqual(Object.keys(config.providers.tensorx.models).sort(), [
     "deepseek/deepseek-v4.1-flash-1017", "qwen/qwen3.8-flash-next", "z-ai/glm-5.3-flash",
 ]);
