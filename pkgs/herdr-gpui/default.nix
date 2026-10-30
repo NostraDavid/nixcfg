@@ -47,6 +47,7 @@ in
       then [_7zz]
       else [autoPatchelfHook dpkg makeWrapper];
     buildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [alsa-lib libxcb libxkbcommon gcc.cc.lib];
+    runtimeDependencies = lib.optionals stdenvNoCC.hostPlatform.isLinux [vulkan-loader wayland];
     dontFixup = stdenvNoCC.hostPlatform.isDarwin;
     unpackPhase = ''
       runHook preUnpack
@@ -74,8 +75,12 @@ in
       runHook postInstall
     '';
     postFixup = lib.optionalString stdenvNoCC.hostPlatform.isLinux ''
-      patchelf --add-rpath ${lib.makeLibraryPath [vulkan-loader wayland]} "$out/bin/herdr-gpui"
       wrapProgram "$out/bin/herdr-gpui" --prefix PATH : ${lib.makeBinPath [wl-clipboard xclip]}
+    '';
+    doInstallCheck = stdenvNoCC.hostPlatform.isLinux;
+    installCheckPhase = lib.optionalString stdenvNoCC.hostPlatform.isLinux ''
+      patchelf --print-rpath "$out/bin/.herdr-gpui-wrapped" | grep -F '${vulkan-loader}/lib'
+      patchelf --print-rpath "$out/bin/.herdr-gpui-wrapped" | grep -F '${wayland}/lib'
     '';
     meta = {
       description = "Native client for the Herdr daemon";

@@ -45,6 +45,7 @@ in
     sourceRoot = ".";
     nativeBuildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [autoPatchelfHook];
     buildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [libxcb libxkbcommon gcc.cc.lib];
+    runtimeDependencies = lib.optionals stdenvNoCC.hostPlatform.isLinux [vulkan-loader wayland];
     dontFixup = stdenvNoCC.hostPlatform.isDarwin;
     installPhase = ''
       runHook preInstall
@@ -64,8 +65,10 @@ in
       }
       runHook postInstall
     '';
-    postFixup = lib.optionalString stdenvNoCC.hostPlatform.isLinux ''
-      patchelf --add-rpath ${lib.makeLibraryPath [vulkan-loader wayland]} "$out/bin/herdr-app"
+    doInstallCheck = stdenvNoCC.hostPlatform.isLinux;
+    installCheckPhase = lib.optionalString stdenvNoCC.hostPlatform.isLinux ''
+      patchelf --print-rpath "$out/bin/herdr-app" | grep -F '${vulkan-loader}/lib'
+      patchelf --print-rpath "$out/bin/herdr-app" | grep -F '${wayland}/lib'
     '';
     meta = {
       description = "Official Herdr desktop app for terminals and coding agents";
