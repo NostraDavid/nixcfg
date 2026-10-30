@@ -36,6 +36,7 @@ in {
       "applications:paperclip.desktop"
       "applications:agent-orchestrator.desktop"
       "applications:Emdash.desktop"
+      "applications:so.pen.herdr-gpui.desktop"
       "applications:Kandev.desktop"
       "applications:Paseo.desktop"
       "applications:superset.desktop"

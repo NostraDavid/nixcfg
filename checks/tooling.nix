@@ -85,6 +85,9 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  herdrGui = assert lib.all (home:
+    lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["herdr-gpui" "herdr-app" "herdr-core"])
+  ([mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   pagerTools = assert lib.all (home:
     builtins.any (p: (p.pname or "") == "batman") home.home.packages) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   portableToolsNixos = assert lib.all (host: lib.all (name: builtins.elem (unstableFor "x86_64-linux").${name}.outPath (map (p: p.outPath) host.config.environment.systemPackages)) ["superfile" "tuios"]) (builtins.attrValues flake.nixosConfigurations); true;
