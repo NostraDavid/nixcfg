@@ -15,7 +15,10 @@
       den.aspects.portable-home
     ];
     homeManager = {local, ...}: {
-      home.packages = [local.pandacode];
+      home.packages = [
+        local.pandacode
+        local.twg # Atlassian Teamwork Graph CLI
+      ];
       programs.home-manager.enable = true;
       targets.genericLinux = {
         enable = true;

@@ -64,6 +64,7 @@ in {
       home.packages = [
         local.mlx-harness
         local.pandacode
+        local.twg # Atlassian Teamwork Graph CLI
         unstable.github-copilot-cli
         unstable.raycast
       ];
