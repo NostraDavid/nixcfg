@@ -30,6 +30,3156 @@
         }
       ],
       "active_tab": 0
+    },
+    {
+      "id": "w2",
+      "custom_name": "ada",
+      "identity_cwd": "/home/david/dev/HandmadeHero/ada/trunk",
+      "public_pane_numbers": {
+        "2": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 2
+          },
+          "panes": {
+            "2": {
+              "cwd": "/home/david/dev/HandmadeHero/ada/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 2,
+          "root_pane": 2
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w3",
+      "custom_name": "annotated_cpp",
+      "identity_cwd": "/home/david/dev/HandmadeHero/annotated_cpp/trunk",
+      "public_pane_numbers": {
+        "3": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 3
+          },
+          "panes": {
+            "3": {
+              "cwd": "/home/david/dev/HandmadeHero/annotated_cpp/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 3,
+          "root_pane": 3
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w4",
+      "custom_name": "cpp",
+      "identity_cwd": "/home/david/dev/HandmadeHero/cpp/trunk",
+      "public_pane_numbers": {
+        "4": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 4
+          },
+          "panes": {
+            "4": {
+              "cwd": "/home/david/dev/HandmadeHero/cpp/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 4,
+          "root_pane": 4
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w5",
+      "custom_name": "delphi",
+      "identity_cwd": "/home/david/dev/HandmadeHero/delphi/trunk",
+      "public_pane_numbers": {
+        "5": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 5
+          },
+          "panes": {
+            "5": {
+              "cwd": "/home/david/dev/HandmadeHero/delphi/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 5,
+          "root_pane": 5
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w6",
+      "custom_name": "dlang",
+      "identity_cwd": "/home/david/dev/HandmadeHero/dlang/trunk",
+      "public_pane_numbers": {
+        "6": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 6
+          },
+          "panes": {
+            "6": {
+              "cwd": "/home/david/dev/HandmadeHero/dlang/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 6,
+          "root_pane": 6
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w7",
+      "custom_name": "go",
+      "identity_cwd": "/home/david/dev/HandmadeHero/go/trunk",
+      "public_pane_numbers": {
+        "7": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 7
+          },
+          "panes": {
+            "7": {
+              "cwd": "/home/david/dev/HandmadeHero/go/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 7,
+          "root_pane": 7
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w8",
+      "custom_name": "linux",
+      "identity_cwd": "/home/david/dev/HandmadeHero/linux/trunk",
+      "public_pane_numbers": {
+        "8": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 8
+          },
+          "panes": {
+            "8": {
+              "cwd": "/home/david/dev/HandmadeHero/linux/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 8,
+          "root_pane": 8
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w9",
+      "custom_name": "penguin",
+      "identity_cwd": "/home/david/dev/HandmadeHero/penguin/trunk",
+      "public_pane_numbers": {
+        "9": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 9
+          },
+          "panes": {
+            "9": {
+              "cwd": "/home/david/dev/HandmadeHero/penguin/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 9,
+          "root_pane": 9
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wA",
+      "custom_name": "rust",
+      "identity_cwd": "/home/david/dev/HandmadeHero/rust/trunk",
+      "public_pane_numbers": {
+        "10": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 10
+          },
+          "panes": {
+            "10": {
+              "cwd": "/home/david/dev/HandmadeHero/rust/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 10,
+          "root_pane": 10
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wB",
+      "custom_name": "samprust",
+      "identity_cwd": "/home/david/dev/HandmadeHero/samprust/trunk",
+      "public_pane_numbers": {
+        "11": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 11
+          },
+          "panes": {
+            "11": {
+              "cwd": "/home/david/dev/HandmadeHero/samprust/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 11,
+          "root_pane": 11
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wC",
+      "custom_name": "sdl",
+      "identity_cwd": "/home/david/dev/HandmadeHero/sdl/trunk",
+      "public_pane_numbers": {
+        "12": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 12
+          },
+          "panes": {
+            "12": {
+              "cwd": "/home/david/dev/HandmadeHero/sdl/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 12,
+          "root_pane": 12
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wD",
+      "custom_name": "vulkan",
+      "identity_cwd": "/home/david/dev/HandmadeHero/vulkan/trunk",
+      "public_pane_numbers": {
+        "13": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 13
+          },
+          "panes": {
+            "13": {
+              "cwd": "/home/david/dev/HandmadeHero/vulkan/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 13,
+          "root_pane": 13
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wE",
+      "custom_name": "BattleCraft",
+      "identity_cwd": "/home/david/dev/NostraDavid/BattleCraft/trunk",
+      "public_pane_numbers": {
+        "14": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 14
+          },
+          "panes": {
+            "14": {
+              "cwd": "/home/david/dev/NostraDavid/BattleCraft/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 14,
+          "root_pane": 14
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wF",
+      "custom_name": "ChatGPT",
+      "identity_cwd": "/home/david/dev/NostraDavid/ChatGPT/trunk",
+      "public_pane_numbers": {
+        "15": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 15
+          },
+          "panes": {
+            "15": {
+              "cwd": "/home/david/dev/NostraDavid/ChatGPT/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 15,
+          "root_pane": 15
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wG",
+      "custom_name": "Dee",
+      "identity_cwd": "/home/david/dev/NostraDavid/Dee/trunk",
+      "public_pane_numbers": {
+        "16": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 16
+          },
+          "panes": {
+            "16": {
+              "cwd": "/home/david/dev/NostraDavid/Dee/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 16,
+          "root_pane": 16
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wH",
+      "custom_name": "HandyNotes_Universal_Explorer",
+      "identity_cwd": "/home/david/dev/NostraDavid/HandyNotes_Universal_Explorer/trunk",
+      "public_pane_numbers": {
+        "17": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 17
+          },
+          "panes": {
+            "17": {
+              "cwd": "/home/david/dev/NostraDavid/HandyNotes_Universal_Explorer/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 17,
+          "root_pane": 17
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wJ",
+      "custom_name": "TerrainCraft",
+      "identity_cwd": "/home/david/dev/NostraDavid/TerrainCraft/trunk",
+      "public_pane_numbers": {
+        "18": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 18
+          },
+          "panes": {
+            "18": {
+              "cwd": "/home/david/dev/NostraDavid/TerrainCraft/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 18,
+          "root_pane": 18
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wK",
+      "custom_name": "WaveFunctionCollapse",
+      "identity_cwd": "/home/david/dev/NostraDavid/WaveFunctionCollapse/trunk",
+      "public_pane_numbers": {
+        "19": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 19
+          },
+          "panes": {
+            "19": {
+              "cwd": "/home/david/dev/NostraDavid/WaveFunctionCollapse/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 19,
+          "root_pane": 19
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wM",
+      "custom_name": "aardvark-weather-public",
+      "identity_cwd": "/home/david/dev/NostraDavid/aardvark-weather-public/main",
+      "public_pane_numbers": {
+        "20": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 20
+          },
+          "panes": {
+            "20": {
+              "cwd": "/home/david/dev/NostraDavid/aardvark-weather-public/main"
+            }
+          },
+          "zoomed": false,
+          "focused": 20,
+          "root_pane": 20
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wN",
+      "custom_name": "algorithms",
+      "identity_cwd": "/home/david/dev/NostraDavid/algorithms/trunk",
+      "public_pane_numbers": {
+        "21": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 21
+          },
+          "panes": {
+            "21": {
+              "cwd": "/home/david/dev/NostraDavid/algorithms/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 21,
+          "root_pane": 21
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wP",
+      "custom_name": "av-app-android-wallet-ui",
+      "identity_cwd": "/home/david/dev/NostraDavid/av-app-android-wallet-ui/main",
+      "public_pane_numbers": {
+        "22": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 22
+          },
+          "panes": {
+            "22": {
+              "cwd": "/home/david/dev/NostraDavid/av-app-android-wallet-ui/main"
+            }
+          },
+          "zoomed": false,
+          "focused": 22,
+          "root_pane": 22
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wQ",
+      "custom_name": "azure-cli",
+      "identity_cwd": "/home/david/dev/NostraDavid/azure-cli/dev",
+      "public_pane_numbers": {
+        "23": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 23
+          },
+          "panes": {
+            "23": {
+              "cwd": "/home/david/dev/NostraDavid/azure-cli/dev"
+            }
+          },
+          "zoomed": false,
+          "focused": 23,
+          "root_pane": 23
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wR",
+      "custom_name": "banking_dashboard",
+      "identity_cwd": "/home/david/dev/NostraDavid/banking_dashboard/trunk",
+      "public_pane_numbers": {
+        "24": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 24
+          },
+          "panes": {
+            "24": {
+              "cwd": "/home/david/dev/NostraDavid/banking_dashboard/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 24,
+          "root_pane": 24
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wS",
+      "custom_name": "better-comments",
+      "identity_cwd": "/home/david/dev/NostraDavid/better-comments/trunk",
+      "public_pane_numbers": {
+        "25": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 25
+          },
+          "panes": {
+            "25": {
+              "cwd": "/home/david/dev/NostraDavid/better-comments/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 25,
+          "root_pane": 25
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wT",
+      "custom_name": "big-slpp",
+      "identity_cwd": "/home/david/dev/NostraDavid/big-slpp/trunk",
+      "public_pane_numbers": {
+        "26": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 26
+          },
+          "panes": {
+            "26": {
+              "cwd": "/home/david/dev/NostraDavid/big-slpp/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 26,
+          "root_pane": 26
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wV",
+      "custom_name": "bitvavo-api-upgraded",
+      "identity_cwd": "/home/david/dev/NostraDavid/bitvavo-api-upgraded/trunk",
+      "public_pane_numbers": {
+        "27": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 27
+          },
+          "panes": {
+            "27": {
+              "cwd": "/home/david/dev/NostraDavid/bitvavo-api-upgraded/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 27,
+          "root_pane": 27
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wW",
+      "custom_name": "bitvavo-data-product",
+      "identity_cwd": "/home/david/dev/NostraDavid/bitvavo-data-product/trunk",
+      "public_pane_numbers": {
+        "28": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 28
+          },
+          "panes": {
+            "28": {
+              "cwd": "/home/david/dev/NostraDavid/bitvavo-data-product/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 28,
+          "root_pane": 28
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wX",
+      "custom_name": "bt",
+      "identity_cwd": "/home/david/dev/NostraDavid/bt/trunk",
+      "public_pane_numbers": {
+        "29": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 29
+          },
+          "panes": {
+            "29": {
+              "cwd": "/home/david/dev/NostraDavid/bt/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 29,
+          "root_pane": 29
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wY",
+      "custom_name": "crypto-trading-bot-archive",
+      "identity_cwd": "/home/david/dev/NostraDavid/crypto-trading-bot-archive/trunk",
+      "public_pane_numbers": {
+        "30": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 30
+          },
+          "panes": {
+            "30": {
+              "cwd": "/home/david/dev/NostraDavid/crypto-trading-bot-archive/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 30,
+          "root_pane": 30
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "wZ",
+      "custom_name": "crypto_info_site",
+      "identity_cwd": "/home/david/dev/NostraDavid/crypto_info_site/trunk",
+      "public_pane_numbers": {
+        "31": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 31
+          },
+          "panes": {
+            "31": {
+              "cwd": "/home/david/dev/NostraDavid/crypto_info_site/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 31,
+          "root_pane": 31
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w0",
+      "custom_name": "crypto_trading_bot_frontend",
+      "identity_cwd": "/home/david/dev/NostraDavid/crypto_trading_bot_frontend/trunk",
+      "public_pane_numbers": {
+        "32": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 32
+          },
+          "panes": {
+            "32": {
+              "cwd": "/home/david/dev/NostraDavid/crypto_trading_bot_frontend/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 32,
+          "root_pane": 32
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w11",
+      "custom_name": "ctb",
+      "identity_cwd": "/home/david/dev/NostraDavid/ctb/trunk",
+      "public_pane_numbers": {
+        "33": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 33
+          },
+          "panes": {
+            "33": {
+              "cwd": "/home/david/dev/NostraDavid/ctb/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 33,
+          "root_pane": 33
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w12",
+      "custom_name": "debian-server",
+      "identity_cwd": "/home/david/dev/NostraDavid/debian-server/trunk",
+      "public_pane_numbers": {
+        "34": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 34
+          },
+          "panes": {
+            "34": {
+              "cwd": "/home/david/dev/NostraDavid/debian-server/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 34,
+          "root_pane": 34
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w13",
+      "custom_name": "dependabot",
+      "identity_cwd": "/home/david/dev/NostraDavid/dependabot/main",
+      "public_pane_numbers": {
+        "35": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 35
+          },
+          "panes": {
+            "35": {
+              "cwd": "/home/david/dev/NostraDavid/dependabot/main"
+            }
+          },
+          "zoomed": false,
+          "focused": 35,
+          "root_pane": 35
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w14",
+      "custom_name": "dotenv",
+      "identity_cwd": "/home/david/dev/NostraDavid/dotenv/trunk",
+      "public_pane_numbers": {
+        "36": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 36
+          },
+          "panes": {
+            "36": {
+              "cwd": "/home/david/dev/NostraDavid/dotenv/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 36,
+          "root_pane": 36
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w15",
+      "custom_name": "dotfiles",
+      "identity_cwd": "/home/david/dev/NostraDavid/dotfiles/trunk",
+      "public_pane_numbers": {
+        "37": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 37
+          },
+          "panes": {
+            "37": {
+              "cwd": "/home/david/dev/NostraDavid/dotfiles/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 37,
+          "root_pane": 37
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w16",
+      "custom_name": "dotplan",
+      "identity_cwd": "/home/david/dev/NostraDavid/dotplan/trunk",
+      "public_pane_numbers": {
+        "38": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 38
+          },
+          "panes": {
+            "38": {
+              "cwd": "/home/david/dev/NostraDavid/dotplan/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 38,
+          "root_pane": 38
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w17",
+      "custom_name": "entsoe-ingestion-python",
+      "identity_cwd": "/home/david/dev/NostraDavid/entsoe-ingestion-python/trunk",
+      "public_pane_numbers": {
+        "39": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 39
+          },
+          "panes": {
+            "39": {
+              "cwd": "/home/david/dev/NostraDavid/entsoe-ingestion-python/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 39,
+          "root_pane": 39
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w18",
+      "custom_name": "entsoe-ingestion-rust",
+      "identity_cwd": "/home/david/dev/NostraDavid/entsoe-ingestion-rust/trunk",
+      "public_pane_numbers": {
+        "40": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 40
+          },
+          "panes": {
+            "40": {
+              "cwd": "/home/david/dev/NostraDavid/entsoe-ingestion-rust/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 40,
+          "root_pane": 40
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w19",
+      "custom_name": "entsoe-ingestion",
+      "identity_cwd": "/home/david/dev/NostraDavid/entsoe-ingestion/trunk",
+      "public_pane_numbers": {
+        "41": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 41
+          },
+          "panes": {
+            "41": {
+              "cwd": "/home/david/dev/NostraDavid/entsoe-ingestion/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 41,
+          "root_pane": 41
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1A",
+      "custom_name": "family-tree",
+      "identity_cwd": "/home/david/dev/NostraDavid/family-tree/trunk",
+      "public_pane_numbers": {
+        "42": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 42
+          },
+          "panes": {
+            "42": {
+              "cwd": "/home/david/dev/NostraDavid/family-tree/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 42,
+          "root_pane": 42
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1B",
+      "custom_name": "fitdays",
+      "identity_cwd": "/home/david/dev/NostraDavid/fitdays/trunk",
+      "public_pane_numbers": {
+        "43": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 43
+          },
+          "panes": {
+            "43": {
+              "cwd": "/home/david/dev/NostraDavid/fitdays/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 43,
+          "root_pane": 43
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1C",
+      "custom_name": "grib_test",
+      "identity_cwd": "/home/david/dev/NostraDavid/grib_test/trunk",
+      "public_pane_numbers": {
+        "44": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 44
+          },
+          "panes": {
+            "44": {
+              "cwd": "/home/david/dev/NostraDavid/grib_test/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 44,
+          "root_pane": 44
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1D",
+      "custom_name": "haemwend",
+      "identity_cwd": "/home/david/dev/NostraDavid/haemwend/trunk",
+      "public_pane_numbers": {
+        "45": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 45
+          },
+          "panes": {
+            "45": {
+              "cwd": "/home/david/dev/NostraDavid/haemwend/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 45,
+          "root_pane": 45
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1E",
+      "custom_name": "hiisi",
+      "identity_cwd": "/home/david/dev/NostraDavid/hiisi/main",
+      "public_pane_numbers": {
+        "46": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 46
+          },
+          "panes": {
+            "46": {
+              "cwd": "/home/david/dev/NostraDavid/hiisi/main"
+            }
+          },
+          "zoomed": false,
+          "focused": 46,
+          "root_pane": 46
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1F",
+      "custom_name": "homelab",
+      "identity_cwd": "/home/david/dev/NostraDavid/homelab/trunk",
+      "public_pane_numbers": {
+        "47": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 47
+          },
+          "panes": {
+            "47": {
+              "cwd": "/home/david/dev/NostraDavid/homelab/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 47,
+          "root_pane": 47
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1G",
+      "custom_name": "huishoudboek",
+      "identity_cwd": "/home/david/dev/NostraDavid/huishoudboek/trunk",
+      "public_pane_numbers": {
+        "48": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 48
+          },
+          "panes": {
+            "48": {
+              "cwd": "/home/david/dev/NostraDavid/huishoudboek/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 48,
+          "root_pane": 48
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1H",
+      "custom_name": "impyla",
+      "identity_cwd": "/home/david/dev/NostraDavid/impyla/trunk",
+      "public_pane_numbers": {
+        "49": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 49
+          },
+          "panes": {
+            "49": {
+              "cwd": "/home/david/dev/NostraDavid/impyla/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 49,
+          "root_pane": 49
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1J",
+      "custom_name": "infinity-fps",
+      "identity_cwd": "/home/david/dev/NostraDavid/infinity-fps/trunk",
+      "public_pane_numbers": {
+        "50": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 50
+          },
+          "panes": {
+            "50": {
+              "cwd": "/home/david/dev/NostraDavid/infinity-fps/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 50,
+          "root_pane": 50
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1K",
+      "custom_name": "branches",
+      "identity_cwd": "/home/david/dev/NostraDavid/joblib/branches/main",
+      "public_pane_numbers": {
+        "51": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 51
+          },
+          "panes": {
+            "51": {
+              "cwd": "/home/david/dev/NostraDavid/joblib/branches/main"
+            }
+          },
+          "zoomed": false,
+          "focused": 51,
+          "root_pane": 51
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1M",
+      "custom_name": "kafkaesk",
+      "identity_cwd": "/home/david/dev/NostraDavid/kafkaesk/trunk",
+      "public_pane_numbers": {
+        "52": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 52
+          },
+          "panes": {
+            "52": {
+              "cwd": "/home/david/dev/NostraDavid/kafkaesk/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 52,
+          "root_pane": 52
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1N",
+      "custom_name": "linux-timeline",
+      "identity_cwd": "/home/david/dev/NostraDavid/linux-timeline/trunk",
+      "public_pane_numbers": {
+        "53": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 53
+          },
+          "panes": {
+            "53": {
+              "cwd": "/home/david/dev/NostraDavid/linux-timeline/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 53,
+          "root_pane": 53
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1P",
+      "custom_name": "mail",
+      "identity_cwd": "/home/david/dev/NostraDavid/mail/trunk",
+      "public_pane_numbers": {
+        "54": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 54
+          },
+          "panes": {
+            "54": {
+              "cwd": "/home/david/dev/NostraDavid/mail/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 54,
+          "root_pane": 54
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1Q",
+      "custom_name": "mirrors-prettier",
+      "identity_cwd": "/home/david/dev/NostraDavid/mirrors-prettier/trunk",
+      "public_pane_numbers": {
+        "55": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 55
+          },
+          "panes": {
+            "55": {
+              "cwd": "/home/david/dev/NostraDavid/mirrors-prettier/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 55,
+          "root_pane": 55
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1R",
+      "custom_name": "ml",
+      "identity_cwd": "/home/david/dev/NostraDavid/ml/trunk",
+      "public_pane_numbers": {
+        "56": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 56
+          },
+          "panes": {
+            "56": {
+              "cwd": "/home/david/dev/NostraDavid/ml/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 56,
+          "root_pane": 56
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1S",
+      "custom_name": "ndat",
+      "identity_cwd": "/home/david/dev/NostraDavid/ndat/trunk",
+      "public_pane_numbers": {
+        "57": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 57
+          },
+          "panes": {
+            "57": {
+              "cwd": "/home/david/dev/NostraDavid/ndat/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 57,
+          "root_pane": 57
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1T",
+      "custom_name": "ndkb",
+      "identity_cwd": "/home/david/dev/NostraDavid/ndkb/trunk",
+      "public_pane_numbers": {
+        "58": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 58
+          },
+          "panes": {
+            "58": {
+              "cwd": "/home/david/dev/NostraDavid/ndkb/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 58,
+          "root_pane": 58
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1V",
+      "custom_name": "ndol",
+      "identity_cwd": "/home/david/dev/NostraDavid/ndol/trunk",
+      "public_pane_numbers": {
+        "59": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 59
+          },
+          "panes": {
+            "59": {
+              "cwd": "/home/david/dev/NostraDavid/ndol/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 59,
+          "root_pane": 59
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1W",
+      "custom_name": "nixcfg",
+      "identity_cwd": "/home/david/dev/NostraDavid/nixcfg/trunk",
+      "public_pane_numbers": {
+        "60": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 60
+          },
+          "panes": {
+            "60": {
+              "cwd": "/home/david/dev/NostraDavid/nixcfg/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 60,
+          "root_pane": 60
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1X",
+      "custom_name": "normalize-images",
+      "identity_cwd": "/home/david/dev/NostraDavid/normalize-images/trunk",
+      "public_pane_numbers": {
+        "61": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 61
+          },
+          "panes": {
+            "61": {
+              "cwd": "/home/david/dev/NostraDavid/normalize-images/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 61,
+          "root_pane": 61
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1Y",
+      "custom_name": "nostradavid.github.io",
+      "identity_cwd": "/home/david/dev/NostraDavid/nostradavid.github.io/trunk",
+      "public_pane_numbers": {
+        "62": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 62
+          },
+          "panes": {
+            "62": {
+              "cwd": "/home/david/dev/NostraDavid/nostradavid.github.io/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 62,
+          "root_pane": 62
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w1Z",
+      "custom_name": "notes",
+      "identity_cwd": "/home/david/dev/NostraDavid/notes/trunk",
+      "public_pane_numbers": {
+        "63": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 63
+          },
+          "panes": {
+            "63": {
+              "cwd": "/home/david/dev/NostraDavid/notes/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 63,
+          "root_pane": 63
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w10",
+      "custom_name": "operation-power-forecast",
+      "identity_cwd": "/home/david/dev/NostraDavid/operation-power-forecast/trunk",
+      "public_pane_numbers": {
+        "64": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 64
+          },
+          "panes": {
+            "64": {
+              "cwd": "/home/david/dev/NostraDavid/operation-power-forecast/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 64,
+          "root_pane": 64
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w21",
+      "custom_name": "pandas-polars-conversion-speed-test",
+      "identity_cwd": "/home/david/dev/NostraDavid/pandas-polars-conversion-speed-test/trunk",
+      "public_pane_numbers": {
+        "65": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 65
+          },
+          "panes": {
+            "65": {
+              "cwd": "/home/david/dev/NostraDavid/pandas-polars-conversion-speed-test/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 65,
+          "root_pane": 65
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w22",
+      "custom_name": "playground",
+      "identity_cwd": "/home/david/dev/NostraDavid/playground/trunk",
+      "public_pane_numbers": {
+        "66": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 66
+          },
+          "panes": {
+            "66": {
+              "cwd": "/home/david/dev/NostraDavid/playground/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 66,
+          "root_pane": 66
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w23",
+      "custom_name": "powershit",
+      "identity_cwd": "/home/david/dev/NostraDavid/powershit/trunk",
+      "public_pane_numbers": {
+        "67": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 67
+          },
+          "panes": {
+            "67": {
+              "cwd": "/home/david/dev/NostraDavid/powershit/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 67,
+          "root_pane": 67
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w24",
+      "custom_name": "prime-factorization",
+      "identity_cwd": "/home/david/dev/NostraDavid/prime-factorization/trunk",
+      "public_pane_numbers": {
+        "68": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 68
+          },
+          "panes": {
+            "68": {
+              "cwd": "/home/david/dev/NostraDavid/prime-factorization/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 68,
+          "root_pane": 68
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w25",
+      "custom_name": "prog-lang",
+      "identity_cwd": "/home/david/dev/NostraDavid/prog-lang/trunk",
+      "public_pane_numbers": {
+        "69": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 69
+          },
+          "panes": {
+            "69": {
+              "cwd": "/home/david/dev/NostraDavid/prog-lang/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 69,
+          "root_pane": 69
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w26",
+      "custom_name": "pypatterns",
+      "identity_cwd": "/home/david/dev/NostraDavid/pypatterns/trunk",
+      "public_pane_numbers": {
+        "70": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 70
+          },
+          "panes": {
+            "70": {
+              "cwd": "/home/david/dev/NostraDavid/pypatterns/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 70,
+          "root_pane": 70
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w27",
+      "custom_name": "pyspark-demographic-data-processing",
+      "identity_cwd": "/home/david/dev/NostraDavid/pyspark-demographic-data-processing/main",
+      "public_pane_numbers": {
+        "71": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 71
+          },
+          "panes": {
+            "71": {
+              "cwd": "/home/david/dev/NostraDavid/pyspark-demographic-data-processing/main"
+            }
+          },
+          "zoomed": false,
+          "focused": 71,
+          "root_pane": 71
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w28",
+      "custom_name": "rogue",
+      "identity_cwd": "/home/david/dev/NostraDavid/rogue/trunk",
+      "public_pane_numbers": {
+        "72": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 72
+          },
+          "panes": {
+            "72": {
+              "cwd": "/home/david/dev/NostraDavid/rogue/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 72,
+          "root_pane": 72
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w29",
+      "custom_name": "runic",
+      "identity_cwd": "/home/david/dev/NostraDavid/runic/main",
+      "public_pane_numbers": {
+        "73": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 73
+          },
+          "panes": {
+            "73": {
+              "cwd": "/home/david/dev/NostraDavid/runic/main"
+            }
+          },
+          "zoomed": false,
+          "focused": 73,
+          "root_pane": 73
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2A",
+      "custom_name": "rusttt",
+      "identity_cwd": "/home/david/dev/NostraDavid/rusttt/trunk",
+      "public_pane_numbers": {
+        "74": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 74
+          },
+          "panes": {
+            "74": {
+              "cwd": "/home/david/dev/NostraDavid/rusttt/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 74,
+          "root_pane": 74
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2B",
+      "custom_name": "sexp",
+      "identity_cwd": "/home/david/dev/NostraDavid/sexp/trunk",
+      "public_pane_numbers": {
+        "75": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 75
+          },
+          "panes": {
+            "75": {
+              "cwd": "/home/david/dev/NostraDavid/sexp/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 75,
+          "root_pane": 75
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2C",
+      "custom_name": "simulating-computer-systems",
+      "identity_cwd": "/home/david/dev/NostraDavid/simulating-computer-systems/trunk",
+      "public_pane_numbers": {
+        "76": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 76
+          },
+          "panes": {
+            "76": {
+              "cwd": "/home/david/dev/NostraDavid/simulating-computer-systems/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 76,
+          "root_pane": 76
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2D",
+      "custom_name": "simulating-queues",
+      "identity_cwd": "/home/david/dev/NostraDavid/simulating-queues/trunk",
+      "public_pane_numbers": {
+        "77": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 77
+          },
+          "panes": {
+            "77": {
+              "cwd": "/home/david/dev/NostraDavid/simulating-queues/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 77,
+          "root_pane": 77
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2E",
+      "custom_name": "slotsbench",
+      "identity_cwd": "/home/david/dev/NostraDavid/slotsbench/trunk",
+      "public_pane_numbers": {
+        "78": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 78
+          },
+          "panes": {
+            "78": {
+              "cwd": "/home/david/dev/NostraDavid/slotsbench/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 78,
+          "root_pane": 78
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2F",
+      "custom_name": "tkintering",
+      "identity_cwd": "/home/david/dev/NostraDavid/tkintering/trunk",
+      "public_pane_numbers": {
+        "79": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 79
+          },
+          "panes": {
+            "79": {
+              "cwd": "/home/david/dev/NostraDavid/tkintering/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 79,
+          "root_pane": 79
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2G",
+      "custom_name": "todo-tree",
+      "identity_cwd": "/home/david/dev/NostraDavid/todo-tree/trunk",
+      "public_pane_numbers": {
+        "80": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 80
+          },
+          "panes": {
+            "80": {
+              "cwd": "/home/david/dev/NostraDavid/todo-tree/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 80,
+          "root_pane": 80
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2H",
+      "custom_name": "unnamed",
+      "identity_cwd": "/home/david/dev/NostraDavid/unnamed/trunk",
+      "public_pane_numbers": {
+        "81": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 81
+          },
+          "panes": {
+            "81": {
+              "cwd": "/home/david/dev/NostraDavid/unnamed/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 81,
+          "root_pane": 81
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2J",
+      "custom_name": "vimgolf",
+      "identity_cwd": "/home/david/dev/NostraDavid/vimgolf/trunk",
+      "public_pane_numbers": {
+        "82": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 82
+          },
+          "panes": {
+            "82": {
+              "cwd": "/home/david/dev/NostraDavid/vimgolf/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 82,
+          "root_pane": 82
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2K",
+      "custom_name": "vscode-better-comments",
+      "identity_cwd": "/home/david/dev/NostraDavid/vscode-better-comments/trunk",
+      "public_pane_numbers": {
+        "83": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 83
+          },
+          "panes": {
+            "83": {
+              "cwd": "/home/david/dev/NostraDavid/vscode-better-comments/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 83,
+          "root_pane": 83
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2M",
+      "custom_name": "vscode-dotenv",
+      "identity_cwd": "/home/david/dev/NostraDavid/vscode-dotenv/trunk",
+      "public_pane_numbers": {
+        "84": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 84
+          },
+          "panes": {
+            "84": {
+              "cwd": "/home/david/dev/NostraDavid/vscode-dotenv/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 84,
+          "root_pane": 84
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2N",
+      "custom_name": "vscode-dotplan",
+      "identity_cwd": "/home/david/dev/NostraDavid/vscode-dotplan/trunk",
+      "public_pane_numbers": {
+        "85": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 85
+          },
+          "panes": {
+            "85": {
+              "cwd": "/home/david/dev/NostraDavid/vscode-dotplan/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 85,
+          "root_pane": 85
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2P",
+      "custom_name": "vscode-todo-tree",
+      "identity_cwd": "/home/david/dev/NostraDavid/vscode-todo-tree/trunk",
+      "public_pane_numbers": {
+        "86": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 86
+          },
+          "panes": {
+            "86": {
+              "cwd": "/home/david/dev/NostraDavid/vscode-todo-tree/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 86,
+          "root_pane": 86
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2Q",
+      "custom_name": "warcraft_credits",
+      "identity_cwd": "/home/david/dev/NostraDavid/warcraft_credits/trunk",
+      "public_pane_numbers": {
+        "87": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 87
+          },
+          "panes": {
+            "87": {
+              "cwd": "/home/david/dev/NostraDavid/warcraft_credits/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 87,
+          "root_pane": 87
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2R",
+      "custom_name": "wave-function-collapse",
+      "identity_cwd": "/home/david/dev/NostraDavid/wave-function-collapse/trunk",
+      "public_pane_numbers": {
+        "88": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 88
+          },
+          "panes": {
+            "88": {
+              "cwd": "/home/david/dev/NostraDavid/wave-function-collapse/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 88,
+          "root_pane": 88
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2S",
+      "custom_name": "windows-jupyter-test",
+      "identity_cwd": "/home/david/dev/NostraDavid/windows-jupyter-test/trunk",
+      "public_pane_numbers": {
+        "89": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 89
+          },
+          "panes": {
+            "89": {
+              "cwd": "/home/david/dev/NostraDavid/windows-jupyter-test/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 89,
+          "root_pane": 89
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2T",
+      "custom_name": "wotlk-nostradavid-addons",
+      "identity_cwd": "/home/david/dev/NostraDavid/wotlk-nostradavid-addons/trunk",
+      "public_pane_numbers": {
+        "90": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 90
+          },
+          "panes": {
+            "90": {
+              "cwd": "/home/david/dev/NostraDavid/wotlk-nostradavid-addons/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 90,
+          "root_pane": 90
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2V",
+      "custom_name": "wotlk-nostradavid-wtf",
+      "identity_cwd": "/home/david/dev/NostraDavid/wotlk-nostradavid-wtf/trunk",
+      "public_pane_numbers": {
+        "91": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 91
+          },
+          "panes": {
+            "91": {
+              "cwd": "/home/david/dev/NostraDavid/wotlk-nostradavid-wtf/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 91,
+          "root_pane": 91
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2W",
+      "custom_name": "wow-forever",
+      "identity_cwd": "/home/david/dev/NostraDavid/wow-forever/trunk",
+      "public_pane_numbers": {
+        "92": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 92
+          },
+          "panes": {
+            "92": {
+              "cwd": "/home/david/dev/NostraDavid/wow-forever/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 92,
+          "root_pane": 92
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2X",
+      "custom_name": "wowwg",
+      "identity_cwd": "/home/david/dev/NostraDavid/wowwg/trunk",
+      "public_pane_numbers": {
+        "93": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 93
+          },
+          "panes": {
+            "93": {
+              "cwd": "/home/david/dev/NostraDavid/wowwg/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 93,
+          "root_pane": 93
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2Y",
+      "custom_name": "youtube-vids",
+      "identity_cwd": "/home/david/dev/NostraDavid/youtube-vids/trunk",
+      "public_pane_numbers": {
+        "94": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 94
+          },
+          "panes": {
+            "94": {
+              "cwd": "/home/david/dev/NostraDavid/youtube-vids/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 94,
+          "root_pane": 94
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w2Z",
+      "custom_name": "zk",
+      "identity_cwd": "/home/david/dev/NostraDavid/zk/trunk",
+      "public_pane_numbers": {
+        "95": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 95
+          },
+          "panes": {
+            "95": {
+              "cwd": "/home/david/dev/NostraDavid/zk/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 95,
+          "root_pane": 95
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w20",
+      "custom_name": "Themeautorium",
+      "identity_cwd": "/home/david/dev/Thaumatorium/Themeautorium/trunk",
+      "public_pane_numbers": {
+        "96": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 96
+          },
+          "panes": {
+            "96": {
+              "cwd": "/home/david/dev/Thaumatorium/Themeautorium/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 96,
+          "root_pane": 96
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w31",
+      "custom_name": "semantic-override-network",
+      "identity_cwd": "/home/david/dev/Thaumatorium/semantic-override-network/trunk",
+      "public_pane_numbers": {
+        "97": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 97
+          },
+          "panes": {
+            "97": {
+              "cwd": "/home/david/dev/Thaumatorium/semantic-override-network/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 97,
+          "root_pane": 97
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w32",
+      "custom_name": "semanticoverride.net",
+      "identity_cwd": "/home/david/dev/Thaumatorium/semanticoverride.net/trunk",
+      "public_pane_numbers": {
+        "98": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 98
+          },
+          "panes": {
+            "98": {
+              "cwd": "/home/david/dev/Thaumatorium/semanticoverride.net/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 98,
+          "root_pane": 98
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w33",
+      "custom_name": "thaumatorium.com",
+      "identity_cwd": "/home/david/dev/Thaumatorium/thaumatorium.com/trunk",
+      "public_pane_numbers": {
+        "99": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 99
+          },
+          "panes": {
+            "99": {
+              "cwd": "/home/david/dev/Thaumatorium/thaumatorium.com/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 99,
+          "root_pane": 99
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w34",
+      "custom_name": "thaumatorium.github.io-html",
+      "identity_cwd": "/home/david/dev/Thaumatorium/thaumatorium.github.io-html/trunk",
+      "public_pane_numbers": {
+        "100": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 100
+          },
+          "panes": {
+            "100": {
+              "cwd": "/home/david/dev/Thaumatorium/thaumatorium.github.io-html/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 100,
+          "root_pane": 100
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w35",
+      "custom_name": "thaumatorium.github.io",
+      "identity_cwd": "/home/david/dev/Thaumatorium/thaumatorium.github.io/trunk",
+      "public_pane_numbers": {
+        "101": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 101
+          },
+          "panes": {
+            "101": {
+              "cwd": "/home/david/dev/Thaumatorium/thaumatorium.github.io/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 101,
+          "root_pane": 101
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w36",
+      "custom_name": "agentskills",
+      "identity_cwd": "/home/david/dev/agentskills/agentskills/trunk",
+      "public_pane_numbers": {
+        "102": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 102
+          },
+          "panes": {
+            "102": {
+              "cwd": "/home/david/dev/agentskills/agentskills/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 102,
+          "root_pane": 102
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w37",
+      "custom_name": "python-bitvavo-api",
+      "identity_cwd": "/home/david/dev/bitvavo/python-bitvavo-api/trunk",
+      "public_pane_numbers": {
+        "103": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 103
+          },
+          "panes": {
+            "103": {
+              "cwd": "/home/david/dev/bitvavo/python-bitvavo-api/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 103,
+          "root_pane": 103
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w38",
+      "custom_name": "linerate",
+      "identity_cwd": "/home/david/dev/statnett/linerate/main",
+      "public_pane_numbers": {
+        "104": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 104
+          },
+          "panes": {
+            "104": {
+              "cwd": "/home/david/dev/statnett/linerate/main"
+            }
+          },
+          "zoomed": false,
+          "focused": 104,
+          "root_pane": 104
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w39",
+      "custom_name": "tbataafschebroederschap.nl",
+      "identity_cwd": "/home/david/dev/t-Bataafsche-Broederschap/tbataafschebroederschap.nl/trunk",
+      "public_pane_numbers": {
+        "105": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 105
+          },
+          "panes": {
+            "105": {
+              "cwd": "/home/david/dev/t-Bataafsche-Broederschap/tbataafschebroederschap.nl/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 105,
+          "root_pane": 105
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w3A",
+      "custom_name": "tbb",
+      "identity_cwd": "/home/david/dev/t-Bataafsche-Broederschap/tbb/trunk",
+      "public_pane_numbers": {
+        "106": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 106
+          },
+          "panes": {
+            "106": {
+              "cwd": "/home/david/dev/t-Bataafsche-Broederschap/tbb/trunk"
+            }
+          },
+          "zoomed": false,
+          "focused": 106,
+          "root_pane": 106
+        }
+      ],
+      "active_tab": 0
     }
   ],
   "active": 0,
