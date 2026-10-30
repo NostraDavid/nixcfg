@@ -45,6 +45,16 @@ EOF
 
 mkdir -p "$tmp/project/.venv/bin"
 printf 'export TEST_VENV_ACTIVE=1\n' >"$tmp/project/.venv/bin/activate"
+(cd "$tmp/project" && HOME="$tmp" VIRTUAL_ENV="$tmp/.cache/uv/environments-v2/zellij-workspace-test" VIRTUAL_ENV_PROMPT=launcher PATH="$tmp/.cache/uv/environments-v2/zellij-workspace-test/bin:$PATH" TERM=dumb HISTFILE=/dev/null bash --noprofile --rcfile "$tmp/.bashrc" -ic '
+    [[ ${TEST_VENV_ACTIVE:-} == 1 && -z ${VIRTUAL_ENV:-} && -z ${VIRTUAL_ENV_PROMPT:-} ]] || exit 1
+    [[ :$PATH: != *:"$HOME/.cache/uv/environments-v2/zellij-workspace-test/bin":* ]] || exit 1
+' 2>/dev/null)
+(cd "$tmp" && HOME="$tmp" TERM=dumb HISTFILE=/dev/null bash --noprofile --rcfile "$tmp/.bashrc" -ic '
+    export VIRTUAL_ENV="$HOME/.cache/uv/environments-v2/zellij-workspace-test"
+    export PATH="$VIRTUAL_ENV/bin:$PATH"
+    cd_f "$HOME/project" || exit 1
+    [[ ${TEST_VENV_ACTIVE:-} == 1 && -z ${VIRTUAL_ENV:-} ]] || exit 1
+' 2>/dev/null)
 (cd "$tmp" && HOME="$tmp" OSTYPE=darwin24 VIRTUAL_ENV='' TERM=dumb HISTFILE=/dev/null bash --noprofile --rcfile "$tmp/.bashrc" -ic '
     [[ ${BASH_ALIASES[vi]} == work-vim ]] || exit 1
     alias work_only >/dev/null || exit 1

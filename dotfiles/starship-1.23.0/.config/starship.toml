@@ -17,7 +17,7 @@ $python\
 ${custom.py_git_sep}\
 ${custom.git_branch_clean}${custom.git_branch_dirty}\
 ${custom.worktree}\
-$git_status\
+${custom.safe_git_status}\
 ${custom.git_dir_sep}\
 $directory\
 $jobs\
@@ -161,6 +161,13 @@ deleted = '[ ${count}](fg:brightred bg:prev_bg) '
 renamed = '[➜ ${count}](fg:brightgreen bg:prev_bg) '
 typechanged = '[ ${count}](fg:orange bg:prev_bg) '
 # up_to_date	''	The format of up_to_date
+
+[custom.safe_git_status]
+command = 'starship module git_status'
+when = 'test "$("$HOME/.local/bin/git" rev-parse --is-bare-repository 2>/dev/null)" = false'
+require_repo = true
+format = '$output'
+shell = ["nix-bash", "--noprofile", "--norc"]
 
 [custom.git_dir_sep]
 # Separator between git block and directory (only inside a git repo)

@@ -66,6 +66,7 @@ function draw_colors() {
 # == auto activate virtualenv ==
 function cd_f() {
     builtin cd "$@" || return
+    clear_inherited_uv_venv
 
     if [[ -z "$VIRTUAL_ENV" ]]; then
         ## If env folder is found then activate the vitualenv

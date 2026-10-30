@@ -1,7 +1,4 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.14"
-# ///
+#!/usr/bin/env python3
 
 """Reuse detached VS Code worktree sessions and give each terminal its own shell."""
 

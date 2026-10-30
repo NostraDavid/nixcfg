@@ -6,9 +6,9 @@ export PYTHONPYCACHEPREFIX="$HOME/.cache/cpython/"
 export PYTHON_KEYRING_BACKEND=keyring.backends.fail.Keyring
 
 # Auto-activate Python virtual environment when opening a shell
-function clear_inherited_uv_build_venv() {
+function clear_inherited_uv_venv() {
     case "${VIRTUAL_ENV:-}" in
-    "$HOME"/.cache/uv/builds-v*/.tmp*)
+    "${UV_CACHE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/uv}"/builds-v*/.tmp* | "${UV_CACHE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/uv}"/environments-v*/zellij-workspace-*)
         path_remove "$VIRTUAL_ENV/bin"
         unset VIRTUAL_ENV VIRTUAL_ENV_PROMPT
         export PATH
@@ -27,7 +27,7 @@ function check_and_activate_venv() {
 }
 
 # Run the check when shell starts
-clear_inherited_uv_build_venv
+clear_inherited_uv_venv
 check_and_activate_venv
 
 # pip bash completion start
