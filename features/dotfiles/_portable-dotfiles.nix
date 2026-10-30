@@ -43,7 +43,7 @@ in {
       ".config/git/hooks".source = mk "${dot}/git-2.49.0/.config/git/hooks";
       ".config/git/ignore".source = mk "${dot}/git-2.49.0/.config/git/ignore";
       ".config/lf/lfrc".source = mk "${dot}/lf-r41/.config/lf/lfrc";
-      ".config/markdownlint/config.yaml".source = mk "${dot}/markdownlint-cli-0.48.0/.config/markdownlint/config.yaml";
+      ".config/markdownlint/config".source = mk "${dot}/markdownlint-cli-0.48.0/.config/markdownlint/config.yaml";
       ".config/ndtk/azure.env.example".source = mk "${dot}/ndtk/.config/ndtk/azure.env.example";
       ".config/nix/nix.conf".source = mk "${dot}/nix-2.34.8/.config/nix/nix.conf";
       ".config/nix/nix.platform.conf".source = mk "${dot}/nix-2.34.8/.config/nix/nix.${
