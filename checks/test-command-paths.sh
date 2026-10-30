@@ -51,13 +51,29 @@ fi
 [[ ! -e "$tmp/unused" ]]
 nix eval --impure --file "$root/checks/tooling.nix" commandPaths >/dev/null
 links=$(FIXTURE_DOTFILES_ROOT="$tmp/live checkout" nix build --impure --file "$root/checks/live-dotfiles.nix" --no-link --print-out-paths)
-python3 - "$links" "$tmp/live checkout/dotfiles" <<'PY'
+python3 - "$links" "$tmp/live checkout/dotfiles" "$root" <<'PY'
+import json
 import os
 from pathlib import Path
 import sys
 
-links, dotfiles = map(Path, sys.argv[1:])
-count = 0
+links, dotfiles, root = map(Path, sys.argv[1:])
+# Herdr app settings and keys stay valid JSON objects versioned beside the checkout.
+herdr_app = root / "dotfiles/herdr-app-0.1.9/.config/herdr-app"
+for name in ("keys.json", "settings.json"):
+    document = json.loads((herdr_app / name).read_text())
+    assert isinstance(document, dict) and document, name
+wanted = {
+    ".config/alacritty/alacritty.toml",
+    ".config/bat/config",
+    ".config/starship.toml",
+    ".config/zellij/config.kdl",
+    ".config/herdr-app/keys.json",
+    ".config/herdr-app/settings.json",
+    ".pi/agent/settings.json",
+    ".pi/agent/mcp.json",
+}
+seen = set()
 for directory, _, files in os.walk(links):
     for name in files:
         deployed = Path(directory) / name
@@ -70,8 +86,8 @@ for directory, _, files in os.walk(links):
         assert deployed.read_text() == "before\n"
         target.write_text("after\n")
         assert deployed.read_text() == "after\n"
-        count += 1
-assert count == 6, count
+        seen.add(deployed.relative_to(links).as_posix())
+assert seen == wanted, sorted(seen ^ wanted)
 PY
 nix eval --impure --raw --file "$root/checks/tooling.nix" desktopIdeLauncher >"$tmp/ide-desktop.sh"
 python3 - "$tmp" <<'PY'

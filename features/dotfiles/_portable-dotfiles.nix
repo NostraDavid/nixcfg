@@ -66,5 +66,7 @@ in {
     // {
       ".config/herdr/config.toml".source = mk "${dot}/herdr-0.9.5/.config/herdr/config.toml";
       ".config/herdr/config-gpui.local.toml".source = mk "${dot}/herdr-gpui-20261028.1/.config/herdr/config-gpui.local.toml";
+      ".config/herdr-app/keys.json".source = mk "${dot}/herdr-app-0.1.9/.config/herdr-app/keys.json";
+      ".config/herdr-app/settings.json".source = mk "${dot}/herdr-app-0.1.9/.config/herdr-app/settings.json";
     };
 }
