@@ -16,6 +16,7 @@ format = """
 $python\
 ${custom.py_git_sep}\
 ${custom.git_branch_clean}${custom.git_branch_dirty}\
+${custom.worktree}\
 $git_status\
 ${custom.git_dir_sep}\
 $directory\
@@ -89,16 +90,22 @@ disabled = true # replaced by custom.git_branch_clean / custom.git_branch_dirty 
 # We split into two modules with mutually exclusive 'when' conditions for clarity & minimal logic.
 [custom.git_branch_clean]
 command = "b=$(\"$HOME/.local/bin/git\" symbolic-ref --quiet --short HEAD 2>/dev/null || \"$HOME/.local/bin/git\" rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
-when = 'test -z "$("$HOME/.local/bin/git" status --porcelain 2>/dev/null)"'
+when = 'status=$("$HOME/.local/bin/git" status --porcelain 2>/dev/null) && test -z "$status"'
 require_repo = true
 format = "[ $output](fg:mediumgreen bg:gray2)"
 shell = ["nix-bash", "--noprofile", "--norc"]
 
 [custom.git_branch_dirty]
 command = "b=$(\"$HOME/.local/bin/git\" symbolic-ref --quiet --short HEAD 2>/dev/null || \"$HOME/.local/bin/git\" rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
-when = 'test -n "$("$HOME/.local/bin/git" status --porcelain 2>/dev/null)"'
+when = 'status=$("$HOME/.local/bin/git" status --porcelain 2>/dev/null) && test -n "$status"'
 require_repo = true
 format = "[ $output](fg:gray9 bg:gray2)"
+shell = ["nix-bash", "--noprofile", "--norc"]
+
+[custom.worktree]
+when = 'test "$("$HOME/.local/bin/git" rev-parse --is-bare-repository 2>/dev/null)" = true || test "$("$HOME/.local/bin/git" rev-parse --absolute-git-dir 2>/dev/null)" != "$("$HOME/.local/bin/git" rev-parse --path-format=absolute --git-common-dir 2>/dev/null)"'
+require_repo = true
+format = '[ wt ](fg:orange bg:gray2)'
 shell = ["nix-bash", "--noprofile", "--norc"]
 
 # [git_status]
