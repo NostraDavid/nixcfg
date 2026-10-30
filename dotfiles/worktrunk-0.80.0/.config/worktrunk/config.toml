@@ -1,0 +1,2 @@
+# Unset settings use Worktrunk's defaults.
+worktree-path = "{{ repo_path }}/../{{ branch | sanitize }}"

@@ -295,6 +295,13 @@ in {
   macosSpeech = assert lib.all (home: lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["espeak-ng" "piper-tts" "coreutils" "gnused"] && lib.all (path: builtins.hasAttr path home.home.file) [".local/bin/say" ".local/bin/say-piper-tts" ".config/say/espeak-ng-data" ".config/say/piper.sed" ".local/share/piper-voices/nl_NL-pim-medium.onnx" ".local/share/piper-voices/nl_NL-pim-medium.onnx.json"]) [loki darwinWorkstation]; true;
   physicalTools = assert lib.all (name: checkSources "x86_64-linux" flake.nixosConfigurations.${name}.config.home-manager.users.david (["hurl" "sqruff" "worktrunk"] ++ cliTools)) ["wodan" "donar" "frigg" "bragi"]; true;
   worktrunkSkills = assert lib.all (home: lib.all (client: home.home.file.".${client}/skills/worktrunk".source == home.home.file.".agents/skills/worktrunk".source) ["codex" "copilot" "config/opencode" "pi/agent"]) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
+  worktrunkIntegrations = assert lib.all (home:
+    home.home.file ? ".config/worktrunk/config.toml"
+    && !home.home.file.".config/worktrunk/config.toml".force
+    && home.home.file ? ".config/opencode/plugins/worktrunk.ts"
+    && home.home.file ? "plugins/worktrunk"
+    && home.home.activation ? worktrunkCodex)
+  ([mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   playwrightCli = assert builtins.elem stable.playwright-cli.outPath installed; assert lib.all (path: toString wodan.home.file.${path}.source == "${stable.playwright-cli}/share/skills/playwright-cli") [".agents/skills/playwright-cli" ".codex/skills/playwright-cli" ".copilot/skills/playwright-cli" ".config/opencode/skills/playwright-cli"]; assert lib.all (host: host.config.networking.hostName == "wodan" || !(builtins.any (p: (p.pname or "") == "playwright-cli") (host.config.home-manager.users.david.home.packages or []))) (builtins.attrValues flake.nixosConfigurations); true;
   browserMcp = assert lib.all (package: builtins.elem package.outPath installed) [stable.chrome-devtools-mcp (unstableFor "x86_64-linux").playwright-mcp]; true;
   workMcp = assert lib.all (home: lib.all (name: builtins.any (package: (package.pname or "") == name) home.home.packages) ["chrome-devtools-mcp" "mcp-nixos" "playwright-mcp"]) [mimir2 loki linuxWorkstation darwinWorkstation]; true;
