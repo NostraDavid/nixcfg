@@ -1,6 +1,23 @@
 # Herdr UI overrides. Unset keys follow the managed defaults.
-layout = "comfortable-rounded"
-theme = "GitLab Dark Grey"
+layout = "normal-rounded"
+contrast = "high"
+theme = "GitHub Dark Default"
+
+[terminal]
+size = 14.0
+family = "Iosevka Nerd Font Mono"
+
+[sidebar]
+size = 20.0
+family = "Iosevka Nerd Font"
+
+[tabs]
+size = 20.0
+family = "Iosevka Nerd Font"
+
+[ui]
+size = 20.0
+family = "Verdana"
 
 [backdrop]
 opacity = 1.0

@@ -1,2 +1,9 @@
 [terminal]
 default_shell = "nix-bash"
+
+[ui]
+
+[ui.sidebar]
+
+[ui.sidebar.agents]
+rows = [["state_icon", "machine", "workspace", "tab"], ["agent"], ["state_text"]]
