@@ -1,8 +1,10 @@
 # Home-manager programs specific to wodan.
 {
+  config,
   inputs,
   lib,
   local,
+  repoRoot,
   stable,
   ...
 }: let
@@ -131,6 +133,7 @@ in {
         ".config/opencode/skills/playwright-cli"
       ] (_: {source = "${local.playwright-cli}/share/skills/playwright-cli";})
       // {
+        ".config/herdr/session.json".source = config.lib.file.mkOutOfStoreSymlink "${repoRoot}/dotfiles/herdr-0.9.5/wodan/.config/herdr/session.json";
       };
 
     activation = {
