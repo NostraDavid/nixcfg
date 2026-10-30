@@ -1,2 +1,6 @@
 # Herdr UI overrides. Unset keys follow the managed defaults.
 layout = "comfortable-rounded"
+theme = "GitLab Dark Grey"
+
+[backdrop]
+opacity = 1.0
