@@ -62,6 +62,7 @@ for (const agent of Object.values(config.agents)) assert.equal(agent.model.provi
 assert.deepEqual(config.policies.filter(rule => rule.action === "provider.use"), [
     { action: "provider.use", resource: "*", effect: "deny" },
     { action: "provider.use", resource: provider, effect: "allow" },
+    { action: "provider.use", resource: "openai", effect: "allow" },
 ]);
 assert.equal(config.providers.tensorx.package, "aisdk:@ai-sdk/openai-compatible");
 assert.equal(config.model.model, "z-ai/glm-5.3-flash");

@@ -281,6 +281,11 @@
       "action": "provider.use",
       "resource": "tensorx",
       "effect": "allow"
+    },
+    {
+      "action": "provider.use",
+      "resource": "openai",
+      "effect": "allow"
     }
   ]
 }
