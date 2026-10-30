@@ -265,7 +265,8 @@
     "**/htmlcov/**": true,
     "**/logs/ctbi.jsonl": true,
     "**/result/**": true,
-    "**/venv/**": true
+    "**/venv/**": true,
+    "**/worktree.git/**": true
   },
   "git.autofetch": true,
   "git.blame.editorDecoration.enabled": true,
@@ -308,9 +309,6 @@
   "makefile.configureOnOpen": true,
   "markdown-preview-enhanced.previewTheme": "monokai.css",
   "markdown.marp.browser": "firefox",
-  "markdownlint.config": {
-    "MD024": false
-  },
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "alejandra",
   "nix.serverPath": "nixd",
@@ -394,11 +392,11 @@
   "python.testing.unittestEnabled": false,
   "redhat.telemetry.enabled": false,
   "remote.autoForwardPortsSource": "hybrid",
-  "ruff.nativeServer": "on",
   "search.exclude": {
     "**/.tox": true,
     "**/.venv": true,
-    "**/result/**": true
+    "**/result": true,
+    "**/worktree.git": true
   },
   "security.workspace.trust.untrustedFiles": "open",
   "shfmt.executablePath": "shfmt",
