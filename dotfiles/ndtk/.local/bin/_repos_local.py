@@ -57,9 +57,10 @@ from structlog.stdlib import get_logger  # type: ignore
 
 # Load the shared module installed by Home Manager.
 sys.path.insert(0, str(Path.home() / ".local" / "bin"))
-from _repo_checkouts import update_checkout
+from _repo_checkouts import prepare_bare_layout, update_checkout
 from repo_timestamps import (
     ensure_dprint_config_link,
+    parse_worktree_paths,
     refresh_repository_tree,
 )
 
@@ -490,10 +491,6 @@ def _sanitize_worktree_name(ref_name: str) -> str:
     return ref_name.strip().replace("/", "-")
 
 
-def is_pull_request_tag(tag: str) -> bool:
-    return "-PR-" in tag
-
-
 def _get_current_branch(repo_path: Path) -> str | None:
     proc = _run_git(
         repo_path, ["symbolic-ref", "--quiet", "--short", "HEAD"], capture=True
@@ -533,23 +530,6 @@ def _list_remote_branches(repo_path: Path) -> list[str]:
     return sorted(set(branches))
 
 
-def _list_tags(repo_path: Path) -> list[str]:
-    proc = _run_git(
-        repo_path,
-        ["for-each-ref", "--format=%(refname:lstrip=2)", "refs/tags"],
-        capture=True,
-    )
-    if proc.returncode != 0:
-        return []
-
-    tags = []
-    for line in proc.stdout.splitlines():
-        tag = line.strip()
-        if tag and not is_pull_request_tag(tag):
-            tags.append(tag)
-    return sorted(set(tags))
-
-
 def _local_branch_exists(repo_path: Path, branch: str) -> bool:
     proc = _run_git(
         repo_path, ["show-ref", "--verify", "--quiet", f"refs/heads/{branch}"]
@@ -569,18 +549,16 @@ def _list_worktree_paths(repo_path: Path) -> set[Path]:
     if proc.returncode != 0:
         return set()
 
-    paths: set[Path] = set()
-    for line in proc.stdout.splitlines():
-        if line.startswith("worktree "):
-            paths.add(Path(line.removeprefix("worktree ").strip()))
-    return paths
+    return set(parse_worktree_paths(proc.stdout))
 
 
 def _get_worktree_layout_roots(repo_path: Path) -> tuple[Path, Path] | None:
     common_dir = _get_git_common_dir(repo_path)
-    if common_dir is None or common_dir.name != WORKTREE_GIT_DIR_NAME:
+    if common_dir is None or common_dir.name not in {WORKTREE_GIT_DIR_NAME, ".git"}:
         return None
     repo_root = common_dir.parent
+    if not (repo_root / WORKTREE_GIT_DIR_NAME).is_dir():
+        return None
     return repo_root, repo_root
 
 
@@ -917,127 +895,6 @@ def _sync_branch_worktrees(
         _run_git(repo_path, ["worktree", "prune"])
 
 
-def _sync_tag_worktrees(
-    repo_path: Path,
-    *,
-    prune_tag_worktrees: bool,
-    dry_run: bool,
-) -> None:
-    layout_roots = _get_worktree_layout_roots(repo_path)
-    if layout_roots is None:
-        logger.debug(
-            "worktree_sync_skip",
-            repo=str(repo_path),
-            reason="not_branch_worktree_layout",
-        )
-        return
-    _, tags_root = layout_roots
-
-    common_dir = _get_git_common_dir(repo_path)
-    if common_dir is None:
-        logger.debug(
-            "worktree_sync_skip",
-            repo=str(repo_path),
-            reason="git_common_dir_unavailable",
-        )
-        return
-
-    common_dir_key = f"{common_dir}::tags"
-    if common_dir_key in _SYNCED_WORKTREE_COMMON_DIRS:
-        logger.debug(
-            "worktree_sync_skip",
-            repo=str(repo_path),
-            reason="already_synced_tags",
-            common_dir=common_dir_key,
-        )
-        return
-    _SYNCED_WORKTREE_COMMON_DIRS.add(common_dir_key)
-
-    remote_tags = _list_tags(repo_path)
-    if not remote_tags:
-        logger.debug("worktree_sync_skip", repo=str(repo_path), reason="no_tags")
-        return
-
-    tags_root.mkdir(parents=True, exist_ok=True)
-    expected_paths: set[Path] = set()
-    for tag in remote_tags:
-        target = tags_root / _sanitize_worktree_name(tag)
-        expected_paths.add(target)
-
-        bind_contextvars(tag=tag, worktree=str(target))
-        try:
-            if target.name in {WORKTREE_GIT_DIR_NAME, TRUNK_DIR_NAME, ".git"}:
-                logger.warning("worktree_tag_skipped", reason="reserved_path")
-                continue
-            if target.exists():
-                if not (target / ".git").exists():
-                    logger.warning("worktree_tag_skipped", reason="path_exists")
-                elif not dry_run and ensure_dprint_config_link(target):
-                    logger.info("dprint_config_link")
-                continue
-
-            if dry_run:
-                logger.info("worktree_tag_add", dry_run=True)
-                continue
-
-            add_proc = _run_git(
-                repo_path,
-                ["worktree", "add", "--detach", str(target), tag],
-                capture=True,
-            )
-            if add_proc.returncode != 0:
-                logger.warning(
-                    "worktree_tag_add_failed",
-                    output=(add_proc.stdout or "").strip()[-2000:],
-                )
-                continue
-            logger.info("worktree_tag_add")
-            if ensure_dprint_config_link(target):
-                logger.info("dprint_config_link")
-        finally:
-            unbind_contextvars("tag", "worktree")
-
-    if not prune_tag_worktrees:
-        return
-
-    existing_worktrees = _list_worktree_paths(repo_path)
-    for worktree_path in sorted(existing_worktrees):
-        if worktree_path in expected_paths or worktree_path == repo_path:
-            continue
-        if is_pull_request_tag(worktree_path.name):
-            continue
-        if worktree_path.name == WORKTREE_GIT_DIR_NAME:
-            continue
-        if not worktree_path.is_relative_to(tags_root):
-            continue
-        if _get_current_branch(worktree_path):
-            continue
-
-        bind_contextvars(worktree=str(worktree_path))
-        try:
-            if _worktree_is_dirty(worktree_path):
-                logger.warning(
-                    "worktree_tag_prune_dirty_skip",
-                    reason="local changes detected; skipping prune to avoid data loss",
-                )
-                continue
-
-            if dry_run:
-                logger.info("worktree_tag_pruned", dry_run=True)
-                continue
-
-            remove_proc = _run_git(
-                repo_path, ["worktree", "remove", str(worktree_path)], capture=True
-            )
-            if remove_proc.returncode == 0:
-                logger.info("worktree_tag_pruned")
-        finally:
-            unbind_contextvars("worktree")
-
-    if not dry_run:
-        _run_git(repo_path, ["worktree", "prune"])
-
-
 def fetch_repo(
     repo_path: Path,
     *,
@@ -1049,8 +906,6 @@ def fetch_repo(
     prune_missing: bool,
     sync_branch_worktrees: bool,
     prune_branch_worktrees: bool,
-    sync_tag_worktrees: bool,
-    prune_tag_worktrees: bool,
     project: Path,
     trash_dir: Path,
     dry_run: bool,
@@ -1216,12 +1071,6 @@ def fetch_repo(
                 prune_branch_worktrees=prune_branch_worktrees,
                 dry_run=dry_run,
             )
-        if sync_tag_worktrees:
-            _sync_tag_worktrees(
-                repo_path,
-                prune_tag_worktrees=prune_tag_worktrees,
-                dry_run=dry_run,
-            )
         logger.info("fetch_result", updated=updated, dur_s=dur, lines=line_count)
         return checkout_ok, updated, dur, line_count, False
 
@@ -1268,8 +1117,6 @@ def _process_one_repo(
     prune_missing: bool,
     sync_branch_worktrees: bool,
     prune_branch_worktrees: bool,
-    sync_tag_worktrees: bool,
-    prune_tag_worktrees: bool,
     project: Path,
     trash_dir: Path,
     dry_run: bool,
@@ -1285,6 +1132,16 @@ def _process_one_repo(
             logger.warning("repo_skipped", reason="local_path_missing")
             return
 
+        layout_root = _worktree_project_root(repo)
+        if layout_root is not None:
+            ok, reason = prepare_bare_layout(layout_root, dry_run=dry_run)
+            if not ok:
+                with totals_lock:
+                    totals["processed"] += 1
+                    totals["failed"] += 1
+                logger.warning("repo_layout_failed", reason=reason)
+                return
+
         ok, updated, dur, lines, skipped = fetch_repo(
             repo,
             bitbucket_interval_seconds=bitbucket_interval_seconds,
@@ -1295,8 +1152,6 @@ def _process_one_repo(
             prune_missing=prune_missing,
             sync_branch_worktrees=sync_branch_worktrees,
             prune_branch_worktrees=prune_branch_worktrees,
-            sync_tag_worktrees=True,
-            prune_tag_worktrees=prune_tag_worktrees,
             project=project,
             trash_dir=trash_dir,
             dry_run=dry_run,
@@ -1348,8 +1203,6 @@ def main(
     prune_missing: bool,
     sync_branch_worktrees: bool,
     prune_branch_worktrees: bool,
-    sync_tag_worktrees: bool,
-    prune_tag_worktrees: bool,
     trash_dir: Path,
     dry_run: bool,
 ) -> None:
@@ -1371,8 +1224,6 @@ def main(
         fetch_streams=2,
         sync_branch_worktrees=sync_branch_worktrees,
         prune_branch_worktrees=prune_branch_worktrees,
-        sync_tag_worktrees=sync_tag_worktrees,
-        prune_tag_worktrees=prune_tag_worktrees,
         dry_run=dry_run,
     )
 
@@ -1444,8 +1295,6 @@ def main(
                     prune_missing=prune_missing,
                     sync_branch_worktrees=sync_branch_worktrees,
                     prune_branch_worktrees=prune_branch_worktrees,
-                    sync_tag_worktrees=sync_tag_worktrees,
-                    prune_tag_worktrees=prune_tag_worktrees,
                     project=project,
                     trash_dir=trash_dir,
                     dry_run=dry_run,
@@ -1494,7 +1343,7 @@ def main(
     context_settings={"help_option_names": ["-h", "--help"]},
     help="Fetch and fast-forward local checkouts with automatic stash and restore.",
     epilog=(
-        "repos local update\nrepos local update --prune-missing\nrepos local update --prune-tag-worktrees\nrepos local update --project ~/users --dry-run -vv"
+        "repos local update\nrepos local update --prune-missing\nrepos local checkout-tags\nrepos local clean-tags\nrepos local update --project ~/users --dry-run -vv"
     ),
 )
 @click.option(
@@ -1583,6 +1432,186 @@ def dirty_command(project: Path) -> None:
         raise click.ClickException(f"Failed to inspect {failures} checkout(s)")
 
 
+def _tag_git(path: Path, args: list[str]) -> subprocess.CompletedProcess[str]:
+    try:
+        return _run_git(path, args, capture=True, timeout=30)
+    except (OSError, subprocess.TimeoutExpired) as error:
+        raise click.ClickException(f"Git failed for {path}: {error}") from error
+
+
+@cli.command(
+    "checkout-tags", short_help="Create worktrees from locally available tags."
+)
+@click.option(
+    "--project",
+    "-p",
+    type=click.Path(path_type=Path, exists=True, file_okay=False),
+    default=DEFAULT_PROJECT,
+    show_default=str(DEFAULT_PROJECT),
+    help="Root directory to scan for Git repositories",
+)
+@click.option("--dry-run", is_flag=True, help="Show what would be created.")
+def checkout_tags_command(project: Path, dry_run: bool) -> None:
+    """Create detached worktrees for local tags without contacting remotes."""
+    seen: set[Path] = set()
+    created = 0
+    failures = 0
+    for repo in _iter_repos(project.expanduser().resolve()):
+        root = _worktree_project_root(repo)
+        if root is None or root in seen:
+            continue
+        seen.add(root)
+        tags = _tag_git(repo, ["tag", "--list"])
+        listing = _tag_git(repo, ["worktree", "list", "--porcelain"])
+        if tags.returncode != 0 or listing.returncode != 0:
+            click.echo(f"Cannot inspect tags or worktrees: {repo}", err=True)
+            failures += 1
+            continue
+        registered = set(parse_worktree_paths(listing.stdout))
+        planned: set[Path] = set()
+        for tag in tags.stdout.splitlines():
+            name = _sanitize_worktree_name(tag)
+            inspection_failed = False
+            # shortcut: 100 name conflicts, increase if a repository exceeds this.
+            for _ in range(100):
+                target = root / name
+                if (
+                    name not in {".git", WORKTREE_GIT_DIR_NAME, TRUNK_DIR_NAME}
+                    and target not in planned
+                ):
+                    if not target.exists() and not target.is_symlink():
+                        break
+                    if target in registered:
+                        branch = _tag_git(target, ["symbolic-ref", "--quiet", "HEAD"])
+                        if branch.returncode not in (0, 1):
+                            click.echo(
+                                f"Cannot inspect existing worktree: {target}", err=True
+                            )
+                            failures += 1
+                            inspection_failed = True
+                            break
+                        if branch.returncode == 1:
+                            break
+                name = "tag-" + name
+            else:
+                click.echo(f"Cannot find a free worktree path for {tag}", err=True)
+                failures += 1
+                continue
+            if inspection_failed:
+                continue
+            if target in registered and target.exists():
+                continue
+            planned.add(target)
+            if not dry_run:
+                result = _tag_git(
+                    repo, ["worktree", "add", "--detach", str(target), tag]
+                )
+                if result.returncode != 0:
+                    click.echo(
+                        f"Cannot checkout {tag}: {(result.stdout or '').strip()}",
+                        err=True,
+                    )
+                    failures += 1
+                    continue
+            click.echo(f"{'Would create' if dry_run else 'Created'}: {target}")
+            created += 1
+    click.echo(
+        f"{'Would create' if dry_run else 'Created'} {created}; failed {failures}."
+    )
+    if failures:
+        raise click.ClickException(f"Failed to checkout {failures} tag(s)")
+
+
+@cli.command("clean-tags", short_help="Remove clean tag worktrees without fetching.")
+@click.option(
+    "--project",
+    "-p",
+    type=click.Path(path_type=Path, exists=True, file_okay=False),
+    default=DEFAULT_PROJECT,
+    show_default=str(DEFAULT_PROJECT),
+    help="Root directory to scan for Git repositories",
+)
+@click.option("--dry-run", is_flag=True, help="Show what would be removed.")
+def clean_tags_command(project: Path, dry_run: bool) -> None:
+    """Remove matching detached tag worktrees; retain tag refs and local changes."""
+
+    failures = 0
+    removed = 0
+    skipped = 0
+    seen: set[Path] = set()
+    for repo in _iter_repos(project.expanduser().resolve()):
+        root = _worktree_project_root(repo)
+        if root is None or root in seen:
+            continue
+        seen.add(root)
+        listing = _tag_git(repo, ["worktree", "list", "--porcelain"])
+        if listing.returncode != 0:
+            click.echo(f"Cannot list worktrees: {repo}", err=True)
+            failures += 1
+            continue
+        for path in parse_worktree_paths(listing.stdout):
+            if path.parent != root or Path.cwd().resolve().is_relative_to(
+                path.resolve()
+            ):
+                continue
+            branch = _tag_git(path, ["symbolic-ref", "--quiet", "HEAD"])
+            if branch.returncode == 0:
+                continue
+            if branch.returncode != 1:
+                click.echo(f"Cannot inspect branch: {path}", err=True)
+                failures += 1
+                continue
+            tags = _tag_git(path, ["tag", "--points-at", "HEAD"])
+            if tags.returncode != 0:
+                click.echo(f"Cannot inspect tags: {path}", err=True)
+                failures += 1
+                continue
+            names = {_sanitize_worktree_name(tag) for tag in tags.stdout.splitlines()}
+            name = path.name
+            while name not in names and name.startswith("tag-"):
+                name = name.removeprefix("tag-")
+            if name not in names:
+                continue
+            status = _tag_git(
+                path,
+                [
+                    "-c",
+                    "core.fsmonitor=false",
+                    "--no-optional-locks",
+                    "status",
+                    "--porcelain",
+                    "--untracked-files=all",
+                    "--ignored=matching",
+                ],
+            )
+            if status.returncode != 0:
+                click.echo(f"Cannot inspect changes: {path}", err=True)
+                failures += 1
+                continue
+            if status.stdout:
+                click.echo(
+                    f"Skipped worktree with changes or ignored files: {path}", err=True
+                )
+                skipped += 1
+                continue
+            if not dry_run:
+                result = _tag_git(repo, ["worktree", "remove", str(path)])
+                if result.returncode != 0:
+                    click.echo(
+                        f"Cannot remove {path}: {(result.stdout or '').strip()}",
+                        err=True,
+                    )
+                    failures += 1
+                    continue
+            click.echo(f"{'Would remove' if dry_run else 'Removed'}: {path}")
+            removed += 1
+    click.echo(
+        f"{'Would remove' if dry_run else 'Removed'} {removed}; skipped {skipped}; failed {failures}."
+    )
+    if failures:
+        raise click.ClickException(f"Failed to process {failures} worktree(s)")
+
+
 @cli.command("update", short_help="Update checkouts and reconcile remotes/worktrees.")
 @click.option(
     "--project",
@@ -1642,18 +1671,6 @@ def dirty_command(project: Path) -> None:
     help="Deprecated legacy branch-worktree prune",
 )
 @click.option(
-    "--sync-tag-worktrees/--no-sync-tag-worktrees",
-    default=True,
-    show_default=True,
-    help="Sync detached top-level tag worktrees",
-)
-@click.option(
-    "--prune-tag-worktrees/--no-prune-tag-worktrees",
-    default=False,
-    show_default=True,
-    help="Remove stale detached tag worktrees that no longer exist locally as tags",
-)
-@click.option(
     "--trash-dir",
     type=click.Path(path_type=Path),
     help="Directory where pruned repositories are moved",
@@ -1678,8 +1695,6 @@ def update(
     prune_missing: bool,
     sync_branch_worktrees: bool,
     prune_branch_worktrees: bool,
-    sync_tag_worktrees: bool,
-    prune_tag_worktrees: bool,
     trash_dir: Path | None,
     dry_run: bool,
     verbose: int,
@@ -1707,8 +1722,6 @@ def update(
             prune_missing=prune_missing,
             sync_branch_worktrees=sync_branch_worktrees,
             prune_branch_worktrees=prune_branch_worktrees,
-            sync_tag_worktrees=sync_tag_worktrees,
-            prune_tag_worktrees=prune_tag_worktrees,
             trash_dir=resolved_trash,
             dry_run=dry_run,
         )
@@ -1934,12 +1947,117 @@ class TestLocalCheckoutUpdates(unittest.TestCase):
         self.git(common, "worktree", "add", "-q", str(trunk), "main")
         self.git(trunk, "branch", "--set-upstream-to", "origin/main")
         (trunk / "file.txt").write_text("trunk changes\n")
+        dry_run = self.update("--dry-run")
+        assert dry_run.exit_code == 0, dry_run.output
+        assert common.is_dir() and not common.is_symlink()
+        assert not (layout / ".git").exists()
         target = self.remote_change()
         result = self.update()
         assert result.exit_code == 0, result.output
+        assert common.is_symlink() and common.readlink() == Path(".git")
+        assert (layout / ".git").is_dir()
         assert self.git(trunk, "rev-parse", "HEAD") == target
         assert (trunk / "file.txt").read_text() == "trunk changes\n"
         assert not self.git(trunk, "stash", "list")
+
+    def test_tag_checkouts_are_local_and_separate_from_update(self) -> None:
+        for tag in ("v1.0.0", "trunk", "release-PR-42"):
+            self.git(self.source, "tag", tag)
+        layout = self.project / "tags-layout"
+        layout.mkdir()
+        common = layout / WORKTREE_GIT_DIR_NAME
+        trunk = layout / TRUNK_DIR_NAME
+        self.git(self.root, "clone", "-q", "--bare", str(self.source), str(common))
+        self.git(common, "worktree", "add", "-q", str(trunk), "main")
+        result = self.update()
+        assert result.exit_code == 0, result.output
+        assert self.git(trunk, "tag", "--list").splitlines() == [
+            "release-PR-42",
+            "trunk",
+            "v1.0.0",
+        ]
+        assert not (layout / "v1.0.0").exists()
+        (layout / "release-PR-42").mkdir()
+        (layout / "release-PR-42" / "keep.txt").write_text("keep\n")
+        self.git(common, "remote", "set-url", "origin", str(self.root / "missing"))
+        dry_run = CliRunner().invoke(
+            cli, ["checkout-tags", "--project", str(layout), "--dry-run"]
+        )
+        assert dry_run.exit_code == 0, dry_run.output
+        assert not (layout / "v1.0.0").exists()
+        result = CliRunner().invoke(cli, ["checkout-tags", "--project", str(layout)])
+        assert result.exit_code == 0, result.output
+        assert (layout / "v1.0.0" / ".git").exists()
+        assert (layout / "tag-trunk" / ".git").exists()
+        assert (layout / "tag-release-PR-42" / ".git").exists()
+        assert (layout / "release-PR-42" / "keep.txt").read_text() == "keep\n"
+        again = CliRunner().invoke(cli, ["checkout-tags", "--project", str(layout)])
+        assert again.exit_code == 0, again.output
+        assert "Created 0" in again.output
+        original = self.git(trunk, "rev-parse", "v1.0.0^{commit}")
+        tree = self.git(trunk, "rev-parse", "HEAD^{tree}")
+        newer = self.git(
+            common, "commit-tree", tree, "-p", original, "-m", "test: moved tag"
+        )
+        self.git(common, "tag", "-f", "v1.0.0", newer)
+        stale = CliRunner().invoke(cli, ["checkout-tags", "--project", str(layout)])
+        assert stale.exit_code == 0, stale.output
+        assert not (layout / "tag-v1.0.0").exists()
+        assert self.git(layout / "v1.0.0", "rev-parse", "HEAD") == original
+        self.git(common, "tag", "-f", "v1.0.0", original)
+        cleaned = CliRunner().invoke(cli, ["clean-tags", "--project", str(layout)])
+        assert cleaned.exit_code == 0, cleaned.output
+        assert not (layout / "v1.0.0").exists()
+        assert not (layout / "tag-trunk").exists()
+        assert not (layout / "tag-release-PR-42").exists()
+        assert (layout / "release-PR-42" / "keep.txt").read_text() == "keep\n"
+        assert self.git(trunk, "tag", "--list").splitlines() == [
+            "release-PR-42",
+            "trunk",
+            "v1.0.0",
+        ]
+
+    def test_clean_tags_preserves_changes_and_other_worktrees(self) -> None:
+        for tag in ("v1.0.0", "v2.0.0", "v3.0.0"):
+            self.git(self.source, "tag", tag)
+        layout = self.project / "tags-clean"
+        layout.mkdir()
+        common = layout / ".git"
+        self.git(self.root, "clone", "-q", "--bare", str(self.source), str(common))
+        (layout / WORKTREE_GIT_DIR_NAME).symlink_to(".git")
+        self.git(common, "worktree", "add", "-q", str(layout / "trunk"), "main")
+        for tag in ("v1.0.0", "v2.0.0", "v3.0.0"):
+            self.git(
+                common, "worktree", "add", "-q", "--detach", str(layout / tag), tag
+            )
+        self.git(
+            common, "worktree", "add", "-q", "--detach", str(layout / "scratch"), "main"
+        )
+        (layout / "v2.0.0" / "file.txt").write_text("local changes\n")
+        (common / "info/exclude").write_text("ignored.txt\n")
+        (layout / "v3.0.0" / "ignored.txt").write_text("keep\n")
+
+        dry_run = CliRunner().invoke(
+            cli, ["clean-tags", "--project", str(layout), "--dry-run"]
+        )
+        assert dry_run.exit_code == 0, dry_run.output
+        assert "Would remove:" in dry_run.output
+        assert (layout / "v1.0.0").exists()
+
+        result = CliRunner().invoke(cli, ["clean-tags", "--project", str(layout)])
+        assert result.exit_code == 0, result.output
+        assert not (layout / "v1.0.0").exists()
+        assert (layout / "v2.0.0" / "file.txt").read_text() == "local changes\n"
+        assert (layout / "v3.0.0" / "ignored.txt").read_text() == "keep\n"
+        assert (layout / "scratch").is_dir() and (layout / "trunk").is_dir()
+        assert self.git(common, "tag", "--list").splitlines() == [
+            "v1.0.0",
+            "v2.0.0",
+            "v3.0.0",
+        ]
+        again = CliRunner().invoke(cli, ["clean-tags", "--project", str(layout)])
+        assert again.exit_code == 0, again.output
+        assert "Removed 0" in again.output
 
     def test_untracked_collision_retains_both_versions(self) -> None:
         (self.repo / "remote.txt").write_text("local untracked\n")
@@ -2011,8 +2129,6 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
             "prune_missing": False,
             "sync_branch_worktrees": False,
             "prune_branch_worktrees": False,
-            "sync_tag_worktrees": False,
-            "prune_tag_worktrees": False,
             "project": Path(),
             "trash_dir": Path(".trash"),
             "dry_run": True,
@@ -2241,62 +2357,12 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
                     prune_missing=False,
                     sync_branch_worktrees=False,
                     prune_branch_worktrees=False,
-                    sync_tag_worktrees=False,
-                    prune_tag_worktrees=False,
                     trash_dir=root / ".trash",
                     dry_run=True,
                 )
 
             assert events.index("process:first") < events.index("discover:second")
             assert events[-1] == "process:second"
-
-    def test_tag_worktrees_only_add_missing_tags(self) -> None:
-        with TemporaryDirectory() as directory:
-            root = Path(directory)
-            repo = root / "repo"
-            tags_root = root / "tags"
-            existing_tag_worktree = tags_root / "v1.0.0"
-            new_tag_worktree = tags_root / "v2.0.0"
-            repo.mkdir()
-            existing_tag_worktree.mkdir(parents=True)
-            (existing_tag_worktree / ".git").touch()
-            common_dir = root / WORKTREE_GIT_DIR_NAME
-            run_git_calls: list[list[str]] = []
-            log_events: list[str] = []
-
-            def fake_run_git(
-                _repo_path: Path, args: list[str], **_kwargs: object
-            ) -> subprocess.CompletedProcess[str]:
-                run_git_calls.append(args)
-                if args[:3] == ["worktree", "add", "--detach"]:
-                    new_tag_worktree.mkdir()
-                    (new_tag_worktree / ".git").touch()
-                return subprocess.CompletedProcess(args, 0, "", "")
-
-            with (
-                patch(
-                    f"{__name__}._get_worktree_layout_roots",
-                    return_value=(root, tags_root),
-                ),
-                patch(f"{__name__}._get_git_common_dir", return_value=common_dir),
-                patch(f"{__name__}._list_tags", return_value=["v1.0.0", "v2.0.0"]),
-                patch(f"{__name__}._run_git", side_effect=fake_run_git),
-                patch(
-                    f"{__name__}.logger.info",
-                    side_effect=lambda event, **_kwargs: log_events.append(event),
-                ),
-                patch(f"{__name__}.ensure_dprint_config_link", return_value=False),
-            ):
-                _sync_tag_worktrees(
-                    repo,
-                    prune_tag_worktrees=False,
-                    dry_run=False,
-                )
-
-            assert run_git_calls == [
-                ["worktree", "add", "--detach", str(new_tag_worktree), "v2.0.0"]
-            ]
-            assert log_events == ["worktree_tag_add"]
 
     def test_other_fetch_runs_while_bitbucket_fetch_runs(self) -> None:
         with TemporaryDirectory() as directory:
@@ -2343,8 +2409,6 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
                     prune_missing=False,
                     sync_branch_worktrees=False,
                     prune_branch_worktrees=False,
-                    sync_tag_worktrees=False,
-                    prune_tag_worktrees=False,
                     trash_dir=root / ".trash",
                     dry_run=True,
                 )
@@ -2376,8 +2440,6 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
                     prune_missing=False,
                     sync_branch_worktrees=False,
                     prune_branch_worktrees=False,
-                    sync_tag_worktrees=False,
-                    prune_tag_worktrees=False,
                     project=root,
                     trash_dir=root / ".trash",
                     dry_run=True,

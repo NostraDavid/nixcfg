@@ -107,17 +107,17 @@ def check_command(repos_file: Path) -> None:
 @click.option(
     "--tags",
     default="",
-    help="Comma-separated tag names for detached flat worktrees.",
+    help="Comma-separated tags to fetch when --no-all-tags is set.",
 )
 @click.option(
     "--all-tags/--no-all-tags",
     default=True,
-    help="Track all remote tags as detached flat worktrees (default: enabled).",
+    help="Fetch all remote tags (default: enabled).",
 )
 @click.option(
     "--worktrees/--no-worktrees",
     default=True,
-    help="Sync flat branch and tag worktrees (default: enabled).",
+    help="Sync branch worktrees (default: enabled).",
 )
 @click.option(
     "--prune-worktrees",

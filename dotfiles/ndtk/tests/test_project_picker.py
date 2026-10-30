@@ -26,6 +26,17 @@ project_picker = load_project_picker()
 
 
 class WorktreeListingTests(unittest.TestCase):
+    def test_bare_dot_git_is_not_listed_as_a_checkout(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            bare = root / ".git"
+            subprocess.run(
+                ["git", "init", "--bare", str(bare)], check=True, capture_output=True
+            )
+            (root / "worktree.git").symlink_to(".git")
+            choices = project_picker.list_registered_worktrees(root / "worktree.git")
+            self.assertEqual(choices, [])
+
     def test_main_and_master_worktree_names(self) -> None:
         self.assertEqual(project_picker.branch_worktree_name("main", ["main"]), "trunk")
         self.assertEqual(

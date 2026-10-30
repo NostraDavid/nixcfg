@@ -48,15 +48,26 @@ def _run_git(repo_path: Path, args: list[str]) -> subprocess.CompletedProcess[st
     )
 
 
+def parse_worktree_paths(output: str) -> list[Path]:
+    """Exclude the bare repository entry from Git's worktree list."""
+    paths = []
+    for entry in output.split("\n\n"):
+        lines = entry.splitlines()
+        if lines and lines[0].startswith("worktree ") and "bare" not in lines:
+            path = Path(lines[0].removeprefix("worktree "))
+            if path.name == "worktree.git" and (path / "HEAD").is_file():
+                continue
+            if (path / ".git").is_dir() and (path / "worktree.git").is_symlink():
+                continue
+            paths.append(path)
+    return paths
+
+
 def _worktree_paths(bare_dir: Path) -> list[Path]:
     proc = _run_git(bare_dir, ["worktree", "list", "--porcelain"])
     if proc.returncode != 0:
         return []
-    return [
-        Path(line.removeprefix("worktree "))
-        for line in (proc.stdout or "").splitlines()
-        if line.startswith("worktree ")
-    ]
+    return parse_worktree_paths(proc.stdout or "")
 
 
 def _latest_file_times(worktree: Path) -> dict[Path, int]:
@@ -226,7 +237,9 @@ def refresh_repository_tree(
         [
             path
             for path in _worktree_paths(bare_dir)
-            if path != bare_dir and path.is_dir() and path.is_relative_to(repo_root)
+            if path.resolve() != bare_dir.resolve()
+            and path.is_dir()
+            and path.is_relative_to(repo_root)
         ]
         if bare_dir is not None and bare_dir.is_dir()
         else [repo_root]

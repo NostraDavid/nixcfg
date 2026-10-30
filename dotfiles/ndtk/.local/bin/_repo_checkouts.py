@@ -1,11 +1,96 @@
 """Fast-forward checkouts while preserving staged, unstaged and untracked changes."""
 
+import os
+import stat
 import subprocess
 from pathlib import Path
 
 from structlog.stdlib import get_logger
 
 logger = get_logger()
+
+
+def _is_bare_repo(path: Path) -> bool:
+    return (
+        path.is_dir()
+        and _run_git(
+            path, ["rev-parse", "--is-bare-repository"], capture=True
+        ).stdout.strip()
+        == "true"
+    )
+
+
+def is_managed_repo(path: Path) -> bool:
+    """Accept a bare repository or a recovered repository linked to trunk."""
+    if _is_bare_repo(path):
+        return True
+    if (path / "index").exists() or (path / "index").is_symlink():
+        return False
+    trunk = path.parent / "trunk"
+    if not (trunk / ".git").is_file():
+        return False
+    common = _run_git(
+        trunk, ["rev-parse", "--path-format=absolute", "--git-common-dir"], capture=True
+    )
+    top = _run_git(path, ["rev-parse", "--show-toplevel"], capture=True)
+    return (
+        common.returncode == 0
+        and top.returncode == 0
+        and Path(common.stdout.strip()).resolve() == path.resolve()
+        and Path(top.stdout.strip()).resolve() == trunk.resolve()
+    )
+
+
+def _normalize_recovered_repo(path: Path) -> None:
+    config = path / "config"
+    lock = path / "config.lock"
+    fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    try:
+        with os.fdopen(fd, "wb") as stream:
+            os.fchmod(stream.fileno(), stat.S_IMODE(config.stat().st_mode))
+            stream.write(config.read_bytes())
+        for args in (["--unset-all", "core.worktree"], ["core.bare", "true"]):
+            result = _run_git(
+                path, ["config", "--file", str(lock), *args], capture=True
+            )
+            if result.returncode != 0:
+                raise RuntimeError(f"cannot update {config}: {result.stdout.strip()}")
+        lock.replace(config)
+    finally:
+        lock.unlink(missing_ok=True)
+
+
+def prepare_bare_layout(repo_root: Path, *, dry_run: bool = False) -> tuple[bool, str]:
+    """Keep old worktree references valid when moving the bare repository."""
+    bare = repo_root / ".git"
+    alias = repo_root / "worktree.git"
+    if bare.is_symlink():
+        return False, f"invalid .git symlink: {bare}"
+    if alias.is_symlink():
+        if alias.readlink() != Path(".git") or not bare.is_dir():
+            return False, f"invalid worktree.git symlink: {alias}"
+    elif alias.exists():
+        if bare.exists():
+            return False, f"both {bare} and {alias} exist"
+        if not is_managed_repo(alias):
+            return False, f"{alias} is not a supported Git repository"
+        if not dry_run:
+            if not _is_bare_repo(alias):
+                _normalize_recovered_repo(alias)
+            alias.rename(bare)
+            try:
+                alias.symlink_to(".git", target_is_directory=True)
+            except OSError:
+                bare.rename(alias)
+                raise
+    if bare.exists():
+        if not is_managed_repo(bare):
+            return False, f"{bare} is not a supported Git repository"
+        if not alias.is_symlink() and not dry_run:
+            alias.symlink_to(".git", target_is_directory=True)
+        if not dry_run and not _is_bare_repo(bare):
+            _normalize_recovered_repo(bare)
+    return True, "bare layout ready"
 
 
 def _run_git(

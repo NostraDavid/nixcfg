@@ -36,6 +36,120 @@ SCRIPTS = (
 )
 
 
+def check_bare_layout() -> None:
+    sys.path.insert(0, str(BIN))
+    from _repo_checkouts import prepare_bare_layout
+    from repo_timestamps import refresh_repository_tree
+
+    env = {
+        key: value for key, value in os.environ.items() if not key.startswith("GIT_")
+    }
+    with (
+        tempfile.TemporaryDirectory(prefix="repos-layout-") as directory,
+        patch.dict(os.environ, env, clear=True),
+    ):
+        root = Path(directory)
+        source = root / "source"
+        repo = root / "project"
+        repo.mkdir()
+
+        def git(path: Path, *args: str) -> str:
+            return subprocess.check_output(
+                [
+                    "git",
+                    "-C",
+                    str(path),
+                    "-c",
+                    "core.hooksPath=/dev/null",
+                    "-c",
+                    "user.name=Test",
+                    "-c",
+                    "user.email=test@example.invalid",
+                    *args,
+                ],
+                env=env,
+                stderr=subprocess.STDOUT,
+                text=True,
+            ).strip()
+
+        git(root, "init", "-qb", "main", str(source))
+        (source / "tracked").write_text("original\n")
+        git(source, "add", "tracked")
+        git(source, "commit", "-qm", "test: initial")
+        git(root, "clone", "-q", "--bare", str(source), str(repo / "worktree.git"))
+        git(repo / "worktree.git", "worktree", "add", "-q", str(repo / "trunk"), "main")
+        trunk = repo / "trunk"
+        (trunk / "tracked").write_text("uncommitted\n")
+        original_head = git(trunk, "rev-parse", "HEAD")
+        assert prepare_bare_layout(repo, dry_run=True)[0]
+        assert not (repo / ".git").exists()
+        assert not (repo / "worktree.git").is_symlink()
+        with patch.object(Path, "symlink_to", side_effect=OSError("link failed")):
+            try:
+                prepare_bare_layout(repo)
+            except OSError:
+                pass
+            else:
+                raise AssertionError("expected symlink failure")
+        assert (repo / "worktree.git").is_dir() and not (repo / ".git").exists()
+        assert git(trunk, "rev-parse", "HEAD") == original_head
+        assert prepare_bare_layout(repo)[0]
+        assert (repo / "worktree.git").is_symlink()
+        assert (repo / "worktree.git").readlink() == Path(".git")
+        assert (repo / ".git").is_dir()
+        assert git(trunk, "rev-parse", "HEAD") == original_head
+        assert (trunk / "tracked").read_text() == "uncommitted\n"
+        assert refresh_repository_tree(repo).worktrees_scanned == 1
+        local = runpy.run_path(str(BIN / "_repos_local.py"))
+        assert local["_get_worktree_layout_roots"](trunk) == (repo, repo)
+        assert local["_list_worktree_paths"](trunk) == {trunk}
+        assert local["_discover_repos"](repo) == [trunk]
+        assert prepare_bare_layout(repo)[0]
+        (repo / "worktree.git").unlink()
+        assert prepare_bare_layout(repo)[0]
+        assert (repo / "worktree.git").readlink() == Path(".git")
+        (repo / "worktree.git").unlink()
+        (repo / "worktree.git").mkdir()
+        assert not prepare_bare_layout(repo)[0]
+        assert (repo / ".git").is_dir() and (repo / "worktree.git").is_dir()
+
+        recovered = root / "recovered"
+        recovered.mkdir()
+        old = recovered / "worktree.git"
+        git(root, "clone", "-q", "--bare", str(source), str(old))
+        git(old, "worktree", "add", "-q", str(recovered / "trunk"), "main")
+        git(old, "config", "core.bare", "false")
+        git(old, "config", "core.worktree", str(recovered / "trunk"))
+        recovered_trunk = recovered / "trunk"
+        (recovered_trunk / "tracked").write_text("recovered changes\n")
+        (old / "index").write_bytes(b"preserve existing index")
+        assert not prepare_bare_layout(recovered)[0]
+        assert (old / "index").read_bytes() == b"preserve existing index"
+        (old / "index").unlink()
+        before_status = git(recovered_trunk, "status", "--porcelain")
+        before_index = (old / "worktrees/trunk/index").read_bytes()
+        assert prepare_bare_layout(recovered, dry_run=True)[0]
+        (old / "config.lock").write_text("existing lock")
+        try:
+            prepare_bare_layout(recovered)
+        except FileExistsError:
+            pass
+        else:
+            raise AssertionError("expected existing config lock to block migration")
+        assert (old / "config.lock").read_text() == "existing lock"
+        assert not (recovered / ".git").exists()
+        (old / "config.lock").unlink()
+        assert prepare_bare_layout(recovered)[0]
+        assert (recovered / "worktree.git").readlink() == Path(".git")
+        assert git(recovered, "rev-parse", "--is-bare-repository") == "true"
+        assert git(recovered_trunk, "status", "--porcelain") == before_status
+        assert (recovered / ".git/worktrees/trunk/index").read_bytes() == before_index
+        assert git(recovered_trunk, "rev-parse", "HEAD") == original_head
+        assert (recovered_trunk / "tracked").read_text() == "recovered changes\n"
+        assert local["_list_worktree_paths"](recovered_trunk) == {recovered_trunk}
+        assert refresh_repository_tree(recovered).worktrees_scanned == 1
+
+
 def check_provider_checkout_updates() -> None:
     sys.path.insert(0, str(BIN))
     local = runpy.run_path(str(BIN / "_repos_local.py"))
@@ -46,7 +160,6 @@ def check_provider_checkout_updates() -> None:
         assert module["branch_worktree_name"]("main", ["main"]) == "trunk"
         assert module["branch_worktree_name"]("main", ["main", "master"]) == "main"
         assert module["branch_worktree_name"]("master", ["main", "master"]) == "trunk"
-        assert module["tag_worktree_name"]("trunk", ["main"]) == "tag-trunk"
         sync = module["clone_or_update_repo"]
         sync.__globals__["ensure_dprint_config_link"] = lambda _path: False
         for scenario, primary in (
@@ -126,14 +239,21 @@ def check_provider_checkout_updates() -> None:
                             ),
                         ):
                             result = sync(
-                                str(source), repo, None, [], True, True, False
+                                str(source),
+                                repo,
+                                None,
+                                [],
+                                True,
+                                True,
+                                False,
                             )
-                        assert git(repo / "v1.0.0", "rev-parse", "HEAD") == git(
-                            source, "rev-parse", "HEAD"
-                        )
+                        assert not (repo / "v1.0.0").exists()
                     else:
                         result = update()
                     assert result[-2], result
+                    assert (repo / ".git").is_dir()
+                    assert (repo / "worktree.git").is_symlink()
+                    assert (repo / "worktree.git").readlink() == Path(".git")
                     trunk = repo / "trunk"
                     assert git(trunk, "branch", "--show-current") == primary
                     if primary == "master":
@@ -204,7 +324,80 @@ def check_provider_checkout_updates() -> None:
     )
 
 
+def check_tag_checkouts() -> None:
+    sys.path.insert(0, str(BIN))
+    env = {
+        key: value for key, value in os.environ.items() if not key.startswith("GIT_")
+    }
+    for provider in ("github", "azure"):
+        module = runpy.run_path(str(BIN / f"_repos_{provider}.py"))
+        sync = module["clone_or_update_repo"]
+        with tempfile.TemporaryDirectory(prefix=f"repos-tags-{provider}-") as directory:
+            root = Path(directory)
+            source = root / "source"
+            target = root / "target"
+            target.mkdir()
+
+            def git(path: Path, *args: str) -> str:
+                return subprocess.check_output(
+                    [
+                        "git",
+                        "-C",
+                        str(path),
+                        "-c",
+                        "core.hooksPath=/dev/null",
+                        "-c",
+                        "user.name=Test",
+                        "-c",
+                        "user.email=test@example.invalid",
+                        *args,
+                    ],
+                    env=env,
+                    stderr=subprocess.STDOUT,
+                    text=True,
+                ).strip()
+
+            git(root, "init", "-qb", "master", str(source))
+            git(source, "commit", "--allow-empty", "-qm", "test: initial")
+            git(source, "tag", "v1.0.0")
+            repo = target / "source"
+
+            def update(*, prune: bool = False) -> tuple:
+                return sync(
+                    str(source),
+                    repo if provider == "azure" else target,
+                    ["master"],
+                    [],
+                    True,
+                    True,
+                    prune,
+                    fetch_timeout=300,
+                    **({"filter_refs": False} if provider == "azure" else {}),
+                )
+
+            with patch.dict(os.environ, env, clear=True):
+                result = update()
+                assert result[-2], result
+                assert git(repo / ".git", "tag", "--list") == "v1.0.0"
+                assert not (repo / "v1.0.0").exists()
+                from click.testing import CliRunner
+
+                local = runpy.run_path(str(BIN / "_repos_local.py"))
+                result = CliRunner().invoke(
+                    local["cli"], ["checkout-tags", "--project", str(repo)]
+                )
+                assert result.exit_code == 0, result.output
+                assert git(repo / "v1.0.0", "rev-parse", "HEAD") == git(
+                    source, "rev-parse", "HEAD"
+                )
+                result = update(prune=True)
+                assert result[-2], result
+                assert (repo / "v1.0.0" / ".git").exists()
+
+
 def check() -> None:
+    check_bare_layout()
+    check_tag_checkouts()
     check_provider_checkout_updates()
     with tempfile.TemporaryDirectory(prefix="ndtk-test-") as directory:
         root = Path(directory)
@@ -303,8 +496,14 @@ def check() -> None:
             result = run("repos", "azure", "clone", option, "8")
             assert result.returncode == 2 and "unrecognized arguments" in result.stderr
         assert "--dry-run" in run("repos", "local", "update", "--help").stdout
+        assert "--checkout-tags" not in run("repos", "local", "update", "--help").stdout
+        assert "checkout-tags" in run("repos", "local", "--help").stdout
+        assert "--dry-run" in run("repos", "local", "checkout-tags", "--help").stdout
+        assert "--checkout-tags" not in run("repos", "github", "clone", "--help").stdout
+        assert "--checkout-tags" not in run("repos", "azure", "clone", "--help").stdout
         assert "dirty" in run("repos", "local", "--help").stdout
         assert "--project" in run("repos", "local", "dirty", "--help").stdout
+        assert "--dry-run" in run("repos", "local", "clean-tags", "--help").stdout
         empty = root / "empty"
         empty.mkdir()
         result = run("repos", "local", "check", "--project", str(empty))
@@ -315,6 +514,7 @@ def check() -> None:
         assert result.returncode == 0, result.stderr
         assert list(empty.iterdir()) == []
         assert "--repos-file" in run("restore_repos", "restore", "--help").stdout
+        assert "--checkout-tags" not in run("restore_repos", "restore", "--help").stdout
         state_file = root / "state/ndtk/repos.dat"
         assert (
             "SEARCH_DIR/repos.dat" in run("save_cloned_repos", "save", "--help").stdout

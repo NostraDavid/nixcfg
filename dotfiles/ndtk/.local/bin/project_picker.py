@@ -257,10 +257,12 @@ def list_registered_worktrees(bare_dir: Path) -> list[WorktreeChoice]:
     entry: dict[str, str] = {}
 
     def append_entry() -> None:
-        if "worktree" not in entry:
+        if "worktree" not in entry or "bare" in entry:
             return
 
         path = Path(entry["worktree"])
+        if path.resolve() in {bare_dir.resolve(), bare_dir.parent.resolve()}:
+            return
         if path.name in RESERVED_WORKTREE_NAMES:
             return
         if "branch" in entry:
