@@ -8,16 +8,16 @@ size = 14.0
 family = "Iosevka Nerd Font Mono"
 
 [sidebar]
-size = 20.0
-family = "Iosevka Nerd Font"
+size = 18.0
+family = "Iosevka Nerd Font Mono"
 
 [tabs]
-size = 20.0
-family = "Iosevka Nerd Font"
+size = 18.0
+family = "Iosevka Nerd Font Mono"
 
 [ui]
-size = 20.0
-family = "Verdana"
+size = 18.0
+family = "DejaVu Sans"
 
 [backdrop]
 opacity = 1.0
