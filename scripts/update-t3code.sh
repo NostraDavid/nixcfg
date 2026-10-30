@@ -10,9 +10,14 @@ version="${tag#v}"
     echo "Unexpected T3 Code release tag: $tag" >&2
     exit 1
 }
-digest="$(jq -er --arg name "T3-Code-${version}-x86_64.AppImage" \
-    '.assets[] | select(.name == $name) | .digest | select(test("^sha256:[0-9a-f]{64}$")) | sub("^sha256:"; "")' <<<"$release")"
-hash="$(nix hash convert --hash-algo sha256 --to sri "$digest")"
+hash_for() {
+    local digest
+    digest="$(jq -er --arg name "$1" \
+        '.assets[] | select(.name == $name) | .digest | select(test("^sha256:[0-9a-f]{64}$")) | sub("^sha256:"; "")' <<<"$release")"
+    nix hash convert --hash-algo sha256 --to sri "$digest"
+}
+linux_hash="$(hash_for "T3-Code-${version}-x86_64.AppImage")"
+darwin_hash="$(hash_for "T3-Code-${version}-arm64.zip")"
 
 backup="$(mktemp)"
 cp "$pkg_file" "$backup"
@@ -20,7 +25,8 @@ trap 'cp "$backup" "$pkg_file"' ERR
 trap 'rm -f "$backup"' EXIT
 
 sed -i -E "s/version = \"[^\"]+\";/version = \"${version}\";/" "$pkg_file"
-sed -i -E "s#hash = \"[^\"]+\";#hash = \"${hash}\";#" "$pkg_file"
+sed -i -E "s#linuxHash = \"[^\"]+\";#linuxHash = \"${linux_hash}\";#" "$pkg_file"
+sed -i -E "s#darwinHash = \"[^\"]+\";#darwinHash = \"${darwin_hash}\";#" "$pkg_file"
 cd "$repo_root"
 nix build path:.#t3code --no-link
 trap - ERR

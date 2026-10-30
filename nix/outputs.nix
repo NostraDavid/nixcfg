@@ -13,7 +13,7 @@ in {
   flake = {
     overlays.default = packageSets.overlay-local;
     packages.aarch64-darwin = {
-      inherit (pkgsFor "aarch64-darwin") asd-ste100-skill mlx-harness pandacode uv video-explainer;
+      inherit (pkgsFor "aarch64-darwin") asd-ste100-skill mlx-harness pandacode t3code uv video-explainer;
     };
   };
   perSystem = {system, ...}: let
