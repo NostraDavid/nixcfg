@@ -730,6 +730,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Select and validate a target without creating or updating worktrees.",
     )
+    parser.add_argument(
+        "--project",
+        action="store_true",
+        help="Select the repository directory without selecting a worktree.",
+    )
     parser.add_argument("query", nargs="*", help="Initial fzf query for the repo.")
     return parser.parse_args()
 
@@ -740,6 +745,25 @@ def main() -> int:
     require("git")
 
     repos = discover_all_repos(SEARCH_ROOTS)
+    if args.project:
+        query = " ".join(args.query).casefold()
+        matches = [
+            (label, root)
+            for label, root in repos
+            if query and query in label.casefold()
+        ]
+        if len(matches) == 1:
+            print(matches[0][1])
+            return 0
+        repo_by_label = dict(repos)
+        label = choose_with_fzf(
+            list(repo_by_label), prompt="Select repo: ", query=" ".join(args.query)
+        )
+        if label is None:
+            print("No repository selected.", file=sys.stderr)
+            return 1
+        print(repo_by_label[label])
+        return 0
     direct_match = resolve_worktree_query(repos, " ".join(args.query), Path.cwd())
     if direct_match is not None:
         print(direct_match)

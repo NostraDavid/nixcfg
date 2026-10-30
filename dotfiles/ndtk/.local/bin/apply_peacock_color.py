@@ -17,6 +17,7 @@ import sys
 import tempfile
 from pathlib import Path
 
+from _vscode_settings import read_settings
 from project_color import project_color
 
 MANAGED_KEYS = {
@@ -143,18 +144,6 @@ def peacock_colors(color: str) -> dict[str, str]:
     }
 
 
-def read_settings(path: Path) -> dict[str, object]:
-    if not path.exists():
-        return {}
-    try:
-        settings = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as error:
-        raise ValueError(f"invalid JSON in {path}: {error}") from error
-    if not isinstance(settings, dict):
-        raise ValueError(f"expected a JSON object in {path}")
-    return settings
-
-
 def updated_settings(settings: dict[str, object], color: str) -> dict[str, object]:
     existing = settings.get("workbench.colorCustomizations")
     customizations = dict(existing) if isinstance(existing, dict) else {}
@@ -207,6 +196,7 @@ def main(argv: list[str] | None = None) -> int:
     apply.add_argument("repo", nargs="?", type=Path, default=Path.cwd())
     apply.add_argument("--dry-run", action="store_true")
     apply.add_argument("--yes", action="store_true")
+    apply.add_argument("--preserve-existing", action="store_true")
     args = parser.parse_args(argv)
 
     repo = args.repo.expanduser().resolve()
@@ -223,17 +213,48 @@ def main(argv: list[str] | None = None) -> int:
             print("OK")
             return 0
 
+        base = (
+            settings.get("peacock.color")
+            if args.preserve_existing and args.color.casefold() == "auto"
+            else None
+        )
+        if (
+            args.preserve_existing
+            and args.color.casefold() == "auto"
+            and "peacock.color" in settings
+        ):
+            if not isinstance(base, str) or not re.fullmatch(r"#[0-9a-fA-F]{6}", base):
+                raise ValueError(
+                    "invalid existing peacock.color; expected a six-digit hex color"
+                )
         color = (
-            project_color(project_name(repo)).hex.lower()
+            base.lower()
+            if base is not None
+            else project_color(project_name(repo)).hex.lower()
             if args.color.casefold() == "auto"
             else f"#{args.color.strip().removeprefix('#').lower()}"
         )
         if not re.fullmatch(r"#[0-9a-f]{6}", color):
             parser.error("COLOR must be a six-digit hexadecimal color or 'auto'")
-        content = (
-            json.dumps(updated_settings(settings, color), indent=2, ensure_ascii=False)
-            + "\n"
-        )
+        updated = updated_settings(settings, color)
+        if args.preserve_existing:
+            existing = settings.get("workbench.colorCustomizations", {})
+            if not isinstance(existing, dict):
+                raise ValueError(
+                    "invalid workbench.colorCustomizations; expected an object"
+                )
+            updated["workbench.colorCustomizations"] = {
+                **peacock_colors(color),
+                **existing,
+            }
+            updated.update(
+                {
+                    key: value
+                    for key, value in settings.items()
+                    if key != "workbench.colorCustomizations"
+                }
+            )
+        content = json.dumps(updated, indent=2, ensure_ascii=False) + "\n"
         if args.dry_run:
             print(content, end="")
             return 0
@@ -248,6 +269,9 @@ def main(argv: list[str] | None = None) -> int:
             atomic_write(path, content)
         print(path)
         return 0
+    except json.JSONDecodeError as error:
+        print(f"invalid JSON in {path}: {error}", file=sys.stderr)
+        return 1
     except (OSError, ValueError) as error:
         print(error, file=sys.stderr)
         return 1

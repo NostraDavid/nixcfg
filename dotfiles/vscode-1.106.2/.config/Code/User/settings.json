@@ -246,7 +246,8 @@
     "**/coverage.xml": true,
     "**/dist": true,
     "**/htmlcov": true,
-    "**/result": true
+    "**/result": true,
+    "**/worktree.git": true
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,

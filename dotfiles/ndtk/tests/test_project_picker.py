@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import io
 import subprocess
 import sys
 import unittest
@@ -26,6 +27,34 @@ project_picker = load_project_picker()
 
 
 class WorktreeListingTests(unittest.TestCase):
+    def test_project_selection_does_not_ask_for_worktree(self) -> None:
+        root = Path("/repos/NostraDavid/nixcfg")
+        with (
+            patch.object(
+                project_picker,
+                "parse_args",
+                return_value=Mock(project=True, query=[], dry_run=False),
+            ),
+            patch.object(project_picker, "require"),
+            patch.object(
+                project_picker,
+                "discover_all_repos",
+                return_value=[("NostraDavid/nixcfg", root)],
+            ),
+            patch.object(
+                project_picker, "choose_with_fzf", return_value="NostraDavid/nixcfg"
+            ) as choose,
+            patch.object(
+                project_picker,
+                "list_worktrees",
+                side_effect=AssertionError("worktree picker must not run"),
+            ),
+            patch("sys.stdout", new_callable=io.StringIO) as output,
+        ):
+            self.assertEqual(project_picker.main(), 0)
+        self.assertEqual(output.getvalue().strip(), str(root))
+        self.assertEqual(choose.call_count, 1)
+
     def test_bare_dot_git_is_not_listed_as_a_checkout(self) -> None:
         with TemporaryDirectory() as directory:
             root = Path(directory)

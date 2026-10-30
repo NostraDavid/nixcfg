@@ -98,6 +98,39 @@ class PeacockColorTests(unittest.TestCase):
             self.assertIn("invalid JSON", result.stderr)
             self.assertEqual(settings_path.read_text(), "{invalid")
 
+    def test_preserve_existing_completes_colors_and_is_idempotent(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / ".vscode/settings.json"
+            path.parent.mkdir()
+            path.write_text(
+                json.dumps(
+                    {
+                        "peacock.color": "#123456",
+                        "peacock.remoteColor": "#abcdef",
+                        "workbench.colorCustomizations": {
+                            "titleBar.activeBackground": "#fedcba"
+                        },
+                    }
+                )
+            )
+            args = ("apply", "auto", str(root), "--yes", "--preserve-existing")
+            result = self.run_script(*args)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            settings = json.loads(path.read_text())
+            self.assertEqual(settings["peacock.remoteColor"], "#abcdef")
+            self.assertEqual(
+                settings["workbench.colorCustomizations"]["titleBar.activeBackground"],
+                "#fedcba",
+            )
+            self.assertEqual(
+                settings["workbench.colorCustomizations"]["statusBar.background"],
+                "#123456",
+            )
+            before = path.read_bytes()
+            self.assertEqual(self.run_script(*args).returncode, 0)
+            self.assertEqual(path.read_bytes(), before)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -18,6 +18,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
+from _vscode_settings import read_settings
+
 WINDOW_FLAGS = {"--new-window", "--reuse-window", "--add", "-r"}
 DEV_ROOT = Path.home() / "dev"
 CLI_PROBE_TIMEOUT_SECONDS = 10
@@ -139,7 +141,7 @@ def ensure_peacock_settings(target: Path) -> None:
     command = find_peacock_command()
     try:
         proc = sp.run(
-            [command, "apply", "auto", str(target), "--yes"],
+            [command, "apply", "auto", str(target), "--yes", "--preserve-existing"],
             check=False,
             text=True,
             stdout=sp.PIPE,
@@ -213,6 +215,28 @@ def normalize_code_arg(arg: str) -> str:
     return str(Path(arg).expanduser().resolve(strict=False))
 
 
+def project_directory(arg: str) -> str:
+    path = Path(arg)
+    if not path.is_dir():
+        return arg
+    try:
+        result = sp.run(
+            ["git", "-C", str(path), "rev-parse", "--show-toplevel"],
+            check=False,
+            text=True,
+            stdout=sp.PIPE,
+            stderr=sp.PIPE,
+        )
+    except OSError:
+        return arg
+    if result.returncode != 0:
+        return arg
+    root = Path(result.stdout.strip())
+    if (root.parent / "worktree.git").is_dir():
+        return str(root.parent)
+    return str(root)
+
+
 def resolve_direct_code_args(args: Sequence[str]) -> list[str] | None:
     if not args:
         return None
@@ -240,25 +264,25 @@ def add_new_window_flag(
 
 
 def plan_vscode_settings(target: Path) -> tuple[Path, dict[str, object]] | None:
-    """Plan a settings write when the project title is absent or incorrect.
+    """Plan a settings write when the project title is absent.
 
-    The project name is the parent folder name (e.g. for ~/dev/org/repo/trunk,
-    the project name is "repo").
+    For a worktree, the project name is the parent folder name.
     """
     settings_file = target / ".vscode" / "settings.json"
-    project_name = target.parent.name
+    project_name = (
+        target.name if (target / "worktree.git").is_dir() else target.parent.name
+    )
 
     if not settings_file.exists():
         return settings_file, {"window.title": project_name}
 
     try:
-        settings = json.loads(settings_file.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
-        return None
-    if not isinstance(settings, dict):
+        settings = read_settings(settings_file)
+    except (ValueError, OSError) as error:
+        print(f"VS Code settings could not be updated: {error}", file=sys.stderr)
         return None
 
-    if settings.get("window.title") == project_name:
+    if "window.title" in settings:
         return None
 
     settings["window.title"] = project_name
@@ -430,6 +454,14 @@ def main() -> int:
         else resolve_direct_code_args(args.query)
     )
     if direct_args is not None:
+        for index, arg in enumerate(direct_args):
+            if arg.startswith("-") or (
+                index > 0
+                and direct_args[index - 1].startswith("-")
+                and direct_args[index - 1] not in WINDOW_FLAGS
+            ):
+                continue
+            direct_args[index] = project_directory(arg)
         command = [*code_command, *direct_args]
         if direct_args:
             command = add_new_window_flag(
@@ -457,7 +489,7 @@ def main() -> int:
     except ReadinessError as error:
         print(error, file=sys.stderr)
         return 1
-    picker_args = [picker]
+    picker_args = [picker, "--project"]
     if args.dry_run:
         picker_args.append("--dry-run")
     picker_args.extend(args.query)
@@ -472,7 +504,7 @@ def main() -> int:
         argument_start=len(code_command),
     )
     if args.dry_run:
-        return preview(command, settings_plan=plan_vscode_settings(target))
+        return preview(command)
 
     ensure_workspace_settings(target)
     return launch_code(command, env)

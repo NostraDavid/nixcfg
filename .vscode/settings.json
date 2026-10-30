@@ -1,8 +1,4 @@
 {
-
-  "peacock.color": "#612edc",
-  "peacock.remoteColor": "#612edc",
-  "window.title": "nixcfg",
   "workbench.colorCustomizations": {
     "statusBar.inactiveBackground": "#612edc",
     "activityBar.activeBackground": "#825ae3",
@@ -15,7 +11,7 @@
     "activityBar.background": "#825ae3",
     "activityBar.foreground": "#e7e7e7",
     "activityBar.inactiveForeground": "#e7e7e799",
-    "activityBarBadge.background": "#e89877",
+    "activityBarBadge.background": "#e99c7c",
     "activityBarBadge.foreground": "#15202b",
     "commandCenter.border": "#e7e7e799",
     "commandCenter.foreground": "#e7e7e7",
@@ -25,13 +21,16 @@
     "statusBar.debuggingForeground": "#e7e7e7",
     "statusBar.foreground": "#e7e7e7",
     "statusBarItem.hoverBackground": "#825ae3",
-    "statusBarItem.remoteBackground": "#df6f40",
+    "statusBarItem.remoteBackground": "#612edc",
     "statusBarItem.remoteForeground": "#e7e7e7",
     "titleBar.activeBackground": "#612edc",
     "titleBar.activeForeground": "#e7e7e7",
     "titleBar.inactiveBackground": "#612edc99",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
+  "peacock.color": "#612edc",
+  "peacock.remoteColor": "#612edc",
+  "window.title": "nixcfg",
   "workbench.editorAssociations": {
     "*.copilotmd": "vscode.markdown.preview.editor",
     "*.csv": "duckdb.dataFileViewer",

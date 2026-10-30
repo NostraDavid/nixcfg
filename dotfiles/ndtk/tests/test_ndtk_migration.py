@@ -22,6 +22,7 @@ from unittest.mock import patch
 from click.testing import CliRunner
 
 BIN = Path(__file__).resolve().parents[1] / ".local/bin"
+sys.path.insert(0, str(BIN))
 
 
 def load(name):
