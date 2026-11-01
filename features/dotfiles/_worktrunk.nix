@@ -39,6 +39,7 @@ in {
       // {
         ".config/worktrunk/config.toml".source = config.lib.file.mkOutOfStoreSymlink "${repoRoot}/dotfiles/worktrunk-0.80.0/.config/worktrunk/config.toml";
         ".config/opencode/plugins/worktrunk.ts".source = "${unstable.worktrunk.src}/dev/opencode-plugin.ts";
+        ".pi/agent/extensions/worktrunk.ts".source = "${unstable.worktrunk.src}/dev/pi-extension.ts";
         "plugins/worktrunk".source = codexPlugin;
       };
     activation.worktrunkCodex = lib.hm.dag.entryAfter ["linkGeneration"] ''

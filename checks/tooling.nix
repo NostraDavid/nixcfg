@@ -307,6 +307,7 @@ in {
     home.home.file ? ".config/worktrunk/config.toml"
     && !home.home.file.".config/worktrunk/config.toml".force
     && home.home.file ? ".config/opencode/plugins/worktrunk.ts"
+    && home.home.file ? ".pi/agent/extensions/worktrunk.ts"
     && home.home.file ? "plugins/worktrunk"
     && home.home.activation ? worktrunkCodex)
   ([mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
