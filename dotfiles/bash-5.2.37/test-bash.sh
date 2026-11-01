@@ -91,6 +91,7 @@ rm "$tmp/.bash_aliases.work"
 HOME="$tmp" PATH="$tmp/available-bin" BASH_ENV="$tmp/.bash_aliases" "$bash_bin" --noprofile --norc -c '
     [[ ${BASH_ALIASES[vi]} == nvim ]] || exit 1
     [[ ${BASH_ALIASES[grep]} == "grep --color=auto" ]] || exit 1
+    [[ ${BASH_ALIASES[forgejo]} == fj ]] || exit 1
     [[ ${BASH_ALIASES[ll]} == "lsd --all --icon=never --human-readable --group-dirs=first --long --classify" ]] || exit 1
     if alias work_only >/dev/null 2>&1; then exit 1; fi
 '
