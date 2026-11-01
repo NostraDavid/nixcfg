@@ -13,6 +13,7 @@ const { promisify } = require("node:util");
   let initializerName;
   let fsModule;
   let pathModule;
+  let factoryModules = false;
   let definitionName;
   let hostModule;
   let hostProperty;
@@ -35,8 +36,16 @@ const { promisify } = require("node:util");
       );
       return bytes.toString();
     };
-    const [, main] = Object.entries(files).find(([name]) => /^main-.*\.js$/.test(name));
-    const text = await readSource(main);
+    let text;
+    for (const [name, member] of Object.entries(files)) {
+      if (!name.endsWith(".js") || member.unpacked) continue;
+      const source = await readSource(member);
+      if (/async function [\w$]+\(\{executorPluginRoot:/.test(source)) {
+        assert.equal(text, undefined, "multiple executor bundles found");
+        text = source;
+      }
+    }
+    assert.ok(text, "executor bundle not found");
     const initializer = /async function ([\w$]+)\(\{executorPluginRoot:/.exec(text);
     assert.ok(initializer, "executor initializer not found");
     const start = initializer.index;
@@ -44,10 +53,12 @@ const { promisify } = require("node:util");
     assert.ok(start >= 0 && end > start, "executor initializer not found");
     code = text.slice(start, end);
     initializerName = initializer[1];
-    const modules = /f=([\w$]+)\.default,p=([\w$]+)\.default/.exec(code);
+    const modules = /f=([\w$]+)(\.default|\(\)),p=([\w$]+)(\.default|\(\))/.exec(code);
     assert.ok(modules, "executor aliases were not patched");
-    [, fsModule, pathModule] = modules;
-    definitionName = /let n=await ([\w$]+)\(/.exec(code)[1];
+    fsModule = modules[1];
+    pathModule = modules[3];
+    factoryModules = modules[2] === "()";
+    definitionName = /let [\w$]+=await ([\w$]+)\(/.exec(code)[1];
     [, hostModule, hostProperty] = /CODEX_APP_TOOLS_CALLER_HOST_ID:([\w$]+)\.([\w$]+)/.exec(code);
     const copy = /async function ([\w$]+)\(e,t\)\{await ([\w$]+)\(`[^`]+\/bin\/cp`/.exec(text);
     assert.ok(copy, "marketplace copy helper not found");
@@ -74,8 +85,8 @@ const { promisify } = require("node:util");
       definitionName,
       `${code}; return ${initializerName};`,
     )(
-      { default: fs },
-      { default: path },
+      factoryModules ? () => fs : { default: fs },
+      factoryModules ? () => path : { default: path },
       { [hostProperty]: "local" },
       async () => ({ cwd: src, command: path.join(src, "server.js"), env: {} }),
     );

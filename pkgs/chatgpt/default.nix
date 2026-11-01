@@ -42,12 +42,12 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "chatgpt";
-  version = "26.1023.51421";
+  version = "26.1027.51404";
 
   # The latest URL is mutable; pin the versioned pool artifact instead.
   src = fetchurl {
     url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${finalAttrs.version}_amd64.deb";
-    hash = "sha256-RITcK1T8CXi+sjuNjXF0lOTgtPvqsKh2c5EF5QtE3lo=";
+    hash = "sha256-RvHiLQKGmP6e2u/VhHrs4HxFCaMNNwnhBCIHGdjBKCI=";
   };
 
   nativeBuildInputs = [
@@ -126,17 +126,37 @@ stdenv.mkDerivation (finalAttrs: {
         end = archive.find(b"async function ", initializer.end())
         assert end > start, "executor plugin initializer boundary not found"
         before = archive[start:end]
-        fs_alias = re.search(rb"await ([\w$]+)\.default\.cp\(n\.cwd,e,", before)
-        path_alias = re.search(rb"n\.command=([\w$]+)\.default\.join\(e,", before)
-        assert fs_alias is not None and path_alias is not None, "executor module aliases not found"
-        fs_module, path_module = fs_alias.group(1), path_alias.group(1)
-        after, count = re.subn(
+        # Recent bundles call module factories and use different local names.
+        factory = re.search(rb'await ([\w$]+)\(\)\.cp\(([\w$]+)\.cwd,([\w$]+),', before)
+        if factory:
+            fs_module, definition, dest = factory.groups()
+            path_match = re.search(rb'([\w$]+)\(\)\.join\(' + dest + rb',\1\(\)\.relative\(' + definition + rb'\.cwd,', before)
+            assert path_match is not None, "executor path factory not found"
+            path_module = path_match.group(1)
+            after = before.replace(fs_module + b"().", b"f.").replace(path_module + b"().", b"p.")
+            after, count = re.subn(rb'(let ' + definition + rb'=await [\w$]+\([^;]+\));', rb'\1,f=' + fs_module + b'(),p=' + path_module + b'();', after, count=1)
+            assert count == 1, "executor definition lookup changed"
+            guard = b'"win32"!==process.platform&&('
+            assert after.count(guard) == 1, "executor platform guard changed"
+            after = after.replace(guard, b'(', 1)
+            write = b'await f.writeFile(p.join(' + dest + b',".mcp.json"),'
+            assert after.count(write) == 1, "executor configuration write changed"
+            after = after.replace(write, b'await f.chmod(p.join(' + dest + b',".mcp.json"),384),' + write, 1)
+            config = b'p.join(' + dest + b',".mcp.json")'
+            assert after.count(config) == 2 and not re.search(rb'\bc\b', before), "executor config alias collision"
+            after = after.replace(config, b'c').replace(b'p=' + path_module + b'();', b'p=' + path_module + b'(),c=' + config + b';', 1)
+        else:
+            fs_alias = re.search(rb"await ([\w$]+)\.default\.cp\(n\.cwd,e,", before)
+            path_alias = re.search(rb"n\.command=([\w$]+)\.default\.join\(e,", before)
+            assert fs_alias is not None and path_alias is not None, "executor module aliases not found"
+            fs_module, path_module = fs_alias.group(1), path_alias.group(1)
+            after, count = re.subn(
             rb"(let n=await [\w$]+\(\{useWsl:!1,resourcesPath:t\}\));",
             rb"\1,f=" + fs_module + b".default,p=" + path_module + b".default;",
             before,
         )
-        assert count == 1, "executor definition lookup changed"
-        after = after.replace(
+            assert count == 1, "executor definition lookup changed"
+            after = after.replace(
             b"process.platform!==`win32`&&(n.command=" + path_module + b".default.join(e," + path_module + b".default.relative(n.cwd,n.command)))",
             b"n.command=" + path_module + b".default.join(e," + path_module + b".default.relative(n.cwd,n.command))",
         ).replace(fs_module + b".default.", b"f.").replace(path_module + b".default.", b"p.").replace(
@@ -153,12 +173,14 @@ stdenv.mkDerivation (finalAttrs: {
             rb"async function ([\w$]+)\(e,t\)\{if\([\w$]+\.default\.platform===`darwin`\)\{await ([\w$]+)\(`/usr/bin/ditto`",
             archive,
         )
+        if helper is None:
+            helper = re.search(rb'async function ([\w$]+)\(e,t\)\{if\("darwin"===[\w$]+\(\)\.platform\)return void await ([\w$]+)\("/usr/bin/ditto"', archive)
         assert helper is not None, "marketplace copy helper not found"
         start = helper.start()
         end = archive.find(b"async function ", helper.end())
         assert end > start, "marketplace copy helper boundary not found"
         before = archive[start:end]
-        assert re.search(rb"await [\w$]+\.default\.cp\(e,t,", before), "marketplace copy helper changed"
+        assert re.search(rb"await [\w$]+(?:\.default|\(\))\.cp\(e,t,", before), "marketplace copy helper changed"
         name, runner = helper.groups()
         after = b'async function ' + name + b'(e,t){await ' + runner + b'(`${coreutils}/bin/cp`,[`-R`,`--`,e+`/.`,t]);await ' + runner + b'(`${coreutils}/bin/chmod`,[`-R`,`u+w`,`--`,t])}'
         assert len(after) <= len(before), "marketplace permissions patch changes ASAR offsets"
