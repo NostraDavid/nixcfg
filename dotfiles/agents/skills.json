@@ -1,6 +1,7 @@
 {
   "local": [
     "audio-notify",
+    "changelog",
     "continuous-delivery",
     "create-pull-request",
     "ctb-data-contracts",
@@ -44,6 +45,7 @@
     "audio-notify": "notify",
     "beads": "beads",
     "bro": "bro",
+    "changelog": "changelog",
     "cli-output": "cli",
     "code-navigation": "nav",
     "context7": "c7",

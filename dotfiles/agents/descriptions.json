@@ -19,6 +19,7 @@
     "build-report": "Build polished analytical reports for executive, product, business, or technical audiences. Use when the task needs a durable answer-first narrative with evidence-backed findings, visuals or tables, caveats, and source context.",
     "c7": "Retrieve library documentation with Context7 when implementing or checking an external library API, configuration option, or version-specific behavior.",
     "cd": "Use when the user asks to design or improve deployment pipelines, release strategies, GitOps delivery, environment promotion, rollback, or coordination of application and database releases. Do not trigger for isolated CI configuration, live incident investigation, or application architecture design.",
+    "changelog": "Create or update human-readable project changelogs for notable user-facing changes. Use for CHANGELOG.md authoring or review; exclude commit-log dumps, pull-request descriptions, and release automation.",
     "clarity": "Apply when reviewing or shaping code that's hard to trace. Count layers between question and answer, and hidden state in the reader's head; collapse one-caller wrappers and shrink mutable scope.",
     "cli": "Use RTK and Snip to compress shell command output, select a supported wrapper, or recover complete failure details.",
     "control-chrome": "Control the user's Chrome browser for tasks that depend on existing Chrome state: tabs, logged-in sessions, or extensions. Prefer purpose-built connectors, APIs, or CLIs when available.",
