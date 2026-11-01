@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "1.2.0",
+  "lastChangelogVersion": "1.4.0",
   "theme": "dark",
   "skills": [
     "~/.codex/skills",
@@ -9,8 +9,8 @@
     "npm:@czottmann/pi-tensorx",
     "npm:pi-term@0.1.1"
   ],
-  "defaultProvider": "tensorx",
-  "defaultModel": "deepseek/deepseek-v4.1-flash-1017",
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-6.1-terra",
   "defaultThinkingLevel": "medium",
   "defaultTools": [
     "+grep",
@@ -18,5 +18,6 @@
     "+ls",
     "+codemode",
     "+tool_search"
-  ]
+  ],
+  "deviceId": "36df685c-1449-45b4-8359-91ec67882139"
 }
