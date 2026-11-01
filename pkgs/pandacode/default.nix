@@ -6,19 +6,19 @@
   stdenvNoCC,
 }: let
   pname = "pandacode";
-  version = "0.3.75";
+  version = "0.3.87";
   assets = {
     x86_64-linux = {
       name = "PandaCode-Linux-x86_64.AppImage";
-      hash = "sha256-MjH0bCOwpOup8mt6k8/+X204nuZmGPLjVRPHWRT3LbQ=";
+      hash = "sha256-KwckbAhDSYEEc234fnn97tKDr+/LcujnfeSfrUUqlRI=";
     };
     aarch64-linux = {
       name = "PandaCode-Linux-aarch64.AppImage";
-      hash = "sha256-crddeNY/Fdb+GFI9Y1SUUJbSlrdheHc0G6abCDhWCVY=";
+      hash = "sha256-fYUuDRcVPAy4qXrERTWVbzGvr4KdsCkOwwgOUxW7NXs=";
     };
     aarch64-darwin = {
       name = "PandaCode-macOS-arm64.app.tar.gz";
-      hash = "sha256-3VCWOoVCfGE4fDOxwTh/6qAOknhtm4cva3ZoXZpgcq4=";
+      hash = "sha256-zLnkObCE/wetbNA2zHmlevn1Kz23N/dYaa1i8jx8QSA=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};
