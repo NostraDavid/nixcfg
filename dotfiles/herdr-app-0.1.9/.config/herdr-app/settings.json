@@ -1,5 +1,6 @@
 {
   "zoom": 1.2,
+  "core": "~/.local/bin/herdr-core",
   "sounds": {
     "enabled": true
   },

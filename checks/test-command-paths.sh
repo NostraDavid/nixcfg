@@ -11,6 +11,7 @@ for generation in first second; do
 printf '%s\n' '$generation'
 EOF
     chmod +x "$tmp/$generation/bin/git"
+    cp "$tmp/$generation/bin/git" "$tmp/$generation/bin/herdr-core"
 done
 cp "$tmp/first/bin/git" "$tmp/first/bin/tool with spaces"
 for name in code custom manual; do
@@ -31,6 +32,8 @@ for layout in etc/profiles/per-user/test home/test/.nix-profile home/test/.local
         bash "$root/features/common-tooling/link-package-commands.sh" "$profile" "$local_bin"
         [[ $(readlink "$local_bin/git") == "$profile/bin/git" ]]
         [[ $("$local_bin/git") == first ]]
+        [[ $(readlink "$local_bin/herdr-core") == "$profile/bin/herdr-core" ]]
+        [[ $("$local_bin/herdr-core") == first ]]
         [[ $("$local_bin/tool with spaces") == first ]]
         [[ ! -e "$local_bin/data" && ! -e "$local_bin/directory" ]]
         [[ $(cat "$local_bin/code") == 'personal script' ]]
@@ -40,6 +43,7 @@ for layout in etc/profiles/per-user/test home/test/.nix-profile home/test/.local
     rm "$profile"
     ln -s "$tmp/second" "$profile"
     [[ $("$local_bin/git") == second ]]
+    [[ $("$local_bin/herdr-core") == second ]]
     bash "$root/features/common-tooling/link-package-commands.sh" "$profile" "$local_bin"
     [[ $("$local_bin/git") == second ]]
 done

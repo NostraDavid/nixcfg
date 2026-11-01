@@ -90,6 +90,17 @@ in {
   herdrGui = assert lib.all (home:
     lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["herdr-gpui" "herdr-app" "herdr-core"])
   ([mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
+  herdrCorePath = let
+    homes = [mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"];
+    settings = builtins.fromJSON (builtins.readFile ../dotfiles/herdr-app-0.1.9/.config/herdr-app/settings.json);
+  in
+    assert settings.core == "~/.local/bin/herdr-core";
+    assert lib.all (home:
+      builtins.any (package: (package.pname or "") == "herdr-core") home.home.packages
+      && home.home.activation ? linkPackageCommands
+      && lib.hasInfix (lib.escapeShellArg home.home.profileDirectory) home.home.activation.linkPackageCommands.data
+      && lib.hasInfix (lib.escapeShellArg "${home.home.homeDirectory}/.local/bin") home.home.activation.linkPackageCommands.data)
+    homes; true;
   pagerTools = assert lib.all (home:
     builtins.any (p: (p.pname or "") == "batman") home.home.packages) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   portableToolsNixos = assert lib.all (host: lib.all (name: builtins.elem (unstableFor "x86_64-linux").${name}.outPath (map (p: p.outPath) host.config.environment.systemPackages)) ["superfile" "tuios"]) (builtins.attrValues flake.nixosConfigurations); true;
