@@ -42,10 +42,24 @@ def render(groups: dict[int, list[str]]) -> str:
         rows.append(
             f'<tr id="group-{mask}"><td>{html.escape(host_names(mask))}</td><td>{count}</td><td><details><summary>Package names</summary><ul>{package_list}</ul></details></td></tr>'
         )
+    missing = sorted(groups.keys() - LABELS.keys())
+    for mask in missing:
+        packages = groups[mask]
+        package_list = "".join(f"<li>{html.escape(p)}</li>" for p in sorted(packages))
+        rows.append(
+            f'<tr id="group-{mask}"><td>{html.escape(host_names(mask))} (not shown in circles)</td><td>{len(packages)}</td><td><details><summary>Package names</summary><ul>{package_list}</ul></details></td></tr>'
+        )
+    warning = (
+        f"<p><strong>{len(missing)} occupied combinations cannot be shown in the current circle layout.</strong> They are listed in the table below.</p>"
+        if missing
+        else ""
+    )
     return f"""<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Six-circle software overlap study</title><link rel="icon" href="data:,">
 <style>body{{font:15px/1.5 system-ui;color:#243848;background:#f3f6f8;margin:24px auto;max-width:1100px;padding:0 20px}}svg,table{{width:100%;background:white;border:1px solid #d9e2e8;border-radius:8px}}.legend{{display:flex;gap:16px;flex-wrap:wrap;margin:20px 0}}.legend span{{padding:4px 8px}}th,td{{text-align:left;padding:8px;border-bottom:1px solid #d9e2e8;vertical-align:top}}tr:target{{background:#fff1bd}}a:focus-visible text,a:hover text{{font-weight:bold}}li{{overflow-wrap:anywhere}}</style>
+<nav aria-label="Overlap views"><a href="index.html">Category overlap</a> · Six physical machines</nav>
 <h1>All six physical machines, using circles</h1>
+{warning}
 <p>{len(groups)} nonempty groups · {sum(map(len, groups.values()))} package names. Each numbered marker is one exact host combination. Click a number for its package list.</p>
 <p>Areas do not represent package counts. Gray zeroes are empty combinations. A combination can have disconnected parts; its count is shown once.</p>
 <div class="legend">{"".join(legend)}</div>
@@ -69,12 +83,12 @@ def main() -> None:
         "minimum_occupied_clearance": layout["minimum_occupied_clearance"],
     }
     (output / "proof.json").write_text(json.dumps(proof, indent=2) + "\n")
-    (output / "index.html").write_text(render(groups))
+    (output / "six-circles.html").write_text(render(groups))
     print(
         f"PASS: {len(groups)} occupied combinations, {sum(map(len, groups.values()))} packages, "
         f"{len(layout['extra_empty_masks'])} additional empty combinations"
     )
-    print(f"Preview: {output.relative_to(ROOT)}/index.html")
+    print(f"Preview: {output.relative_to(ROOT)}/six-circles.html")
 
 
 if __name__ == "__main__":
