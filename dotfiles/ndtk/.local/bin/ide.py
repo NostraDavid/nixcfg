@@ -40,12 +40,11 @@ class ReadinessError(Exception):
 
 def run(args: list[str]) -> sp.CompletedProcess[str]:
     """Run the interactive picker, which intentionally has no timeout."""
-    return sp.run(
+    return sp.run(  # noqa: S603
         args,
         check=False,
         text=True,
-        stdout=sp.PIPE,
-        stderr=sp.PIPE,
+        capture_output=True,
     )
 
 
@@ -140,12 +139,11 @@ def find_peacock_command() -> str:
 def ensure_peacock_settings(target: Path) -> None:
     command = find_peacock_command()
     try:
-        proc = sp.run(
+        proc = sp.run(  # noqa: S603
             [command, "apply", "auto", str(target), "--yes", "--preserve-existing"],
             check=False,
             text=True,
-            stdout=sp.PIPE,
-            stderr=sp.PIPE,
+            capture_output=True,
             timeout=CLI_LAUNCH_TIMEOUT_SECONDS,
         )
     except (OSError, sp.TimeoutExpired) as error:
@@ -177,6 +175,7 @@ def clean_vscode_env(
 
     for name in (
         "ELECTRON_RUN_AS_NODE",
+        "LD_LIBRARY_PATH",
         "VIRTUAL_ENV",
         "UV_RUN_RECURSION_DEPTH",
         "NIX_CONFIG",
@@ -220,12 +219,11 @@ def project_directory(arg: str) -> str:
     if not path.is_dir():
         return arg
     try:
-        result = sp.run(
-            ["git", "-C", str(path), "rev-parse", "--show-toplevel"],
+        result = sp.run(  # noqa: S603
+            ["git", "-C", str(path), "rev-parse", "--show-toplevel"],  # noqa: S607
             check=False,
             text=True,
-            stdout=sp.PIPE,
-            stderr=sp.PIPE,
+            capture_output=True,
         )
     except OSError:
         return arg
@@ -332,7 +330,7 @@ def parse_args(argv: list[str] | None = None) -> CliArgs:
     )
 
 
-def readiness_errors() -> list[str]:
+def readiness_errors() -> list[str]:  # noqa: C901, PLR0912
     errors: list[str] = []
     try:
         code_command = find_code_command()
@@ -340,13 +338,12 @@ def readiness_errors() -> list[str]:
         errors.append(str(error))
     else:
         try:
-            probe = sp.run(
+            probe = sp.run(  # noqa: S603
                 [*code_command, "--version"],
                 check=False,
                 env=clean_vscode_env(electron_cli=len(code_command) == 2),
                 text=True,
-                stdout=sp.PIPE,
-                stderr=sp.PIPE,
+                capture_output=True,
                 timeout=CLI_PROBE_TIMEOUT_SECONDS,
             )
         except sp.TimeoutExpired:
@@ -363,12 +360,11 @@ def readiness_errors() -> list[str]:
         errors.append(str(error))
     else:
         try:
-            probe = sp.run(
+            probe = sp.run(  # noqa: S603
                 [picker, "--help"],
                 check=False,
                 text=True,
-                stdout=sp.PIPE,
-                stderr=sp.PIPE,
+                capture_output=True,
                 timeout=CLI_PROBE_TIMEOUT_SECONDS,
             )
         except sp.TimeoutExpired:
@@ -384,9 +380,11 @@ def readiness_errors() -> list[str]:
     except ReadinessError as error:
         errors.append(str(error))
 
-    for command in ("fzf", "git"):
-        if shutil.which(command) is None:
-            errors.append(f"{command} executable not found in PATH.")
+    errors.extend(
+        f"{command} executable not found in PATH."
+        for command in ("fzf", "git")
+        if shutil.which(command) is None
+    )
 
     if not DEV_ROOT.is_dir():
         errors.append(f"Development directory not found: {DEV_ROOT}")
@@ -420,7 +418,7 @@ def preview(
 
 def launch_code(command: list[str], env: dict[str, str]) -> int:
     try:
-        return sp.run(
+        return sp.run(  # noqa: S603
             command,
             env=env,
             check=False,
@@ -434,7 +432,7 @@ def launch_code(command: list[str], env: dict[str, str]) -> int:
         return 1
 
 
-def main() -> int:
+def main() -> int:  # noqa: C901, PLR0911, PLR0912
     args = parse_args()
     if args.check:
         return run_check()

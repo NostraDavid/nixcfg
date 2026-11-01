@@ -74,7 +74,7 @@ class IdeProcessTests(unittest.TestCase):
         )
 
     def invoke(self, *args: str) -> sp.CompletedProcess[str]:
-        return sp.run(
+        return sp.run(  # noqa: S603
             [sys.executable, str(SCRIPT), *args],
             cwd=self.temp.name,
             env=self.env,
@@ -95,7 +95,7 @@ class IdeProcessTests(unittest.TestCase):
         )
         settings = json.loads(settings_path.read_text())
         expected = (
-            sp.run(
+            sp.run(  # noqa: S603
                 [
                     sys.executable,
                     str(SCRIPT.with_name("project_color.py")),
@@ -217,7 +217,7 @@ class IdeProcessTests(unittest.TestCase):
 
     def test_nested_worktree_path_launches_project(self) -> None:
         trunk = self.project / "trunk"
-        sp.run(["git", "init", "--quiet", str(trunk)], check=True)
+        sp.run(["git", "init", "--quiet", str(trunk)], check=True)  # noqa: S603, S607
         nested = trunk / "src"
         nested.mkdir()
         result = self.invoke(str(nested))
@@ -245,12 +245,28 @@ class IdeProcessTests(unittest.TestCase):
 
 
 class IdeRoutingTests(unittest.TestCase):
+    def test_clean_vscode_env_drops_foreign_library_path(self) -> None:
+        injected_path = "/example/incompatible-libraries"
+        with patch.dict(
+            ide.os.environ,
+            {
+                "LD_LIBRARY_PATH": injected_path,
+                "NIX_LD": "/nix-ld/ld.so",
+                "NIX_LD_LIBRARY_PATH": "/nix-ld/lib",
+            },
+        ):
+            env = ide.clean_vscode_env()
+
+        self.assertNotIn("LD_LIBRARY_PATH", env)
+        self.assertEqual(env["NIX_LD"], "/nix-ld/ld.so")
+        self.assertEqual(env["NIX_LD_LIBRARY_PATH"], "/nix-ld/lib")
+
     def test_subdirectory_opens_worktree_root_without_changing_option_values(
         self,
     ) -> None:
         with TemporaryDirectory() as directory:
             root = Path(directory)
-            sp.run(["git", "init", "--quiet", str(root)], check=True)
+            sp.run(["git", "init", "--quiet", str(root)], check=True)  # noqa: S603, S607
             subdir = root / "subdir"
             subdir.mkdir()
             with (
@@ -365,8 +381,7 @@ class IdeRoutingTests(unittest.TestCase):
             command,
             check=False,
             text=True,
-            stdout=sp.PIPE,
-            stderr=sp.PIPE,
+            capture_output=True,
             timeout=ide.CLI_LAUNCH_TIMEOUT_SECONDS,
         )
 
@@ -392,10 +407,10 @@ class IdeRoutingTests(unittest.TestCase):
                 side_effect=ide.ReadinessError("Peacock color setup failed"),
             ),
             patch.object(ide, "launch_code", return_value=0) as launch,
+            contextlib.redirect_stderr(io.StringIO()) as warnings,
         ):
-            with contextlib.redirect_stderr(io.StringIO()) as warnings:
-                ide.ensure_workspace_settings(Path("/repos/example/trunk"))
-                self.assertEqual(ide.main(), 0)
+            ide.ensure_workspace_settings(Path("/repos/example/trunk"))
+            self.assertEqual(ide.main(), 0)
 
         launch.assert_called_once()
         self.assertIn("Peacock color setup failed", warnings.getvalue())
@@ -429,7 +444,7 @@ class IdeRoutingTests(unittest.TestCase):
             (root / "worktree.git").mkdir(parents=True)
             target = root / "trunk"
             target.mkdir()
-            sp.run(["git", "init", "--quiet", str(target)], check=True)
+            sp.run(["git", "init", "--quiet", str(target)], check=True)  # noqa: S603, S607
             for route in ("path", "no-picker"):
                 with (
                     self.subTest(route=route),
