@@ -77,6 +77,7 @@ in {
     proxy = flake.nixosConfigurations.proxy.config;
     homepage = flake.nixosConfigurations.homepage.config;
     dashboard = homepage.services.homepage-dashboard;
+    nitterFeed = homepage.systemd.services.homepage-nitter-feed;
     certs = flake.nixosConfigurations.certs.config;
     wodan = flake.nixosConfigurations.wodan.config;
   in
@@ -95,6 +96,11 @@ in {
     assert !homepage.services.caddy.enable;
     assert homepage.systemd.services.homepage-monitor-api.serviceConfig.IPAddressDeny == "any";
     assert homepage.systemd.services.homepage-monitor-api.serviceConfig.IPAddressAllow == "localhost";
+    assert nitterFeed.serviceConfig.DynamicUser;
+    assert nitterFeed.serviceConfig.StateDirectory == "homepage-nitter-feed";
+    assert nitterFeed.serviceConfig.RestrictAddressFamilies == ["AF_INET" "AF_INET6"];
+    assert lib.hasInfix "http://127.0.0.1:3002/posts.json" (builtins.toJSON dashboard.services);
+    assert builtins.map builtins.attrNames dashboard.settings.layout == [["Infrastructuur"] ["Diensten"] ["Apps"] ["Beheer"] ["Updates"]];
     assert builtins.elem "-/run/homepage-monitor/credentials.env" homepage.systemd.services.homepage-dashboard.serviceConfig.EnvironmentFile;
     assert !(proxy.systemd.services ? pihole-tls-publish);
     assert !(wodan.systemd.services ? pihole-tls-publish);

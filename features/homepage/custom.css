@@ -1,0 +1,5 @@
+/* Homepage's small card text is too light for comfortable reading. */
+.service-card .service-description,
+.service-card .font-thin {
+  font-weight: 400;
+}

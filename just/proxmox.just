@@ -49,6 +49,11 @@ deploy-homepage target="david@192.168.2.103":
 homepage-monitor-test:
   @python3 checks/test-homepage-monitor.py
 
+# Test Nitter RSS parsing, cached fallback, retry backoff and its JSON API.
+[group('proxmox')]
+homepage-nitter-test:
+  @python3 checks/test-homepage-nitter-feed.py
+
 # Deploy the declarative K3s node after its initial VM installation.
 [group('proxmox')]
 deploy-k3s target="david@192.168.2.106":

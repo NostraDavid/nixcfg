@@ -18,11 +18,12 @@ _: {
         }
       ];
   in {
-    imports = [./_monitor.nix];
+    imports = [./_monitor.nix ./_nitter.nix];
     services.homepage-dashboard = {
       enable = true;
       listenPort = 3000;
       allowedHosts = "home.powerlan.empire,localhost:3000,127.0.0.1:3000";
+      customCSS = builtins.readFile ./custom.css;
       customJS = builtins.readFile ./rfc3339-clock.js;
       settings = {
         title = "PowerLAN";
@@ -38,6 +39,18 @@ _: {
           searchDescriptions = true;
           hideInternetSearch = true;
         };
+        layout = [
+          {Infrastructuur = {};}
+          {Diensten = {};}
+          {Apps = {};}
+          {Beheer = {};}
+          {
+            Updates = {
+              style = "row";
+              columns = 5;
+            };
+          }
+        ];
       };
       widgets = [
         {
@@ -299,6 +312,33 @@ _: {
                     ];
                   }
                 ];
+              };
+            }
+          ];
+        }
+        {
+          Updates = [
+            {
+              "Twitter / X · Tibo (@thsottiaux)" = {
+                icon = "/icons/x.svg";
+                href = "https://nitter.meowing.monster/thsottiaux/";
+                description = "Banked of reset · feed lokaal ververst om de 15 minuten";
+                widget = {
+                  type = "customapi";
+                  url = "http://127.0.0.1:3002/posts.json";
+                  refreshInterval = 900000;
+                  display = "dynamic-list";
+                  mappings = {
+                    items = "items";
+                    name = "text";
+                    label = "published";
+                    limit = 5;
+                    format = "relativeDate";
+                    locale = "nl";
+                    style = "short";
+                    target = "{url}";
+                  };
+                };
               };
             }
           ];

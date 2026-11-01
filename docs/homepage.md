@@ -25,6 +25,31 @@ Dit zijn geen Proxmox-hoststatistieken. Homepage's
 [dienstcontroles](https://gethomepage.dev/configs/services/#site-monitor) hebben
 geen beheersleutel nodig.
 
+De groep Updates toont maximaal vijf recente berichten van `@thsottiaux` met
+`banked` of `reset` in de tekst. Alleen berichten in de actuele RSS-feed worden
+doorzocht; oudere treffers worden niet apart bewaard. De vaste bron is
+`https://nitter.meowing.monster/thsottiaux/rss`. De collector haalt die centraal
+iedere vijftien minuten op en bewaart alleen tekst, publicatietijd en veilige
+HTTPS-postlinks. De Nitter-links met `#m` blijven behouden; HTML uit de
+beschrijving wordt omgezet naar platte tekst. Homepage gebruikt zijn
+`customapi`-widget met een JSON dynamic list; deze functionaliteit is aanwezig
+in de gebruikte Homepage-versie 1.12.3.
+
+De lokale API op `127.0.0.1:3002/posts.json` leest alleen de cache. Bij fouten
+blijven de laatste geldige berichten beschikbaar. De collector verdubbelt de
+wachttijd na opeenvolgende fouten vanaf vijftien minuten tot maximaal zes uur;
+een geslaagde ophaalactie zet de wachttijd terug op vijftien minuten. De JSON
+markeert een cache ouder dan vijftien minuten als `stale`. De lokale API is niet
+bereikbaar vanaf het netwerk.
+
+**Robots.txt-afweging:** de gebruikte Nitter-instantie antwoordt met
+`User-agent: *` en `Disallow: /`. Dit verbiedt geautomatiseerde toegang volgens
+de gepubliceerde robots-instructies. De gebruiker is hierover geïnformeerd en
+heeft expliciet om deze implementatie gevraagd. De collector vraagt uitsluitend
+deze publieke feed op, op lage frequentie, zonder poging om toegangscontroles of
+botbescherming te omzeilen. De instantie kan de feed of toegang op elk moment
+intrekken.
+
 De Proxmox-widget toont CPU, geheugen en actieve VM's van POwerMonolith. Hij
 gebruikt `homepage@pve!dashboard` met uitsluitend `Sys.Audit` en `VM.Audit`.
 Privilege separation blijft aan. De Pi-hole-widget gebruikt de v6-API voor
@@ -102,6 +127,7 @@ Pas de lijsten onder `services.homepage-dashboard` aan en voer op Wodan uit:
 
 ```bash
 just homepage-monitor-test
+just homepage-nitter-test
 just app-vm-check homepage
 just deploy-homepage
 just deploy-proxy
