@@ -7,8 +7,14 @@
         ];
       };
     };
+    agent-skills = {
+      homeManager.imports = [
+        ./_agent-skills.nix
+      ];
+    };
     portable-dotfiles = {
       includes = with den.aspects; [
+        agent-skills
         worktrunk
       ];
       homeManager = {

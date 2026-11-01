@@ -51,6 +51,28 @@ in {
     assert donar.home-manager.users.david.programs.plasma.configFile.bluedevilglobalrc.Adapters."F4:B3:01:11:B5:B5_powered".value;
     assert lib.hasInfix "Hidden=true" (builtins.readFile donar.home-manager.users.david.xdg.configFile."autostart/org.kde.discover.notifier.desktop".source);
     assert lib.all localeAvailable (builtins.attrValues flake.nixosConfigurations); true;
+  portableAgentSkills = let
+    catalog = builtins.fromJSON (builtins.readFile ../dotfiles/agents/skills.json);
+    homes = [
+      flake.homeConfigurations.mimir2.config
+      flake.darwinConfigurations.loki.config.home-manager.users.david
+    ];
+    clients = ["agents" "codex" "copilot" "config/opencode"];
+    hasSkill = home: name: let
+      alias = catalog.aliases.${name} or name;
+      source = home.home.file.".agents/skills/${alias}".source;
+    in
+      lib.all (client:
+        home.home.file ? ".${client}/skills/${alias}"
+        && home.home.file.".${client}/skills/${alias}".source == source)
+      clients
+      && lib.hasInfix "/dotfiles/agents/.agents/${name}" (source.buildCommand or "");
+  in
+    assert lib.all (home:
+      lib.all (name: hasSkill home name) (catalog.local ++ catalog.workflow)
+      && home.home.file ? ".local/bin/generate_gitignore"
+      && lib.hasInfix "/dotfiles/agents/.agents/gitignore/scripts/generate_gitignore.py" (home.home.file.".local/bin/generate_gitignore".source.buildCommand or ""))
+    homes; true;
   homepage = let
     proxy = flake.nixosConfigurations.proxy.config;
     homepage = flake.nixosConfigurations.homepage.config;
