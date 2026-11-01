@@ -1,0 +1,406 @@
+[
+  {
+    "name": "nixcfg",
+    "folder": "/home/david"
+  },
+  {
+    "name": "NostraDavid",
+    "folder": "/home/david/dev/NostraDavid/ChatGPT"
+  },
+  {
+    "name": "nd/azure-cli",
+    "folder": "/home/david/dev/NostraDavid/azure-cli/dev"
+  },
+  {
+    "name": "nd/banking_dashboard",
+    "folder": "/home/david/dev/NostraDavid/banking_dashboard"
+  },
+  {
+    "name": "nd/better-comments",
+    "folder": "/home/david/dev/NostraDavid/better-comments"
+  },
+  {
+    "name": "nd/big-slpp",
+    "folder": "/home/david/dev/NostraDavid/big-slpp"
+  },
+  {
+    "name": "nd/bitvavo-api-upgraded",
+    "folder": "/home/david/dev/NostraDavid/bitvavo-api-upgraded"
+  },
+  {
+    "name": "nd/bitvavo-data-product",
+    "folder": "/home/david/dev/NostraDavid/bitvavo-data-product"
+  },
+  {
+    "name": "nd/bt",
+    "folder": "/home/david/dev/NostraDavid/bt"
+  },
+  {
+    "name": "nd/ChatGPT",
+    "folder": "/home/david/dev/NostraDavid/Dee"
+  },
+  {
+    "name": "nd/crypto-trading-bot-archive",
+    "folder": "/home/david/dev/NostraDavid/crypto-trading-bot-archive"
+  },
+  {
+    "name": "nd/crypto_info_site",
+    "folder": "/home/david/dev/NostraDavid/crypto_info_site"
+  },
+  {
+    "name": "nd/crypto_trading_bot_frontend",
+    "folder": "/home/david/dev/NostraDavid/crypto_trading_bot_frontend"
+  },
+  {
+    "name": "nd/ctb",
+    "folder": "/home/david/dev/NostraDavid/ctb"
+  },
+  {
+    "name": "nd/debian-server",
+    "folder": "/home/david/dev/NostraDavid/debian-server"
+  },
+  {
+    "name": "nd/dependabot",
+    "folder": "/home/david/dev/NostraDavid/dependabot/main"
+  },
+  {
+    "name": "nd/dotenv",
+    "folder": "/home/david/dev/NostraDavid/dotenv"
+  },
+  {
+    "name": "nd/dotfiles",
+    "folder": "/home/david/dev/NostraDavid/dotfiles"
+  },
+  {
+    "name": "nd/dotplan",
+    "folder": "/home/david/dev/NostraDavid/dotplan"
+  },
+  {
+    "name": "nd/entsoe-ingestion",
+    "folder": "/home/david/dev/NostraDavid/entsoe-ingestion"
+  },
+  {
+    "name": "nd/entsoe-ingestion-python",
+    "folder": "/home/david/dev/NostraDavid/entsoe-ingestion-python"
+  },
+  {
+    "name": "nd/entsoe-ingestion-rust",
+    "folder": "/home/david/dev/NostraDavid/entsoe-ingestion-rust"
+  },
+  {
+    "name": "nd/family-tree",
+    "folder": "/home/david/dev/NostraDavid/family-tree"
+  },
+  {
+    "name": "nd/fitdays",
+    "folder": "/home/david/dev/NostraDavid/fitdays"
+  },
+  {
+    "name": "nd/grib_test",
+    "folder": "/home/david/dev/NostraDavid/grib_test"
+  },
+  {
+    "name": "nd/haemwend",
+    "folder": "/home/david/dev/NostraDavid/haemwend"
+  },
+  {
+    "name": "nd/HandyNotes_Universal_Explorer",
+    "folder": "/home/david/dev/NostraDavid/HandyNotes_Universal_Explorer"
+  },
+  {
+    "name": "nd/hiisi",
+    "folder": "/home/david/dev/NostraDavid/hiisi/main"
+  },
+  {
+    "name": "nd/homelab",
+    "folder": "/home/david/dev/NostraDavid/homelab"
+  },
+  {
+    "name": "nd/huishoudboek",
+    "folder": "/home/david/dev/NostraDavid/huishoudboek"
+  },
+  {
+    "name": "nd/impyla",
+    "folder": "/home/david/dev/NostraDavid/impyla"
+  },
+  {
+    "name": "nd/infinity-fps",
+    "folder": "/home/david/dev/NostraDavid/infinity-fps"
+  },
+  {
+    "name": "nd/kafkaesk",
+    "folder": "/home/david/dev/NostraDavid/kafkaesk"
+  },
+  {
+    "name": "nd/linux-timeline",
+    "folder": "/home/david/dev/NostraDavid/linux-timeline"
+  },
+  {
+    "name": "nd/mail",
+    "folder": "/home/david/dev/NostraDavid/mail"
+  },
+  {
+    "name": "nd/mirrors-prettier",
+    "folder": "/home/david/dev/NostraDavid/mirrors-prettier"
+  },
+  {
+    "name": "nd/ml",
+    "folder": "/home/david/dev/NostraDavid/ml"
+  },
+  {
+    "name": "nd/ndat",
+    "folder": "/home/david/dev/NostraDavid/ndat"
+  },
+  {
+    "name": "nd/ndkb",
+    "folder": "/home/david/dev/NostraDavid/ndkb"
+  },
+  {
+    "name": "nd/ndol",
+    "folder": "/home/david/dev/NostraDavid/ndol"
+  },
+  {
+    "name": "nd/nixcfg",
+    "folder": "/home/david/dev/NostraDavid/nixcfg"
+  },
+  {
+    "name": "nd/normalize-images",
+    "folder": "/home/david/dev/NostraDavid/normalize-images"
+  },
+  {
+    "name": "nd/nostradavid.github.io",
+    "folder": "/home/david/dev/NostraDavid/nostradavid.github.io"
+  },
+  {
+    "name": "nd/notes",
+    "folder": "/home/david/dev/NostraDavid/notes"
+  },
+  {
+    "name": "nd/operation-power-forecast",
+    "folder": "/home/david/dev/NostraDavid/operation-power-forecast"
+  },
+  {
+    "name": "nd/pandas-polars-conversion-speed-test",
+    "folder": "/home/david/dev/NostraDavid/pandas-polars-conversion-speed-test"
+  },
+  {
+    "name": "nd/playground",
+    "folder": "/home/david/dev/NostraDavid/playground"
+  },
+  {
+    "name": "nd/powershit",
+    "folder": "/home/david/dev/NostraDavid/powershit"
+  },
+  {
+    "name": "nd/prime-factorization",
+    "folder": "/home/david/dev/NostraDavid/prime-factorization"
+  },
+  {
+    "name": "nd/prog-lang",
+    "folder": "/home/david/dev/NostraDavid/prog-lang"
+  },
+  {
+    "name": "nd/pypatterns",
+    "folder": "/home/david/dev/NostraDavid/pypatterns"
+  },
+  {
+    "name": "nd/pyspark-demographic-data-processing",
+    "folder": "/home/david/dev/NostraDavid/pyspark-demographic-data-processing/main"
+  },
+  {
+    "name": "nd/rogue",
+    "folder": "/home/david/dev/NostraDavid/rogue"
+  },
+  {
+    "name": "nd/runic",
+    "folder": "/home/david/dev/NostraDavid/runic/main"
+  },
+  {
+    "name": "nd/rusttt",
+    "folder": "/home/david/dev/NostraDavid/rusttt"
+  },
+  {
+    "name": "nd/sexp",
+    "folder": "/home/david/dev/NostraDavid/sexp"
+  },
+  {
+    "name": "nd/simulating-computer-systems",
+    "folder": "/home/david/dev/NostraDavid/simulating-computer-systems"
+  },
+  {
+    "name": "nd/simulating-queues",
+    "folder": "/home/david/dev/NostraDavid/simulating-queues"
+  },
+  {
+    "name": "nd/slotsbench",
+    "folder": "/home/david/dev/NostraDavid/slotsbench"
+  },
+  {
+    "name": "nd/TerrainCraft",
+    "folder": "/home/david/dev/NostraDavid/TerrainCraft"
+  },
+  {
+    "name": "nd/tkintering",
+    "folder": "/home/david/dev/NostraDavid/tkintering"
+  },
+  {
+    "name": "nd/todo-tree",
+    "folder": "/home/david/dev/NostraDavid/todo-tree"
+  },
+  {
+    "name": "nd/unnamed",
+    "folder": "/home/david/dev/NostraDavid/unnamed"
+  },
+  {
+    "name": "nd/vimgolf",
+    "folder": "/home/david/dev/NostraDavid/vimgolf"
+  },
+  {
+    "name": "nd/vscode-better-comments",
+    "folder": "/home/david/dev/NostraDavid/vscode-better-comments"
+  },
+  {
+    "name": "nd/vscode-dotenv",
+    "folder": "/home/david/dev/NostraDavid/vscode-dotenv"
+  },
+  {
+    "name": "nd/vscode-dotplan",
+    "folder": "/home/david/dev/NostraDavid/vscode-dotplan"
+  },
+  {
+    "name": "nd/vscode-todo-tree",
+    "folder": "/home/david/dev/NostraDavid/vscode-todo-tree"
+  },
+  {
+    "name": "nd/warcraft_credits",
+    "folder": "/home/david/dev/NostraDavid/warcraft_credits"
+  },
+  {
+    "name": "nd/wave-function-collapse",
+    "folder": "/home/david/dev/NostraDavid/wave-function-collapse"
+  },
+  {
+    "name": "nd/WaveFunctionCollapse",
+    "folder": "/home/david/dev/NostraDavid/WaveFunctionCollapse"
+  },
+  {
+    "name": "nd/windows-jupyter-test",
+    "folder": "/home/david/dev/NostraDavid/windows-jupyter-test"
+  },
+  {
+    "name": "nd/wotlk-nostradavid-addons",
+    "folder": "/home/david/dev/NostraDavid/wotlk-nostradavid-addons"
+  },
+  {
+    "name": "nd/wotlk-nostradavid-wtf",
+    "folder": "/home/david/dev/NostraDavid/wotlk-nostradavid-wtf"
+  },
+  {
+    "name": "nd/wow-forever",
+    "folder": "/home/david/dev/NostraDavid/wow-forever"
+  },
+  {
+    "name": "nd/wowwg",
+    "folder": "/home/david/dev/NostraDavid/wowwg"
+  },
+  {
+    "name": "nd/youtube-vids",
+    "folder": "/home/david/dev/NostraDavid/youtube-vids"
+  },
+  {
+    "name": "nd/zk",
+    "folder": "/home/david/dev/NostraDavid/zk"
+  },
+  {
+    "name": "t/semantic-override-network",
+    "folder": "/home/david/dev/Thaumatorium/semantic-override-network"
+  },
+  {
+    "name": "t/semanticoverride.net",
+    "folder": "/home/david/dev/Thaumatorium/semanticoverride.net"
+  },
+  {
+    "name": "t/thaumatorium.com",
+    "folder": "/home/david/dev/Thaumatorium/thaumatorium.com"
+  },
+  {
+    "name": "t/thaumatorium.github.io",
+    "folder": "/home/david/dev/Thaumatorium/thaumatorium.github.io"
+  },
+  {
+    "name": "t/thaumatorium.github.io-html",
+    "folder": "/home/david/dev/Thaumatorium/thaumatorium.github.io-html"
+  },
+  {
+    "name": "t/Themeautorium",
+    "folder": "/home/david/dev/Thaumatorium/Themeautorium"
+  },
+  {
+    "name": "hh/ada",
+    "folder": "/home/david/dev/HandmadeHero/ada"
+  },
+  {
+    "name": "hh/annotated_cpp",
+    "folder": "/home/david/dev/HandmadeHero/annotated_cpp"
+  },
+  {
+    "name": "hh/cpp",
+    "folder": "/home/david/dev/HandmadeHero/cpp"
+  },
+  {
+    "name": "hh/delphi",
+    "folder": "/home/david/dev/HandmadeHero/delphi"
+  },
+  {
+    "name": "hh/dlang",
+    "folder": "/home/david/dev/HandmadeHero/dlang"
+  },
+  {
+    "name": "hh/go",
+    "folder": "/home/david/dev/HandmadeHero/go"
+  },
+  {
+    "name": "hh/linux",
+    "folder": "/home/david/dev/HandmadeHero/linux"
+  },
+  {
+    "name": "hh/penguin",
+    "folder": "/home/david/dev/HandmadeHero/penguin"
+  },
+  {
+    "name": "hh/rust",
+    "folder": "/home/david/dev/HandmadeHero/rust"
+  },
+  {
+    "name": "hh/samprust",
+    "folder": "/home/david/dev/HandmadeHero/samprust"
+  },
+  {
+    "name": "hh/sdl",
+    "folder": "/home/david/dev/HandmadeHero/sdl"
+  },
+  {
+    "name": "hh/vulkan",
+    "folder": "/home/david/dev/HandmadeHero/vulkan"
+  },
+  {
+    "name": "agentskills/agentskills",
+    "folder": "/home/david/dev/agentskills/agentskills"
+  },
+  {
+    "name": "bitvavo/python-bitvavo-api",
+    "folder": "/home/david/dev/bitvavo/python-bitvavo-api"
+  },
+  {
+    "name": "statnett/linerate",
+    "folder": "/home/david/dev/statnett/linerate/main"
+  },
+  {
+    "name": "tbb/tbataafschebroederschap.nl",
+    "folder": "/home/david/dev/t-Bataafsche-Broederschap/tbataafschebroederschap.nl"
+  },
+  {
+    "name": "tbb/tbb",
+    "folder": "/home/david/dev/t-Bataafsche-Broederschap/tbb"
+  }
+]
