@@ -29,7 +29,6 @@ _: {
 
         environment.systemPackages = [
           stable.btop
-          stable.curl
           stable.git
         ];
 

@@ -108,7 +108,6 @@
         }
       '';
     in {
-      environment.systemPackages = [pkgs.openssl];
       networking = {
         hostName = "certs";
         useDHCP = false;

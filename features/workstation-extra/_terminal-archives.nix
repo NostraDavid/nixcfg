@@ -5,7 +5,5 @@
     stable.pigz # Parallel gzip implementation
     stable.poppler-utils # PDF utilities
     stable.unzip # Extract ZIP archives
-    stable.xz # XZ compression tools
-    stable.zstd # Zstandard compression tools
   ];
 }

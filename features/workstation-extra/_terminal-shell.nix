@@ -5,10 +5,7 @@
 }: {
   home.packages = [
     stable.bc # Calculator
-    stable.diffutils # Diff
     stable.file # File analysis
-    stable.findutils # Finding
-    stable.gnugrep # GNU grep
     stable.gnused # GNU sed
     stable.powerline # Terminal prompt support
     stable.readline # Improved command-line editing
