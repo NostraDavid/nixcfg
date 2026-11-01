@@ -25,6 +25,7 @@ let
     "actionlint"
     "flameshot"
     "fast-resume"
+    "forgejo-cli"
     "herdr"
     "just"
     "just-lsp"
@@ -256,6 +257,10 @@ in {
     packages = builtins.filter (p: (p.pname or "") == "plocate") home.home.packages;
   in
     builtins.length packages == 1 && !(builtins.any (p: (p.pname or "") == "mlocate") home.home.packages)) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg"]); true;
+  forgejoCliWorkExclusion = let
+    work = (flake.lib.mkLoki {username = "work";}).config.home-manager.users.work;
+  in
+    assert !(builtins.any (p: (p.pname or "") == "forgejo-cli") work.home.packages); true;
   userLocate = let
     homes =
       [mimir2 loki linuxWorkstation darwinWorkstation]
