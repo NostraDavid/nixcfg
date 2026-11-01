@@ -4,7 +4,7 @@
     {
       "id": "wE",
       "custom_name": "NostraDavid/BattleCraft",
-      "identity_cwd": "/home/david/dev/NostraDavid/BattleCraft/trunk",
+      "identity_cwd": "/home/david/dev/NostraDavid/BattleCraft/trunk (deleted)",
       "public_pane_numbers": {
         "14": 1
       },
@@ -21,7 +21,7 @@
           },
           "panes": {
             "14": {
-              "cwd": "/home/david/dev/NostraDavid/BattleCraft/trunk"
+              "cwd": "/home/david/dev/NostraDavid/BattleCraft/trunk (deleted)"
             }
           },
           "zoomed": false,
@@ -64,7 +64,7 @@
     {
       "id": "wG",
       "custom_name": "NostraDavid/Dee",
-      "identity_cwd": "/home/david/dev/NostraDavid/Dee/trunk",
+      "identity_cwd": "/home/david/dev/NostraDavid/Dee/trunk (deleted)",
       "public_pane_numbers": {
         "16": 1
       },
@@ -81,7 +81,7 @@
           },
           "panes": {
             "16": {
-              "cwd": "/home/david/dev/NostraDavid/Dee/trunk"
+              "cwd": "/home/david/dev/NostraDavid/Dee/trunk (deleted)"
             }
           },
           "zoomed": false,
@@ -184,7 +184,7 @@
     {
       "id": "wM",
       "custom_name": "NostraDavid/aardvark-weather-public",
-      "identity_cwd": "/home/david/dev/NostraDavid/aardvark-weather-public/main",
+      "identity_cwd": "/home/david/dev/NostraDavid/aardvark-weather-public/main (deleted)",
       "public_pane_numbers": {
         "20": 1
       },
@@ -201,7 +201,7 @@
           },
           "panes": {
             "20": {
-              "cwd": "/home/david/dev/NostraDavid/aardvark-weather-public/main"
+              "cwd": "/home/david/dev/NostraDavid/aardvark-weather-public/main (deleted)"
             }
           },
           "zoomed": false,
@@ -214,7 +214,7 @@
     {
       "id": "wN",
       "custom_name": "NostraDavid/algorithms",
-      "identity_cwd": "/home/david/dev/NostraDavid/algorithms/trunk",
+      "identity_cwd": "/home/david/dev/NostraDavid/algorithms/trunk (deleted)",
       "public_pane_numbers": {
         "21": 1
       },
@@ -231,7 +231,7 @@
           },
           "panes": {
             "21": {
-              "cwd": "/home/david/dev/NostraDavid/algorithms/trunk"
+              "cwd": "/home/david/dev/NostraDavid/algorithms/trunk (deleted)"
             }
           },
           "zoomed": false,
@@ -244,7 +244,7 @@
     {
       "id": "wP",
       "custom_name": "NostraDavid/av-app-android-wallet-ui",
-      "identity_cwd": "/home/david/dev/NostraDavid/av-app-android-wallet-ui/main",
+      "identity_cwd": "/home/david/dev/NostraDavid/av-app-android-wallet-ui/main (deleted)",
       "public_pane_numbers": {
         "22": 1
       },
@@ -261,7 +261,7 @@
           },
           "panes": {
             "22": {
-              "cwd": "/home/david/dev/NostraDavid/av-app-android-wallet-ui/main"
+              "cwd": "/home/david/dev/NostraDavid/av-app-android-wallet-ui/main (deleted)"
             }
           },
           "zoomed": false,
@@ -304,7 +304,7 @@
     {
       "id": "wR",
       "custom_name": "NostraDavid/banking_dashboard",
-      "identity_cwd": "/home/david/dev/NostraDavid/banking_dashboard/trunk",
+      "identity_cwd": "/home/david/dev/NostraDavid/banking_dashboard/trunk (deleted)",
       "public_pane_numbers": {
         "24": 1
       },
@@ -321,7 +321,7 @@
           },
           "panes": {
             "24": {
-              "cwd": "/home/david/dev/NostraDavid/banking_dashboard/trunk"
+              "cwd": "/home/david/dev/NostraDavid/banking_dashboard/trunk (deleted)"
             }
           },
           "zoomed": false,
@@ -334,7 +334,7 @@
     {
       "id": "wS",
       "custom_name": "NostraDavid/better-comments",
-      "identity_cwd": "/home/david/dev/NostraDavid/better-comments/trunk",
+      "identity_cwd": "/home/david/dev/NostraDavid/vscode-better-comments/better-comments/trunk (deleted)",
       "public_pane_numbers": {
         "25": 1
       },
@@ -351,7 +351,7 @@
           },
           "panes": {
             "25": {
-              "cwd": "/home/david/dev/NostraDavid/better-comments/trunk"
+              "cwd": "/home/david/dev/NostraDavid/vscode-better-comments/better-comments/trunk (deleted)"
             }
           },
           "zoomed": false,
@@ -664,7 +664,7 @@
     {
       "id": "w14",
       "custom_name": "NostraDavid/dotenv",
-      "identity_cwd": "/home/david/dev/NostraDavid/dotenv/trunk",
+      "identity_cwd": "/home/david/dev/NostraDavid/dotenv/trunk (deleted)",
       "public_pane_numbers": {
         "36": 1
       },
@@ -681,7 +681,7 @@
           },
           "panes": {
             "36": {
-              "cwd": "/home/david/dev/NostraDavid/dotenv/trunk"
+              "cwd": "/home/david/dev/NostraDavid/dotenv/trunk (deleted)"
             }
           },
           "zoomed": false,
@@ -724,7 +724,7 @@
     {
       "id": "w16",
       "custom_name": "NostraDavid/dotplan",
-      "identity_cwd": "/home/david/dev/NostraDavid/dotplan/trunk",
+      "identity_cwd": "/home/david/dev/NostraDavid/dotplan/trunk (deleted)",
       "public_pane_numbers": {
         "38": 1
       },
@@ -741,7 +741,7 @@
           },
           "panes": {
             "38": {
-              "cwd": "/home/david/dev/NostraDavid/dotplan/trunk"
+              "cwd": "/home/david/dev/NostraDavid/dotplan/trunk (deleted)"
             }
           },
           "zoomed": false,
@@ -1114,7 +1114,7 @@
     {
       "id": "w1K",
       "custom_name": "NostraDavid/branches",
-      "identity_cwd": "/home/david/dev/NostraDavid/joblib/branches/main",
+      "identity_cwd": "/home/david/dev/NostraDavid/joblib/branches/main (deleted)",
       "public_pane_numbers": {
         "51": 1
       },
@@ -1131,7 +1131,7 @@
           },
           "panes": {
             "51": {
-              "cwd": "/home/david/dev/NostraDavid/joblib/branches/main"
+              "cwd": "/home/david/dev/NostraDavid/joblib/branches/main (deleted)"
             }
           },
           "zoomed": false,
@@ -1386,10 +1386,11 @@
       "custom_name": "NostraDavid/nixcfg",
       "identity_cwd": "/home/david/dev/NostraDavid/nixcfg",
       "public_pane_numbers": {
+        "109": 4,
         "107": 2,
         "60": 1
       },
-      "next_public_pane_number": 3,
+      "next_public_pane_number": 5,
       "public_tab_numbers": [
         1
       ],
@@ -1400,9 +1401,18 @@
           "layout": {
             "Split": {
               "direction": "Vertical",
-              "ratio": 0.639396,
+              "ratio": 0.79091144,
               "first": {
-                "Pane": 60
+                "Split": {
+                  "direction": "Vertical",
+                  "ratio": 0.27435786,
+                  "first": {
+                    "Pane": 60
+                  },
+                  "second": {
+                    "Pane": 109
+                  }
+                }
               },
               "second": {
                 "Pane": 107
@@ -1410,11 +1420,17 @@
             }
           },
           "panes": {
-            "60": {
-              "cwd": "/home/david/dev/NostraDavid/nixcfg"
+            "109": {
+              "cwd": "/home/david/dev/NostraDavid/nixcfg",
+              "label": "OpenCode"
             },
             "107": {
-              "cwd": "/home/david/dev/NostraDavid/nixcfg"
+              "cwd": "/home/david/dev/NostraDavid/nixcfg",
+              "label": "Terminal"
+            },
+            "60": {
+              "cwd": "/home/david/dev/NostraDavid/nixcfg",
+              "label": "OpenCode"
             }
           },
           "zoomed": false,
@@ -1997,7 +2013,7 @@
     {
       "id": "w2G",
       "custom_name": "NostraDavid/todo-tree",
-      "identity_cwd": "/home/david/dev/NostraDavid/todo-tree/trunk",
+      "identity_cwd": "/home/david/dev/NostraDavid/todo-tree/trunk (deleted)",
       "public_pane_numbers": {
         "80": 1
       },
@@ -2014,7 +2030,7 @@
           },
           "panes": {
             "80": {
-              "cwd": "/home/david/dev/NostraDavid/todo-tree/trunk"
+              "cwd": "/home/david/dev/NostraDavid/todo-tree/trunk (deleted)"
             }
           },
           "zoomed": false,
