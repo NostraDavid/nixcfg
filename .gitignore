@@ -1,22 +1,7 @@
+# ignore all direct items, nonrecursively
 /*
 
-# files
-!.gitignore
-!.envrc
-!flake.lock
-!flake.nix
-!.pre-commit-config.yaml
-!stylua.toml
-!selene.toml
-!ruff.toml
-!vim.yml
-!README.md
-!AGENTS.md
-!huisplan.md
-!nixstory.md
-!.gitattributes
-
-# folders (ordered by when added)
+# unignore folders (ordered by when added)
 !.github/
 !docs/
 !dotfiles/
@@ -42,16 +27,23 @@
 !scripts/
 !checks/
 !codd/
-
-# Only public internal CA certificates and their verification metadata.
 !certs/
-certs/*
-!certs/freeipa.crt
-!certs/forgejo-ca.crt
-!certs/SHA256SUMS
-!certs/fingerprints.txt
-!certs/index.html
-!certs/VERSION
+
+# unignore files (ordered by when added)
+!.gitignore
+!.envrc
+!flake.lock
+!flake.nix
+!.pre-commit-config.yaml
+!stylua.toml
+!selene.toml
+!ruff.toml
+!vim.yml
+!README.md
+!AGENTS.md
+!huisplan.md
+!nixstory.md
+!.gitattributes
 
 # OpenTofu/Terraform local state and secrets
 infra/**/.terraform/
