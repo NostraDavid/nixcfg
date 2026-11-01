@@ -16,7 +16,8 @@
     paths = [(pkgs.lib.hiPrio pkgs.python3Ca) (pkgs.python3.withPackages (_: []))];
   };
   chains = pkgs.fetchurl {
-    url = "https://emudhra.we-have-a-problem.com/chains.zip";
+    # Pin the original 14-chain fixture; the incident site's archive changes over time.
+    url = "https://raw.githubusercontent.com/galadran/we-have-a-problem.com/24ec06bbc38cedd378ded691610eb6dd4d9d3c6a/chains.zip";
     hash = "sha256-e5SZVpVfxQGjD02Y0vUT00wLu+kuKaloGUyW4JfOI0U=";
   };
   oldCertifi = pkgs.fetchurl {
