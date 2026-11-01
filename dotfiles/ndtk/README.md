@@ -8,6 +8,10 @@ configuration.
   configuration example. Home Manager links both into `~/.config/ndtk/`.
 - `tests/` checks the commands without contacting remote services.
 
+`generate_gitignore generate --directory REPOSITORY --dry-run` previews a root
+allowlist-style `.gitignore`. Review the output before writing; its source and
+policy live in `dotfiles/agents/.agents/gitignore/`.
+
 `program | clip` copies standard input to the clipboard on macOS, Wayland, and
 X11, using `pbcopy`, `wl-copy`, or `xclip -selection clipboard` respectively.
 Linux requires a graphical session and its corresponding clipboard command.

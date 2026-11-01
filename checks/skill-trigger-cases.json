@@ -126,6 +126,22 @@
         "Adjust a Blender light with no user data."
       ]
     },
+    "gitignore": {
+      "original_description": "Use for any request to create, update, or review a .gitignore file. Apply repository-root allowlists; keep nested ignore files scoped to local generated content.",
+      "required_patterns": [
+        "create, update, or review a \\.gitignore file",
+        "repository-root allowlists",
+        "nested ignore files scoped to local generated content"
+      ],
+      "positive_prompts": [
+        "Add a .gitignore to this repository.",
+        "Update the root .gitignore to exclude a generated cache."
+      ],
+      "negative_prompts": [
+        "Explain gitignore wildcard syntax without changing a file.",
+        "Ignore one path for this git command only."
+      ]
+    },
     "needs": {
       "original_description": "Use when the user asks to plan customer or stakeholder research, analyze interview notes, uncover workflows and unmet needs, or elicit requirements before choosing a solution. Do not trigger merely to clarify the current user's prompt, write a formal specification, or validate enthusiasm for an already-decided idea.",
       "required_patterns": [

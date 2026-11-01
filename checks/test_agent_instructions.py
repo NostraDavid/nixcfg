@@ -8,13 +8,14 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from collections.abc import Iterator
 from pathlib import Path
 
 import tiktoken
 import yaml
 
 
-def shared_target(source, target):
+def shared_target(source: Path, target: str) -> Path:
     """Map installed shared paths to their canonical repository sources."""
     suffix = target.removeprefix("~/.agents/")
     if suffix.startswith("instructions/"):
@@ -27,7 +28,7 @@ def shared_target(source, target):
     return source / ".agents" / suffix
 
 
-def references(document, source):
+def references(document: Path, source: Path) -> Iterator[Path]:
     """Find concrete shared file pointers and relative Markdown links."""
     text = document.read_text()
     for target in re.findall(r"~/.agents/[\w./-]+\.(?:md|json|py|sh)\b", text):
@@ -39,7 +40,7 @@ def references(document, source):
 
 class AgentInstructions(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         cls.source = Path(os.environ["AGENT_SOURCE"])
         cls.catalog = json.loads((cls.source / "skills.json").read_text())
         cls.names = cls.catalog["local"] + cls.catalog["workflow"]
@@ -47,7 +48,7 @@ class AgentInstructions(unittest.TestCase):
         cls.descriptions = json.loads((cls.source / "descriptions.json").read_text())
         cls.encoding = tiktoken.encoding_for_model(cls.descriptions["model"])
 
-    def test_trigger_contract_clauses(self):
+    def test_trigger_contract_clauses(self) -> None:
         cases = json.loads(Path(os.environ["TRIGGER_CASES"]).read_text())
         for name, case in cases["skills"].items():
             with self.subTest(skill=name):
@@ -55,7 +56,7 @@ class AgentInstructions(unittest.TestCase):
                 for pattern in case["required_patterns"]:
                     self.assertRegex(text, pattern)
 
-    def test_description_token_budget(self):
+    def test_description_token_budget(self) -> None:
         for name, text in self.descriptions["descriptions"].items():
             with self.subTest(skill=name):
                 self.assertTrue(text.strip())
@@ -63,7 +64,7 @@ class AgentInstructions(unittest.TestCase):
                     len(self.encoding.encode(text)), self.descriptions["max_tokens"]
                 )
 
-    def test_description_rewrite_preserves_metadata_and_body(self):
+    def test_description_rewrite_preserves_metadata_and_body(self) -> None:
         rewrite = runpy.run_path(os.environ["DESCRIPTION_REWRITER"])["rewrite"]
         for value in ['"Original description"', ">\n  Original\n  description"]:
             with self.subTest(value=value):
@@ -82,7 +83,7 @@ class AgentInstructions(unittest.TestCase):
                 )
                 self.assertEqual(rewrite(text, {}), text)
 
-    def test_installed_descriptions_match_catalog(self):
+    def test_installed_descriptions_match_catalog(self) -> None:
         for name, alias in self.catalog["aliases"].items():
             with self.subTest(skill=name):
                 root = (
@@ -97,10 +98,10 @@ class AgentInstructions(unittest.TestCase):
                         self.descriptions["descriptions"][metadata["name"]],
                     )
 
-    def test_catalog_names_are_unique(self):
+    def test_catalog_names_are_unique(self) -> None:
         self.assertEqual(len(self.names), len(set(self.names)))
 
-    def test_aliases_are_short_unique_and_installed(self):
+    def test_aliases_are_short_unique_and_installed(self) -> None:
         aliases = self.catalog["aliases"]
         self.assertEqual(len(aliases), len(set(aliases.values())))
         for name, alias in aliases.items():
@@ -120,7 +121,7 @@ class AgentInstructions(unittest.TestCase):
                     )
                     self.assertEqual(metadata["name"], alias)
 
-    def test_managed_skill_frontmatter(self):
+    def test_managed_skill_frontmatter(self) -> None:
         for name in self.names:
             with self.subTest(skill=name):
                 path = self.source / ".agents" / name / "SKILL.md"
@@ -136,7 +137,7 @@ class AgentInstructions(unittest.TestCase):
                 self.assertIsInstance(description, str)
                 self.assertTrue(description.strip())
 
-    def test_home_manager_links(self):
+    def test_home_manager_links(self) -> None:
         for client in ["codex", "copilot", "config/opencode", "agents"]:
             for name in self.names:
                 with self.subTest(client=client, skill=name):
@@ -144,11 +145,13 @@ class AgentInstructions(unittest.TestCase):
                     link = Path(self.links[f".{client}/skills/{alias}"])
                     self.assertTrue(link.is_symlink(), f"Not a symlink: {link}")
                     self.assertTrue(
-                        os.readlink(link).endswith(f"/dotfiles/agents/.agents/{name}"),
-                        f"Wrong target: {link} -> {os.readlink(link)}",
+                        link.readlink()
+                        .as_posix()
+                        .endswith(f"/dotfiles/agents/.agents/{name}"),
+                        f"Wrong target: {link} -> {link.readlink()}",
                     )
 
-    def test_instruction_and_workflow_references(self):
+    def test_instruction_and_workflow_references(self) -> None:
         documents = list((self.source / "instructions").glob("*.md"))
         for name in self.catalog["workflow"]:
             documents.extend((self.source / ".agents" / name).rglob("*.md"))
@@ -157,8 +160,8 @@ class AgentInstructions(unittest.TestCase):
                 with self.subTest(document=document, target=target):
                     self.assertTrue(target.is_file(), f"Missing reference: {target}")
 
-    def test_new_repo_gitinclude_example(self) -> None:
-        source = self.source / ".agents/new-nostradavid-repo/references/tooling.md"
+    def test_gitignore_skill_allowlist_example(self) -> None:
+        source = self.source / ".agents/gitignore/SKILL.md"
         match = re.search(r"```gitignore\n(.*?)\n```", source.read_text(), re.DOTALL)
         self.assertIsNotNone(match)
         git = shutil.which("git")
@@ -200,18 +203,62 @@ class AgentInstructions(unittest.TestCase):
                 path = root / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.touch()
-            result = subprocess.run(  # noqa: S603
-                [git, "-C", str(root), "check-ignore", "--no-index", "--stdin"],
-                input="\n".join(allowed + ignored) + "\n",
-                env=env,
-                text=True,
-                capture_output=True,
-                check=False,
-            )
-            self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(set(result.stdout.splitlines()), set(ignored))
+            for name in allowed:
+                result = subprocess.run(  # noqa: S603
+                    [
+                        git,
+                        "-C",
+                        str(root),
+                        "check-ignore",
+                        "--no-index",
+                        "--quiet",
+                        "--",
+                        name,
+                    ],
+                    env=env,
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                )
+                self.assertEqual(result.returncode, 1, f"Unexpectedly ignored: {name}")
+            for name in ignored:
+                result = subprocess.run(  # noqa: S603
+                    [
+                        git,
+                        "-C",
+                        str(root),
+                        "check-ignore",
+                        "--no-index",
+                        "--quiet",
+                        "--",
+                        name,
+                    ],
+                    env=env,
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                )
+                self.assertEqual(result.returncode, 0, f"Not ignored: {name}")
 
-    def test_shared_instructions_and_work_override(self):
+    def test_gitignore_generator_compatibility_and_direct_link(self) -> None:
+        canonical = self.source / ".agents/gitignore/scripts/generate_gitignore.py"
+        legacy = self.source.parent / "ndtk/.local/bin/generate_gitignore.py"
+        installed = Path(self.links[".local/bin/generate_gitignore"])
+
+        if legacy.parent.is_dir():
+            self.assertTrue(legacy.is_symlink())
+            self.assertEqual(legacy.resolve(), canonical.resolve())
+            self.assertTrue(os.access(legacy, os.X_OK))
+        self.assertTrue(installed.is_symlink())
+        self.assertTrue(
+            installed.readlink()
+            .as_posix()
+            .endswith(
+                "/dotfiles/agents/.agents/gitignore/scripts/generate_gitignore.py"
+            )
+        )
+
+    def test_shared_instructions_and_work_override(self) -> None:
         work_links = json.loads(Path(os.environ["WORK_AGENT_LINKS"]).read_text())
         self.assertNotEqual(self.links["AGENTS.md"], work_links["AGENTS.md"])
         for links in [self.links, work_links]:
@@ -224,14 +271,16 @@ class AgentInstructions(unittest.TestCase):
                 with self.subTest(entrypoint=entrypoint, source=links["AGENTS.md"]):
                     self.assertEqual(links[entrypoint], links["AGENTS.md"])
             self.assertTrue(
-                os.readlink(links[".agents/instructions"]).endswith(
-                    "/dotfiles/agents/instructions"
-                )
+                Path(links[".agents/instructions"])
+                .readlink()
+                .as_posix()
+                .endswith("/dotfiles/agents/instructions")
             )
             self.assertTrue(
-                os.readlink(links[".agents/audio-notify"]).endswith(
-                    "/dotfiles/agents/.agents/audio-notify"
-                )
+                Path(links[".agents/audio-notify"])
+                .readlink()
+                .as_posix()
+                .endswith("/dotfiles/agents/.agents/audio-notify")
             )
         base = self.source / "instructions" / "AGENTS.md"
         work = Path(work_links["AGENTS.md"])

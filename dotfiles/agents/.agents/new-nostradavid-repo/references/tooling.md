@@ -214,44 +214,14 @@ project actually exposes distributable Nix packages.
 
 ## Gitinclude-style allowlist
 
-Every repository must use gitinclude style: ignore all root paths first, then
-re-include maintained files and directories explicitly. Re-ignore generated
-content and secrets inside allowed directories. Adapt this required pattern to
-the real source layout:
-
-```gitignore
-/*
-!/.gitignore
-!/AGENTS.md
-!/README.md
-!/Justfile
-!/flake.nix
-!/flake.lock
-!/.envrc
-!/.pre-commit-config.yaml
-!/dprint.json
-!/pyproject.toml
-!/uv.lock
-!/src/
-!/tests/
-!/docs/
-
-**/.venv/
-**/__pycache__/
-**/*.egg-info/
-**/node_modules/
-**/.direnv/
-**/.env
-**/.env.*
-**/var/
-```
-
-Re-include parent directories for nested maintained files. Add required project
-directories and manifests deliberately, including `scripts/`, `nix/`, a CI
-directory, editor configuration, `dev`, `dev.py`, and `dev.py.lock` only when
-they exist. Inspect files before allowing a directory that already has content.
-Keep generated credentials, logs, databases, caches, and large data out of Git.
-Use `git check-ignore --no-index -v` on representative source and secret paths.
+Every repository must use a gitinclude-style root allowlist. Follow the
+[gitignore skill](../../gitignore/SKILL.md) for its canonical pattern, the
+generator, and Git-based verification. Re-include parent directories for nested
+maintained files. Add required project directories and manifests deliberately,
+including `scripts/`, `nix/`, a CI directory, editor configuration, `dev`,
+`dev.py`, and `dev.py.lock` only when they exist. Inspect existing contents
+before allowing a directory; keep generated credentials, logs, databases,
+caches, and large data out of Git.
 
 ## Repository instructions and decisions
 

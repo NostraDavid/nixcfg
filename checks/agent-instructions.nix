@@ -15,6 +15,7 @@
     (client: map (name: ".${client}/skills/${alias name}") (builtins.attrNames catalog.aliases))
     ["codex" "copilot" "config/opencode"]
     ++ map (name: ".agents/skills/${alias name}") (builtins.attrNames catalog.aliases)
+    ++ [".local/bin/generate_gitignore"]
     ++ instructionPaths;
   instructionPaths = [
     "AGENTS.md"

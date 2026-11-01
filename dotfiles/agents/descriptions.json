@@ -45,6 +45,7 @@
     "foundations": "Apply before writing logic: choosing core types and data structures, sequencing scaffold-vs-feature work, asking what concurrent actors share. Get the data structures right so downstream code becomes obvious.",
     "gather-business-context": "Gather missing business context, metric definitions, changes, and source information before analysis. If the request also needs diagnosis or a deliverable, continue to that workflow after gathering context.",
     "gdpr": "Apply GDPR for API, data-model, authentication, logging, cloud, or privacy design; personal-data handling, accounts, cookies, analytics, encryption, retention, deletion, exports, breach response, real-data CI/CD, or explicit compliance questions.",
+    "gitignore": "Use for any request to create, update, or review a .gitignore file. Apply repository-root allowlists; keep nested ignore files scoped to local generated content.",
     "grill": "Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.",
     "grillme": "A relentless interview to sharpen a plan or design.",
     "handoff": "Compact the current conversation into a handoff document for another agent to pick up.",

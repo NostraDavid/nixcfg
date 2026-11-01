@@ -97,6 +97,7 @@ in {
           {source = mk "${dot}/ndtk/.local/bin/${name}";})
         (lib.filterAttrs (_: kind: kind == "regular") (builtins.readDir ../../dotfiles/ndtk/.local/bin))
         // {
+          ".local/bin/generate_gitignore".source = mk "${dot}/agents/.agents/gitignore/scripts/generate_gitignore.py";
           ".local/bin/repo_timestamps.py".source = mk "${dot}/ndtk/.local/bin/repo_timestamps.py";
         };
       forceAll = builtins.mapAttrs (_: file: file // {force = true;});
