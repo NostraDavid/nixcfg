@@ -13,15 +13,15 @@
   assets = {
     x86_64-linux = {
       target = "linux-x86_64";
-      hash = "sha256-2m97QPbEFsW03vjbz4t2Z30Cvk9LRdBqTWWHZoUOC0U=";
+      hash = "sha256-Ro/zFqJvxMLGOPEMWNLeNTyCXKxNhG+iVMYSlBQXRKM=";
     };
     aarch64-linux = {
       target = "linux-aarch64";
-      hash = "sha256-M235p/7CWbFKDfYwWLRfniLGFzBdEjrj+XE0hq8Ge14=";
+      hash = "sha256-Bx/25znj5YGQw3hEFoQUXXIlRr+MrXBdRPBL871SAig=";
     };
     aarch64-darwin = {
       target = "macos-aarch64";
-      hash = "sha256-fNeD1s2Y4FDXy0O8Q9f6zDh9MAtbXpPHN2WWtdhycjE=";
+      hash = "sha256-fE5zGMVLvL8XX/1tG09hi1kTc4MzCv+OtbwQ3D/u7Lk=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};
@@ -37,7 +37,7 @@
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "herdr-app";
-    version = "0.1.9";
+    version = "0.1.11";
     src = fetchurl {
       url = "https://releases.herdr.dev/app/${finalAttrs.version}/herdr-app-${asset.target}.tar.gz";
       inherit (asset) hash;

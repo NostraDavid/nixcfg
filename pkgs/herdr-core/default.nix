@@ -6,22 +6,22 @@
   assets = {
     x86_64-linux = {
       target = "linux-x86_64";
-      hash = "sha256-6dur3q0M4M495RtvVMyVSe/tu0Gy+ESLaTKrDRRCND4=";
+      hash = "sha256-WNaGEXbcb+kFtYiA1b/weplZvmE6mOXWa0WDsEts+kU=";
     };
     aarch64-linux = {
       target = "linux-aarch64";
-      hash = "sha256-Gc72ouUvFMIsS28/2vGkYtLa/HjosD+rv61bBjR3o3A=";
+      hash = "sha256-tlcxN9cLr/JPs0bJV6mHmva9xMZBGIzfnkensqZ3vJI=";
     };
     aarch64-darwin = {
       target = "macos-aarch64";
-      hash = "sha256-ylJDKdLgYwIZVQBV3McfQqr9hfujVuDVQ9b1EkRIeXA=";
+      hash = "sha256-aY2PDET05LFf7BdNUqOdV6AUz9ca3e1EtToHU7Rp0P0=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "herdr-core";
-    version = "0.1.14";
+    version = "0.1.16";
     src = fetchurl {
       url = "https://releases.herdr.dev/core/${finalAttrs.version}/herdr-core-${asset.target}.tar.gz";
       inherit (asset) hash;
