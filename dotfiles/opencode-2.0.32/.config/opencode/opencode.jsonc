@@ -25,7 +25,7 @@
     "opencode-worker": {
       "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by Codex.",
       "mode": "subagent",
-      "model": "openai/gpt-6-luna#xhigh",
+      "model": "openai/gpt-6.1-terra#medium",
       "permissions": [
         {
           "action": "subagent",

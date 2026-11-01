@@ -64,12 +64,11 @@ tool.
 
 The managed configuration is
 `dotfiles/opencode-2.0.32/.config/opencode/opencode.jsonc`. It uses OpenAI's
-GPT-6.1 Terra with the `medium` reasoning variant for the primary `codex` agent,
-and GPT-6 Luna with the `xhigh` variant for the `opencode-worker` subagent. The
-root `model` default is `openai/gpt-6.1-terra` without a variant: V2 keeps a
-variant only on agent, command, session, and run model references, so the
-variant belongs on the agent. Selecting the `codex` agent therefore resolves to
-`gpt-6.1-terra#medium`.
+GPT-6.1 Terra with the `medium` reasoning variant for both the primary `codex`
+agent and the `opencode-worker` subagent. The root `model` default is
+`openai/gpt-6.1-terra` without a variant: V2 keeps a variant only on agent,
+command, session, and run model references, so the variant belongs on the agent.
+Selecting the `codex` agent therefore resolves to `gpt-6.1-terra#medium`.
 
 Provider policies allow Tensorx and OpenAI. Authentication remains local; no
 credential is stored in the file. To connect OpenAI, use `/connect` in OpenCode

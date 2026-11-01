@@ -72,8 +72,8 @@ assert.deepEqual(config.policies.filter(rule => rule.action === "provider.use"),
     { action: "provider.use", resource: "openai", effect: "allow" },
 ]);
 assert.equal(config.providers.tensorx.package, "aisdk:@ai-sdk/openai-compatible");
-assert.equal(config.agents["opencode-worker"].model.model, "gpt-6-luna");
-assert.equal(config.agents["opencode-worker"].model.variant, "xhigh");
+assert.equal(config.agents["opencode-worker"].model.model, "gpt-6.1-terra");
+assert.equal(config.agents["opencode-worker"].model.variant, "medium");
 assert.deepEqual(Object.keys(config.providers.tensorx.models).sort(), [
     "deepseek/deepseek-v4.1-flash-1017", "qwen/qwen3.8-flash-next", "z-ai/glm-5.3-flash",
 ]);
