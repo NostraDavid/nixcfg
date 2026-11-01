@@ -31,8 +31,6 @@ _: {
           stable.btop
           stable.curl
           stable.git
-          stable.neovim
-          stable.vim
         ];
 
         networking = {

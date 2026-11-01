@@ -20,10 +20,13 @@
         lfs.enable = true;
       };
       environment.systemPackages = [
+        pkgs.age
         pkgs.iperf3
         pkgs.mc
+        pkgs.neovim
         pkgs.opencode-v2
         pkgs.tree
+        pkgs.vim
         unstable.superfile
         unstable.tuios
       ];

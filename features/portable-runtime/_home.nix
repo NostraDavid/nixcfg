@@ -14,6 +14,7 @@
   home.packages =
     [
       (stable.callPackage ../../pkgs/opencode-v2 {})
+      stable.age
       stable.bashInteractive
       stable.iperf3
       stable.mc
@@ -25,5 +26,6 @@
       unstable.tmux
       unstable.tree
       unstable.tuios
+      unstable.vim
     ];
 }

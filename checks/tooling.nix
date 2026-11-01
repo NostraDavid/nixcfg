@@ -91,6 +91,7 @@ in {
   pagerTools = assert lib.all (home:
     builtins.any (p: (p.pname or "") == "batman") home.home.packages) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   portableToolsNixos = assert lib.all (host: lib.all (name: builtins.elem (unstableFor "x86_64-linux").${name}.outPath (map (p: p.outPath) host.config.environment.systemPackages)) ["superfile" "tuios"]) (builtins.attrValues flake.nixosConfigurations); true;
+  editorsAndAge = assert lib.all (host: lib.all (name: builtins.elem host.pkgs.${name}.outPath (map (p: p.outPath) host.config.environment.systemPackages)) ["vim" "age" "neovim"]) (builtins.attrValues flake.nixosConfigurations); assert lib.all (home: lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["vim" "age" "neovim"]) [mimir2 loki linuxWorkstation darwinWorkstation]; true;
   desktopIdeLauncher = wodan.home.file.".local/bin/ide-desktop".source.text;
   commandPaths = let
     workLoki =

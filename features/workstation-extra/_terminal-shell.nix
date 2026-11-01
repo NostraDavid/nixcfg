@@ -22,7 +22,6 @@
     unstable.parallel # Parallel builds
     unstable.tealdeer # tldr in Rust
     unstable.tree # Display directory trees
-    unstable.vim # Classic editor
     unstable.zoxide # Directory jumper
   ];
 }

@@ -108,7 +108,7 @@
         }
       '';
     in {
-      environment.systemPackages = [pkgs.openssl pkgs.age];
+      environment.systemPackages = [pkgs.openssl];
       networking = {
         hostName = "certs";
         useDHCP = false;
