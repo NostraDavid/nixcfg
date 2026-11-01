@@ -48,4 +48,37 @@ if ! command -v timeout >/dev/null 2>&1; then
     exit 1
 fi
 
-exec timeout -k 1 30 say piper "biep boep. ${repository:+$repository. }$message"
+lock_file=$log_dir/playback.lock
+(
+    umask 077
+    : >>"$lock_file"
+)
+chmod 600 "$lock_file"
+
+case $(uname -s) in
+Darwin)
+    if command -v lockf >/dev/null 2>&1; then
+        lock_command=lockf
+    elif command -v flock >/dev/null 2>&1; then
+        lock_command=flock
+    fi
+    ;;
+*)
+    if command -v flock >/dev/null 2>&1; then
+        lock_command=flock
+    elif command -v lockf >/dev/null 2>&1; then
+        lock_command=lockf
+    fi
+    ;;
+esac
+
+if [[ -z ${lock_command:-} ]]; then
+    printf 'Audio notifications need flock or lockf on PATH.\n' >&2
+    exit 1
+fi
+
+# Keep the lock file in place so waiters always lock the same inode.
+if [[ $lock_command == lockf ]]; then
+    exec lockf -k "$lock_file" timeout -k 1 30 say piper "biep boep. ${repository:+$repository. }$message"
+fi
+exec flock "$lock_file" timeout -k 1 30 say piper "biep boep. ${repository:+$repository. }$message"
