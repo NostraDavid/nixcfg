@@ -242,7 +242,6 @@
     "**/.tox": true,
     "**/.venv": true,
     "**/__pycache__": true,
-    "**/build": true,
     "**/coverage.xml": true,
     "**/dist": true,
     "**/htmlcov": true,
