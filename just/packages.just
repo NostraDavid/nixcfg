@@ -27,14 +27,14 @@ pkg-update package:
 
 # Update every local flake package via its updater or nix-update fallback.
 [group('packages')]
-pkg-update-all:
+pkgs:
   @packages="$(./scripts/local-package-maint.sh packages)" || exit $?; \
   update_log="$(mktemp)" || exit $?; trap 'rm -f "$update_log"' EXIT; \
-  red="$(printf '\033[31m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=(); \
+  red="$(printf '\033[31m')"; green="$(printf '\033[32m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=(); \
   for package in $packages; do \
     printf '%s ... ' "$package"; \
     if just pkg-update "$package" >"$update_log" 2>&1; then \
-      printf 'ok\n'; \
+      printf '%sok%s\n' "$green" "$reset"; \
     else \
       printf '%sFAILED%s\n' "$red" "$reset"; \
       cat "$update_log" >&2; \

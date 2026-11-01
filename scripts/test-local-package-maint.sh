@@ -31,6 +31,9 @@ done
 [[ "$(update_mode "${repo_root}" creep2)" == embedded-nix-update ]]
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
+for package in herdr-app herdr-core; do
+    [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
+done
 rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
 for package in fixit dockerfile-roast jsongrep mdschema gigatoken paperclip pico-8-font ponytail-codex uv; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
@@ -149,14 +152,14 @@ EOF
 chmod +x "${test_root}/scripts/local-package-maint.sh" "${test_root}/bin/just"
 status=0
 output="$(PATH="${test_root}/bin:${PATH}" BULK_UPDATE_LOG="${test_root}/bulk.log" \
-    "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" pkg-update-all 2>&1)" || status=$?
+    "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" pkgs 2>&1)" || status=$?
 [[ "${status}" -eq 1 ]]
 [[ "$(cat "${test_root}/bulk.log")" == $'good\nbad\ngood2' ]]
 [[ "${output}" == *$'\033[1m\033[31mPackages with failed updates:\033[0m'* ]]
 [[ "${output}" == *$'\n  bad\n'* ]]
-[[ "${output}" == *'good ... ok'* ]]
+[[ "${output}" == *$'good ... \033[32mok\033[0m'* ]]
 [[ "${output}" == *$'bad ... \033[31mFAILED\033[0m'* ]]
-[[ "${output}" == *'good2 ... ok'* ]]
+[[ "${output}" == *$'good2 ... \033[32mok\033[0m'* ]]
 [[ "${output}" != *'verbose stdout for good'* ]]
 [[ "${output}" != *'verbose stderr for good'* ]]
 [[ "${output}" == *'verbose stdout for bad'* ]]
