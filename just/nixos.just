@@ -17,7 +17,8 @@ switch host=default_host:
   just forgejo-support-warning; \
   opts=(); \
   if [ "{{host}}" = "frigg" ]; then opts+=(--option max-jobs 2 --option cores 4); fi; \
-  sudo nixos-rebuild switch "${opts[@]}" --flake path:.#"{{host}}" 2>&1 | tee /tmp/just-switch.log
+  sudo nixos-rebuild switch "${opts[@]}" --flake path:.#"{{host}}" 2>&1 | tee /tmp/just-switch.log; \
+  if [ "{{host}}" = "wodan" ] && [ "$(hostname | cut -d . -f 1)" = "wodan" ]; then python3 scripts/snapshot-herdr-core.py; fi
 
 # Stage a host configuration for the next boot only.
 [group('nixos')]
