@@ -13,9 +13,7 @@ for package in opencode-v2 opencode-v2-desktop; do
 done
 mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
 mkdir -p "${TEST_REPO}/pkgs/"{pico-8-font,ponytail-skills,ponytail-codex}
-mkdir -p "${TEST_REPO}/pkgs/cmux-tui"
-cp "${repo_root}/pkgs/cmux-tui/default.nix" "${TEST_REPO}/pkgs/cmux-tui/"
-cp "${repo_root}/scripts/update-cmux-tui.sh" "${repo_root}/scripts/update-databricks-agent-skills.sh" "${TEST_REPO}/scripts/"
+cp "${repo_root}/scripts/update-databricks-agent-skills.sh" "${TEST_REPO}/scripts/"
 mkdir -p "${TEST_REPO}/pkgs/codex"
 cp "${repo_root}/scripts/update-prebuilt-github.sh" "${TEST_REPO}/scripts/"
 mkdir -p "${TEST_REPO}/pkgs/orca-ide"
@@ -72,16 +70,7 @@ fi
 EOF
 cat >"${test_root}/bin/curl" <<'EOF'
 #!/usr/bin/env bash
-if [[ "$*" == *files.cmux.com/cmux-tui/latest/manifest.json* ]]; then
-    printf '{"commit":"%s","builtAt":"2026-10-19T18:02:07-07:00","binaries":{' "${TEST_CMUX_REV:-0123456789012345678901234567890123456789}"
-    printf '"cmux-tui-x86_64-unknown-linux-musl":"%064d",' 0
-    printf '"cmux-tui-aarch64-unknown-linux-musl":"%064d",' 1
-    printf '"cmux-tui-x86_64-apple-darwin":"%064d"' 2
-    if [[ "${TEST_CMUX_MISSING_ASSET:-0}" == 0 ]]; then
-        printf ',"cmux-tui-aarch64-apple-darwin":"%s"' "${TEST_CMUX_HASH:-$(printf '%064d' 3)}"
-    fi
-    printf '}}\n'
-elif [[ "$*" == *acli.atlassian.com* ]]; then
+if [[ "$*" == *acli.atlassian.com* ]]; then
     cp "${TEST_ACLI_ARCHIVE}" "${@: -1}"
 elif [[ "$*" == *opencode.ai/update/api/latest/cli/npm* ]]; then
     printf '{"version":"%s","metadata":{"package":"@opencode/cli"}}\n' "${TEST_OPENCODE_RELEASE:-2.1.0}"
@@ -260,30 +249,6 @@ for failure in major target integrity desktop build; do
     done
 done
 unset TEST_OPENCODE_RELEASE TEST_OPENCODE_MISSING_TARGET TEST_OPENCODE_BAD_HASH TEST_OPENCODE_MISSING_DESKTOP TEST_BUILD_FAILURE
-
-"${TEST_REPO}/scripts/update-cmux-tui.sh" >/dev/null
-rg -q 'rev = "0123456789012345678901234567890123456789";' "${TEST_REPO}/pkgs/cmux-tui/default.nix"
-rg -q 'version = "0.1.0-unstable-2026-10-20";' "${TEST_REPO}/pkgs/cmux-tui/default.nix"
-[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/cmux-tui/default.nix")" -eq 4 ]]
-rg -q '^build .#cmux-tui --no-link$' "${TEST_REPO}/builds.log"
-for failure in commit asset hash build; do
-    cp "${repo_root}/pkgs/cmux-tui/default.nix" "${TEST_REPO}/pkgs/cmux-tui/default.nix"
-    printf '# existing user changes\n' >>"${TEST_REPO}/pkgs/cmux-tui/default.nix"
-    cp "${TEST_REPO}/pkgs/cmux-tui/default.nix" "${test_root}/cmux.before"
-    export TEST_CMUX_REV=0123456789012345678901234567890123456789 TEST_CMUX_MISSING_ASSET=0 TEST_CMUX_HASH='' TEST_BUILD_FAILURE=0
-    case "${failure}" in
-    commit) TEST_CMUX_REV=invalid ;;
-    asset) TEST_CMUX_MISSING_ASSET=1 ;;
-    hash) TEST_CMUX_HASH=invalid ;;
-    build) TEST_BUILD_FAILURE=1 ;;
-    esac
-    if "${TEST_REPO}/scripts/update-cmux-tui.sh" >/dev/null 2>&1; then
-        echo "Expected cmux ${failure} failure" >&2
-        exit 1
-    fi
-    cmp "${test_root}/cmux.before" "${TEST_REPO}/pkgs/cmux-tui/default.nix"
-done
-unset TEST_CMUX_REV TEST_CMUX_MISSING_ASSET TEST_CMUX_HASH TEST_BUILD_FAILURE
 
 TEST_OPENCODE_RELEASE=3.0.0 "${TEST_REPO}/scripts/update-opencode-v2-desktop.sh" 2.1.0 >/dev/null
 for package in opencode-v2 opencode-v2-desktop; do

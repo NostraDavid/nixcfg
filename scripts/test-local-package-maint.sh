@@ -32,10 +32,10 @@ done
 [[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
 rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
-for package in cmux-tui fixit dockerfile-roast jsongrep mdschema gigatoken paperclip pico-8-font ponytail-codex uv; do
+for package in fixit dockerfile-roast jsongrep mdschema gigatoken paperclip pico-8-font ponytail-codex uv; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
-for package in cmux-tui pico-8-font ponytail-codex; do
+for package in pico-8-font ponytail-codex; do
     list_packages | rg -x "${package}" >/dev/null
     if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
         printf '%s must be updatable: %s\n' "${package}" "${reason}" >&2

@@ -14,7 +14,6 @@
   home.packages =
     [
       (stable.callPackage ../../pkgs/opencode-v2 {})
-      (lib.hiPrio (stable.callPackage ../../pkgs/cmux-tui {}))
       stable.bashInteractive
       stable.iperf3
       stable.mc
@@ -26,8 +25,5 @@
       unstable.tmux
       unstable.tree
       unstable.tuios
-    ]
-    ++ lib.optionals stable.stdenv.hostPlatform.isDarwin [
-      unstable.cmux
     ];
 }

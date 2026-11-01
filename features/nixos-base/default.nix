@@ -20,7 +20,6 @@
         lfs.enable = true;
       };
       environment.systemPackages = [
-        pkgs.cmux-tui
         pkgs.iperf3
         pkgs.mc
         pkgs.opencode-v2

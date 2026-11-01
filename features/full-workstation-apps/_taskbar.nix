@@ -9,7 +9,7 @@
       "applications:firefox-esr.desktop"
       "applications:code.desktop"
       "applications:com.mitchellh.ghostty.desktop" # generic terminal
-      "applications:kitty.desktop" # cmux host
+      "applications:kitty.desktop"
       "applications:chatgpt.desktop"
       "applications:chromium-browser.desktop"
       "applications:io.missioncenter.MissionCenter.desktop"
