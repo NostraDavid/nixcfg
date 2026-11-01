@@ -297,6 +297,7 @@
   "inlineChat.notebookAgent": true,
   "json.maxItemsComputed": 500000,
   "json.schemaDownload.trustedDomains": {
+    "https://dprint.dev/": true,
     "https://models.dev/": true,
     "https://opencode.ai/": true
   },
