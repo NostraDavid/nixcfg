@@ -17,7 +17,7 @@
   skillNames;
 in
   (linkFarm "matt-pocock-skills" entries).overrideAttrs (_: {
-    version = "1.3.1";
+    version = "1.3.2";
     passthru = {inherit skillNames;};
     meta.license = lib.licenses.mit;
   })

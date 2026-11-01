@@ -49,7 +49,7 @@
       prev.pythonPackagesExtensions
       ++ [
         (_pyFinal: pyPrev: {
-          # Backport https://github.com/PrefectHQ/fastmcp/pull/4363 for AnyIO 4.14+.
+          # Add the missing import for nixpkgs' AnyIO cancellation backport.
           fastmcp =
             if pyPrev.fastmcp.version == "3.2.3"
             then

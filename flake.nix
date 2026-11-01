@@ -56,7 +56,7 @@
       flake = false;
     };
     matt-pocock-skills = {
-      url = "github:mattpocock/skills/v1.3.1";
+      url = "github:mattpocock/skills/v1.3.2";
       flake = false;
     };
     polars-skills = {
