@@ -32,9 +32,7 @@ Driver Extension. These approvals cannot be granted by the Nix configuration.
 See the
 [Karabiner installation guide](https://karabiner-elements.pqrs.org/docs/getting-started/installation/).
 
-AltTab remains installed, but its login agent is disabled for now. Quit an
-already running AltTab once from its menu. Alt+Tab opens Mission Control through
-Karabiner instead.
+Alt+Tab opens Mission Control through Karabiner.
 
 ## Managed profile and existing settings
 
@@ -106,6 +104,6 @@ The keyboard test evaluates Loki and a custom work user, checks Linux isolation,
 builds a small Linux Home Manager fixture, and runs the actual profile migration
 against temporary files. It covers preserved settings, backups, repeated
 activation, invalid input, fresh installation, dry runs, retained arrow rules,
-Mission Control mapping and disabled AltTab autostart, and VS Code terminal
+Mission Control mapping, absence of an AltTab login agent, and VS Code terminal
 bindings. It does not grant macOS permissions or exercise physical keyboard
 events; verify those on Loki.

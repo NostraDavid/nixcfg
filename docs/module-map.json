@@ -3804,10 +3804,6 @@
             "portable-home"
           ],
           [
-            "host-loki",
-            "rectangle"
-          ],
-          [
             "development-core",
             "code-navigation"
           ],
@@ -3982,10 +3978,6 @@
           {
             "file": "features/portable-runtime/default.nix",
             "id": "portable-runtime"
-          },
-          {
-            "file": "features/window-management/default.nix",
-            "id": "rectangle"
           },
           {
             "file": "features/terminal/default.nix",
@@ -16328,11 +16320,6 @@
           "name": "raycast",
           "origin": "home:david",
           "version": "2.7.3.0"
-        },
-        {
-          "name": "rectangle",
-          "origin": "homebrew:casks",
-          "version": ""
         },
         {
           "name": "riffdiff",
