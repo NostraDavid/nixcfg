@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   local,
   repoRoot,
   stable,
@@ -34,7 +35,9 @@
           '')
           package.skillNames))
       importedSkills)}
-      cp -RL ${local.ctx}/share/skills/ctx "$out/ctx"
+      ${lib.optionalString stable.stdenv.hostPlatform.isLinux ''
+        cp -RL ${local.ctx}/share/skills/ctx "$out/ctx"
+      ''}
       chmod -R u+w "$out"
       python - "$out" ${../../dotfiles/agents/skills.json} <<'PY'
       import json
@@ -75,7 +78,7 @@
     importedSkills;
   skillEntries =
     importedEntries
-    ++ [
+    ++ lib.optionals stable.stdenv.hostPlatform.isLinux [
       {
         name = "ctx";
         source = "${namedSkills}/ctx";
@@ -110,6 +113,8 @@ in {
     // opencodeSkills
     // {
       ".local/bin/generate_gitignore".source = mk "${dot}/agents/.agents/gitignore/scripts/generate_gitignore.py";
+    }
+    // lib.optionalAttrs stable.stdenv.hostPlatform.isLinux {
       ".pi/agent/skills/ctx".source = "${namedSkills}/ctx";
     }
   );

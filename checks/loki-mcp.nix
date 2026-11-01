@@ -119,7 +119,7 @@ in {
       && !(profile.home.file ? ".codex/skills/hr")
       && !(builtins.any (p: (p.pname or "") == "headroom-ai") profile.home.packages))
     allProfiles; true;
-    native = assert !(home.systemd.user.services ? ctx-history); assert !(builtins.any (p: builtins.elem (p.pname or "") ["ctx" "engram" "chatgpt" "blender-mcp"]) home.home.packages); true;
+    native = assert !(home.systemd.user.services ? ctx-history); assert builtins.any (p: (p.pname or "") == "ctx" && p.meta.platforms == ["aarch64-darwin" "x86_64-darwin" "x86_64-linux"]) home.home.packages; assert !(builtins.any (p: builtins.elem (p.pname or "") ["engram" "chatgpt" "blender-mcp"]) home.home.packages); true;
     database = assert lib.hasInfix "sqlite://${home.xdg.dataHome}/dbhub/local.sqlite" home.xdg.configFile."dbhub/local.toml".text; assert work.nixcfg.mcp.servers.dbhub.args == ["--transport" "stdio" "--config" "/Users/work/.config/dbhub/local.toml"]; true;
     browsers = assert home.nixcfg.mcp.servers.playwright.args == ["--headless" "--isolated" "--browser" "chrome"]; assert builtins.elem "--no-usage-statistics" home.nixcfg.mcp.servers.chrome-devtools.args; true;
     stableCommands = assert lib.all (profile:
