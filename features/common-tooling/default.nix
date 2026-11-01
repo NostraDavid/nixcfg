@@ -32,7 +32,6 @@ _: {
             unstable.flameshot # Capture and annotate screenshots
             unstable.fast-resume # Find and resume coding agent sessions
             unstable.herdr # Manage coding agents in a terminal
-            local.herdr-gpui # Graphical client for the Herdr daemon
             local.herdr-app # Official Herdr desktop client
             local.herdr-core # Backend for the official Herdr client
             unstable.hurl # Run and test HTTP requests

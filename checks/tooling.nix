@@ -87,9 +87,14 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
-  herdrGui = assert lib.all (home:
-    lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["herdr-gpui" "herdr-app" "herdr-core"])
-  ([mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
+  herdrAppCorePackages = let
+    homes = [mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"];
+  in
+    assert lib.all (home:
+      !(builtins.any (p: (p.pname or "") == "herdr-gpui") home.home.packages)
+      && lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["herdr-app" "herdr-core"]
+      && !(home.home.file ? ".config/herdr/config-gpui.local.toml"))
+    homes; true;
   herdrCorePath = let
     homes = [mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"];
     settings = builtins.fromJSON (builtins.readFile ../dotfiles/herdr-app-0.1.9/.config/herdr-app/settings.json);

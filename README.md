@@ -4,6 +4,7 @@ changelog:
   2025-07-23: "stabilized on nix flakes"
   2026-03-08: "add repo direnv basics"
   2026-07-10: "move host composition to flake-parts modules"
+  2026-11-01: "remove Herdr GPUI integration and configuration; retain the official app and core"
 ---
 
 # NostraDavid's nixconfig & dotfiles
@@ -49,7 +50,8 @@ just bootstrap-macos
 
 The installer uses build-user IDs starting at 600 and build-group ID 600. It
 prompts for administrator access and skips installation when Nix is present.
-Open a new terminal afterward and follow the nix-darwin instructions linked above.
+Open a new terminal afterward and follow the nix-darwin instructions linked
+above.
 
 ### Bootstrap a new machine
 
