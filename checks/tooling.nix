@@ -87,6 +87,15 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  ompAllHomes = let
+    workLoki =
+      (flake.lib.mkLoki {
+        username = "work-user";
+        homeDirectory = "/Users/work home";
+      }).config.home-manager.users."work-user";
+    homes = [mimir2 loki linuxWorkstation darwinWorkstation workLoki] ++ map (host: host.config) (builtins.attrValues flake.homeConfigurations) ++ lib.concatMap (host: builtins.attrValues (host.config.home-manager.users or {})) (builtins.attrValues flake.nixosConfigurations ++ builtins.attrValues flake.darwinConfigurations);
+  in
+    assert lib.all (home: builtins.any (p: (p.pname or "") == "omp" && p.outPath == (unstableFor p.system).omp.outPath) home.home.packages) homes; true;
   herdrAppCorePackages = let
     homes = [mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"];
   in

@@ -34,6 +34,7 @@ _: {
             unstable.herdr # Manage coding agents in a terminal
             local.herdr-app # Official Herdr desktop client
             local.herdr-core # Backend for the official Herdr client
+            unstable.omp # Oh My Pi coding agent, separate from pi
             unstable.hurl # Run and test HTTP requests
             unstable.just # Run project commands from a justfile
             unstable.just-lsp # Language server for justfiles
