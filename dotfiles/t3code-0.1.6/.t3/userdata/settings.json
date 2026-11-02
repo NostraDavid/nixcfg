@@ -1,4 +1,22 @@
 {
+  "favorites": [
+    {
+      "provider": "codex",
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "provider": "codex",
+      "model": "gpt-6.1-terra"
+    },
+    {
+      "provider": "opencode",
+      "model": "openai/gpt-6.1-terra"
+    },
+    {
+      "provider": "opencode",
+      "model": "openai/gpt-6.1-sol"
+    }
+  ],
   "defaultModelSelection": {
     "instanceId": "codex",
     "model": "gpt-6-luna",
@@ -14,6 +32,7 @@
     ]
   },
   "projectSettingsFolded": true,
+  "idleCompaction": "onReturn",
   "providerInstances": {
     "opencode": {
       "driver": "opencode",
