@@ -186,7 +186,8 @@ def atomic_write(path: Path, content: str) -> None:
         temporary.unlink(missing_ok=True)
 
 
-def main(argv: list[str] | None = None) -> int:
+# Keep the existing control flow and its error handling intact.
+def main(argv: list[str] | None = None) -> int:  # noqa: C901, PLR0911, PLR0912, PLR0915
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
     check = commands.add_parser("check", help="Check access to workspace settings.")
@@ -222,11 +223,10 @@ def main(argv: list[str] | None = None) -> int:
             args.preserve_existing
             and args.color.casefold() == "auto"
             and "peacock.color" in settings
-        ):
-            if not isinstance(base, str) or not re.fullmatch(r"#[0-9a-fA-F]{6}", base):
-                raise ValueError(
-                    "invalid existing peacock.color; expected a six-digit hex color"
-                )
+        ) and (not isinstance(base, str) or not re.fullmatch(r"#[0-9a-fA-F]{6}", base)):
+            raise ValueError(
+                "invalid existing peacock.color; expected a six-digit hex color"
+            )
         color = (
             base.lower()
             if base is not None

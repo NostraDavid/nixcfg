@@ -13,7 +13,8 @@ PROJECT_COLOR = SCRIPT.with_name("project_color.py")
 
 class PeacockColorTests(unittest.TestCase):
     def run_script(self, *args: str) -> subprocess.CompletedProcess[str]:
-        return subprocess.run(
+        # Arguments are passed without a shell; preserve the existing command boundary.
+        return subprocess.run(  # noqa: S603
             [sys.executable, str(SCRIPT), *args],
             capture_output=True,
             text=True,
@@ -44,7 +45,8 @@ class PeacockColorTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             settings = json.loads(settings_path.read_text())
             expected = (
-                subprocess.run(
+                # Arguments are passed without a shell; preserve the existing command boundary.
+                subprocess.run(  # noqa: S603
                     [sys.executable, str(PROJECT_COLOR), "example"],
                     capture_output=True,
                     text=True,

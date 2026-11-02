@@ -18,12 +18,12 @@ POETRY_VERSION = "2.1.2"
 
 
 def run(args: list[str]) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
+    # Arguments are passed without a shell; preserve the existing command boundary.
+    return subprocess.run(  # noqa: S603
         args,
         check=False,
         text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
     )
 
 

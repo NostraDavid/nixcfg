@@ -36,10 +36,10 @@ SCRIPTS = (
 )
 
 
-def check_bare_layout() -> None:
+def check_bare_layout() -> None:  # noqa: PLR0915 - keep the existing safety and error-handling flow intact
     sys.path.insert(0, str(BIN))
-    from _repo_checkouts import prepare_bare_layout
-    from repo_timestamps import refresh_repository_tree
+    from _repo_checkouts import prepare_bare_layout  # noqa: PLC0415 - this import is needed only by the test command
+    from repo_timestamps import refresh_repository_tree  # noqa: PLC0415 - this import is needed only by the test command
 
     env = {
         key: value for key, value in os.environ.items() if not key.startswith("GIT_")
@@ -54,8 +54,8 @@ def check_bare_layout() -> None:
         repo.mkdir()
 
         def git(path: Path, *args: str) -> str:
-            return subprocess.check_output(
-                [
+            return subprocess.check_output(  # noqa: S603 - arguments are passed directly without a shell
+                [  # noqa: S607 - the CLI intentionally resolves the executable via PATH
                     "git",
                     "-C",
                     str(path),
@@ -150,7 +150,7 @@ def check_bare_layout() -> None:
         assert refresh_repository_tree(recovered).worktrees_scanned == 1
 
 
-def check_provider_checkout_updates() -> None:
+def check_provider_checkout_updates() -> None:  # noqa: C901, PLR0915 - keep the existing safety and error-handling flow intact
     sys.path.insert(0, str(BIN))
     local = runpy.run_path(str(BIN / "_repos_local.py"))
     sync_local = local["_sync_branch_worktrees"]
@@ -179,8 +179,8 @@ def check_provider_checkout_updates() -> None:
                 }
 
                 def git(path: Path, *args: str) -> str:
-                    return subprocess.check_output(
-                        [
+                    return subprocess.check_output(  # noqa: S603 - arguments are passed directly without a shell
+                        [  # noqa: S607 - the CLI intentionally resolves the executable via PATH
                             "git",
                             "-C",
                             str(path),
@@ -194,7 +194,7 @@ def check_provider_checkout_updates() -> None:
                             "user.email=check@example.invalid",
                             *args,
                         ],
-                        env=env,
+                        env=env,  # noqa: B023 - helpers are called within the current loop iteration
                         stderr=subprocess.STDOUT,
                         text=True,
                     ).strip()
@@ -204,20 +204,20 @@ def check_provider_checkout_updates() -> None:
                     git(path, "commit", "-qm", message)
 
                 def update() -> tuple:
-                    return sync(
-                        str(source),
-                        repo if provider == "azure" else project,
+                    return sync(  # noqa: B023 - helpers are called within the current loop iteration
+                        str(source),  # noqa: B023 - helpers are called within the current loop iteration
+                        repo if provider == "azure" else project,  # noqa: B023 - helpers are called within the current loop iteration
                         [
-                            primary,
+                            primary,  # noqa: B023 - helpers are called within the current loop iteration
                             "z-other",
-                            *(["main"] if primary == "master" else []),
+                            *(["main"] if primary == "master" else []),  # noqa: B023 - helpers are called within the current loop iteration
                         ],
                         [],
                         False,
                         True,
                         False,
                         fetch_timeout=300,
-                        **({"filter_refs": False} if provider == "azure" else {}),
+                        **({"filter_refs": False} if provider == "azure" else {}),  # noqa: B023 - helpers are called within the current loop iteration
                     )
 
                 with patch.dict(os.environ, env, clear=True):
@@ -339,8 +339,8 @@ def check_tag_checkouts() -> None:
             target.mkdir()
 
             def git(path: Path, *args: str) -> str:
-                return subprocess.check_output(
-                    [
+                return subprocess.check_output(  # noqa: S603 - arguments are passed directly without a shell
+                    [  # noqa: S607 - the CLI intentionally resolves the executable via PATH
                         "git",
                         "-C",
                         str(path),
@@ -363,16 +363,16 @@ def check_tag_checkouts() -> None:
             repo = target / "source"
 
             def update(*, prune: bool = False) -> tuple:
-                return sync(
-                    str(source),
-                    repo if provider == "azure" else target,
+                return sync(  # noqa: B023 - helpers are called within the current loop iteration
+                    str(source),  # noqa: B023 - helpers are called within the current loop iteration
+                    repo if provider == "azure" else target,  # noqa: B023 - helpers are called within the current loop iteration
                     ["master"],
                     [],
                     True,
                     True,
                     prune,
                     fetch_timeout=300,
-                    **({"filter_refs": False} if provider == "azure" else {}),
+                    **({"filter_refs": False} if provider == "azure" else {}),  # noqa: B023 - helpers are called within the current loop iteration
                 )
 
             with patch.dict(os.environ, env, clear=True):
@@ -380,7 +380,7 @@ def check_tag_checkouts() -> None:
                 assert result[-2], result
                 assert git(repo / ".git", "tag", "--list") == "v1.0.0"
                 assert not (repo / "v1.0.0").exists()
-                from click.testing import CliRunner
+                from click.testing import CliRunner  # noqa: PLC0415 - this import is needed only by the test command
 
                 local = runpy.run_path(str(BIN / "_repos_local.py"))
                 result = CliRunner().invoke(
@@ -395,7 +395,7 @@ def check_tag_checkouts() -> None:
                 assert (repo / "v1.0.0" / ".git").exists()
 
 
-def check() -> None:
+def check() -> None:  # noqa: C901, PLR0915 - keep the existing safety and error-handling flow intact
     check_bare_layout()
     check_tag_checkouts()
     check_provider_checkout_updates()
@@ -408,7 +408,8 @@ def check() -> None:
             if not key.startswith("GIT_")
         }
         env["UV_CACHE_DIR"] = subprocess.check_output(
-            ["uv", "cache", "dir"], text=True
+            ["uv", "cache", "dir"],  # noqa: S607 - resolve uv via PATH as the CLI does
+            text=True,
         ).strip()
         for key in ("AZDO_PAT", "AZDO_ORG_URL", "PYTHON_DOTENV_DISABLED"):
             env.pop(key, None)
@@ -432,7 +433,7 @@ def check() -> None:
         (helpers / "_repo_checkouts.py").symlink_to(BIN / "_repo_checkouts.py")
 
         def run(name: str, *args: str) -> subprocess.CompletedProcess[str]:
-            return subprocess.run(
+            return subprocess.run(  # noqa: S603 - arguments are passed directly without a shell
                 [str(commands / name), *args],
                 cwd=root,
                 env=env,

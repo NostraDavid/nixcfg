@@ -98,7 +98,8 @@ def basic_stats(sizes: list[int]) -> dict[str, float | int]:
             quantiles(sizes, n=4, method="inclusive")[0],
             quantiles(sizes, n=4, method="inclusive")[2],
         )
-    except Exception:
+    # Preserve the fallback for any quantile calculation failure.
+    except Exception:  # noqa: BLE001
         q25, q75 = med, med
 
     # central moments
@@ -129,7 +130,7 @@ def basic_stats(sizes: list[int]) -> dict[str, float | int]:
 def ascii_bar(count: int, max_count: int, width: int = 40) -> str:
     if max_count <= 0:
         return ""
-    filled = int(round((count / max_count) * width))
+    filled = round((count / max_count) * width)
     return "#" * filled
 
 
@@ -156,7 +157,8 @@ def render_report(
 
 
 @app.command()
-def main(
+# Preserve the existing CLI and callable signature.
+def main(  # noqa: PLR0913, PLR0917
     path: Path = typer.Argument(Path()),
     include_hidden: bool = typer.Option(False, "--hidden/--no-hidden"),
     follow_symlinks: bool = typer.Option(
@@ -164,8 +166,10 @@ def main(
     ),
     min_size: int | None = typer.Option(None, "--min-size", help="bytes"),
     max_size: int | None = typer.Option(None, "--max-size", help="bytes"),
-    bins: int = typer.Option(12, "--bins", min=1, max=200),
-    log_bins: int = typer.Option(12, "--log-bins", min=1, max=200),
+    # Keep this accepted CLI option for compatibility.
+    bins: int = typer.Option(12, "--bins", min=1, max=200),  # noqa: ARG001
+    # Keep this accepted CLI option for compatibility.
+    log_bins: int = typer.Option(12, "--log-bins", min=1, max=200),  # noqa: ARG001
 ) -> None:
     try:
         settings = Settings(

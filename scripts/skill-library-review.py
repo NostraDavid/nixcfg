@@ -117,7 +117,8 @@ def configure_logging() -> None:
 
 def run_command(arguments: list[str], timeout: int) -> sp.CompletedProcess[str]:
     """Run a read-only metadata command without invoking a shell."""
-    return sp.run(
+    # Metadata commands are assembled by this script and never use a shell.
+    return sp.run(  # noqa: S603
         arguments,
         check=False,
         capture_output=True,
@@ -603,7 +604,8 @@ def test_cli_help_and_entrypoint() -> None:
     assert "inventory" in result.stdout
     assert "audit" in result.stdout
     assert "unit-test" in result.stdout
-    process = sp.run(
+    # Exercise this script with the current Python interpreter, without a shell.
+    process = sp.run(  # noqa: S603
         [sys.executable, __file__, "--help"],
         check=False,
         capture_output=True,

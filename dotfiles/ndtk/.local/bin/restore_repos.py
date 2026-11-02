@@ -137,7 +137,8 @@ def check_command(repos_file: Path) -> None:
     help="Read the inventory and validate remotes without cloning, fetching, or writing.",
 )
 @click.pass_context
-def restore_command(
+# Preserve the existing CLI and callable signature.
+def restore_command(  # noqa: PLR0913, PLR0917
     ctx: click.Context,
     target_dir: Path,
     repos_file: Path,
@@ -169,7 +170,8 @@ def restore_command(
     )
 
 
-def run_restore(
+# Preserve the existing CLI and callable signature.
+def run_restore(  # noqa: PLR0913, PLR0917
     target_dir: Path,
     repos_file: Path,
     jobs: int | None,

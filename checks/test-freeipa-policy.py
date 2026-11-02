@@ -5,6 +5,7 @@ import importlib.util
 import tempfile
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any
 from unittest.mock import patch
 
 script = Path(__file__).resolve().parents[1] / "scripts/freeipa-policy.py"
@@ -42,7 +43,7 @@ assert len(hbac) == len(sudo_rules) == 2
 assert not enforce_hbac
 
 
-def existing_group(name, _env):
+def existing_group(name: str, _env: dict[str, str]) -> dict[str, Any]:
     members = (
         {"nostradavid", "poweremperor", "mediacenter"}
         if name == "grp-forgejo-user"
@@ -82,7 +83,7 @@ assert hbac_state == {
 }
 
 
-def fake_hbactest(args, **_kwargs):
+def fake_hbactest(args: list[str], **_kwargs: object) -> SimpleNamespace:
     denied = "--user=engi" in args
     return SimpleNamespace(
         returncode=1 if denied else 0,

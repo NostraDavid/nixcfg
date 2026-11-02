@@ -28,8 +28,8 @@ import structlog.stdlib as log
 
 # Load the shared module installed by Home Manager.
 sys.path.insert(0, str(Path.home() / ".local" / "bin"))
-from _repo_checkouts import is_managed_repo, prepare_bare_layout, update_checkout  # noqa: E402
-from repo_timestamps import (  # noqa: E402
+from _repo_checkouts import is_managed_repo, prepare_bare_layout, update_checkout
+from repo_timestamps import (
     ensure_dprint_config_link,
     parse_worktree_paths,
     refresh_repository_tree,
@@ -334,8 +334,8 @@ def get_remote_default_branch(repo_url: str) -> str | None:
     if proc.returncode != 0:
         return None
 
-    for line in proc.stdout.splitlines():
-        line = line.strip()
+    for raw_line in proc.stdout.splitlines():
+        line = raw_line.strip()
         if not line.startswith("ref: ") or not line.endswith("\tHEAD"):
             continue
         ref = line.removeprefix("ref: ").split("\t", 1)[0]
@@ -681,7 +681,7 @@ def urls_equivalent(a: str, b: str) -> bool:
     return repo_path_part(a) == repo_path_part(b)
 
 
-def clone_or_update_repo(
+def clone_or_update_repo(  # noqa: C901, PLR0911, PLR0912, PLR0913, PLR0915, PLR0917 - keep the existing safety and error-handling flow intact; retain the existing caller interface
     repo_url: str,
     target_dir: Path,
     requested_branches: list[str] | None,
@@ -997,9 +997,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return args
 
 
-def run_tests(verbose: bool) -> int:
-    import unittest
-    from unittest import mock
+def run_tests(verbose: bool) -> int:  # noqa: C901 - keep the existing safety and error-handling flow intact
+    import unittest  # noqa: PLC0415 - this import is needed only by the test command
+    from unittest import mock  # noqa: PLC0415 - this import is needed only by the test command
 
     class GetGithubReposTests(unittest.TestCase):
         def test_gh_api_paginated_uses_get_paginate_and_slurp(self) -> None:
@@ -1155,7 +1155,7 @@ def run_tests(verbose: bool) -> int:
     return 0 if result.wasSuccessful() else 1
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:  # noqa: C901, PLR0911 - keep the existing safety and error-handling flow intact
     argv = sys.argv[1:] if argv is None else argv
     args = parse_args(argv)
     if args.command == "check":
@@ -1227,7 +1227,7 @@ def main(argv: list[str] | None = None) -> int:
         for future in concurrent.futures.as_completed(futures):
             try:
                 repo_url, ok, reason = future.result()
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 logger.exception("repo_worker_failed", error=str(exc))
                 return 1
             if not ok:

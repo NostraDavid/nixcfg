@@ -31,7 +31,8 @@ def main() -> None:
             PORT=str(port),
             DO_NOT_TRACK="1",
         )
-        process = subprocess.Popen(
+        # The executable is supplied by the package check, without a shell.
+        process = subprocess.Popen(  # noqa: S603
             [sys.argv[1], "onboard", "--yes", "--no-install-service"],
             env=env,
             stdin=subprocess.DEVNULL,
@@ -61,7 +62,7 @@ def main() -> None:
                 assert r.status == 200 and b"<html" in r.read().lower()
             print("PASS: Paperclip starts with PostgreSQL and serves its API and UI")
         finally:
-            try:
+            try:  # noqa: SIM105 - preserve the explicit cleanup sequence
                 os.killpg(process.pid, signal.SIGTERM)
             except ProcessLookupError:
                 pass

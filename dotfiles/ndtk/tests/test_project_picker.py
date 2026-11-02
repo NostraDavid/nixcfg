@@ -59,8 +59,17 @@ class WorktreeListingTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             root = Path(directory)
             bare = root / ".git"
-            subprocess.run(
-                ["git", "init", "--bare", str(bare)], check=True, capture_output=True
+            # Arguments are passed without a shell; preserve the existing command boundary.
+            subprocess.run(  # noqa: S603
+                # Tests deliberately resolve git through PATH.
+                [  # noqa: S607
+                    "git",
+                    "init",
+                    "--bare",
+                    str(bare),
+                ],
+                check=True,
+                capture_output=True,
             )
             (root / "worktree.git").symlink_to(".git")
             choices = project_picker.list_registered_worktrees(root / "worktree.git")
@@ -87,8 +96,10 @@ class WorktreeListingTests(unittest.TestCase):
             bare_dir = repo_root / "worktree.git"
 
             def git(*args: str, input_text: str | None = None) -> str:
-                return subprocess.run(
-                    [
+                # Arguments are passed without a shell; preserve the existing command boundary.
+                return subprocess.run(  # noqa: S603
+                    # Tests deliberately resolve git through PATH.
+                    [  # noqa: S607
                         "git",
                         "-c",
                         "user.name=Test",

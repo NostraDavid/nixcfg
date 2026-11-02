@@ -163,7 +163,7 @@ def cli() -> None:
 @click.option(
     "--directory",
     type=click.Path(path_type=Path, file_okay=False),
-    default=Path("."),
+    default=Path(),
     show_default=True,
     help="Directory whose direct entries are inventoried.",
 )
@@ -214,7 +214,7 @@ def generate_command(
 @click.option(
     "--directory",
     type=click.Path(path_type=Path, file_okay=False),
-    default=Path("."),
+    default=Path(),
     show_default=True,
     help="Directory to verify.",
 )
@@ -438,7 +438,8 @@ def test_cli_help_lists_all_commands() -> None:
 
 
 def test_generate_subprocess_separates_output_and_logs(tmp_path: Path) -> None:
-    result = sp.run(
+    # Arguments are passed without a shell; preserve the existing command boundary.
+    result = sp.run(  # noqa: S603
         [
             sys.executable,
             __file__,

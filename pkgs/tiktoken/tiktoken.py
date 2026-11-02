@@ -11,7 +11,7 @@ import tiktoken
 from tiktoken.model import MODEL_PREFIX_TO_ENCODING, MODEL_TO_ENCODING
 
 
-def add_tokenizer_options(parser):
+def add_tokenizer_options(parser: argparse.ArgumentParser) -> None:
     tokenizer = parser.add_mutually_exclusive_group()
     tokenizer.add_argument(
         "--model", "-m", default="gpt-5", help="select an OpenAI model"
@@ -19,7 +19,7 @@ def add_tokenizer_options(parser):
     tokenizer.add_argument("--encoding", help="select an encoding directly")
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="tiktoken",
         description="Count, encode, and decode text with OpenAI tiktoken encodings.",
@@ -82,13 +82,13 @@ def parse_args():
     return parser.parse_args()
 
 
-def codec(args):
+def codec(args: argparse.Namespace) -> tiktoken.Encoding:
     if args.encoding:
         return tiktoken.get_encoding(args.encoding)
     return tiktoken.encoding_for_model(args.model)
 
 
-def excluded(path, patterns):
+def excluded(path: Path, patterns: list[str]) -> bool:
     return any(
         fnmatch.fnmatch(str(path), pattern)
         or fnmatch.fnmatch(path.name, pattern)
@@ -97,13 +97,14 @@ def excluded(path, patterns):
     )
 
 
-def warn(message):
+def warn(message: str) -> None:
     print(f"tiktoken: {message}", file=sys.stderr)
 
 
-def git_ignored(path):
+def git_ignored(path: Path) -> bool:
     git = os.environ.get("TIKTOKEN_GIT", "git")
-    result = subprocess.run(
+    # The executable is explicitly configurable; paths are passed without a shell.
+    result = subprocess.run(  # noqa: S603
         [git, "-C", path.parent, "check-ignore", "--quiet", "--", path.resolve()],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -112,7 +113,7 @@ def git_ignored(path):
     return result.returncode == 0
 
 
-def read_text_file(path):
+def read_text_file(path: Path) -> str | None:
     data = path.read_bytes()
     if b"\0" in data:
         return None
@@ -126,7 +127,8 @@ def read_text_file(path):
     return text
 
 
-def count(args, encoding):
+# Keep traversal, error reporting, and output ordering together.
+def count(args: argparse.Namespace, encoding: tiktoken.Encoding) -> bool:  # noqa: C901, PLR0912
     paths = args.paths + args.files
     if not paths:
         paths = ["-"]
@@ -180,21 +182,21 @@ def count(args, encoding):
     return not failed
 
 
-def list_models():
+def list_models() -> None:
     for model, encoding in sorted(MODEL_TO_ENCODING.items()):
         print(f"{model:<40} {encoding}")
     for prefix, encoding in sorted(MODEL_PREFIX_TO_ENCODING.items()):
         print(f"{prefix + '*':<40} {encoding}")
 
 
-def read_file(path):
+def read_file(path: Path) -> str:
     try:
         return path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError) as error:
         raise SystemExit(f"tiktoken: {path}: {error}") from error
 
 
-def parse_tokens(source):
+def parse_tokens(source: str) -> list:
     try:
         value = json.loads(source)
         return value if isinstance(value, list) else [int(value)]
@@ -202,7 +204,7 @@ def parse_tokens(source):
         return [int(token) for token in source.replace(",", " ").split()]
 
 
-def main():
+def main() -> None:
     args = parse_args()
     if args.command == "models":
         list_models()

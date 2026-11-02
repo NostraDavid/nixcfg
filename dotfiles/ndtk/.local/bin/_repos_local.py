@@ -48,12 +48,12 @@ from threading import Event, Lock
 from unittest.mock import patch
 from urllib.parse import urlparse
 
-import click  # type: ignore
-import stamina  # type: ignore
-import structlog  # type: ignore
-import structlog.contextvars as structlog_contextvars  # type: ignore
-from click.testing import CliRunner
-from structlog.stdlib import get_logger  # type: ignore
+import click
+import stamina
+import structlog
+import structlog.contextvars as structlog_contextvars
+from click.testing import CliRunner, Result
+from structlog.stdlib import get_logger
 
 # Load the shared module installed by Home Manager.
 sys.path.insert(0, str(Path.home() / ".local" / "bin"))
@@ -90,7 +90,7 @@ unbind_contextvars = structlog_contextvars.unbind_contextvars
 
 
 class RetryableFetchError(Exception):
-    def __init__(self, output: str, line_count: int):
+    def __init__(self, output: str, line_count: int) -> None:
         self.output = output
         self.line_count = line_count
         super().__init__(output[-500:] if output else "retryable fetch error")
@@ -139,7 +139,7 @@ def _compact_toggle_option(text: str) -> str:
 
 
 class RustCommand(click.Command):
-    def format_help(self, ctx: click.Context, formatter: click.HelpFormatter) -> None:
+    def format_help(self, ctx: click.Context, formatter: click.HelpFormatter) -> None:  # noqa: ARG002 - the Click override retains its required signature
         pieces: list[str] = []
         command_path = ctx.command_path
         pieces.append(_style_heading("Usage:"))
@@ -179,7 +179,7 @@ class RustCommand(click.Command):
 class RustGroup(click.Group):
     command_class = RustCommand
 
-    def format_help(self, ctx: click.Context, formatter: click.HelpFormatter) -> None:
+    def format_help(self, ctx: click.Context, formatter: click.HelpFormatter) -> None:  # noqa: ARG002 - the Click override retains its required signature
         pieces: list[str] = []
         pieces.append(
             _style_body(
@@ -257,7 +257,7 @@ def configure_logging(verbosity: int) -> None:
     logging.getLogger("stamina").setLevel(logging.ERROR)
 
 
-def _run_git(
+def _run_git(  # noqa: PLR0913 - retain the existing caller interface
     repo_path: Path,
     args: list[str],
     *,
@@ -266,8 +266,8 @@ def _run_git(
     timeout: float | None = None,
     env: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(  # noqa: S603
-        ["git", "-C", str(repo_path), *args],  # noqa: S607
+    return subprocess.run(  # noqa: S603 - arguments are passed directly without a shell
+        ["git", "-C", str(repo_path), *args],  # noqa: S607 - the CLI intentionally resolves the executable via PATH
         check=check,
         stdout=subprocess.PIPE if capture else subprocess.DEVNULL,
         stderr=subprocess.STDOUT if capture else subprocess.DEVNULL,
@@ -694,7 +694,7 @@ def _is_retryable_fetch_error(fetch_output: str) -> bool:
 
 
 def _wait_for_bitbucket_slot(interval_seconds: int, *, reason: str) -> None:
-    global _LAST_BITBUCKET_CALL_AT
+    global _LAST_BITBUCKET_CALL_AT  # noqa: PLW0603 - shared CLI state is initialized at runtime
     now = time.perf_counter()
     if _LAST_BITBUCKET_CALL_AT is not None:
         wait_for = interval_seconds - (now - _LAST_BITBUCKET_CALL_AT)
@@ -755,7 +755,7 @@ def _prune_repo(
     return True
 
 
-def _sync_branch_worktrees(
+def _sync_branch_worktrees(  # noqa: C901, PLR0912, PLR0915 - keep the existing safety and error-handling flow intact
     repo_path: Path,
     *,
     prune_branch_worktrees: bool,
@@ -902,7 +902,7 @@ def _sync_branch_worktrees(
         _run_git(repo_path, ["worktree", "prune"])
 
 
-def fetch_repo(
+def fetch_repo(  # noqa: C901, PLR0912, PLR0913, PLR0915 - keep the existing safety and error-handling flow intact; retain the existing caller interface
     repo_path: Path,
     *,
     bitbucket_interval_seconds: int,
@@ -1110,7 +1110,7 @@ def fetch_repo(
     return False, False, dur, 0, False
 
 
-def _process_one_repo(
+def _process_one_repo(  # noqa: C901, PLR0913 - keep the existing safety and error-handling flow intact; retain the existing caller interface
     repo: Path,
     *,
     stream: str,
@@ -1200,7 +1200,7 @@ def _process_one_repo(
         clear_contextvars()
 
 
-def main(
+def main(  # noqa: C901, PLR0913, PLR0915 - keep the existing safety and error-handling flow intact; retain the existing caller interface
     project: Path,
     *,
     bitbucket_interval_seconds: int,
@@ -1458,7 +1458,7 @@ def _tag_git(path: Path, args: list[str]) -> subprocess.CompletedProcess[str]:
     help="Root directory to scan for Git repositories",
 )
 @click.option("--dry-run", is_flag=True, help="Show what would be created.")
-def checkout_tags_command(project: Path, dry_run: bool) -> None:
+def checkout_tags_command(project: Path, dry_run: bool) -> None:  # noqa: C901, PLR0912, PLR0915 - keep the existing safety and error-handling flow intact
     """Create detached worktrees for local tags without contacting remotes."""
     seen: set[Path] = set()
     created = 0
@@ -1539,7 +1539,7 @@ def checkout_tags_command(project: Path, dry_run: bool) -> None:
     help="Root directory to scan for Git repositories",
 )
 @click.option("--dry-run", is_flag=True, help="Show what would be removed.")
-def clean_tags_command(project: Path, dry_run: bool) -> None:
+def clean_tags_command(project: Path, dry_run: bool) -> None:  # noqa: C901, PLR0912, PLR0915 - keep the existing safety and error-handling flow intact
     """Remove matching detached tag worktrees; retain tag refs and local changes."""
 
     failures = 0
@@ -1696,7 +1696,7 @@ def clean_tags_command(project: Path, dry_run: bool) -> None:
     count=True,
     help="Increase log verbosity; use -vv for debug traces",
 )
-def update(
+def update(  # noqa: PLR0913, PLR0917 - retain the existing caller interface
     project: Path,
     bitbucket_interval_seconds: int,
     bitbucket_timeout_seconds: float,
@@ -1763,8 +1763,8 @@ class TestLocalCheckoutUpdates(unittest.TestCase):
 
     @staticmethod
     def git(repo: Path, *args: str) -> str:
-        return subprocess.run(
-            [
+        return subprocess.run(  # noqa: S603 - arguments are passed directly without a shell
+            [  # noqa: S607 - the CLI intentionally resolves the executable via PATH
                 "git",
                 "-C",
                 str(repo),
@@ -1794,7 +1794,7 @@ class TestLocalCheckoutUpdates(unittest.TestCase):
         self.commit(self.source, "remote change")
         return self.git(self.source, "rev-parse", "HEAD")
 
-    def update(self, *args: str):
+    def update(self, *args: str) -> Result:
         return CliRunner().invoke(
             cli, ["update", "--project", str(self.project), *args]
         )
@@ -1864,7 +1864,9 @@ class TestLocalCheckoutUpdates(unittest.TestCase):
         (healthy / "file.txt").write_text("local\n")
         real_run_git = _run_git
 
-        def fail_status(repo, args, **kwargs):
+        def fail_status(
+            repo: Path, args: list[str], **kwargs: object
+        ) -> subprocess.CompletedProcess[str]:
             if repo == self.repo and "status" in args:
                 raise subprocess.CalledProcessError(128, ["git", *args])
             return real_run_git(repo, args, **kwargs)
@@ -2109,9 +2111,11 @@ class TestLocalCheckoutUpdates(unittest.TestCase):
         head = self.git(self.repo, "rev-parse", "HEAD")
         (self.repo / "file.txt").write_text("current changes\n")
         self.remote_change()
-        from _repo_checkouts import _run_git as real_run_git
+        from _repo_checkouts import _run_git as real_run_git  # noqa: PLC0415 - this import is needed only by the test command
 
-        def fail_stash(repo, args, **kwargs):
+        def fail_stash(
+            repo: Path, args: list[str], **kwargs: object
+        ) -> subprocess.CompletedProcess[str]:
             if args[:2] == ["stash", "push"]:
                 return subprocess.CompletedProcess(args, 1, "stash failed", "")
             return real_run_git(repo, args, **kwargs)
@@ -2200,14 +2204,14 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
 
             refresh_mock.assert_called_once_with(trunk)
 
-    def test_refresh_repository_tree_uses_file_commit_times(self) -> None:
+    def test_refresh_repository_tree_uses_file_commit_times(self) -> None:  # noqa: PLR0915 - keep the existing safety and error-handling flow intact
         with TemporaryDirectory() as directory:
             repo = Path(directory) / "repo"
             repo.mkdir()
 
             def run_test_git(*args: str, env: dict[str, str] | None = None) -> None:
-                subprocess.run(  # noqa: S603
-                    ["git", "-C", str(repo), *args],  # noqa: S607
+                subprocess.run(  # noqa: S603 - arguments are passed directly without a shell
+                    ["git", "-C", str(repo), *args],  # noqa: S607 - the CLI intentionally resolves the executable via PATH
                     check=True,
                     env=env,
                 )
@@ -2361,7 +2365,7 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
             events: list[str] = []
             allow_second_discovery = Event()
 
-            def fake_iter(_project: Path):
+            def fake_iter(_project: Path) -> Iterator[Path]:
                 events.append("discover:first")
                 yield first_repo
                 assert allow_second_discovery.wait(1)
@@ -2406,11 +2410,11 @@ class TestUpdateAllLocalRepos(unittest.TestCase):
             other_started = Event()
             events: list[str] = []
 
-            def fake_iter(_project: Path):
+            def fake_iter(_project: Path) -> Iterator[Path]:
                 yield bitbucket_repo
                 yield other_repo
 
-            def fake_process(repo: Path, **kwargs: object) -> None:
+            def fake_process(_repo: Path, **kwargs: object) -> None:
                 if kwargs["stream"] == "bitbucket":
                     events.append("bitbucket_start")
                     bitbucket_started.set()

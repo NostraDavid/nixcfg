@@ -12,7 +12,8 @@ import time
 def main() -> None:
     env = os.environ | {"HF_HUB_OFFLINE": "1"}
     with tempfile.TemporaryFile() as errors:
-        process = subprocess.Popen(
+        # The executable is supplied by the package check, without a shell.
+        process = subprocess.Popen(  # noqa: S603
             [sys.argv[1]],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,

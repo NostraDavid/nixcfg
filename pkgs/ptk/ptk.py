@@ -9,13 +9,13 @@ import ptk
 CONTENT_TYPES = ("dict", "list", "code", "log", "diff", "text")
 
 
-def add_input_options(parser):
+def add_input_options(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("text", nargs="?", help="text; use - or omit it for stdin")
     parser.add_argument("--file", "-f", type=Path)
     parser.add_argument("--raw", action="store_true", help="do not parse JSON input")
 
 
-def add_minimizer_options(parser):
+def add_minimizer_options(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--type", choices=CONTENT_TYPES, help="force the content type")
     parser.add_argument(
         "--aggressive", "-a", action="store_true", help="maximize compression"
@@ -34,7 +34,7 @@ def add_minimizer_options(parser):
     )
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="ptk",
         description="Minimize LLM tokens in JSON, code, logs, diffs, and text.",
@@ -64,7 +64,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def read_input(args):
+def read_input(args: argparse.Namespace) -> str:
     if args.file and args.text is not None:
         raise SystemExit("ptk: use either TEXT or --file, not both")
     if args.file:
@@ -75,7 +75,7 @@ def read_input(args):
     return sys.stdin.read() if args.text in (None, "-") else args.text
 
 
-def parse_input(args):
+def parse_input(args: argparse.Namespace) -> object:
     source = read_input(args)
     if args.raw:
         return source
@@ -85,7 +85,7 @@ def parse_input(args):
         return source
 
 
-def minimizer_options(args):
+def minimizer_options(args: argparse.Namespace) -> dict[str, object]:
     options = {
         "aggressive": args.aggressive,
         "strip_nulls": not args.keep_nulls,
@@ -100,7 +100,7 @@ def minimizer_options(args):
     return options
 
 
-def main():
+def main() -> None:
     args = parse_args()
     if args.command == "types":
         print("\n".join(CONTENT_TYPES))

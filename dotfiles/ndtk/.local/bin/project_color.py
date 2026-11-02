@@ -27,7 +27,7 @@ class Color:
 
 
 def project_color(name: str) -> Color:
-    digest = hashlib.sha1(name.encode()).hexdigest()
+    digest = hashlib.sha1(name.encode(), usedforsecurity=False).hexdigest()
     color = Color(
         red=int(digest[0:2], 16),
         green=int(digest[2:4], 16),
@@ -52,10 +52,7 @@ def project_color(name: str) -> Color:
 
 
 def print_preview(name: str, color: Color) -> None:
-    if color.luminance > 128:
-        foreground = "0;0;0"
-    else:
-        foreground = "255;255;255"
+    foreground = "0;0;0" if color.luminance > 128 else "255;255;255"
 
     print(
         f"\033[48;2;{color.red};{color.green};{color.blue}m\033[38;2;{foreground}m {name} ({color.hex}) \033[0m"

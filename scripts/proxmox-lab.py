@@ -18,7 +18,9 @@ import time
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
+from collections.abc import Callable, Sequence
 from pathlib import Path
+from typing import Any, TypedDict, Unpack
 
 CONFIG = json.loads(Path(os.environ["PROXMOX_LAB_CONFIG"]).read_text())
 REPO = Path.cwd()
@@ -33,8 +35,25 @@ GUEST = CONFIG["forgejo"]["address"]
 VMID = str(CONFIG["forgejo"]["vmid"])
 
 
-def run(args, *, capture=False, check=True, input=None, timeout=None, env=None):
-    result = subprocess.run(
+class RunOptions(TypedDict, total=False):
+    capture: bool
+    check: bool
+    input: str | None
+    timeout: float | None
+    env: dict[str, str] | None
+
+
+def run(  # noqa: PLR0913 - mirrors subprocess options used by the controller
+    args: Sequence[str | Path],
+    *,
+    capture: bool = False,
+    check: bool = True,
+    input: str | None = None,  # noqa: A002 - matches subprocess.run and existing callers
+    timeout: float | None = None,
+    env: dict[str, str] | None = None,
+) -> subprocess.CompletedProcess[str]:
+    # Commands are passed as argument lists; remote commands are shell-quoted separately.
+    result = subprocess.run(  # noqa: S603
         [str(arg) for arg in args],
         input=input,
         text=True,
@@ -50,11 +69,11 @@ def run(args, *, capture=False, check=True, input=None, timeout=None, env=None):
     return result
 
 
-def output(args, **kwargs):
+def output(args: Sequence[str | Path], **kwargs: Unpack[RunOptions]) -> str:
     return run(args, capture=True, **kwargs).stdout.strip()
 
 
-def wait_for(description, predicate, seconds):
+def wait_for(description: str, predicate: Callable[[], bool], seconds: float) -> None:
     deadline = time.monotonic() + seconds
     print(description, flush=True)
     while time.monotonic() < deadline:
@@ -64,18 +83,20 @@ def wait_for(description, predicate, seconds):
     raise RuntimeError(f"Timed out: {description}. Use lab-status to inspect logs.")
 
 
-def virsh(*args, **kwargs):
+def virsh(
+    *args: str | Path, **kwargs: Unpack[RunOptions]
+) -> subprocess.CompletedProcess[str]:
     return run(["virsh", "--connect", "qemu:///system", *args], **kwargs)
 
 
-def domain_state():
+def domain_state() -> str:
     listed = virsh("list", "--all", "--name", capture=True)
     if DOMAIN not in listed.stdout.splitlines():
         return "absent"
     return virsh("domstate", DOMAIN, capture=True).stdout.strip()
 
 
-def ssh_args(address, user):
+def ssh_args(address: str, user: str) -> list[str]:
     return [
         "ssh",
         "-o",
@@ -90,7 +111,9 @@ def ssh_args(address, user):
     ]
 
 
-def remote(*args, guest=False, **kwargs):
+def remote(
+    *args: str | Path, guest: bool = False, **kwargs: Unpack[RunOptions]
+) -> subprocess.CompletedProcess[str]:
     address, user = (GUEST, "david") if guest else (PVE, "root")
     expected = CONFIG["forgejo"]["hostname"] if guest else CONFIG["node"]
     command = (
@@ -102,7 +125,7 @@ def remote(*args, guest=False, **kwargs):
     return run([*ssh_args(address, user), command], **kwargs)
 
 
-def private_file(path, text):
+def private_file(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     temp = path.with_suffix(path.suffix + ".tmp")
     temp.write_text(text)
@@ -110,7 +133,7 @@ def private_file(path, text):
     temp.replace(path)
 
 
-def build_image():
+def build_image() -> str:
     result = output(
         [
             "nix",
@@ -127,12 +150,12 @@ def build_image():
     return str(images[0])
 
 
-def require_repo():
+def require_repo() -> None:
     if not (REPO / "infra/proxmox-lab/settings.nix").is_file():
         raise RuntimeError("Run this command from the nixcfg checkout.")
 
 
-def validate_target():
+def validate_target() -> None:
     if CONFIG["node"] != "pve-lab" or DOMAIN != "proxmox-lab":
         raise RuntimeError("Unexpected lab identity.")
     subnet = ipaddress.ip_network(
@@ -147,7 +170,7 @@ def validate_target():
         raise RuntimeError("Production cannot be used as a lab target.")
 
 
-def check_addresses(interface):
+def check_addresses(interface: str) -> None:
     for address, expected_mac in [
         (PVE, CONFIG["mac"]),
         (GUEST, CONFIG["forgejo"]["mac"]),
@@ -171,7 +194,7 @@ def check_addresses(interface):
                 )
 
 
-def network():
+def network() -> None:
     bridge, interface = CONFIG["bridge"], CONFIG["interface"]
     if Path(f"/sys/class/net/{bridge}/brif/{interface}").exists():
         check_addresses(bridge)
@@ -195,7 +218,7 @@ def network():
         run(["nmcli", "--wait", "0", "connection", "up", "lab-bridge"])
         run(["nmcli", "--wait", "60", "connection", "up", "lab-uplink"])
 
-        def bridge_has_address():
+        def bridge_has_address() -> bool:
             current = json.loads(output(["ip", "-j", "address", "show", bridge]))
             return any(a["family"] == "inet" for a in current[0]["addr_info"])
 
@@ -234,7 +257,7 @@ def network():
     )
 
 
-def domain_xml(install=False):
+def domain_xml(install: bool = False) -> str:
     root = ET.Element("domain", type="kvm")
     ET.SubElement(root, "name").text = DOMAIN
     ET.SubElement(root, "description").text = "nixcfg disposable local Proxmox lab"
@@ -284,9 +307,9 @@ def domain_xml(install=False):
     return ET.tostring(root, encoding="unicode")
 
 
-def define_domain(install=False):
+def define_domain(install: bool = False) -> None:
     xml = STATE / "domain.xml"
-    definition = ET.fromstring(domain_xml(install))
+    definition = ET.fromstring(domain_xml(install))  # noqa: S314 - generated locally
     existing = virsh("domuuid", DOMAIN, capture=True, check=False)
     if existing.returncode == 0:
         ET.SubElement(definition, "uuid").text = existing.stdout.strip()
@@ -295,7 +318,7 @@ def define_domain(install=False):
     virsh("autostart", "--disable", DOMAIN)
 
 
-def prepare():
+def prepare() -> None:
     if not DISKS.is_dir() or not os.access(DISKS, os.W_OK):
         raise RuntimeError(
             "Activate the wodan NixOS configuration first; lab disk storage is not writable."
@@ -408,7 +431,7 @@ ordering = "fully-up"
             disk.chmod(0o660)
 
 
-def bootstrap_pve():
+def bootstrap_pve() -> None:
     ready = STATE / "installed"
     started = STATE / "installer-started"
     if not ready.exists():
@@ -458,7 +481,7 @@ def bootstrap_pve():
     )
 
 
-def api_ready():
+def api_ready() -> bool:
     token = (STATE / "api-token").read_text().strip()
     request_config = (
         "header = " + json.dumps("Authorization: PVEAPIToken=" + token) + "\n"
@@ -484,7 +507,7 @@ def api_ready():
     return response.returncode == 0
 
 
-def tofu_environment():
+def tofu_environment() -> dict[str, str]:
     return {
         **os.environ,
         "SSL_CERT_FILE": str(STATE / "pve-ca.pem"),
@@ -492,7 +515,7 @@ def tofu_environment():
     }
 
 
-def provision_guest():
+def provision_guest() -> None:
     directory = STATE / "tofu"
     directory.mkdir(exist_ok=True)
     for source in (REPO / "infra/proxmox-lab").glob("*.tf"):
@@ -551,7 +574,7 @@ def provision_guest():
     )
 
 
-def up():
+def up() -> None:
     require_repo()
     if (STATE / "reset.json").exists():
         finish_reset()
@@ -562,7 +585,7 @@ def up():
     status()
 
 
-def down():
+def down() -> None:
     state = domain_state()
     if state in ("absent", "shut off"):
         print("Lab is stopped.")
@@ -579,7 +602,7 @@ def down():
     )
 
 
-def status():
+def status() -> None:
     print(f"Proxmox: {domain_state()}")
     print(f"Proxmox UI: https://{PVE}:8006/")
     print(f"Forgejo UI: http://{GUEST}:3000/")
@@ -591,7 +614,7 @@ def status():
     print(f"Controller state: {STATE}")
 
 
-def finish_reset():
+def finish_reset() -> None:
     journal = STATE / "reset.json"
     transaction = json.loads(journal.read_text())
     tag = transaction["tag"]
@@ -620,7 +643,7 @@ def finish_reset():
     print(f"Archived disks to {archive}; credentials and state to {archive_state}.")
 
 
-def reset():
+def reset() -> None:
     require_repo()
     journal = STATE / "reset.json"
     if not journal.exists():
@@ -629,7 +652,7 @@ def reset():
     up()
 
 
-def backup():
+def backup() -> Path:
     destination = STATE / "backups"
     destination.mkdir(exist_ok=True)
     remote(
@@ -654,7 +677,8 @@ def backup():
         raise RuntimeError("The backup did not produce the expected VM archive.")
     local = destination / Path(name).name
     with local.with_suffix(".part").open("wb") as target:
-        subprocess.run(
+        # The archive name is validated above and shell-quoted for SSH.
+        subprocess.run(  # noqa: S603
             [*ssh_args(PVE, "root"), shlex.join(["cat", name])],
             stdout=target,
             check=True,
@@ -668,7 +692,7 @@ def backup():
     return local
 
 
-def guest_command(vmid, *args):
+def guest_command(vmid: str | int, *args: str) -> str:
     if args and "/" not in args[0]:
         args = (f"/run/current-system/sw/bin/{args[0]}", *args[1:])
     result = json.loads(
@@ -692,7 +716,7 @@ def guest_command(vmid, *args):
     return result.get("out-data", "")
 
 
-def restore(archive):
+def restore(archive: str | Path) -> None:
     source = Path(archive).resolve()
     if not source.is_file() or not source.name.endswith(".vma.zst"):
         raise RuntimeError("Expected a local .vma.zst backup.")
@@ -710,7 +734,8 @@ def restore(archive):
         )
     remote_path = f"/mnt/lab-storage/backups/{source.name}"
     with source.open("rb") as stream:
-        subprocess.run(
+        # The local filename is shell-quoted before it reaches SSH.
+        subprocess.run(  # noqa: S603
             [
                 *ssh_args(PVE, "root"),
                 shlex.join(["bash", "-c", f"cat > {shlex.quote(remote_path)}.upload"]),
@@ -764,7 +789,7 @@ def restore(archive):
     print(f"Backup restored to isolated VM {restore_id}; the original VM is unchanged.")
 
 
-def deploy():
+def deploy() -> None:
     require_repo()
     remote("sudo", "true", guest=True, capture=True)
     run(
@@ -781,7 +806,9 @@ def deploy():
     )
 
 
-def api(method, path, body=None):
+def api(
+    method: str, path: str, body: dict[str, Any] | None = None
+) -> subprocess.CompletedProcess[str]:
     password = remote(
         "sudo", "cat", "/srv/forgejo/admin-password", guest=True, capture=True
     ).stdout.strip()
@@ -804,7 +831,7 @@ def api(method, path, body=None):
     return run(args, input=f'user = "david:{password}"\n', capture=True, check=False)
 
 
-def web_login():
+def web_login() -> None:
     password = remote(
         "sudo", "cat", "/srv/forgejo/admin-password", guest=True, capture=True
     ).stdout.strip()
@@ -814,7 +841,7 @@ def web_login():
     )
     with opener.open(base + "/user/login", timeout=10) as response:
         response.read()
-    request = urllib.request.Request(
+    request = urllib.request.Request(  # noqa: S310 - base uses the configured lab HTTP address
         base + "/user/login",
         data=urllib.parse.urlencode(
             {"user_name": "david", "password": password}
@@ -827,7 +854,7 @@ def web_login():
             raise RuntimeError("Forgejo web-form authentication did not complete.")
 
 
-def smoke():
+def smoke() -> str:
     web_login()
     repositories = api("GET", "user/repos")
     if repositories.returncode:
@@ -843,11 +870,12 @@ def smoke():
             raise RuntimeError("Cannot create the lab verification repository.")
     keys = json.loads(api("GET", "user/keys").stdout)
     public_key = " ".join(CONFIG["sshPublicKey"].split()[:2])
-    if not any(" ".join(key["key"].split()[:2]) == public_key for key in keys):
-        if api(
+    if not any(" ".join(key["key"].split()[:2]) == public_key for key in keys) and (
+        api(
             "POST", "user/keys", {"title": "nixcfg-lab", "key": CONFIG["sshPublicKey"]}
-        ).returncode:
-            raise RuntimeError("Cannot register the lab Git SSH key.")
+        ).returncode
+    ):
+        raise RuntimeError("Cannot register the lab Git SSH key.")
     ssh = ssh_args(GUEST, "forgejo")[:-1]
     environment = {**os.environ, "GIT_SSH_COMMAND": shlex.join(ssh)}
     url = f"ssh://forgejo@{GUEST}:2222/david/{name}.git"
@@ -885,7 +913,7 @@ def smoke():
     return expected
 
 
-def main():
+def main() -> None:  # noqa: C901 - explicit command dispatch keeps lock boundaries visible
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "command",
@@ -970,8 +998,9 @@ if __name__ == "__main__":
             import getpass
 
             if getpass.getuser() in group.gr_mem:
-                os.execvp(
-                    "sg",
+                # Re-execute with the installed group-switch command and quoted argv.
+                os.execvp(  # noqa: S606
+                    "sg",  # noqa: S607
                     [
                         "sg",
                         "libvirtd",

@@ -116,12 +116,12 @@ def probe(
     failure_name: str,
 ) -> str | None:
     try:
-        result = sp.run(
+        # Arguments are passed without a shell; preserve the existing command boundary.
+        result = sp.run(  # noqa: S603
             command,
             check=False,
             text=True,
-            stdout=sp.PIPE,
-            stderr=sp.PIPE,
+            capture_output=True,
             timeout=PROBE_TIMEOUT_SECONDS,
         )
     except sp.TimeoutExpired:
@@ -152,9 +152,11 @@ def readiness_errors() -> list[str]:
         if error := probe([picker, "--help"], failure_name="project_picker"):
             errors.append(error)
 
-    for executable in ("fzf", "git"):
-        if shutil.which(executable) is None:
-            errors.append(f"{executable} executable not found in PATH.")
+    errors.extend(
+        f"{executable} executable not found in PATH."
+        for executable in ("fzf", "git")
+        if shutil.which(executable) is None
+    )
 
     if not DEV_ROOT.is_dir():
         errors.append(f"Development directory not found: {DEV_ROOT}")
@@ -181,7 +183,8 @@ def preview(command: list[str]) -> int:
 
 def launch(command: list[str]) -> int:
     """Run interactive Neovim without a timeout so editing is not interrupted."""
-    return sp.run(command, check=False).returncode
+    # Arguments are passed without a shell; preserve the existing command boundary.
+    return sp.run(command, check=False).returncode  # noqa: S603
 
 
 def select_worktree(query: Sequence[str], *, dry_run: bool) -> Path | None:
@@ -197,12 +200,12 @@ def select_worktree(query: Sequence[str], *, dry_run: bool) -> Path | None:
     command.extend(query)
 
     # Repository and worktree selection is interactive and intentionally unbounded.
-    result = sp.run(
+    # Arguments are passed without a shell; preserve the existing command boundary.
+    result = sp.run(  # noqa: S603
         command,
         check=False,
         text=True,
-        stdout=sp.PIPE,
-        stderr=sp.PIPE,
+        capture_output=True,
     )
     if result.returncode != 0:
         print(result.stderr, end="", file=sys.stderr)

@@ -17,6 +17,7 @@ import sys
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from types import ModuleType
 from unittest.mock import patch
 
 from click.testing import CliRunner
@@ -25,7 +26,7 @@ BIN = Path(__file__).resolve().parents[1] / ".local/bin"
 sys.path.insert(0, str(BIN))
 
 
-def load(name):
+def load(name: str) -> ModuleType:
     spec = importlib.util.spec_from_file_location(
         name.replace("-", "_"), BIN / f"{name}.py"
     )
@@ -43,7 +44,7 @@ timestamps = load("repo_timestamps")
 
 
 class MigrationTests(unittest.TestCase):
-    def test_vscode_wrapper_and_electron_environment(self):
+    def test_vscode_wrapper_and_electron_environment(self) -> None:
         with TemporaryDirectory() as directory:
             candidate = Path(directory) / "code"
             candidate.write_text("#!/bin/sh\nprintf '1.0\\n'\n")
@@ -64,7 +65,7 @@ class MigrationTests(unittest.TestCase):
                     ide.clean_vscode_env(electron_cli=True)["ELECTRON_RUN_AS_NODE"], "1"
                 )
 
-    def test_picker_roots_and_targeted_query(self):
+    def test_picker_roots_and_targeted_query(self) -> None:
         with TemporaryDirectory() as directory:
             root = Path(directory)
             dev, users = root / "dev", root / "users"
@@ -91,14 +92,15 @@ class MigrationTests(unittest.TestCase):
                 [("users/user/new", current)],
             )
 
-    def test_worktree_scan_inventory_and_timestamp_preservation(self):
+    def test_worktree_scan_inventory_and_timestamp_preservation(self) -> None:
         with TemporaryDirectory() as directory:
             root = Path(directory)
             repo = root / "repo"
 
-            def git(*args):
-                return subprocess.run(
-                    [
+            def git(*args: str) -> str:
+                # Tests supply all Git arguments and use the Git executable on PATH.
+                return subprocess.run(  # noqa: S603
+                    [  # noqa: S607
                         "git",
                         "-c",
                         "core.hooksPath=/dev/null",

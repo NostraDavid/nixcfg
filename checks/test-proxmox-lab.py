@@ -16,13 +16,12 @@ spec.loader.exec_module(lab)
 
 
 class LabBoundaries(unittest.TestCase):
-    def test_production_and_duplicate_addresses_are_rejected(self):
+    def test_production_and_duplicate_addresses_are_rejected(self) -> None:
         for address in ("192.168.2.100", lab.GUEST):
-            with patch.object(lab, "PVE", address):
-                with self.assertRaises(RuntimeError):
-                    lab.validate_target()
+            with patch.object(lab, "PVE", address), self.assertRaises(RuntimeError):
+                lab.validate_target()
 
-    def test_foreign_arp_reply_aborts(self):
+    def test_foreign_arp_reply_aborts(self) -> None:
         result = subprocess.CompletedProcess([], 0, "", "")
         with (
             patch.object(lab, "run", return_value=result),
@@ -31,53 +30,59 @@ class LabBoundaries(unittest.TestCase):
                 "output",
                 return_value=json.dumps([{"lladdr": "00:11:22:33:44:55"}]),
             ),
+            self.assertRaisesRegex(RuntimeError, "Address conflict"),
         ):
-            with self.assertRaisesRegex(RuntimeError, "Address conflict"):
-                lab.check_addresses("br-lab")
+            lab.check_addresses("br-lab")
 
-    def test_remote_mutations_require_the_lab_hostname(self):
+    def test_remote_mutations_require_the_lab_hostname(self) -> None:
         with patch.object(lab, "run") as execute:
             lab.remote("qm", "shutdown", "310")
         self.assertIn(
             'test "$(hostname -s)" = pve-lab &&', execute.call_args.args[0][-1]
         )
 
-    def test_a_stuck_shutdown_never_forces_power_off(self):
+    def test_a_stuck_shutdown_never_forces_power_off(self) -> None:
         with (
             patch.object(lab, "domain_state", return_value="running"),
             patch.object(lab, "virsh") as virsh,
             patch.object(lab, "wait_for", side_effect=RuntimeError("Timed out")),
+            self.assertRaisesRegex(RuntimeError, "Timed out"),
         ):
-            with self.assertRaisesRegex(RuntimeError, "Timed out"):
-                lab.down()
+            lab.down()
         self.assertEqual(
             virsh.call_args_list[0].args, ("shutdown", lab.DOMAIN, "--mode", "acpi")
         )
         self.assertEqual(virsh.call_count, 1)
 
-    def test_invalid_backup_is_rejected_before_remote_access(self):
+    def test_invalid_backup_is_rejected_before_remote_access(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             backup = Path(directory) / "test.vma.zst"
             backup.write_bytes(b"broken backup")
             backup.with_suffix(".sha256").write_text("0" * 64)
-            with patch.object(lab, "remote") as remote:
-                with self.assertRaisesRegex(RuntimeError, "checksum"):
-                    lab.restore(backup)
+            with (
+                patch.object(lab, "remote") as remote,
+                self.assertRaisesRegex(RuntimeError, "checksum"),
+            ):
+                lab.restore(backup)
             remote.assert_not_called()
 
-    def test_existing_restore_vm_is_not_overwritten(self):
+    def test_existing_restore_vm_is_not_overwritten(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             backup = Path(directory) / "test.vma.zst"
             backup.write_bytes(b"test fixture")
-            with patch.object(
-                lab, "remote", return_value=subprocess.CompletedProcess([], 0, "", "")
-            ) as remote:
-                with self.assertRaisesRegex(RuntimeError, "already exists"):
-                    lab.restore(backup)
+            with (
+                patch.object(
+                    lab,
+                    "remote",
+                    return_value=subprocess.CompletedProcess([], 0, "", ""),
+                ) as remote,
+                self.assertRaisesRegex(RuntimeError, "already exists"),
+            ):
+                lab.restore(backup)
             self.assertEqual(remote.call_count, 1)
             self.assertEqual(remote.call_args.args[:2], ("qm", "config"))
 
-    def test_domain_redefinition_preserves_its_uuid(self):
+    def test_domain_redefinition_preserves_its_uuid(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             state = Path(directory)
             existing = subprocess.CompletedProcess(
@@ -91,7 +96,7 @@ class LabBoundaries(unittest.TestCase):
             definition = lab.ET.fromstring((state / "domain.xml").read_text())
             self.assertEqual(definition.findtext("uuid"), existing.stdout)
 
-    def test_reset_resumes_after_disks_have_already_been_archived(self):
+    def test_reset_resumes_after_disks_have_already_been_archived(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             state = root / "state"
@@ -120,13 +125,15 @@ class LabBoundaries(unittest.TestCase):
             )
             self.assertFalse((state / "reset.json").exists())
 
-    def test_unreachable_hypervisor_is_not_treated_as_a_stopped_vm(self):
+    def test_unreachable_hypervisor_is_not_treated_as_a_stopped_vm(self) -> None:
         failure = subprocess.CompletedProcess([], 1, "", "hypervisor unreachable")
-        with patch.object(lab.subprocess, "run", return_value=failure):
-            with self.assertRaisesRegex(RuntimeError, "hypervisor unreachable"):
-                lab.domain_state()
+        with (
+            patch.object(lab.subprocess, "run", return_value=failure),
+            self.assertRaisesRegex(RuntimeError, "hypervisor unreachable"),
+        ):
+            lab.domain_state()
 
-    def test_failed_installer_start_can_be_retried(self):
+    def test_failed_installer_start_can_be_retried(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             state = Path(directory)
             with (
@@ -135,13 +142,13 @@ class LabBoundaries(unittest.TestCase):
                 patch.object(lab, "define_domain"),
                 patch.object(lab, "domain_state", side_effect=["absent", "shut off"]),
                 patch.object(lab, "virsh", side_effect=RuntimeError("start failed")),
+                self.assertRaisesRegex(RuntimeError, "start failed"),
             ):
-                with self.assertRaisesRegex(RuntimeError, "start failed"):
-                    lab.bootstrap_pve()
+                lab.bootstrap_pve()
             self.assertFalse((state / "installer-started").exists())
             self.assertFalse((state / "installed").exists())
 
-    def test_secret_files_have_private_permissions(self):
+    def test_secret_files_have_private_permissions(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             secret = Path(directory) / "credential"
             lab.private_file(secret, "test-only")

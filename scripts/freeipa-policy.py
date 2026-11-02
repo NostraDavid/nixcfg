@@ -8,9 +8,37 @@ import stat
 import subprocess
 import sys
 import tempfile
-from pathlib import Path
-
 import tomllib
+from pathlib import Path
+from typing import NotRequired, TypedDict
+
+
+class Group(TypedDict):
+    members: set[str]
+    posix: bool
+    existing: bool
+    description: str
+
+
+class CurrentGroup(TypedDict):
+    members: set[str]
+    posix: bool
+
+
+class RuleState(TypedDict):
+    users: set[str]
+    groups: set[str]
+    hostgroups: set[str]
+    enabled: bool
+    services: NotRequired[set[str]]
+
+
+Groups = dict[str, Group]
+Rules = dict[str, dict[str, list[str]]]
+GroupChanges = dict[str, tuple[bool, set[str], set[str]]]
+AccessChanges = dict[
+    tuple[str, str], tuple[bool, dict[str, set[str]], dict[str, set[str]], bool]
+]
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "infra/freeipa/policy.toml"
@@ -29,12 +57,12 @@ PROXMOX_READER_PASSWORD = Path.home() / ".local/state/nixcfg/proxmox-ldap-bind-p
 OPENBAO_ROTATOR_PASSWORD = Path.home() / ".local/state/nixcfg/openbao-rotator-password"
 
 
-def require(condition, message):
+def require(condition: object, message: str) -> None:
     if not condition:
         raise ValueError(message)
 
 
-def policy_groups():
+def policy_groups() -> tuple[set[str], Groups, dict[str, set[str]], Rules, Rules, bool]:
     policy = tomllib.loads(POLICY.read_text())
     known = set(policy["people"]["known"])
     teams = policy["teams"]
@@ -115,8 +143,11 @@ def policy_groups():
     )
 
 
-def command(args, env, *, allow_missing=False):
-    result = subprocess.run(args, env=env, text=True, capture_output=True, check=False)
+def command(
+    args: list[str], env: dict[str, str], *, allow_missing: bool = False
+) -> subprocess.CompletedProcess[str]:
+    # Callers select the executable and pass arguments without a shell.
+    result = subprocess.run(args, env=env, text=True, capture_output=True, check=False)  # noqa: S603
     if result.returncode and not (allow_missing and result.returncode == 32):
         details = result.stderr.strip().splitlines()
         raise RuntimeError(
@@ -125,7 +156,14 @@ def command(args, env, *, allow_missing=False):
     return result
 
 
-def ldap_entry(dn, attributes, env, *, scope="base", filter_string="(objectClass=*)"):
+def ldap_entry(
+    dn: str,
+    attributes: list[str],
+    env: dict[str, str],
+    *,
+    scope: str = "base",
+    filter_string: str = "(objectClass=*)",
+) -> dict[str, list[str]] | None:
     result = command(
         [
             "ldapsearch",
@@ -162,7 +200,7 @@ def ldap_entry(dn, attributes, env, *, scope="base", filter_string="(objectClass
     return values if "dn" in values else None
 
 
-def current_group(name, env):
+def current_group(name: str, env: dict[str, str]) -> CurrentGroup | None:
     entry = ldap_entry(f"cn={name},{GROUP_BASE}", ["member", "gidNumber"], env)
     if entry is None:
         return None
@@ -178,7 +216,7 @@ def current_group(name, env):
     return {"members": members, "posix": "gidnumber" in entry}
 
 
-def names_in_dns(dns, rdn, base):
+def names_in_dns(dns: list[str], rdn: str, base: str) -> set[str]:
     names = set()
     suffix = f",{base}".lower()
     for dn in dns:
@@ -188,7 +226,7 @@ def names_in_dns(dns, rdn, base):
     return names
 
 
-def current_hostgroup(name, env):
+def current_hostgroup(name: str, env: dict[str, str]) -> set[str] | None:
     entry = ldap_entry(f"cn={name},{HOSTGROUP_BASE}", ["member"], env)
     return (
         None
@@ -197,7 +235,7 @@ def current_hostgroup(name, env):
     )
 
 
-def current_rule(kind, name, env):
+def current_rule(kind: str, name: str, env: dict[str, str]) -> RuleState | None:
     base = HBAC_BASE if kind == "hbac" else SUDO_BASE
     attributes = ["memberUser", "memberHost", "ipaEnabledFlag"]
     if kind == "hbac":
@@ -227,7 +265,7 @@ def current_rule(kind, name, env):
         len(group_dns) + len(person_dns) == len(user_dns),
         f"Unknown user member in {name}",
     )
-    state = {
+    state: RuleState = {
         "users": names_in_dns(person_dns, "uid", USER_BASE),
         "groups": names_in_dns(group_dns, "cn", GROUP_BASE),
         "hostgroups": names_in_dns(entry.get("memberhost", []), "cn", HOSTGROUP_BASE),
@@ -259,7 +297,7 @@ def current_rule(kind, name, env):
     return state
 
 
-def differences(groups, env):
+def differences(groups: Groups, env: dict[str, str]) -> GroupChanges:
     changes = {}
     for name, desired in sorted(groups.items()):
         current = current_group(name, env)
@@ -280,7 +318,9 @@ def differences(groups, env):
     return changes
 
 
-def access_differences(hostgroups, hbac, sudo_rules, env):
+def access_differences(
+    hostgroups: dict[str, set[str]], hbac: Rules, sudo_rules: Rules, env: dict[str, str]
+) -> AccessChanges:
     changes = {}
     for name, hosts in sorted(hostgroups.items()):
         current = current_hostgroup(name, env)
@@ -317,7 +357,7 @@ def access_differences(hostgroups, hbac, sudo_rules, env):
     return changes
 
 
-def print_access_changes(changes):
+def print_access_changes(changes: AccessChanges) -> bool:
     drift = False
     for (kind, name), (create, added, removed, disabled) in changes.items():
         if create:
@@ -337,7 +377,7 @@ def print_access_changes(changes):
     return drift
 
 
-def print_changes(changes):
+def print_changes(changes: GroupChanges) -> bool:
     any_change = False
     for name, (create, added, removed) in changes.items():
         if create:
@@ -352,11 +392,11 @@ def print_changes(changes):
     return any_change
 
 
-def ipa(args, env):
+def ipa(args: list[str], env: dict[str, str]) -> None:
     command(["ipa", *args], env)
 
 
-def apply_groups(groups, changes, env):
+def apply_groups(groups: Groups, changes: GroupChanges, env: dict[str, str]) -> None:
     for name, (create, _, _) in changes.items():
         if create:
             ipa(
@@ -379,7 +419,8 @@ def apply_groups(groups, changes, env):
         raise RuntimeError("FreeIPA still differs from Git after apply")
 
 
-def apply_access(changes, env):
+# Keep creation, membership updates, and enabling in their security-sensitive order.
+def apply_access(changes: AccessChanges, env: dict[str, str]) -> None:  # noqa: C901
     for (kind, name), (create, _, _, _) in changes.items():
         if not create:
             continue
@@ -422,7 +463,7 @@ def apply_access(changes, env):
             ipa([f"{kind}rule-enable", name], env)
 
 
-def allow_all_enabled(env):
+def allow_all_enabled(env: dict[str, str]) -> bool:
     entry = ldap_entry(
         HBAC_BASE, ["ipaEnabledFlag"], env, scope="one", filter_string="(cn=allow_all)"
     )
@@ -430,7 +471,7 @@ def allow_all_enabled(env):
     return entry.get("ipaenabledflag") == ["TRUE"]
 
 
-def test_hbac(env):
+def test_hbac(env: dict[str, str]) -> None:
     cases = [
         (
             "nostradavid-adm",
@@ -450,8 +491,8 @@ def test_hbac(env):
         ("engi", "ldap.powerlan.empire", "sshd", "hbac-platform-admin", False),
     ]
     for user, host, service, rule, expected in cases:
-        result = subprocess.run(
-            [
+        result = subprocess.run(  # noqa: S603 - Fixed test cases; arguments are not passed through a shell.
+            [  # noqa: S607 - Supplied by the Nix shell.
                 "ipa",
                 "hbactest",
                 f"--user={user}",
@@ -473,7 +514,7 @@ def test_hbac(env):
         require(actual == expected, f"HBAC test failed: {user} {host} {service}")
 
 
-def bootstrap_proxmox_reader(env):
+def bootstrap_proxmox_reader(env: dict[str, str]) -> None:
     password_path = PROXMOX_READER_PASSWORD
     entry = ldap_entry(PROXMOX_READER_DN, ["uid", "description"], env)
     if entry and "Managed by OpenBao" in entry.get("description", []):
@@ -506,8 +547,8 @@ def bootstrap_proxmox_reader(env):
             f"userPassword: {password}\n"
             "passwordExpirationTime: 20380119031407Z\nnsIdleTimeout: 0\n"
         )
-        result = subprocess.run(
-            ["ldapadd", "-Q", "-Y", "GSSAPI", "-N", "-H", f"ldaps://{SERVER}"],
+        result = subprocess.run(  # noqa: S603 - Fixed command and host; LDIF goes through stdin.
+            ["ldapadd", "-Q", "-Y", "GSSAPI", "-N", "-H", f"ldaps://{SERVER}"],  # noqa: S607 - Supplied by the Nix shell.
             input=ldif,
             text=True,
             capture_output=True,
@@ -629,7 +670,7 @@ def bootstrap_openbao(env: dict[str, str]) -> None:
         )
 
 
-def runtime_env(temp_dir):
+def runtime_env(temp_dir: Path) -> dict[str, str]:
     (temp_dir / "default.conf").write_text(
         "[global]\n"
         f"host = {SERVER}\nserver = {SERVER}\n"
@@ -654,7 +695,8 @@ def runtime_env(temp_dir):
     }
 
 
-def main():
+# Keep the reconciliation and validation sequence explicit.
+def main() -> None:  # noqa: C901, PLR0912
     if len(sys.argv) != 2 or sys.argv[1] not in {
         "validate",
         "plan",
@@ -680,7 +722,7 @@ def main():
             "FreeIPA admin password is requested by Kerberos; it is not stored in Git.",
             flush=True,
         )
-        subprocess.run(["kinit", "admin@POWERLAN.EMPIRE"], env=env, check=True)
+        subprocess.run(["kinit", "admin@POWERLAN.EMPIRE"], env=env, check=True)  # noqa: S607 - Supplied by the Nix shell.
         if sys.argv[1] == "bootstrap-proxmox-reader":
             bootstrap_proxmox_reader(env)
             return

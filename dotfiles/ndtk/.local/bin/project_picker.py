@@ -68,13 +68,13 @@ def run(
     *,
     input_text: str | None = None,
 ) -> sp.CompletedProcess[str]:
-    return sp.run(
+    # Arguments are passed without a shell; preserve the existing command boundary.
+    return sp.run(  # noqa: S603
         args,
         input=input_text,
         check=False,
         text=True,
-        stdout=sp.PIPE,
-        stderr=sp.PIPE,
+        capture_output=True,
     )
 
 
@@ -108,9 +108,8 @@ def discover_all_repos(search_roots: tuple[Path, ...]) -> list[tuple[str, Path]]
             if repo_root in seen:
                 continue
             seen.add(repo_root)
-            if root_index:
-                label = f"{root.name}/{label}"
-            repos.append((label, repo_root))
+            display_label = f"{root.name}/{label}" if root_index else label
+            repos.append((display_label, repo_root))
 
     if not any(root.is_dir() for root in search_roots):
         roots = ", ".join(str(root) for root in search_roots)
@@ -311,7 +310,8 @@ def append_choice(
     seen_labels.add(choice.label)
 
 
-def list_worktrees(
+# Keep the existing control flow and its error handling intact.
+def list_worktrees(  # noqa: C901, PLR0912
     repo_root: Path, *, refresh_empty: bool = False
 ) -> list[WorktreeChoice]:
     choices: list[WorktreeChoice] = []
@@ -507,7 +507,8 @@ def set_branch_upstream(bare_dir: Path, target: Path, branch: str) -> bool:
     return upstream_proc.returncode == 0
 
 
-def ensure_worktree(
+# Keep the existing control flow and its error handling intact.
+def ensure_worktree(  # noqa: C901, PLR0911
     repo_root: Path,
     choice: WorktreeChoice,
     *,
@@ -568,7 +569,8 @@ def ensure_worktree(
     return set_branch_upstream(bare_dir, target, choice.ref)
 
 
-def create_worktree_from_branch(
+# Keep the existing control flow and its error handling intact.
+def create_worktree_from_branch(  # noqa: PLR0911
     repo_root: Path,
     base: WorktreeChoice,
     branch: str,
@@ -637,7 +639,8 @@ def create_worktree_from_branch(
     return target
 
 
-def resolve_worktree_query(
+# Keep the existing control flow and its error handling intact.
+def resolve_worktree_query(  # noqa: C901
     repos: list[tuple[str, Path]],
     query: str,
     cwd: Path,
@@ -739,7 +742,8 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main() -> int:
+# Keep the existing control flow and its error handling intact.
+def main() -> int:  # noqa: C901, PLR0911
     args = parse_args()
     require("fzf")
     require("git")

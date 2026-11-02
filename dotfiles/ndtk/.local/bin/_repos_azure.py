@@ -23,6 +23,7 @@ from collections.abc import Generator
 from concurrent.futures import Future, ThreadPoolExecutor, as_completed
 from contextlib import contextmanager, nullcontext
 from pathlib import Path
+from typing import Never
 from urllib.parse import quote
 
 import niquests as http
@@ -48,7 +49,7 @@ PROJECT_ROOT = Path("~/dev").expanduser()
 DEFAULT_WORKERS = 4
 SSH_DEBUG = False
 
-# Timeouts (seconds)
+# Timeout values are in seconds.
 HTTP_TIMEOUT = 15
 GIT_TIMEOUT = 300
 ALL_BRANCH_REFSPEC = "+refs/heads/*:refs/remotes/origin/*"
@@ -75,7 +76,7 @@ class RetryableGitError(Exception):
 
 
 def configure_auth() -> None:
-    global ORG_URL, API_BASE, basic_auth, HEADERS
+    global ORG_URL, API_BASE, basic_auth, HEADERS  # noqa: PLW0603 - shared CLI state is initialized at runtime
     try:
         load_dotenv(dotenv_path=CONFIG_FILE)
     except OSError as error:
@@ -106,7 +107,7 @@ def prioritize_repos(repos: list[dict]) -> list[dict]:
     return sorted(repos, key=sort_key)
 
 
-def run_git(
+def run_git(  # noqa: C901 - keep the existing safety and error-handling flow intact
     args: list[str],
     repo_path: Path | None = None,
     capture: bool = False,
@@ -193,7 +194,7 @@ def repo_is_bare_repo(repo_path: Path) -> bool:
         return False
 
 
-def cleanup_partial(repo_path: Path):
+def cleanup_partial(repo_path: Path) -> None:
     if not repo_path.exists():
         return
     try:
@@ -207,14 +208,14 @@ def cleanup_partial(repo_path: Path):
         logger.warning("cleanup_failed", repo_path=str(repo_path), error=str(e))
 
 
-def get_projects():
+def get_projects() -> list[dict[str, str]]:
     url = f"{API_BASE}/projects?api-version=7.0"
     resp = http.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
     return [{"id": p["id"], "name": p["name"]} for p in resp.json()["value"]]
 
 
-def get_repos(project_id: str, project_name: str):
+def get_repos(project_id: str, project_name: str) -> list[dict]:
     url = f"{ORG_URL.rstrip('/')}/{quote(project_name)}/_apis/git/repositories?api-version=7.0"
     resp = http.get(url, headers=HEADERS, timeout=HTTP_TIMEOUT)
     resp.raise_for_status()
@@ -488,8 +489,8 @@ def get_remote_default_branch(repo_url: str, auth_configs: list[str]) -> str | N
             f"default branch: {(proc.stderr or proc.stdout or 'git ls-remote failed').strip()}"
         )
 
-    for line in proc.stdout.splitlines():
-        line = line.strip()
+    for raw_line in proc.stdout.splitlines():
+        line = raw_line.strip()
         if not line.startswith("ref: ") or not line.endswith("\tHEAD"):
             continue
         ref = line.removeprefix("ref: ").split("\t", 1)[0]
@@ -669,7 +670,7 @@ def prune_stale_worktrees(
     git_configs: list[str],
     repo_root: Path,
     expected_paths: set[Path],
-):
+) -> None:
     existing = list_worktree_paths(bare_dir, git_configs)
     for worktree_path in sorted(existing):
         if worktree_path in expected_paths:
@@ -724,7 +725,7 @@ def maybe_migrate_legacy_repo(repo_root: Path) -> tuple[bool, str]:
     )
 
 
-def clone_or_update_repo(
+def clone_or_update_repo(  # noqa: C901, PLR0911, PLR0912, PLR0913, PLR0915, PLR0917 - keep the existing safety and error-handling flow intact; retain the existing caller interface
     repo_url: str,
     repo_root: Path,
     requested_branches: list[str] | None,
@@ -901,7 +902,7 @@ def summarize(
     successes: int,
     failures: list[tuple[str, str]],
     started_at: dt.datetime,
-):
+) -> None:
     elapsed = dt.datetime.now(dt.UTC) - started_at
     logger.info(
         "summary",
@@ -915,7 +916,7 @@ def summarize(
 
 
 @contextmanager
-def paused_fsmonitor(project_dirs: list[Path]) -> Generator[None]:
+def paused_fsmonitor(project_dirs: list[Path]) -> Generator[None]:  # noqa: C901 - keep the existing safety and error-handling flow intact
     count = int(os.environ.get("GIT_CONFIG_COUNT", "0"))
     overrides = {
         "GIT_CONFIG_COUNT": str(count + 1),
@@ -985,10 +986,10 @@ def paused_fsmonitor(project_dirs: list[Path]) -> Generator[None]:
             )
 
 
-def run_tests(verbose: bool) -> int:
-    import tempfile
-    import unittest
-    from unittest.mock import patch
+def run_tests(verbose: bool) -> int:  # noqa: C901 - keep the existing safety and error-handling flow intact
+    import tempfile  # noqa: PLC0415 - this import is needed only by the test command
+    import unittest  # noqa: PLC0415 - this import is needed only by the test command
+    from unittest.mock import patch  # noqa: PLC0415 - this import is needed only by the test command
 
     class AzureReposTests(unittest.TestCase):
         def setUp(self) -> None:
@@ -1434,7 +1435,7 @@ def run_tests(verbose: bool) -> int:
                 keep = Path(directory) / "keep.txt"
                 keep.write_text("keep")
 
-                def timeout_clone(args, **kwargs):
+                def timeout_clone(args: list[str], **kwargs: object) -> Never:
                     bare_dir.mkdir(parents=True)
                     (bare_dir / "partial").write_text("incomplete")
                     raise subprocess.TimeoutExpired(
@@ -1464,7 +1465,9 @@ def run_tests(verbose: bool) -> int:
                 ["git", "-c", "http.extraHeader=never-print-this-token"], 15
             )
 
-            def process_repo(url, *args, **kwargs):
+            def process_repo(
+                url: str, *_args: object, **_kwargs: object
+            ) -> tuple[bool, str]:
                 if url.endswith("/bad"):
                     raise timeout
                 return True, "updated"
@@ -1529,11 +1532,14 @@ def run_tests(verbose: bool) -> int:
                 git = Path(directory) / "git"
                 git.write_text(f"#!{sys.executable}\nimport time\ntime.sleep(2)\n")
                 git.chmod(0o755)
-                with patch.dict(
-                    os.environ, {"PATH": f"{directory}{os.pathsep}{os.environ['PATH']}"}
+                with (
+                    patch.dict(
+                        os.environ,
+                        {"PATH": f"{directory}{os.pathsep}{os.environ['PATH']}"},
+                    ),
+                    self.assertRaises(subprocess.TimeoutExpired) as raised,
                 ):
-                    with self.assertRaises(subprocess.TimeoutExpired) as raised:
-                        run_git(["clone"], capture=True, timeout=1)
+                    run_git(["clone"], capture=True, timeout=1)
                 self.assertEqual(raised.exception.timeout, 1)
 
         def test_clone_transport_preference_and_fallback(self) -> None:
@@ -1574,7 +1580,7 @@ def run_tests(verbose: bool) -> int:
 
 
 def main() -> int:
-    global SSH_DEBUG
+    global SSH_DEBUG  # noqa: PLW0603 - shared CLI state is initialized at runtime
     args = parse_args()
     if args.command == "test":
         return run_tests(args.verbose)
@@ -1630,7 +1636,7 @@ def sync_projects(
         try:
             repos = get_repos(project_id, project_name)
         except Exception as e:  # noqa: BLE001
-            logger.error(
+            logger.error(  # noqa: TRY400 - keep the existing concise diagnostic without a traceback
                 "project_skipped",
                 project_name=project_name,
                 error=str(e),

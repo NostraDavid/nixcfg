@@ -272,7 +272,7 @@ def _repository_roots(search_root: Path) -> list[Path]:
         current_path = Path(current)
         kept_directories: list[str] = []
         for name in directories:
-            if name == WORKTREE_GIT_DIR_NAME or name == ".git":
+            if name in (WORKTREE_GIT_DIR_NAME, ".git"):
                 roots.add(current_path)
             else:
                 kept_directories.append(name)

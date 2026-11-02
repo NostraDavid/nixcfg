@@ -15,7 +15,7 @@ DEFAULT_TOKENIZER = "gpt-5"
 O200K_TOKENIZER = "@o200kTokenizer@"
 
 
-def add_tokenizer_option(parser):
+def add_tokenizer_option(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--tokenizer",
         "-t",
@@ -26,7 +26,7 @@ def add_tokenizer_option(parser):
     )
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="gigatoken",
         description="Count, encode, and decode text with Gigatoken.",
@@ -90,7 +90,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_tokenizer(spec):
+def load_tokenizer(spec: str) -> Tokenizer:
     if spec in ("gpt-5", "o200k_base"):
         backend = BPETokenizer.from_tiktoken(
             O200K_TOKENIZER,
@@ -105,7 +105,7 @@ def load_tokenizer(spec):
     return Tokenizer(spec)
 
 
-def excluded(path, patterns):
+def excluded(path: Path, patterns: list[str]) -> bool:
     return any(
         fnmatch.fnmatch(str(path), pattern)
         or fnmatch.fnmatch(path.name, pattern)
@@ -114,13 +114,14 @@ def excluded(path, patterns):
     )
 
 
-def warn(message):
+def warn(message: str) -> None:
     print(f"gigatoken: {message}", file=sys.stderr)
 
 
-def git_ignored(path):
+def git_ignored(path: Path) -> bool:
     git = os.environ.get("GIGATOKEN_GIT", "@git@")
-    result = subprocess.run(
+    # The executable is explicitly configurable; paths are passed without a shell.
+    result = subprocess.run(  # noqa: S603
         [git, "-C", path.parent, "check-ignore", "--quiet", "--", path.resolve()],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -129,7 +130,7 @@ def git_ignored(path):
     return result.returncode == 0
 
 
-def read_text_file(path):
+def read_text_file(path: Path) -> str | None:
     data = path.read_bytes()
     if b"\0" in data:
         return None
@@ -143,14 +144,14 @@ def read_text_file(path):
     return text
 
 
-def read_file(path):
+def read_file(path: Path) -> str:
     try:
         return path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError) as error:
         raise SystemExit(f"gigatoken: {path}: {error}") from error
 
 
-def parse_tokens(source):
+def parse_tokens(source: str) -> list:
     try:
         value = json.loads(source)
         return value if isinstance(value, list) else [int(value)]
@@ -158,7 +159,8 @@ def parse_tokens(source):
         return [int(token) for token in source.replace(",", " ").split()]
 
 
-def count_tokens(args, tokenizer):
+# Keep traversal, error reporting, and output ordering together.
+def count_tokens(args: argparse.Namespace, tokenizer: Tokenizer) -> bool:  # noqa: C901, PLR0912
     paths = args.paths + args.files
     if not paths:
         paths = ["-"]
@@ -197,7 +199,7 @@ def count_tokens(args, tokenizer):
             names.append(str(file))
 
     amounts = ak.to_list(ak.num(tokenizer.encode_batch(texts), axis=1)) if texts else []
-    results = list(zip(amounts, names))
+    results = list(zip(amounts, names, strict=False))
     total = sum(amounts)
 
     if args.verbose:
@@ -214,9 +216,9 @@ def count_tokens(args, tokenizer):
     return not failed
 
 
-def main():
+def main() -> None:
     if len(sys.argv) > 1 and sys.argv[1] == "bench":
-        from gigatoken._cli import app
+        from gigatoken._cli import app  # noqa: PLC0415 - benchmark dependency is lazy
 
         app()
         return

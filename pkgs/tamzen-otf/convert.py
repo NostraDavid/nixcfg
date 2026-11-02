@@ -5,7 +5,8 @@ from pathlib import Path
 import fontforge
 import psMat
 
-for source in sorted((Path(os.environ["src"]) / "bdf").glob("Tamzen*.bdf")):
+# Nix supplies lowercase src and out in the build environment.
+for source in sorted((Path(os.environ["src"]) / "bdf").glob("Tamzen*.bdf")):  # noqa: SIM112
     properties = source.read_text().splitlines()
     bounds = next(
         line.split() for line in properties if line.startswith("FONTBOUNDINGBOX ")
@@ -17,8 +18,9 @@ for source in sorted((Path(os.environ["src"]) / "bdf").glob("Tamzen*.bdf")):
     name = f"{source.stem[:-1]}OTF-{style}"
     sfd = Path(f"{source.stem}.sfd")
     with sfd.open("w") as output:
-        subprocess.run(
-            ["bdf2sfd", "-f", family, "-p", name, str(source)],
+        # Nix supplies bdf2sfd on PATH; arguments are passed without a shell.
+        subprocess.run(  # noqa: S603
+            ["bdf2sfd", "-f", family, "-p", name, str(source)],  # noqa: S607
             stdout=output,
             check=True,
         )
@@ -34,5 +36,5 @@ for source in sorted((Path(os.environ["src"]) / "bdf").glob("Tamzen*.bdf")):
     font.selection.all()
     font.removeOverlap()
     font.simplify()
-    font.generate(str(Path(os.environ["out"]) / "share/fonts/opentype" / f"{name}.otf"))
+    font.generate(str(Path(os.environ["out"]) / "share/fonts/opentype" / f"{name}.otf"))  # noqa: SIM112
     font.close()

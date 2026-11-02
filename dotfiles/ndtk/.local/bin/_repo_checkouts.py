@@ -60,7 +60,7 @@ def _normalize_recovered_repo(path: Path) -> None:
         lock.unlink(missing_ok=True)
 
 
-def prepare_bare_layout(repo_root: Path, *, dry_run: bool = False) -> tuple[bool, str]:
+def prepare_bare_layout(repo_root: Path, *, dry_run: bool = False) -> tuple[bool, str]:  # noqa: C901, PLR0912 - keep the existing safety and error-handling flow intact
     """Keep old worktree references valid when moving the bare repository."""
     bare = repo_root / ".git"
     alias = repo_root / "worktree.git"
@@ -96,8 +96,8 @@ def prepare_bare_layout(repo_root: Path, *, dry_run: bool = False) -> tuple[bool
 def _run_git(
     repo_path: Path, args: list[str], *, capture: bool = False
 ) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        ["git", "-C", str(repo_path), *args],
+    return subprocess.run(  # noqa: S603 - arguments are passed directly without a shell
+        ["git", "-C", str(repo_path), *args],  # noqa: S607 - the CLI intentionally resolves the executable via PATH
         check=False,
         stdout=subprocess.PIPE if capture else subprocess.DEVNULL,
         stderr=subprocess.STDOUT if capture else subprocess.DEVNULL,
@@ -106,7 +106,7 @@ def _run_git(
     )
 
 
-def update_checkout(
+def update_checkout(  # noqa: C901, PLR0911, PLR0912 - keep the existing safety and error-handling flow intact
     repo_path: Path, *, dry_run: bool = False, upstream: str | None = None
 ) -> bool:
     bare = _run_git(repo_path, ["rev-parse", "--is-bare-repository"], capture=True)

@@ -16,5 +16,6 @@ def read_settings(path: Path) -> dict[str, object]:
     )
     settings = json.loads(content)
     if not isinstance(settings, dict):
-        raise ValueError(f"expected a JSON object in {path}")
+        # Preserve the ValueError contract for malformed settings.
+        raise ValueError(f"expected a JSON object in {path}")  # noqa: TRY004
     return settings

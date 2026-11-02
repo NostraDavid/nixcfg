@@ -7,7 +7,10 @@ import subprocess
 import sys
 import tempfile
 import time
+from collections.abc import Callable
 from pathlib import Path
+from types import TracebackType
+from typing import Any, Self
 
 IMAGE = Path(sys.argv[1]).resolve()
 CONTROLLER = Path(sys.argv[2]).resolve()
@@ -16,16 +19,20 @@ lab = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(lab)
 
 
-def execute(args, **kwargs):
-    return subprocess.run([str(a) for a in args], check=True, **kwargs)
+def execute(
+    args: list[str | Path], **kwargs: object
+) -> subprocess.CompletedProcess[Any]:
+    return subprocess.run([str(a) for a in args], check=True, **kwargs)  # noqa: S603 -- Test commands are constructed locally.
 
 
-def sha(path):
+def sha(path: Path) -> str:
     with path.open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-def await_result(description, predicate, seconds=120):
+def await_result(
+    description: str, predicate: Callable[[], bool], seconds: int = 120
+) -> None:
     end = time.monotonic() + seconds
     while time.monotonic() < end:
         if predicate():
@@ -35,7 +42,7 @@ def await_result(description, predicate, seconds=120):
 
 
 class Guest:
-    def __init__(self, directory, data, label):
+    def __init__(self, directory: Path, data: Path | None, label: str) -> None:
         self.directory = directory
         self.data = data
         self.label = label
@@ -43,7 +50,7 @@ class Guest:
         self.serial = directory / f"{label}.log"
         self.root = directory / f"{label}-root.qcow2"
 
-    def start(self):
+    def start(self) -> Self:
         execute(
             [
                 "qemu-img",
@@ -87,7 +94,7 @@ class Guest:
                 "-device",
                 "virtio-blk-pci,drive=data,serial=forgejo-state",
             ]
-        self.process = subprocess.Popen(
+        self.process = subprocess.Popen(  # noqa: S603 -- Fixed QEMU command for disposable test disks.
             args, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE
         )
         await_result(
@@ -96,9 +103,9 @@ class Guest:
         )
         return self
 
-    def command(self, command):
-        return subprocess.run(
-            [
+    def command(self, command: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(  # noqa: S603 -- Commands target the disposable guest.
+            [  # noqa: S607 -- Test environment supplies ssh on PATH.
                 "ssh",
                 "-p",
                 "22310",
@@ -115,9 +122,10 @@ class Guest:
             ],
             capture_output=True,
             text=True,
+            check=False,
         )
 
-    def stop(self):
+    def stop(self) -> None:
         if self.process and self.process.poll() is None:
             self.command("sudo poweroff")
             try:
@@ -129,7 +137,7 @@ class Guest:
         if self.process and self.process.stderr:
             self.process.stderr.close()
 
-    def check_services(self):
+    def check_services(self) -> None:
         await_result(
             "Forgejo did not start.",
             lambda: (
@@ -140,7 +148,7 @@ class Guest:
             ),
         )
 
-    def reject_data(self):
+    def reject_data(self) -> None:
         await_result(
             "Expected disk initialization failure was not observed.",
             lambda: (
@@ -155,10 +163,15 @@ class Guest:
             != 0
         )
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         return self.start()
 
-    def __exit__(self, error_type, error, traceback):
+    def __exit__(
+        self,
+        error_type: type[BaseException] | None,
+        error: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
         if error:
             print(self.serial.read_text(errors="replace")[-10000:], file=sys.stderr)
             print(
@@ -170,10 +183,10 @@ class Guest:
         self.stop()
 
 
-def configure_test_controller(directory):
+def configure_test_controller(directory: Path) -> None:
     original_ssh = lab.ssh_args
 
-    def ssh(address, user):
+    def ssh(address: str, user: str) -> list[str]:
         args = original_ssh(address, user)
         if user == "david":
             args[1:1] = ["-p", "22310"]

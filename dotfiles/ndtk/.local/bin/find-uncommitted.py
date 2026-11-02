@@ -137,7 +137,8 @@ def scan_command(search_dir: Path) -> None:
             issue = inspect_repo(repo_path)
         except ScanError as error:
             failures += 1
-            logger.error("repo_scan_failed", repo=str(repo_path), reason=str(error))
+            # Keep the existing concise error log without a traceback.
+            logger.error("repo_scan_failed", repo=str(repo_path), reason=str(error))  # noqa: TRY400
             continue
         if issue is not None:
             click.echo(f"{issue.kind.value}\t{issue.path}")
