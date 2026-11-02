@@ -92,20 +92,20 @@ disabled = true # replaced by custom.git_branch_clean / custom.git_branch_dirty 
 command = "b=$(\"$HOME/.local/bin/git\" symbolic-ref --quiet --short HEAD 2>/dev/null || \"$HOME/.local/bin/git\" rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
 when = 'status=$("$HOME/.local/bin/git" status --porcelain 2>/dev/null) && test -z "$status"'
 require_repo = true
-format = "[ $output](fg:mediumgreen bg:gray2)"
+format = "[ $output ](fg:mediumgreen bg:gray2)"
 shell = ["nix-bash", "--noprofile", "--norc"]
 
 [custom.git_branch_dirty]
 command = "b=$(\"$HOME/.local/bin/git\" symbolic-ref --quiet --short HEAD 2>/dev/null || \"$HOME/.local/bin/git\" rev-parse --short HEAD 2>/dev/null); printf ' %s' \"$b\""
 when = 'status=$("$HOME/.local/bin/git" status --porcelain 2>/dev/null) && test -n "$status"'
 require_repo = true
-format = "[ $output](fg:gray9 bg:gray2)"
+format = "[ $output ](fg:gray9 bg:gray2)"
 shell = ["nix-bash", "--noprofile", "--norc"]
 
 [custom.worktree]
 when = 'test "$("$HOME/.local/bin/git" rev-parse --is-bare-repository 2>/dev/null)" = true || test "$("$HOME/.local/bin/git" rev-parse --absolute-git-dir 2>/dev/null)" != "$("$HOME/.local/bin/git" rev-parse --path-format=absolute --git-common-dir 2>/dev/null)"'
 require_repo = true
-format = '[ wt ](fg:orange bg:gray2)'
+format = '[wt ](fg:orange bg:gray2)'
 shell = ["nix-bash", "--noprofile", "--norc"]
 
 # [git_status]
@@ -136,8 +136,8 @@ shell = ["nix-bash", "--noprofile", "--norc"]
 # "gitstatus_stashed":         { "fg": "darkblue",        "bg": "gray2", "attrs": [] }
 
 [git_status]
-style = 'fg:gray8 bg:prev_bg'
-format = """[ \
+style = 'fg:gray8 bg:gray2'
+format = """([\
 $ahead_behind\
 $staged\
 $conflicted\
@@ -147,19 +147,19 @@ $stashed\
 $deleted\
 $renamed\
 $typechanged\
- ]($style)\
+ ]($style))\
 """
-behind = '[↓ ${count}](fg:white bg:prev_bg) '
-ahead = '[↑ ${count}](fg:white bg:prev_bg) '
-staged = '[● ${count}](fg:green bg:prev_bg) '
-conflicted = '[✖ ${count}](fg:brightred bg:prev_bg) '
-modified = '[✚ ${count}](fg:mediumorange bg:prev_bg) '
-untracked = '[… ${count}](fg:brightestorange bg:prev_bg) '
-stashed = '[⚑ ${count}](fg:darkblue bg:prev_bg) '
-diverged = '[↓ ${behind_count} ↑ ${ahead_count}](fg:white bg:prev_bg) '
-deleted = '[ ${count}](fg:brightred bg:prev_bg) '
-renamed = '[➜ ${count}](fg:brightgreen bg:prev_bg) '
-typechanged = '[ ${count}](fg:orange bg:prev_bg) '
+behind = '[↓ ${count}](fg:white bg:gray2) '
+ahead = '[↑ ${count}](fg:white bg:gray2) '
+staged = '[● ${count}](fg:green bg:gray2) '
+conflicted = '[✖ ${count}](fg:brightred bg:gray2) '
+modified = '[✚ ${count}](fg:mediumorange bg:gray2) '
+untracked = '[… ${count}](fg:brightestorange bg:gray2) '
+stashed = '[⚑ ${count}](fg:darkblue bg:gray2) '
+diverged = '[↓ ${behind_count} ↑ ${ahead_count}](fg:white bg:gray2) '
+deleted = '[ ${count}](fg:brightred bg:gray2) '
+renamed = '[➜ ${count}](fg:brightgreen bg:gray2) '
+typechanged = '[ ${count}](fg:orange bg:gray2) '
 # up_to_date	''	The format of up_to_date
 
 [custom.safe_git_status]
@@ -174,7 +174,7 @@ shell = ["nix-bash", "--noprofile", "--norc"]
 command = "printf ''"
 when = true
 require_repo = true
-format = "[](fg:prev_bg bg:gray4)"
+format = "[](fg:gray2 bg:gray4)"
 shell = ["nix-bash", "--noprofile", "--norc"]
 
 [directory]
