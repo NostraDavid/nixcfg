@@ -1,0 +1,50 @@
+--- a/src/backend.rs
++++ b/src/backend.rs
+@@ -165,7 +165,7 @@
+     // explicit mutating actions still use pkexec's normal authentication flow.
+     if esc == Escalation::Pkexec
+         && read_only_helper_verb(args.first().copied().unwrap_or(""))
+-        && !polkit_authorized(helper)
++        && !polkit_authorized()
+     {
+         return Err("Helper authorization is required; run ./install.sh to configure the scoped helper grant.".into());
+     }
+@@ -366,7 +366,7 @@
+     Some(format!("{pid},{start},{uid}"))
+ }
+ 
+-fn polkit_authorized(helper: &str) -> bool {
++fn polkit_authorized() -> bool {
+     let Ok(stat) = std::fs::read_to_string("/proc/self/stat") else {
+         return false;
+     };
+@@ -377,15 +377,9 @@
+     let mut cmd = Command::new("pkcheck");
+     cmd.args([
+         "--action-id",
+-        "org.freedesktop.policykit.exec",
++        "org.wireguard.gui.helper",
+         "--process",
+         &subject,
+-        "--detail",
+-        "program",
+-        helper,
+-        "--detail",
+-        "user",
+-        "root",
+     ])
+     .stdin(Stdio::null())
+     .stdout(Stdio::null())
+--- a/packaging/49-wireguard-gui.rules
++++ b/packaging/49-wireguard-gui.rules
+@@ -11,9 +11,7 @@
+  * The sudoers drop-in is the installer default. Requires polkit JS rules.
+  */
+ polkit.addRule(function(action, subject) {
+-    if (action.id === "org.freedesktop.policykit.exec" &&
+-        (action.lookup("program") === "/usr/local/lib/wireguard-gui/wg-helper" ||
+-         action.lookup("program") === "/usr/lib/wireguard-gui/wg-helper") &&
++    if (action.id === "org.wireguard.gui.helper" &&
+         subject.local && subject.active && subject.isInGroup("wireguard")) {
+         return polkit.Result.YES;
+     }

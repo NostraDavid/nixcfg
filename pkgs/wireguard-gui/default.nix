@@ -30,6 +30,9 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   cargoLock.lockFile = "${finalAttrs.src}/Cargo.lock";
 
+  # Polkit rejects authorization details from unprivileged callers.
+  patches = [./polkit-helper.patch];
+
   nativeBuildInputs = [pkg-config makeWrapper];
   buildInputs = [fontconfig freetype libxkbcommon wayland libGL dbus gtk3 glib pango cairo gdk-pixbuf];
 
@@ -45,6 +48,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     install -Dm644 packaging/wireguard-gui.desktop $out/share/applications/wireguard-gui.desktop
     install -Dm644 packaging/wireguard-gui.svg $out/share/icons/hicolor/scalable/apps/wireguard-gui.svg
     install -Dm644 packaging/49-wireguard-gui.rules $out/share/polkit-1/rules.d/49-wireguard-gui.rules
+    install -Dm644 ${./org.wireguard.gui.policy} $out/share/polkit-1/actions/org.wireguard.gui.policy
     wrapProgram $out/bin/wireguard-gui \
       --prefix PATH : ${lib.makeBinPath [wireguard-tools]} \
       --prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [libxkbcommon wayland libGL]}
