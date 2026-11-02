@@ -12,6 +12,19 @@ wrappers=$(nix build --impure --file "$root/checks/loki-mcp.nix" clientWrappers 
 real_codex=$(nix build --impure --file "$root/checks/loki-mcp.nix" realCodex --no-link --print-out-paths)
 real_opencode="$(nix build --impure --file "$root/checks/loki-mcp.nix" realOpenCode --no-link --print-out-paths)/bin/opencode"
 pi_backup=$(nix build --impure --file "$root/checks/loki-mcp.nix" piBackup --no-link --print-out-paths)
+native_launchers=$(nix build --impure --file "$root/checks/loki-mcp.nix" wodanLaunchers --no-link --print-out-paths)
+# Exercise the actual launcher exports without starting the browser runtime.
+grep -q '^exec ' "$native_launchers/codex-mcp-node-repl"
+sed '/^exec /,$d' "$native_launchers/codex-mcp-node-repl" >"$tmp/node-repl-env"
+cat >>"$tmp/node-repl-env" <<'SHELL'
+printf '%s\n' "$NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER" "$NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME"
+SHELL
+defaults=$(env -u NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER -u NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME bash "$tmp/node-repl-env")
+[[ $defaults == *"Control the in-app browser"* && $defaults == *"Control the Chrome browser"* ]]
+empty=$(NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER='' NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME='' bash "$tmp/node-repl-env")
+[[ -z $empty ]]
+custom=$(NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER='custom browser' NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME='custom chrome' bash "$tmp/node-repl-env")
+[[ $custom == $'custom browser\ncustom chrome' ]]
 "$python/bin/python" - "$root" "$tmp" "$wrappers" "$real_codex" "$real_opencode" "$pi_backup" <<'PYTHON'
 import json
 import os

@@ -14,8 +14,8 @@
     export CODEX_HOME=${lib.escapeShellArg "${config.home.homeDirectory}/.codex"}
     export BROWSER_USE_AVAILABLE_BACKENDS=chrome,iab,mcpapps
     export BROWSER_USE_TINYSKY_ENABLED=1
-    export NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER="Control the in-app browser in conjunction with the Browser Plugin."
-    export NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME="Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+    export NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER="''${NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER-Control the in-app browser in conjunction with the Browser Plugin.}"
+    export NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME="''${NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME-Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative.}"
     export BROWSER_USE_CODEX_APP_BUILD_FLAVOR=prod
     export BROWSER_USE_CODEX_APP_VERSION=${lib.escapeShellArg local.chatgpt.version}
     export NODE_REPL_TRUSTED_SERVICES=${lib.escapeShellArg (builtins.toJSON {browser = "${config.home.homeDirectory}/.codex/plugins/cache/openai-bundled/browser/${local.chatgpt.version}/scripts/browser-service.mjs";})}
