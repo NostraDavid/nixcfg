@@ -29,15 +29,26 @@ in {
     packages = [
       unstable.tmux # pi-term requires tmux for persistent interactive terminals; Zellij is not supported.
     ];
+    # Pi rewrites settings.json and mcp.json at runtime, which replaces the
+    # symlink with a regular file. Home Manager then backs the file up before
+    # relinking it. The systemd unit exports HOME_MANAGER_BACKUP_EXT=hm.bak, so
+    # the same backup name is reused on every activation and the second run
+    # fails on the file it created itself. Override the suffix for these two
+    # files and drop the previous copy, which keeps exactly one rolling backup
+    # of the last runtime state. The override is exported for the rest of the
+    # activation, so it only fires on runs where pi actually drifted.
     activation.piConfigBackup = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
-      if [[ -z "''${HOME_MANAGER_BACKUP_EXT-}" && -z "''${HOME_MANAGER_BACKUP_COMMAND-}" ]]; then
-        for file in settings.json mcp.json; do
-          if [[ -f "$HOME/.pi/agent/$file" && ! -L "$HOME/.pi/agent/$file" ]]; then
-            export HOME_MANAGER_BACKUP_EXT=before-direct-dotfiles
-            break
-          fi
-        done
+      piDrift=0
+      for file in settings.json mcp.json; do
+        if [[ -f "$HOME/.pi/agent/$file" && ! -L "$HOME/.pi/agent/$file" ]]; then
+          piDrift=1
+          rm -f "$HOME/.pi/agent/$file.before-direct-dotfiles"
+        fi
+      done
+      if [[ $piDrift == 1 ]]; then
+        export HOME_MANAGER_BACKUP_EXT=before-direct-dotfiles
       fi
+      true
     '';
 
     file = {

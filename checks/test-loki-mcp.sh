@@ -116,19 +116,30 @@ def backup_extension(child_env):
     )
 
 
-backup_env = dict(env, HOME_MANAGER_BACKUP_EXT="", HOME_MANAGER_BACKUP_COMMAND="")
-assert backup_extension(backup_env) == ""
 legacy_home = tmp / "legacy home"
-legacy = legacy_home / ".pi/agent/settings.json"
-legacy.parent.mkdir(parents=True)
-legacy.write_text("preserve this file")
-backup_env["HOME"] = str(legacy_home)
-assert backup_extension(backup_env) == "before-direct-dotfiles"
-assert legacy.read_text() == "preserve this file"
-assert (
-    backup_extension(dict(backup_env, HOME_MANAGER_BACKUP_EXT="chosen-by-user"))
-    == "chosen-by-user"
+legacy_dir = legacy_home / ".pi/agent"
+legacy_dir.mkdir(parents=True)
+backup_env = dict(
+    env, HOME=str(legacy_home), HOME_MANAGER_BACKUP_EXT="hm.bak",
+    HOME_MANAGER_BACKUP_COMMAND="",
 )
+for activation in range(2):
+    originals = {}
+    for name in ("settings.json", "mcp.json"):
+        path = legacy_dir / name
+        if path.is_symlink():
+            path.unlink()
+        originals[path] = f"runtime state {activation}: {name}"
+        path.write_text(originals[path])
+        (legacy_dir / f"{name}.hm.bak").write_text("previous Home Manager backup")
+    suffix = backup_extension(backup_env)
+    for path, content in originals.items():
+        assert path.read_text() == content
+        backup = path.with_name(f"{path.name}.{suffix}")
+        assert not backup.exists(), f"Backup collision on activation {activation}: {backup}"
+        path.rename(backup)
+        path.symlink_to(settings.resolve())
+        assert backup.read_text() == content
 
 # Native JSON clients use portable shell launchers without PATH lookup.
 bin_dir = home / ".local/bin"
