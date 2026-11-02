@@ -13,12 +13,21 @@ Follow [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/). Read
 
 1. Inspect the existing changelog and the requested change or release scope.
    Preserve useful project conventions and existing history.
-2. Select notable changes supported by the diff, release evidence, or user-provided
-   facts. Combine implementation details into clear outcomes and user impact;
-   omit routine work and raw commit-title lists. When naming a package, use its
+2. Compare changes against the final diff for the requested scope and its
+   appropriate baseline, such as the previous release or target branch. Record
+   only net changes that remain in the final result, not intermediate work that
+   was subsequently removed or reverted. If the baseline is unclear, establish
+   it before drawing conclusions. Use release evidence or user-provided facts
+   where the diff alone is insufficient. Combine implementation details into
+   clear outcomes and user impact; omit routine work and raw commit-title lists.
+   When naming a package, use its
    exact verified package name in backticks (e.g. `example-http-client`), not a
    humanized substitute. Check the package manifest or other authoritative source;
    do not guess the name.
+   If a user explicitly requests a technical detail that conflicts with the
+   evidence, preserve the requested detail rather than silently correcting it.
+   Report the discrepancy and its evidence to the user so they can decide
+   whether to change it.
 3. Keep `[Unreleased]` first. Group entries under populated categories only:
    `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, and `Security`. Omit
    empty category headings. Make upgrade impact, deprecations, and removals clear.
