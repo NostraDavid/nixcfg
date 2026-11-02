@@ -133,11 +133,11 @@ Click a numbered marker to inspect its package list.
 
 For overlap by Home, Work, and Virtual categories, run
 `python3 scripts/software-category-circles.py` and open the generated
-[category overview](../reports/software-overlap-circles/index.html). Physical
-is the union of Home and Work; Loki and Mimir2 are classified as Work. This
-command evaluates the current configuration and also updates the six-machine
-preview. When the circle layout cannot show an occupied combination, the
-preview lists it in the table and displays a warning.
+[category overview](../reports/software-overlap-circles/index.html). Physical is
+the union of Home and Work; Loki and Mimir2 are classified as Work. This command
+evaluates the current configuration and also updates the six-machine preview.
+When the circle layout cannot show an occupied combination, the preview lists it
+in the table and displays a warning.
 
 Measured results for the snapshot above:
 

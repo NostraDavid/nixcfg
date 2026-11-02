@@ -5,16 +5,15 @@ nix-darwin en in de bundel voor standalone Home Manager. De interne CA's van
 NixOS blijven in de hostbundel staan.
 
 De losse `pkgs.cacert` volgt de vastgepinde nixpkgs-versie en wordt niet lokaal
-gepatcht. Oudere bundels kunnen de getroffen roots nog bevatten. Programma's
-die de gefilterde systeembundel niet gebruiken, vereisen daarom een officiële
+gepatcht. Oudere bundels kunnen de getroffen roots nog bevatten. Programma's die
+de gefilterde systeembundel niet gebruiken, vereisen daarom een officiële
 upstream-update.
 
 Het lokale pakket `pkgs/uv` levert uv 0.13.5 of nieuwer. Bijwerken kan met
-`just pkg-update uv`. Node.js, de globale pip- en virtualenv-pakketten volgen
-de vastgepinde nixpkgs-versies. Node 24.22.1 of nieuwer is nodig voor de
-officiële beveiligingsfixes. De gebruikerscommando's
-`~/.local/bin/python` en `~/.local/bin/python3` gebruiken een kopie van de
-bestaande Nix-interpreter.
+`just pkg-update uv`. Node.js, de globale pip- en virtualenv-pakketten volgen de
+vastgepinde nixpkgs-versies. Node 24.22.1 of nieuwer is nodig voor de officiële
+beveiligingsfixes. De gebruikerscommando's `~/.local/bin/python` en
+`~/.local/bin/python3` gebruiken een kopie van de bestaande Nix-interpreter.
 Alleen diens `ensurepip` krijgt de geverifieerde pip-wheel 26.2.2 wanneer de
 meegeleverde versie ouder is. Python wordt daarvoor niet opnieuw gecompileerd.
 De Python-interpreters voor builds blijven ongewijzigd. De ingebouwde pip-wheels
@@ -109,9 +108,9 @@ deze fixtures, zodat verlopen testcertificaten geen schijnbescherming geven.
 De check onderzoekt ook `ensurepip`, een nieuwe `venv`, normale interne trust,
 herstelmetadata, een onderbroken back-up en herhaalde uitvoering. Ze controleert
 de werkelijke truststore-context van die pip en bewaakt dat de CA-overlay de
-bouwinterpreter en Rust-toolchain niet verandert. De Node-check wordt overgeslagen
-zolang de vastgepinde versie ouder is dan 24.22.1. De pre-commithook voert de
-check uit bij relevante wijzigingen.
+bouwinterpreter en Rust-toolchain niet verandert. De Node-check wordt
+overgeslagen zolang de vastgepinde versie ouder is dan 24.22.1. De
+pre-commithook voert de check uit bij relevante wijzigingen.
 
 Het [bronnenonderzoek](emudhra-ca-incident-research.md) bevat de oorspronkelijke
 bevindingen, upstream-adviezen en de grenzen van de lokale inventarisatie.

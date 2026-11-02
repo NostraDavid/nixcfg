@@ -7,7 +7,7 @@ temp_dir="$(mktemp -d)"
 cp "$pkg_file" "$temp_dir/default.nix"
 success=0
 cleanup() {
-    if ((!success)); then
+    if ((! success)); then
         cp "$temp_dir/default.nix" "$pkg_file"
     fi
     rm -rf "$temp_dir"
