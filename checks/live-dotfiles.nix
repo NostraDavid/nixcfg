@@ -60,6 +60,9 @@ in
     }) [
       ".config/herdr-app/keys.json"
       ".config/herdr-app/settings.json"
+      ".config/herdr-core/config.toml"
+      ".t3/userdata/keybindings.json"
+      ".t3/userdata/settings.json"
     ]
     ++ map (name: {
       inherit name;

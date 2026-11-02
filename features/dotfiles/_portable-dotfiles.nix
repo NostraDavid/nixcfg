@@ -65,7 +65,10 @@ in {
     })
     // {
       ".config/herdr/config.toml".source = mk "${dot}/herdr-0.9.5/.config/herdr/config.toml";
+      ".config/herdr-core/config.toml".source = mk "${dot}/herdr-core-0.1.16/.config/herdr-core/config.toml";
       ".config/herdr-app/keys.json".source = mk "${dot}/herdr-app-0.1.9/.config/herdr-app/keys.json";
       ".config/herdr-app/settings.json".source = mk "${dot}/herdr-app-0.1.9/.config/herdr-app/settings.json";
+      ".t3/userdata/keybindings.json".source = mk "${dot}/t3code-0.1.6/.t3/userdata/keybindings.json";
+      ".t3/userdata/settings.json".source = mk "${dot}/t3code-0.1.6/.t3/userdata/settings.json";
     };
 }

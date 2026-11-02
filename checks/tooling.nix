@@ -102,6 +102,8 @@ in {
     assert lib.all (home:
       !(builtins.any (p: (p.pname or "") == "herdr-gpui") home.home.packages)
       && lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["herdr-app" "herdr-core"]
+      && home.home.file ? ".config/herdr-core/config.toml"
+      && !home.home.file.".config/herdr-core/config.toml".force
       && !(home.home.file ? ".config/herdr/config-gpui.local.toml"))
     homes; true;
   herdrCorePath = let

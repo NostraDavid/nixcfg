@@ -66,7 +66,6 @@
       repoRoot,
       ...
     }: {
-      home.file.".local/bin/zellij-workspace".source = config.lib.file.mkOutOfStoreSymlink "${repoRoot}/dotfiles/ndtk/.local/bin/zellij-workspace.py";
       imports = [
         # These integrations declare options; host features select their settings.
         inputs.plasma-manager.homeModules.plasma-manager
@@ -74,6 +73,8 @@
       ];
       programs.home-manager.enable = true;
       home = {
+        file.".local/bin/zellij-workspace".source = config.lib.file.mkOutOfStoreSymlink "${repoRoot}/dotfiles/ndtk/.local/bin/zellij-workspace.py";
+        file.".config/herdr-core/config.toml".source = config.lib.file.mkOutOfStoreSymlink "${repoRoot}/dotfiles/herdr-core-0.1.16/.config/herdr-core/config.toml";
         username = "david";
         homeDirectory = "/home/david";
         stateVersion = "25.05";

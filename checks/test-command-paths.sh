@@ -60,6 +60,7 @@ import json
 import os
 from pathlib import Path
 import sys
+import tomllib
 
 links, dotfiles, root = map(Path, sys.argv[1:])
 # Herdr app settings and keys stay valid JSON objects versioned beside the checkout.
@@ -67,6 +68,11 @@ herdr_app = root / "dotfiles/herdr-app-0.1.9/.config/herdr-app"
 for name in ("keys.json", "settings.json"):
     document = json.loads((herdr_app / name).read_text())
     assert isinstance(document, dict) and document, name
+with (root / "dotfiles/herdr-core-0.1.16/.config/herdr-core/config.toml").open("rb") as config:
+    tomllib.load(config)
+t3 = root / "dotfiles/t3code-0.1.6/.t3/userdata"
+assert isinstance(json.loads((t3 / "settings.json").read_text()), dict)
+assert isinstance(json.loads((t3 / "keybindings.json").read_text()), list)
 wanted = {
     ".config/alacritty/alacritty.toml",
     ".config/bat/config",
@@ -74,6 +80,9 @@ wanted = {
     ".config/zellij/config.kdl",
     ".config/herdr-app/keys.json",
     ".config/herdr-app/settings.json",
+    ".config/herdr-core/config.toml",
+    ".t3/userdata/keybindings.json",
+    ".t3/userdata/settings.json",
     ".pi/agent/settings.json",
     ".pi/agent/mcp.json",
 }
