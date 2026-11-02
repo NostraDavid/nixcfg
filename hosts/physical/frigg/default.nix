@@ -43,6 +43,7 @@
       systemd.services.nix-daemon.serviceConfig.CPUQuota = "400%";
 
       networking.hostName = "frigg";
+      networking.firewall.allowedTCPPorts = [3773]; # T3 Code
 
       system.stateVersion = "25.05";
       fileSystems."/media/usb" = {

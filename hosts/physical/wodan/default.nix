@@ -46,6 +46,7 @@
           nixosVex.strict = false;
 
           networking.hostName = "wodan";
+          networking.firewall.allowedTCPPorts = [3773]; # T3 Code
 
           system.stateVersion = "25.05";
 
