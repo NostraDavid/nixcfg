@@ -286,6 +286,11 @@ in {
     work = (flake.lib.mkLoki {username = "work";}).config.home-manager.users.work;
   in
     assert !(builtins.any (p: (p.pname or "") == "forgejo-cli") work.home.packages); true;
+  elasticCliWorkOnly = let
+    hasElastic = home: builtins.any (p: (p.pname or "") == "elastic-cli") home.home.packages;
+  in
+    assert lib.all hasElastic [mimir2 loki linuxWorkstation darwinWorkstation];
+    assert lib.all (name: !(hasElastic flake.nixosConfigurations.${name}.config.home-manager.users.david)) ["wodan" "donar" "frigg" "bragi"]; true;
   userLocate = let
     homes =
       [mimir2 loki linuxWorkstation darwinWorkstation]

@@ -16,6 +16,7 @@
     ];
     homeManager = {local, ...}: {
       home.packages = [
+        local.elastic-cli
         local.pandacode
         local.twg # Atlassian Teamwork Graph CLI
       ];
