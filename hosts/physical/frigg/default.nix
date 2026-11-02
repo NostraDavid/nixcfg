@@ -25,6 +25,7 @@
       codex-browser
       kde-workstation
       laptop
+      wireguard-gui
     ];
     nixos = {
       inputs,

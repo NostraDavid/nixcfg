@@ -30,6 +30,7 @@
           proxmox-lab-host
           openbao-backup
           pihole-tls
+          wireguard-gui
           wodan
         ];
         nixos = {

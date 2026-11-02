@@ -26,6 +26,7 @@
       desktop-base
       hyprland
       keyboard
+      wireguard-gui
     ];
     nixos = {
       lib,

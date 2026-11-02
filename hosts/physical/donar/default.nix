@@ -24,6 +24,7 @@
     includes = with den.aspects; [
       full-workstation
       laptop
+      wireguard-gui
     ];
     nixos = {
       config,

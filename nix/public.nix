@@ -36,6 +36,7 @@
     "terminal"
     "terminal-core"
     "whatpulse"
+    "wireguard-gui"
     "wodan-home"
     "work-communication"
     "workstation-base"
