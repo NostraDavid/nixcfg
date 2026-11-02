@@ -15,7 +15,10 @@ Follow [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/). Read
    Preserve useful project conventions and existing history.
 2. Select notable changes supported by the diff, release evidence, or user-provided
    facts. Combine implementation details into clear outcomes and user impact;
-   omit routine work and raw commit-title lists.
+   omit routine work and raw commit-title lists. When naming a package, use its
+   exact verified package name in backticks (e.g. `example-http-client`), not a
+   humanized substitute. Check the package manifest or other authoritative source;
+   do not guess the name.
 3. Keep `[Unreleased]` first. Group entries under populated categories only:
    `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, and `Security`. Omit
    empty category headings. Make upgrade impact, deprecations, and removals clear.
