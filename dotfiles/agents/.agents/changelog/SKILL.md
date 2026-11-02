@@ -37,6 +37,11 @@ Follow [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/). Read
    unknown.
 5. Verify that entries are factual and concise, release dates use ISO 8601, and
    sections are ordered correctly.
+6. After updating the changelog, find the pull request for the current change.
+   If one exists, add or update the relevant changelog entry in its description
+   without `[Unreleased]`. Preserve its template and unrelated information. If
+   no pull request exists or it cannot be updated, report that; do not create one
+   implicitly.
 
 Do not invent versions or dates. State that the project follows Semantic
 Versioning only when its versioning policy confirms this.
