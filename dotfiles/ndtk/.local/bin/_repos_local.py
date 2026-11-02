@@ -74,6 +74,13 @@ DEFAULT_TRASH_DIR_NAME = ".trash/update_repos"
 AZURE_GIT_HOSTS = frozenset(("dev.azure.com", "ssh.dev.azure.com"))
 WORKTREE_GIT_DIR_NAME = "worktree.git"
 TRUNK_DIR_NAME = "trunk"
+# Artifacts this tool or the editor writes into a worktree. They never hold work
+# that exists nowhere else, so clean-tags excludes them when it decides whether
+# a tag worktree still has local changes.
+WORKTREE_ARTIFACT_PATHSPECS = (
+    ":(exclude).vscode/",
+    ":(exclude)dprint.jsonc",
+)
 __version__ = "0.1.0"
 
 logger = get_logger()
@@ -1582,6 +1589,8 @@ def clean_tags_command(project: Path, dry_run: bool) -> None:
                     "--porcelain",
                     "--untracked-files=all",
                     "--ignored=matching",
+                    "--",
+                    *WORKTREE_ARTIFACT_PATHSPECS,
                 ],
             )
             if status.returncode != 0:
@@ -1595,7 +1604,8 @@ def clean_tags_command(project: Path, dry_run: bool) -> None:
                 skipped += 1
                 continue
             if not dry_run:
-                result = _tag_git(repo, ["worktree", "remove", str(path)])
+                # The excluded artifacts are still on disk, so git needs --force.
+                result = _tag_git(repo, ["worktree", "remove", "--force", str(path)])
                 if result.returncode != 0:
                     click.echo(
                         f"Cannot remove {path}: {(result.stdout or '').strip()}",
@@ -2058,6 +2068,27 @@ class TestLocalCheckoutUpdates(unittest.TestCase):
         again = CliRunner().invoke(cli, ["clean-tags", "--project", str(layout)])
         assert again.exit_code == 0, again.output
         assert "Removed 0" in again.output
+
+    def test_clean_tags_ignores_dprint_link_and_editor_state(self) -> None:
+        self.git(self.source, "tag", "v1.0.0")
+        layout = self.project / "tags-artifacts"
+        layout.mkdir()
+        common = layout / ".git"
+        self.git(self.root, "clone", "-q", "--bare", str(self.source), str(common))
+        (layout / WORKTREE_GIT_DIR_NAME).symlink_to(".git")
+        self.git(common, "worktree", "add", "-q", str(layout / "trunk"), "main")
+        worktree = layout / "v1.0.0"
+        self.git(common, "worktree", "add", "-q", "--detach", str(worktree), "v1.0.0")
+        (self.root / "dprint.jsonc").write_text("{}\n")
+        (common / "info/exclude").write_text("dprint.jsonc\n")
+        (worktree / "dprint.jsonc").symlink_to(self.root / "dprint.jsonc")
+        (worktree / ".vscode").mkdir()
+        (worktree / ".vscode/settings.json").write_text('{"window.title": "x"}\n')
+
+        result = CliRunner().invoke(cli, ["clean-tags", "--project", str(layout)])
+        assert result.exit_code == 0, result.output
+        assert not worktree.exists()
+        assert (layout / "trunk").is_dir()
 
     def test_untracked_collision_retains_both_versions(self) -> None:
         (self.repo / "remote.txt").write_text("local untracked\n")
