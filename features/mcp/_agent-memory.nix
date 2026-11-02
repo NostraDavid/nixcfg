@@ -9,6 +9,14 @@
   memory = stable.writeShellScriptBin "agent-memory" ''
     exec ${lib.getExe local.${provider}} "$@"
   '';
+  ctxHistorySetup = stable.writeShellScript "ctx-history-setup" ''
+    set -e
+    ompSessions=${lib.escapeShellArg "${config.home.homeDirectory}/.omp/agent/sessions"}
+    if [ -d "$ompSessions" ]; then
+      ${local.ctx}/bin/ctx sources add omp --provider pi --root "$ompSessions" --quiet
+    fi
+    exec ${local.ctx}/bin/ctx setup --no-daemon --quiet
+  '';
 in {
   options.nixcfg.agentMemory.provider = lib.mkOption {
     type = lib.types.enum [
@@ -53,7 +61,7 @@ in {
       Unit.Description = "Index local coding-agent history for CTX";
       Service = {
         Type = "simple";
-        ExecStartPre = "${local.ctx}/bin/ctx setup --no-daemon --quiet";
+        ExecStartPre = "${ctxHistorySetup}";
         ExecStart = "${local.ctx}/bin/ctx daemon run";
         TimeoutStartSec = "10min";
         Restart = "on-failure";
