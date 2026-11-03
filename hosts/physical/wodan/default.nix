@@ -36,6 +36,7 @@
         nixos = {
           inputs,
           lib,
+          repoRoot,
           stable,
           ...
         }: {
@@ -48,6 +49,9 @@
 
           networking.hostName = "wodan";
           networking.firewall.allowedTCPPorts = [3773]; # T3 Code
+
+          # Chrome on Linux reads extension installation policies system-wide.
+          environment.etc."opt/chrome/policies/managed/firefox-addons.json".source = "${repoRoot}/dotfiles/google-chrome/etc/opt/chrome/policies/managed/firefox-addons.json";
 
           system.stateVersion = "25.05";
 

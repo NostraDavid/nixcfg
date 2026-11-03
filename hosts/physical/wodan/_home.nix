@@ -45,6 +45,11 @@ in {
   };
 
   programs = {
+    google-chrome = {
+      enable = true;
+      package = stable.google-chrome;
+    };
+
     plasma = {
       kwin.effects.zoom = {
         enable = true;
