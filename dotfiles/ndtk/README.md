@@ -23,15 +23,23 @@ repositories. `restore_repos restore TARGET_DIR` restores the configured
 inventory.
 
 `repos github clone [TARGET_DIR]` synchronizes personal and organization GitHub
-repositories. `repos azure clone --root TARGET_DIR` synchronizes Azure DevOps
-repositories. Both default to `~/dev`. Run `repos github --help` or
-`repos azure --help` to list commands. Run `repos PROVIDER COMMAND --help` for
-command options.
+repositories. `repos forgejo clone [TARGET_DIR]` synchronizes accessible Forgejo
+repositories. Set `FORGEJO_TOKEN` to an API token with repository read access
+before running it. `repos azure clone --root TARGET_DIR` synchronizes Azure
+DevOps repositories. All default to `~/dev`. Run `repos PROVIDER --help` to list
+commands. Run `repos PROVIDER COMMAND --help` for command options.
 
 `repos PROVIDER` without a command shows help and does not synchronize anything.
 Every provider supports `--help`, `check` for local readiness, and `test` for
 network-free regression tests. Azure's `check` validates configuration and Git
 availability without testing the token against Azure.
+
+GitHub and Forgejo repositories with the same owner and name share a local
+repository, ignoring case. The first provider supplies `origin` and its worktree
+upstream. The other provider adds a `github` or `forgejo` remote and fetches it;
+it does not change existing push URLs or update worktrees from that remote.
+Check that matching names refer to the same project before syncing both
+providers.
 
 Azure defaults to four parallel repository updates per project. Use `--workers`
 to change this. Clone option names must be written in full.
@@ -68,6 +76,7 @@ The rewritten commands include local tests:
 - `save_cloned_repos unit-test`
 - `repos azure test`
 - `repos github test`
+- `repos forgejo test`
 - `repos local test`
 
 The updater reads `NDTK_BITBUCKET_HOST` for the throttled Bitbucket host,

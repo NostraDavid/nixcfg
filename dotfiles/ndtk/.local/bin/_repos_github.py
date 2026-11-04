@@ -243,7 +243,11 @@ def repo_path_part(repo_url: str) -> str:
     parsed = urlparse(cleaned)
     if parsed.scheme:
         path = parsed.path.strip("/")
-        if parsed.hostname in {"github.com", "www.github.com"} and path.count("/") >= 1:
+        if (
+            parsed.hostname
+            in {"github.com", "www.github.com", "forgejo.powerlan.empire"}
+            and path.count("/") >= 1
+        ):
             return path
         return Path(path).name
 
@@ -677,8 +681,37 @@ def maybe_migrate_legacy_bare_repo(
     return False, message
 
 
+def url_host(url: str) -> str:
+    if "://" in url:
+        return (urlparse(url).hostname or "").casefold()
+    if ":" in url and not url.startswith("/"):
+        return url.split(":", 1)[0].rsplit("@", 1)[-1].casefold()
+    return ""
+
+
 def urls_equivalent(a: str, b: str) -> bool:
-    return repo_path_part(a) == repo_path_part(b)
+    return (
+        url_host(a) == url_host(b)
+        and repo_path_part(a).casefold() == repo_path_part(b).casefold()
+    )
+
+
+def existing_repo_path(target_dir: Path, name: str) -> Path:
+    path = target_dir
+    for part in name.split("/"):
+        matches = (
+            [
+                entry
+                for entry in path.iterdir()
+                if entry.name.casefold() == part.casefold()
+            ]
+            if path.is_dir()
+            else []
+        )
+        if len(matches) > 1:
+            raise ValueError(f"ambiguous repository path: {path / part}")
+        path = matches[0] if matches else path / part
+    return path
 
 
 def clone_or_update_repo(  # noqa: C901, PLR0911, PLR0912, PLR0913, PLR0915, PLR0917 - keep the existing safety and error-handling flow intact; retain the existing caller interface
@@ -701,7 +734,7 @@ def clone_or_update_repo(  # noqa: C901, PLR0911, PLR0912, PLR0913, PLR0915, PLR
             prune_worktrees=prune_worktrees_flag,
             fetch_timeout_seconds=fetch_timeout,
         )
-        repo_root = target_dir / org_and_repo
+        repo_root = existing_repo_path(target_dir, org_and_repo)
         bare_dir = repo_root / BARE_REPO_DIR
         if dry_run:
             ok, reason = prepare_bare_layout(repo_root, dry_run=True)
@@ -743,8 +776,41 @@ def clone_or_update_repo(  # noqa: C901, PLR0911, PLR0912, PLR0913, PLR0915, PLR
                 origin_proc.stdout.strip() if origin_proc.returncode == 0 else ""
             )
             if origin_url and not urls_equivalent(origin_url, repo_url):
-                reason = f"origin url mismatch ({origin_url} != {repo_url})"
-                return fail_repo_trace(trace_ctx, reason)
+                hosts = {url_host(origin_url), url_host(repo_url)}
+                if (
+                    hosts != {"github.com", "forgejo.powerlan.empire"}
+                    or repo_path_part(origin_url).casefold() != org_and_repo.casefold()
+                ):
+                    return fail_repo_trace(
+                        trace_ctx, f"origin url mismatch ({origin_url} != {repo_url})"
+                    )
+                remote = "github" if url_host(repo_url) == "github.com" else "forgejo"
+                existing = run_git(
+                    ["remote", "get-url", remote], bare_dir, capture=True
+                )
+                if existing.returncode == 0 and not urls_equivalent(
+                    existing.stdout.strip(), repo_url
+                ):
+                    return fail_repo_trace(
+                        trace_ctx,
+                        f"{remote} url mismatch ({existing.stdout.strip()} != {repo_url})",
+                    )
+                if existing.returncode != 0:
+                    added = run_git(
+                        ["remote", "add", remote, repo_url], bare_dir, capture=True
+                    )
+                    if added.returncode != 0:
+                        return fail_repo_trace(trace_ctx, added.stderr.strip())
+                fetched = run_git(
+                    ["fetch", remote], bare_dir, capture=True, timeout=fetch_timeout
+                )
+                if fetched.returncode != 0:
+                    return fail_repo_trace(
+                        trace_ctx, (fetched.stderr or fetched.stdout).strip()
+                    )
+                return succeed_repo_trace(
+                    trace_ctx, f"{remote} fetched; worktrees follow origin"
+                )
         else:
             bare_dir.parent.mkdir(parents=True, exist_ok=True)
             clone_proc = run_git(
@@ -894,11 +960,13 @@ def org_repo_urls(org: str) -> list[str]:
     )
 
 
-def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+def parse_args(
+    argv: list[str] | None = None, *, provider: str = "github"
+) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        prog="repos github",
+        prog=f"repos {provider}",
         description=(
-            f"Clone/update all personal and organization GitHub repositories using {BARE_REPO_DIR} plus flat branch and tag worktrees."
+            f"Clone/update {provider} repositories using {BARE_REPO_DIR} plus flat branch worktrees."
         ),
     )
     commands = parser.add_subparsers(dest="command", title="commands")
@@ -1104,6 +1172,49 @@ def run_tests(verbose: bool) -> int:  # noqa: C901 - keep the existing safety an
             for raw_url, expected in cases.items():
                 with self.subTest(raw_url=raw_url):
                     assert repo_path_part(raw_url) == expected
+
+        def test_second_provider_preserves_origin(self) -> None:
+            github = "git@github.com:NostraDavid/repo.git"
+            forgejo = "ssh://forgejo@forgejo.powerlan.empire:2222/nostradavid/repo.git"
+            for origin, incoming, remote in (
+                (github, forgejo, "forgejo"),
+                (forgejo, github, "github"),
+            ):
+                with (
+                    self.subTest(origin=origin),
+                    tempfile.TemporaryDirectory() as directory,
+                ):
+                    root = Path(directory)
+                    bare = root / "NostraDavid" / "repo" / ".git"
+                    bare.mkdir(parents=True)
+                    calls = []
+
+                    def fake_git(
+                        args: list[str], *_unused: object, **_kwargs: object
+                    ) -> subprocess.CompletedProcess[str]:
+                        calls.append(args)  # noqa: B023
+                        if args == ["remote", "get-url", "origin"]:
+                            return subprocess.CompletedProcess(args, 0, origin, "")  # noqa: B023
+                        if args == ["remote", "get-url", remote]:  # noqa: B023
+                            return subprocess.CompletedProcess(args, 2, "", "missing")
+                        return subprocess.CompletedProcess(args, 0, "", "")
+
+                    with (
+                        mock.patch(f"{__name__}.run_git", side_effect=fake_git),
+                        mock.patch(f"{__name__}.is_managed_repo", return_value=True),
+                        mock.patch(
+                            f"{__name__}.prepare_bare_layout", return_value=(True, "ok")
+                        ),
+                    ):
+                        _, ok, _ = clone_or_update_repo(
+                            incoming, root, ["master"], [], True, True, False, 30
+                        )
+                    self.assertTrue(ok)
+                    self.assertIn(["remote", "add", remote, incoming], calls)
+                    self.assertIn(["fetch", remote], calls)
+                    self.assertFalse(
+                        any(args[:2] == ["remote", "set-url"] for args in calls)
+                    )
 
         def test_parse_csv_deduplicates_and_ignores_blanks(self) -> None:
             assert parse_csv(" master,main,,master, release ") == [
