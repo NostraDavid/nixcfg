@@ -1,9 +1,9 @@
 {
-  "zoom": 1.2,
+  "appearance": "dark",
   "core": "~/.local/bin/herdr-core",
+  "minimum_contrast": 1,
   "sounds": {
     "enabled": true
   },
-  "minimum_contrast": 1,
-  "appearance": "dark"
+  "zoom": 1.2
 }

@@ -1,6 +1,7 @@
 {
   fetchurl,
   lib,
+  makeWrapper,
   stdenvNoCC,
 }: let
   assets = {
@@ -29,9 +30,21 @@ in
     sourceRoot = ".";
     dontBuild = true;
     dontFixup = true;
+    nativeBuildInputs = lib.optionals stdenvNoCC.hostPlatform.isDarwin [makeWrapper];
     installPhase = ''
       runHook preInstall
       install -Dm755 herdr-core "$out/bin/herdr-core"
+      ${lib.optionalString stdenvNoCC.hostPlatform.isDarwin ''
+        # GUI launches inherit launchd's low soft limit. Holders and PTYs inherit
+        # this per-process limit, including re-execs of the wrapped real binary.
+        wrapProgram "$out/bin/herdr-core" --run '
+          export PATH="$HOME/.local/bin:$PATH"
+          nofile=$(ulimit -Sn)
+          if [ "$nofile" != unlimited ] && [ "$nofile" -lt 65536 ]; then
+            ulimit -Sn 65536 || exit 1
+          fi
+        '
+      ''}
       ln -s herdr-core "$out/bin/hc"
       runHook postInstall
     '';
