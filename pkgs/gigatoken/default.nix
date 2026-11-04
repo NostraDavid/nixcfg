@@ -10,20 +10,20 @@
   };
   wheels = {
     x86_64-linux = {
-      url = "https://files.pythonhosted.org/packages/e7/32/a0b3af6db26b3704224d3ad856ebadfdb6ed5d50210ab16ab9ad27b30673/gigatoken-0.10.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl";
-      hash = "sha256-LzSB0MBnvqzxwKdkDZVu28iXMBS6jPo+GL+vsC945Ts=";
+      url = "https://files.pythonhosted.org/packages/45/b6/85e9a2351bf93897782bfcb58eacc64ac4d5b8654fb8ee463a830b1795e5/gigatoken-0.11.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl";
+      hash = "sha256-EZkqvH9B5B5b4DxyLfHFIFtdD8xLy9T7RA0qC5f3rD8=";
     };
     aarch64-linux = {
-      url = "https://files.pythonhosted.org/packages/35/6f/d393a7735cbf775f612da4d0674f7ecc8900e0be4989fd46cbe23f650965/gigatoken-0.10.0-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl";
-      hash = "sha256-Rvcmt35BMpFPZO1Cx7gdgr3EDpMCE4/Kygs5Tu1i/Ec=";
+      url = "https://files.pythonhosted.org/packages/28/16/76a482e25b44d36fc456ca285185ccc6555009aa8712217e8b26703479ee/gigatoken-0.11.0-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl";
+      hash = "sha256-gWtor5phkn75X5zLqkx2cX3CDeD8q4RsAJDPFjMhuLo=";
     };
     x86_64-darwin = {
-      url = "https://files.pythonhosted.org/packages/bf/fb/861532617e4804df169b4b4b7f62a73123fef77706af6046826e996cb718/gigatoken-0.10.0-cp310-abi3-macosx_10_12_x86_64.whl";
-      hash = "sha256-qZWv4zyYwoMF3ssMvf7NAvVI5cQXbVyTUyqAMKaD0KE=";
+      url = "https://files.pythonhosted.org/packages/57/2d/fd78504d28b44474e87d0366a392e53703a17eb231599a3b96c01c9dd99f/gigatoken-0.11.0-cp310-abi3-macosx_10_12_x86_64.whl";
+      hash = "sha256-i2rWeaXRsZFz3fpeGUM1Apikm5JntdVTAvV7Eo4jfQE=";
     };
     aarch64-darwin = {
-      url = "https://files.pythonhosted.org/packages/05/8c/89091815057ea41a1e81061704266de52ac12e5411bc66d5f1b33a3f85a8/gigatoken-0.10.0-cp310-abi3-macosx_11_0_arm64.whl";
-      hash = "sha256-3/h6Hal9aXGOSgwsAKfymlCd/a9pqfjYu5aClRPFFsg=";
+      url = "https://files.pythonhosted.org/packages/6f/6b/5044db634b772f7262150c08a6b44c5eec07ed37adafff2d6bc817e8c8d0/gigatoken-0.11.0-cp310-abi3-macosx_11_0_arm64.whl";
+      hash = "sha256-+IRpC/kBkYjBBnj9GIWMYtB0aNES2PHE7KfzuTzMYZU=";
     };
   };
   wheel = wheels.${python3Packages.python.stdenv.hostPlatform.system}
@@ -31,7 +31,7 @@
 in
   python3Packages.buildPythonApplication {
     pname = "gigatoken";
-    version = "0.10.0";
+    version = "0.11.0";
     format = "wheel";
 
     src = fetchurl {inherit (wheel) url hash;};

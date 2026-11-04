@@ -6,9 +6,9 @@
   unzip,
 }: let
   pname = "t3code";
-  version = "0.1.6";
-  linuxHash = "sha256-CeJQcgjHeTCbOWvoRq6h2UUUS9eAYGiZwvSByW3fNNA=";
-  darwinHash = "sha256-GkXOqvyqqMWmL63LFr1CxJVQfFkcme0iOTQkCm6B9pk=";
+  version = "0.1.7";
+  linuxHash = "sha256-+q7kCU3KEnYFeEChpFprLQDXQYr79XNfdadQO3dOY9E=";
+  darwinHash = "sha256-N6TwR0kLg+jX4OTtD47ZAzji0gNlXgopNiHyTBOSF6E=";
   src = fetchurl (
     if stdenvNoCC.hostPlatform.isDarwin
     then {

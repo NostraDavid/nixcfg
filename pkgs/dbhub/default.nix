@@ -10,13 +10,13 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "dbhub";
-  version = "1.5.0";
+  version = "1.5.1";
 
   src = fetchFromGitHub {
     owner = "bytebase";
     repo = "dbhub";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-R7lO0FrUYxppVZ4B5bKD54EnT7apPwJG2GwDSoy8qd0=";
+    hash = "sha256-U77WuLsTL1XKbuucq3azhnU+WHxXQ5jaI1C00Z1NXyc=";
   };
   pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname version src;

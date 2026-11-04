@@ -8,29 +8,29 @@ stdenvNoCC.mkDerivation (finalAttrs: let
     "x86_64-linux" = {
       platform = "linux";
       arch = "amd64";
-      hash = "sha256-fg+02+2xu5EA+NyFTTHUPEt8LHQOTP2Dt1B2D0lXtaU=";
+      hash = "sha256-GcETeJ6KZr8RqA3BjPdefnuiOREgBfTpzWnbBfEaxSY=";
     };
     "aarch64-linux" = {
       platform = "linux";
       arch = "arm64";
-      hash = "sha256-r7OGW03fJ+So6J6uWYSWMuS+wXVDRLENdO70MyRW+lo=";
+      hash = "sha256-sYgPZvKZqytWUoyQu/9QyoJj5zMYaKMdC2yntn90aeU=";
     };
     "x86_64-darwin" = {
       platform = "darwin";
       arch = "amd64";
-      hash = "sha256-bML5SErq5//yd2V+yLT4gobVaWtzfgMJIkOy+8HbasI=";
+      hash = "sha256-kvroed4kPzwS/IBdTxVPmjMQkel0U2xANbrmlvlnMP8=";
     };
     "aarch64-darwin" = {
       platform = "darwin";
       arch = "arm64";
-      hash = "sha256-KRJr24BysSZwny08yqxYHNf5G2KvqpBGrpwdQ7LluTk=";
+      hash = "sha256-cFZhhtLh0BFg7w3DWu/B/7RtHdSmD/QaRSSK34uJe5c=";
     };
   };
   srcInfo = srcBySystem.${stdenvNoCC.hostPlatform.system}
     or (throw "acli: unsupported system ${stdenvNoCC.hostPlatform.system}");
 in {
   pname = "acli";
-  version = "1.3.39-stable";
+  version = "1.3.40-stable";
 
   src = fetchurl {
     url = "https://acli.atlassian.com/${srcInfo.platform}/${finalAttrs.version}/acli_${finalAttrs.version}_${srcInfo.platform}_${srcInfo.arch}.tar.gz";

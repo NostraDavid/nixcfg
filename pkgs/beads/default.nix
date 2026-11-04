@@ -8,26 +8,26 @@
   assets = {
     x86_64-linux = {
       target = "linux_amd64";
-      hash = "sha256-xuoygfb/gmKDUbLQlnyeuFhiyKDsDrwk5j5kXIsCRi4=";
+      hash = "sha256-F1wmkEveP/kWjSKC/2tW8XsX9gwi+lrLPazJ+zRlMDo=";
     };
     aarch64-linux = {
       target = "linux_arm64";
-      hash = "sha256-ObNKEka3IWAxqYroOMeFp9u6Kc+fUPEJEUrEYqS4Xnw=";
+      hash = "sha256-9O5us+x5uy1+udcXxz77y2+nY8xw9ya00FW3Kv3WitU=";
     };
     x86_64-darwin = {
       target = "darwin_amd64";
-      hash = "sha256-JVrHKHKf30McPdDSOsA8zm1RmYzIiog+yLx76TI7CwU=";
+      hash = "sha256-BecTotqO6rpAuSQYRzXZo00tqGaeTTrFDMcWYFuhBkA=";
     };
     aarch64-darwin = {
       target = "darwin_arm64";
-      hash = "sha256-sptESZ0RlEu1zs3WC0nq8UgfTD/gMatFot8aNtrbhEU=";
+      hash = "sha256-sIqcFb/4DEIjXzKUb5SmVmp9kJRP6K/kXz/S81BZbNs=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported beads platform: ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "beads";
-    version = "1.3.2";
+    version = "1.3.4";
 
     src = fetchurl {
       url = "https://github.com/gastownhall/beads/releases/download/v${finalAttrs.version}/beads_${finalAttrs.version}_${asset.target}.tar.gz";

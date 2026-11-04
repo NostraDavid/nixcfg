@@ -7,19 +7,19 @@
   assets = {
     x86_64-linux = {
       target = "x86_64-unknown-linux-musl";
-      hash = "sha256-XWHya2xyE3ee2pDtxpceprC3lr+41JpXTIrWm1mDhUg=";
+      hash = "sha256-KHSR2gPyp4XHD6dbE+H4SZGMLytUFf6Eh2uCFO63kvk=";
     };
     aarch64-linux = {
       target = "aarch64-unknown-linux-musl";
-      hash = "sha256-gZaS5ATSPlqua8RMDiYPH1SS/RkQq0aTssZQ+Sbb6AA=";
+      hash = "sha256-LT7AdqDEwOglC7ZBjEQICCi1RPGjvgtuRq35+2kj3kU=";
     };
     aarch64-darwin = {
       target = "aarch64-apple-darwin";
-      hash = "sha256-YPvVyKHtaBhF7qKNnWIvzeA8UekaQ0ZbZKHhfbHtNHI=";
+      hash = "sha256-gbgRtX5GJN9+06rBSOA1kQDZli89nc4ArsUz3C4IZzE=";
     };
     x86_64-darwin = {
       target = "x86_64-apple-darwin";
-      hash = "sha256-Y7oX/dpVrRojDUs3/GAX/6EMI2iMg4GL07/fkUxlKgI=";
+      hash = "sha256-IMR+TB9jC4q6/4wpH6m5qjAP75LE+/+VrfGYtVKHzac=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};
@@ -27,7 +27,7 @@
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "uv";
-    version = "0.13.6";
+    version = "0.13.7";
 
     src = fetchurl {
       url = "https://github.com/astral-sh/uv/releases/download/${finalAttrs.version}/uv-${asset.target}.tar.gz";
