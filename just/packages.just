@@ -26,15 +26,18 @@ pkg-update package:
   @./scripts/local-package-maint.sh update "{{package}}"
 
 # Update every local flake package via its updater or nix-update fallback.
+# shortcut: detects tracked changes only, use explicit updater results if untracked files must count.
 [group('packages')]
 pkgs:
   @packages="$(./scripts/local-package-maint.sh packages)" || exit $?; \
   update_log="$(mktemp)" || exit $?; trap 'rm -f "$update_log"' EXIT; \
-  red="$(printf '\033[31m')"; green="$(printf '\033[32m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=(); \
+  red="$(printf '\033[31m')"; green="$(printf '\033[32m')"; blue="$(printf '\033[34m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=(); \
   for package in $packages; do \
     printf '%s ... ' "$package"; \
+    before="$(git diff --no-ext-diff --binary | git hash-object --stdin)"; \
     if just pkg-update "$package" >"$update_log" 2>&1; then \
-      printf '%sok%s\n' "$green" "$reset"; \
+      after="$(git diff --no-ext-diff --binary | git hash-object --stdin)"; \
+      if [ "$before" != "$after" ]; then printf '%supdated%s\n' "$blue" "$reset"; else printf '%sno update%s\n' "$green" "$reset"; fi; \
     else \
       printf '%sFAILED%s\n' "$red" "$reset"; \
       cat "$update_log" >&2; \

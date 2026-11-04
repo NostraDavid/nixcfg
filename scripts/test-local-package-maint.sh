@@ -140,26 +140,31 @@ just_bin="$(command -v just)"
 mkdir -p "${test_root}/bin"
 cat >"${test_root}/scripts/local-package-maint.sh" <<'EOF'
 #!/usr/bin/env bash
-printf 'good\nbad\ngood2\n'
+printf 'good\nbad\nupdated\ngood2\n'
 EOF
 cat >"${test_root}/bin/just" <<'EOF'
 #!/usr/bin/env bash
 printf '%s\n' "$2" >>"${BULK_UPDATE_LOG}"
 echo "verbose stdout for $2"
 echo "verbose stderr for $2" >&2
+if [[ "$2" == updated ]]; then echo changed >>tracked; fi
 [[ "$2" != bad ]]
 EOF
 chmod +x "${test_root}/scripts/local-package-maint.sh" "${test_root}/bin/just"
+echo original >"${test_root}/tracked"
+git -C "${test_root}" add tracked
+echo 'previous change' >>"${test_root}/tracked"
 status=0
 output="$(PATH="${test_root}/bin:${PATH}" BULK_UPDATE_LOG="${test_root}/bulk.log" \
     "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" pkgs 2>&1)" || status=$?
 [[ "${status}" -eq 1 ]]
-[[ "$(cat "${test_root}/bulk.log")" == $'good\nbad\ngood2' ]]
+[[ "$(cat "${test_root}/bulk.log")" == $'good\nbad\nupdated\ngood2' ]]
 [[ "${output}" == *$'\033[1m\033[31mPackages with failed updates:\033[0m'* ]]
 [[ "${output}" == *$'\n  bad\n'* ]]
-[[ "${output}" == *$'good ... \033[32mok\033[0m'* ]]
+[[ "${output}" == *$'good ... \033[32mno update\033[0m'* ]]
 [[ "${output}" == *$'bad ... \033[31mFAILED\033[0m'* ]]
-[[ "${output}" == *$'good2 ... \033[32mok\033[0m'* ]]
+[[ "${output}" == *$'updated ... \033[34mupdated\033[0m'* ]]
+[[ "${output}" == *$'good2 ... \033[32mno update\033[0m'* ]]
 [[ "${output}" != *'verbose stdout for good'* ]]
 [[ "${output}" != *'verbose stderr for good'* ]]
 [[ "${output}" == *'verbose stdout for bad'* ]]
