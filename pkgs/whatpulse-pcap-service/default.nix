@@ -1,5 +1,5 @@
 {
-  fetchurl,
+  fetchFromGitHub,
   lib,
   pkg-config,
   stdenv,
@@ -7,17 +7,17 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "whatpulse-pcap-service";
-  version = "1.5.1";
+  version = "1.5.2";
 
-  src = fetchurl {
-    url = "https://github.com/whatpulse/linux-external-pcap-service/releases/download/v${finalAttrs.version}/whatpulse-pcap-service-${finalAttrs.version}-source.tar.gz";
-    hash = "sha256-/0RyS2aaDw7C+ppaY40C6lNKZL65uXcz3wYq8NPWHRY=";
+  src = fetchFromGitHub {
+    owner = "whatpulse";
+    repo = "linux-external-pcap-service";
+    rev = "v${finalAttrs.version}";
+    hash = "sha256-ih0Jz6gzgVsLK8szT5ouTKT9fEsA9Iy4PTiQCh3vDVQ=";
   };
 
   nativeBuildInputs = [pkg-config];
   buildInputs = [libpcap];
-
-  sourceRoot = ".";
 
   buildPhase = ''
     runHook preBuild
