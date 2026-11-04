@@ -2,14 +2,17 @@
   lib,
   buildNpmPackage,
   fetchurl,
+  stdenv,
+  pkg-config,
+  libsecret,
 }:
 buildNpmPackage (finalAttrs: {
   pname = "cli-microsoft365";
-  version = "11.11.0";
+  version = "12.0.0";
 
   src = fetchurl {
     url = "https://registry.npmjs.org/@pnp/cli-microsoft365/-/cli-microsoft365-${finalAttrs.version}.tgz";
-    hash = "sha256-RdtTd3szeKVXSqNqLRRMuHKsyoPFYJt4q1mBBR59LRc=";
+    hash = "sha256-j5bVytavBeuMD1vIW3+cQ6jN5aCRLxP0W2uafyH7iNQ=";
   };
   sourceRoot = "package";
 
@@ -24,9 +27,11 @@ buildNpmPackage (finalAttrs: {
     rm npm-shrinkwrap.json
   '';
 
-  npmDepsHash = "sha256-xc/i0sLPW6vDQAtavqSHhMYKkVzFNqtXpX9xgduKeZ0=";
+  npmDepsHash = "sha256-Hv6F1E3ZpRNdNiPmMUsmKqZBACMTEMYsBsQBaeYO3R4=";
   npmConfigProduction = true;
   npmFlags = ["--omit=dev"];
+  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [pkg-config];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [libsecret];
   dontNpmBuild = true;
 
   meta = {
