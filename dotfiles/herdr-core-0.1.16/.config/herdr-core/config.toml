@@ -1,3 +1,4 @@
 # herdr-core --help documents these optional settings:
 # notes = false # Disable automatic notes and <hc> tags.
 # shell = ["nu"] # Override the shell for new terminals and recovery.
+shell = ["nix-bash"]
