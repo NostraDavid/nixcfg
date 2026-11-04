@@ -9,8 +9,12 @@
       "applications:firefox-esr.desktop"
       "applications:code.desktop"
       "applications:com.mitchellh.ghostty.desktop" # generic terminal
+      "applications:t3code.desktop"
       "applications:kitty.desktop"
       "applications:chatgpt.desktop"
+    ]
+    ++ lib.optional config.programs.google-chrome.enable "applications:google-chrome.desktop"
+    ++ [
       "applications:chromium-browser.desktop"
       "applications:io.missioncenter.MissionCenter.desktop"
       "applications:org.keepassxc.KeePassXC.desktop"
@@ -22,7 +26,6 @@
       "applications:org.gnome.Evolution.desktop"
       "applications:io.github.cboxdoerfer.FSearch.desktop"
       "applications:Alacritty.desktop"
-      "applications:t3code.desktop"
     ]
     ++ config.nixcfg.plasma.extraTaskbarLaunchers;
   mkBottomPanel = screen: {
