@@ -66,6 +66,7 @@ in {
         local.mlx-harness
         local.pandacode
         local.t3code # T3 Code desktop app for coding agents
+        local.topdesk-cli # Manage TOPdesk tickets from the terminal
         local.twg # Atlassian Teamwork Graph CLI
         unstable.github-copilot-cli
         unstable.raycast

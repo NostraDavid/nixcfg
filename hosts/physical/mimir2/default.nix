@@ -18,6 +18,7 @@
       home.packages = [
         local.elastic-cli
         local.pandacode
+        local.topdesk-cli # Manage TOPdesk tickets from the terminal
         local.twg # Atlassian Teamwork Graph CLI
       ];
       programs.home-manager.enable = true;
