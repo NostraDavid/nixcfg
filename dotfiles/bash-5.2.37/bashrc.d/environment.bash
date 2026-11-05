@@ -65,6 +65,7 @@ append_prompt_command() {
 # deterministic order with ~/.local/bin ahead of ~/bin.
 path_remove "$HOME/.local/bin" "$HOME/bin"
 path_prepend "$HOME/bin" "$HOME/.local/bin"
+path_append "$HOME/.docker/bin"
 export PATH
 
 if [[ $(uname -s) == Linux ]]; then
