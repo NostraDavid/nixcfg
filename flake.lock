@@ -561,11 +561,11 @@
     "pstack-skills": {
       "flake": false,
       "locked": {
-        "lastModified": 1793776806,
-        "narHash": "sha256-4dgaC7yhlVnM7B3s4gg5iqxnqm6TsKwhLbGC/ukhwew=",
+        "lastModified": 1794026470,
+        "narHash": "sha256-TDuZ1v+taPdqyvvCs1VHUjtpSy8zHxhQKJv/kIPTpK8=",
         "owner": "cursor",
         "repo": "plugins",
-        "rev": "bb68f2365eceafa0cb2d253112f675acf5f144cc",
+        "rev": "6b0300214a09fd6029cfb7077043125758cd1fd2",
         "type": "github"
       },
       "original": {
