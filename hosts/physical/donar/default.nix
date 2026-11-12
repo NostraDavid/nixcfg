@@ -29,6 +29,7 @@
     nixos = {
       config,
       lib,
+      pkgs,
       stable,
       ...
     }: {
@@ -37,6 +38,20 @@
       ];
 
       networking.hostName = "donar";
+
+      programs.steam.extraCompatPackages = [
+        (pkgs.proton-ge-bin.overrideAttrs {
+          version = "GE-Proton11-7";
+          src = pkgs.fetchzip {
+            url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-7/GE-Proton11-7-x86_64.tar.gz";
+            hash = "sha256-ftW0vE45v2JsbaYqo/So0ZFfvdtakHX0XEXEE4TdxLk=";
+          };
+          preFixup = ''
+            substituteInPlace "$steamcompattool/compatibilitytool.vdf" \
+              --replace-fail "GE-Proton11-7-x86_64" "GE-Proton11-7"
+          '';
+        })
+      ];
 
       system.stateVersion = "26.05";
 
