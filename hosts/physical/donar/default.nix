@@ -117,9 +117,15 @@
         inputs.plasma-manager.homeModules.plasma-manager
         inputs.codex-desktop-linux.homeManagerModules.default
       ];
-      programs.home-manager.enable = true;
-      # KDE otherwise restores its saved powered-off state after BlueZ enables it.
-      programs.plasma.configFile.bluedevilglobalrc.Adapters."F4:B3:01:11:B5:B5_powered" = true;
+      programs = {
+        home-manager.enable = true;
+        plasma.powerdevil.AC = {
+          autoSuspend.action = "nothing";
+          whenLaptopLidClosed = "doNothing";
+        };
+        # KDE otherwise restores its saved powered-off state after BlueZ enables it.
+        plasma.configFile.bluedevilglobalrc.Adapters."F4:B3:01:11:B5:B5_powered" = true;
+      };
       xdg.configFile."autostart/whatpulse.desktop".source = "${local.whatpulse}/share/applications/whatpulse.desktop";
       xdg.configFile."autostart/org.kde.discover.notifier.desktop".source = ./discover-notifier.desktop;
       home = {
