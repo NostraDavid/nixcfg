@@ -7,19 +7,19 @@ stdenv.mkDerivation (finalAttrs: let
   srcBySystem = {
     "x86_64-linux" = {
       url = "https://github.com/databricks/cli/releases/download/v${finalAttrs.version}/databricks_cli_${finalAttrs.version}_linux_amd64.tar.gz";
-      hash = "sha256-pewIj39sxZdDJ6Qt+ZJh4i+8b3ypzduUUzPCON2eIok=";
+      hash = "sha256-UiSIhClyoGk2IHpQNCatNk2AYdouMwY22mD0RKMoQPU=";
     };
     "aarch64-linux" = {
       url = "https://github.com/databricks/cli/releases/download/v${finalAttrs.version}/databricks_cli_${finalAttrs.version}_linux_arm64.tar.gz";
-      hash = "sha256-DIMludcfVHzt8VofSQVAYjga3G1ggO1ViQU6fFL+x2w=";
+      hash = "sha256-4ckkqVgZ18eS9xpBwhbSqtlVAMrtqbhY3uZ2gwd6WgY=";
     };
     "x86_64-darwin" = {
       url = "https://github.com/databricks/cli/releases/download/v${finalAttrs.version}/databricks_cli_${finalAttrs.version}_darwin_amd64.tar.gz";
-      hash = "sha256-KmAqBAFnX/5m2peILcEs5lGrQe47QjVn74BpBPWSd20=";
+      hash = "sha256-Kx08ZJ04Q0znW/9eIhLfA6dBtXmRV5IRHg8EqDP59vI=";
     };
     "aarch64-darwin" = {
       url = "https://github.com/databricks/cli/releases/download/v${finalAttrs.version}/databricks_cli_${finalAttrs.version}_darwin_arm64.tar.gz";
-      hash = "sha256-dQ5Mxp3x5fctIjPzOLm+4YT6dQWJDdordzm3vRNKCSo=";
+      hash = "sha256-ZsnL42/Aq7SR4HRhJKlepkQFQRLmte14rbDuUwxN2vA=";
     };
   };
 
@@ -27,7 +27,7 @@ stdenv.mkDerivation (finalAttrs: let
     or (throw "databricks-cli: unsupported system ${stdenv.hostPlatform.system}");
 in {
   pname = "databricks-cli";
-  version = "1.23.0";
+  version = "1.26.0";
 
   src = fetchurl {
     inherit (srcInfo) url hash;

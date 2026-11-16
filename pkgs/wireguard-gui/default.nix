@@ -19,13 +19,13 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "wireguard-gui";
-  version = "1.9.3";
+  version = "1.10.0";
 
   src = fetchFromGitHub {
     owner = "JamilleJung";
     repo = "wireguard-gui";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-SkIbMAw6nv7oS0+6FIfrzpeEXjn76YTU1LU39qz5dAg=";
+    hash = "sha256-iJux4Elh6SLNNTZ/recwWh8q/KyswVUOsl9VHkg2kvc=";
   };
 
   cargoLock.lockFile = "${finalAttrs.src}/Cargo.lock";

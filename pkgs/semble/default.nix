@@ -207,12 +207,12 @@
 in
   python.buildPythonApplication rec {
     pname = "semble";
-    version = "0.7.2";
+    version = "0.7.3";
     pyproject = true;
 
     src = fetchPypi {
       inherit pname version;
-      hash = "sha256-zxUCkUWZ5jEmjhvQrKny1dMdzcX43YPbxizyCXjqKOw=";
+      hash = "sha256-pZihCG8voKQz58CrSDJ9CJsdYkUj9mucznNlUNyhjPo=";
     };
 
     build-system = with python; [

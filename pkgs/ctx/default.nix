@@ -8,22 +8,22 @@
   binaries = {
     x86_64-linux = {
       asset = "ctx-linux-x64";
-      hash = "sha256-i8IstFx/qazCBJo8dBklk5o9ooAe99O26cnE+usvzI0=";
+      hash = "sha256-rOlvzhnXJ9VdidXjoCkgty2OfTq1ehyWN2Ia1IHZYiE=";
     };
     aarch64-darwin = {
       asset = "ctx-macos-arm64";
-      hash = "sha256-WIUxF+YqxGN43lxno77Ee1IO2Pu4CYmMSF7UtQ1MpkA=";
+      hash = "sha256-OHbxwZesKm3HSuACCkqjo43TzwVchXFC2eT93PvYWT0=";
     };
     x86_64-darwin = {
       asset = "ctx-macos-x64";
-      hash = "sha256-iS20MVQSf5Zf6ATKmuVIH9ZE2WovxDBuAw3m5XxaJqg=";
+      hash = "sha256-hYYIyFfYHwcFa71f3FIZ/SN6SV4jfsng9K7s8OPoImc=";
     };
   };
   binary = binaries.${stdenvNoCC.hostPlatform.system} or (throw "ctx: unsupported platform ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "ctx";
-    version = "2.3.0";
+    version = "2.4.1";
 
     src = fetchurl {
       url = "https://github.com/ctxrs/ctx/releases/download/v${finalAttrs.version}/${binary.asset}";
@@ -33,7 +33,7 @@ in
       owner = "ctxrs";
       repo = "ctx";
       tag = "v${finalAttrs.version}";
-      hash = "sha256-XihSpW86eVALViD9mnSWXHldXI11T9N0uyHdlLXb9GU=";
+      hash = "sha256-owOMZcPBIDEstsiaik3piaItTMJwj30qsEfR44Btesw=";
     };
 
     nativeBuildInputs = lib.optionals stdenvNoCC.hostPlatform.isLinux [autoPatchelfHook];

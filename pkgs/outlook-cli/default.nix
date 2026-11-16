@@ -7,26 +7,26 @@
   assets = {
     x86_64-linux = {
       target = "x86_64-unknown-linux-musl";
-      hash = "sha256-TSaaaJg5lDeMtc6YmwlNO/djQm0nF4dS18bTH5bxc3Q=";
+      hash = "sha256-M3+08eFaLqk+XXAEZ+gHrfiqkqf9krk8jJGHIL0z1fw=";
     };
     aarch64-linux = {
       target = "aarch64-unknown-linux-musl";
-      hash = "sha256-S8sHaFQzXvUgJ2zvOoJIIQFstDnu2lycJluz+cp1kgM=";
+      hash = "sha256-O984NVDSIQV0tCiUwewvWirlDbNnl7I/XgaJRQuFOSk=";
     };
     x86_64-darwin = {
       target = "x86_64-apple-darwin";
-      hash = "sha256-gw7l7tGjICrGqibPTMPbybYDyBRt3WT+wDgjPnjKeCk=";
+      hash = "sha256-ze8dp7dIJvKHAB2DMQNm6BNbvJtOZCeMxVQZiaTcEy8=";
     };
     aarch64-darwin = {
       target = "aarch64-apple-darwin";
-      hash = "sha256-blveihZ6xmg6HggPFBtTetmquk3MzU9GvSB2z5Bv7m8=";
+      hash = "sha256-sod7Fg/SReahdfJWXzfwpi8RX3aUOyXU39RCg2sh+IM=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system} or (throw "Unsupported outlook-cli platform: ${stdenvNoCC.hostPlatform.system}");
 in
   stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "outlook-cli";
-    version = "0.2.5";
+    version = "0.2.6";
 
     src = fetchurl {
       url = "https://github.com/rvben/outlook-cli/releases/download/v${finalAttrs.version}/outlook-v${finalAttrs.version}-${asset.target}.tar.gz";

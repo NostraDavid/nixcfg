@@ -7,10 +7,10 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "chrome-devtools-mcp";
-  version = "1.12.0";
+  version = "1.13.0";
   src = fetchurl {
     url = "https://registry.npmjs.org/chrome-devtools-mcp/-/chrome-devtools-mcp-${finalAttrs.version}.tgz";
-    hash = "sha256-Sq3jFnw+eBx5fWEJ7WA6DKW4yzY6KJ4uqsqpsMXSo2A=";
+    hash = "sha256-kVjEtKh5LLUirkb3buqpSRzgRhajrpcimhYnfgKkrqQ=";
   };
   nativeBuildInputs = [makeWrapper];
   dontBuild = true;
