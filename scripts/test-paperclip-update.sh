@@ -28,6 +28,15 @@ case "$*" in
     'build .#paperclip --no-link')
         [[ "${TEST_FAILURE:-}" != build ]] || exit 17
         jq -e '.packages["node_modules/uuid"].version == "11.1.1"' "$TEST_REPO/pkgs/paperclip/package-lock.json" >/dev/null
+        if [[ "${TEST_FAILURE:-}" == bundle ]]; then
+            jq -e '
+                .packages as $p
+                | "node_modules/@paperclipai/server/node_modules/@agentclientprotocol/claude-agent-acp/" as $adapter
+                | $p[$adapter + "node_modules/@anthropic-ai/claude-agent-sdk"] == $p["node_modules/@anthropic-ai/claude-agent-sdk"]
+                  and $p[$adapter + "node_modules/@anthropic-ai/claude-agent-sdk-linux-x64"] == $p["node_modules/@anthropic-ai/claude-agent-sdk-linux-x64"]
+                  and $p["node_modules/@paperclipai/server/node_modules/@anthropic-ai/claude-agent-sdk"].version == "2.0.0"
+            ' "$TEST_REPO/pkgs/paperclip/package-lock.json" >/dev/null
+        fi
         ;;
     *) exit 99 ;;
 esac
@@ -47,14 +56,32 @@ EOF
 chmod +x "$tmp/bin/nix" "$tmp/node/bin/npm"
 export PATH="$tmp/bin:$PATH"
 cd "$TEST_REPO"
-for failure in none source npm build; do
+for failure in none source npm build bundle; do
     printf '# existing user changes\n' >pkgs/paperclip/default.nix
     printf '{"existingUserChange":true,"packages":{"node_modules/uuid":{"version":"10.0.0"}}}\n' >pkgs/paperclip/package-lock.json
+    if [[ "$failure" == bundle ]]; then
+        jq '.packages += {
+            "node_modules/@anthropic-ai/claude-agent-sdk": {
+                version: "1.0.0", resolved: "https://example.invalid/sdk.tgz", integrity: "sha512-sdk",
+                optionalDependencies: {"@anthropic-ai/claude-agent-sdk-linux-x64": "1.0.0"}
+            },
+            "node_modules/@anthropic-ai/claude-agent-sdk-linux-x64": {
+                version: "1.0.0", resolved: "https://example.invalid/native.tgz", integrity: "sha512-native", optional: true
+            },
+            "node_modules/@paperclipai/server/node_modules/@agentclientprotocol/claude-agent-acp": {
+                version: "0.73.0", inBundle: true, dependencies: {"@anthropic-ai/claude-agent-sdk": "1.0.0"}
+            },
+            "node_modules/@paperclipai/server/node_modules/@anthropic-ai/claude-agent-sdk": {
+                version: "2.0.0", inBundle: true
+            }
+        }' pkgs/paperclip/package-lock.json >"$tmp/bundled-lock.json"
+        mv "$tmp/bundled-lock.json" pkgs/paperclip/package-lock.json
+    fi
     cp pkgs/paperclip/default.nix "$tmp/before.nix"
     cp pkgs/paperclip/package-lock.json "$tmp/before.json"
     status=0
     TEST_FAILURE="$failure" bash "$repo_root/scripts/update-paperclip.sh" >"$tmp/output" 2>&1 || status=$?
-    if [[ "$failure" == none ]]; then
+    if [[ "$failure" == none || "$failure" == bundle ]]; then
         [[ "$status" == 0 ]]
         jq -e '.packages["node_modules/uuid"].version == "11.1.1"' pkgs/paperclip/package-lock.json >/dev/null
         rg -q '^# dependencies updated$' pkgs/paperclip/default.nix

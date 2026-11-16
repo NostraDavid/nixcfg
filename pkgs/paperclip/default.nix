@@ -32,11 +32,11 @@
 in
   buildNpmPackage (finalAttrs: {
     pname = "paperclip";
-    version = "2026.1023.0";
+    version = "2026.1106.0";
 
     src = fetchurl {
       url = "https://registry.npmjs.org/paperclipai/-/paperclipai-${finalAttrs.version}.tgz";
-      hash = "sha256-wF6KKFpdDmpthbYKuFClUaAqfInynGaJXULoHNus8AI=";
+      hash = "sha256-is4V6uyjMlxzt3qdjKYTWUDZEK5yBdAVuggvfv0XJBM=";
     };
     sourceRoot = "package";
 
@@ -47,7 +47,7 @@ in
       cp ${./package-lock.json} package-lock.json
     '';
 
-    npmDepsHash = "sha256-TFxkJfa57yFFui8sWZoGfeG67XnJ1vcNQ+l85791xqY=";
+    npmDepsHash = "sha256-GgLWu/zZZ4QdHR/0CcH3TM2GjJBvWHOtlswnvH/vOsc=";
     npmFlags = ["--omit=dev"];
     npmRebuildFlags = ["--ignore-scripts"];
     dontNpmBuild = true;
