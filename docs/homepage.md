@@ -12,10 +12,10 @@ database of handmatig bewerkte YAML nodig.
 
 ## Links en widgets
 
-De pagina bevat Proxmox, Pi-hole, FreeIPA, Forgejo, OpenBao, Home Assistant, het
-certificatenportaal. De actieve diensten krijgen een bereikbaarheidscontrole.
-Die controle bewijst dat de website reageert; zij test geen aanmelding of
-achterliggende functie.
+De pagina bevat Proxmox, Pi-hole, FreeIPA, Forgejo, Nextcloud, OpenBao, Home
+Assistant en het certificatenportaal. De actieve diensten krijgen een
+bereikbaarheidscontrole. Die controle bewijst dat de website reageert; zij test
+geen aanmelding of achterliggende functie.
 
 De bovenste widgets tonen CPU, geheugen en uptime van de Homepage-VM, plus de
 datum en tijd in RFC 3339, inclusief seconden en de Amsterdamse UTC-offset. De

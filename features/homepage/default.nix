@@ -178,6 +178,15 @@ _: {
               };
             }
             {
+              Nextcloud = {
+                icon = "https://nextcloud.powerlan.empire/core/img/logo/logo.svg";
+                href = "https://nextcloud.powerlan.empire/";
+                description = "Bestanden opslaan en delen";
+                siteMonitor = "https://nextcloud.powerlan.empire/status.php";
+                widget = tls "nextcloud";
+              };
+            }
+            {
               OpenBao = {
                 icon = "/icons/openbao.svg";
                 href = "https://openbao.powerlan.empire/";

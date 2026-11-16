@@ -27,6 +27,7 @@ SITES = {
     "pihole": "pihole.powerlan.empire",
     "freeipa": "ldap.powerlan.empire",
     "forgejo": "forgejo.powerlan.empire",
+    "nextcloud": "nextcloud.powerlan.empire",
     "openbao": "openbao.powerlan.empire",
     "homeassistant": "homeassistant.powerlan.empire",
     "certs": "certs.powerlan.empire",
