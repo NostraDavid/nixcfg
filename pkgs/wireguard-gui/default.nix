@@ -37,7 +37,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
   buildInputs = [fontconfig freetype libxkbcommon wayland libGL dbus gtk3 glib pango cairo gdk-pixbuf];
 
   postPatch = ''
-    substituteInPlace src/bin/wg-helper.rs --replace-fail 'const FIXED_PATHS: [&str; 4] = ["/usr/sbin", "/usr/bin", "/sbin", "/bin"];' 'const FIXED_PATHS: [&str; 5] = ["/run/current-system/sw/bin", "/usr/sbin", "/usr/bin", "/sbin", "/bin"];'
+    substituteInPlace src/bin/wg-helper/process.rs --replace-fail 'const FIXED_PATHS: [&str; 4] = ["/usr/sbin", "/usr/bin", "/sbin", "/bin"];' 'const FIXED_PATHS: [&str; 5] = ["/run/current-system/sw/bin", "/usr/sbin", "/usr/bin", "/sbin", "/bin"];'
   '';
 
   doCheck = false;

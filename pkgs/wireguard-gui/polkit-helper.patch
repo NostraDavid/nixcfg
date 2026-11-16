@@ -1,15 +1,15 @@
---- a/src/backend.rs
-+++ b/src/backend.rs
-@@ -165,7 +165,7 @@
+--- a/src/backend/helper.rs
++++ b/src/backend/helper.rs
+@@ -166,7 +166,7 @@
      // explicit mutating actions still use pkexec's normal authentication flow.
      if esc == Escalation::Pkexec
          && read_only_helper_verb(args.first().copied().unwrap_or(""))
 -        && !polkit_authorized(helper)
 +        && !polkit_authorized()
      {
-         return Err("Helper authorization is required; run ./install.sh to configure the scoped helper grant.".into());
+         return Err(HelperError::AuthorizationRequired);
      }
-@@ -366,7 +366,7 @@
+@@ -420,7 +420,7 @@
      Some(format!("{pid},{start},{uid}"))
  }
  
@@ -18,7 +18,7 @@
      let Ok(stat) = std::fs::read_to_string("/proc/self/stat") else {
          return false;
      };
-@@ -377,15 +377,9 @@
+@@ -431,15 +431,9 @@
      let mut cmd = Command::new("pkcheck");
      cmd.args([
          "--action-id",
