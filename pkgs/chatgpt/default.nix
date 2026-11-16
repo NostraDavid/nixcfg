@@ -42,12 +42,12 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "chatgpt";
-  version = "26.1029.61003";
+  version = "26.1111.21308";
 
   # The latest URL is mutable; pin the versioned pool artifact instead.
   src = fetchurl {
     url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${finalAttrs.version}_amd64.deb";
-    hash = "sha256-86+K/sXSXCKOtvTb2c/eD+p8peS0Kv8BRaHe0nPQGy0=";
+    hash = "sha256-S0Q7xVc1ChsZO8LxuuIHyeo8n7XZT3yUpdPbqotVI1I=";
   };
 
   nativeBuildInputs = [
@@ -120,10 +120,15 @@ stdenv.mkDerivation (finalAttrs: {
     import re
 
     with open("usr/lib/chatgpt/resources/app.asar", "r+b") as file, mmap.mmap(file.fileno(), 0) as archive:
-        initializer = re.search(rb"async function [\w$]+\(\{executorPluginRoot:", archive)
+        initializer = re.search(rb"async function(?: ([\w$]+))?\(\{executorPluginRoot:", archive)
         assert initializer is not None, "executor plugin initializer not found"
         start = initializer.start()
-        end = archive.find(b"async function ", initializer.end())
+        if initializer.group(1):
+            end = archive.find(b"async function ", initializer.end())
+        else:
+            end = archive.find(b"}({executorPluginRoot:", initializer.end())
+            assert end >= 0, "executor plugin initializer call not found"
+            end += 1
         assert end > start, "executor plugin initializer boundary not found"
         before = archive[start:end]
         # Recent bundles call module factories and use different local names.
@@ -170,19 +175,24 @@ stdenv.mkDerivation (finalAttrs: {
         # Marketplace materialization edits copied plugin metadata and removes
         # disabled skills. Node's cp preserves immutable Nix-store permissions.
         helper = re.search(
-            rb"async function ([\w$]+)\(e,t\)\{if\([\w$]+\.default\.platform===`darwin`\)\{await ([\w$]+)\(`/usr/bin/ditto`",
+            rb"async function(?: ([\w$]+))?\(e,t\)\{if\([\w$]+\.default\.platform===`darwin`\)\{await ([\w$]+)\(`/usr/bin/ditto`",
             archive,
         )
         if helper is None:
-            helper = re.search(rb'async function ([\w$]+)\(e,t\)\{if\("darwin"===[\w$]+\(\)\.platform\)return void await ([\w$]+)\("/usr/bin/ditto"', archive)
+            helper = re.search(rb'async function(?: ([\w$]+))?\(e,t\)\{if\("darwin"===[\w$]+\(\)\.platform\)return void await ([\w$]+)\("/usr/bin/ditto"', archive)
         assert helper is not None, "marketplace copy helper not found"
         start = helper.start()
-        end = archive.find(b"async function ", helper.end())
+        name, runner = helper.groups()
+        if name:
+            end = archive.find(b"async function ", helper.end())
+        else:
+            end = archive.find(b"}(", helper.end())
+            assert end >= 0, "marketplace copy helper call not found"
+            end += 1
         assert end > start, "marketplace copy helper boundary not found"
         before = archive[start:end]
         assert re.search(rb"await [\w$]+(?:\.default|\(\))\.cp\(e,t,", before), "marketplace copy helper changed"
-        name, runner = helper.groups()
-        after = b'async function ' + name + b'(e,t){await ' + runner + b'(`${coreutils}/bin/cp`,[`-R`,`--`,e+`/.`,t]);await ' + runner + b'(`${coreutils}/bin/chmod`,[`-R`,`u+w`,`--`,t])}'
+        after = b'async function' + (b' ' + name if name else b"") + b'(e,t){await ' + runner + b'(`${coreutils}/bin/cp`,[`-R`,`--`,e+`/.`,t]);await ' + runner + b'(`${coreutils}/bin/chmod`,[`-R`,`u+w`,`--`,t])}'
         assert len(after) <= len(before), "marketplace permissions patch changes ASAR offsets"
         archive[start:end] = after.ljust(len(before))
     PY
