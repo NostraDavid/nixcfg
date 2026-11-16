@@ -140,6 +140,7 @@ in {
     workspace = {
       iconTheme = "Win11-black-dark";
       lookAndFeel = "com.github.yeyushengfan258.Win11OS-dark";
+      theme = "Win11OS-dark-nixcfg";
       wallpaper = "${local.win11os-kde}/share/wallpapers/Win11OS-dark/contents/images/3840x2400.jpg";
     };
 
@@ -404,8 +405,6 @@ in {
         LANG = "en_US.UTF-8";
         LC_TIME = "en_DK.UTF-8";
       };
-
-      plasmarc.Theme.name = "Win11OS-dark-nixcfg";
     };
   };
 }
