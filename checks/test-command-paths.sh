@@ -54,6 +54,7 @@ if bash "$root/features/common-tooling/link-package-commands.sh" "$tmp/missing" 
 fi
 [[ ! -e "$tmp/unused" ]]
 nix eval --impure --file "$root/checks/tooling.nix" commandPaths >/dev/null
+nix eval --impure --file "$root/checks/tooling.nix" glancesJwt >/dev/null
 links=$(FIXTURE_DOTFILES_ROOT="$tmp/live checkout" nix build --impure --file "$root/checks/live-dotfiles.nix" --no-link --print-out-paths)
 python3 - "$links" "$tmp/live checkout/dotfiles" "$root" <<'PY'
 import json

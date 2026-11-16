@@ -104,6 +104,22 @@
       overlays = [
         overlay-ca-security
         (_final: prev: {
+          # Glances 4.5.9 replaces the insecure python-jose dependency with PyJWT.
+          glances =
+            if prev.lib.versionOlder prev.glances.version "4.5.9"
+            then
+              prev.glances.overridePythonAttrs (old: rec {
+                version = "4.5.9";
+                src = prev.fetchFromGitHub {
+                  owner = "nicolargo";
+                  repo = "glances";
+                  tag = "v${version}";
+                  hash = "sha256-CvT9GQ29xXTVxC7V2nGmfDhHLsAtF61+XMMLG8cmHww=";
+                };
+                dependencies = builtins.filter (dependency: (dependency.pname or "") != "python-jose") old.dependencies ++ [prev.python3Packages.pyjwt];
+                nativeCheckInputs = (old.nativeCheckInputs or []) ++ [prev.python3Packages.pysmart];
+              })
+            else prev.glances;
           # Structured wrapper arguments must contain one argument per element.
           sbomnix = prev.sbomnix.overrideAttrs (old: {
             makeWrapperArgs = prev.lib.concatMap (prev.lib.splitString " ") old.makeWrapperArgs;

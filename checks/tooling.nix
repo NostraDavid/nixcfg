@@ -117,6 +117,14 @@ in {
       && lib.hasInfix (lib.escapeShellArg home.home.profileDirectory) home.home.activation.linkPackageCommands.data
       && lib.hasInfix (lib.escapeShellArg "${home.home.homeDirectory}/.local/bin") home.home.activation.linkPackageCommands.data)
     homes; true;
+  glancesJwt = let
+    pkgs = unstableFor "x86_64-linux";
+    package = pkgs.glances;
+  in
+    assert lib.versionAtLeast package.version "4.5.9";
+    assert lib.all (dependency: (dependency.pname or "") != "python-jose") package.dependencies;
+    assert builtins.elem pkgs.python3Packages.pyjwt.outPath (map (dependency: dependency.outPath) package.dependencies);
+    assert builtins.elem package.outPath installed; true;
   pagerTools = assert lib.all (home:
     builtins.any (p: (p.pname or "") == "batman") home.home.packages) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   portableToolsNixos = assert lib.all (host: lib.all (name: builtins.elem (unstableFor "x86_64-linux").${name}.outPath (map (p: p.outPath) host.config.environment.systemPackages)) ["superfile" "tuios"]) (builtins.attrValues flake.nixosConfigurations); true;
