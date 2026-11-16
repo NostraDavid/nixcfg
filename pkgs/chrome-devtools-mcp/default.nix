@@ -17,10 +17,10 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   installPhase = ''
     runHook preInstall
     mkdir -p "$out/lib/chrome-devtools-mcp"
-    cp -r build package.json LICENSE "$out/lib/chrome-devtools-mcp/"
+    cp -r out skills package.json LICENSE "$out/lib/chrome-devtools-mcp/"
     for program in chrome-devtools-mcp chrome-devtools; do
       makeWrapper ${nodejs_24}/bin/node "$out/bin/$program" \
-        --add-flags "$out/lib/chrome-devtools-mcp/build/src/bin/$program.js" \
+        --add-flags "$out/lib/chrome-devtools-mcp/out/Default/gen/src/bin/$program.js" \
         --set CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS 1
     done
     runHook postInstall
@@ -28,8 +28,11 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   doInstallCheck = true;
   installCheckPhase = ''
     runHook preInstallCheck
-    "$out/bin/chrome-devtools-mcp" --version | grep -F '${finalAttrs.version}'
-    "$out/bin/chrome-devtools-mcp" --help > /dev/null
+    for program in chrome-devtools-mcp chrome-devtools; do
+      "$out/bin/$program" --version | grep -F '${finalAttrs.version}'
+      "$out/bin/$program" --help > /dev/null
+    done
+    test -s "$out/lib/chrome-devtools-mcp/skills/troubleshooting/SKILL.md"
     runHook postInstallCheck
   '';
   meta = {
