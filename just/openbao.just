@@ -48,20 +48,22 @@ openbao-configure:
   @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n install -m 0600 /dev/stdin /srv/openbao/ops/rotator-password' < "$HOME/.local/state/nixcfg/openbao-rotator-password"
   @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n openbao-ops configure --ldap-password-file /srv/openbao/ops/rotator-password && sudo -n rm /srv/openbao/ops/rotator-password'
 
-# Install both consumers before activating either password rotation.
+# Install every consumer before activating password rotation.
 [group('openbao')]
 openbao-enroll:
-  @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n openbao-ops enroll forgejo-reader && sudo -n openbao-ops enroll proxmox-reader'
+  @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n openbao-ops enroll forgejo-reader && sudo -n openbao-ops enroll proxmox-reader && sudo -n openbao-ops enroll nextcloud-reader'
   @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n cat /srv/openbao/ops/forgejo-reader-credentials.json' | ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.110 'sudo -n install -d -m 0700 /srv/forgejo/openbao-consumer && sudo -n install -m 0600 /dev/stdin /srv/forgejo/openbao-consumer/credentials.json'
   @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n cat /srv/openbao/ops/proxmox-reader-credentials.json' | ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes root@192.168.2.100 'install -d -m 0700 /var/lib/openbao-consumer && install -m 0600 /dev/stdin /var/lib/openbao-consumer/credentials.json'
   @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes root@192.168.2.100 'install -m 0600 /dev/stdin /usr/local/lib/openbao.py' < scripts/openbao.py
   @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes root@192.168.2.100 'bash -s' < scripts/openbao-install-proxmox.sh
+  @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n cat /srv/openbao/ops/nextcloud-reader-credentials.json' | ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.115 'sudo -n install -d -m 0700 /srv/nextcloud/openbao-consumer && sudo -n install -m 0600 /dev/stdin /srv/nextcloud/openbao-consumer/credentials.json'
 
 [group('openbao')]
 openbao-activate:
-  @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n openbao-ops activate forgejo-reader && sudo -n openbao-ops activate proxmox-reader'
+  @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n openbao-ops activate forgejo-reader && sudo -n openbao-ops activate proxmox-reader && sudo -n openbao-ops activate nextcloud-reader'
   @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.110 'sudo -n systemctl start openbao-consumer.service'
   @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes root@192.168.2.100 'systemctl start openbao-consumer.service'
+  @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.115 'sudo -n systemctl start openbao-consumer.service'
   @ssh -F /dev/null -o BatchMode=yes -o StrictHostKeyChecking=yes david@192.168.2.112 'sudo -n openbao-ops finalize && sudo -n openbao-ops snapshot'
   @nix shell path:.#legacyPackages.x86_64-linux.age --command python3 scripts/openbao-maintain.py backup
   @touch "$HOME/.local/state/nixcfg/openbao/enabled"

@@ -14,6 +14,7 @@ policy = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(policy)
 
 known, groups, hostgroups, hbac, sudo_rules, enforce_hbac = policy.policy_groups()
+assert groups["grp-nextcloud-user"]["members"] == {"nostradavid"}
 assert known == {
     "admin",
     "engi",
@@ -119,11 +120,12 @@ with tempfile.TemporaryDirectory() as directory:
         assert password_path.stat().st_mode & 0o777 == 0o600
         assert '(targetattr="userPassword")' in ldif
         assert (
-            '(targetfilter="(|(uid=openbao-rotator)(uid=forgejo-reader)(uid=proxmox-reader))")'
+            '(targetfilter="(|(uid=openbao-rotator)(uid=forgejo-reader)(uid=proxmox-reader)(uid=nextcloud-reader))")'
             in ldif
         )
         assert 'allow (write) userdn="ldap:///uid=openbao-rotator,' in ldif
         assert '(targetattr="uid || objectClass")' in ldif
         assert "Directory Manager" not in ldif
+        assert "uid=nextcloud-reader,cn=sysaccounts" in ldif
 
 print("OpenBao directory delegation and legacy password-reset guard passed.")

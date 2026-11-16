@@ -34,6 +34,7 @@ in {
   imports = [
     ./forgejo-image.nix
     ./headlamp.nix
+    ./nextcloud-image.nix
     ./openbao-image.nix
     ./outputs.nix
     ./proxmox-lab.nix

@@ -29,6 +29,7 @@
     "media-production"
     "niri"
     "nvidia-workstation"
+    "nextcloud"
     "plasma"
     "proxmox-guest"
     "proxmox-lab-host"

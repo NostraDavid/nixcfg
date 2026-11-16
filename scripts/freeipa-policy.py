@@ -615,7 +615,12 @@ def bootstrap_openbao(env: dict[str, str]) -> None:
     rotator = f"uid=openbao-rotator,{container}"
     password_path = OPENBAO_ROTATOR_PASSWORD
     changes = []
-    for name in ("openbao-rotator", "forgejo-reader", "proxmox-reader"):
+    for name in (
+        "openbao-rotator",
+        "forgejo-reader",
+        "proxmox-reader",
+        "nextcloud-reader",
+    ):
         dn = f"uid={name},{container}"
         entry = ldap_entry(dn, ["uid", "description"], env)
         if not entry:
@@ -636,7 +641,7 @@ def bootstrap_openbao(env: dict[str, str]) -> None:
             changes.append(
                 f"dn: {dn}\nchangetype: modify\nadd: description\ndescription: Managed by OpenBao\n"
             )
-    target = "(|(uid=openbao-rotator)(uid=forgejo-reader)(uid=proxmox-reader))"
+    target = "(|(uid=openbao-rotator)(uid=forgejo-reader)(uid=proxmox-reader)(uid=nextcloud-reader))"
     acis = [
         f'(targetfilter="{target}")(targetattr="userPassword")(version 3.0; acl "OpenBao service password rotation"; allow (write) userdn="ldap:///{rotator}";)',
         f'(targetfilter="{target}")(targetattr="uid || objectClass")(version 3.0; acl "OpenBao service account lookup"; allow (read,search,compare) userdn="ldap:///{rotator}";)',
@@ -661,9 +666,7 @@ def bootstrap_openbao(env: dict[str, str]) -> None:
             result.returncode == 0,
             "Could not provision the restricted OpenBao directory account; no credentials are logged",
         )
-    print(
-        "OpenBao may change only its own password and the two selected bind passwords."
-    )
+    print("OpenBao may change only its own password and the selected bind passwords.")
     if password_path.exists():
         print(
             f"Initial rotator credential: {password_path}; never re-import it after OpenBao rotates it."

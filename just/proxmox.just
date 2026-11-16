@@ -32,6 +32,7 @@ app-vms-check:
   @just app-vm-check certs
   @just app-vm-check openbao
   @just app-vm-check k3s
+  @just app-vm-check nextcloud
 
 # Deploy an app VM configuration to a remote NixOS guest.
 [group('proxmox')]

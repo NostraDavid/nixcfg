@@ -12,6 +12,7 @@
     ./virtual/forgejo-lab
     ./virtual/homepage
     ./virtual/k3s
+    ./virtual/nextcloud
     ./virtual/openbao
     ./virtual/proxy
   ];

@@ -197,6 +197,19 @@
                 }
               }
             '';
+            "nextcloud.powerlan.empire" = {
+              logFormat = lib.mkForce null;
+              extraConfig = ''
+                ${acmeTls}
+                reverse_proxy https://192.168.2.115:8443 {
+                  header_up Host nextcloud-backend.powerlan.empire
+                  transport http {
+                    tls_server_name nextcloud-backend.powerlan.empire
+                    tls_trust_pool file /srv/proxy/nextcloud-backend-root.crt
+                  }
+                }
+              '';
+            };
             "forgejo.home.arpa".extraConfig = ''
               ${acmeTls}
               redir https://forgejo.powerlan.empire{uri} permanent

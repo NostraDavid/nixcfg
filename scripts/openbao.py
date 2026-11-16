@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Operate the local vault and reconcile its two LDAP password consumers."""
+"""Operate the local vault and reconcile its LDAP password consumers."""
 
 import argparse
 import datetime as dt
@@ -24,7 +24,11 @@ from pathlib import Path
 BASE = "dc=powerlan,dc=empire"
 ACCOUNTS = f"cn=sysaccounts,cn=etc,{BASE}"
 LDAP_URL = "ldaps://ldap.powerlan.empire"
-SERVICES = {"forgejo-reader": "192.168.2.110/32", "proxmox-reader": "192.168.2.100/32"}
+SERVICES = {
+    "forgejo-reader": "192.168.2.110/32",
+    "proxmox-reader": "192.168.2.100/32",
+    "nextcloud-reader": "192.168.2.115/32",
+}
 CA = "/etc/ssl/certs/ca-certificates.crt"
 ADMIN_POLICY = 'path "*" { capabilities = ["create", "read", "update", "delete", "list", "sudo", "patch"] }'
 SELF_POLICY = '\npath "auth/token/revoke-self" { capabilities = ["update"] }\n'
@@ -420,7 +424,7 @@ def finalize(root: Path) -> None:
     for service in SERVICES:
         (root / f"ops/{service}-credentials.json").unlink(missing_ok=True)
     print(
-        "Both consumers confirmed; initial root token revoked and enrollment copies removed"
+        "All consumers confirmed; initial root token revoked and enrollment copies removed"
     )
 
 
@@ -556,7 +560,7 @@ def apply_password(config: dict, password: str) -> None:
         )
         run(["runuser", "-u", "forgejo", "--", "bash", config["forgejo_configure"]])
         run(["systemctl", "restart", "forgejo"])
-    else:
+    elif service == "proxmox-reader":
         # Use Proxmox's locking and update hook without putting the password in argv.
         code = """use PVE::API2::Domains; use PVE::RPCEnvironment; use PVE::Cluster; use JSON::PP;
 PVE::Cluster::cfs_update(); my $rpc = PVE::RPCEnvironment->init('cli'); $rpc->set_user('root@pam');
@@ -565,6 +569,11 @@ my $data = decode_json(do { local $/; <STDIN> }); PVE::API2::Domains->update($da
             ["perl", "-e", code],
             data=json.dumps({"realm": "freeipa", "password": password}).encode(),
         )
+    elif service == "nextcloud-reader":
+        atomic(Path("/srv/nextcloud/secrets/ldap-bind-password"), password.encode())
+        run(["systemctl", "restart", "nextcloud-ldap.service"])
+    else:
+        raise ValueError("Unknown LDAP password consumer")
 
 
 def verify_application(config: dict) -> None:
@@ -578,8 +587,37 @@ def verify_application(config: dict) -> None:
                 "http://127.0.0.1:3000/api/healthz",
             ]
         )
-    else:
+    elif config["service"] == "proxmox-reader":
         run(["pveum", "realm", "sync", "freeipa", "--dry-run", "1"])
+    elif config["service"] == "nextcloud-reader":
+        run(
+            [
+                "runuser",
+                "-u",
+                "nextcloud",
+                "--",
+                "nextcloud-occ",
+                "ldap:test-config",
+                "s01",
+            ]
+        )
+        status = json.loads(
+            run(
+                [
+                    "runuser",
+                    "-u",
+                    "nextcloud",
+                    "--",
+                    "nextcloud-occ",
+                    "status",
+                    "--output=json",
+                ]
+            )
+        )
+        if not status.get("installed") or status.get("maintenance"):
+            raise RuntimeError("Nextcloud is not ready")
+    else:
+        raise ValueError("Unknown LDAP password consumer")
 
 
 def consume(config_file: Path, state: Path) -> None:

@@ -9,9 +9,10 @@ GiB. De webinterface en API zijn bereikbaar op
 geen opstartvoorwaarde is.
 
 FreeIPA blijft de accounts en groepen beheren. OpenBao wijzigt dagelijks de
-wachtwoorden van `forgejo-reader` en `proxmox-reader`. De afnemers halen iedere
-minuut hun eigen wachtwoord op. Een geslaagde LDAP-bind en applicatiecontrole
-gaan vooraf aan hun bevestiging aan OpenBao.
+wachtwoorden van `forgejo-reader`, `proxmox-reader` en, na enrollment,
+`nextcloud-reader`. Zie [Nextcloud](nextcloud.md) voor die uitbreiding. De
+afnemers halen iedere minuut hun eigen wachtwoord op. Een geslaagde LDAP-bind en
+applicatiecontrole gaan vooraf aan hun bevestiging aan OpenBao.
 
 Een volledige kopie van de VM bevat ook de lokale sealsleutel. Behandel daarom
 de VM, Proxmox-beheerders en volledige VM-back-ups als toegang tot alle

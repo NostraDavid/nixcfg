@@ -54,6 +54,10 @@ roles = ["platform-admin"]
 description = "Forgejo site administration"
 roles = ["platform-admin"]
 
+[grants.grp-nextcloud-user]
+description = "Nextcloud file access"
+users = ["nostradavid"]
+
 [grants.media-center]
 existing = true
 posix = true

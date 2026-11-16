@@ -133,7 +133,7 @@ suffix "{ops.BASE}"
 rootdn "cn=admin,{ops.BASE}"
 rootpw {admin_password}
 directory {database}
-access to dn.regex="^uid=(openbao-rotator|forgejo-reader|proxmox-reader),cn=sysaccounts,cn=etc,{ops.BASE}$" attrs=userPassword
+access to dn.regex="^uid=(openbao-rotator|forgejo-reader|proxmox-reader|nextcloud-reader),cn=sysaccounts,cn=etc,{ops.BASE}$" attrs=userPassword
   by dn.exact="{dn}" write
   by anonymous auth
   by self write
@@ -305,8 +305,8 @@ cn: sysaccounts
                 initial_passwords[service] = password
                 service_client = ops.Bao(client.address, ca=str(ca))
                 ops.login(service_client, credential)
-                other = next(name for name in ops.SERVICES if name != service)
-                denied(service_client, f"ldap/static-cred/{other}")
+                for other in ops.SERVICES.keys() - {service}:
+                    denied(service_client, f"ldap/static-cred/{other}")
                 denied(service_client, "sys/storage/raft/snapshot")
                 denied(service_client, "ldap/config")
                 with patch.object(ops, "apply_password") as apply:
@@ -402,6 +402,29 @@ cn: sysaccounts
 
 
 if __name__ == "__main__":
+    with patch.object(ops, "atomic") as atomic, patch.object(ops, "run") as run:
+        ops.apply_password({"service": "nextcloud-reader"}, "synthetic-password")
+        atomic.assert_called_once_with(
+            Path("/srv/nextcloud/secrets/ldap-bind-password"), b"synthetic-password"
+        )
+        run.assert_called_once_with(["systemctl", "restart", "nextcloud-ldap.service"])
+    with patch.object(
+        ops, "run", side_effect=[b"", b'{"installed":true,"maintenance":false}']
+    ) as run:
+        ops.verify_application({"service": "nextcloud-reader"})
+        assert run.call_args_list[0].args[0][-2:] == ["ldap:test-config", "s01"]
+    with patch.object(ops, "run") as run:
+        for operation in (ops.apply_password, ops.verify_application):
+            try:
+                if operation is ops.apply_password:
+                    operation({"service": "unknown"}, "synthetic-password")
+                else:
+                    operation({"service": "unknown"})
+            except ValueError:
+                pass
+            else:
+                raise AssertionError("Unknown consumer was accepted")
+        run.assert_not_called()
     with (
         tempfile.TemporaryDirectory(prefix="openbao-integration-") as temporary,
         patch.object(ops, "verify_application"),
