@@ -70,7 +70,8 @@ fi
 
 # Exercise the public CLI against a real flake and a failing local updater.
 test_root="$(mktemp -d)"
-trap 'rm -rf "${test_root}"' EXIT
+bulk_log_dirs=()
+trap 'rm -rf "${test_root}" "${bulk_log_dirs[@]}"' EXIT
 mkdir -p "${test_root}/scripts" "${test_root}/pkgs/fixture"
 cp scripts/local-package-maint.sh "${test_root}/scripts/"
 cp scripts/github-auth.sh "${test_root}/scripts/"
@@ -140,6 +141,10 @@ just_bin="$(command -v just)"
 mkdir -p "${test_root}/bin"
 cat >"${test_root}/scripts/local-package-maint.sh" <<'EOF'
 #!/usr/bin/env bash
+if [[ "${BULK_SCENARIO}" == discovery-failure ]]; then
+    echo 'fixture package discovery failed' >&2
+    exit 19
+fi
 printf 'good\nbad\nupdated\ngood2\n'
 EOF
 cat >"${test_root}/bin/just" <<'EOF'
@@ -148,27 +153,52 @@ printf '%s\n' "$2" >>"${BULK_UPDATE_LOG}"
 echo "verbose stdout for $2"
 echo "verbose stderr for $2" >&2
 if [[ "$2" == updated ]]; then echo changed >>tracked; fi
-[[ "$2" != bad ]]
+[[ "$2" != bad || "${BULK_SCENARIO}" == success ]]
 EOF
 chmod +x "${test_root}/scripts/local-package-maint.sh" "${test_root}/bin/just"
 echo original >"${test_root}/tracked"
 git -C "${test_root}" add tracked
 echo 'previous change' >>"${test_root}/tracked"
-status=0
-output="$(PATH="${test_root}/bin:${PATH}" BULK_UPDATE_LOG="${test_root}/bulk.log" \
-    "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" pkgs 2>&1)" || status=$?
-[[ "${status}" -eq 1 ]]
-[[ "$(cat "${test_root}/bulk.log")" == $'good\nbad\nupdated\ngood2' ]]
-[[ "${output}" == *$'\033[1m\033[31mPackages with failed updates:\033[0m'* ]]
-[[ "${output}" == *$'\n  bad\n'* ]]
-[[ "${output}" == *$'good ... \033[32mno update\033[0m'* ]]
-[[ "${output}" == *$'bad ... \033[31mFAILED\033[0m'* ]]
-[[ "${output}" == *$'updated ... \033[34mupdated\033[0m'* ]]
-[[ "${output}" == *$'good2 ... \033[32mno update\033[0m'* ]]
-[[ "${output}" != *'verbose stdout for good'* ]]
-[[ "${output}" != *'verbose stderr for good'* ]]
-[[ "${output}" == *'verbose stdout for bad'* ]]
-[[ "${output}" == *'verbose stderr for bad'* ]]
+for scenario in failure success discovery-failure; do
+    : >"${test_root}/bulk.log"
+    status=0
+    output="$(PATH="${test_root}/bin:${PATH}" BULK_UPDATE_LOG="${test_root}/bulk.log" BULK_SCENARIO="${scenario}" \
+        "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" pkgs 2>&1)" || status=$?
+    log_dir="$(sed -n 's/^Logs: //p' <<<"${output}")"
+    [[ "${log_dir}" == /tmp/just-pkgs.* ]]
+    bulk_log_dirs+=("${log_dir}")
+    [[ "$(stat -c '%a' "${log_dir}")" == 700 ]]
+    [[ -f "${log_dir}/output.log" ]]
+    [[ "${output}" == "$(cat "${log_dir}/output.log")"* ]]
+    if [[ "${scenario}" == discovery-failure ]]; then
+        [[ "${status}" -eq 19 ]]
+        [[ ! -s "${test_root}/bulk.log" ]]
+        [[ "$(cat "${log_dir}/output.log")" == 'fixture package discovery failed' ]]
+        continue
+    fi
+    [[ "$(cat "${test_root}/bulk.log")" == $'good\nbad\nupdated\ngood2' ]]
+    for package in good bad updated good2; do
+        [[ "$(cat "${log_dir}/${package}.log")" == "verbose stdout for ${package}"$'\n'"verbose stderr for ${package}" ]]
+    done
+    [[ "${output}" == *$'good ... \033[32mno update\033[0m'* ]]
+    [[ "${output}" == *$'updated ... \033[34mupdated\033[0m'* ]]
+    [[ "${output}" == *$'good2 ... \033[32mno update\033[0m'* ]]
+    [[ "${output}" != *'verbose stdout for good'* ]]
+    [[ "${output}" != *'verbose stderr for good'* ]]
+    if [[ "${scenario}" == failure ]]; then
+        [[ "${status}" -eq 1 ]]
+        [[ "${output}" == *$'\033[1m\033[31mPackages with failed updates:\033[0m'* ]]
+        [[ "${output}" == *$'\n  bad\n'* ]]
+        [[ "${output}" == *$'bad ... \033[31mFAILED\033[0m'* ]]
+        [[ "${output}" == *'verbose stdout for bad'* ]]
+        [[ "${output}" == *'verbose stderr for bad'* ]]
+    else
+        [[ "${status}" -eq 0 ]]
+        [[ "${output}" != *FAILED* ]]
+        [[ "${output}" != *'verbose stdout for bad'* ]]
+        [[ "${output}" != *'verbose stderr for bad'* ]]
+    fi
+done
 
 # Both flake-update recipes must authenticate before any Nix request.
 printf '{"nodes":{"root":{"inputs":{"nixpkgs":"nixpkgs"}}}}\n' >"${test_root}/flake.lock"

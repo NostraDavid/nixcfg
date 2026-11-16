@@ -26,29 +26,34 @@ pkg-update package:
   @./scripts/local-package-maint.sh update "{{package}}"
 
 # Update every local flake package via its updater or nix-update fallback.
+# Keep console output and per-package updater logs under /tmp/just-pkgs.*.
 # shortcut: detects tracked changes only, use explicit updater results if untracked files must count.
 [group('packages')]
 pkgs:
-  @packages="$(./scripts/local-package-maint.sh packages)" || exit $?; \
-  update_log="$(mktemp)" || exit $?; trap 'rm -f "$update_log"' EXIT; \
-  red="$(printf '\033[31m')"; green="$(printf '\033[32m')"; blue="$(printf '\033[34m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=(); \
-  for package in $packages; do \
-    printf '%s ... ' "$package"; \
-    before="$(git diff --no-ext-diff --binary | git hash-object --stdin)"; \
-    if just pkg-update "$package" >"$update_log" 2>&1; then \
-      after="$(git diff --no-ext-diff --binary | git hash-object --stdin)"; \
-      if [ "$before" != "$after" ]; then printf '%supdated%s\n' "$blue" "$reset"; else printf '%sno update%s\n' "$green" "$reset"; fi; \
-    else \
-      printf '%sFAILED%s\n' "$red" "$reset"; \
-      cat "$update_log" >&2; \
-      failures+=("$package"); \
+  @log_dir="$(mktemp -d /tmp/just-pkgs.XXXXXX)" || exit $?; \
+  trap 'printf "\nLogs: %s\n" "$log_dir"' EXIT; \
+  { \
+    packages="$(./scripts/local-package-maint.sh packages)" || exit $?; \
+    red="$(printf '\033[31m')"; green="$(printf '\033[32m')"; blue="$(printf '\033[34m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=(); \
+    for package in $packages; do \
+      update_log="$log_dir/$package.log"; \
+      printf '%s ... ' "$package"; \
+      before="$(git diff --no-ext-diff --binary | git hash-object --stdin)"; \
+      if just pkg-update "$package" >"$update_log" 2>&1; then \
+        after="$(git diff --no-ext-diff --binary | git hash-object --stdin)"; \
+        if [ "$before" != "$after" ]; then printf '%supdated%s\n' "$blue" "$reset"; else printf '%sno update%s\n' "$green" "$reset"; fi; \
+      else \
+        printf '%sFAILED%s\n' "$red" "$reset"; \
+        cat "$update_log" >&2; \
+        failures+=("$package"); \
+      fi; \
+    done; \
+    if [ ${#failures[@]} -gt 0 ]; then \
+      printf '%s%sPackages with failed updates:%s\n' "$bold" "$red" "$reset" >&2; \
+      printf '  %s\n' "${failures[@]}" >&2; \
+      exit 1; \
     fi; \
-  done; \
-  if [ ${#failures[@]} -gt 0 ]; then \
-    printf '%s%sPackages with failed updates:%s\n' "$bold" "$red" "$reset" >&2; \
-    printf '  %s\n' "${failures[@]}" >&2; \
-    exit 1; \
-  fi
+  } 2>&1 | tee "$log_dir/output.log"
 
 # List local packages with newer versions available.
 [group('packages')]
