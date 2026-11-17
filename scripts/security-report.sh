@@ -106,7 +106,7 @@ run_step csv csv.validation.log test -s "$report_dir/sbom.csv" || exit 1
 grype_db_dir="$(mktemp -d)"
 printf '{}\n' >"$report_dir/grype.yaml"
 grype_scan() (
-    while IFS= read -r variable; do unset "$variable"; done < <(compgen -v GRYPE_)
+    for variable in "${!GRYPE_@}"; do unset "$variable"; done
     export GRYPE_DB_CACHE_DIR="$grype_db_dir"
     export GRYPE_DB_AUTO_UPDATE=false
     export GRYPE_CHECK_FOR_APP_UPDATE=false
