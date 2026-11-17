@@ -118,6 +118,7 @@
                 };
                 dependencies = builtins.filter (dependency: (dependency.pname or "") != "python-jose") old.dependencies ++ [prev.python3Packages.pyjwt];
                 nativeCheckInputs = (old.nativeCheckInputs or []) ++ [prev.python3Packages.pysmart];
+                patches = (old.patches or []) ++ [../pkgs/glances-test-readiness.patch];
               })
             else prev.glances;
           # Structured wrapper arguments must contain one argument per element.
