@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 package="$(basename "$0" .sh)"
 package="${package#update-}"
-pkg_file="${repo_root}/pkgs/${package}/default.nix"
+if (($#)) && [[ $# != 1 || $1 != --latest-version ]]; then
+    printf 'Usage: %s [--latest-version]\n' "$0" >&2
+    exit 2
+fi
 systems=(x86_64-linux aarch64-linux x86_64-darwin aarch64-darwin)
 tag_prefix=v
 
@@ -55,7 +57,13 @@ version="${tag#"$tag_prefix"}"
     echo "Unexpected release tag: $tag" >&2
     exit 1
 }
+if [[ ${1:-} == --latest-version ]]; then
+    printf '%s\n' "$version"
+    exit 0
+fi
 
+repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
+pkg_file="${repo_root}/pkgs/${package}/default.nix"
 backup="$(mktemp)"
 cp "$pkg_file" "$backup"
 trap 'cp "$backup" "$pkg_file"' ERR

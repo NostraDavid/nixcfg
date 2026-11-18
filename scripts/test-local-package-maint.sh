@@ -80,6 +80,7 @@ cat >"${test_root}/flake.nix" <<EOF
   outputs = _: {
     packages.${system} = {
       fixture = { version = "1.0.0"; passthru = {}; };
+      uv = { version = "1.9.0"; };
       generated = {};
     };
   };
@@ -106,8 +107,33 @@ output="$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.
 [[ "${output}" == *"fixture upstream connection failed"* ]]
 [[ "${output}" != *"No newer versions found"* ]]
 
+# Tag probes must work in the original checkout with only release metadata.
+mkdir -p "${test_root}/pkgs/uv" "${test_root}/bin"
+touch "${test_root}/pkgs/uv/default.nix"
+cp scripts/update-prebuilt-github.sh "${test_root}/scripts/"
+ln -s update-prebuilt-github.sh "${test_root}/scripts/update-uv.sh"
+git -C "${test_root}" add pkgs/uv scripts
+cat >"${test_root}/bin/gh" <<'EOF'
+#!/usr/bin/env bash
+[[ "$PWD" == "$PROBE_ROOT" && "$*" == 'api repos/astral-sh/uv/releases/latest' ]] || exit 1
+printf '{"tag_name":"%s"}\n' "$PROBE_TAG"
+EOF
+chmod +x "${test_root}/bin/gh"
+probe() {
+    local tag="$1"
+    shift
+    PROBE_ROOT="${test_root}" PROBE_TAG="$tag" PATH="${test_root}/bin:$PATH" \
+        NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" list "$@" 2>&1
+}
+[[ "$(probe 1.10.0 uv)" == 'uv 1.9.0 -> 1.10.0' ]]
+for tag in 1.9.0 1.8.0; do
+    [[ "$(probe "$tag" uv)" == 'No newer versions found.' ]]
+done
+if output="$(probe broken uv fixture)"; then exit 1; fi
+[[ "$output" == *'Unexpected release tag: broken'* && "$output" == *'fixture upstream connection failed'* ]]
+[[ ! -s "${test_root}/pkgs/uv/default.nix" ]]
+
 # Temporary HTTP failures retry, but stop after three attempts.
-mkdir -p "${test_root}/bin"
 cat >"${test_root}/bin/gh" <<'EOF'
 #!/usr/bin/env bash
 [[ "$*" == 'auth token' ]]

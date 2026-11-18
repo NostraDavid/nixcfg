@@ -211,6 +211,12 @@ EOF
 chmod +x "${test_root}/bin/"*
 export PATH="${test_root}/bin:${PATH}"
 
+for package in orca-ide superset; do
+    [[ "$("${TEST_REPO}/scripts/update-${package}.sh" --latest-version)" == 2.0.0 ]]
+    cmp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
+done
+test ! -e "${TEST_REPO}/builds.log"
+
 "${TEST_REPO}/scripts/update-opencode-v2.sh" --dry-run >/dev/null
 for package in opencode-v2 opencode-v2-desktop; do
     cmp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"

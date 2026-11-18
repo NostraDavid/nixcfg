@@ -55,7 +55,7 @@ pkgs:
     fi; \
   } 2>&1 | tee "$log_dir/output.log"
 
-# List local packages with newer versions available.
+# List newer versions via GitHub release tags for prebuilt packages, or trial updates for other packages.
 [group('packages')]
 pkg-updates *packages:
   @./scripts/local-package-maint.sh list {{packages}}

@@ -389,7 +389,7 @@ list_updates() {
     fi
 
     local found=0
-    local pkg before after tmpdir update_log
+    local pkg before after tmpdir update_log updater
     local skip_reason
     local -a skipped=()
     local -a failed=()
@@ -402,6 +402,17 @@ list_updates() {
         fi
 
         before="$(package_version "${repo_root}" "${pkg}")"
+        updater="${repo_root}/scripts/update-${pkg}.sh"
+        if [[ "$updater" -ef "${repo_root}/scripts/update-prebuilt-github.sh" ]]; then
+            if ! after="$(bash "$updater" --latest-version)"; then
+                failed+=("${pkg}: release tag lookup failed")
+            elif [[ "$after" != "$before" && "$(printf '%s\n' "$before" "$after" | sort -V | tail -n1)" == "$after" ]]; then
+                print_success "${pkg} ${before} -> ${after}"
+                found=1
+            fi
+            continue
+        fi
+
         tmpdir="$(mktemp -d)"
         update_log="${tmpdir}/update.log"
         mkdir -p "${tmpdir}/repo"
