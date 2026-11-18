@@ -3,6 +3,10 @@
 nixos-show host=default_host:
   @nix flake show .#nixosConfigurations."{{host}}"
 
+# Update flake inputs and packages, switch the current host, then push packages to Cachix.
+[group('nixos')]
+upgrade: update pkgs switch cachix-push-all
+
 # Test a host configuration temporarily; reverts after reboot.
 [group('nixos')]
 test host=default_host:
