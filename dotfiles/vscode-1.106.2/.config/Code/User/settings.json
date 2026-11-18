@@ -541,5 +541,6 @@
     "**/dbt_project.yaml"
   ],
   "yaml.maxItemsComputed": 10000,
-  "zig.zls.enabled": "on"
+  "zig.zls.enabled": "on",
+  "svelte.enable-ts-plugin": true
 }
