@@ -34,8 +34,9 @@ gc:
 
 # Keep only recent generations by age, then garbage collect.
 [group('maintenance')]
-gc-old days="14":
-  @sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations "$(printf '%s' '{{days}}' | sed 's/d$//')d"
+[arg('noninteractive', long='non-interactive', value='-n')]
+gc-old days="14" noninteractive="":
+  @sudo {{noninteractive}} nix-env --profile /nix/var/nix/profiles/system --delete-generations "$(printf '%s' '{{days}}' | sed 's/d$//')d"
   @home-manager expire-generations "-$(printf '%s' '{{days}}' | sed 's/d$//') days"
   @nix-collect-garbage -d
   @rm -f ./result
