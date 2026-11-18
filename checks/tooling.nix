@@ -122,6 +122,7 @@ in {
     package = pkgs.glances;
   in
     assert lib.versionAtLeast package.version "4.5.9";
+    assert package.version != "4.5.9" || builtins.elem "${flake.outPath}/pkgs/glances-test-readiness.patch" (map toString (package.patches or []));
     assert lib.all (dependency: (dependency.pname or "") != "python-jose") package.dependencies;
     assert builtins.elem pkgs.python3Packages.pyjwt.outPath (map (dependency: dependency.outPath) package.dependencies);
     assert builtins.elem package.outPath installed; true;
