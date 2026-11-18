@@ -11,6 +11,10 @@ version="$(git ls-remote --tags --refs https://github.com/ctxrs/ctx.git |
     echo 'No CTX version tag found.' >&2
     exit 1
 }
+if [[ ${NIXCFG_SKIP_UNCHANGED:-0} == 1 && $version == "${NIXCFG_CURRENT_VERSION:-}" ]]; then
+    echo "CTX $version is current."
+    exit 0
+fi
 
 for asset in ctx-linux-x64 ctx-macos-arm64 ctx-macos-x64; do
     hash="$(nix store prefetch-file --json "https://github.com/ctxrs/ctx/releases/download/v$version/$asset" | jq -er .hash)"

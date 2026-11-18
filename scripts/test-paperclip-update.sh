@@ -14,6 +14,7 @@ set -euo pipefail
 printf '%s\n' "$*" >>"$TEST_ROOT/calls"
 case "$*" in
     'run nixpkgs#nix-update -- -F paperclip --src-only')
+        [[ ${TEST_CURRENT:-0} == 0 ]] || exit 0
         echo '# source updated' >>"$TEST_REPO/pkgs/paperclip/default.nix"
         ;;
     'build .#paperclip.src --no-link --print-out-paths')
@@ -80,7 +81,7 @@ for failure in none source npm build bundle; do
     cp pkgs/paperclip/default.nix "$tmp/before.nix"
     cp pkgs/paperclip/package-lock.json "$tmp/before.json"
     status=0
-    TEST_FAILURE="$failure" bash "$repo_root/scripts/update-paperclip.sh" >"$tmp/output" 2>&1 || status=$?
+    NIXCFG_SKIP_UNCHANGED=1 TEST_FAILURE="$failure" bash "$repo_root/scripts/update-paperclip.sh" >"$tmp/output" 2>&1 || status=$?
     if [[ "$failure" == none || "$failure" == bundle ]]; then
         [[ "$status" == 0 ]]
         jq -e '.packages["node_modules/uuid"].version == "11.1.1"' pkgs/paperclip/package-lock.json >/dev/null
@@ -91,4 +92,9 @@ for failure in none source npm build bundle; do
         cmp "$tmp/before.json" pkgs/paperclip/package-lock.json
     fi
 done
+: >"$TEST_ROOT/calls"
+NIXCFG_SKIP_UNCHANGED=1 TEST_CURRENT=1 bash "$repo_root/scripts/update-paperclip.sh" >/dev/null
+[[ $(cat "$TEST_ROOT/calls") == 'run nixpkgs#nix-update -- -F paperclip --src-only' ]]
+TEST_CURRENT=1 bash "$repo_root/scripts/update-paperclip.sh" >/dev/null
+rg -qxF 'build .#paperclip --no-link' "$TEST_ROOT/calls"
 echo 'Paperclip updater preserves overrides, verifies builds, and rolls back failures.'

@@ -51,6 +51,11 @@ cp "${repo_root}/flake.nix" "${TEST_REPO}/flake.nix"
 cp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/"
 cp "${repo_root}/pkgs/jpegli/default.nix" "${TEST_REPO}/pkgs/jpegli/"
 cp "${repo_root}/pkgs/semble/default.nix" "${TEST_REPO}/pkgs/semble/"
+for package in ctx vscode; do
+    mkdir -p "$TEST_REPO/pkgs/$package"
+    cp "$repo_root/pkgs/$package/default.nix" "$TEST_REPO/pkgs/$package/"
+    cp "$repo_root/scripts/update-$package.sh" "$TEST_REPO/scripts/"
+done
 export TEST_ACLI_ARCHIVE="${test_root}/acli.tar.gz"
 mkdir -p "${test_root}/acli_2.0.0-stable_linux_amd64"
 touch "${test_root}/acli_2.0.0-stable_linux_amd64/acli"
@@ -85,6 +90,8 @@ elif [[ "$*" == *registry.npmjs.org/@opencode%2fcli-* ]]; then
     printf '{"name":"@opencode/cli-%s","version":"%s","dist":{"integrity":"%s"}}\n' "$target" "$version" "$hash"
 elif [[ "$*" == *pypi.org/pypi/semble/json* ]]; then
     printf '{"info":{"version":"0.10.0"},"urls":[{"packagetype":"sdist","yanked":false,"url":"https://files.pythonhosted.org/semble-0.10.0.tar.gz"}]}\n'
+elif [[ "$*" == *update.code.visualstudio.com/api/releases/stable* ]]; then
+    printf '["0.10.0"]\n'
 else
     printf '{"tag_name":"%s"}\n' "${TEST_RELEASE:-3.3.0}"
 fi
@@ -190,6 +197,7 @@ EOF
 cat >"${test_root}/bin/nix" <<'EOF'
 #!/usr/bin/env bash
 if [[ "$1" == store ]]; then
+    [[ ${TEST_NO_PREFETCH:-0} == 0 ]] || exit 1
     if [[ "$*" == *opencode.ai/files/bin/* && "${TEST_OPENCODE_MISSING_DESKTOP:-0}" == 1 ]]; then exit 1; fi
     printf '{"hash":"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=","storePath":"/test/font.ttf"}\n'
 elif [[ "$1" == eval ]]; then
@@ -222,6 +230,19 @@ for package in opencode-v2 opencode-v2-desktop; do
     cmp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
 done
 test ! -e "${TEST_REPO}/builds.log"
+for package in ctx vscode; do
+    NIXCFG_SKIP_UNCHANGED=1 NIXCFG_CURRENT_VERSION=0.10.0 TEST_NO_PREFETCH=1 TEST_BUILD_FAILURE=1 \
+        "$TEST_REPO/scripts/update-$package.sh" >/dev/null
+    if NIXCFG_SKIP_UNCHANGED=1 NIXCFG_CURRENT_VERSION=0.9.0 TEST_BUILD_FAILURE=1 "$TEST_REPO/scripts/update-$package.sh" >/dev/null 2>&1; then
+        echo "Expected $package to verify a changed release" >&2
+        exit 1
+    fi
+    cmp "$repo_root/pkgs/$package/default.nix" "$TEST_REPO/pkgs/$package/default.nix"
+    NIXCFG_SKIP_UNCHANGED=1 NIXCFG_CURRENT_VERSION=0.9.0 "$TEST_REPO/scripts/update-$package.sh" >/dev/null
+    rg -qxF "build .#$package --no-link" "$TEST_REPO/builds.log"
+    rg -qF 'version = "0.10.0";' "$TEST_REPO/pkgs/$package/default.nix"
+done
+
 "${TEST_REPO}/scripts/update-opencode-v2.sh" >/dev/null
 for package in opencode-v2 opencode-v2-desktop; do
     rg -q 'version = "2.1.0";' "${TEST_REPO}/pkgs/${package}/default.nix"
@@ -265,6 +286,17 @@ done
 rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/orca-ide/default.nix"
 [[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/orca-ide/default.nix")" -eq 4 ]]
 rg -q '^build .#orca-ide --no-link$' "${TEST_REPO}/builds.log"
+NIXCFG_SKIP_UNCHANGED=1 TEST_BUILD_FAILURE=1 "${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null
+sed -i 's/sha256-TESTHASH/sha256-OLDHASH/' "$TEST_REPO/pkgs/orca-ide/default.nix"
+if NIXCFG_SKIP_UNCHANGED=1 TEST_BUILD_FAILURE=1 "$TEST_REPO/scripts/update-orca-ide.sh" >/dev/null 2>&1; then
+    echo 'Expected a changed digest at the current version to require a build' >&2
+    exit 1
+fi
+rg -qF 'sha256-OLDHASH' "$TEST_REPO/pkgs/orca-ide/default.nix"
+if NIXCFG_SKIP_UNCHANGED=1 TEST_ORCA_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null 2>&1; then
+    echo 'Expected a missing asset to fail even at the current version' >&2
+    exit 1
+fi
 cp "${repo_root}/pkgs/orca-ide/default.nix" "${TEST_REPO}/pkgs/orca-ide/"
 printf '# existing user changes\n' >>"${TEST_REPO}/pkgs/orca-ide/default.nix"
 cp "${TEST_REPO}/pkgs/orca-ide/default.nix" "${test_root}/orca.before"
@@ -373,7 +405,13 @@ rg -q '^build path:.#acli --no-link --no-write-lock-file$' "${TEST_REPO}/builds.
 "${TEST_REPO}/scripts/update-jpegli.sh" >/dev/null
 rg -q 'libjpegTurboVersion = "3.3.0";' "${TEST_REPO}/pkgs/jpegli/default.nix"
 rg -q '^build .#jpegli --no-link$' "${TEST_REPO}/builds.log"
-"${TEST_REPO}/scripts/update-semble.sh" >/dev/null
+NIXCFG_SKIP_UNCHANGED=1 "${TEST_REPO}/scripts/update-semble.sh" >/dev/null
+rg -qxF 'build .#semble --no-link' "${TEST_REPO}/builds.log"
+NIXCFG_SKIP_UNCHANGED=1 TEST_BUILD_FAILURE=1 "${TEST_REPO}/scripts/update-semble.sh" >/dev/null
+if TEST_BUILD_FAILURE=1 "${TEST_REPO}/scripts/update-semble.sh" >/dev/null 2>&1; then
+    echo 'Expected the explicit Semble updater to verify the current release' >&2
+    exit 1
+fi
 rg -q 'version = "0.10.0";' "${TEST_REPO}/pkgs/semble/default.nix"
 # Dependency versions and hashes must remain untouched.
 sed '/pname = "semble";/,$d' "${repo_root}/pkgs/semble/default.nix" >"${test_root}/before"

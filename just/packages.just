@@ -32,9 +32,13 @@ pkg-update package:
 [group('packages')]
 [script("python3", "scripts/update-review.py", "pkgs")]
 pkgs:
+    export NIXCFG_SKIP_UNCHANGED=1
     packages="$(./scripts/local-package-maint.sh packages)" || exit $?
+    set -f
+    set -- $packages
     red="$(printf '\033[31m')"; green="$(printf '\033[32m')"; blue="$(printf '\033[34m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=()
-    for package in $packages; do
+    for package in "$@"; do
+      [[ "$package" =~ ^[a-zA-Z0-9][a-zA-Z0-9._+-]*$ ]] || { echo "Invalid package name: $package" >&2; exit 2; }
       update_log="$log_dir/$package.log"
       printf '%s ... ' "$package"
       before="$(git diff --no-ext-diff --binary | git hash-object --stdin)"

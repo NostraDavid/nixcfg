@@ -12,6 +12,12 @@ cd "${repo_root}"
 # shellcheck source=scripts/local-package-maint.sh
 source <(sed '$d' scripts/local-package-maint.sh)
 
+skip_reason_for() {
+    local metadata
+    metadata="$(package_metadata "$repo_root" "$1")" || return 1
+    probe_skip_reason "$repo_root" "$1" "$metadata"
+}
+
 # These bundles must reach their flake updater, even with unstable versions.
 for package in asd-ste100-skill awesome-copilot-skills databricks-agent-skills matt-pocock-skills pi-coding-agent-bun polars-skills ponytail-skills pstack-skills; do
     if [[ "${package}" == polars-skills ]]; then
@@ -25,7 +31,7 @@ for package in asd-ste100-skill awesome-copilot-skills databricks-agent-skills m
         printf '%s must use its flake-input updater\n' "${package}" >&2
         exit 1
     fi
-    if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
+    if reason="$(skip_reason_for "${package}")"; then
         printf '%s must be updatable: %s\n' "${package}" "${reason}" >&2
         exit 1
     fi
@@ -43,14 +49,14 @@ for package in fixit dockerfile-roast jsongrep mdschema gigatoken paperclip pico
 done
 for package in pico-8-font ponytail-codex; do
     list_packages | rg -x "${package}" >/dev/null
-    if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
+    if reason="$(skip_reason_for "${package}")"; then
         printf '%s must be updatable: %s\n' "${package}" "${reason}" >&2
         exit 1
     fi
 done
 
 for package in espeak-ng tamzen-otf; do
-    if reason="$(probe_skip_reason "${repo_root}" "${package}")"; then
+    if reason="$(skip_reason_for "${package}")"; then
         printf '%s must have a locally updatable version: %s\n' "${package}" "${reason}" >&2
         exit 1
     fi
@@ -63,7 +69,7 @@ if list_packages | rg -q '^(forgejo-lab-image|proxmox-lab)$'; then
     echo 'Generated and explicitly managed packages must not be included in bulk updates' >&2
     exit 1
 fi
-[[ "$(probe_skip_reason "${repo_root}" forgejo-lab-image)" == *"generated flake output"* ]]
+[[ "$(skip_reason_for forgejo-lab-image)" == *"generated flake output"* ]]
 
 if output="$(./scripts/local-package-maint.sh update nonexistent-regression-test-package 2>&1)"; then
     echo "Unknown packages must fail" >&2
@@ -92,6 +98,10 @@ EOF
 touch "${test_root}/pkgs/fixture/default.nix"
 cat >"${test_root}/scripts/update-fixture.sh" <<'EOF'
 #!/usr/bin/env bash
+if [[ ${NIXCFG_SKIP_UNCHANGED:-0} == 1 ]]; then
+    [[ ${NIXCFG_CURRENT_VERSION:-} == 1.0.0 ]]
+    exit
+fi
 echo 'fixture upstream connection failed' >&2
 exit 19
 EOF
@@ -104,6 +114,7 @@ output="$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.
 [[ "${output}" == *"fixture upstream connection failed"* ]]
 [[ "${output}" != *"Skipping update"* ]]
 [[ "${output}" != *"retrying"* ]]
+NIXCFG_SKIP_UNCHANGED=1 NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" update fixture
 status=0
 output="$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" list fixture 2>&1)" || status=$?
 [[ "${status}" -eq 1 ]]

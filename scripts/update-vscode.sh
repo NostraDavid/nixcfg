@@ -16,16 +16,25 @@ fi
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 pkg_file="${repo_root}/pkgs/vscode/default.nix"
 asset_url="https://update.code.visualstudio.com/${version}/linux-x64/stable"
+if [[ ${NIXCFG_SKIP_UNCHANGED:-0} == 1 && $version == "${NIXCFG_CURRENT_VERSION:-}" ]]; then
+    echo "VS Code $version is current."
+    exit 0
+fi
 
 printf 'Updating vscode to version %s\n' "${version}"
 
 prefetch_json="$(nix store prefetch-file --json "${asset_url}")"
 source_hash="$(printf '%s' "${prefetch_json}" | jq -r '.hash')"
 
+backup="$(mktemp)"
+cp "$pkg_file" "$backup"
+trap 'rm -f "$backup"' EXIT
+trap 'cp "$backup" "$pkg_file"' ERR
 sed -i "0,/version = \".*\";/s//version = \"${version}\";/" "${pkg_file}"
 sed -i "0,/srcHash = \".*\";/s#srcHash = \".*\";#srcHash = \"${source_hash}\";#" "${pkg_file}"
 
 echo 'Verifying nix build...'
 nix build .#vscode --no-link
 
+trap - ERR
 echo 'vscode update complete.'

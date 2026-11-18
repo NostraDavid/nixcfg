@@ -15,6 +15,10 @@ trap restore ERR
 trap 'rm -rf "$tmp"' EXIT
 
 nix run nixpkgs#nix-update -- -F paperclip --src-only
+if [[ ${NIXCFG_SKIP_UNCHANGED:-0} == 1 ]] && cmp -s "$tmp/default.nix" "$pkg_dir/default.nix"; then
+    echo 'Paperclip source unchanged.'
+    exit 0
+fi
 src="$(nix build .#paperclip.src --no-link --print-out-paths)"
 node="$(nix build .#paperclip.nodejs --no-link --print-out-paths)"
 overrides="$(nix eval --json .#paperclip.npmOverrides)"

@@ -120,11 +120,25 @@ pkg_eval_json() {
     )
 }
 
-package_exists() {
+package_metadata() {
     local dir="$1"
     local pkg="$2"
-
-    pkg_eval_raw "${dir}" "${pkg}" "if builtins.hasAttr \"${pkg}\" pkgs then \"true\" else throw \"missing package\"" >/dev/null 2>&1
+    local has_recipe=false metadata
+    if [[ -f "$dir/pkgs/$pkg/default.nix" ]]; then has_recipe=true; fi
+    metadata="$(pkg_eval_json "$dir" "$pkg" "
+      if !(builtins.hasAttr \"$pkg\" pkgs) then null else let
+        package = pkgs.\"$pkg\";
+        reason = if $has_recipe then package.passthru.updateSkipReason or \"\"
+          else \"generated flake output; updated through flake inputs and configuration\";
+      in { inherit reason; version = if reason == \"\" then package.version or \"\" else \"\"; }
+    ")" || return 1
+    if [[ $metadata == null ]]; then
+        print_error "Unknown local package: $pkg"
+        printf '%sAvailable packages:%s\n' "${C_BOLD}" "${C_RESET}" >&2
+        list_packages | sed 's/^/  /' >&2
+        return 1
+    fi
+    printf '%s\n' "$metadata"
 }
 
 package_version() {
@@ -284,22 +298,18 @@ run_update() {
 probe_skip_reason() {
     local dir="$1"
     local pkg="$2"
+    local metadata="$3"
     local current_version
     local mode
     local reason
 
-    if [[ ! -f "${dir}/pkgs/${pkg}/default.nix" ]]; then
-        echo "generated flake output; updated through flake inputs and configuration"
-        return 0
-    fi
-
-    reason="$(pkg_eval_raw "${dir}" "${pkg}" "pkgs.\"${pkg}\".passthru.updateSkipReason or \"\"")"
+    reason="$(jq -r .reason <<<"$metadata")"
     if [[ -n "${reason}" ]]; then
         printf '%s\n' "${reason}"
         return 0
     fi
 
-    current_version="$(package_version "${dir}" "${pkg}")"
+    current_version="$(jq -r .version <<<"$metadata")"
     if [[ -z "${current_version}" ]]; then
         echo "no package version (may be managed by a flake input)"
         return 0
@@ -367,20 +377,6 @@ summarize_failure() {
     return 0
 }
 
-ensure_package() {
-    local dir="$1"
-    local pkg="$2"
-
-    if package_exists "${dir}" "${pkg}"; then
-        return 0
-    fi
-
-    print_error "Unknown local package: ${pkg}"
-    printf '%sAvailable packages:%s\n' "${C_BOLD}" "${C_RESET}" >&2
-    list_packages | sed 's/^/  /' >&2
-    exit 1
-}
-
 list_updates() {
     local packages=("$@")
 
@@ -389,19 +385,19 @@ list_updates() {
     fi
 
     local found=0
-    local pkg before after tmpdir update_log updater
+    local pkg before after tmpdir update_log updater metadata
     local skip_reason
     local -a skipped=()
     local -a failed=()
 
     for pkg in "${packages[@]}"; do
-        ensure_package "${repo_root}" "${pkg}"
-        if skip_reason="$(probe_skip_reason "${repo_root}" "${pkg}")"; then
+        metadata="$(package_metadata "${repo_root}" "${pkg}")"
+        if skip_reason="$(probe_skip_reason "${repo_root}" "${pkg}" "$metadata")"; then
             skipped+=("${pkg}: ${skip_reason}")
             continue
         fi
 
-        before="$(package_version "${repo_root}" "${pkg}")"
+        before="$(jq -r .version <<<"$metadata")"
         updater="${repo_root}/scripts/update-${pkg}.sh"
         if [[ "$updater" -ef "${repo_root}/scripts/update-prebuilt-github.sh" ]]; then
             if ! after="$(bash "$updater" --latest-version)"; then
@@ -464,15 +460,19 @@ main() {
 
     case "${command}" in
     update)
-        local tmpdir update_log skip_reason status attempt
+        local tmpdir update_log skip_reason status attempt metadata
         if [[ $# -ne 1 ]]; then
             usage >&2
             exit 1
         fi
-        ensure_package "${repo_root}" "$1"
-        if skip_reason="$(probe_skip_reason "${repo_root}" "$1")"; then
+        metadata="$(package_metadata "${repo_root}" "$1")"
+        if skip_reason="$(probe_skip_reason "${repo_root}" "$1" "$metadata")"; then
             print_warning "Skipping update for $1: ${skip_reason}"
             exit 0
+        fi
+        if [[ ${NIXCFG_SKIP_UNCHANGED:-0} == 1 ]]; then
+            export NIXCFG_CURRENT_VERSION
+            NIXCFG_CURRENT_VERSION="$(jq -r .version <<<"$metadata")"
         fi
         tmpdir="$(mktemp -d)"
         update_log="${tmpdir}/update.log"

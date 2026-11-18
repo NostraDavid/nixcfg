@@ -64,12 +64,7 @@ fi
 
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 pkg_file="${repo_root}/pkgs/${package}/default.nix"
-backup="$(mktemp)"
-cp "$pkg_file" "$backup"
-trap 'cp "$backup" "$pkg_file"' ERR
-trap 'rm -f "$backup"' EXIT
-
-sed -i -E "s/version = \"[^\"]+\";/version = \"${version}\";/" "$pkg_file"
+edits=(-e "s/version = \"[^\"]+\";/version = \"${version}\";/")
 for system in "${systems[@]}"; do
     case "$system" in
     x86_64-linux)
@@ -167,9 +162,19 @@ for system in "${systems[@]}"; do
     esac
     digest="$(jq -er --arg name "$asset" '.assets[] | select(.name == $name) | .digest | select(startswith("sha256:")) | sub("^sha256:"; "")' <<<"$release")"
     hash="$(nix hash convert --hash-algo sha256 --to sri "$digest")"
-    sed -i -E "/^    ${system} = \{/,/^    \};/ s#hash = \"[^\"]+\";#hash = \"${hash}\";#" "$pkg_file"
+    edits+=(-e "/^    ${system} = \{/,/^    \};/ s#hash = \"[^\"]+\";#hash = \"${hash}\";#")
 done
 
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+sed -E "${edits[@]}" "$pkg_file" >"$tmp/updated"
+if [[ ${NIXCFG_SKIP_UNCHANGED:-0} == 1 ]] && cmp -s "$tmp/updated" "$pkg_file"; then
+    printf '%s %s release assets unchanged.\n' "$package" "$version"
+    exit 0
+fi
+cp "$pkg_file" "$tmp/original"
+trap 'cp "$tmp/original" "$pkg_file"' ERR
+cp "$tmp/updated" "$pkg_file"
 cd "$repo_root"
 nix build ".#${package}" --no-link
 trap - ERR
