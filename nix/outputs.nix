@@ -86,16 +86,12 @@ in {
 
     devShells.default = stable.mkShell {
       # Tools needed before the first Home Manager activation.
-      packages = [
-        stable.git
-        stable.git-lfs
-        stable.just
-      ];
-
-      shellHook = ''
-        export NIX_CONFIG="experimental-features = nix-command flakes
-        ''${NIX_CONFIG:-}"
-      '';
+      shellHook =
+        ''
+          export NIX_CONFIG="experimental-features = nix-command flakes
+          ''${NIX_CONFIG:-}"
+        ''
+        + import ./system-tools.nix stable ["git" "git-lfs" "just"];
     };
   };
 }
