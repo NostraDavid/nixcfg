@@ -22,8 +22,11 @@ keybinds {
     }
     pane {
         bind "Ctrl p" { SwitchToMode "Normal"; }
-        bind "Space" { MovePane; }
-        bind "Shift Space" { MovePaneBackwards; }
+        // Space rotates the tab; g rotates the pair containing the focused pane.
+        bind "Space" { Run "zellij-rotate" "cw" { background true; }; }
+        bind "Shift Space" { Run "zellij-rotate" "ccw" { background true; }; }
+        bind "g" { Run "zellij-rotate" "cw" "--pair" { background true; }; }
+        bind "G" { Run "zellij-rotate" "ccw" "--pair" { background true; }; }
         bind "h" "Left" { MoveFocus "Left"; }
         bind "l" "Right" { MoveFocus "Right"; }
         bind "j" "Down" { MoveFocus "Down"; }

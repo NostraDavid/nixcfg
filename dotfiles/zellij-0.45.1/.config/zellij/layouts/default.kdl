@@ -1,9 +1,68 @@
 layout name="bash" {
-    pane size=1 borderless=true {
+    pane_template name="top_bar" borderless=true {
         plugin location="tab-bar"
     }
-    pane
-    pane size=1 borderless=true {
+    pane_template name="bottom_bar" borderless=true {
         plugin location="status-bar"
+    }
+    top_bar size=1
+    pane
+    bottom_bar size=1
+
+    tab_template name="with_bars" {
+        top_bar size=1
+        children
+        bottom_bar size=1
+    }
+    swap_tiled_layout name="rows" {
+        with_bars { pane split_direction="horizontal" { children; }; }
+    }
+    swap_tiled_layout name="columns" {
+        with_bars { pane split_direction="vertical" { children; }; }
+    }
+
+    pane_template name="row_pair" split_direction="horizontal" { pane; pane; }
+    pane_template name="column_pair" split_direction="vertical" { pane; pane; }
+
+    // Zellij counts the two UI bars alongside the three terminals.
+    swap_tiled_layout name="main-left" {
+        with_bars exact_panes=5 {
+            pane split_direction="vertical" { pane; row_pair; }
+        }
+    }
+    swap_tiled_layout name="main-left-flat" {
+        with_bars exact_panes=5 {
+            pane split_direction="vertical" { pane; column_pair; }
+        }
+    }
+    swap_tiled_layout name="main-top" {
+        with_bars exact_panes=5 {
+            pane split_direction="horizontal" { pane; column_pair; }
+        }
+    }
+    swap_tiled_layout name="main-top-flat" {
+        with_bars exact_panes=5 {
+            pane split_direction="horizontal" { pane; row_pair; }
+        }
+    }
+    swap_tiled_layout name="main-right" {
+        with_bars exact_panes=5 {
+            pane split_direction="vertical" { row_pair; pane; }
+        }
+    }
+    swap_tiled_layout name="main-right-flat" {
+        with_bars exact_panes=5 {
+            pane split_direction="vertical" { column_pair; pane; }
+        }
+    }
+    swap_tiled_layout name="main-bottom" {
+        with_bars exact_panes=5 {
+            pane split_direction="horizontal" { column_pair; pane; }
+        }
+    }
+    swap_tiled_layout name="main-bottom-flat" {
+        with_bars exact_panes=5 {
+            pane split_direction="horizontal" { row_pair; pane; }
+        }
     }
 }

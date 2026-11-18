@@ -27,6 +27,7 @@
       ".config/zellij/layouts/default.kdl".source = mk "${dot}/zellij-0.45.1/.config/zellij/layouts/default.kdl";
       ".config/zigfetch/" = {source = mk "${dot}/zigfetch-0.25.0/.config/zigfetch";};
       ".inputrc" = {source = mk "${dot}/readline-8.2p13/.inputrc";};
+      ".local/bin/zellij-rotate".source = mk "${dot}/ndtk/.local/bin/zellij-rotate.py";
       ".local/bin/nix-bash".source = "${stable.bashInteractive}/bin/bash";
       ".tmux.conf" = {source = mk "${dot}/tmux-3.5a/.tmux.conf";};
     };
