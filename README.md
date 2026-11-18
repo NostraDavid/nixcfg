@@ -33,6 +33,26 @@ They use evaluated configuration, not only directory names.
 sudo nixos-rebuild switch --flake .#wodan
 ```
 
+### Background review of package updates
+
+`just update` and `just pkgs` each start one background `codex exec` after the
+update finishes, including successful runs. This uses your Codex account. Each
+recipe prints its private log directory under `/tmp` and returns the updater's
+exit status. Set `NIXCFG_CODEX_REVIEW=0` for a run without Codex.
+
+Codex reviews filtered copies of the console and per-package logs in an isolated
+checkout. The filter removes common credentials and private keys. If your
+updater logs confidential data, use the opt-out. The reviewer can edit and test
+a fix locally. Checks that need network access can remain unresolved.
+
+Read `status` in the printed directory for the outcome and summary. An `applied`
+fix appears in your working tree, unstaged. Automatic fixes are limited to flake
+files, package definitions under `pkgs/`, updater scripts, and the package
+recipes. If a touched file changes during review, the branch switches, or a
+repair falls outside that scope, inspect `fix.patch`. A reviewer startup or
+execution failure is recorded in `status`; further diagnostics are in
+`worker.log`.
+
 ### Debian and macOS workstations
 
 This flake defines `mimir2` and `loki`. The work repository extends them with

@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+# Recipe regression tests must never start a billable Codex session.
+export NIXCFG_CODEX_REVIEW=0
+
 repo_root="$(git -C "$(dirname "$0")"/.. rev-parse --show-toplevel)"
 cd "${repo_root}"
 
@@ -74,7 +77,7 @@ bulk_log_dirs=()
 trap 'rm -rf "${test_root}" "${bulk_log_dirs[@]}"' EXIT
 mkdir -p "${test_root}/scripts" "${test_root}/pkgs/fixture"
 cp scripts/local-package-maint.sh "${test_root}/scripts/"
-cp scripts/github-auth.sh "${test_root}/scripts/"
+cp scripts/github-auth.sh scripts/update-review.py "${test_root}/scripts/"
 cat >"${test_root}/flake.nix" <<EOF
 {
   outputs = _: {
@@ -240,8 +243,13 @@ fi
 EOF
 chmod +x "${test_root}/bin/nix"
 for recipe in update update-nix; do
-    PATH="${test_root}/bin:${PATH}" GITHUB_TOKEN= FLAKE_UPDATE_LOG="${test_root}/flake-updates.log" \
-        "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" "${recipe}" >/dev/null
+    output="$(PATH="${test_root}/bin:${PATH}" GITHUB_TOKEN= FLAKE_UPDATE_LOG="${test_root}/flake-updates.log" \
+        "${just_bin}" --justfile "${repo_root}/Justfile" --working-directory "${test_root}" "${recipe}")"
+    if [[ "${recipe}" == update ]]; then
+        log_dir="$(sed -n 's/^Logs: //p' <<<"${output}")"
+        [[ "${log_dir}" == /tmp/just-update.* && -f "${log_dir}/output.log" ]]
+        bulk_log_dirs+=("${log_dir}")
+    fi
 done
 [[ "$(cat "${test_root}/flake-updates.log")" == $'flake update --option http-connections 1\nflake update --option http-connections 1 nixpkgs\nflake update --option http-connections 1 home-manager' ]]
 

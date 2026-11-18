@@ -1,14 +1,15 @@
 # Update all flake inputs, including inputs nested under other inputs.
 [group('packages')]
+[script("python3", "scripts/update-review.py", "update")]
 update:
-  @just forgejo-support-warning; \
-  source ./scripts/github-auth.sh; \
-  {{nix_clean_env}} nix flake update --option http-connections 1; \
-  nested_inputs="$(jq -r 'def paths($node; $prefix; $seen): . as $lock | ($lock.nodes[$node].inputs // {} | to_entries[]) as $input | select($input.value | type == "string") | ($prefix + [$input.key]) as $path | (if ($path | length) > 1 then ($path | join("/")) else empty end), (if ($seen | index($input.value)) == null then paths($input.value; $path; $seen + [$input.value]) else empty end); paths("root"; []; ["root"])' flake.lock | sort -u)"; \
-  if [[ -n "$nested_inputs" ]]; then \
-    mapfile -t nested_input_paths <<< "$nested_inputs"; \
-    {{nix_clean_env}} nix flake update --option http-connections 1 "${nested_input_paths[@]}"; \
-  fi
+    just forgejo-support-warning
+    source ./scripts/github-auth.sh
+    {{nix_clean_env}} nix flake update --option http-connections 1
+    nested_inputs="$(jq -r 'def paths($node; $prefix; $seen): . as $lock | ($lock.nodes[$node].inputs // {} | to_entries[]) as $input | select($input.value | type == "string") | ($prefix + [$input.key]) as $path | (if ($path | length) > 1 then ($path | join("/")) else empty end), (if ($seen | index($input.value)) == null then paths($input.value; $path; $seen + [$input.value]) else empty end); paths("root"; []; ["root"])' flake.lock | sort -u)"
+    if [[ -n "$nested_inputs" ]]; then
+        mapfile -t nested_input_paths <<< "$nested_inputs"
+        {{nix_clean_env}} nix flake update --option http-connections 1 "${nested_input_paths[@]}"
+    fi
 
 # Update nixpkgs and home-manager flake inputs in flake.lock.
 [group('packages')]
@@ -29,31 +30,28 @@ pkg-update package:
 # Keep console output and per-package updater logs under /tmp/just-pkgs.*.
 # shortcut: detects tracked changes only, use explicit updater results if untracked files must count.
 [group('packages')]
+[script("python3", "scripts/update-review.py", "pkgs")]
 pkgs:
-  @log_dir="$(mktemp -d /tmp/just-pkgs.XXXXXX)" || exit $?; \
-  trap 'printf "\nLogs: %s\n" "$log_dir"' EXIT; \
-  { \
-    packages="$(./scripts/local-package-maint.sh packages)" || exit $?; \
-    red="$(printf '\033[31m')"; green="$(printf '\033[32m')"; blue="$(printf '\033[34m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=(); \
-    for package in $packages; do \
-      update_log="$log_dir/$package.log"; \
-      printf '%s ... ' "$package"; \
-      before="$(git diff --no-ext-diff --binary | git hash-object --stdin)"; \
-      if just pkg-update "$package" >"$update_log" 2>&1; then \
-        after="$(git diff --no-ext-diff --binary | git hash-object --stdin)"; \
-        if [ "$before" != "$after" ]; then printf '%supdated%s\n' "$blue" "$reset"; else printf '%sno update%s\n' "$green" "$reset"; fi; \
-      else \
-        printf '%sFAILED%s\n' "$red" "$reset"; \
-        cat "$update_log" >&2; \
-        failures+=("$package"); \
-      fi; \
-    done; \
-    if [ ${#failures[@]} -gt 0 ]; then \
-      printf '%s%sPackages with failed updates:%s\n' "$bold" "$red" "$reset" >&2; \
-      printf '  %s\n' "${failures[@]}" >&2; \
-      exit 1; \
-    fi; \
-  } 2>&1 | tee "$log_dir/output.log"
+    packages="$(./scripts/local-package-maint.sh packages)" || exit $?
+    red="$(printf '\033[31m')"; green="$(printf '\033[32m')"; blue="$(printf '\033[34m')"; reset="$(printf '\033[0m')"; bold="$(printf '\033[1m')"; failures=()
+    for package in $packages; do
+      update_log="$log_dir/$package.log"
+      printf '%s ... ' "$package"
+      before="$(git diff --no-ext-diff --binary | git hash-object --stdin)"
+      if just pkg-update "$package" >"$update_log" 2>&1; then
+        after="$(git diff --no-ext-diff --binary | git hash-object --stdin)"
+        if [ "$before" != "$after" ]; then printf '%supdated%s\n' "$blue" "$reset"; else printf '%sno update%s\n' "$green" "$reset"; fi
+      else
+        printf '%sFAILED%s\n' "$red" "$reset"
+        cat "$update_log" >&2
+        failures+=("$package")
+      fi
+    done
+    if [ ${#failures[@]} -gt 0 ]; then
+      printf '%s%sPackages with failed updates:%s\n' "$bold" "$red" "$reset" >&2
+      printf '  %s\n' "${failures[@]}" >&2
+      exit 1
+    fi
 
 # List newer versions via GitHub release tags for prebuilt packages, or trial updates for other packages.
 [group('packages')]
