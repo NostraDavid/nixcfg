@@ -50,6 +50,7 @@
           nixpkgs.overlays = lib.mkAfter [
             (_final: prev: {espeak-ng = prev.espeak-ng.override {mbrolaSupport = false;};})
           ];
+          programs.kde-pim.enable = false;
           programs.thunderbird.enable = lib.mkForce false;
           virtualisation.podman = {
             enable = lib.mkForce false;
