@@ -3,9 +3,9 @@
 nixos-show host=default_host:
   @nix flake show .#nixosConfigurations."{{host}}"
 
-# Update, switch, push to Cachix and collect garbage.
+# Update, switch, push to Cachix and collect garbage. Save the output for just fix.
 [group('nixos')]
-[script("bash", "-euo", "pipefail")]
+[script("python3", "scripts/update-review.py", "upgrade")]
 upgrade:
     sudo -v
     # read times out every 30s and gets EOF when the upgrade shell closes its pipe.
@@ -22,6 +22,11 @@ upgrade:
         just cachix-push-all
         just gc-old --non-interactive
     )
+
+# Review the last upgrade in this checkout and apply verified repairs.
+[group('nixos')]
+fix:
+  @python3 scripts/update-review.py fix
 
 # Test a host configuration temporarily; reverts after reboot.
 [group('nixos')]

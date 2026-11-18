@@ -52,6 +52,7 @@ pkgs:
       fi
     done
     if [ ${#failures[@]} -gt 0 ]; then
+      printf '%s\n' "${failures[@]}" >"$log_dir/failed-packages"
       printf '%s%sPackages with failed updates:%s\n' "$bold" "$red" "$reset" >&2
       printf '  %s\n' "${failures[@]}" >&2
       exit 1

@@ -33,25 +33,30 @@ They use evaluated configuration, not only directory names.
 sudo nixos-rebuild switch --flake .#wodan
 ```
 
-### Background review of package updates
+### Upgrade and review the output
 
-`just update` and `just pkgs` each start one background `codex exec` after the
-update finishes, including successful runs. This uses your Codex account. Each
-recipe prints its private log directory under `/tmp` and returns the updater's
-exit status. Set `NIXCFG_CODEX_REVIEW=0` for a run without Codex.
+Run `just upgrade` to update the flake and packages, activate the host, push to
+Cachix, and run `just gc-old`. It stops at the first failed stage and prints the
+log directory. The checkout keeps the console output and individual package logs
+for its most recent upgrade. The next upgrade replaces those logs.
 
-Codex reviews filtered copies of the console and per-package logs in an isolated
-checkout. The filter removes common credentials and private keys. If your
-updater logs confidential data, use the opt-out. The reviewer can edit and test
-a fix locally. Checks that need network access can remain unresolved.
+Run `just fix` after a failed upgrade or to check a successful one for warnings.
+It runs Codex non-interactively, streams progress, and prints the result. A
+verified fix appears as unstaged changes in your checkout. Inspect the diff and
+run `just upgrade` again when you want to use it. An unresolved issue, conflict,
+or review failure gives `just fix` a nonzero exit status.
 
-Read `status` in the printed directory for the outcome and summary. An `applied`
-fix appears in your working tree, unstaged. Automatic fixes are limited to flake
-files, package definitions under `pkgs/`, updater scripts, and the package
-recipes. If a touched file changes during review, the branch switches, or a
-repair falls outside that scope, inspect `fix.patch`. A reviewer startup or
-execution failure is recorded in `status`; further diagnostics are in
-`worker.log`.
+When run separately, `just update` and `just pkgs` start a background review
+after the updater exits. Set `NIXCFG_CODEX_REVIEW=0` to skip those automatic
+reviews. Both commands return the updater's exit status.
+
+Codex reviews filtered logs in an isolated checkout. Review logs and any
+proposed `fix.patch` are in the private directory printed by the command.
+Filtering removes common credentials and private keys. Automatic edits are
+limited to the flake, local packages, updater scripts and package recipes.
+Changes outside that scope, or fixes that conflict with edits since the run, are
+kept as a patch for manual review. A live review stops after ten minutes without
+output. Set `NIXCFG_REVIEW_WAIT_SECONDS` to change that limit.
 
 ### Debian and macOS workstations
 

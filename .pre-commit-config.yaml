@@ -141,6 +141,13 @@ repos:
         files: '^(scripts/update-review\.py|checks/test-update-review\.py|just/packages\.just)$'
         pass_filenames: false
 
+      - id: check-upgrade
+        name: check upgrade logging and on-demand fixes
+        entry: bash checks/test-upgrade.sh
+        language: system
+        files: '^(just/(maintenance|nixos|packages)\.just|scripts/update-review\.py|checks/test-upgrade\.sh)$'
+        pass_filenames: false
+
       - id: check-release-updaters
         name: check package release updaters
         entry: bash scripts/test-release-updaters.sh
