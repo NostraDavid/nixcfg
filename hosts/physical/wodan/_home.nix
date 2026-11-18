@@ -28,24 +28,46 @@
       };
   };
 in {
+  # These applications come from shared workstation profiles. Other hosts keep their selection.
+  imports = [
+    {
+      options.home.packages = lib.mkOption {
+        apply = builtins.filter (p:
+          !(builtins.elem (lib.getName p) [
+            "blender"
+            "endless-sky"
+            "godot"
+            "itch"
+            "jujutsu"
+            "k3d"
+            "k3s"
+            "k9s"
+            "libreoffice"
+            "nuclear"
+            "opencode-desktop"
+            "openrct2"
+            "opentofu"
+            "pixelorama"
+            "podman-compose"
+            "podman-desktop"
+            "redpanda-rpk"
+            "wezterm"
+            "xnviewmp"
+            "zed-editor"
+          ]));
+      };
+    }
+  ];
   nixcfg.codexPluginPackage = local.codex;
   nixcfg.plasma = {
     taskbarScreens = [
       0
       1
     ];
-    extraTaskbarLaunchers = [
-      "applications:orca-ide.desktop"
-      "applications:paperclip.desktop"
-      "applications:agent-orchestrator.desktop"
-      "applications:Emdash.desktop"
-      "applications:Kandev.desktop"
-      "applications:Paseo.desktop"
-      "applications:superset.desktop"
-    ];
   };
 
   programs = {
+    pi.coding-agent.enable = lib.mkForce false;
     google-chrome = {
       enable = true;
       package = stable.google-chrome;
@@ -116,19 +138,10 @@ in {
 
   home = {
     packages = [
-      local.agent-orchestrator
       local.bend
-      local.emdash
-      local.kandev
-      local.orca-ide
       local.pandacode
-      local.paperclip
-      local.paseo-desktop
-      local.pi-desktop
       local.playwright-cli
-      local.superset
       local.t3code
-      local.unsloth
     ];
     file =
       lib.genAttrs [
@@ -138,6 +151,10 @@ in {
         ".config/opencode/skills/playwright-cli"
       ] (_: {source = "${local.playwright-cli}/share/skills/playwright-cli";})
       // {
+        ".config/wezterm/wezterm.lua".enable = false;
+        ".local/share/mbrola/nl2".enable = false;
+        ".local/bin/say-espeak-ng-mbrola".enable = false;
+        ".pi/agent/extensions/subagent".enable = false;
         ".config/herdr/session.json".source = config.lib.file.mkOutOfStoreSymlink "${repoRoot}/dotfiles/herdr-0.9.5/wodan/.config/herdr/session.json";
       };
 

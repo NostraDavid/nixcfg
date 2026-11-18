@@ -402,7 +402,7 @@
   "security.workspace.trust.untrustedFiles": "open",
   "shfmt.executablePath": "shfmt",
   "stylua.targetReleaseVersion": "latest",
-  "terminal.external.linuxExec": "wezterm",
+  "terminal.external.linuxExec": "ghostty",
   "terminal.integrated.commandsToSkipShell": [
     "-workbench.action.quickOpen",
     "-workbench.action.quickOpenView"

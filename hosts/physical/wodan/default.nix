@@ -2,7 +2,6 @@
   den,
   constructors,
   inputs,
-  self,
   ...
 }: {
   den = {
@@ -48,6 +47,14 @@
           nixosVex.strict = false;
 
           networking.hostName = "wodan";
+          nixpkgs.overlays = lib.mkAfter [
+            (_final: prev: {espeak-ng = prev.espeak-ng.override {mbrolaSupport = false;};})
+          ];
+          programs.thunderbird.enable = lib.mkForce false;
+          virtualisation.podman = {
+            enable = lib.mkForce false;
+            dockerCompat = lib.mkForce false;
+          };
           networking.firewall.allowedTCPPorts = [3773]; # T3 Code
 
           # Chrome on Linux reads extension installation policies system-wide.
@@ -73,6 +80,7 @@
           };
 
           services = {
+            orca.enable = false;
             openssh.enable = lib.mkForce false;
             xserver.xkb.options = "caps:escape_shifted_compose,lv3:ralt_switch_multikey,compose:ralt,compose:rctrl,mod_led:compose,grp:win_space_toggle";
             xrdp = {
@@ -87,12 +95,6 @@
             dbus-broker.serviceConfig = {
               Type = "notify";
               ExecReload = "${stable.systemd}/bin/busctl --user call org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus ReloadConfig";
-            };
-            podman = {
-              enable = true;
-              wantedBy = [
-                "default.target"
-              ];
             };
             legcord = {
               enable = true;
@@ -140,7 +142,7 @@
         ];
         homeManager = import ./_home.nix;
       };
-      proxmox-lab-host.nixos = import ./_proxmox-lab-host.nix {inherit self;};
+      proxmox-lab-host.nixos = import ./_proxmox-lab-host.nix;
     };
   };
 }
