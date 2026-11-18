@@ -120,6 +120,29 @@ stdenv.mkDerivation (finalAttrs: {
     import re
 
     with open("usr/lib/chatgpt/resources/app.asar", "r+b") as file, mmap.mmap(file.fileno(), 0) as archive:
+        # Nix manages the local node_repl entry. Desktop threads still receive
+        # the app's own runtime config, including their browser credentials.
+        config_write = re.compile(
+            rb'\.\.\.\((?P<alias>[\w$]+)=(?P<config>[\w$]+),\[\{keyPath:(?P<key>`mcp_servers\.\$\{[\w$]+\.[\w$]+\}`),'
+            rb'mergeStrategy:"replace",value:(?P=alias)\?\.\[(?P=key)\]\?\?null\},'
+            rb'(?P<cleanup>\.\.\.[\w$]+\.map\([^{}]+\{keyPath:`shell_environment_policy\.set\.\$\{[\w$]+\}`,mergeStrategy:"replace",value:null\}\)\))\]\)'
+            rb'(?P<tail>,\{keyPath:`mcp_servers\.[^;]+\];return await (?P<connection>[\w$]+)\.sendAppServerRequest\("config/batchWrite",\{edits:[\w$]+,expectedVersion:null,)'
+            rb'filePath:null,'
+        )
+        matches = list(config_write.finditer(archive))
+        assert len(matches) == 1, "desktop node_repl config write changed"
+        match = matches[0]
+        # The omitted filePath defaults to the same user config. Reuse the
+        # key expression so the replacement fits without moving ASAR offsets.
+        after = (
+            b'...' + match['connection'] + b'.hostConfig.kind==="local"?[]:[{keyPath:'
+            + match['alias'] + b'=' + match['key'] + b',mergeStrategy:"replace",value:'
+            + match['config'] + b'?.[' + match['alias'] + b']??null}],'
+            + match['cleanup'] + match['tail']
+        )
+        assert len(after) <= len(match[0]), "desktop config patch changes ASAR offsets"
+        archive[match.start():match.end()] = after.ljust(len(match[0]))
+
         initializer = re.search(rb"async function(?: ([\w$]+))?\(\{executorPluginRoot:", archive)
         assert initializer is not None, "executor plugin initializer not found"
         start = initializer.start()

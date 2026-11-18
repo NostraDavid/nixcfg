@@ -1,8 +1,8 @@
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
 model_context_window = 872000
-model = "gpt-6.1-terra"
-model_reasoning_effort = "medium"
+model = "gpt-6.1-sol"
+model_reasoning_effort = "xhigh"
 personality = "pragmatic"
 service_tier = "default"
 
@@ -199,19 +199,19 @@ trusted_hash = "sha256:78b430d1d7794c49e6d83a36964d4082d05ec72023ccc38244e97b8e0
 
 [hooks.state."worktrunk@personal:plugin.json#hooks[0]:permission_request:0:0"]
 trusted_hash = "sha256:b5f6112154fd814298da679652ea096e11434b7f2876d471eb00c790a68045d0"
-trusted_content_hash = "sha256:8f4913c38be8bce474f0d9d4720e23b5c336e5d72ff0d09689e5dd0b50c8ee75"
+trusted_content_hash = "sha256:51eaa51dd298a8c613bc967040c2f5c9f194def26027644cca87dd101030f518"
 
 [hooks.state."worktrunk@personal:plugin.json#hooks[0]:session_end:0:0"]
 trusted_hash = "sha256:09b9fff83447c926af5f61010bc3dd3c8f2e6194c7c06b08f8acbf808a51710d"
-trusted_content_hash = "sha256:8f4913c38be8bce474f0d9d4720e23b5c336e5d72ff0d09689e5dd0b50c8ee75"
+trusted_content_hash = "sha256:51eaa51dd298a8c613bc967040c2f5c9f194def26027644cca87dd101030f518"
 
 [hooks.state."worktrunk@personal:plugin.json#hooks[0]:user_prompt_submit:0:0"]
 trusted_hash = "sha256:e2ffec558188fd0988ad51768594f675801fd2a1ba2895b5df2aca2650d70c2a"
-trusted_content_hash = "sha256:8f4913c38be8bce474f0d9d4720e23b5c336e5d72ff0d09689e5dd0b50c8ee75"
+trusted_content_hash = "sha256:51eaa51dd298a8c613bc967040c2f5c9f194def26027644cca87dd101030f518"
 
 [hooks.state."worktrunk@personal:plugin.json#hooks[0]:stop:0:0"]
 trusted_hash = "sha256:350c210fba4996f546f4d0483fc29286d73880ca5ef01fda3583ea2ce676945d"
-trusted_content_hash = "sha256:8f4913c38be8bce474f0d9d4720e23b5c336e5d72ff0d09689e5dd0b50c8ee75"
+trusted_content_hash = "sha256:51eaa51dd298a8c613bc967040c2f5c9f194def26027644cca87dd101030f518"
 
 [shell_environment_policy.set]
 HISTFILE = "/dev/null"
