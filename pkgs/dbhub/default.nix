@@ -10,19 +10,19 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "dbhub";
-  version = "1.7.0";
+  version = "2.0.0";
 
   src = fetchFromGitHub {
     owner = "bytebase";
     repo = "dbhub";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-k4EHpbz05I+RnxJWhzcdH+hUSFkDFc8YhuQkCHu/PDI=";
+    hash = "sha256-VOkOBKnjtiivJGJvMhAIgDHeDJksPYDs8RDyMWhpfqc=";
   };
   pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname version src;
     pnpm = pnpm_12;
     fetcherVersion = 4;
-    hash = "sha256-0tWTTWrRjuQyU7R1/93oM9UseRDVWbVg8tAnjm8ltUw=";
+    hash = "sha256-KC2ucuNeY4085BnlrRwbf87L3PpWHDORV1aFaghP49k=";
   };
   nativeBuildInputs = [nodejs_24 pnpm_12 pnpmConfigHook makeWrapper];
 

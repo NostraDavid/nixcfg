@@ -13,7 +13,7 @@
   fetchFromGitHub,
   fetchzip,
 }: let
-  version = "unstable-2026-06-01";
+  version = "unstable-2026-11-18";
   libjpegTurboVersion = "3.2.1";
   libjpegTurboSrc = fetchzip {
     url = "https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/${libjpegTurboVersion}/libjpeg-turbo-${libjpegTurboVersion}.tar.gz";
@@ -29,13 +29,13 @@
     owner = "google";
     repo = "jpegli";
     # Upstream jpegli does not publish version tags.
-    rev = "031a0077f5799a6041004267fc12b956c1f52a20";
+    rev = "c7d342c25d3587ac0110c915989ad94f414b6c8d";
     # Submodule fetch via git intermittently fails while pruning .git metadata;
     # the GitHub source archive is sufficient with our system-lib cmake flags.
     fetchSubmodules = false;
     # To get the hash:
     # nix store prefetch-file --unpack https://github.com/google/jpegli/archive/REPLACE_WITH_COMMIT.tar.gz
-    hash = "sha256-caDC6eevDu5PETQOKPQMx90ZeGzUi5HBl2Xn1a06NSs=";
+    hash = "sha256-fnZ3A0/XDpTDSgzTyuh4vi8EctkkByQiNL/e7ScfxKU=";
   };
 in
   stdenv.mkDerivation {

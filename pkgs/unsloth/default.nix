@@ -8,10 +8,10 @@
   writeShellScript,
 }: let
   pname = "unsloth";
-  version = "0.1.918-beta";
+  version = "0.1.919-beta";
   src = fetchurl {
     url = "https://github.com/unslothai/unsloth/releases/download/v${version}/Unsloth-Desktop-Linux.AppImage";
-    hash = "sha256-JjzspwkQHho/Sw2nqHHopOUyRMtvLZnna5pbgt9P8YI=";
+    hash = "sha256-akSNiEV+Ds5MsFRImETNkSCt+r8YNg1+WaFtz1wrLLs=";
   };
   contents = appimageTools.extractType2 {inherit pname version src;};
   initializeSettings = writeShellScript "unsloth-initialize-settings" ''

@@ -42,12 +42,12 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "chatgpt";
-  version = "26.1111.21308";
+  version = "26.1111.71025";
 
   # The latest URL is mutable; pin the versioned pool artifact instead.
   src = fetchurl {
     url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${finalAttrs.version}_amd64.deb";
-    hash = "sha256-S0Q7xVc1ChsZO8LxuuIHyeo8n7XZT3yUpdPbqotVI1I=";
+    hash = "sha256-gZdCTLzqOnwNRFpUTqprmd+Ljvix0YLit0P3AnU8enA=";
   };
 
   nativeBuildInputs = [
