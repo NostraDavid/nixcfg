@@ -142,6 +142,7 @@ in {
       local.pandacode
       local.playwright-cli
       local.t3code
+      stable.eden
     ];
     file =
       lib.genAttrs [
