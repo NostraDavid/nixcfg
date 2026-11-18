@@ -36,6 +36,7 @@ pkg-update package:
 [arg("follow", long="follow", value="--follow")]
 [positional-arguments]
 pkgs follow="":
+    export NIXCFG_BULK_HOST="{{default_host}}"
     export NIXCFG_SKIP_UNCHANGED=1
     packages="$(./scripts/local-package-maint.sh packages)" || exit $?
     set -f
@@ -65,4 +66,4 @@ pkgs follow="":
 # List newer versions via GitHub release tags for prebuilt packages, or trial updates for other packages.
 [group('packages')]
 pkg-updates *packages:
-  @./scripts/local-package-maint.sh list {{packages}}
+  @NIXCFG_BULK_HOST="{{default_host}}" ./scripts/local-package-maint.sh list {{packages}}

@@ -4,11 +4,12 @@ cachix-push package cache=default_cachix_cache:
   @path="$(nix build --print-out-paths .#"{{package}}")"; \
   cachix push "{{cache}}" "$path"
 
-# Build all local flake packages and push their outputs to Cachix.
+# Build and push the host's bulk package selection. Use cachix-push for a single excluded output.
 [group('cachix')]
 cachix-push-all cache=default_cachix_cache:
-  @system="$(nix eval --impure --raw --expr 'builtins.currentSystem')"; \
-  mapfile -t refs < <(nix eval --json .#packages.$system --apply 'pkgs: builtins.attrNames pkgs' | jq -r '.[] | ".#\(.)"'); \
+  @targets="$(NIXCFG_BULK_HOST="{{default_host}}" ./scripts/local-package-maint.sh cache-targets)"; \
+  [[ -n "$targets" ]] || exit 0; \
+  mapfile -t refs <<< "$targets"; \
   paths="$(nix build --no-link --print-out-paths "${refs[@]}")"; \
   printf '%s\n' "$paths" | cachix push "{{cache}}"
 

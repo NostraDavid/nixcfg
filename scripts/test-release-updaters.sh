@@ -243,6 +243,9 @@ for package in ctx vscode; do
     rg -qF 'version = "0.10.0";' "$TEST_REPO/pkgs/$package/default.nix"
 done
 
+NIXCFG_BULK_HOST=wodan TEST_OPENCODE_MISSING_DESKTOP=1 "${TEST_REPO}/scripts/update-opencode-v2.sh" >/dev/null
+cmp "$repo_root/pkgs/opencode-v2-desktop/default.nix" "$TEST_REPO/pkgs/opencode-v2-desktop/default.nix"
+rg -qxF 'build path:.#opencode-v2 --no-link --no-write-lock-file' "$TEST_REPO/builds.log"
 "${TEST_REPO}/scripts/update-opencode-v2.sh" >/dev/null
 for package in opencode-v2 opencode-v2-desktop; do
     rg -q 'version = "2.1.0";' "${TEST_REPO}/pkgs/${package}/default.nix"

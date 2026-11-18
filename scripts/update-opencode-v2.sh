@@ -5,6 +5,10 @@ repo_root=$(git -C "$(dirname "$0")/.." rev-parse --show-toplevel)
 cd "$repo_root"
 cli=pkgs/opencode-v2/default.nix
 desktop=pkgs/opencode-v2-desktop/default.nix
+targets=(path:.#opencode-v2)
+if [[ ${NIXCFG_BULK_HOST:-} != wodan || ${0##*/} == update-opencode-v2-desktop.sh ]]; then
+    targets+=(path:.#opencode-v2-desktop)
+fi
 version=''
 dry_run=0
 for argument in "$@"; do
@@ -40,14 +44,13 @@ success=0
 cleanup() {
     if [[ "$success" == 0 && -f "$temporary/cli.original" ]]; then
         cp "$temporary/cli.original" "$cli"
-        cp "$temporary/desktop.original" "$desktop"
+        if [[ -f "$temporary/desktop.original" ]]; then cp "$temporary/desktop.original" "$desktop"; fi
     fi
     rm -rf "$temporary"
 }
 trap cleanup EXIT
 cp "$cli" "$temporary/cli.next"
-cp "$desktop" "$temporary/desktop.next"
-sed -i -E "s/version = \"[^\"]+\";/version = \"$version\";/" "$temporary/cli.next" "$temporary/desktop.next"
+sed -i -E "s/version = \"[^\"]+\";/version = \"$version\";/" "$temporary/cli.next"
 for system in x86_64-linux aarch64-linux aarch64-darwin x86_64-darwin; do
     target=$(sed -n "/$system = {/,/};/s/.*target = \"\([^\"]*\)\";.*/\1/p" "$cli")
     [[ "$target" =~ ^(linux|darwin)-(x64|arm64)(-baseline)?$ ]] || {
@@ -62,23 +65,27 @@ for system in x86_64-linux aarch64-linux aarch64-darwin x86_64-darwin; do
     }
     sed -i "/$system = {/,/};/s#hash = \"[^\"]*\";#hash = \"$hash\";#" "$temporary/cli.next"
 done
-hash=$(nix store prefetch-file --json "https://opencode.ai/files/bin/$version/opencode-desktop-linux-x86_64.AppImage" |
-    jq -er '.hash | strings | select(test("^sha256-[A-Za-z0-9+/]{43}=$"))')
-sed -i -E "s#hash = \"[^\"]*\";#hash = \"$hash\";#" "$temporary/desktop.next"
+if ((${#targets[@]} == 2)); then
+    hash=$(nix store prefetch-file --json "https://opencode.ai/files/bin/$version/opencode-desktop-linux-x86_64.AppImage" |
+        jq -er '.hash | strings | select(test("^sha256-[A-Za-z0-9+/]{43}=$"))')
+    sed -E -e "s/version = \"[^\"]+\";/version = \"$version\";/" -e "s#hash = \"[^\"]*\";#hash = \"$hash\";#" "$desktop" >"$temporary/desktop.next"
+fi
 
-printf 'OpenCode CLI and desktop target version: %s\n' "$version"
+printf 'OpenCode target version: %s (%s)\n' "$version" "${targets[*]}"
 if [[ "$dry_run" == 1 ]]; then
     echo 'Dry run: package definitions unchanged; no builds performed.'
     exit 0
 fi
-if cmp -s "$cli" "$temporary/cli.next" && cmp -s "$desktop" "$temporary/desktop.next"; then
+if cmp -s "$cli" "$temporary/cli.next" && { [[ ! -f "$temporary/desktop.next" ]] || cmp -s "$desktop" "$temporary/desktop.next"; }; then
     echo 'No changes detected, OpenCode v2 is already up to date.'
     exit 0
 fi
 cp "$cli" "$temporary/cli.original"
-cp "$desktop" "$temporary/desktop.original"
+if [[ -f "$temporary/desktop.next" ]]; then
+    cp "$desktop" "$temporary/desktop.original"
+    cp "$temporary/desktop.next" "$desktop"
+fi
 cp "$temporary/cli.next" "$cli"
-cp "$temporary/desktop.next" "$desktop"
-nix build path:.#opencode-v2 path:.#opencode-v2-desktop --no-link --no-write-lock-file
+nix build "${targets[@]}" --no-link --no-write-lock-file
 success=1
 echo 'OpenCode v2 update complete.'

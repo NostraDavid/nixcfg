@@ -12,6 +12,10 @@ cd "${repo_root}"
 # shellcheck source=scripts/local-package-maint.sh
 source <(sed '$d' scripts/local-package-maint.sh)
 
+selection=$'codex\nforgejo-lab-image\nopencode-v2\nopencode-v2-desktop\nunsloth'
+[[ $(NIXCFG_BULK_HOST=wodan filter_bulk_packages <<<"$selection") == $'codex\nopencode-v2' ]]
+[[ $(NIXCFG_BULK_HOST=mimir2 filter_bulk_packages <<<"$selection") == "$selection" ]]
+
 skip_reason_for() {
     local metadata
     metadata="$(package_metadata "$repo_root" "$1")" || return 1

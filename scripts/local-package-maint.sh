@@ -95,6 +95,7 @@ Usage:
   scripts/local-package-maint.sh update <package>
   scripts/local-package-maint.sh list [package...]
   scripts/local-package-maint.sh packages
+  scripts/local-package-maint.sh cache-targets
 EOF
 }
 
@@ -162,12 +163,26 @@ package_update_script() {
     pkg_eval_json "${dir}" "${pkg}" "if pkgs.\"${pkg}\".passthru ? updateScript then toString pkgs.\"${pkg}\".passthru.updateScript else null" | jq -r '. // empty'
 }
 
+filter_bulk_packages() {
+    if [[ ${NIXCFG_BULK_HOST:-} != wodan ]]; then
+        cat
+        return
+    fi
+    local package
+    while IFS= read -r package; do
+        case "$package" in
+        *-image | proxmox-lab | headlamp-identity | agent-orchestrator | emdash | kandev | opencode-v2-desktop | orca-ide | paperclip | paseo-desktop | pi-coding-agent | pi-coding-agent-bun | pi-desktop | superset | unsloth) continue ;;
+        esac
+        printf '%s\n' "$package"
+    done
+}
+
 list_packages() {
     (
         cd "${repo_root}"
         nix eval --json "${flake_packages}" --apply 'pkgs: builtins.filter (name:
           (pkgs.${name}.passthru.updateSkipReason or "") == ""
-        ) (builtins.attrNames pkgs)' | jq -r '.[]' | while IFS= read -r pkg; do
+        ) (builtins.attrNames pkgs)' | jq -r '.[]' | filter_bulk_packages | while IFS= read -r pkg; do
             if [[ -f "${repo_root}/pkgs/${pkg}/default.nix" ]]; then
                 printf '%s\n' "${pkg}"
             fi
@@ -501,6 +516,14 @@ main() {
         ;;
     packages)
         list_packages
+        ;;
+    cache-targets)
+        # Wodan builds its own eSpeak variant without the full MBROLA voice bundle.
+        nix eval --json "$flake_packages" --apply builtins.attrNames | jq -r '.[]' | filter_bulk_packages |
+            awk -v host="${NIXCFG_BULK_HOST:-}" '{
+                if (host == "wodan" && $0 == "espeak-ng") print ".#nixosConfigurations.wodan.pkgs.espeak-ng"
+                else print ".#" $0
+            }'
         ;;
     *)
         usage >&2
