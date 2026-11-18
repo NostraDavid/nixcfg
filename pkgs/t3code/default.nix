@@ -6,9 +6,13 @@
   unzip,
 }: let
   pname = "t3code";
-  version = "0.1.9";
-  linuxHash = "sha256-0KtW3z4zjyQoSENWISl/2WOjNxWw2CCNvwg5lllXLYE=";
-  darwinHash = "sha256-A+9CbmasWxZwAYhZbBOU9EhYa4q3zDeeHjIbKfLEWX4=";
+  version = "0.1.10";
+  linuxHash = "sha256-fN7RPBB1cVOQHt3ayaJgixVvF0Rd5Qbvn/33PAFSjXk=";
+  darwinHash = "sha256-PTTJ73lWSVosgw0ygMIXwpm65HyyuRRBUmB/aBdM8RY=";
+  linuxAsset =
+    if lib.versionOlder version "0.1.10"
+    then "T3-Code-${version}-x86_64.AppImage"
+    else "T3-Code-x86_64.AppImage";
   src = fetchurl (
     if stdenvNoCC.hostPlatform.isDarwin
     then {
@@ -16,7 +20,7 @@
       hash = darwinHash;
     }
     else {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/T3-Code-${version}-x86_64.AppImage";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/${linuxAsset}";
       hash = linuxHash;
     }
   );

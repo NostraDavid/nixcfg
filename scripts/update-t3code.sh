@@ -12,11 +12,15 @@ version="${tag#v}"
 }
 hash_for() {
     local digest
-    digest="$(jq -er --arg name "$1" \
-        '.assets[] | select(.name == $name) | .digest | select(test("^sha256:[0-9a-f]{64}$")) | sub("^sha256:"; "")' <<<"$release")"
+    if ! digest="$(jq -er --arg name "$1" \
+        '.assets[] | select(.name == $name) | .digest | strings | select(test("^sha256:[0-9a-f]{64}$")) | sub("^sha256:"; "")' <<<"$release")"; then
+        printf 'Missing release asset or valid SHA-256 digest for %s in %s\n' "$1" "$tag" >&2
+        jq -c '{tag: .tag_name, available_assets: [.assets[]?.name]}' <<<"$release" >&2
+        return 1
+    fi
     nix hash convert --hash-algo sha256 --to sri "$digest"
 }
-linux_hash="$(hash_for "T3-Code-${version}-x86_64.AppImage")"
+linux_hash="$(hash_for "T3-Code-x86_64.AppImage")"
 darwin_hash="$(hash_for "T3-Code-${version}-arm64.zip")"
 
 backup="$(mktemp)"
