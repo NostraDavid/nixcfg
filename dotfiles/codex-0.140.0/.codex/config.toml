@@ -143,13 +143,13 @@ gpt-6-astra = 4
 
 [hooks.state."/home/david/.codex/hooks.json:pre_tool_use:0:0"]
 enabled = true
-trusted_hash = "sha256:33153c88ce09e9a5b899b9cb33dd23382be394a3e1cdb421e44e0b3778e8bdf2"
+trusted_hash = "sha256:d340f2675d1df6ba85b244e63fb3694c8846e462df83f61eabf73f630e13ffc1"
 [hooks.state."/home/david/.codex/hooks.json:post_tool_use:0:0"]
 enabled = true
-trusted_hash = "sha256:a452131ceaecacb08404d1a8d49d85315fdf109905d152859c32b538c9002f93"
+trusted_hash = "sha256:b0315c94b3f571e1c012f96f440d38fd05623315bd2b4e228ec279d88fbc9497"
 [hooks.state."/home/david/.codex/hooks.json:session_start:0:0"]
 enabled = true
-trusted_hash = "sha256:d853ef9fbaf2ff5c8504bf2463675664aaf29a8016c6a35293a6ddc053b4f030"
+trusted_hash = "sha256:94b4d1a902ec6b5098ba63efae732f362d7348f600f2a83a4a710ea7db4a5545"
 [hooks.state."/home/david/.codex/hooks.json:session_start:1:0"]
 trusted_hash = "sha256:d05e2f11ea1b93c457a6dc61056cc8a3cdd833bff2ca10931f8c41d6bcad82f5"
 
@@ -175,27 +175,27 @@ trusted_content_hash = "sha256:fb359bc30c006c326019c648e41565d2a0e8cc3f00d3acbac
 
 [hooks.state."/home/david/.codex/hooks.json:user_prompt_submit:0:0"]
 enabled = true
-trusted_hash = "sha256:5383e8af0fe09d96df4e6d0f5f3edaec15485d6162a1a749b5c69e7242eb0478"
+trusted_hash = "sha256:8ea1302cbe5790e03a4ef2956313c1dd48a55600551e062ee61c3b629e2a39d1"
 
 [hooks.state."/home/david/.codex/hooks.json:permission_request:0:0"]
 enabled = true
-trusted_hash = "sha256:bd2c29369e47a438a3f2c1c18896d7bd86ce58c0eb5542f1c3b879e427f92fc9"
+trusted_hash = "sha256:7fb4c3c54bf4b64e94ec9419a803220f30b7e552dfb4a4806d194b439b58f3ca"
 
 [hooks.state."/home/david/.codex/hooks.json:subagent_start:0:0"]
 enabled = true
-trusted_hash = "sha256:269737162a0cf2b29b3e40df23411c02a8bbdeb5f471243c924dac116624cdcf"
+trusted_hash = "sha256:7ef9befd6593a9688b2d7af35fde4c75fad19fcfa18433e29a1d1f0fdff463b8"
 
 [hooks.state."/home/david/.codex/hooks.json:subagent_stop:0:0"]
 enabled = true
-trusted_hash = "sha256:62ff9ef7fcca3784011e955f35ee3612b11168b2f62bd772f08adefb918d34be"
+trusted_hash = "sha256:a3ed7e150b979121fb95690f1afd082f04da0281adc1e63af79bf1236fa745bc"
 
 [hooks.state."/home/david/.codex/hooks.json:stop:0:0"]
 enabled = true
-trusted_hash = "sha256:1ae8ee19d95298f7bc4821368a7d4600b9f9d36c68695812c19419b28b5ad53e"
+trusted_hash = "sha256:d54c9f2b224964fbdf3781415e5be68f2d92f0be2d413ef527f679c06559603a"
 
 [hooks.state."/home/david/.codex/hooks.json:interrupt:0:0"]
 enabled = true
-trusted_hash = "sha256:78b430d1d7794c49e6d83a36964d4082d05ec72023ccc38244e97b8e08d054d2"
+trusted_hash = "sha256:67367d1424906a2466d515df86633a43e3f4c615de479bea4cb72265dd16b56c"
 
 [hooks.state."worktrunk@personal:plugin.json#hooks[0]:permission_request:0:0"]
 trusted_hash = "sha256:b5f6112154fd814298da679652ea096e11434b7f2876d471eb00c790a68045d0"
