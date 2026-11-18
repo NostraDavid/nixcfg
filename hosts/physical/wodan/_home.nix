@@ -28,6 +28,7 @@
       };
   };
 in {
+  nixcfg.codexPluginPackage = local.codex;
   nixcfg.plasma = {
     taskbarScreens = [
       0

@@ -5,7 +5,6 @@
   lib,
   repoRoot,
   stable,
-  unstable,
   ...
 }: let
   ponytailMarketplace = stable.writeText "configure-codex-ponytail.py" ''
@@ -155,7 +154,7 @@ in {
         "linkGeneration"
       ] ''
         $DRY_RUN_CMD ${stable.python3}/bin/python ${ponytailMarketplace} ${lib.escapeShellArg config.home.homeDirectory}
-        if ! $DRY_RUN_CMD ${unstable.codex}/bin/codex plugin add ponytail@personal --json >/dev/null 2>&1; then
+        if ! $DRY_RUN_CMD ${config.nixcfg.codexPluginPackage}/bin/codex plugin add ponytail@personal --json >/dev/null 2>&1; then
           echo "warning: failed to install Codex plugin ponytail" >&2
         fi
       '';

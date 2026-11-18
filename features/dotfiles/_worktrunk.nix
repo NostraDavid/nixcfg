@@ -24,7 +24,8 @@
       python ${./skill-descriptions.py} ${../../dotfiles/agents/descriptions.json} "$out"
     '';
 in {
-  home = {
+  options.nixcfg.codexPluginPackage = lib.mkPackageOption unstable "codex" {};
+  config.home = {
     packages = [
       unstable.worktrunk
     ];
@@ -44,7 +45,7 @@ in {
       };
     activation.worktrunkCodex = lib.hm.dag.entryAfter ["linkGeneration"] ''
       $DRY_RUN_CMD ${stable.python3}/bin/python ${./worktrunk-marketplace.py} ${lib.escapeShellArg config.home.homeDirectory}
-      if ! $DRY_RUN_CMD ${unstable.codex}/bin/codex plugin add worktrunk@personal --json >/dev/null 2>&1; then
+      if ! $DRY_RUN_CMD ${config.nixcfg.codexPluginPackage}/bin/codex plugin add worktrunk@personal --json >/dev/null 2>&1; then
         echo "warning: failed to install Codex plugin worktrunk" >&2
       fi
     '';
