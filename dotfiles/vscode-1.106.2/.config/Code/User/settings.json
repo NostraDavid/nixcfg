@@ -403,6 +403,10 @@
   "shfmt.executablePath": "shfmt",
   "stylua.targetReleaseVersion": "latest",
   "terminal.external.linuxExec": "wezterm",
+  "terminal.integrated.commandsToSkipShell": [
+    "-workbench.action.quickOpen",
+    "-workbench.action.quickOpenView"
+  ],
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.defaultProfile.linux": "zellij",
   "terminal.integrated.defaultProfile.osx": "zellij",
@@ -468,7 +472,7 @@
   },
   "terminal.integrated.rightClickBehavior": "default",
   "terminal.integrated.scrollback": 10000,
-  "terminal.integrated.sendKeybindingsToShell": true,
+  "terminal.integrated.sendKeybindingsToShell": false,
   "terminal.integrated.shellIntegration.decorationsEnabled": "never",
   "terminal.integrated.suggest.enabled": true,
   "terminal.integrated.tabs.enabled": false,

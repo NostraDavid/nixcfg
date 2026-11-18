@@ -78,19 +78,19 @@ The complete coverage is documented in the upstream
 Loki links the shared repository keybindings to
 `~/Library/Application Support/Code/User/keybindings.json`. Home Manager's
 normal `.hm.bak` backup policy applies to an existing unmanaged keybindings
-file. The added terminal bindings use `isMac && terminalFocus`, so they do not
-affect Linux or editor focus. Existing repository bindings remain in the file.
+file. The macOS bindings translate Karabiner's Command shortcuts while the
+terminal has focus.
 
-| Physical keys | Integrated terminal behavior                  |
-| ------------- | --------------------------------------------- |
-| Ctrl+C        | Send interrupt (`0x03`)                       |
-| Ctrl+Shift+C  | Copy the selection                            |
-| Ctrl+Shift+V  | Paste                                         |
-| Ctrl+V        | Send raw Ctrl+V (`0x16`, shell quoted insert) |
+| Physical keys | Integrated terminal behavior |
+| ------------- | ---------------------------- |
+| Ctrl+C        | Send interrupt (`0x03`)      |
+| Ctrl+Shift+C  | Copy the selection           |
+| Ctrl+Shift+V  | Paste                        |
+| Ctrl+V        | Paste                        |
 
 For an interruption check, run `sleep 30` in a disposable integrated terminal
-and press Ctrl+C. Then copy and paste harmless selected text without executing
-it. These bindings implement the upstream
+and press Ctrl+C. Then try both paste shortcuts with harmless text. The
+interrupt and copy bindings follow the upstream
 [VS Code workaround](https://github.com/Fuzzy-and-Fluffy/windows-keyboard-for-mac/blob/main/docs/troubleshooting.md#vs-code-integrated-terminal).
 
 ## Verification from Linux

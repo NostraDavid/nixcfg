@@ -77,12 +77,18 @@ node --input-type=module - "$root" <<'JS'
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
-const file = `${process.argv[2]}/dotfiles/vscode-1.106.2/.config/Code/User/keybindings.json`;
-const bindings = JSON.parse(readFileSync(file, "utf8").replace(/^\/\/[^\n]*\n/, ""));
+const dir = `${process.argv[2]}/dotfiles/vscode-1.106.2/.config/Code/User`;
+const bindings = JSON.parse(readFileSync(`${dir}/keybindings.json`, "utf8").replace(/^\/\/[^\n]*\n/, ""));
+const settings = JSON.parse(readFileSync(`${dir}/settings.json`, "utf8"));
+assert.equal(settings["terminal.integrated.sendKeybindingsToShell"], false);
+for (const key of ["ctrl+v", "ctrl+shift+v"]) {
+    const binding = bindings.find(binding => binding.key === key && binding.when === "terminalFocus");
+    assert.equal(binding?.command, "workbench.action.terminal.paste");
+}
 const terminal = bindings.filter(binding => binding.when === "isMac && terminalFocus");
 assert.equal(terminal.length, 4);
 assert.equal(terminal.find(binding => binding.key === "cmd+c").args.text, "\u0003");
-assert.equal(terminal.find(binding => binding.key === "cmd+v").args.text, "\u0016");
+assert.equal(terminal.find(binding => binding.key === "cmd+v").command, "workbench.action.terminal.paste");
 assert.equal(terminal.find(binding => binding.key === "cmd+shift+c").command, "workbench.action.terminal.copySelection");
 assert.equal(terminal.find(binding => binding.key === "cmd+shift+v").command, "workbench.action.terminal.paste");
 JS

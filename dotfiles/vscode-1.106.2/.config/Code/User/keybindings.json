@@ -258,6 +258,16 @@
     "when": "activeEditorIsPinned"
   },
   {
+    "key": "ctrl+v",
+    "command": "workbench.action.terminal.paste",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+v",
+    "command": "workbench.action.terminal.paste",
+    "when": "terminalFocus"
+  },
+  {
     "key": "cmd+c",
     "command": "workbench.action.terminal.sendSequence",
     "when": "isMac && terminalFocus",
@@ -277,10 +287,7 @@
   },
   {
     "key": "cmd+v",
-    "command": "workbench.action.terminal.sendSequence",
-    "when": "isMac && terminalFocus",
-    "args": {
-      "text": "\u0016"
-    }
+    "command": "workbench.action.terminal.paste",
+    "when": "isMac && terminalFocus"
   }
 ]
