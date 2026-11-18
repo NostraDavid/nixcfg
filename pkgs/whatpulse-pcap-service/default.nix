@@ -13,7 +13,7 @@ stdenv.mkDerivation (finalAttrs: {
     owner = "whatpulse";
     repo = "linux-external-pcap-service";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-ih0Jz6gzgVsLK8szT5ouTKT9fEsA9Iy4PTiQCh3vDVQ=";
+    hash = "sha256-+KT728g+UGwnahj/PYORtCdPIKHGTBBXnE2LAJzJ2X8=";
   };
 
   nativeBuildInputs = [pkg-config];
