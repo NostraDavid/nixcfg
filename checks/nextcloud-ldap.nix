@@ -2,6 +2,7 @@
   pkgs,
   nextcloudModule,
 }: let
+  nextcloud = pkgs.lib.importJSON ../infra/network/nextcloud.json;
   base = "dc=powerlan,dc=empire";
   users = "cn=users,cn=accounts,${base}";
   group = "cn=grp-nextcloud-user,cn=groups,cn=accounts,${base}";
@@ -91,7 +92,7 @@ in {
       };
     };
     nixcfg.nextcloud.dataDevice = "/dev/vdb";
-    networking.extraHosts = "127.0.0.1 ldap.powerlan.empire nextcloud.powerlan.empire";
+    networking.extraHosts = "127.0.0.1 ldap.powerlan.empire ${nextcloud.hostName}";
     security.pki.certificateFiles = ["${tls}/cert.pem"];
     environment.systemPackages = [pkgs.curl pkgs.jq pkgs.openldap];
     services.openldap = {
@@ -151,7 +152,7 @@ in {
     machine.succeed("systemctl start nextcloud-ldap.service")
     machine.succeed("runuser -u nextcloud -- nextcloud-occ ldap:test-config s01")
 
-    curl = "curl --fail --silent --show-error -H 'Host: nextcloud.powerlan.empire' --user alice:${password} "
+    curl = "curl --fail --silent --show-error -H 'Host: ${nextcloud.hostName}' --user alice:${password} "
     endpoint = "http://127.0.0.1:8080"
     identity_url = endpoint + "/ocs/v2.php/cloud/user?format=json"
     account = json.loads(machine.succeed(curl + "-H 'OCS-APIRequest: true' '" + identity_url + "'"))["ocs"]["data"]["id"]
@@ -162,7 +163,7 @@ in {
 
     with subtest("wrong password and nonmember are refused"):
         for user in ["alice:wrong-password", "outsider:${password}"]:
-            code = machine.succeed("curl --silent --output /dev/null --write-out '%{http_code}' -H 'Host: nextcloud.powerlan.empire' --user '" + user + "' '" + identity_url + "'")
+            code = machine.succeed("curl --silent --output /dev/null --write-out '%{http_code}' -H 'Host: ${nextcloud.hostName}' --user '" + user + "' '" + identity_url + "'")
             assert code == "401", code
 
     with subtest("TLS verification cannot be bypassed by an untrusted LDAP CA"):

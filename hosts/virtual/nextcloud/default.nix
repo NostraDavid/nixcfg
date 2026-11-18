@@ -14,13 +14,15 @@
       lib,
       main-user,
       ...
-    }: {
+    }: let
+      nextcloud = lib.importJSON ../../../infra/network/nextcloud.json;
+    in {
       networking = {
         hostName = "nextcloud";
         useDHCP = false;
         interfaces.ens18.ipv4.addresses = [
           {
-            address = "192.168.2.115";
+            inherit (nextcloud) address;
             prefixLength = 24;
           }
         ];
@@ -29,7 +31,7 @@
         firewall.allowedTCPPorts = lib.mkForce [];
         firewall.extraCommands = lib.mkForce ''
           iptables -w -A nixos-fw -s 192.168.2.0/24 -p tcp --dport 22 -j nixos-fw-accept
-          iptables -w -A nixos-fw -s 192.168.2.111/32 -p tcp --dport 8443 -j nixos-fw-accept
+          iptables -w -A nixos-fw -s 192.168.2.111/32 -p tcp --dport ${toString nextcloud.backendPort} -j nixos-fw-accept
         '';
       };
       fileSystems = {

@@ -12,7 +12,7 @@
   ops = pkgs.writeShellApplication {
     name = "openbao-ops";
     runtimeInputs = [pkgs.python3 pkgs.openbao pkgs.age pkgs.openssl pkgs.openldap pkgs.systemd];
-    text = ''exec python3 ${../../scripts/openbao.py} "$@"'';
+    text = ''exec python3 ${../../scripts/openbao.py} --nextcloud-network ${../../infra/network/nextcloud.json} "$@"'';
   };
   mounted = {
     requires = ["srv-openbao.mount"];

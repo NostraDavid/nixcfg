@@ -20,6 +20,7 @@
       pkgs,
       ...
     }: let
+      nextcloud = lib.importJSON ../../../infra/network/nextcloud.json;
       initializeDisk = pkgs.writeShellApplication {
         name = "proxy-initialize-disk";
         runtimeInputs = [
@@ -197,14 +198,14 @@
                 }
               }
             '';
-            "nextcloud.powerlan.empire" = {
+            ${nextcloud.hostName} = {
               logFormat = lib.mkForce null;
               extraConfig = ''
                 ${acmeTls}
-                reverse_proxy https://192.168.2.115:8443 {
-                  header_up Host nextcloud-backend.powerlan.empire
+                reverse_proxy https://${nextcloud.address}:${toString nextcloud.backendPort} {
+                  header_up Host ${nextcloud.backendHostName}
                   transport http {
-                    tls_server_name nextcloud-backend.powerlan.empire
+                    tls_server_name ${nextcloud.backendHostName}
                     tls_trust_pool file /srv/proxy/nextcloud-backend-root.crt
                   }
                 }

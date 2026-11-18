@@ -4,6 +4,7 @@
 import contextlib
 import importlib.util
 import io
+import ipaddress
 import json
 import os
 import secrets
@@ -275,6 +276,15 @@ cn: sysaccounts
                 pass
             else:
                 raise AssertionError("LDAP manager password was not rotated")
+            network = directory / "nextcloud-network.json"
+            network.write_text(json.dumps({"address": "192.0.2.42"}))
+            ops.enroll(root, "nextcloud-reader", network)
+            reader = client.request("auth/approle/role/nextcloud-reader")["data"]
+            for field in ("secret_id_bound_cidrs", "token_bound_cidrs"):
+                networks = [ipaddress.ip_network(cidr) for cidr in reader[field]]
+                assert networks == [ipaddress.ip_network("192.0.2.42/32")], reader[
+                    field
+                ]
             for service in ops.SERVICES:
                 credential = ops.role(
                     client,
@@ -305,7 +315,7 @@ cn: sysaccounts
                 initial_passwords[service] = password
                 service_client = ops.Bao(client.address, ca=str(ca))
                 ops.login(service_client, credential)
-                for other in ops.SERVICES.keys() - {service}:
+                for other in set(ops.SERVICES) - {service}:
                     denied(service_client, f"ldap/static-cred/{other}")
                 denied(service_client, "sys/storage/raft/snapshot")
                 denied(service_client, "ldap/config")

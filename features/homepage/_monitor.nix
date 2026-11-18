@@ -8,7 +8,7 @@
   monitor = pkgs.writeShellApplication {
     name = "homepage-monitor";
     runtimeInputs = [pkgs.python3 pkgs.bind.dnsutils pkgs.systemd];
-    text = ''PYTHONPATH=${modules} exec python3 ${../../scripts/homepage-monitor.py} "$@"'';
+    text = ''PYTHONPATH=${modules} exec python3 ${../../scripts/homepage-monitor.py} --nextcloud-network ${../../infra/network/nextcloud.json} "$@"'';
   };
 in {
   environment.systemPackages = [monitor];

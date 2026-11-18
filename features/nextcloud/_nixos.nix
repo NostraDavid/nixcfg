@@ -5,6 +5,7 @@
   utils,
   ...
 }: let
+  nextcloud = lib.importJSON ../../infra/network/nextcloud.json;
   root = "/srv/nextcloud";
   cfg = config.nixcfg.nextcloud;
   initializeDisk = pkgs.writeShellApplication {
@@ -59,7 +60,7 @@ in {
       nextcloud = {
         enable = true;
         package = pkgs.nextcloud35;
-        hostName = "nextcloud.powerlan.empire";
+        inherit (nextcloud) hostName;
         home = "${root}/nextcloud";
         https = true;
         database.createLocally = true;
@@ -74,7 +75,7 @@ in {
         settings = {
           trusted_proxies = ["127.0.0.1" "192.168.2.111"];
           overwriteprotocol = "https";
-          "overwrite.cli.url" = "https://nextcloud.powerlan.empire";
+          "overwrite.cli.url" = "https://${nextcloud.hostName}";
           log_type = "systemd";
           updatechecker = false;
         };
@@ -83,7 +84,7 @@ in {
         package = pkgs.postgresql_16;
         dataDir = "${root}/postgresql/16";
       };
-      nginx.virtualHosts."nextcloud.powerlan.empire" = {
+      nginx.virtualHosts.${nextcloud.hostName} = {
         listen = [
           {
             addr = "127.0.0.1";
@@ -102,12 +103,12 @@ in {
             trusted_proxies_strict
           }
         '';
-        virtualHosts."https://nextcloud-backend.powerlan.empire:8443" = {
+        virtualHosts."https://${nextcloud.backendHostName}:${toString nextcloud.backendPort}" = {
           logFormat = lib.mkForce null;
           extraConfig = ''
             tls internal
             reverse_proxy 127.0.0.1:8080 {
-              header_up Host nextcloud.powerlan.empire
+              header_up Host ${nextcloud.hostName}
             }
           '';
         };

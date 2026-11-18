@@ -15,7 +15,7 @@ import sys
 import time
 from pathlib import Path
 
-from openbao import Bao, atomic, login, private_json, run
+from openbao import NEXTCLOUD_NETWORK, Bao, atomic, login, private_json, run
 
 STATE = Path("/var/lib/homepage-monitor")
 RUNTIME = Path("/run/homepage-monitor")
@@ -27,7 +27,6 @@ SITES = {
     "pihole": "pihole.powerlan.empire",
     "freeipa": "ldap.powerlan.empire",
     "forgejo": "forgejo.powerlan.empire",
-    "nextcloud": "nextcloud.powerlan.empire",
     "openbao": "openbao.powerlan.empire",
     "homeassistant": "homeassistant.powerlan.empire",
     "certs": "certs.powerlan.empire",
@@ -114,7 +113,7 @@ def backup(data: dict, now: float) -> dict:
     }
 
 
-def collect() -> None:
+def collect(nextcloud_network: Path) -> None:
     now = time.time()
     RUNTIME.mkdir(mode=0o755, exist_ok=True)
     result = {
@@ -123,8 +122,9 @@ def collect() -> None:
         "rotation": {"status": "Onbekend", "last": None},
         "credentials": {"status": "Fout"},
     }
+    sites = SITES | {"nextcloud": json.loads(nextcloud_network.read_text())["hostName"]}
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
-        result["certificates"] = dict(pool.map(certificate, SITES.items()))
+        result["certificates"] = dict(pool.map(certificate, sites.items()))
     try:
         answer = (
             run(
@@ -216,6 +216,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=["collect", "serve", "receive-backup"])
+    parser.add_argument("--nextcloud-network", type=Path, default=NEXTCLOUD_NETWORK)
     args = parser.parse_args()
     if args.command == "serve":
         http.server.ThreadingHTTPServer(("127.0.0.1", 3001), Handler).serve_forever()
@@ -232,7 +233,7 @@ def main() -> None:
         STATE.mkdir(mode=0o700, exist_ok=True)
         atomic(STATE / "offhost-backup.json", json.dumps(data).encode())
     else:
-        collect()
+        collect(args.nextcloud_network)
 
 
 if __name__ == "__main__":

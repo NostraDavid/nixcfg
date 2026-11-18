@@ -1,5 +1,6 @@
 _: {
   den.aspects.homepage.nixos = {pkgs, ...}: let
+    nextcloudUrl = "https://${(pkgs.lib.importJSON ../../infra/network/nextcloud.json).hostName}";
     health = mappings: {
       type = "customapi";
       url = "http://127.0.0.1:3001/status.json";
@@ -179,10 +180,10 @@ _: {
             }
             {
               Nextcloud = {
-                icon = "https://nextcloud.powerlan.empire/core/img/logo/logo.svg";
-                href = "https://nextcloud.powerlan.empire/";
+                icon = "${nextcloudUrl}/core/img/logo/logo.svg";
+                href = "${nextcloudUrl}/";
                 description = "Bestanden opslaan en delen";
-                siteMonitor = "https://nextcloud.powerlan.empire/status.php";
+                siteMonitor = "${nextcloudUrl}/status.php";
                 widget = tls "nextcloud";
               };
             }

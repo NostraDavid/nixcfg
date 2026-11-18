@@ -9,6 +9,11 @@ nextcloud-check:
 nextcloud-image:
   @nix build path:.#nextcloud-image --no-link --print-out-paths
 
+# Address the VM directly for SSH, even before its public DNS route exists.
 [group('nextcloud')]
-deploy-nextcloud target="david@192.168.2.115":
-  @just app-vm-deploy nextcloud "{{target}}"
+nextcloud-address:
+  @jq -er '.address' infra/network/nextcloud.json
+
+[group('nextcloud')]
+deploy-nextcloud target=("david@" + `just nextcloud-address`):
+  @just app-vm-deploy nextcloud {{quote(target)}}

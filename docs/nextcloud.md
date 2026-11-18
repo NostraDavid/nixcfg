@@ -1,9 +1,15 @@
 # Richt Nextcloud in op een eigen VM
 
-Gebruik VM 115, `prd-svc-nextcloud-01`, op `192.168.2.115`. De standaardgrootte
+Gebruik VM 115, `prd-svc-nextcloud-01`. Het VM-adres, de publieke hostnaam en de
+interne TLS-naam en poort staan in
+[de netwerkconfiguratie](../infra/network/nextcloud.json). De standaardgrootte
 is twee CPU-cores, 4 GiB RAM, 32 GiB systeemdisk en 64 GiB datadisk. Controleer
 het IP-adres en de opslagcapaciteit voor de uitrol. VM 114 blijft een
 herstelkopie.
+
+Werk bij een verhuizing ook het DNS-record in Pi-hole bij als de publieke naam
+of het adres van de proxy verandert. Bij een nieuw VM-adres moet je de bestaande
+OpenBao-AppRole opnieuw aan dat adres binden en de afnemer opnieuw inschrijven.
 
 FreeIPA verzorgt LDAP via `ldaps://ldap.powerlan.empire:636`. Alleen leden van
 `grp-nextcloud-user` mogen aanmelden. De Git-policy verleent aanvankelijk alleen
@@ -28,7 +34,7 @@ Gebruik de hoofdstack `infra/proxmox` niet: de actuele state ontbreekt daar.
 Maak deze VM aan via Proxmox' eigen beheer en beheer het systeem daarna met
 NixOS.
 
-1. Controleer dat VM 115 en IP `192.168.2.115` vrij zijn.
+1. Controleer dat VM 115 en het IP-adres uit `just nextcloud-address` vrij zijn.
 2. Bouw het systeemimage met `just nextcloud-image`.
 3. Upload `nixos.qcow2` naar **local → Import** in Proxmox. Een gecomprimeerde
    QCOW2-kopie met dezelfde inhoud is ook bruikbaar.
@@ -112,27 +118,28 @@ enrollmentkopie uit `/srv/openbao/ops` na een geslaagde controle.
    just deploy-proxy
    ```
 
-3. Laat Pi-hole `nextcloud.powerlan.empire` naar `192.168.2.111` verwijzen.
+3. Laat Pi-hole de publieke hostnaam uit de netwerkconfiguratie naar
+   `192.168.2.111` verwijzen.
 4. Controleer de volledige verbinding:
 
    ```bash
+   host=$(jq -er '.hostName' infra/network/nextcloud.json)
    curl --fail --cacert certs/forgejo-ca.crt \
-     --resolve nextcloud.powerlan.empire:443:192.168.2.111 \
-     https://nextcloud.powerlan.empire/status.php
+     --resolve "$host:443:192.168.2.111" \
+     "https://$host/status.php"
    ```
 
-De proxy controleert de vastgelegde backend-CA. De backendpoort `8443`
+De proxy controleert de vastgelegde backend-CA. De geconfigureerde backendpoort
 accepteert alleen VM 111. PostgreSQL, Redis en de HTTP-applicatie zijn niet
 vanaf het LAN bereikbaar. Toegangslogs staan uit zodat bestandsnamen en
 URL-tokens daar niet terechtkomen.
 
 ## Beheer en herstel
 
-Open `https://nextcloud.powerlan.empire` en meld aan met je normale
-FreeIPA-gebruikersnaam en wachtwoord. Het afzonderlijke lokale account
-`recovery-admin` blijft beschikbaar als LDAP uitvalt. Het eenmalig gegenereerde
-wachtwoord staat op de VM in `/srv/nextcloud/secrets/admin-password` en wordt
-niet in buildlogs afgedrukt.
+Open de publieke HTTPS-URL en meld aan met je normale FreeIPA-gebruikersnaam en
+wachtwoord. Het afzonderlijke lokale account `recovery-admin` blijft beschikbaar
+als LDAP uitvalt. Het eenmalig gegenereerde wachtwoord staat op de VM in
+`/srv/nextcloud/secrets/admin-password` en wordt niet in buildlogs afgedrukt.
 
 Alle bestanden, accountkoppelingen, PostgreSQL-data, herstelgegevens en
 Caddy-state staan op de datadisk. LDAP-gebruikers worden gekoppeld via het
@@ -178,10 +185,10 @@ base64 op; dat is geen versleuteling. Zie de
 ## Uitrolcontrole op 15 november 2026
 
 VM 115 draait met Nextcloud 35.0.2. DNS verwijst naar de bestaande proxy en
-`https://nextcloud.powerlan.empire/status.php` geeft via gecontroleerde TLS
-HTTP 200. De echte LDAPS-bind, de lookup van `nostradavid`, de OpenBao-status en
-een herstart van de productie-VM zijn gecontroleerd. Forgejo, Homepage en
-OpenBao geven na de proxy-uitrol eveneens HTTP 200.
+`/status.php` op de publieke HTTPS-URL geeft via gecontroleerde TLS HTTP 200. De
+echte LDAPS-bind, de lookup van `nostradavid`, de OpenBao-status en een herstart
+van de productie-VM zijn gecontroleerd. Forgejo, Homepage en OpenBao geven na de
+proxy-uitrol eveneens HTTP 200.
 
 De lokale test controleert ook upload, download, geweigerde toegang,
 certificaatcontrole en wachtwoordrotatie. Een persoonlijke wachtwoordlogin en

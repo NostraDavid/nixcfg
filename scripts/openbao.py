@@ -5,6 +5,7 @@ import argparse
 import datetime as dt
 import hashlib
 import io
+import ipaddress
 import json
 import os
 import pwd
@@ -24,11 +25,12 @@ from pathlib import Path
 BASE = "dc=powerlan,dc=empire"
 ACCOUNTS = f"cn=sysaccounts,cn=etc,{BASE}"
 LDAP_URL = "ldaps://ldap.powerlan.empire"
-SERVICES = {
+NEXTCLOUD_NETWORK = Path(__file__).resolve().parents[1] / "infra/network/nextcloud.json"
+FIXED_READER_CIDRS = {
     "forgejo-reader": "192.168.2.110/32",
     "proxmox-reader": "192.168.2.100/32",
-    "nextcloud-reader": "192.168.2.115/32",
 }
+SERVICES = (*FIXED_READER_CIDRS, "nextcloud-reader")
 CA = "/etc/ssl/certs/ca-certificates.crt"
 ADMIN_POLICY = 'path "*" { capabilities = ["create", "read", "update", "delete", "list", "sudo", "patch"] }'
 SELF_POLICY = '\npath "auth/token/revoke-self" { capabilities = ["update"] }\n'
@@ -360,13 +362,20 @@ def configure(root: Path, password_file: Path | None) -> None:
     )
 
 
-def enroll(root: Path, service: str) -> None:
+def enroll(root: Path, service: str, nextcloud_network: Path) -> None:
     target = root / f"ops/{service}-credentials.json"
     if target.exists():
         print(f"Existing enrollment retained: {target}")
         return
     policy = f'path "ldap/static-cred/{service}" {{ capabilities = ["read"] }}\npath "status/data/{service}" {{ capabilities = ["create", "update"] }}'
-    credentials = role(bootstrap_client(root), service, policy, [SERVICES[service]])
+    if service == "nextcloud-reader":
+        address = ipaddress.IPv4Address(
+            json.loads(nextcloud_network.read_text())["address"]
+        )
+        cidr = f"{address}/32"
+    else:
+        cidr = FIXED_READER_CIDRS[service]
+    credentials = role(bootstrap_client(root), service, policy, [cidr])
     atomic(target, json.dumps(credentials).encode())
     print(f"Enrollment created: {target}; install it on its consumer before activation")
 
@@ -668,6 +677,7 @@ def consume(config_file: Path, state: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("/srv/openbao"))
+    parser.add_argument("--nextcloud-network", type=Path, default=NEXTCLOUD_NETWORK)
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("init").add_argument(
         "--recipient-file", type=Path, required=True
@@ -692,7 +702,7 @@ def main() -> None:
     actions = {
         "init": lambda: initialize(args.root, args.recipient_file),
         "configure": lambda: configure(args.root, args.ldap_password_file),
-        "enroll": lambda: enroll(args.root, args.service),
+        "enroll": lambda: enroll(args.root, args.service, args.nextcloud_network),
         "activate": lambda: activate(args.root, args.service),
         "rotate": lambda: bootstrap_client(args.root).request(
             f"ldap/rotate-role/{args.service}", {}
