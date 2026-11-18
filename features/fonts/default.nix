@@ -2,7 +2,14 @@ _: let
   packages = pkgs: [
     pkgs.monocraft # Monocraft
     pkgs.nerd-fonts.bigblue-terminal # BigBlue Terminal Nerd Font
-    pkgs.nerd-fonts.iosevka # Iosevka Nerd Font, Iosevka Nerd Font Mono
+    (pkgs.nerd-fonts.iosevka.overrideAttrs {
+      installPhase = ''
+        runHook preInstall
+        install -Dm644 -t "$out/share/fonts/truetype/NerdFonts/Iosevka" \
+          IosevkaNerdFont-{Regular,Bold,Italic,BoldItalic}.ttf
+        runHook postInstall
+      '';
+    })
     pkgs.nerd-fonts.jetbrains-mono # JetBrainsMono Nerd Font Mono
     pkgs.spleen # Spleen 6x12, Spleen 8x16, Spleen 12x24, Spleen 16x32, Spleen 32x64 (OTF)
     pkgs.terminus_font_ttf # Terminus (TTF)
