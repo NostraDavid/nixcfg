@@ -262,7 +262,7 @@ def review_wait_seconds() -> int:
     raise SystemExit("NIXCFG_REVIEW_WAIT_SECONDS must be a positive integer")
 
 
-def logged_recipe(recipe: str, script: str) -> int:
+def logged_recipe(recipe: str, script: str, *, follow: bool) -> int:
     # The parent upgrade holds the checkout lock and captures every stage's console.
     if recipe in {"update", "pkgs"} and (
         run_dir := os.environ.get("NIXCFG_UPGRADE_LOG_DIR")
@@ -275,7 +275,12 @@ def logged_recipe(recipe: str, script: str) -> int:
         )
 
     enabled = recipe != "upgrade" and os.environ.get("NIXCFG_CODEX_REVIEW") != "0"
-    status, _, _ = run_logged(recipe, script, mode="review" if enabled else None)
+    wait = review_wait_seconds() if follow and enabled else None
+    status, job, worker = run_logged(
+        recipe, script, mode=("prepare" if follow else "review") if enabled else None
+    )
+    if wait is not None and worker is not None:
+        follow_review(job, worker, wait)
     return status
 
 
@@ -519,7 +524,9 @@ if __name__ == "__main__":
         except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
             raise SystemExit(f"Could not review the last upgrade: {error}") from None
     if sys.argv[1] in {"update", "pkgs", "upgrade"}:
-        sys.exit(logged_recipe(sys.argv[1], sys.argv[2]))
+        sys.exit(
+            logged_recipe(sys.argv[1], sys.argv[2], follow=sys.argv[3:] == ["--follow"])
+        )
     if sys.argv[1] not in {"review", "prepare"}:
         raise SystemExit("Expected update, pkgs, upgrade, fix, or review")
     directory = Path(sys.argv[2])

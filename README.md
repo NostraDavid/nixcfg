@@ -47,8 +47,9 @@ run `just upgrade` again when you want to use it. An unresolved issue, conflict,
 or review failure gives `just fix` a nonzero exit status.
 
 When run separately, `just update` and `just pkgs` start a background review
-after the updater exits. Set `NIXCFG_CODEX_REVIEW=0` to skip those automatic
-reviews. Both commands return the updater's exit status.
+after the updater exits. Use `--follow` to see progress or set
+`NIXCFG_CODEX_REVIEW=0` to skip those automatic reviews. Both commands return
+the updater's exit status.
 
 Codex reviews filtered logs in an isolated checkout. Review logs and any
 proposed `fix.patch` are in the private directory printed by the command.

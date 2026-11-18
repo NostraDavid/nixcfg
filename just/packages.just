@@ -1,7 +1,9 @@
 # Update all flake inputs, including inputs nested under other inputs.
 [group('packages')]
 [script("python3", "scripts/update-review.py", "update")]
-update:
+[arg("follow", long="follow", value="--follow")]
+[positional-arguments]
+update follow="":
     just forgejo-support-warning
     source ./scripts/github-auth.sh
     {{nix_clean_env}} nix flake update --option http-connections 1
@@ -31,7 +33,9 @@ pkg-update package:
 # shortcut: detects tracked changes only, use explicit updater results if untracked files must count.
 [group('packages')]
 [script("python3", "scripts/update-review.py", "pkgs")]
-pkgs:
+[arg("follow", long="follow", value="--follow")]
+[positional-arguments]
+pkgs follow="":
     export NIXCFG_SKIP_UNCHANGED=1
     packages="$(./scripts/local-package-maint.sh packages)" || exit $?
     set -f

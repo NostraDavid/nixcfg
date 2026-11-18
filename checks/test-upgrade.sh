@@ -189,4 +189,50 @@ run_recipe upgrade
 [[ $status == 19 && $(cat "$TRACE") == $'sudo -v\nupdate' ]]
 run_recipe fix
 [[ $status == 0 && $(cat flake.nix) == valid ]]
+
+echo follow >scenario
+echo valid >flake.nix
+echo fixed >pkgs/t3code/default.nix
+git add .
+git -c core.hooksPath=/dev/null -c user.name=test -c user.email=test@localhost commit -qm follow
+for recipe in update pkgs fix; do
+    args=("$recipe" --follow)
+    if [[ $recipe == fix ]]; then
+        run_recipe upgrade
+        [[ $status == 0 ]]
+        args=(fix)
+    fi
+    NIXCFG_REVIEW_WAIT_SECONDS=1 "$REAL_JUST" "${args[@]}" >"$tmp/terminal.log" 2>&1
+    mapfile -t jobs < <(sed -nE 's,^Codex: (/tmp/just-(pkgs|update|fix)\.[a-zA-Z0-9_]+)/status$,\1,p' "$tmp/terminal.log")
+    logs+=("${jobs[@]}")
+    [[ $(rg -c '^review running ' "$tmp/terminal.log") == 1 ]]
+    [[ $(rg -c '^review finishing$' "$tmp/terminal.log") == 1 ]]
+    [[ $(rg -c '^Codex clean: fixture$' "$tmp/terminal.log") == 1 ]]
+done
+
+echo timeout >scenario
+git add scenario
+git -c core.hooksPath=/dev/null -c user.name=test -c user.email=test@localhost commit -qm timeout
+for recipe in update pkgs fix; do
+    : >"$TRACE"
+    args=("$recipe" --follow)
+    expected_status=0
+    if [[ $recipe == fix ]]; then
+        run_recipe upgrade
+        [[ $status == 0 ]]
+        : >"$TRACE"
+        args=(fix)
+        expected_status=124
+    fi
+    status=0
+    output=$(NIXCFG_REVIEW_WAIT_SECONDS=1 "$REAL_JUST" "${args[@]}" 2>&1) || status=$?
+    job=$(sed -nE 's,^Codex: (/tmp/just-(pkgs|update|fix)\.[a-zA-Z0-9_]+)/status$,\1,p' <<<"$output")
+    [[ -d "$job" ]]
+    logs+=("$job")
+    [[ $status == "$expected_status" && $output == *"about to fall silent"* && $output == *"No review output for 1s"* ]]
+    [[ $(head -1 "$job/status") == timed-out ]]
+    if [[ $recipe == fix ]]; then [[ ! -s "$TRACE" ]]; fi
+    python3 -c 'import fcntl, sys; lock = open(sys.argv[1]); fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB); lock.close()' "$job/process.lock"
+    [[ ! -e "$job/review.json" && $(cat pkgs/t3code/default.nix) == fixed ]]
+done
 echo 'Upgrade logging and on-demand fixes passed.'
