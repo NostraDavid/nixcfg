@@ -2,6 +2,7 @@
   autoPatchelfHook,
   fetchurl,
   lib,
+  libxcb,
   makeWrapper,
   ripgrep,
   stdenv,
@@ -45,6 +46,7 @@ in
       install -Dm755 bin/opencode "$out/bin/opencode"
       wrapProgram "$out/bin/opencode" \
         --suffix PATH : ${lib.makeBinPath [ripgrep]} \
+        ${lib.optionalString stdenvNoCC.hostPlatform.isLinux "--suffix LD_LIBRARY_PATH : ${lib.makeLibraryPath [libxcb]}"} \
         --set OPENCODE_DISABLE_AUTOUPDATE true \
         --run '
           # Preserve the database choice made by older nixpkgs installations.
