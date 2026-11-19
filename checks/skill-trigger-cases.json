@@ -249,19 +249,22 @@
       ]
     },
     "push": {
-      "original_description": "Use when the user asks for a Git push, including 'push', 'commit en push', or 'commit and push'. Commit scoped changes if needed, update or open the PR and fix CI until the pushed revision passes.",
+      "original_description": "Publish Git commits in work repositories on push requests such as 'commit en push'. Update or open the PR and fix CI until the pushed revision passes.",
       "required_patterns": [
-        "asks for a Git push",
+        "work repositories",
+        "push requests",
         "commit en push",
-        "update or open the PR",
+        "Update or open the PR",
         "fix CI until the pushed revision passes"
       ],
       "positive_prompts": [
-        "Push mijn branch.",
-        "Commit en push.",
-        "Push the existing commits and follow the build."
+        "Push mijn werkbranch.",
+        "Commit en push de wijzigingen in de werkrepo.",
+        "Push the existing work commits and follow the PR build."
       ],
       "negative_prompts": [
+        "Commit en push mijn persoonlijke nixcfg op master.",
+        "Push mijn NostraDavid-repo op de huidige branch.",
         "Stel alleen commitberichten voor.",
         "Waarom is mijn laatste git push geweigerd?",
         "Voeg pushnotificaties toe aan de app.",

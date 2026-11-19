@@ -73,7 +73,14 @@ Read and follow each skill when its condition applies.
 
 ### Git pushes
 
-When the user asks for a Git push, follow `~/.agents/skills/push/SKILL.md`.
+For personal repositories, including NostraDavid/nixcfg, commit the requested
+changes in the current checkout and push the current branch to its configured
+destinations. Verify the remote revision. Create a branch, worktree or PR, or
+monitor and repair CI, only when the user asks for that separately.
+
+For work repositories, follow `~/.agents/skills/push/SKILL.md` on push requests.
+Determine the scope from the repository's instructions and remote owner. A
+personal checkout on a work machine still uses the personal workflow.
 
 ### MCP from the terminal
 

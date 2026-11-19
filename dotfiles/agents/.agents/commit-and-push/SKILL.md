@@ -1,13 +1,14 @@
 ---
 name: push
-description: "Use when the user asks for a Git push, including 'push', 'commit en push', or 'commit and push'. Commit scoped changes if needed, update or open the PR and fix CI until the pushed revision passes."
+description: "Publish Git commits in work repositories on push requests such as 'commit en push'. Update or open the PR and fix CI until the pushed revision passes."
 ---
 
-# Commit en push
+# Commit en push voor werk
 
-Use this workflow for a request to publish Git commits. A question about pushing,
-a request for commit messages, or a commit-only request stays local. Honor explicit
-limits such as “alleen pushen, geen PR”.
+Use this workflow when the user asks to publish commits in a work repository.
+For personal repositories, use the direct-push rule in
+`~/.agents/instructions/shared.md`. A request for commit messages or a commit
+alone stays local. Honor explicit limits such as “alleen pushen, geen PR”.
 
 ## Publish the branch
 
