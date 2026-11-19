@@ -29,7 +29,6 @@ in {
       ".agents/instructions".source = mk "${dot}/agents/instructions";
       ".agents/audio-notify".source = mk "${dot}/agents/.agents/audio-notify";
       ".codex/AGENTS.md".source = config.home.file."AGENTS.md".source;
-      ".pi/agent/AGENTS.md".source = config.home.file."AGENTS.md".source;
       ".copilot/copilot-instructions.md".source = config.home.file."AGENTS.md".source;
       ".copilot/instructions/eu-ai-act.instructions.md".source = mk "${dot}/agents/instructions/eu-ai-act.md";
       ".config/opencode/AGENTS.md".source = config.home.file."AGENTS.md".source;

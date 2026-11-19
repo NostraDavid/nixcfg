@@ -70,7 +70,6 @@ local groups = {
             { cmd = "codex", purpose = "Codex CLI tasks" },
             { cmd = "copilot", purpose = "GitHub Copilot CLI tasks" },
             { cmd = "opencode", purpose = "OpenCode tasks" },
-            { cmd = "pi", purpose = "Pi Coding Agent tasks" },
         },
     },
 }

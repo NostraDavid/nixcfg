@@ -24,7 +24,6 @@ _: {
           ".codex/skills/asd-ste100"
           ".config/opencode/skills/asd-ste100"
           ".copilot/skills/asd-ste100"
-          ".pi/agent/skills/asd-ste100"
         ] (_: {source = "${asdSte100}/asd-ste100";});
         packages =
           [
@@ -34,7 +33,7 @@ _: {
             unstable.herdr # Manage coding agents in a terminal
             local.herdr-app # Official Herdr desktop client
             local.herdr-core # Backend for the official Herdr client
-            unstable.omp # Oh My Pi coding agent, separate from pi
+            unstable.omp # Oh My Pi coding agent
             unstable.hurl # Run and test HTTP requests
             unstable.just # Run project commands from a justfile
             unstable.just-lsp # Language server for justfiles

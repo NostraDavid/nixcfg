@@ -6,7 +6,7 @@ DBHub op Wodan gebruikt een eigen SQLite-database:
 ~/.local/share/dbhub/local.sqlite
 ```
 
-Codex, de persoonlijke OpenCode-configuratie en Pi starten DBHub wanneer hun
+Codex en de persoonlijke OpenCode-configuratie starten DBHub wanneer hun
 MCP-client verbindt. De verbinding gebruikt stdio. Er is geen permanente
 achtergrondservice of luisterende netwerkpoort nodig. De werkconfiguratie is
 niet gewijzigd.
@@ -24,7 +24,7 @@ configuratie vanuit `features/mcp/_home.nix` en maakt de datamap privé.
 
 Laat Codex de nieuwe MCP-configuratie laden. In de gecontroleerde actieve sessie
 waren beide tools direct beschikbaar. Controleer OpenCode met
-`opencode mcp list` en Pi met `pi mcp list`. Vraag de agent daarna om via DBHub
+`opencode mcp list`. Vraag de agent daarna om via DBHub
 `SELECT 42 AS connection_check` uit te voeren.
 
 De regressietest gebruikt tijdelijke databases:

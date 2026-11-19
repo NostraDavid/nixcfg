@@ -1,7 +1,7 @@
 # Stable MCP commands on all machines
 
 The `mcp` Den aspect in `features/mcp/default.nix` configures these servers for
-Codex, OpenCode and Pi on Wodan, Donar, Frigg, Bragi, Mimir2 and Loki:
+Codex and OpenCode on Wodan, Donar, Frigg, Bragi, Mimir2 and Loki:
 
 - Agent-memory, using Engrim
 - DBHub
@@ -9,7 +9,6 @@ Codex, OpenCode and Pi on Wodan, Donar, Frigg, Bragi, Mimir2 and Loki:
 - Playwright
 - NixOS
 
-Pi also retains its existing Exa and OpenAI Developer Docs connections. Copilot,
 VS Code and the shared MCP JSON use the same stable commands.
 
 ## Dependencies
@@ -23,9 +22,8 @@ a `/bin/sh` launcher. Platform-specific arguments belong to the command
 wrappers. Package updates change the executables without changing the client
 files.
 
-Node REPL is excluded from the OpenCode and Pi dotfiles on every host. On Loki,
-the Codex command wrapper disables Node REPL, and Home Manager omits its
-runtime.
+Node REPL is excluded from the OpenCode dotfiles on every host. On Loki, the
+Codex command wrapper disables Node REPL, and Home Manager omits its runtime.
 
 On Linux, Nix supplies the Codex Node REPL runtime and a stable Chromium link.
 The `codex-browser` aspect in `features/codex-browser/default.nix` retains the
@@ -54,19 +52,13 @@ that selects its own configuration must include the wanted MCP entries there.
 The existing `opencode-mcp-*` browser names remain aliases for work
 repositories.
 
-Pi's Nix wrapper supplies its environment and leaves `settings.json` and
-`mcp.json` untouched. The first switch backs up old generated Pi files through
-Home Manager's configured backup mechanism. Standalone activation defaults to
-`.before-direct-dotfiles` when no backup policy was selected.
-
 Engram and Engrim remain memory backends behind the `agent-memory` command.
 Their databases are retained.
 
-Restart Codex and Pi, and run `opencode service restart` before checking:
+Restart Codex, and run `opencode service restart` before checking:
 
 ```bash
 codex mcp list
-pi mcp list --json
 opencode mcp list
 ```
 
@@ -78,9 +70,9 @@ nix eval --impure --json --file checks/tooling.nix
 ```
 
 The tests evaluate all six machine homes and a custom work username. They check
-stable paths for every local Pi server, retain the special Codex launchers on
-Wodan, Frigg and Bragi, and exercise configuration preservation, backups,
-idempotence and malformed input. Static client launchers also run with a home
-directory containing spaces and no usable PATH. The tests also verify removal of
-existing Node REPL registrations on Loki. Real macOS server connections still
-need a check on Loki after activation.
+stable paths for local servers, retain the special Codex launchers on Wodan,
+Frigg and Bragi, and exercise configuration preservation and malformed input.
+Static client launchers also run with a home directory containing spaces and no
+usable PATH. The tests also verify removal of existing Node REPL registrations
+on Loki. Real macOS server connections still need a check on Loki after
+activation.

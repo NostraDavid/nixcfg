@@ -11,7 +11,6 @@ _: {
           # https://bmcgee.ie/posts/2023/12/til-how-to-optimise-substitutions-in-nix/
           extra-substituters = [
             "https://thaumatorium.cachix.org?priority=1"
-            "https://pi.cachix.org?priority=2"
             "https://devenv.cachix.org?priority=4"
             "https://nix-community.cachix.org?priority=5"
             "https://numtide.cachix.org?priority=6"
@@ -20,7 +19,6 @@ _: {
           ];
           extra-trusted-public-keys = [
             "thaumatorium.cachix.org-1:KbOXBN34Tv0AeoRRhvBKoZHUfgmOALmfyQWeRE6MITo="
-            "pi.cachix.org-1:lGeoGJaZ5ZDabuRzkcD5EBTNnDM4HJ1vqeOxlWk1Flk="
             "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
             "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
             "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="

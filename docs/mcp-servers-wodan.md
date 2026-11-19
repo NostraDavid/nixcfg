@@ -35,10 +35,7 @@ De gecontroleerde lokale configuraties bevatten deze servernamen:
 | `~/.config/mcp/mcp.json`           | agent-memory                                                                     |
 
 Deze lijsten tonen configuratieverschillen. Ze bewijzen geen fout, aliasgedrag
-of geslaagde verbinding. Ook Pi heeft configuratie in de repository via
-[features/mcp/_pi.nix](../features/mcp/_pi.nix), maar het verwachte lokale
-bestand `~/.pi/agent/mcp.json` ontbrak bij deze inventarisatie. Daaruit volgt
-geen conclusie over de actieve Pi-runtime.
+of geslaagde verbinding.
 
 ## Welke servers hier waarde toevoegen
 
@@ -76,7 +73,7 @@ meer PostgreSQL en SQLite en kan meerdere verbindingen uit TOML laden.
 Daarmee kan een agent schema's verkennen en vervolgens queries uitvoeren via
 dezelfde verbinding. Bij een enkele bekende PostgreSQL-query voegt het weinig
 toe aan `psql`. Na deze inventarisatie is DBHub op verzoek aangesloten op een
-eigen lokale SQLite-sandbox voor Codex, OpenCode en Pi. Zie
+eigen lokale SQLite-sandbox voor Codex en OpenCode. Zie
 [Lokale DBHub-sandbox](dbhub-local.md) voor het bestand en de verbindingstests.
 
 Voor een toekomstige aansluiting past een beperkte databasegebruiker met

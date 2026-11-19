@@ -29,7 +29,6 @@ let
 in {
   realCodex = wodan.home.file.".local/bin/codex".source;
   realOpenCode = pkgs.opencode-v2;
-  piBackup = pkgs.writeShellScript "pi-config-backup" wodan.home.activation.piConfigBackup.data;
   clientWrappers = let
     stub = name:
       pkgs.writeScriptBin name ''
@@ -103,7 +102,7 @@ in {
     chromium = assert lib.all (profile: builtins.length (builtins.filter (package: (package.pname or "") == "chromium") profile.home.packages) <= 1) allProfiles; true;
     nativeCodex = assert lib.all (profile: lib.all (name: profile.home.file ? ".local/bin/${name}") ["codex-mcp-node-repl" "cua-repl"] && profile.home.activation ? codexBrowserRuntime && profile.home.file.".local/bin/mcp-node-repl".source == profile.home.file.".local/bin/codex-mcp-node-repl".source) (builtins.attrValues nativeCodexProfiles); true;
     clients = assert lib.all (profile: profile.home.file ? ".local/bin/codex" && profile.home.file ? ".local/bin/opencode" && lib.all (name: profile.nixcfg.mcp.servers ? ${name}) names) allProfiles; true;
-    piNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl)) allProfiles; true;
+    sharedNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl)) allProfiles; true;
     lokiNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl) && !(profile.home.file ? ".local/bin/mcp-node-repl") && !(builtins.any (p: (p.name or "") == "mcp-node-repl") profile.home.packages)) [home work]; true;
     packages = assert lib.all (profile: lib.all (name: builtins.any (p: (p.pname or "") == name) profile.home.packages) packages) allProfiles; true;
     stableNixos = assert lib.all (profile:
@@ -130,6 +129,6 @@ in {
         lib.hasPrefix "${profile.home.homeDirectory}/.local/bin/" server.command && profile.home.file ? ${relative} && !(lib.hasInfix "/nix/store/" (builtins.toJSON server)))
       (builtins.attrNames (lib.filterAttrs (_: server: server ? command) profile.nixcfg.mcp.servers)))
     allProfiles; true;
-    stablePi = assert lib.all (profile: lib.all (server: !(lib.hasInfix "/nix/store/" (builtins.toJSON server))) (builtins.attrValues profile.nixcfg.mcp.servers)) allProfiles; true;
+    portableServerPaths = assert lib.all (profile: lib.all (server: !(lib.hasInfix "/nix/store/" (builtins.toJSON server))) (builtins.attrValues profile.nixcfg.mcp.servers)) allProfiles; true;
   };
 }

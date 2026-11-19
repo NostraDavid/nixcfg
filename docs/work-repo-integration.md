@@ -227,7 +227,7 @@ to the work repository's actual location:
 }
 ```
 
-Codex, Pi, OpenCode, and Copilot follow this source automatically. Keep
+Codex, OpenCode, and Copilot follow this source automatically. Keep
 `~/.agents/instructions` linked to the base checkout. Changes to the shared
 rules belong in the base repository. Code navigation follows the shared
 `code-navigation.md` instructions and the `nav` skill. Agent skills and MCP

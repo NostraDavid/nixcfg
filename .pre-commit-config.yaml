@@ -33,7 +33,7 @@ repos:
         name: check portable command paths
         entry: bash checks/test-command-paths.sh
         language: system
-        files: '^(features/(common-tooling|terminal|mcp)/|checks/(live-dotfiles\.nix|test-command-paths\.sh|tooling\.nix)$|dotfiles/(alacritty-[^/]+|starship-[^/]+|zellij-[^/]+|vscode-[^/]+|pi-[^/]+)/)'
+        files: '^(features/(common-tooling|terminal|mcp)/|checks/(live-dotfiles\.nix|test-command-paths\.sh|tooling\.nix)$|dotfiles/(alacritty-[^/]+|starship-[^/]+|zellij-[^/]+|vscode-[^/]+)/)'
         pass_filenames: false
 
       - id: check-asd-ste100
@@ -82,7 +82,7 @@ repos:
         name: check stable MCP launchers and client configuration
         entry: bash checks/test-loki-mcp.sh
         language: system
-        files: '^(features/(mcp|codex-browser|portable-runtime)/|profiles/|hosts/|nix/|checks/(loki-mcp\.nix|test-loki-mcp\.sh)$|pkgs/dbhub/|dotfiles/(codex-[^/]+/\.codex/config\.toml|copilot-[^/]+/\.copilot/mcp-config\.json|mcp/\.config/mcp/mcp\.json|vscode-[^/]+/\.config/Code/User/mcp\.json|opencode-[^/]+/\.config/opencode/opencode\.jsonc)$)'
+        files: '^(features/(mcp|codex-browser|portable-runtime)/|profiles/|hosts/|nix/|checks/(loki-mcp\.nix|test-loki-mcp\.sh)$|pkgs/dbhub/|dotfiles/(codex-[^/]+/\.codex/config\.toml|mcp/\.config/mcp/mcp\.json|vscode-[^/]+/\.config/Code/User/mcp\.json|opencode-[^/]+/\.config/opencode/opencode\.jsonc)$)'
         pass_filenames: false
 
       - id: check-video-explainer
@@ -90,13 +90,6 @@ repos:
         entry: dotfiles/agents/.agents/video-explainer/scripts/render.py unit-test
         language: system
         files: "^(dotfiles/agents/\\.agents/video-explainer/|pkgs/video-explainer/|checks/fixtures/video-explainer/|\\.pre-commit-config\\.yaml$)"
-        pass_filenames: false
-
-      - id: check-pi-parity
-        name: check Pi workflow extensions against pinned SDK
-        entry: node --test checks/pi-parity.test.mjs
-        language: system
-        files: '^(dotfiles/pi-[^/]+/|checks/(pi-parity\.test\.mjs$|fixtures/pi-mcp-server\.mjs$)|features/mcp/|flake\.lock$)'
         pass_filenames: false
 
       - id: check-repos-providers

@@ -222,16 +222,6 @@ local tasks = {
             return "opencode"
         end,
     },
-    {
-        id = "ai-pi",
-        label = "AI: Pi Coding Agent",
-        exe = "pi",
-        project = true,
-        interactive = true,
-        command = function()
-            return "pi"
-        end,
-    },
 }
 
 local by_id = {}

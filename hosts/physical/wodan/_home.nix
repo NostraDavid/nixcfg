@@ -67,7 +67,6 @@ in {
   };
 
   programs = {
-    pi.coding-agent.enable = lib.mkForce false;
     google-chrome = {
       enable = true;
       package = stable.google-chrome;
@@ -155,7 +154,6 @@ in {
         ".config/wezterm/wezterm.lua".enable = false;
         ".local/share/mbrola/nl2".enable = false;
         ".local/bin/say-espeak-ng-mbrola".enable = false;
-        ".pi/agent/extensions/subagent".enable = false;
         ".config/herdr/session.json".source = config.lib.file.mkOutOfStoreSymlink "${repoRoot}/dotfiles/herdr-0.9.5/wodan/.config/herdr/session.json";
       };
 

@@ -84,8 +84,6 @@ wanted = {
     ".config/herdr-core/config.toml",
     ".t3/userdata/keybindings.json",
     ".t3/userdata/settings.json",
-    ".pi/agent/settings.json",
-    ".pi/agent/mcp.json",
 }
 seen = set()
 for directory, _, files in os.walk(links):

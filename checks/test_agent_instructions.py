@@ -264,7 +264,6 @@ class AgentInstructions(unittest.TestCase):
         for links in [self.links, work_links]:
             for entrypoint in [
                 ".codex/AGENTS.md",
-                ".pi/agent/AGENTS.md",
                 ".copilot/copilot-instructions.md",
                 ".config/opencode/AGENTS.md",
             ]:

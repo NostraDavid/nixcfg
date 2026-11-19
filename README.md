@@ -137,8 +137,6 @@ configuration and restart the editor's language servers.
   Linux desktop package, configuration compatibility, and migration checks.
 - [Windows-style shortcuts on Loki](docs/loki-windows-shortcuts.md) covers
   Karabiner-Elements, macOS permissions, and VS Code terminal bindings.
-- [Pi and Codex feature checklist](docs/pi-codex-parity.md) covers the shared Pi
-  configuration, TypeScript workflow tools, verification, and remaining gaps.
 - `docs/` contains script files with nifty commands.
 - [Wodan security reports and advisory VEX](docs/security-vex.md) explains the
   raw scan gates and configuration-aware comparison reports.

@@ -7,17 +7,9 @@
         ];
       };
     };
-    pi = {
-      homeManager = {
-        imports = [
-          ./_pi.nix
-        ];
-      };
-    };
     mcp = {
       includes = with den.aspects; [
         agent-memory
-        pi
       ];
       homeManager = {
         imports = [

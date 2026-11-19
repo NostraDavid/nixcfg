@@ -170,9 +170,6 @@ in {
       activation = home.home.activation.linkPackageCommands;
     in
       lib.all (name: home.home.file ? ${name} -> direct home name) terminalFiles
-      && lib.all (name: direct home name) [".pi/agent/settings.json" ".pi/agent/mcp.json"]
-      && home.programs.pi.coding-agent.settings == {}
-      && home.programs.pi.coding-agent.mcp == {}
       && (!(home.home.file ? ".config/zellij/config.kdl") || (home.home.file ? ".config/zellij/layouts/default.kdl" && direct home ".config/zellij/layouts/default.kdl"))
       && lib.hasInfix (lib.escapeShellArg home.home.profileDirectory) activation.data
       && lib.all (step: builtins.elem step activation.after) ["installPackages" "linkGeneration"])
@@ -192,7 +189,7 @@ in {
     assert home.home.file.".config/opencode/skills/asd-ste100".source == loki.home.file.".config/opencode/skills/asd-ste100".source; true;
   asdSte100 = let
     homes = [mimir2 loki linuxWorkstation darwinWorkstation] ++ lib.concatMap (host: builtins.attrValues (host.config.home-manager.users or {})) (builtins.attrValues flake.nixosConfigurations);
-    clients = ["agents" "claude" "codex" "config/opencode" "copilot" "pi/agent"];
+    clients = ["agents" "claude" "codex" "config/opencode" "copilot"];
   in
     assert lib.all (home: lib.all (client: home.home.file.".${client}/skills/asd-ste100".source == home.home.file.".agents/skills/asd-ste100".source) clients) homes; true;
   pandacode = assert lib.all (home: builtins.any (p: (p.pname or "") == "pandacode" && p.outPath == flake.packages.${p.system}.pandacode.outPath) home.home.packages) [wodan mimir2 loki]; true;
@@ -343,12 +340,11 @@ in {
   linuxSpeech = assert lib.all (home: lib.all (package: builtins.any (p: (p.pname or "") == package) home.home.packages) ["espeak-ng" "piper-tts"]) ([mimir2] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   macosSpeech = assert lib.all (home: lib.all (name: builtins.any (p: (p.pname or "") == name) home.home.packages) ["espeak-ng" "piper-tts" "coreutils" "gnused"] && lib.all (path: builtins.hasAttr path home.home.file) [".local/bin/say" ".local/bin/say-piper-tts" ".config/say/espeak-ng-data" ".config/say/piper.sed" ".local/share/piper-voices/nl_NL-pim-medium.onnx" ".local/share/piper-voices/nl_NL-pim-medium.onnx.json"]) [loki darwinWorkstation]; true;
   physicalTools = assert lib.all (name: checkSources "x86_64-linux" flake.nixosConfigurations.${name}.config.home-manager.users.david (["hurl" "sqruff" "worktrunk"] ++ cliTools)) ["wodan" "donar" "frigg" "bragi"]; true;
-  worktrunkSkills = assert lib.all (home: lib.all (client: home.home.file.".${client}/skills/worktrunk".source == home.home.file.".agents/skills/worktrunk".source) ["codex" "copilot" "config/opencode" "pi/agent"]) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
+  worktrunkSkills = assert lib.all (home: lib.all (client: home.home.file.".${client}/skills/worktrunk".source == home.home.file.".agents/skills/worktrunk".source) ["codex" "copilot" "config/opencode"]) ([mimir2 loki linuxWorkstation darwinWorkstation] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;
   worktrunkIntegrations = assert lib.all (home:
     home.home.file ? ".config/worktrunk/config.toml"
     && !home.home.file.".config/worktrunk/config.toml".force
     && home.home.file ? ".config/opencode/plugins/worktrunk.ts"
-    && home.home.file ? ".pi/agent/extensions/worktrunk.ts"
     && home.home.file ? "plugins/worktrunk"
     && home.home.activation ? worktrunkCodex)
   ([mimir2 loki] ++ map (name: flake.nixosConfigurations.${name}.config.home-manager.users.david) ["wodan" "donar" "frigg" "bragi"]); true;

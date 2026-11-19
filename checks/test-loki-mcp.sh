@@ -11,7 +11,6 @@ python=$(nix build --impure --file "$root/checks/loki-mcp.nix" python --no-link 
 wrappers=$(nix build --impure --file "$root/checks/loki-mcp.nix" clientWrappers --no-link --print-out-paths)
 real_codex=$(nix build --impure --file "$root/checks/loki-mcp.nix" realCodex --no-link --print-out-paths)
 real_opencode="$(nix build --impure --file "$root/checks/loki-mcp.nix" realOpenCode --no-link --print-out-paths)/bin/opencode"
-pi_backup=$(nix build --impure --file "$root/checks/loki-mcp.nix" piBackup --no-link --print-out-paths)
 native_launchers=$(nix build --impure --file "$root/checks/loki-mcp.nix" wodanLaunchers --no-link --print-out-paths)
 # Exercise the actual launcher exports without starting the browser runtime.
 grep -q '^exec ' "$native_launchers/codex-mcp-node-repl"
@@ -25,7 +24,7 @@ empty=$(NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER='' NODE_REPL_INSTRUCTIONS_USE_CA
 [[ -z $empty ]]
 custom=$(NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER='custom browser' NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME='custom chrome' bash "$tmp/node-repl-env")
 [[ $custom == $'custom browser\ncustom chrome' ]]
-"$python/bin/python" - "$root" "$tmp" "$wrappers" "$real_codex" "$real_opencode" "$pi_backup" <<'PYTHON'
+"$python/bin/python" - "$root" "$tmp" "$wrappers" "$real_codex" "$real_opencode" <<'PYTHON'
 import json
 import os
 from pathlib import Path
@@ -33,7 +32,7 @@ import subprocess
 import sys
 import tomllib
 
-root, tmp, wrappers, real_codex, real_opencode, pi_backup = map(Path, sys.argv[1:])
+root, tmp, wrappers, real_codex, real_opencode = map(Path, sys.argv[1:])
 source_config = (root / "dotfiles/codex-0.140.0/.codex/config.toml").read_text()
 assert "/nix/store/" not in source_config, "Keep Codex's Nix store paths in ~/.local/bin wrappers."
 servers = json.loads((tmp / "servers.json").read_text())
@@ -41,7 +40,6 @@ fixture_servers = json.loads((tmp / "fixture-servers.json").read_text())
 home = tmp / "user home"
 codex = home / ".codex/config.toml"
 opencode = home / ".config/opencode/opencode.jsonc"
-settings = home / ".pi/agent/settings.json"
 codex_source = "".join(
     f'[mcp_servers.{name}]\ncommand="/bin/sh"\nargs='
     + json.dumps(["-c", f'exec "$HOME/.local/bin/mcp-{name}"'])
@@ -75,7 +73,6 @@ for path, text in (
             }
         ),
     ),
-    (settings, '{"packages":["npm:custom-package"]}'),
 ):
     path.parent.mkdir(parents=True, exist_ok=True)
     source = tmp / (path.parent.name + "-source" + path.suffix)
@@ -83,7 +80,7 @@ for path, text in (
     path.symlink_to(source)
 before = {
     p: (p.read_bytes(), p.resolve().stat().st_mtime_ns)
-    for p in (codex, opencode, settings)
+    for p in (codex, opencode)
 }
 capture = tmp / "capture.json"
 env = dict(
@@ -114,46 +111,6 @@ for platform in ("linux", "macos"):
         )
 
 
-# Home Manager backs up old generated Pi files before linking the dotfiles.
-def backup_extension(child_env):
-    return subprocess.check_output(
-        [
-            "bash",
-            "-c",
-            '. "$1"; printf "%s" "${HOME_MANAGER_BACKUP_EXT-}"',
-            "backup",
-            str(pi_backup),
-        ],
-        env=child_env,
-        text=True,
-    )
-
-
-legacy_home = tmp / "legacy home"
-legacy_dir = legacy_home / ".pi/agent"
-legacy_dir.mkdir(parents=True)
-backup_env = dict(
-    env, HOME=str(legacy_home), HOME_MANAGER_BACKUP_EXT="hm.bak",
-    HOME_MANAGER_BACKUP_COMMAND="",
-)
-for activation in range(2):
-    originals = {}
-    for name in ("settings.json", "mcp.json"):
-        path = legacy_dir / name
-        if path.is_symlink():
-            path.unlink()
-        originals[path] = f"runtime state {activation}: {name}"
-        path.write_text(originals[path])
-        (legacy_dir / f"{name}.hm.bak").write_text("previous Home Manager backup")
-    suffix = backup_extension(backup_env)
-    for path, content in originals.items():
-        assert path.read_text() == content
-        backup = path.with_name(f"{path.name}.{suffix}")
-        assert not backup.exists(), f"Backup collision on activation {activation}: {backup}"
-        path.rename(backup)
-        path.symlink_to(settings.resolve())
-        assert backup.read_text() == content
-
 # Native JSON clients use portable shell launchers without PATH lookup.
 bin_dir = home / ".local/bin"
 bin_dir.mkdir(parents=True)
@@ -164,10 +121,8 @@ for name in commands.values():
     executable.write_text('#!/bin/sh\nfor arg do printf "%s\\n" "$arg"; done\n')
     executable.chmod(0o755)
 for relative, key in (
-    ("dotfiles/copilot-1.0.65/.copilot/mcp-config.json", "mcpServers"),
     ("dotfiles/mcp/.config/mcp/mcp.json", "mcpServers"),
     ("dotfiles/vscode-1.106.2/.config/Code/User/mcp.json", "servers"),
-    ("dotfiles/pi-1.2.0/.pi/agent/mcp.json", "mcpServers"),
 ):
     for name, server in json.loads((root / relative).read_text())[key].items():
         if "command" not in server or not server.get("enabled", True):

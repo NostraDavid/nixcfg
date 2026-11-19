@@ -38,11 +38,6 @@ let
       ]
       ++ homeModules;
   };
-  pi = import ../features/mcp/_pi.nix (arguments
-    // {
-      inherit (home) config;
-      inherit (pkgs) lib;
-    });
 in
   pkgs.linkFarm "live-dotfile-links" (
     map (name: {
@@ -63,12 +58,5 @@ in
       ".config/herdr-core/config.toml"
       ".t3/userdata/keybindings.json"
       ".t3/userdata/settings.json"
-    ]
-    ++ map (name: {
-      inherit name;
-      path = pi.home.file.${name}.source;
-    }) [
-      ".pi/agent/settings.json"
-      ".pi/agent/mcp.json"
     ]
   )

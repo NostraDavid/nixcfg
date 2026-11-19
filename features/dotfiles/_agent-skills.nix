@@ -114,8 +114,5 @@ in {
     // {
       ".local/bin/generate_gitignore".source = mk "${dot}/agents/.agents/gitignore/scripts/generate_gitignore.py";
     }
-    // lib.optionalAttrs stable.stdenv.hostPlatform.isLinux {
-      ".pi/agent/skills/ctx".source = "${namedSkills}/ctx";
-    }
   );
 }

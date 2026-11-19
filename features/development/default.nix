@@ -3,7 +3,6 @@
     development-core = {
       includes = with den.aspects; [
         code-navigation
-        pi
       ];
       homeManager = {
         imports = [
