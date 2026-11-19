@@ -87,6 +87,14 @@ let
   stable = flake.nixosConfigurations.wodan.pkgs;
   installed = map (p: p.outPath) wodan.home.packages;
 in {
+  synologyDrive = let
+    linux = (unstableFor "x86_64-linux").synology-drive-client;
+    darwin = (unstableFor "aarch64-darwin").synology-drive-client;
+    darwinAlias = flake.darwinConfigurations.loki.config.home-manager.extraSpecialArgs.local.synology-drive-client-pinned;
+  in
+    assert builtins.elem linux.outPath installed;
+    assert flake.packages.x86_64-linux.synology-drive-client-pinned.drvPath == linux.drvPath;
+    assert darwinAlias.drvPath == darwin.drvPath; true;
   ompAllHomes = let
     workLoki =
       (flake.lib.mkLoki {

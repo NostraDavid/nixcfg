@@ -1,4 +1,8 @@
-{stable, ...}: {
+{
+  unstable,
+  stable,
+  ...
+}: {
   home.packages = [
     stable.fsearch # Everything-like file search tool
     stable.geeqie # Image viewer
@@ -10,7 +14,7 @@
     stable.meld # Graphical file and directory comparison
     stable.nomacs # Image viewer
     stable.speedcrunch # calculator
-    stable.synology-drive-client # Synology Drive client
+    unstable.synology-drive-client # Synology Drive client
     stable.wireguard-tools # self-hosted VPN
   ];
 }

@@ -41,7 +41,7 @@
   cachePackageNames = system: outputs: let
     upstream = builtins.removeAttrs (upstreamTools (pkgsFor system)) ["bend"];
   in
-    attrNames (builtins.removeAttrs outputs (attrNames upstream));
+    attrNames (builtins.removeAttrs outputs (attrNames upstream ++ ["synology-drive-client-pinned"]));
   overlay-local = final: prev:
     listToAttrs (map
       (name: {
@@ -68,7 +68,19 @@
           prev.callPackage pkgPath (moldArgs // fileArgs);
       })
       localPackageNames)
-    // upstreamTools prev;
+    // upstreamTools prev
+    // {
+      # Keep the public name. The original recipe under pkgs/ is archived.
+      synology-drive-client-pinned = let
+        system = prev.stdenv.hostPlatform.system;
+        source =
+          if system == "x86_64-darwin"
+          then prev
+          else unstableFor system;
+        client = source.synology-drive-client;
+      in
+        client // {passthru = (client.passthru or {}) // {updateSkipReason = "Provided by nixpkgs; update flake inputs";};};
+    };
   overlay-fixes = _final: prev: {
     pythonPackagesExtensions =
       prev.pythonPackagesExtensions
