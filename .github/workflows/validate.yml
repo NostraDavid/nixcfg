@@ -44,6 +44,8 @@ jobs:
             .#legacyPackages.x86_64-linux.unstable.prek \
             .#legacyPackages.x86_64-linux.uv \
             .#legacyPackages.x86_64-linux.unstable.python314 \
+            .#legacyPackages.x86_64-linux.unstable.ripgrep \
+            .#legacyPackages.x86_64-linux.unstable.nix-index \
             .#legacyPackages.x86_64-linux.unstable.alejandra \
             .#legacyPackages.x86_64-linux.unstable.dprint \
             .#legacyPackages.x86_64-linux.unstable.shfmt \

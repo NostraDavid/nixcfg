@@ -1,3 +1,6 @@
+# Python uses Ruff; the agent skill fixtures keep their source formatting.
+dprint_excludes := "dev.code-workspace docs/agentskills.io 'dotfiles/agents/.agents/**' '**/*.py'"
+
 # Format all Nix files in the repository.
 [group('format')]
 format-alejandra:
@@ -5,7 +8,7 @@ format-alejandra:
 
 [group('format')]
 format-dprint:
-  @dprint fmt . --excludes dev.code-workspace docs/agentskills.io
+  @dprint fmt . --excludes {{dprint_excludes}}
 
 [group('format')]
 format-shfmt:
@@ -35,7 +38,7 @@ fmt:
 [group('format')]
 check:
   @git ls-files -z -- '*.nix' | xargs -0 --no-run-if-empty alejandra --check
-  @dprint check . --excludes dev.code-workspace docs/agentskills.io
+  @dprint check . --excludes {{dprint_excludes}}
   @git ls-files -z -- '*.sh' ':(glob)**/.bashrc' ':(glob)**/.bash_aliases' | xargs -0 --no-run-if-empty shfmt -i 4 -d
   @git ls-files -z -- '*.lua' | xargs -0 --no-run-if-empty stylua --check
   @git ls-files -z -- '*.py' 'dotfiles/git-2.49.0/.config/git/hooks/commit-msg' | grep -zEv '^dotfiles/agents/\.agents/' | xargs -0 --no-run-if-empty ruff format --check

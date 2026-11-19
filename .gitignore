@@ -38,6 +38,7 @@
 !stylua.toml
 !selene.toml
 !ruff.toml
+!dprint.jsonc
 !vim.yml
 !README.md
 !AGENTS.md
