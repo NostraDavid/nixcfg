@@ -13,7 +13,6 @@ tag_prefix=v
 case "$package" in
 bitbucket-cli) repo=avivsinai/bitbucket-cli ;;
 dockerfile-roast) repo=immanuwell/dockerfile-roast ;;
-mdschema) repo=jackchuka/mdschema ;;
 pandacode)
     repo=aicodeking/pandacode
     systems=(x86_64-linux aarch64-linux aarch64-darwin)
@@ -48,32 +47,27 @@ for system in "${systems[@]}"; do
     x86_64-linux)
         rust=x86_64-unknown-linux-musl
         roast=linux-x86_64
-        go=linux_amd64
         bkt=linux_x86_64
         ;;
     aarch64-linux)
         rust=aarch64-unknown-linux-musl
         roast=linux-arm64
-        go=linux_arm64
         bkt=linux_arm64
         ;;
     x86_64-darwin)
         rust=x86_64-apple-darwin
         roast=macos-x86_64
-        go=darwin_amd64
         bkt=darwin_x86_64
         ;;
     aarch64-darwin)
         rust=aarch64-apple-darwin
         roast=macos-arm64
-        go=darwin_arm64
         bkt=darwin_arm64
         ;;
     esac
     case "$package" in
     bitbucket-cli) asset="bkt_${version}_${bkt}.tar.gz" ;;
     dockerfile-roast) asset="droast-${roast}" ;;
-    mdschema) asset="mdschema_${version}_${go}.tar.gz" ;;
     pandacode)
         case "$system" in
         x86_64-linux) asset=PandaCode-Linux-x86_64.AppImage ;;

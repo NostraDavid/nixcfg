@@ -11,6 +11,7 @@
   entries = readDir pkgsDir;
   localPackageNames =
     filter (name: entries.${name} == "directory") (attrNames entries);
+  mdschemaVersion = "0.16.0";
   upstreamTools = pkgs: let
     inherit (pkgs.stdenv.hostPlatform) system isLinux;
     source =
@@ -25,6 +26,24 @@
         candidate = source.acli;
         formula = inputs.acli-formula;
       };
+      mdschema = let
+        # Intel macOS still needs the stable toolchain to build the unstable recipe.
+        package = pkgs.callPackage (inputs.nixpkgs-unstable + "/pkgs/by-name/md/mdschema/package.nix") {
+          buildGoModule = pkgs.buildGo127Module;
+        };
+        upstream =
+          if system == "x86_64-darwin"
+          then package
+          else source.mdschema;
+      in
+        if pkgs.lib.versionAtLeast upstream.version mdschemaVersion
+        then upstream
+        else
+          package.overrideAttrs (_: old: {
+            version = mdschemaVersion;
+            src = old.src.override {hash = "sha256-T/Ca1eEB8qjBOh4wcLC7BpbUd7f/36BKTRB9jhzOvWc=";};
+            vendorHash = "sha256-oi56+F7ElNxwd1l95KA8Awpk6e+bv83E64pqZJ1Qr2g=";
+          });
     }
     // pkgs.lib.optionalAttrs isLinux {inherit (source) jpegli;}
     // pkgs.lib.optionalAttrs (system == "x86_64-linux") {
@@ -44,7 +63,11 @@
       })
       (localPackageNames ++ attrNames (upstreamTools pkgs)));
   cachePackageNames = system: outputs: let
-    upstream = builtins.removeAttrs (upstreamTools (pkgsFor system)) ["bend"];
+    inherit (inputs.nixpkgs.lib) optional versionOlder;
+    intelMac = system == "x86_64-darwin";
+    # Keep the redistributable backports and Bend's wrapper in Cachix.
+    custom = ["bend"] ++ optional intelMac "uv" ++ optional (intelMac || versionOlder (unstableFor system).mdschema.version mdschemaVersion) "mdschema";
+    upstream = builtins.removeAttrs (upstreamTools (pkgsFor system)) custom;
   in
     attrNames (builtins.removeAttrs outputs (attrNames upstream ++ ["synology-drive-client-pinned"]));
   overlay-local = final: prev:
