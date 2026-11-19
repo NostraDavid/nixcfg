@@ -7,11 +7,6 @@
   home.packages = [
     (
       if stable.stdenv.hostPlatform.isDarwin
-      then unstable.github-copilot-cli
-      else local.github-copilot-cli
-    )
-    (
-      if stable.stdenv.hostPlatform.isDarwin
       then unstable.jpegli
       else local.jpegli
     )

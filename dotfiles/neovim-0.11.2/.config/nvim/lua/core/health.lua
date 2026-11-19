@@ -68,7 +68,6 @@ local groups = {
             { cmd = "scalene", purpose = "Python profiling" },
             { cmd = "ty", purpose = "Astral Python type checking" },
             { cmd = "codex", purpose = "Codex CLI tasks" },
-            { cmd = "copilot", purpose = "GitHub Copilot CLI tasks" },
             { cmd = "opencode", purpose = "OpenCode tasks" },
         },
     },

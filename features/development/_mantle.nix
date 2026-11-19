@@ -57,7 +57,6 @@
       unstable.ctx7 # Context7 CLI - Manage AI coding skills and documentation context
       unstable.dprint # Extensible code formatter; prettier replacement
       unstable.fastfetch # neofetch alternative
-      unstable.github-copilot-cli
       unstable.gofumpt # gofmt alternative; useful for dprint
       unstable.oxlint # js linter
       unstable.rtk # Compress CLI output for coding agents

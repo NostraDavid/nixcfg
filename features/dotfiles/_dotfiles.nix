@@ -115,10 +115,6 @@ in {
           # VS Code also reads these Claude-format hooks via chat.useClaudeHooks.
           ".claude/settings.json" = {source = mk "${dot}/claude-2.1.191/.claude/settings.json";};
 
-          ## Copilot
-          ".copilot/hooks/cli-proxy.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/hooks/cli-proxy.json";};
-          ".copilot/mcp-config.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/mcp-config.json";};
-          ".copilot/settings.json" = {source = mk "${dot}/copilot-1.0.65/.copilot/settings.json";};
           ".local/share/vscode/agent-plugins/databricks".source = local.databricks-agent-skills;
 
           ## OpenCode

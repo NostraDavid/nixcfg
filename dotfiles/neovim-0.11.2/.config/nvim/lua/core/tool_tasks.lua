@@ -203,16 +203,6 @@ local tasks = {
         end,
     },
     {
-        id = "ai-copilot",
-        label = "AI: GitHub Copilot CLI",
-        exe = "copilot",
-        project = true,
-        interactive = true,
-        command = function()
-            return "copilot"
-        end,
-    },
-    {
         id = "ai-opencode",
         label = "AI: OpenCode",
         exe = "opencode",

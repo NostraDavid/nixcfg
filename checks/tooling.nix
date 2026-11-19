@@ -277,13 +277,11 @@ in {
   workstationAgentsAndJpegli = assert lib.all (home:
     lib.all (name: builtins.any (package: (package.pname or "") == name) home.home.packages) [
       "codex"
-      "github-copilot-cli"
       "jpegli"
     ]) [
     linuxWorkstation
     darwinWorkstation
-  ];
-  assert builtins.length (lib.unique (map (p: p.outPath) (builtins.filter (p: (p.pname or "") == "github-copilot-cli") darwinWorkstation.home.packages))) == 1; true;
+  ]; true;
   nixPlatformConfig = assert lib.all (home: lib.hasInfix "/nix.linux.conf" home.home.file.".config/nix/nix.platform.conf".source.buildCommand) [wodan mimir2 linuxWorkstation];
   assert lib.all (home: lib.hasInfix "/nix.darwin.conf" home.home.file.".config/nix/nix.platform.conf".source.buildCommand) [loki darwinWorkstation]; true;
   locatePackages = assert lib.all (home: let
