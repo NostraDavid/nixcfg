@@ -26,8 +26,8 @@ _: {
             # Nvidia GPU power management - keep GPU powered on when in use
             ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{power/control}="on"
 
-            # NVMe SSD power management - set to mq-deadline scheduler
-            ACTION=="add|change", KERNEL=="nvme*", ATTR{queue/scheduler}="mq-deadline"
+            # Set the I/O scheduler on NVMe disks that offer mq-deadline.
+            ACTION=="add|change", SUBSYSTEM=="block", ENV{DEVTYPE}=="disk", KERNEL=="nvme*", ATTR{queue/scheduler}=="*mq-deadline*", ATTR{queue/scheduler}="mq-deadline"
           '';
         };
 

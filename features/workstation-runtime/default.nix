@@ -14,7 +14,7 @@ _: {
             KERNEL=="hidraw*", SUBSYSTEM=="hidraw", GROUP="hidraw", MODE="0660"
 
             # Whatpulse rules
-            KERNEL=="event*", NAME="input/%k", MODE="640", GROUP="input"
+            SUBSYSTEM=="input", KERNEL=="event*", MODE="0640", GROUP="input"
           '';
           openssh.enable = true;
           udisks2.enable = true;
