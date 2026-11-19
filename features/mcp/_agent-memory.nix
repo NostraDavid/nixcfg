@@ -66,6 +66,8 @@ in {
         TimeoutStartSec = "10min";
         Restart = "on-failure";
         RestartSec = 5;
+        RestartSteps = 5;
+        RestartMaxDelaySec = "5min";
         Environment = [
           "CTX_UPGRADE_AUTO=off"
         ];
