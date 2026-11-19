@@ -41,25 +41,22 @@ for package in asd-ste100-skill awesome-copilot-skills databricks-agent-skills m
     fi
 done
 
-[[ "$(update_mode "${repo_root}" creep2)" == embedded-nix-update ]]
-[[ "$(package_update_script "${repo_root}" creep2)" == *"--version branch"* ]]
+[[ "$(package_update_script "${repo_root}" espeak-ng)" == *"--version branch"* ]]
 [[ "$(update_mode "${repo_root}" codex)" == local-script ]]
 for package in herdr-app herdr-core; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
-for package in dockerfile-roast jsongrep mdschema gigatoken paperclip pico-8-font ponytail-codex uv; do
+for package in dockerfile-roast jsongrep mdschema gigatoken paperclip ponytail-codex uv; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
-for package in pico-8-font ponytail-codex; do
-    list_packages | rg -x "${package}" >/dev/null
-    if reason="$(skip_reason_for "${package}")"; then
-        printf '%s must be updatable: %s\n' "${package}" "${reason}" >&2
-        exit 1
-    fi
-done
+list_packages | rg -x ponytail-codex >/dev/null
+if reason="$(skip_reason_for ponytail-codex)"; then
+    printf 'ponytail-codex must be updatable: %s\n' "${reason}" >&2
+    exit 1
+fi
 
-for package in espeak-ng tamzen-otf; do
+for package in espeak-ng; do
     if reason="$(skip_reason_for "${package}")"; then
         printf '%s must have a locally updatable version: %s\n' "${package}" "${reason}" >&2
         exit 1
