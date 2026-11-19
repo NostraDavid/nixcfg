@@ -2,76 +2,42 @@
 set -euo pipefail
 
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+nix eval --impure --json --file "$root/checks/loki-keyboard.nix" checks >/dev/null
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
-fixture_home="$tmp/home"
-mkdir -p "$fixture_home/.config/karabiner"
-target="$fixture_home/.config/karabiner/karabiner.json"
-
-# Build the real module with Linux tools so its file migration can run here.
-nix build --impure --file "$root/checks/loki-keyboard.nix" \
-    --argstr fixtureHome "$fixture_home" fixture.activationPackage --no-link
-nix eval --impure --json --file "$root/checks/loki-keyboard.nix" \
-    --argstr fixtureHome "$fixture_home" checks
-nix eval --impure --raw --file "$root/checks/loki-keyboard.nix" \
-    --argstr fixtureHome "$fixture_home" activation >"$tmp/activate.sh"
-
-printf '{"global":{"check_for_updates_on_startup":false},"profiles":[{"name":"Personal","selected":true,"devices":[{"custom":true}]}]}\n' >"$target"
-cp "$target" "$tmp/original.json"
-bash "$tmp/activate.sh"
-jq -e '.global.check_for_updates_on_startup == false and (.profiles | length) == 2 and .profiles[0].selected == true and .profiles[1].name == "Personal" and .profiles[1].selected == false and .profiles[1].devices[0].custom == true' "$target" >/dev/null
-backups=("$target".nixcfg-backup.*)
-test "${#backups[@]}" = 1
-cmp "$tmp/original.json" "${backups[0]}"
-
-cp "$target" "$tmp/merged.json"
-bash "$tmp/activate.sh"
-cmp "$target" "$tmp/merged.json"
-backups=("$target".nixcfg-backup.*)
-test "${#backups[@]}" = 1
-
-# Invalid user data must fail without replacing the file or making a backup.
-printf '{"profiles":"broken"}\n' >"$target"
-if bash "$tmp/activate.sh" >"$tmp/error.log" 2>&1; then
-    echo "Expected invalid profiles to be rejected" >&2
-    exit 1
-fi
-grep -q 'Expected a Karabiner configuration object' "$tmp/error.log"
-test "$(cat "$target")" = '{"profiles":"broken"}'
-backups=("$target".nixcfg-backup.*)
-test "${#backups[@]}" = 1
-
-printf '{broken\n' >"$target"
-if bash "$tmp/activate.sh" >"$tmp/error.log" 2>&1; then
-    echo "Expected malformed JSON to be rejected" >&2
-    exit 1
-fi
-test "$(cat "$target")" = '{broken'
-
-for invalid in '{"profiles":false}' '{"profiles":null}' '' '{}{}'; do
-    printf '%s' "$invalid" >"$target"
-    cp "$target" "$tmp/invalid.json"
-    if bash "$tmp/activate.sh" >"$tmp/error.log" 2>&1; then
-        echo "Expected invalid configuration to be rejected: $invalid" >&2
-        exit 1
-    fi
-    cmp "$target" "$tmp/invalid.json"
-done
-
-rm "$target"
-DRY_RUN_CMD=echo bash "$tmp/activate.sh"
-test ! -e "$target"
-bash "$tmp/activate.sh"
-jq -e '(.profiles | length) == 1 and .profiles[0].selected == true' "$target" >/dev/null
-
-# Replace a legacy file symlink without changing its original target.
-rm "$target"
-cp "$tmp/original.json" "$tmp/legacy.json"
-ln -s "$tmp/legacy.json" "$target"
-bash "$tmp/activate.sh"
-test ! -L "$target"
-cmp "$tmp/legacy.json" "$tmp/original.json"
-jq -e '.profiles[0].selected == true' "$target" >/dev/null
+LOKI_KEYBOARD_FIXTURE="$tmp" nix eval --impure --raw --file "$root/checks/loki-keyboard.nix" fixture >"$tmp/remove.sh"
+export TRACE="$tmp/trace"
+mkdir -p "$tmp/brew/bin" "$tmp/brew/Caskroom" "$tmp/support/Karabiner-DriverKit-VirtualHIDDevice/scripts/uninstall"
+cat >"$tmp/sudo" <<'STUB'
+#!/usr/bin/env bash
+set -eu
+[[ "$1 $2 $3" == "-H -u fixture" ]]
+shift 3
+case "$1" in
+/bin/bash) shift; exec bash "$@" ;;
+/usr/bin/env) shift; exec env "$@" ;;
+esac
+exec "$@"
+STUB
+cat >"$tmp/brew/bin/brew" <<'STUB'
+#!/usr/bin/env bash
+set -eu
+[[ "$*" == "uninstall --cask karabiner-elements" && "$HOMEBREW_NO_AUTOREMOVE" == 1 ]]
+echo brew >>"$TRACE"
+rmdir "${0%/bin/brew}/Caskroom/karabiner-elements"
+STUB
+driver="$tmp/support/Karabiner-DriverKit-VirtualHIDDevice/scripts/uninstall/deactivate_driver.sh"
+printf '%s\n' 'echo driver >>"$TRACE"' 'exit "${DRIVER_STATUS:-0}"' >"$driver"
+chmod +x "$tmp/sudo" "$tmp/brew/bin/brew"
+bash "$tmp/remove.sh"
+test ! -e "$TRACE"
+mkdir "$tmp/brew/Caskroom/karabiner-elements" "$tmp/brew/Caskroom/alfred"
+if DRIVER_STATUS=3 bash "$tmp/remove.sh"; then exit 1; fi
+[[ $(cat "$TRACE") == driver ]]
+: >"$TRACE"
+bash "$tmp/remove.sh"
+bash "$tmp/remove.sh"
+[[ $(cat "$TRACE") == $'driver\nbrew' && -d "$tmp/brew/Caskroom/alfred" ]]
 
 node --input-type=module - "$root" <<'JS'
 import assert from "node:assert/strict";
@@ -92,4 +58,4 @@ assert.equal(terminal.find(binding => binding.key === "cmd+v").command, "workben
 assert.equal(terminal.find(binding => binding.key === "cmd+shift+c").command, "workbench.action.terminal.copySelection");
 assert.equal(terminal.find(binding => binding.key === "cmd+shift+v").command, "workbench.action.terminal.paste");
 JS
-echo 'Loki keyboard configuration and profile migration checks passed.'
+echo 'Loki keyboard configuration and terminal shortcut checks passed.'

@@ -196,22 +196,6 @@
         "type": "github"
       }
     },
-    "karabiner-rules": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1794939691,
-        "narHash": "sha256-EyLrSZ14a2veF053rDYyNztUjS+/WfJwkxyhG5A++/M=",
-        "owner": "pqrs-org",
-        "repo": "KE-complex_modifications",
-        "rev": "7163ce9878d9abdbd59231832873c329faea090e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pqrs-org",
-        "repo": "KE-complex_modifications",
-        "type": "github"
-      }
-    },
     "matt-pocock-skills": {
       "flake": false,
       "locked": {
@@ -452,7 +436,6 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "home-manager-unstable": "home-manager-unstable",
-        "karabiner-rules": "karabiner-rules",
         "matt-pocock-skills": "matt-pocock-skills",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",

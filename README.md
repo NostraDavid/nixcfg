@@ -136,8 +136,8 @@ configuration and restart the editor's language servers.
 
 - [OpenCode v2](docs/opencode-v2.md) covers the pinned CLI on all machines,
   configuration compatibility, and migration checks.
-- [Windows-style shortcuts on Loki](docs/loki-windows-shortcuts.md) covers
-  Karabiner-Elements, macOS permissions, and VS Code terminal bindings.
+- [Loki keyboard and terminal shortcuts](docs/loki-windows-shortcuts.md) covers
+  the removal of Karabiner and the VS Code terminal bindings.
 - `docs/` contains script files with nifty commands.
 - [Wodan security reports and advisory VEX](docs/security-vex.md) explains the
   raw scan gates and configuration-aware comparison reports.
