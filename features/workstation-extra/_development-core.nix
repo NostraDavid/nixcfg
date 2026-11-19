@@ -5,11 +5,7 @@
   ...
 }: {
   home.packages = [
-    (
-      if stable.stdenv.hostPlatform.isDarwin
-      then unstable.jpegli
-      else local.jpegli
-    )
+    unstable.jpegli.bin
     local.codex # LLM Agent
     stable.cargo # Rust package manager
     stable.go # Go compiler

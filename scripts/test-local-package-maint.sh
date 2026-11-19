@@ -47,7 +47,7 @@ for package in herdr-app herdr-core; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
-for package in dockerfile-roast jsongrep mdschema gigatoken paperclip ponytail-codex uv; do
+for package in dockerfile-roast mdschema gigatoken paperclip ponytail-codex uv; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 list_packages | rg -x ponytail-codex >/dev/null

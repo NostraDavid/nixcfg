@@ -1,10 +1,10 @@
 {
-  local,
+  unstable,
   stable,
   ...
 }: {
   home.packages = [
-    local.jpegli # JPEG encoder and decoder for image processing and compression
+    unstable.jpegli.bin # JPEG encoder and decoder for image processing and compression
     stable.exiftool # Inspect and edit media metadata
     stable.ffmpeg-full # Audio and video conversion toolkit
     stable.gifsicle # Optimize and manipulate GIF images

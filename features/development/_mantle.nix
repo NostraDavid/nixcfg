@@ -42,7 +42,7 @@
     packages = [
       local.codex # llm agent
       local.gigatoken # Fast tokenization for OpenAI models
-      local.jsongrep # JSONPath-inspired query language over JSON documents
+      unstable.jsongrep # JSONPath-inspired query language over JSON documents
       local.mdschema # A declarative schema-based Markdown validator
       local.photogimp # Photoshop-like defaults for GIMP
       local.ptk # python-token-killer

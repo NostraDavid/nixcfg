@@ -1,11 +1,10 @@
 {
-  local,
   stable,
   unstable,
   ...
 }: {
   home.packages = [
-    local.photorec # image recovery
+    stable.testdisk # Includes photorec and fidentify
     stable.flite # flite -f <file>; TTS Engine
     stable.gperftools # Google Performance Tools (gperftools) for profiling and performance analysis
     stable.nuclear # Music streaming app

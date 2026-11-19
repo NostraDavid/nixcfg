@@ -11,13 +11,37 @@
   entries = readDir pkgsDir;
   localPackageNames =
     filter (name: entries.${name} == "directory") (attrNames entries);
+  upstreamTools = pkgs: let
+    inherit (pkgs.stdenv.hostPlatform) system isLinux;
+    source =
+      if system == "x86_64-darwin"
+      then pkgs
+      else unstableFor system;
+  in
+    {
+      inherit (source) beads databricks-cli jsongrep rtk snip;
+    }
+    // pkgs.lib.optionalAttrs isLinux {inherit (source) jpegli;}
+    // pkgs.lib.optionalAttrs (system == "x86_64-linux") {
+      bend = source.bend2.overrideAttrs (old: {
+        makeWrapperArgs = old.makeWrapperArgs ++ ["--set-default" "BEND_NO_TELEMETRY" "1"];
+      });
+      photorec = pkgs.testdisk // {meta = pkgs.testdisk.meta // {mainProgram = "photorec";};};
+    };
   mkLocal = pkgs:
     listToAttrs (map
       (name: {
         inherit name;
-        value = pkgs.${name};
+        value =
+          if name == "jpegli"
+          then pkgs.jpegli.bin
+          else pkgs.${name};
       })
-      localPackageNames);
+      (localPackageNames ++ attrNames (upstreamTools pkgs)));
+  cachePackageNames = system: outputs: let
+    upstream = builtins.removeAttrs (upstreamTools (pkgsFor system)) ["bend"];
+  in
+    attrNames (builtins.removeAttrs outputs (attrNames upstream));
   overlay-local = final: prev:
     listToAttrs (map
       (name: {
@@ -43,7 +67,8 @@
         in
           prev.callPackage pkgPath (moldArgs // fileArgs);
       })
-      localPackageNames);
+      localPackageNames)
+    // upstreamTools prev;
   overlay-fixes = _final: prev: {
     pythonPackagesExtensions =
       prev.pythonPackagesExtensions
@@ -162,5 +187,5 @@
       config = nixpkgsConfig;
     };
 in {
-  inherit mkLocal overlays overlay-local overlay-ca-security pkgsFor unstableFor nixpkgsConfig;
+  inherit mkLocal cachePackageNames overlays overlay-local overlay-ca-security pkgsFor unstableFor nixpkgsConfig;
 }

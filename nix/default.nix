@@ -50,6 +50,7 @@ in {
     };
     lib = {
       inherit mkMimir2 mkLoki;
+      cachePackageNames = builtins.mapAttrs packageSets.cachePackageNames self.packages;
       inherit (packageSets) unstableFor;
       inherit (fleet) den;
     };

@@ -519,7 +519,7 @@ main() {
         ;;
     cache-targets)
         # Wodan builds its own eSpeak variant without the full MBROLA voice bundle.
-        nix eval --json "$flake_packages" --apply builtins.attrNames | jq -r '.[]' | filter_bulk_packages |
+        nix eval --json ".#lib.cachePackageNames.${system}" | jq -r '.[]' | filter_bulk_packages |
             awk -v host="${NIXCFG_BULK_HOST:-}" '{
                 if (host == "wodan" && $0 == "espeak-ng") print ".#nixosConfigurations.wodan.pkgs.espeak-ng"
                 else print ".#" $0

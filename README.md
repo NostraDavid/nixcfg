@@ -40,9 +40,10 @@ Cachix, and run `just gc-old`. It stops at the first failed stage and prints the
 log directory. The checkout keeps the console output and individual package logs
 for its most recent upgrade. The next upgrade replaces those logs.
 
-On Wodan, bulk package updates and Cachix pushes skip the excluded desktop apps
-and lab images. Use `just pkg-update <package>` or `just cachix-push <package>`
-to request one explicitly.
+Bulk Cachix pushes skip aliases for unchanged nixpkgs outputs. On Wodan, bulk
+package updates and Cachix pushes skip the excluded desktop apps and lab images.
+Use `just pkg-update <package>` or `just cachix-push <package>` to request one
+explicitly.
 
 Run `just fix` after a failed upgrade or to check a successful one for warnings.
 It runs Codex non-interactively, streams progress, and prints the result. A
