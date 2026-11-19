@@ -1,10 +1,5 @@
-{
-  local,
-  stable,
-  ...
-}: {
+{stable, ...}: {
   home.packages = [
-    local.linear-linux # Unofficial Linear desktop client
     stable.fsearch # Everything-like file search tool
     stable.geeqie # Image viewer
     stable.gparted # Partition editor

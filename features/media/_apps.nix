@@ -4,7 +4,6 @@
   stable,
   ...
 }: let
-  dpaintJsPort = 18087;
   photogimpConfig = "${local.photogimp}/share/photogimp/GIMP/3.0";
 in {
   home.packages = [
@@ -26,21 +25,4 @@ in {
       $DRY_RUN_CMD mkdir -p "$target"
       $DRY_RUN_CMD ${lib.getExe stable.rsync} -a --chmod=u+rwX ${photogimpConfig}/ "$target/"
     '';
-
-  systemd.user.services.dpaint-js = {
-    Unit = {
-      Description = "DPaint.js local web server";
-      After = [
-        "graphical-session.target"
-      ];
-    };
-    Service = {
-      ExecStart = "${lib.getExe stable.python3} -m http.server ${toString dpaintJsPort} --bind 127.0.0.1 --directory ${local.dpaint-js}/share/dpaint-js";
-      Restart = "on-failure";
-      RestartSec = 2;
-    };
-    Install.WantedBy = [
-      "default.target"
-    ];
-  };
 }

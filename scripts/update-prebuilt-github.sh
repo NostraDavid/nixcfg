@@ -11,34 +11,17 @@ systems=(x86_64-linux aarch64-linux x86_64-darwin aarch64-darwin)
 tag_prefix=v
 
 case "$package" in
-agent-orchestrator)
-    repo=OrchestratorInc/agent-orchestrator
-    systems=(x86_64-linux x86_64-darwin aarch64-darwin)
-    ;;
-fixit) repo=eugene-babichenko/fixit ;;
 beads) repo=gastownhall/beads ;;
 bitbucket-cli) repo=avivsinai/bitbucket-cli ;;
 dockerfile-roast) repo=immanuwell/dockerfile-roast ;;
-emdash) repo=generalaction/emdash ;;
 jsongrep) repo=micahkepe/jsongrep ;;
-kandev) repo=kdlbs/kandev ;;
 mdschema) repo=jackchuka/mdschema ;;
-outlook-cli) repo=rvben/outlook-cli ;;
 pandacode)
     repo=aicodeking/pandacode
     systems=(x86_64-linux aarch64-linux aarch64-darwin)
     ;;
-paseo-desktop)
-    repo=getpaseo/paseo
-    systems=(x86_64-linux x86_64-darwin aarch64-darwin)
-    ;;
 rtk) repo=rtk-ai/rtk ;;
 snip) repo=edouard-claude/snip ;;
-superset)
-    repo=superset-sh/superset
-    systems=(x86_64-linux x86_64-darwin aarch64-darwin)
-    tag_prefix=desktop-v
-    ;;
 uv)
     repo=astral-sh/uv
     tag_prefix=''
@@ -96,36 +79,11 @@ for system in "${systems[@]}"; do
         ;;
     esac
     case "$package" in
-    agent-orchestrator)
-        case "$system" in
-        x86_64-linux) asset=agent-orchestrator-linux-x64.AppImage ;;
-        x86_64-darwin) asset=agent-orchestrator-darwin-x64.zip ;;
-        aarch64-darwin) asset=agent-orchestrator-darwin-arm64.zip ;;
-        esac
-        ;;
-    fixit) asset="fixit-v${version}-${rust}.tar.gz" ;;
     beads) asset="beads_${version}_${go}.tar.gz" ;;
     bitbucket-cli) asset="bkt_${version}_${bkt}.tar.gz" ;;
     dockerfile-roast) asset="droast-${roast}" ;;
-    emdash)
-        case "$system" in
-        x86_64-linux) asset=emdash-x86_64.AppImage ;;
-        aarch64-linux) asset=emdash-arm64.AppImage ;;
-        x86_64-darwin) asset=emdash-x64.zip ;;
-        aarch64-darwin) asset=emdash-arm64.zip ;;
-        esac
-        ;;
     jsongrep) asset="jsongrep-${version}-${rust}.tar.gz" ;;
-    kandev)
-        case "$system" in
-        x86_64-linux) asset="kandev-desktop-linux-x64-Kandev_${version}_amd64.AppImage" ;;
-        aarch64-linux) asset="kandev-desktop-linux-arm64-Kandev_${version}_aarch64.AppImage" ;;
-        x86_64-darwin) asset=kandev-desktop-macos-x64-Kandev.app.tar.gz ;;
-        aarch64-darwin) asset=kandev-desktop-macos-arm64-Kandev.app.tar.gz ;;
-        esac
-        ;;
     mdschema) asset="mdschema_${version}_${go}.tar.gz" ;;
-    outlook-cli) asset="outlook-v${version}-${rust}.tar.gz" ;;
     pandacode)
         case "$system" in
         x86_64-linux) asset=PandaCode-Linux-x86_64.AppImage ;;
@@ -133,23 +91,9 @@ for system in "${systems[@]}"; do
         aarch64-darwin) asset=PandaCode-macOS-arm64.app.tar.gz ;;
         esac
         ;;
-    paseo-desktop)
-        case "$system" in
-        x86_64-linux) asset=Paseo-x86_64.AppImage ;;
-        x86_64-darwin) asset="Paseo-${version}-x64.zip" ;;
-        aarch64-darwin) asset="Paseo-${version}-arm64.zip" ;;
-        esac
-        ;;
     rtk) asset="rtk-${rtk_target}.tar.gz" ;;
     snip) asset="snip_${version}_${go}.tar.gz" ;;
     uv) asset="uv-${rust}.tar.gz" ;;
-    superset)
-        case "$system" in
-        x86_64-linux) asset="superset-${version}-x86_64.AppImage" ;;
-        x86_64-darwin) asset="Superset-${version}-mac.zip" ;;
-        aarch64-darwin) asset="Superset-${version}-arm64-mac.zip" ;;
-        esac
-        ;;
     esac
     digest="$(jq -er --arg name "$asset" '.assets[] | select(.name == $name) | .digest | select(startswith("sha256:")) | sub("^sha256:"; "")' <<<"$release")"
     hash="$(nix hash convert --hash-algo sha256 --to sri "$digest")"

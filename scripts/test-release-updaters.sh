@@ -8,32 +8,20 @@ export TEST_REPO="${test_root}/repo"
 mkdir -p "${TEST_REPO}/pkgs/opencode-v2" "${TEST_REPO}/scripts"
 cp "${repo_root}/scripts/update-opencode-v2.sh" "${TEST_REPO}/scripts/"
 cp "${repo_root}/pkgs/opencode-v2/default.nix" "${TEST_REPO}/pkgs/opencode-v2/"
-mkdir -p "${TEST_REPO}/scripts" "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
+mkdir -p "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/jpegli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
 mkdir -p "${TEST_REPO}/pkgs/"{pico-8-font,ponytail-skills,ponytail-codex}
 cp "${repo_root}/scripts/update-databricks-agent-skills.sh" "${TEST_REPO}/scripts/"
 mkdir -p "${TEST_REPO}/pkgs/codex"
 cp "${repo_root}/scripts/update-prebuilt-github.sh" "${TEST_REPO}/scripts/"
-mkdir -p "${TEST_REPO}/pkgs/emdash"
-cp "${repo_root}/pkgs/emdash/default.nix" "${TEST_REPO}/pkgs/emdash/"
-ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-emdash.sh"
-mkdir -p "${TEST_REPO}/pkgs/paseo-desktop"
-cp "${repo_root}/pkgs/paseo-desktop/default.nix" "${TEST_REPO}/pkgs/paseo-desktop/"
-ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-paseo-desktop.sh"
 mkdir -p "${TEST_REPO}/pkgs/pandacode"
 cp "${repo_root}/pkgs/pandacode/default.nix" "${TEST_REPO}/pkgs/pandacode/"
-ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-pandacode.sh"
-mkdir -p "${TEST_REPO}/pkgs/agent-orchestrator"
-cp "${repo_root}/pkgs/agent-orchestrator/default.nix" "${TEST_REPO}/pkgs/agent-orchestrator/"
-ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-agent-orchestrator.sh"
 mkdir -p "${TEST_REPO}/pkgs/uv"
 cp "${repo_root}/pkgs/uv/default.nix" "${TEST_REPO}/pkgs/uv/"
 ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-uv.sh"
-mkdir -p "${TEST_REPO}/pkgs/kandev"
-cp "${repo_root}/pkgs/kandev/default.nix" "${TEST_REPO}/pkgs/kandev/"
-ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-kandev.sh"
-mkdir -p "${TEST_REPO}/pkgs/superset"
-cp "${repo_root}/pkgs/superset/default.nix" "${TEST_REPO}/pkgs/superset/"
-ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-superset.sh"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-pandacode.sh"
+mkdir -p "${TEST_REPO}/pkgs/bitbucket-cli"
+cp "${repo_root}/pkgs/bitbucket-cli/default.nix" "${TEST_REPO}/pkgs/bitbucket-cli/"
+ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-bitbucket-cli.sh"
 cp "${repo_root}/scripts/update-codex.sh" "${TEST_REPO}/scripts/"
 cp "${repo_root}/pkgs/codex/default.nix" "${TEST_REPO}/pkgs/codex/"
 cp "${repo_root}"/scripts/update-{acli,jpegli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
@@ -93,33 +81,13 @@ EOF
 cat >"${test_root}/bin/gh" <<'EOF'
 #!/usr/bin/env bash
 [[ "$1" == api ]]
-if [[ "$2" == repos/superset-sh/superset/releases/latest ]]; then
-    printf '{"tag_name":"%s","assets":[' "${TEST_SUPERSET_RELEASE:-desktop-v2.0.0}"
-    printf '{"name":"superset-2.0.0-x86_64.AppImage","digest":"sha256:%064d"},' 0
-    printf '{"name":"Superset-2.0.0-mac.zip","digest":"sha256:%064d"}' 1
-    if [[ "${TEST_SUPERSET_MISSING_ASSET:-0}" == 0 ]]; then
-        printf ',{"name":"Superset-2.0.0-arm64-mac.zip","digest":"sha256:%064d"}' 2
-    fi
-    printf ']}\n'
-    exit
-fi
-if [[ "$2" == repos/kdlbs/kandev/releases/latest ]]; then
-    printf '{"tag_name":"v2.0.0","assets":['
-    printf '{"name":"kandev-desktop-linux-x64-Kandev_2.0.0_amd64.AppImage","digest":"sha256:%064d"},' 0
-    printf '{"name":"kandev-desktop-linux-arm64-Kandev_2.0.0_aarch64.AppImage","digest":"sha256:%064d"},' 1
-    printf '{"name":"kandev-desktop-macos-x64-Kandev.app.tar.gz","digest":"sha256:%064d"}' 2
-    if [[ "${TEST_KANDEV_MISSING_ASSET:-0}" == 0 ]]; then
-        printf ',{"name":"kandev-desktop-macos-arm64-Kandev.app.tar.gz","digest":"sha256:%064d"}' 3
-    fi
-    printf ']}\n'
-    exit
-fi
-if [[ "$2" == repos/OrchestratorInc/agent-orchestrator/releases/latest ]]; then
-    printf '{"tag_name":"v2.0.0","assets":['
-    printf '{"name":"agent-orchestrator-linux-x64.AppImage","digest":"sha256:%064d"},' 0
-    printf '{"name":"agent-orchestrator-darwin-x64.zip","digest":"sha256:%064d"}' 1
-    if [[ "${TEST_AO_MISSING_ASSET:-0}" == 0 ]]; then
-        printf ',{"name":"agent-orchestrator-darwin-arm64.zip","digest":"sha256:%064d"}' 2
+if [[ "$2" == repos/avivsinai/bitbucket-cli/releases/latest ]]; then
+    printf '{"tag_name":"v0.14.0","assets":['
+    printf '{"name":"bkt_0.14.0_linux_x86_64.tar.gz","digest":"sha256:%064d"},' 0
+    printf '{"name":"bkt_0.14.0_linux_arm64.tar.gz","digest":"sha256:%064d"},' 1
+    printf '{"name":"bkt_0.14.0_darwin_x86_64.tar.gz","digest":"sha256:%064d"}' 2
+    if [[ "${TEST_BKT_MISSING_ASSET:-0}" == 0 ]]; then
+        printf ',{"name":"bkt_0.14.0_darwin_arm64.tar.gz","digest":"sha256:%064d"}' 3
     fi
     printf ']}\n'
     exit
@@ -136,32 +104,11 @@ if [[ "$2" == repos/astral-sh/uv/releases/latest ]]; then
     exit
 fi
 if [[ "$2" == repos/aicodeking/pandacode/releases/latest ]]; then
-    printf '{"tag_name":"v2.0.0","assets":['
+    printf '{"tag_name":"%s","assets":[' "${TEST_PANDACODE_RELEASE:-v2.0.0}"
     printf '{"name":"PandaCode-Linux-x86_64.AppImage","digest":"sha256:%064d"},' 0
     printf '{"name":"PandaCode-Linux-aarch64.AppImage","digest":"sha256:%064d"}' 1
     if [[ "${TEST_PANDACODE_MISSING_ASSET:-0}" == 0 ]]; then
         printf ',{"name":"PandaCode-macOS-arm64.app.tar.gz","digest":"sha256:%064d"}' 2
-    fi
-    printf ']}\n'
-    exit
-fi
-if [[ "$2" == repos/getpaseo/paseo/releases/latest ]]; then
-    printf '{"tag_name":"v2.0.0","assets":['
-    printf '{"name":"Paseo-x86_64.AppImage","digest":"sha256:%064d"},' 0
-    printf '{"name":"Paseo-2.0.0-x64.zip","digest":"sha256:%064d"}' 1
-    if [[ "${TEST_PASEO_MISSING_ASSET:-0}" == 0 ]]; then
-        printf ',{"name":"Paseo-2.0.0-arm64.zip","digest":"sha256:%064d"}' 2
-    fi
-    printf ']}\n'
-    exit
-fi
-if [[ "$2" == repos/generalaction/emdash/releases/latest ]]; then
-    printf '{"tag_name":"v2.0.0","assets":['
-    printf '{"name":"emdash-x86_64.AppImage","digest":"sha256:%064d"},' 0
-    printf '{"name":"emdash-arm64.AppImage","digest":"sha256:%064d"},' 1
-    printf '{"name":"emdash-x64.zip","digest":"sha256:%064d"}' 2
-    if [[ "${TEST_EMDASH_MISSING_ASSET:-0}" == 0 ]]; then
-        printf ',{"name":"emdash-arm64.zip","digest":"sha256:%064d"}' 3
     fi
     printf ']}\n'
     exit
@@ -201,10 +148,8 @@ EOF
 chmod +x "${test_root}/bin/"*
 export PATH="${test_root}/bin:${PATH}"
 
-for package in superset; do
-    [[ "$("${TEST_REPO}/scripts/update-${package}.sh" --latest-version)" == 2.0.0 ]]
-    cmp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
-done
+[[ "$("$TEST_REPO/scripts/update-pandacode.sh" --latest-version)" == 2.0.0 ]]
+cmp "$repo_root/pkgs/pandacode/default.nix" "$TEST_REPO/pkgs/pandacode/default.nix"
 test ! -e "${TEST_REPO}/builds.log"
 
 "${TEST_REPO}/scripts/update-opencode-v2.sh" --dry-run >/dev/null
@@ -252,49 +197,33 @@ unset TEST_OPENCODE_RELEASE TEST_OPENCODE_MISSING_TARGET TEST_OPENCODE_BAD_HASH 
 TEST_OPENCODE_RELEASE=3.0.0 "${TEST_REPO}/scripts/update-opencode-v2.sh" 2.1.0 >/dev/null
 rg -q 'version = "2.1.0";' "${TEST_REPO}/pkgs/opencode-v2/default.nix"
 
-"${TEST_REPO}/scripts/update-emdash.sh" >/dev/null
-rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/emdash/default.nix"
-[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/emdash/default.nix")" -eq 4 ]]
-rg -q '^build .#emdash --no-link$' "${TEST_REPO}/builds.log"
-cp "${repo_root}/pkgs/emdash/default.nix" "${TEST_REPO}/pkgs/emdash/"
-if TEST_EMDASH_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-emdash.sh" >/dev/null 2>&1; then
-    echo 'Expected Emdash missing asset failure' >&2
-    exit 1
-fi
-cmp "${repo_root}/pkgs/emdash/default.nix" "${TEST_REPO}/pkgs/emdash/default.nix"
-
 "${TEST_REPO}/scripts/update-pandacode.sh" >/dev/null
 rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/pandacode/default.nix"
 [[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/pandacode/default.nix")" -eq 3 ]]
 rg -q '^build .#pandacode --no-link$' "${TEST_REPO}/builds.log"
+NIXCFG_SKIP_UNCHANGED=1 TEST_BUILD_FAILURE=1 "$TEST_REPO/scripts/update-pandacode.sh" >/dev/null
+sed -i 's/sha256-TESTHASH/sha256-OLDHASH/' "$TEST_REPO/pkgs/pandacode/default.nix"
+cp "$TEST_REPO/pkgs/pandacode/default.nix" "$test_root/pandacode.before"
+if NIXCFG_SKIP_UNCHANGED=1 TEST_BUILD_FAILURE=1 "$TEST_REPO/scripts/update-pandacode.sh" >/dev/null 2>&1; then exit 1; fi
+cmp "$test_root/pandacode.before" "$TEST_REPO/pkgs/pandacode/default.nix"
 cp "${repo_root}/pkgs/pandacode/default.nix" "${TEST_REPO}/pkgs/pandacode/"
+if TEST_PANDACODE_RELEASE=v2.0.0-alpha "$TEST_REPO/scripts/update-pandacode.sh" >/dev/null 2>&1; then exit 1; fi
 if TEST_PANDACODE_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-pandacode.sh" >/dev/null 2>&1; then
     echo 'Expected PandaCode missing asset failure' >&2
     exit 1
 fi
 cmp "${repo_root}/pkgs/pandacode/default.nix" "${TEST_REPO}/pkgs/pandacode/default.nix"
 
-"${TEST_REPO}/scripts/update-paseo-desktop.sh" >/dev/null
-rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/paseo-desktop/default.nix"
-[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/paseo-desktop/default.nix")" -eq 3 ]]
-rg -q '^build .#paseo-desktop --no-link$' "${TEST_REPO}/builds.log"
-cp "${repo_root}/pkgs/paseo-desktop/default.nix" "${TEST_REPO}/pkgs/paseo-desktop/"
-if TEST_PASEO_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-paseo-desktop.sh" >/dev/null 2>&1; then
-    echo 'Expected Paseo missing asset failure' >&2
+"${TEST_REPO}/scripts/update-bitbucket-cli.sh" >/dev/null
+rg -q 'version = "0.14.0";' "${TEST_REPO}/pkgs/bitbucket-cli/default.nix"
+[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/bitbucket-cli/default.nix")" -eq 4 ]]
+rg -q '^build .#bitbucket-cli --no-link$' "${TEST_REPO}/builds.log"
+cp "${repo_root}/pkgs/bitbucket-cli/default.nix" "${TEST_REPO}/pkgs/bitbucket-cli/"
+if TEST_BKT_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-bitbucket-cli.sh" >/dev/null 2>&1; then
+    echo 'Expected bitbucket-cli missing asset failure' >&2
     exit 1
 fi
-cmp "${repo_root}/pkgs/paseo-desktop/default.nix" "${TEST_REPO}/pkgs/paseo-desktop/default.nix"
-
-"${TEST_REPO}/scripts/update-agent-orchestrator.sh" >/dev/null
-rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/agent-orchestrator/default.nix"
-[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/agent-orchestrator/default.nix")" -eq 3 ]]
-rg -q '^build .#agent-orchestrator --no-link$' "${TEST_REPO}/builds.log"
-cp "${repo_root}/pkgs/agent-orchestrator/default.nix" "${TEST_REPO}/pkgs/agent-orchestrator/"
-if TEST_AO_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-agent-orchestrator.sh" >/dev/null 2>&1; then
-    echo 'Expected Agent Orchestrator missing asset failure' >&2
-    exit 1
-fi
-cmp "${repo_root}/pkgs/agent-orchestrator/default.nix" "${TEST_REPO}/pkgs/agent-orchestrator/default.nix"
+cmp "${repo_root}/pkgs/bitbucket-cli/default.nix" "${TEST_REPO}/pkgs/bitbucket-cli/default.nix"
 
 "${TEST_REPO}/scripts/update-uv.sh" >/dev/null
 rg -q 'version = "0.14.0";' "${TEST_REPO}/pkgs/uv/default.nix"
@@ -306,33 +235,6 @@ if TEST_UV_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-uv.sh" >/dev/null 2>&1; 
     exit 1
 fi
 cmp "${repo_root}/pkgs/uv/default.nix" "${TEST_REPO}/pkgs/uv/default.nix"
-
-"${TEST_REPO}/scripts/update-kandev.sh" >/dev/null
-rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/kandev/default.nix"
-[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/kandev/default.nix")" -eq 4 ]]
-rg -q '^build .#kandev --no-link$' "${TEST_REPO}/builds.log"
-cp "${repo_root}/pkgs/kandev/default.nix" "${TEST_REPO}/pkgs/kandev/"
-if TEST_KANDEV_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-kandev.sh" >/dev/null 2>&1; then
-    echo 'Expected Kandev missing asset failure' >&2
-    exit 1
-fi
-cmp "${repo_root}/pkgs/kandev/default.nix" "${TEST_REPO}/pkgs/kandev/default.nix"
-
-"${TEST_REPO}/scripts/update-superset.sh" >/dev/null
-rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/superset/default.nix"
-[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/superset/default.nix")" -eq 3 ]]
-rg -q '^build .#superset --no-link$' "${TEST_REPO}/builds.log"
-for failure in asset tag; do
-    cp "${repo_root}/pkgs/superset/default.nix" "${TEST_REPO}/pkgs/superset/"
-    export TEST_SUPERSET_RELEASE=desktop-v2.0.0 TEST_SUPERSET_MISSING_ASSET=0
-    if [[ "$failure" == tag ]]; then TEST_SUPERSET_RELEASE=v2.0.0; else TEST_SUPERSET_MISSING_ASSET=1; fi
-    if "${TEST_REPO}/scripts/update-superset.sh" >/dev/null 2>&1; then
-        echo "Expected Superset ${failure} failure" >&2
-        exit 1
-    fi
-    cmp "${repo_root}/pkgs/superset/default.nix" "${TEST_REPO}/pkgs/superset/default.nix"
-done
-unset TEST_SUPERSET_RELEASE TEST_SUPERSET_MISSING_ASSET
 
 "${TEST_REPO}/scripts/update-acli.sh" >/dev/null
 rg -q 'version = "2.0.0-stable";' "${TEST_REPO}/pkgs/acli/default.nix"

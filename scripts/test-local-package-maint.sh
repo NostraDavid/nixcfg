@@ -12,7 +12,7 @@ cd "${repo_root}"
 # shellcheck source=scripts/local-package-maint.sh
 source <(sed '$d' scripts/local-package-maint.sh)
 
-selection=$'codex\nforgejo-lab-image\nopencode-v2\nopencode-v2-desktop\nunsloth'
+selection=$'codex\nforgejo-lab-image\nopencode-v2\npaperclip\nheadlamp-identity'
 [[ $(NIXCFG_BULK_HOST=wodan filter_bulk_packages <<<"$selection") == $'codex\nopencode-v2' ]]
 [[ $(NIXCFG_BULK_HOST=mimir2 filter_bulk_packages <<<"$selection") == "$selection" ]]
 
@@ -48,7 +48,7 @@ for package in herdr-app herdr-core; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
-for package in fixit dockerfile-roast jsongrep mdschema gigatoken paperclip pico-8-font ponytail-codex uv; do
+for package in dockerfile-roast jsongrep mdschema gigatoken paperclip pico-8-font ponytail-codex uv; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 for package in pico-8-font ponytail-codex; do

@@ -63,7 +63,6 @@ in {
       imports = [({pkgs, ...}: {home.packages = [pkgs.jdk17];})];
       home.packages = [
         local.elastic-cli
-        local.mlx-harness
         local.pandacode
         local.t3code # T3 Code desktop app for coding agents
         local.topdesk-cli # Manage TOPdesk tickets from the terminal
