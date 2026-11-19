@@ -88,6 +88,11 @@ in {
     path = wodan.home.file.".local/bin/${name}".source;
   }) ["codex-mcp-node-repl" "mcp-node-repl" "opencode-mcp-chrome-devtools" "opencode-mcp-nixos" "opencode-mcp-playwright"]);
   checks = {
+    remoteServers = assert lib.all (profile:
+      profile.nixcfg.mcp.servers.exa.url
+      == "https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa"
+      && profile.nixcfg.mcp.servers.openaiDeveloperDocs.url == "https://developers.openai.com/mcp")
+    allProfiles; true;
     workPackageSet = let
       loki = flake.darwinConfigurations.loki;
       module = import ../features/mcp/_home.nix {

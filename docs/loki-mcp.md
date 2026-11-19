@@ -9,7 +9,8 @@ Codex and OpenCode on Wodan, Donar, Frigg, Bragi, Mimir2 and Loki:
 - Playwright
 - NixOS
 
-VS Code and the shared MCP JSON use the same stable commands.
+The shared server definitions include Exa and OpenAI Developer Docs. VS Code and
+the shared MCP JSON use the same local launchers.
 
 ## Dependencies
 

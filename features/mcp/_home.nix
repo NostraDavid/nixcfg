@@ -48,6 +48,14 @@
   servers =
     browserServers
     // {
+      exa = {
+        url = "https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa";
+        description = "Search the public web and read web pages; anonymous access with rate limits";
+      };
+      openaiDeveloperDocs = {
+        url = "https://developers.openai.com/mcp";
+        description = "Official OpenAI and Codex documentation";
+      };
       dbhub = {
         command = "${bin}/dbhub";
         args = [
