@@ -7,7 +7,7 @@
     "codex": {
       "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
       "mode": "primary",
-      "model": "openai/gpt-6.1-terra#medium",
+      "model": "openai/gpt-6.2-sol#high",
       "permissions": [
         {
           "action": "subagent",
@@ -25,7 +25,7 @@
     "opencode-worker": {
       "description": "Fast execution subagent for bounded implementation, investigation, and verification directed by Codex.",
       "mode": "subagent",
-      "model": "openai/gpt-6.1-terra#medium",
+      "model": "openai/gpt-6.2-sol#medium",
       "permissions": [
         {
           "action": "subagent",
@@ -93,7 +93,7 @@
       }
     }
   },
-  "model": "openai/gpt-6.1-terra",
+  "model": "openai/gpt-6.2-sol",
   "permissions": [
     {
       "action": "*",

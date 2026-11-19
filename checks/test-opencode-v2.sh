@@ -58,12 +58,12 @@ assert.deepEqual(config.agents.codex.permissions, [
 const provider = "tensorx";
 assert.deepEqual(Object.keys(config.providers), [provider]);
 assert.equal(config.model.providerID, "openai");
-assert.equal(config.model.model, "gpt-6.1-terra");
+assert.equal(config.model.model, "gpt-6.2-sol");
 assert.ok(!("variant" in config.model), "The v2 root model does not retain a variant");
 assert.deepEqual(config.agents.codex.model, {
     providerID: "openai",
-    model: "gpt-6.1-terra",
-    variant: "medium",
+    model: "gpt-6.2-sol",
+    variant: "high",
 });
 assert.equal(config.agents["opencode-worker"].model.providerID, "openai");
 assert.deepEqual(config.policies.filter(rule => rule.action === "provider.use"), [
@@ -72,7 +72,7 @@ assert.deepEqual(config.policies.filter(rule => rule.action === "provider.use"),
     { action: "provider.use", resource: "openai", effect: "allow" },
 ]);
 assert.equal(config.providers.tensorx.package, "aisdk:@ai-sdk/openai-compatible");
-assert.equal(config.agents["opencode-worker"].model.model, "gpt-6.1-terra");
+assert.equal(config.agents["opencode-worker"].model.model, "gpt-6.2-sol");
 assert.equal(config.agents["opencode-worker"].model.variant, "medium");
 assert.deepEqual(Object.keys(config.providers.tensorx.models).sort(), [
     "deepseek/deepseek-v4.1-flash-1017", "qwen/qwen3.8-flash-next", "z-ai/glm-5.3-flash",
