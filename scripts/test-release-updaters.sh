@@ -8,7 +8,7 @@ export TEST_REPO="${test_root}/repo"
 mkdir -p "${TEST_REPO}/pkgs/opencode-v2" "${TEST_REPO}/scripts"
 cp "${repo_root}/scripts/update-opencode-v2.sh" "${TEST_REPO}/scripts/"
 cp "${repo_root}/pkgs/opencode-v2/default.nix" "${TEST_REPO}/pkgs/opencode-v2/"
-mkdir -p "${TEST_REPO}/pkgs/acli" "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
+mkdir -p "${TEST_REPO}/pkgs/semble" "${test_root}/bin"
 mkdir -p "${TEST_REPO}/pkgs/"{ponytail-skills,ponytail-codex}
 cp "${repo_root}/scripts/update-databricks-agent-skills.sh" "${TEST_REPO}/scripts/"
 mkdir -p "${TEST_REPO}/pkgs/codex"
@@ -24,23 +24,18 @@ cp "${repo_root}/pkgs/bitbucket-cli/default.nix" "${TEST_REPO}/pkgs/bitbucket-cl
 ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-bitbucket-cli.sh"
 cp "${repo_root}/scripts/update-codex.sh" "${TEST_REPO}/scripts/"
 cp "${repo_root}/pkgs/codex/default.nix" "${TEST_REPO}/pkgs/codex/"
-cp "${repo_root}"/scripts/update-{acli,semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
+cp "${repo_root}"/scripts/update-{semble,github-unstable,flake-package}.sh "${TEST_REPO}/scripts/"
 cp "${repo_root}"/scripts/update-{ponytail-skills,ponytail-codex}.sh "${TEST_REPO}/scripts/"
 for package in ponytail-skills ponytail-codex; do
     cp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/"
 done
 cp "${repo_root}/flake.nix" "${TEST_REPO}/flake.nix"
-cp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/"
 cp "${repo_root}/pkgs/semble/default.nix" "${TEST_REPO}/pkgs/semble/"
 for package in ctx vscode; do
     mkdir -p "$TEST_REPO/pkgs/$package"
     cp "$repo_root/pkgs/$package/default.nix" "$TEST_REPO/pkgs/$package/"
     cp "$repo_root/scripts/update-$package.sh" "$TEST_REPO/scripts/"
 done
-export TEST_ACLI_ARCHIVE="${test_root}/acli.tar.gz"
-mkdir -p "${test_root}/acli_2.0.0-stable_linux_amd64"
-touch "${test_root}/acli_2.0.0-stable_linux_amd64/acli"
-tar -C "${test_root}" -czf "${TEST_ACLI_ARCHIVE}" acli_2.0.0-stable_linux_amd64
 export TEST_MAIN_REV
 
 cat >"${test_root}/bin/git" <<'EOF'
@@ -55,9 +50,7 @@ fi
 EOF
 cat >"${test_root}/bin/curl" <<'EOF'
 #!/usr/bin/env bash
-if [[ "$*" == *acli.atlassian.com* ]]; then
-    cp "${TEST_ACLI_ARCHIVE}" "${@: -1}"
-elif [[ "$*" == *opencode.ai/update/api/latest/cli/npm* ]]; then
+if [[ "$*" == *opencode.ai/update/api/latest/cli/npm* ]]; then
     printf '{"version":"%s","metadata":{"package":"@opencode/cli"}}\n' "${TEST_OPENCODE_RELEASE:-2.1.0}"
 elif [[ "$*" == *registry.npmjs.org/@opencode%2fcli-* ]]; then
     target="${@: -1}"
@@ -228,11 +221,6 @@ if TEST_UV_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-uv.sh" >/dev/null 2>&1; 
 fi
 cmp "${repo_root}/pkgs/uv/default.nix" "${TEST_REPO}/pkgs/uv/default.nix"
 
-"${TEST_REPO}/scripts/update-acli.sh" >/dev/null
-rg -q 'version = "2.0.0-stable";' "${TEST_REPO}/pkgs/acli/default.nix"
-test "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/acli/default.nix")" -eq 4
-rg -q '^build path:.#acli --no-link --no-write-lock-file$' "${TEST_REPO}/builds.log"
-
 NIXCFG_SKIP_UNCHANGED=1 "${TEST_REPO}/scripts/update-semble.sh" >/dev/null
 rg -qxF 'build .#semble --no-link' "${TEST_REPO}/builds.log"
 NIXCFG_SKIP_UNCHANGED=1 TEST_BUILD_FAILURE=1 "${TEST_REPO}/scripts/update-semble.sh" >/dev/null
@@ -262,12 +250,6 @@ done
 export TEST_CODEX_RELEASE=rust-v0.200.0 TEST_CODEX_MISSING_ASSET=0
 
 export TEST_BUILD_FAILURE=1
-cp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/default.nix"
-if "${TEST_REPO}/scripts/update-acli.sh" >/dev/null 2>&1; then
-    echo 'Expected acli build failure' >&2
-    exit 1
-fi
-cmp "${repo_root}/pkgs/acli/default.nix" "${TEST_REPO}/pkgs/acli/default.nix"
 for package in semble codex; do
     cp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
     if "${TEST_REPO}/scripts/update-${package}.sh" >/dev/null 2>&1; then

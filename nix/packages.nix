@@ -20,6 +20,11 @@
   in
     {
       inherit (source) beads databricks-cli jsongrep rtk snip;
+      acli = import ./acli.nix {
+        inherit pkgs;
+        candidate = source.acli;
+        formula = inputs.acli-formula;
+      };
     }
     // pkgs.lib.optionalAttrs isLinux {inherit (source) jpegli;}
     // pkgs.lib.optionalAttrs (system == "x86_64-linux") {

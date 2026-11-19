@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "acli-formula": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794992136,
+        "narHash": "sha256-h2qAWk4vxjcKmT9q8+VEUI5lRxBPHQ3pcd5m+Q7u9QQ=",
+        "owner": "atlassian",
+        "repo": "homebrew-acli",
+        "rev": "ec862809a00a4eaa8909ef08de7497afb7968933",
+        "type": "github"
+      },
+      "original": {
+        "owner": "atlassian",
+        "repo": "homebrew-acli",
+        "type": "github"
+      }
+    },
     "asd-ste100-skill": {
       "flake": false,
       "locked": {
@@ -427,6 +443,7 @@
     },
     "root": {
       "inputs": {
+        "acli-formula": "acli-formula",
         "asd-ste100-skill": "asd-ste100-skill",
         "awesome-copilot-skills": "awesome-copilot-skills",
         "codex-desktop-linux": "codex-desktop-linux",
