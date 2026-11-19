@@ -249,20 +249,21 @@
       ]
     },
     "push": {
-      "original_description": "Publish Git commits in work repositories on push requests such as 'commit en push'. Update or open the PR and fix CI until the pushed revision passes.",
+      "original_description": "Manual workflow for work repositories. Publish commits, update or open the PR and fix CI until the pushed revision passes.",
       "required_patterns": [
+        "Manual workflow",
         "work repositories",
-        "push requests",
-        "commit en push",
-        "Update or open the PR",
+        "update or open the PR",
         "fix CI until the pushed revision passes"
       ],
       "positive_prompts": [
-        "Push mijn werkbranch.",
-        "Commit en push de wijzigingen in de werkrepo.",
-        "Push the existing work commits and follow the PR build."
+        "$push voor deze werkbranch.",
+        "@push publiceer mijn werkbranch."
       ],
       "negative_prompts": [
+        "Push mijn werkbranch.",
+        "Commit en push de wijzigingen in de werkrepo.",
+        "Push the existing work commits and follow the PR build.",
         "Commit en push mijn persoonlijke nixcfg op master.",
         "Push mijn NostraDavid-repo op de huidige branch.",
         "Stel alleen commitberichten voor.",

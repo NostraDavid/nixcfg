@@ -78,7 +78,9 @@ changes in the current checkout and push the current branch to its configured
 destinations. Verify the remote revision. Create a branch, worktree or PR, or
 monitor and repair CI, only when the user asks for that separately.
 
-For work repositories, follow `~/.agents/skills/push/SKILL.md` on push requests.
+For work repositories, follow `~/.agents/skills/push/SKILL.md` only when the
+user explicitly invokes `$push` in Codex or `@push` in OpenCode. For a plain
+push request, push the current branch according to the repository's Git rules.
 Determine the scope from the repository's instructions and remote owner. A
 personal checkout on a work machine still uses the personal workflow.
 

@@ -1,11 +1,13 @@
 ---
 name: push
-description: "Publish Git commits in work repositories on push requests such as 'commit en push'. Update or open the PR and fix CI until the pushed revision passes."
+description: "Manual workflow for work repositories. Publish commits, update or open the PR and fix CI until the pushed revision passes."
+disable-model-invocation: true
 ---
 
 # Commit en push voor werk
 
-Use this workflow when the user asks to publish commits in a work repository.
+Use this workflow in a work repository only when the user explicitly invokes
+the skill with `$push` in Codex or `@push` in OpenCode.
 For personal repositories, use the direct-push rule in
 `~/.agents/instructions/shared.md`. A request for commit messages or a commit
 alone stays local. Honor explicit limits such as “alleen pushen, geen PR”.

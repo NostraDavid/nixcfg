@@ -64,6 +64,15 @@ class AgentInstructions(unittest.TestCase):
                     len(self.encoding.encode(text)), self.descriptions["max_tokens"]
                 )
 
+    def test_push_requires_explicit_invocation(self) -> None:
+        skill = self.source / ".agents/commit-and-push"
+        frontmatter = yaml.safe_load(
+            (skill / "SKILL.md").read_text().split("---", 2)[1]
+        )
+        codex = yaml.safe_load((skill / "agents/openai.yaml").read_text())
+        self.assertIs(frontmatter["disable-model-invocation"], True)
+        self.assertIs(codex["policy"]["allow_implicit_invocation"], False)
+
     def test_description_rewrite_preserves_metadata_and_body(self) -> None:
         rewrite = runpy.run_path(os.environ["DESCRIPTION_REWRITER"])["rewrite"]
         for value in ['"Original description"', ">\n  Original\n  description"]:

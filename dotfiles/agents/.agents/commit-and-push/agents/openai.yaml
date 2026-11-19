@@ -1,3 +1,5 @@
 interface:
   display_name: "Commit en push voor werk"
   short_description: "Publiceer werkbranches, werk de PR bij en volg CI"
+policy:
+  allow_implicit_invocation: false
