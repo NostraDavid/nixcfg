@@ -71,6 +71,10 @@ check, human oversight, or approval before sharing sensitive data.
 
 Read and follow each skill when its condition applies.
 
+### Git pushes
+
+When the user asks for a Git push, follow `~/.agents/skills/push/SKILL.md`.
+
 ### MCP from the terminal
 
 When a task needs MCP tools from a terminal or script, or the agent lacks a

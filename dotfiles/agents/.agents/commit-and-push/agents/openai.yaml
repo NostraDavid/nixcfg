@@ -1,0 +1,3 @@
+interface:
+  display_name: "Commit en push"
+  short_description: "Push wijzigingen, werk de PR bij en volg CI tot groen"

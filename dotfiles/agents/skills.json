@@ -37,6 +37,7 @@
     "agent-memory",
     "mcporter",
     "cli-output",
+    "commit-and-push",
     "new-nostradavid-repo"
   ],
   "aliases": {
@@ -49,6 +50,7 @@
     "changelog": "changelog",
     "cli-output": "cli",
     "code-navigation": "nav",
+    "commit-and-push": "push",
     "context7": "c7",
     "continuous-delivery": "cd",
     "create-pull-request": "create-pull-request",

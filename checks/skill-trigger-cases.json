@@ -247,6 +247,26 @@
         "Werk een dependency bij in een externe repository.",
         "Leg uit wat een Justfile doet."
       ]
+    },
+    "push": {
+      "original_description": "Use when the user asks for a Git push, including 'push', 'commit en push', or 'commit and push'. Commit scoped changes if needed, update or open the PR and fix CI until the pushed revision passes.",
+      "required_patterns": [
+        "asks for a Git push",
+        "commit en push",
+        "update or open the PR",
+        "fix CI until the pushed revision passes"
+      ],
+      "positive_prompts": [
+        "Push mijn branch.",
+        "Commit en push.",
+        "Push the existing commits and follow the build."
+      ],
+      "negative_prompts": [
+        "Stel alleen commitberichten voor.",
+        "Waarom is mijn laatste git push geweigerd?",
+        "Voeg pushnotificaties toe aan de app.",
+        "Maak een skill voor wanneer ik om een push vraag."
+      ]
     }
   }
 }
