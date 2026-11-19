@@ -92,6 +92,8 @@
             };
           };
 
+          # The initrd-only unit claims the same bus name as the running NetworkManager.
+          systemd.services.NetworkManager-initrd.enable = false;
           systemd.user.services = {
             # dbus-broker v37 can disable SIGHUP reloads after inotify exhaustion.
             dbus-broker.serviceConfig = {
@@ -117,14 +119,6 @@
             ./certs/pihole.crt
             ./certs/proxmox.crt
           ];
-          fileSystems."/media/usb" = {
-            device = "/dev/disk/by-uuid/a0ff5645-3695-4a32-9917-51d98d453d21";
-            fsType = "vfat";
-            options = [
-              "nofail"
-              "x-systemd.automount"
-            ];
-          };
         };
         homeManager = {
           imports = [
