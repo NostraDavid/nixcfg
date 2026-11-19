@@ -44,6 +44,7 @@
             src = old.src.override {hash = "sha256-T/Ca1eEB8qjBOh4wcLC7BpbUd7f/36BKTRB9jhzOvWc=";};
             vendorHash = "sha256-oi56+F7ElNxwd1l95KA8Awpk6e+bv83E64pqZJ1Qr2g=";
           });
+      inherit (overlay-ca-security pkgs pkgs) uv;
     }
     // pkgs.lib.optionalAttrs isLinux {inherit (source) jpegli;}
     // pkgs.lib.optionalAttrs (system == "x86_64-linux") {
@@ -154,7 +155,7 @@
   overlay-build-tools = _final: prev: {
     moldStdenv = prev.useMoldLinker prev.stdenv;
   };
-  overlay-ca-security = import ./ca-security.nix;
+  overlay-ca-security = import ./ca-security.nix {inherit inputs;};
   overlays = [
     overlay-ca-security
     overlay-fixes

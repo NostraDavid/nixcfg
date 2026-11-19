@@ -47,7 +47,7 @@ for package in herdr-app herdr-core; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 rg -q 'gh api repos/openai/codex/releases/latest' scripts/update-codex.sh
-for package in dockerfile-roast gigatoken paperclip ponytail-codex uv; do
+for package in dockerfile-roast gigatoken paperclip ponytail-codex; do
     [[ "$(update_mode "${repo_root}" "${package}")" == local-script ]]
 done
 list_packages | rg -x ponytail-codex >/dev/null
@@ -56,13 +56,15 @@ if reason="$(skip_reason_for ponytail-codex)"; then
     exit 1
 fi
 
-for package in espeak-ng; do
-    if reason="$(skip_reason_for "${package}")"; then
-        printf '%s must have a locally updatable version: %s\n' "${package}" "${reason}" >&2
-        exit 1
-    fi
-    [[ "$(update_mode "${repo_root}" "${package}")" == embedded-nix-update ]]
-    list_packages | rg -x "${package}" >/dev/null
+if reason="$(skip_reason_for espeak-ng)"; then
+    printf 'espeak-ng must have a locally updatable version: %s\n' "$reason" >&2
+    exit 1
+fi
+[[ "$(update_mode "${repo_root}" espeak-ng)" == embedded-nix-update ]]
+list_packages | rg -x espeak-ng >/dev/null
+[[ "$(skip_reason_for tamzen-otf)" == *nixpkgs.tamzen* ]]
+for package in acli mdschema uv; do
+    [[ "$(skip_reason_for "$package")" == *"flake inputs"* ]]
 done
 
 # Generated outputs and input-derived packages have no independent update.
@@ -90,7 +92,7 @@ cat >"${test_root}/flake.nix" <<EOF
   outputs = _: {
     packages.${system} = {
       fixture = { version = "1.0.0"; passthru = {}; };
-      uv = { version = "1.9.0"; };
+      bitbucket-cli = { version = "1.9.0"; };
       generated = {};
     };
   };
@@ -123,14 +125,14 @@ output="$(NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.
 [[ "${output}" != *"No newer versions found"* ]]
 
 # Tag probes must work in the original checkout with only release metadata.
-mkdir -p "${test_root}/pkgs/uv" "${test_root}/bin"
-touch "${test_root}/pkgs/uv/default.nix"
+mkdir -p "${test_root}/pkgs/bitbucket-cli" "${test_root}/bin"
+touch "${test_root}/pkgs/bitbucket-cli/default.nix"
 cp scripts/update-prebuilt-github.sh "${test_root}/scripts/"
-ln -s update-prebuilt-github.sh "${test_root}/scripts/update-uv.sh"
-git -C "${test_root}" add pkgs/uv scripts
+ln -s update-prebuilt-github.sh "${test_root}/scripts/update-bitbucket-cli.sh"
+git -C "${test_root}" add pkgs/bitbucket-cli scripts
 cat >"${test_root}/bin/gh" <<'EOF'
 #!/usr/bin/env bash
-[[ "$PWD" == "$PROBE_ROOT" && "$*" == 'api repos/astral-sh/uv/releases/latest' ]] || exit 1
+[[ "$PWD" == "$PROBE_ROOT" && "$*" == 'api repos/avivsinai/bitbucket-cli/releases/latest' ]] || exit 1
 printf '{"tag_name":"%s"}\n' "$PROBE_TAG"
 EOF
 chmod +x "${test_root}/bin/gh"
@@ -140,13 +142,13 @@ probe() {
     PROBE_ROOT="${test_root}" PROBE_TAG="$tag" PATH="${test_root}/bin:$PATH" \
         NIX_SYSTEM="${system}" bash "${test_root}/scripts/local-package-maint.sh" list "$@" 2>&1
 }
-[[ "$(probe 1.10.0 uv)" == 'uv 1.9.0 -> 1.10.0' ]]
+[[ "$(probe 1.10.0 bitbucket-cli)" == 'bitbucket-cli 1.9.0 -> 1.10.0' ]]
 for tag in 1.9.0 1.8.0; do
-    [[ "$(probe "$tag" uv)" == 'No newer versions found.' ]]
+    [[ "$(probe "$tag" bitbucket-cli)" == 'No newer versions found.' ]]
 done
-if output="$(probe broken uv fixture)"; then exit 1; fi
+if output="$(probe broken bitbucket-cli fixture)"; then exit 1; fi
 [[ "$output" == *'Unexpected release tag: broken'* && "$output" == *'fixture upstream connection failed'* ]]
-[[ ! -s "${test_root}/pkgs/uv/default.nix" ]]
+[[ ! -s "${test_root}/pkgs/bitbucket-cli/default.nix" ]]
 
 # Temporary HTTP failures retry, but stop after three attempts.
 cat >"${test_root}/bin/gh" <<'EOF'

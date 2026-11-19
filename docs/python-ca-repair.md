@@ -9,17 +9,21 @@ gepatcht. Oudere bundels kunnen de getroffen roots nog bevatten. Programma's die
 de gefilterde systeembundel niet gebruiken, vereisen daarom een officiële
 upstream-update.
 
-Het lokale pakket `pkgs/uv` levert uv 0.13.5 of nieuwer. Bijwerken kan met
-`just pkg-update uv`. Node.js, de globale pip- en virtualenv-pakketten volgen de
-vastgepinde nixpkgs-versies. Node 24.22.1 of nieuwer is nodig voor de officiële
-beveiligingsfixes. De gebruikerscommando's `~/.local/bin/python` en
-`~/.local/bin/python3` gebruiken een kopie van de bestaande Nix-interpreter.
-Alleen diens `ensurepip` krijgt de geverifieerde pip-wheel 26.2.2 wanneer de
-meegeleverde versie ouder is. Python wordt daarvoor niet opnieuw gecompileerd.
-De Python-interpreters voor builds blijven ongewijzigd. De ingebouwde pip-wheels
-van het globale `virtualenv`-pakket worden niet meer lokaal gefilterd; nieuw
-gemaakte omgevingen kunnen daarom aanvullende reparatie nodig hebben totdat
-nixpkgs de officiële update bevat.
+Linux en Apple Silicon gebruiken uv en uvx uit de unstable-pin van de flake. De
+selectie vereist minimaal 0.13.5 voor de beheerde Python-downloads. Op Intel Mac
+levert de CA-overlay de officiële Intel-binary op 0.13.9 totdat de Darwin-pin
+die versie of een nieuwere levert. Werk voor een afzonderlijke Intel-update de
+versie en de tarballhash bij in [de overlay](../nix/ca-security.nix). Node.js,
+de globale pip- en virtualenv-pakketten volgen de vastgepinde nixpkgs-versies.
+Node 24.22.1 of nieuwer is nodig voor de officiële beveiligingsfixes. De
+gebruikerscommando's `~/.local/bin/python` en `~/.local/bin/python3` gebruiken
+een kopie van de bestaande Nix-interpreter. Alleen diens `ensurepip` krijgt de
+geverifieerde pip-wheel 26.2.2 wanneer de meegeleverde versie ouder is. Python
+wordt daarvoor niet opnieuw gecompileerd. De Python-interpreters voor builds
+blijven ongewijzigd. De ingebouwde pip-wheels van het globale
+`virtualenv`-pakket worden niet meer lokaal gefilterd; nieuw gemaakte omgevingen
+kunnen daarom aanvullende reparatie nodig hebben totdat nixpkgs de officiële
+update bevat.
 
 ## Activeer de configuratie
 

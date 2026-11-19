@@ -1,5 +1,5 @@
 # Remove these backports when every pinned channel contains the security releases.
-final: prev: let
+{inputs}: final: prev: let
   pipWheel = prev.fetchurl {
     url = "https://files.pythonhosted.org/packages/3f/06/3e4420302363fbb71be3c7f35ce042f54bfca330e3e66b3a2e3c4cca579f/pip-26.2.2-py3-none-any.whl";
     hash = "sha256-/X9N+oGQ4BQBO58I8+lz9OTCb/0XmiBIlVM6clSBOnA=";
@@ -28,5 +28,50 @@ in {
       fi
       mv "$TMPDIR/python" "$out"
     '';
-  uv = prev.callPackage ../pkgs/uv {};
+  uv = let
+    inherit (prev) lib stdenvNoCC;
+    inherit (stdenvNoCC.hostPlatform) system;
+    intelMac = system == "x86_64-darwin";
+    intelVersion = "0.13.9";
+    channel =
+      if intelMac
+      then inputs.nixpkgs-darwin
+      else inputs.nixpkgs-unstable;
+    upstream = channel.legacyPackages.${system}.uv;
+    canExecute = stdenvNoCC.buildPlatform.canExecute stdenvNoCC.hostPlatform;
+  in
+    if intelMac && lib.versionOlder upstream.version intelVersion
+    then
+      stdenvNoCC.mkDerivation (finalAttrs: {
+        inherit (upstream) pname;
+        version = intelVersion;
+        src = prev.fetchurl {
+          url = "https://github.com/astral-sh/uv/releases/download/${finalAttrs.version}/uv-x86_64-apple-darwin.tar.gz";
+          hash = "sha256-YXoyESYbD8c5Vi8Acao06XOXl8UQII7ejil3wwkD0EE=";
+        };
+        dontBuild = true;
+        nativeBuildInputs = [prev.installShellFiles];
+        installPhase = ''
+          runHook preInstall
+          install -Dm755 uv uvx -t "$out/bin"
+          runHook postInstall
+        '';
+        postInstall = lib.optionalString canExecute upstream.postInstall;
+        doInstallCheck = canExecute;
+        installCheckPhase = ''
+          runHook preInstallCheck
+          for cmd in uv uvx; do
+            "$out/bin/$cmd" --version | grep -F "$cmd ${finalAttrs.version}"
+          done
+          runHook postInstallCheck
+        '';
+        meta =
+          upstream.meta
+          // {
+            changelog = "https://github.com/astral-sh/uv/releases/tag/${finalAttrs.version}";
+            platforms = ["x86_64-darwin"];
+            sourceProvenance = [lib.sourceTypes.binaryNativeCode];
+          };
+      })
+    else assert lib.assertMsg (lib.versionAtLeast upstream.version "0.13.5") "The nixpkgs uv must be >= 0.13.5 for managed Python"; upstream;
 }

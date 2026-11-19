@@ -8,7 +8,6 @@ if (($#)) && [[ $# != 1 || $1 != --latest-version ]]; then
     exit 2
 fi
 systems=(x86_64-linux aarch64-linux x86_64-darwin aarch64-darwin)
-tag_prefix=v
 
 case "$package" in
 bitbucket-cli) repo=avivsinai/bitbucket-cli ;;
@@ -16,10 +15,6 @@ dockerfile-roast) repo=immanuwell/dockerfile-roast ;;
 pandacode)
     repo=aicodeking/pandacode
     systems=(x86_64-linux aarch64-linux aarch64-darwin)
-    ;;
-uv)
-    repo=astral-sh/uv
-    tag_prefix=''
     ;;
 *)
     echo "Unsupported package: $package" >&2
@@ -29,7 +24,7 @@ esac
 
 release="$(gh api "repos/${repo}/releases/latest")"
 tag="$(jq -er '.tag_name' <<<"$release")"
-version="${tag#"$tag_prefix"}"
+version="${tag#v}"
 [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
     echo "Unexpected release tag: $tag" >&2
     exit 1
@@ -45,22 +40,18 @@ edits=(-e "s/version = \"[^\"]+\";/version = \"${version}\";/")
 for system in "${systems[@]}"; do
     case "$system" in
     x86_64-linux)
-        rust=x86_64-unknown-linux-musl
         roast=linux-x86_64
         bkt=linux_x86_64
         ;;
     aarch64-linux)
-        rust=aarch64-unknown-linux-musl
         roast=linux-arm64
         bkt=linux_arm64
         ;;
     x86_64-darwin)
-        rust=x86_64-apple-darwin
         roast=macos-x86_64
         bkt=darwin_x86_64
         ;;
     aarch64-darwin)
-        rust=aarch64-apple-darwin
         roast=macos-arm64
         bkt=darwin_arm64
         ;;
@@ -75,7 +66,6 @@ for system in "${systems[@]}"; do
         aarch64-darwin) asset=PandaCode-macOS-arm64.app.tar.gz ;;
         esac
         ;;
-    uv) asset="uv-${rust}.tar.gz" ;;
     esac
     digest="$(jq -er --arg name "$asset" '.assets[] | select(.name == $name) | .digest | select(startswith("sha256:")) | sub("^sha256:"; "")' <<<"$release")"
     hash="$(nix hash convert --hash-algo sha256 --to sri "$digest")"

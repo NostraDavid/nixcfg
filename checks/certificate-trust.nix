@@ -27,6 +27,8 @@
 in
   assert pkgs.python3.drvPath == builders.python3.drvPath;
   assert pkgs.rustc.drvPath == builders.rustc.drvPath;
+  assert pkgs.lib.versionAtLeast unstable.uv.version "0.13.5";
+  assert pkgs.uv.drvPath == unstable.uv.drvPath && unstable.uv.drvPath == upstream.uv.drvPath;
   assert pkgs.lib.versionAtLeast upstream.cacert.version "3.131.1" -> unstable.cacert.drvPath == upstream.cacert.drvPath;
     pkgs.runCommand "certificate-trust-check" {
       nativeBuildInputs = [pkgs.python3Ca pkgs.openssl];
@@ -42,6 +44,8 @@ in
     } ''
       export HOME="$TMPDIR/home"
       mkdir -p "$HOME"
+      ${unstable.uv}/bin/uvx --version
+      ${unstable.uv}/bin/uv venv --offline --python ${pkgs.python3Ca}/bin/python "$TMPDIR/uv-venv"
       ${profile}/bin/python3 -m venv "$TMPDIR/venv"
       export CA_SEEDED_PIP="$TMPDIR/venv"
       python3 ${./test-ca-trust.py}
