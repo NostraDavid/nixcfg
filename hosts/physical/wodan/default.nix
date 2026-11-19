@@ -81,6 +81,7 @@
           };
 
           services = {
+            displayManager.defaultSession = lib.mkForce "plasmax11";
             orca.enable = false;
             openssh.enable = lib.mkForce false;
             xserver.xkb.options = "caps:escape_shifted_compose,lv3:ralt_switch_multikey,compose:ralt,compose:rctrl,mod_led:compose,grp:win_space_toggle";
@@ -110,6 +111,8 @@
             };
           };
 
+          # Firefox audio processes reach RTKit's default of 15 alongside PipeWire.
+          security.rtkit.args = ["--processes-per-user-max=24"];
           security.pki.certificateFiles = [
             ./certs/pihole.crt
             ./certs/proxmox.crt
