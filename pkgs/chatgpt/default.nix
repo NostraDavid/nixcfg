@@ -1,110 +1,32 @@
 {
-  alsa-lib,
-  at-spi2-atk,
-  at-spi2-core,
-  atk,
-  autoPatchelfHook,
-  cairo,
+  chatgpt,
   coreutils,
-  cups,
-  dbus,
-  dpkg,
-  expat,
-  fetchurl,
-  gdk-pixbuf,
-  glib,
-  gtk3,
-  lib,
   libGL,
-  libdrm,
-  libnotify,
-  libpulseaudio,
-  libusb1,
-  libX11,
-  libxcb,
-  libXcomposite,
-  libXdamage,
-  libXext,
-  libXfixes,
-  libxkbcommon,
-  libXrandr,
-  makeWrapper,
-  mesa,
-  nspr,
-  nss,
   nodejs,
-  pango,
   python3,
-  stdenv,
-  systemd,
-  vulkan-loader,
-  xdg-utils,
 }:
-stdenv.mkDerivation (finalAttrs: {
-  pname = "chatgpt";
-  version = "26.1111.71025";
+chatgpt.overrideAttrs (old: {
+  meta = old.meta // {platforms = ["x86_64-linux"];};
+  passthru =
+    old.passthru
+    // {
+      sources.x86_64-linux = rec {
+        version = "26.1111.71025";
+        src = {
+          url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${version}_amd64.deb";
+          hash = "sha256-gZdCTLzqOnwNRFpUTqprmd+Ljvix0YLit0P3AnU8enA=";
+        };
+      };
+    };
 
-  # The latest URL is mutable; pin the versioned pool artifact instead.
-  src = fetchurl {
-    url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${finalAttrs.version}_amd64.deb";
-    hash = "sha256-gZdCTLzqOnwNRFpUTqprmd+Ljvix0YLit0P3AnU8enA=";
-  };
-
-  nativeBuildInputs = [
-    autoPatchelfHook
-    dpkg
-    makeWrapper
-    python3
-  ];
-
-  buildInputs = [
-    alsa-lib
-    at-spi2-atk
-    at-spi2-core
-    atk
-    cairo
-    cups
-    dbus
-    expat
-    gdk-pixbuf
-    glib
-    gtk3
-    libGL
-    libdrm
-    libnotify
-    libpulseaudio
-    libusb1
-    libX11
-    libxcb
-    libXcomposite
-    libXdamage
-    libXext
-    libXfixes
-    libxkbcommon
-    libXrandr
-    mesa
-    nspr
-    nss
-    pango
-    systemd
-    vulkan-loader
-    xdg-utils
-  ];
+  dontStrip = false;
+  nativeBuildInputs = old.nativeBuildInputs ++ [python3];
   autoPatchelfIgnoreMissingDeps = [
     "libQt5Core.so.5"
     "libQt5Gui.so.5"
     "libQt5Widgets.so.5"
-    "libQt6Core.so.6"
-    "libQt6Gui.so.6"
-    "libQt6Widgets.so.6"
     "libc.musl-x86_64.so.1"
   ];
-
-  unpackPhase = ''
-    runHook preUnpack
-    dpkg-deb -x "$src" .
-    runHook postUnpack
-  '';
 
   # autoPatchelf moves PT_INTERP beyond detect-libc's 2 KiB scan. Its
   # process.report fallback trips Electron's CFI, so use the glibc watcher.
@@ -221,6 +143,7 @@ stdenv.mkDerivation (finalAttrs: {
     PY
   '';
 
+  # Work and the CUA wrappers use the matching bundled Node, Codex and plugins.
   installPhase = ''
     runHook preInstall
     mkdir -p "$out"
@@ -228,7 +151,6 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  doInstallCheck = true;
   nativeInstallCheckInputs = [nodejs];
   installCheckPhase = ''
     runHook preInstallCheck
@@ -241,13 +163,4 @@ stdenv.mkDerivation (finalAttrs: {
     wrapProgram "$out/lib/chatgpt/codex-launcher" \
       --prefix LD_LIBRARY_PATH : "${libGL}/lib"
   '';
-
-  meta = {
-    description = "ChatGPT desktop application for Linux";
-    homepage = "https://chatgpt.com/download/";
-    license = lib.licenses.unfree;
-    mainProgram = "chatgpt";
-    platforms = ["x86_64-linux"];
-    sourceProvenance = with lib.sourceTypes; [binaryNativeCode];
-  };
 })
