@@ -4,12 +4,17 @@ The question is whether six circles can show the software memberships that occur
 on the six physical hosts. A complete six-set Venn diagram is a different and
 stronger requirement. Its impossibility does not settle this question.
 
-## Current data
+This study records the original six-circle construction. The current
+[module map](module-map.md) uses coordinates fitted to today's host selections.
+The counts and coordinates below describe the original snapshot.
 
-The source is the `software` field in [module-map.json](module-map.json). Each
-machine contributes a set of package names. Versions and installation origins do
-not create separate memberships. The bit order is `bragi`, `donar`, `frigg`,
-`loki`, `mimir2`, `wodan`.
+## Data used in the original study
+
+The source is the `software` field in
+[the original module-map.json](https://github.com/NostraDavid/nixcfg/blob/99b25d1c755f196971dec253a98161bc2edf6c62/docs/module-map.json).
+Each machine contributes a set of package names. Versions and installation
+origins do not create separate memberships. The bit order is `bragi`, `donar`,
+`frigg`, `loki`, `mimir2`, `wodan`.
 
 There are 16 nonempty membership groups and 587 distinct package names:
 

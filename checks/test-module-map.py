@@ -111,7 +111,7 @@ class ModuleMapTests(unittest.TestCase):
     def test_six_circles_label_every_represented_membership(self) -> None:
         layout = module_map.physical_circle_layout(self.circle_report())
         self.assertEqual(len(layout["sets"]), 6)
-        self.assertEqual(len(layout["regions"]), 23)
+        self.assertEqual(len(layout["regions"]), 31)
         for region in layout["regions"]:
             with self.subTest(mask=region["mask"]):
                 mask = 0
@@ -124,7 +124,28 @@ class ModuleMapTests(unittest.TestCase):
 
     def test_circle_layout_preserves_all_occupied_combinations(self) -> None:
         report = self.circle_report()
-        masks = (1, 2, 6, 8, 32, 34, 36, 37, 38, 39, 42, 47, 54, 55, 62, 63)
+        masks = (
+            1,
+            2,
+            4,
+            6,
+            8,
+            24,
+            30,
+            32,
+            34,
+            37,
+            38,
+            39,
+            44,
+            46,
+            47,
+            54,
+            55,
+            56,
+            62,
+            63,
+        )
         for mask in masks:
             for index, machine in enumerate(report["software"]):
                 if mask & (1 << index):
@@ -132,7 +153,9 @@ class ModuleMapTests(unittest.TestCase):
         layout = module_map.physical_circle_layout(report)
         self.assertEqual(set(layout["groups"]), set(masks))
         self.assertEqual(sum(layout["counts"].values()), len(masks))
-        self.assertEqual(layout["extra_empty_masks"], [4, 5, 7, 10, 33, 40, 46])
+        self.assertEqual(
+            layout["extra_empty_masks"], [3, 16, 20, 22, 28, 33, 35, 36, 40, 45, 60]
+        )
 
     def test_circle_layout_rejects_an_unrepresented_combination(self) -> None:
         report = self.circle_report()
