@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
-"""Reuse detached VS Code worktree sessions and give each terminal its own shell."""
+"""Reuse the same Zellij session for a worktree across terminal applications."""
 
 import argparse
 import contextlib
-import datetime as dt
 import fcntl
+import itertools
 import os
 import subprocess as sp
 import sys
-import time
+from collections.abc import Iterator
 from pathlib import Path
 
 
@@ -20,39 +20,27 @@ def socket_name_budget() -> int:
         socket_root = (
             str(Path(runtime) / "zellij")
             if runtime
-            else str(Path(os.environ.get("TMPDIR") or "/tmp") / f"zellij-{os.getuid()}")  # noqa: S108 - Match Zellij's per-user socket root; no files are created here.
+            else str(Path(os.environ.get("TMPDIR") or "/tmp") / f"zellij-{os.getuid()}")  # noqa: S108 - Match Zellij's per-user socket root.
         )
-    # shortcut: contract_version_1 matches Zellij 0.45; update when IPC changes.
-    socket_dir = Path(socket_root) / "contract_version_1"
-    return 103 - len(os.fsencode(str(socket_dir) + "/"))
+    return 103 - len(os.fsencode(str(Path(socket_root) / "contract_version_1") + "/"))
 
 
-def format_session_name(prefix: str, timestamp: dt.datetime, budget: int) -> str:
-    app, _, label = prefix.removesuffix("_").partition("_")
-    label = label.translate(str.maketrans("", "", "aeiouAEIOU"))
-    compact = f"{app}_{label}_"
-    local = timestamp.replace(tzinfo=None)
-    seconds = local.isoformat(timespec="seconds")
-    for name in (
-        prefix + timestamp.isoformat(timespec="milliseconds"),
-        compact + timestamp.isoformat(timespec="milliseconds"),
-        compact + local.isoformat(timespec="milliseconds"),
-        compact + seconds,
-    ):
-        if len(name.encode()) <= budget:
-            return name
-    label_budget = budget - len(app.encode()) - 2 - len(seconds)
-    if label_budget < 1:
+def session_name(label: str, slot: int, budget: int) -> str:
+    suffix = "" if slot == 1 else f"-{slot}"
+    room = budget - len("ws_") - len(suffix)
+    if len(label.encode()) > room:
+        compact = label.translate(str.maketrans("", "", "aeiouAEIOU")) or label
+        label = compact.encode()[: max(0, room)].decode(errors="ignore")
+    if not label:
         raise RuntimeError(
             "Socket directory is too long; set ZELLIJ_SOCKET_DIR to a shorter path"
         )
-    label = label.encode()[:label_budget].decode("utf-8", errors="ignore")
-    return f"{app}_{label}_{seconds}"
+    return f"ws_{label}{suffix}"
 
 
-def workspace_prefix(directory: Path) -> tuple[str, str]:
-    result = sp.run(  # noqa: S603 - Git receives an argument vector, never shell input.
-        [  # noqa: S607 - Use the user's Git.
+def workspace(directory: Path) -> tuple[str, str]:
+    result = sp.run(  # noqa: S603
+        [  # noqa: S607 - Use the Git executable from the terminal environment.
             "git",
             "-C",
             str(directory),
@@ -68,31 +56,42 @@ def workspace_prefix(directory: Path) -> tuple[str, str]:
     )
     if result.returncode:
         root = directory.resolve()
-        return f"vscode_{root.name}_", str(root)
+        return root.name or "root", str(root)
     root, common = result.stdout.splitlines()
-    return f"vscode_{Path(common).parent.name}-{Path(root).name}_", root
+    return f"{Path(common).parent.name}-{Path(root).name}", root
 
 
-def matching_sessions(prefix: str, sessions: list[str], budget: int) -> list[str]:
-    candidates = []
-    for name in sessions:
-        try:
-            timestamp = dt.datetime.fromisoformat(name.rpartition("_")[2]).astimezone()
-        except ValueError:
-            continue
-        if name.startswith(prefix) or name == format_session_name(
-            prefix, timestamp, budget
-        ):
-            candidates.append((timestamp, name))
-    return [name for _, name in sorted(candidates, reverse=True)]
+def list_sessions() -> tuple[set[str], set[str]]:
+    result = sp.run(
+        ["zellij", "list-sessions", "--no-formatting"],  # noqa: S607
+        capture_output=True,
+        text=True,
+        timeout=10,
+        check=False,
+    )
+    if (
+        result.returncode == 1
+        and result.stderr.strip() == "No active zellij sessions found."
+    ):
+        return set(), set()
+    if result.returncode:
+        raise RuntimeError(result.stderr.strip() or "Could not list Zellij sessions")
+    live, exited = set(), set()
+    # --short drops the EXITED marker, so it cannot distinguish the two cases.
+    for line in result.stdout.splitlines():
+        name, marker, status = line.rpartition(" [Created ")
+        if not marker:
+            raise RuntimeError(f"Unrecognized Zellij session listing: {line}")
+        (exited if status.endswith("(EXITED - attach to resurrect)") else live).add(
+            name
+        )
+    return live, exited
 
 
-def reserve_detached_session(
-    session: str, identity: str, cache: Path, stack: contextlib.ExitStack | None
-) -> bool:
+def detached(name: str) -> bool:
     try:
-        clients = sp.run(  # noqa: S603 - Session names are passed as arguments.
-            ["zellij", "--session", session, "action", "list-clients"],  # noqa: S607
+        clients = sp.run(  # noqa: S603
+            ["zellij", "--session", name, "action", "list-clients"],  # noqa: S607
             capture_output=True,
             text=True,
             timeout=10,
@@ -100,48 +99,58 @@ def reserve_detached_session(
         )
     except sp.TimeoutExpired:
         return False
-    if clients.returncode or clients.stdout.splitlines() != [
-        "CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND"
-    ]:
-        return False
-    path = cache / f"{session}.lock"
-    if stack is None:
+    return clients.returncode == 0 and clients.stdout.split() == [
+        "CLIENT_ID",
+        "ZELLIJ_PANE_ID",
+        "RUNNING_COMMAND",
+    ]
+
+
+@contextlib.contextmanager
+def claim(
+    path: Path, identity: str, *, existing: bool, dry_run: bool, new: bool
+) -> Iterator[bool]:
+    try:
+        if new and not dry_run:
+            lock = path.open("x+")
+        elif dry_run or existing:
+            lock = path.open("r+")
+        else:
+            lock = path.open("a+")
+    except FileExistsError:
+        yield False
+        return
+    except FileNotFoundError:
+        yield dry_run and not existing
+        return
+    with lock:
         try:
-            owner = path.read_text()
-        except FileNotFoundError:
-            owner = ""
-    else:
-        lease = stack.enter_context(path.open("a+"))
-        try:
-            fcntl.flock(lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
-            return False
-        lease.seek(0)
-        owner = lease.read()
-        if owner and owner != identity:
-            lease.close()
-    return not owner or owner == identity
+            yield False
+            return
+        lock.seek(0)
+        owner = lock.read()
+        if (new and dry_run) or (owner != identity and (owner or existing)):
+            yield False
+            return
+        if not owner and not dry_run:
+            lock.write(identity)
+            lock.flush()
+        yield True
 
 
-def reserve_new_session(
-    prefix: str,
-    identity: str,
-    budget: int,
-    cache: Path | None,
-    stack: contextlib.ExitStack,
-) -> str:
-    while True:
-        session = format_session_name(prefix, dt.datetime.now().astimezone(), budget)
-        if cache is None:
-            return session
-        try:
-            lease = stack.enter_context((cache / f"{session}.lock").open("x"))
-            fcntl.flock(lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            lease.write(identity)
-            lease.flush()
-            return session
-        except FileExistsError:
-            time.sleep(0.1)
+def candidates(
+    label: str, budget: int, live: set[str], exited: set[str], *, new: bool
+) -> Iterator[str]:
+    if not new:
+        # The lease records the absolute worktree, also for older VS Code session names.
+        managed = (n for n in live if n.startswith(("ws_", "vscode_")) and "/" not in n)
+        yield from sorted(managed, key=lambda name: (not name.startswith("ws_"), name))
+    for slot in itertools.count(1):
+        name = session_name(label, slot, budget)
+        if name not in live and not (new and name in exited):
+            yield name
 
 
 def main() -> int:
@@ -150,7 +159,9 @@ def main() -> int:
         "app", nargs="?", default="vscode", choices=("vscode", "ghostty", "alacritty")
     )
     parser.add_argument(
-        "--new", action="store_true", help="Start a new session even in VS Code"
+        "--new",
+        action="store_true",
+        help="Create a fresh session instead of reusing one",
     )
     parser.add_argument(
         "--dry-run",
@@ -158,69 +169,39 @@ def main() -> int:
         help="Print the selected name without starting Zellij",
     )
     args = parser.parse_args()
-    prefix, identity = (
-        workspace_prefix(Path.cwd())
-        if args.app == "vscode"
-        else (f"{args.app}_", args.app)
+    label, identity = workspace(Path.cwd())
+    live, exited = list_sessions()
+    cache = (
+        Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache")
+        / "zellij-workspace"
     )
-    budget = socket_name_budget()
-    session = None
-    with contextlib.ExitStack() as stack:
-        cache = (
-            Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache")
-            / "zellij-workspace"
-        )
-        if not args.dry_run:
-            cache.mkdir(parents=True, exist_ok=True)
-        if args.app == "vscode" and not args.new:
-            result = sp.run(
-                ["zellij", "list-sessions", "--short", "--no-formatting"],  # noqa: S607
-                capture_output=True,
-                text=True,
-                timeout=10,
-                check=False,
-            )
-            # Zellij returns 1 when no active sessions exist.
-            if result.returncode not in (0, 1):
-                raise RuntimeError(
-                    result.stderr.strip() or "Could not list Zellij sessions"
-                )
-            for candidate in matching_sessions(
-                prefix, result.stdout.splitlines(), budget
-            ):
-                if reserve_detached_session(
-                    candidate, identity, cache, None if args.dry_run else stack
-                ):
-                    session = candidate
-                    break
-        if session is None:
-            session = reserve_new_session(
-                prefix, identity, budget, None if args.dry_run else cache, stack
-            )
-            if args.app == "vscode" and not args.dry_run:
-                sp.run(  # noqa: S603 - The generated name is passed as one argument.
-                    ["zellij", "attach", "--create-background", session],  # noqa: S607
-                    check=True,
-                    timeout=10,
-                )
-        if args.dry_run:
-            print(session)
-            return 0
-        if args.app == "vscode":
-            # Keep the lease until this client exits, including the attach startup race.
-            return sp.run(  # noqa: S603 - Session names are passed as arguments.
-                ["zellij", "attach", "--create", session],  # noqa: S607
+    if not args.dry_run:
+        cache.mkdir(parents=True, exist_ok=True)
+    for name in candidates(label, socket_name_budget(), live, exited, new=args.new):
+        with claim(
+            cache / f"{name}.lock",
+            identity,
+            existing=name in live or name in exited,
+            dry_run=args.dry_run,
+            new=args.new,
+        ) as reserved:
+            if not reserved or (name in live and not detached(name)):
+                continue
+            if args.dry_run:
+                print(name)
+                return 0
+            # Keep the lease through attach so concurrent terminals select different slots.
+            return sp.run(  # noqa: S603 - Session name is passed as one argument.
+                ["zellij", "attach", "--create", name],  # noqa: S607
                 check=False,
             ).returncode
-        os.execvp("zellij", ["zellij", "attach", "--create", session])  # noqa: S606, S607
-    return 0
+    raise AssertionError("Session slots exhausted")
 
 
 if __name__ == "__main__":
     try:
         if sys.platform == "darwin":
-            # macOS TMPDIR leaves too little room for session names in Unix socket paths.
-            os.environ.setdefault("ZELLIJ_SOCKET_DIR", f"/tmp/zellij-{os.getuid()}")  # noqa: S108 - Per-user socket directory, as in Zellij's default.
+            os.environ.setdefault("ZELLIJ_SOCKET_DIR", f"/tmp/zellij-{os.getuid()}")  # noqa: S108
         sys.exit(main())
     except (OSError, RuntimeError, sp.SubprocessError) as error:
         print(f"zellij-workspace: {error}", file=sys.stderr)

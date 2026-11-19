@@ -6,7 +6,6 @@
 """Check session selection and the launcher without touching user sessions."""
 
 import contextlib
-import datetime as dt
 import fcntl
 import io
 import os
@@ -21,7 +20,8 @@ from unittest.mock import patch
 MODULE = runpy.run_path(
     str(Path(__file__).parents[1] / ".local/bin/zellij-workspace.py")
 )
-PREFIX = "vscode_nixcfg-trunk_"
+BASE = "ws_nixcfg-trunk"
+ROOT = "/repos/nixcfg/trunk"
 
 
 class SessionTests(unittest.TestCase):
@@ -70,373 +70,178 @@ class SessionTests(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stderr)
 
-    def test_latest_timestamp_respects_offsets_and_ignores_other_worktrees(
-        self,
-    ) -> None:
-        older = PREFIX + "2026-10-21T15:00:00.123+02:00"
-        newer = PREFIX + "2026-10-21T14:30:00.123+00:00"
-        sessions = [
-            newer,
-            older,
-            "vscode_other-trunk_2027-01-01T00:00:00Z",
-            PREFIX + "invalid",
-            PREFIX + "2028-01-01T00:00:00",
-        ]
-        self.assertEqual(
-            MODULE["matching_sessions"](PREFIX, sessions, 103),
-            [PREFIX + "2028-01-01T00:00:00", newer, older],
-        )
-        self.assertEqual(MODULE["matching_sessions"](PREFIX, ["ghostty"], 103), [])
-
-    def test_worktree_and_subdirectory_share_prefix(self) -> None:
-        with patch.object(
-            sp,
-            "run",
-            return_value=sp.CompletedProcess(
-                [],
-                0,
-                "/repos/nixcfg/trunk\n/repos/nixcfg/worktree.git\n",
-                "",
-            ),
-        ):
-            self.assertEqual(
-                MODULE["workspace_prefix"](Path("/repos/nixcfg/trunk/src")),
-                (PREFIX, "/repos/nixcfg/trunk"),
-            )
-
-    def test_regular_checkout_and_non_git_directory(self) -> None:
-        with patch.object(
-            sp,
-            "run",
-            return_value=sp.CompletedProcess(
-                [],
-                0,
-                "/repos/example\n/repos/example/.git\n",
-                "",
-            ),
-        ):
-            self.assertEqual(
-                MODULE["workspace_prefix"](Path("/repos/example")),
-                ("vscode_example-example_", "/repos/example"),
-            )
-        with patch.object(
-            sp, "run", return_value=sp.CompletedProcess([], 128, "", "not a repository")
-        ):
-            self.assertEqual(
-                MODULE["workspace_prefix"](Path("/workspace")),
-                ("vscode_workspace_", "/workspace"),
-            )
-
-    def test_invocation_without_app_defaults_to_vscode(self) -> None:
+    def launch(self, *args: str, listing: str = "", clients: str = "") -> str:
         def run(argv: list[str], **_: object) -> sp.CompletedProcess[str]:
             if argv[0] == "git":
-                return sp.CompletedProcess(argv, 128, "", "not a repository")
-            code = 1 if argv[0] == "zellij" and "list-sessions" in argv else 0
-            return sp.CompletedProcess(argv, code, "", "")
+                return sp.CompletedProcess(
+                    argv, 0, f"{ROOT}\n/repos/nixcfg/worktree.git\n", ""
+                )
+            if "list-sessions" in argv:
+                return sp.CompletedProcess(argv, 0, listing, "")
+            if "list-clients" in argv:
+                return sp.CompletedProcess(argv, 0, clients, "")
+            self.assertEqual(argv[:3], ["zellij", "attach", "--create"])
+            attached.append(argv[-1])
+            return sp.CompletedProcess(argv, 0, "", "")
 
+        attached = []
+        output = io.StringIO()
         with (
-            patch("sys.argv", ["zellij-workspace"]),
-            patch.object(sp, "run", side_effect=run) as execute,
+            patch("sys.argv", ["zellij-workspace", *args]),
+            patch.object(sp, "run", side_effect=run),
+            contextlib.redirect_stdout(output),
         ):
             self.assertEqual(MODULE["main"](), 0)
-        commands = [call.args[0] for call in execute.call_args_list]
-        self.assertEqual(commands[2][1:3], ["attach", "--create-background"])
-        self.assertEqual(commands[3][1:3], ["attach", "--create"])
+        if "--dry-run" in args:
+            self.assertEqual(attached, [])
+            return output.getvalue().strip()
+        self.assertEqual(len(attached), 1)
+        return attached[0]
 
-    def test_vscode_reuses_session_and_new_profile_creates_another(self) -> None:
-        existing = PREFIX + "2026-10-21T14:30:52.123+02:00"
+    def test_manual_launch_restores_same_slot_across_terminals_and_dates(self) -> None:
+        self.assertEqual(self.launch(), BASE)
+        saved = f"{BASE} [Created 3days ago] (EXITED - attach to resurrect)"
+        for app in ("vscode", "alacritty", "ghostty"):
+            self.assertEqual(self.launch(app, listing=saved), BASE)
+        self.assertEqual(self.launch("--new", listing=saved), f"{BASE}-2")
 
-        def run(argv: list[str], **_: object) -> sp.CompletedProcess[str]:
-            output = (
-                "CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND\n"
-                if "list-clients" in argv
-                else existing + "\n"
-            )
-            return sp.CompletedProcess(argv, 0, output, "")
+    def test_running_sessions_reused_only_if_detached(self) -> None:
+        self.launch()
+        listing = f"{BASE} [Created 1h ago]"
+        header = "CLIENT_ID  ZELLIJ_PANE_ID RUNNING_COMMAND\n"
+        self.assertEqual(self.launch(listing=listing, clients=header), BASE)
+        self.assertEqual(
+            self.launch(listing=listing, clients=header + "1 terminal_0 bash\n"),
+            BASE + "-2",
+        )
+        self.assertEqual(
+            self.launch(listing=listing, clients="unexpected"), BASE + "-2"
+        )
 
-        for extra in ([], ["--new"]):
-            with (
-                patch.dict(
-                    MODULE["main"].__globals__,
-                    {"workspace_prefix": lambda _: (PREFIX, "/repos/nixcfg/trunk")},
-                ),
-                patch("sys.argv", ["zellij-workspace", "vscode", *extra]),
-                patch.object(
-                    sp,
-                    "run",
-                    side_effect=run,
-                ) as execute,
-            ):
-                MODULE["main"]()
-            argv = execute.call_args.args[0]
-            self.assertEqual(argv[:3], ["zellij", "attach", "--create"])
-            if extra:
-                self.assertNotEqual(argv[3], existing)
-                self.assertRegex(
-                    argv[3],
-                    PREFIX
-                    + r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2}$",
-                )
-            else:
-                self.assertEqual(argv[3], existing)
+    def test_active_legacy_session_keeps_its_worktree(self) -> None:
+        old = "vscode_nxcfg-trnk_2026-10-22T12:34:56"
+        cache = Path(os.environ["XDG_CACHE_HOME"]) / "zellij-workspace"
+        cache.mkdir()
+        lease = cache / f"{old}.lock"
+        lease.write_text(ROOT)
+        listing = f"{old} [Created 2days ago]"
+        header = "CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND\n"
+        self.assertEqual(self.launch(listing=listing, clients=header), old)
+        lease.write_text("/elsewhere/nixcfg/trunk")
+        self.assertEqual(self.launch(listing=listing, clients=header), BASE)
+        self.assertEqual(
+            self.launch(listing=listing + " (EXITED - attach to resurrect)"), BASE
+        )
 
-    def test_terminal_dry_run_has_iso_timestamp_and_never_starts_zellij(self) -> None:
-        for app in ("ghostty", "alacritty"):
-            output = io.StringIO()
-            with (
-                patch("sys.argv", ["zellij-workspace", app, "--dry-run"]),
-                patch("os.execvp") as execute,
-                contextlib.redirect_stdout(output),
-            ):
-                MODULE["main"]()
-            self.assertRegex(
-                output.getvalue().strip(),
-                app + r"_\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2}$",
-            )
-            execute.assert_not_called()
+    def test_slot_collisions_and_simultaneous_opens(self) -> None:
+        cache = Path(os.environ["XDG_CACHE_HOME"]) / "zellij-workspace"
+        cache.mkdir()
+        path = cache / f"{BASE}.lock"
+        path.write_text("/another/nixcfg/trunk")
+        self.assertEqual(self.launch(), BASE + "-2")
+        path.write_text(ROOT)
+        with path.open("r+") as lease:
+            fcntl.flock(lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            self.assertEqual(self.launch(), BASE + "-2")
+            self.assertEqual(self.launch("--dry-run"), BASE + "-2")
+        self.assertEqual(self.launch(), BASE)
+        self.assertEqual(self.launch("--new"), BASE + "-3")
 
-    def test_name_shortening_preserves_details_in_priority_order(self) -> None:
-        timestamp = dt.datetime.fromisoformat("2026-10-22T12:34:56.123456+02:00")
-        for expected in (
-            "vscode_project-work_2026-10-22T12:34:56.123+02:00",
-            "vscode_prjct-wrk_2026-10-22T12:34:56.123+02:00",
-            "vscode_prjct-wrk_2026-10-22T12:34:56.123",
-            "vscode_prjct-wrk_2026-10-22T12:34:56",
-            "vscode_prjc_2026-10-22T12:34:56",
+    def test_dry_run_does_not_create_files_or_claim_an_unowned_session(self) -> None:
+        cache = Path(os.environ["XDG_CACHE_HOME"]) / "zellij-workspace"
+        self.assertEqual(self.launch("--dry-run"), BASE)
+        self.assertEqual(
+            self.launch("--dry-run", listing=f"{BASE} [Created 1s ago]"), BASE + "-2"
+        )
+        self.assertFalse(cache.exists())
+
+    def test_worktree_subfolders_and_non_git_directories(self) -> None:
+        with patch.object(
+            sp,
+            "run",
+            return_value=sp.CompletedProcess(
+                [], 0, f"{ROOT}\n/repos/nixcfg/worktree.git\n", ""
+            ),
         ):
-            with self.subTest(expected=expected):
-                self.assertEqual(
-                    MODULE["format_session_name"](
-                        "vscode_project-work_", timestamp, len(expected)
-                    ),
-                    expected,
-                )
+            self.assertEqual(
+                MODULE["workspace"](Path(ROOT) / "src"), ("nixcfg-trunk", ROOT)
+            )
+        with patch.object(sp, "run", return_value=sp.CompletedProcess([], 128, "", "")):
+            self.assertEqual(
+                MODULE["workspace"](Path("/elsewhere/example")),
+                ("example", "/elsewhere/example"),
+            )
 
-    def test_unicode_names_fit_real_socket_paths(self) -> None:
-        timestamp = dt.datetime.fromisoformat("2026-10-22T12:34:56.123+02:00")
+    def test_shortening_keeps_numeric_slot_and_utf8_within_socket_budget(self) -> None:
+        name = MODULE["session_name"]
+        self.assertEqual(name("project", 2, len("ws_prjct-2")), "ws_prjct-2")
         with tempfile.TemporaryDirectory(dir="/tmp") as directory:
             root = Path(directory) / "sockets"
             socket_dir = root / "contract_version_1"
             socket_dir.mkdir(parents=True)
             with patch.dict(os.environ, {"ZELLIJ_SOCKET_DIR": str(root)}):
                 budget = MODULE["socket_name_budget"]()
-            prefix = "vscode_" + "项目" * 40 + "-trunk_"
-            name = MODULE["format_session_name"](prefix, timestamp, budget)
-            path = socket_dir / name
+            value = name("项目" * 40, 12, budget)
+            self.assertTrue(value.endswith("-12"))
+            path = socket_dir / value
             self.assertLessEqual(len(os.fsencode(path)), 103)
-            self.assertTrue(name.endswith("2026-10-22T12:34:56"))
             with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as listener:
                 listener.bind(str(path))
-            self.assertEqual(
-                MODULE["matching_sessions"](prefix, [name], budget), [name]
-            )
+        with self.assertRaisesRegex(RuntimeError, "ZELLIJ_SOCKET_DIR"):
+            name("project", 1, 2)
 
-    def test_socket_directory_must_leave_room_for_a_session_name(self) -> None:
-        with patch.dict(os.environ, {"ZELLIJ_SOCKET_DIR": "/custom/" + "x" * 100}):
-            budget = MODULE["socket_name_budget"]()
-        with self.assertRaisesRegex(RuntimeError, "set ZELLIJ_SOCKET_DIR"):
-            MODULE["format_session_name"](
-                PREFIX, dt.datetime.fromisoformat("2026-10-22T12:34:56+02:00"), budget
-            )
-
-    def test_shortened_session_from_another_project_is_not_reused(self) -> None:
-        cache = Path(os.environ["XDG_CACHE_HOME"])
-        session = "vscode_prjct_2026-10-22T12:34:56"
-        (cache / f"{session}.lock").write_text("/repos/project-a/trunk")
-        with (
-            patch.object(
-                sp,
-                "run",
-                return_value=sp.CompletedProcess(
-                    [], 0, "CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND\n", ""
-                ),
+    def test_unresponsive_and_failed_listings(self) -> None:
+        with patch.object(sp, "run", side_effect=sp.TimeoutExpired("zellij", 10)):
+            self.assertFalse(MODULE["detached"](BASE))
+        with patch.object(
+            sp,
+            "run",
+            return_value=sp.CompletedProcess(
+                [], 1, "", "No active zellij sessions found.\n"
             ),
-            contextlib.ExitStack() as stack,
         ):
-            for reservation in (None, stack):
-                self.assertFalse(
-                    MODULE["reserve_detached_session"](
-                        session, "/repos/project-b/trunk", cache, reservation
-                    )
-                )
-                self.assertTrue(
-                    MODULE["reserve_detached_session"](
-                        session, "/repos/project-a/trunk", cache, reservation
-                    )
-                )
-
-    def test_macos_uses_short_socket_directory_and_preserves_overrides(self) -> None:
-        long_tmp = "/var/folders/n1/ktv6x7d50yb_n60s9gjny10m0000gp/T/"
-        for platform, override, expected in (
-            ("darwin", None, "/tmp/zellij-502"),  # noqa: S108 - Expected socket path, never created by this test.
-            ("darwin", "/custom/sockets", "/custom/sockets"),
-            ("linux", None, None),
-        ):
-            for app in ("vscode", "ghostty", "alacritty"):
-                environment = dict(os.environ, TMPDIR=long_tmp)
-                environment.pop("ZELLIJ_SOCKET_DIR", None)
-                if override is not None:
-                    environment["ZELLIJ_SOCKET_DIR"] = override
-
-                def execute(
-                    argv: list[str],
-                    *_: object,
-                    expected: str | None = expected,
-                    platform: str = platform,
-                    **__: object,
-                ) -> sp.CompletedProcess[str]:
-                    self.assertEqual(os.environ.get("ZELLIJ_SOCKET_DIR"), expected)
-                    if argv[0] == "git":
-                        return sp.CompletedProcess(
-                            argv,
-                            0,
-                            "/repos/nixcfg/trunk\n/repos/nixcfg/worktree.git\n",
-                            "",
-                        )
-                    if platform == "darwin":
-                        socket = f"{expected}/contract_version_1/{argv[-1]}"
-                        self.assertLessEqual(len(socket.encode()), 103)
-                    return sp.CompletedProcess(argv, 0, "", "")
-
-                with (
-                    self.subTest(platform=platform, override=override, app=app),
-                    patch.dict(os.environ, environment, clear=True),
-                    patch("sys.platform", platform),
-                    patch("os.getuid", return_value=502),
-                    patch("sys.argv", ["zellij-workspace", "--new", app]),
-                    patch.object(sp, "run", side_effect=execute),
-                    patch("os.execvp", side_effect=lambda _, argv: execute(argv)),
-                ):
-                    with self.assertRaises(SystemExit) as stopped:
-                        runpy.run_path(MODULE["__file__"], run_name="__main__")
-                    self.assertEqual(stopped.exception.code, 0)
-
-    def test_new_session_waits_if_name_is_reserved(self) -> None:
-        now = dt.datetime(2026, 10, 22, 12, 0, 0, tzinfo=dt.UTC).astimezone()
-        later = now + dt.timedelta(seconds=1)
-        cache = Path(os.environ["XDG_CACHE_HOME"]) / "zellij-workspace"
-        cache.mkdir()
-        for app, prefix in (("vscode", PREFIX), ("ghostty", "ghostty_")):
-            (cache / f"{prefix}{now.isoformat(timespec='milliseconds')}.lock").touch()
+            self.assertEqual(MODULE["list_sessions"](), (set(), set()))
+        for rc, out, err in [
+            (1, "", "permission denied"),
+            (2, "", "listing failed"),
+            (0, "invalid row", ""),
+        ]:
             with (
-                self.subTest(app=app),
-                patch.dict(
-                    MODULE["main"].__globals__,
-                    {"workspace_prefix": lambda _: (PREFIX, "/repos/nixcfg/trunk")},
+                patch.object(
+                    sp, "run", return_value=sp.CompletedProcess([], rc, out, err)
                 ),
-                patch("sys.argv", ["zellij-workspace", app, "--new"]),
-                patch.object(dt, "datetime") as clock,
-                patch("time.sleep") as sleep,
-                patch.object(sp, "run") as execute,
-                patch("os.execvp") as replace,
+                self.assertRaises(RuntimeError),
             ):
-                clock.now.side_effect = [now, later]
-                MODULE["main"]()
-                sleep.assert_called_once_with(0.1)
-                if app == "vscode":
-                    self.assertEqual(
-                        execute.call_args.args[0][-1],
-                        prefix + later.isoformat(timespec="milliseconds"),
-                    )
-                else:
-                    self.assertEqual(
-                        replace.call_args.args[1][-1],
-                        prefix + later.isoformat(timespec="milliseconds"),
-                    )
+                MODULE["list_sessions"]()
 
-    def test_attached_session_is_not_reused(self) -> None:
-        existing = PREFIX + "2026-10-21T14:30:52.123+02:00"
+    def test_macos_socket_root_respects_override(self) -> None:
+        for override in (None, "/custom/sockets"):
+            env = dict(os.environ, TMPDIR="/var/folders/" + "x" * 100)
+            env.pop("ZELLIJ_SOCKET_DIR", None)
+            if override:
+                env["ZELLIJ_SOCKET_DIR"] = override
 
-        def run(argv: list[str], **_: object) -> sp.CompletedProcess[str]:
-            output = (
-                "CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND\n1 terminal_0 N/A\n"
-                if "list-clients" in argv
-                else existing + "\n"
-            )
-            return sp.CompletedProcess(argv, 0, output, "")
-
-        with (
-            patch.dict(
-                MODULE["main"].__globals__,
-                {"workspace_prefix": lambda _: (PREFIX, "/repos/nixcfg/trunk")},
-            ),
-            patch("sys.argv", ["zellij-workspace", "vscode", "--dry-run"]),
-            patch.object(sp, "run", side_effect=run),
-            contextlib.redirect_stdout(io.StringIO()) as output,
-        ):
-            MODULE["main"]()
-        self.assertNotEqual(output.getvalue().strip(), existing)
-
-    def test_detached_session_reserved_by_another_launcher_is_not_reused(self) -> None:
-        session = PREFIX + "2026-10-21T14:30:52.123+02:00"
-        cache = Path(os.environ["XDG_CACHE_HOME"])
-        with (
-            (cache / f"{session}.lock").open("a") as lease,
-            contextlib.ExitStack() as stack,
-            patch.object(
-                sp,
-                "run",
-                return_value=sp.CompletedProcess(
-                    [],
-                    0,
-                    "CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND\n",
-                    "",
-                ),
-            ),
-        ):
-            fcntl.flock(lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            self.assertFalse(
-                MODULE["reserve_detached_session"](session, "", cache, stack)
-            )
-        with (
-            contextlib.ExitStack() as stack,
-            patch.object(
-                sp,
-                "run",
-                return_value=sp.CompletedProcess(
-                    [],
-                    0,
-                    "CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND\n",
-                    "",
-                ),
-            ),
-        ):
-            self.assertTrue(
-                MODULE["reserve_detached_session"](session, "", cache, stack)
-            )
-
-    def test_unresponsive_or_unknown_session_is_not_reused(self) -> None:
-        for result in (
-            sp.TimeoutExpired("zellij", 10),
-            sp.CompletedProcess([], 1, "", "session vanished"),
-            sp.CompletedProcess([], 0, "unexpected output", ""),
-        ):
-            with (
-                self.subTest(result=result),
-                contextlib.ExitStack() as stack,
-                patch.object(sp, "run", side_effect=[result]),
-            ):
-                self.assertFalse(
-                    MODULE["reserve_detached_session"](
-                        "session", "", Path(os.environ["XDG_CACHE_HOME"]), stack
-                    )
+            def run(
+                argv: list[str], *, expected: str | None = override, **_: object
+            ) -> sp.CompletedProcess[str]:
+                self.assertEqual(
+                    os.environ["ZELLIJ_SOCKET_DIR"],
+                    expected or "/tmp/zellij-502",  # noqa: S108 - Expected Zellij socket path.
                 )
+                if argv[0] == "git":
+                    return sp.CompletedProcess(argv, 128, "", "not a git repository")
+                return sp.CompletedProcess(argv, 0, "", "")
 
-    def test_listing_error_does_not_start_a_session(self) -> None:
-        with (
-            patch.dict(
-                MODULE["main"].__globals__,
-                {"workspace_prefix": lambda _: (PREFIX, "/repos/nixcfg/trunk")},
-            ),
-            patch("sys.argv", ["zellij-workspace", "vscode"]),
-            patch.object(
-                sp, "run", return_value=sp.CompletedProcess([], 2, "", "listing failed")
-            ),
-            patch("os.execvp") as execute,
-            self.assertRaisesRegex(RuntimeError, "listing failed"),
-        ):
-            MODULE["main"]()
-        execute.assert_not_called()
+            with (
+                patch.dict(os.environ, env, clear=True),
+                patch("sys.platform", "darwin"),
+                patch("os.getuid", return_value=502),
+                patch("sys.argv", ["zellij-workspace", "--new"]),
+                patch.object(sp, "run", side_effect=run),
+                self.assertRaises(SystemExit) as stopped,
+            ):
+                runpy.run_path(MODULE["__file__"], run_name="__main__")
+            self.assertEqual(stopped.exception.code, 0)
 
 
 if __name__ == "__main__":
