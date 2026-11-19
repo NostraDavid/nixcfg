@@ -133,8 +133,8 @@ configuration and restart the editor's language servers.
 
 ## Notes
 
-- [OpenCode v2](docs/opencode-v2.md) covers the pinned CLI on all machines, the
-  Linux desktop package, configuration compatibility, and migration checks.
+- [OpenCode v2](docs/opencode-v2.md) covers the pinned CLI on all machines,
+  configuration compatibility, and migration checks.
 - [Windows-style shortcuts on Loki](docs/loki-windows-shortcuts.md) covers
   Karabiner-Elements, macOS permissions, and VS Code terminal bindings.
 - `docs/` contains script files with nifty commands.

@@ -1,1 +1,0 @@
-update-opencode-v2.sh

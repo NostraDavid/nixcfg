@@ -47,7 +47,6 @@
       local.gigatoken # Fast tokenization for OpenAI models
       local.jsongrep # JSONPath-inspired query language over JSON documents
       local.mdschema # A declarative schema-based Markdown validator
-      local.opencode-v2-desktop # OpenCode v2 desktop client
       local.photogimp # Photoshop-like defaults for GIMP
       local.ptk # python-token-killer
       local.tiktoken # Tokenizer for OpenAI models

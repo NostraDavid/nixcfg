@@ -44,7 +44,6 @@ in {
             "k9s"
             "libreoffice"
             "nuclear"
-            "opencode-desktop"
             "openrct2"
             "opentofu"
             "pixelorama"

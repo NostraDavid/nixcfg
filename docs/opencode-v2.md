@@ -5,21 +5,15 @@ All configured machines install the pinned `opencode-v2` CLI package as
 hosts receive it as a system package; the portable Debian and macOS profiles
 receive it through Home Manager.
 
-The existing Linux desktop installation also moves to v2 through
-`opencode-v2-desktop`, retaining the `opencode-desktop` command and desktop
-entry. There is an official v2 desktop build, so the v1 app is replaced rather
-than retained. Servers do not gain a graphical application.
-
 ## Packages and updates
 
-Both packages pin the same stable **2.x** release. The CLI uses the official
-platform-specific `@opencode/cli-*` npm archives with fixed integrity hashes.
-Linux binaries are patched for Nix's loader and libraries. The x86-64 builds use
-the baseline CPU variant so they do not require AVX2.
+The CLI pins a stable **2.x** release from the official platform-specific
+`@opencode/cli-*` npm archives with fixed integrity hashes. Linux binaries are
+patched for Nix's loader and libraries. The x86-64 builds use the baseline CPU
+variant so they do not require AVX2.
 
 CLI platforms are x86-64 Linux, ARM64 Linux, Apple Silicon macOS, and Intel
-macOS. The desktop package uses the official x86-64 Linux AppImage, matching our
-current graphical NixOS hosts. It includes its matching v2 CLI sidecar.
+macOS.
 
 The CLI wrapper disables automatic updates, and the workstation configuration
 retains its disabled update setting. From the Linux maintenance checkout, run:
@@ -28,13 +22,10 @@ retains its disabled update setting. From the Linux maintenance checkout, run:
 just pkg-update opencode-v2
 ```
 
-This updates both packages together, refreshes the four platform-specific CLI
-integrity hashes and desktop checksum, and builds both packages. The desktop
-entry point `just pkg-update opencode-v2-desktop` runs the same paired updater.
-Missing downloads or invalid metadata leave the definitions unchanged; a failed
-build restores both files, including pre-existing local changes. An unchanged
-release does not trigger another build. The script refuses prereleases and other
-major versions.
+The updater verifies the four platform-specific npm integrity hashes and builds
+the CLI when its package definition changes. A failed build restores the earlier
+definition, including existing local edits. The updater accepts stable 2.x
+releases.
 
 For a preview or a specific release, use:
 
@@ -179,6 +170,6 @@ The CLI test uses temporary XDG directories and private service instances. It
 checks the personal configuration through real v2 normalization, provider
 isolation for both agents, retained restrictions, database path selection, and a
 running v2 API without model calls. The tooling check asserts installation on
-every NixOS host, Debian and macOS, checks the desktop replacement, and rejects
-remaining v1 entries in the managed workstation profiles. macOS/ARM execution
-and live provider credentials require validation on those machines.
+every NixOS host, Debian and macOS, and rejects remaining v1 entries in the
+managed workstation profiles. macOS/ARM execution and live provider credentials
+require validation on those machines.
