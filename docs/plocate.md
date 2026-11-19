@@ -25,6 +25,12 @@ manager starts and catch-up for missed daily runs. macOS uses a launchd user
 agent at login and at 03:15 while logged in. The old system-wide indexing jobs
 are no longer configured. Existing system databases are left on disk.
 
+On Linux, `updatedb` opens sibling directories together. The wrapper raises its
+own soft file descriptor limit to the user's hard limit before scanning. If the
+timer leaves an old index in place, check the last run with
+`journalctl --user -u plocate.service -n 20`.
+[Linux wrapper](../features/terminal/_locate.nix)
+
 Apply the machine's NixOS, nix-darwin or Home Manager configuration to install
 the commands and user job. Run `updatedb` after activation to build the first
 index immediately. Remote machines also need their own activation.

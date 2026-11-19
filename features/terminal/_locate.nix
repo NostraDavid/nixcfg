@@ -20,7 +20,11 @@
     ${stable.coreutils}/bin/chmod 0700 ${lib.escapeShellArg directory}
     # The macOS fork predates --config-file, so use its per-user config override.
     ${lib.optionalString darwin "export PLOCATE_UPDATEDB_CONF=${lib.escapeShellArg configFile}"}
-    ${lib.optionalString (!darwin) "set -- --config-file=${lib.escapeShellArg configFile} \"$@\""}
+    ${lib.optionalString (!darwin) ''
+      # updatedb keeps sibling directories open and otherwise stops raising its limit at 131072.
+      ulimit -Sn hard
+      set -- --config-file=${lib.escapeShellArg configFile} "$@"
+    ''}
     exec ${plocate}/bin/updatedb \
       --output=${lib.escapeShellArg database} --require-visibility=no "$@"
   '';
