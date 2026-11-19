@@ -21,8 +21,8 @@ log_user_prompt = false
 [desktop]
 ambient-suggestions-enabled = true
 conversationDetailMode = "STEPS_PROSE"
-followUpQueueMode = "queue"
 keepRemoteControlAwakeWhilePluggedIn = true
+migratedFollowUpQueueToSteer = true
 
 [features]
 apps = false
@@ -510,4 +510,10 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/david/dev/NostraDavid/wow-forever"]
+trust_level = "trusted"
+
+[projects."/tmp"]
+trust_level = "trusted"
+
+[projects."/home/david/dev/NostraDavid/ctb/sqlite-to-postgres"]
 trust_level = "trusted"
