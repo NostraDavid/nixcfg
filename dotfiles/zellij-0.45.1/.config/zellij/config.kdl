@@ -373,7 +373,7 @@ default_shell "nix-bash"
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
-theme "classic"
+theme "retro-wave"
 
 // Themes to use when the host terminal reports a dark or light color palette.
 // Both must be set for automatic switching to take place, otherwise `theme`
@@ -641,3 +641,6 @@ scrollback_editor "zellij-scrollback"
 web_client {
     font "monospace"
 }
+explicit_theme_hue "dark"
+scroll_buffer_size 1000000
+show_startup_tips false
