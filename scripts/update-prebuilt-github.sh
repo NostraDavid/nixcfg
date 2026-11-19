@@ -23,7 +23,6 @@ emdash) repo=generalaction/emdash ;;
 jsongrep) repo=micahkepe/jsongrep ;;
 kandev) repo=kdlbs/kandev ;;
 mdschema) repo=jackchuka/mdschema ;;
-orca-ide) repo=stablyai/orca ;;
 outlook-cli) repo=rvben/outlook-cli ;;
 pandacode)
     repo=aicodeking/pandacode
@@ -126,14 +125,6 @@ for system in "${systems[@]}"; do
         esac
         ;;
     mdschema) asset="mdschema_${version}_${go}.tar.gz" ;;
-    orca-ide)
-        case "$system" in
-        x86_64-linux) asset=orca-linux.AppImage ;;
-        aarch64-linux) asset=orca-linux-arm64.AppImage ;;
-        x86_64-darwin) asset="Orca-${version}-mac.zip" ;;
-        aarch64-darwin) asset="Orca-${version}-arm64-mac.zip" ;;
-        esac
-        ;;
     outlook-cli) asset="outlook-v${version}-${rust}.tar.gz" ;;
     pandacode)
         case "$system" in

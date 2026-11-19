@@ -171,7 +171,7 @@ filter_bulk_packages() {
     local package
     while IFS= read -r package; do
         case "$package" in
-        *-image | proxmox-lab | headlamp-identity | agent-orchestrator | emdash | kandev | opencode-v2-desktop | orca-ide | paperclip | paseo-desktop | superset | unsloth) continue ;;
+        *-image | proxmox-lab | headlamp-identity | agent-orchestrator | emdash | kandev | opencode-v2-desktop | paperclip | paseo-desktop | superset | unsloth) continue ;;
         esac
         printf '%s\n' "$package"
     done

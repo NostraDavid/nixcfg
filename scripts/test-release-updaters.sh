@@ -16,9 +16,6 @@ mkdir -p "${TEST_REPO}/pkgs/"{pico-8-font,ponytail-skills,ponytail-codex}
 cp "${repo_root}/scripts/update-databricks-agent-skills.sh" "${TEST_REPO}/scripts/"
 mkdir -p "${TEST_REPO}/pkgs/codex"
 cp "${repo_root}/scripts/update-prebuilt-github.sh" "${TEST_REPO}/scripts/"
-mkdir -p "${TEST_REPO}/pkgs/orca-ide"
-cp "${repo_root}/pkgs/orca-ide/default.nix" "${TEST_REPO}/pkgs/orca-ide/"
-ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-orca-ide.sh"
 mkdir -p "${TEST_REPO}/pkgs/emdash"
 cp "${repo_root}/pkgs/emdash/default.nix" "${TEST_REPO}/pkgs/emdash/"
 ln -s update-prebuilt-github.sh "${TEST_REPO}/scripts/update-emdash.sh"
@@ -172,17 +169,6 @@ if [[ "$2" == repos/generalaction/emdash/releases/latest ]]; then
     printf ']}\n'
     exit
 fi
-if [[ "$2" == repos/stablyai/orca/releases/latest ]]; then
-    printf '{"tag_name":"%s","assets":[' "${TEST_ORCA_RELEASE:-v2.0.0}"
-    printf '{"name":"orca-linux.AppImage","digest":"sha256:%064d"},' 0
-    printf '{"name":"orca-linux-arm64.AppImage","digest":"sha256:%064d"},' 1
-    printf '{"name":"Orca-2.0.0-mac.zip","digest":"sha256:%064d"}' 2
-    if [[ "${TEST_ORCA_MISSING_ASSET:-0}" == 0 ]]; then
-        printf ',{"name":"Orca-2.0.0-arm64-mac.zip","digest":"sha256:%064d"}' 3
-    fi
-    printf ']}\n'
-    exit
-fi
 if [[ "$2" == repos/openai/codex/releases/latest ]]; then
     printf '{"tag_name":"%s","assets":[' "${TEST_CODEX_RELEASE:-rust-v0.200.0}"
     printf '{"name":"codex-package-x86_64-unknown-linux-musl.tar.gz","digest":"sha256:%064d"}' 0
@@ -219,7 +205,7 @@ EOF
 chmod +x "${test_root}/bin/"*
 export PATH="${test_root}/bin:${PATH}"
 
-for package in orca-ide superset; do
+for package in superset; do
     [[ "$("${TEST_REPO}/scripts/update-${package}.sh" --latest-version)" == 2.0.0 ]]
     cmp "${repo_root}/pkgs/${package}/default.nix" "${TEST_REPO}/pkgs/${package}/default.nix"
 done
@@ -284,39 +270,6 @@ TEST_OPENCODE_RELEASE=3.0.0 "${TEST_REPO}/scripts/update-opencode-v2-desktop.sh"
 for package in opencode-v2 opencode-v2-desktop; do
     rg -q 'version = "2.1.0";' "${TEST_REPO}/pkgs/${package}/default.nix"
 done
-
-"${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null
-rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/orca-ide/default.nix"
-[[ "$(rg -c 'hash = "sha256-TESTHASH";' "${TEST_REPO}/pkgs/orca-ide/default.nix")" -eq 4 ]]
-rg -q '^build .#orca-ide --no-link$' "${TEST_REPO}/builds.log"
-NIXCFG_SKIP_UNCHANGED=1 TEST_BUILD_FAILURE=1 "${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null
-sed -i 's/sha256-TESTHASH/sha256-OLDHASH/' "$TEST_REPO/pkgs/orca-ide/default.nix"
-if NIXCFG_SKIP_UNCHANGED=1 TEST_BUILD_FAILURE=1 "$TEST_REPO/scripts/update-orca-ide.sh" >/dev/null 2>&1; then
-    echo 'Expected a changed digest at the current version to require a build' >&2
-    exit 1
-fi
-rg -qF 'sha256-OLDHASH' "$TEST_REPO/pkgs/orca-ide/default.nix"
-if NIXCFG_SKIP_UNCHANGED=1 TEST_ORCA_MISSING_ASSET=1 "${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null 2>&1; then
-    echo 'Expected a missing asset to fail even at the current version' >&2
-    exit 1
-fi
-cp "${repo_root}/pkgs/orca-ide/default.nix" "${TEST_REPO}/pkgs/orca-ide/"
-printf '# existing user changes\n' >>"${TEST_REPO}/pkgs/orca-ide/default.nix"
-cp "${TEST_REPO}/pkgs/orca-ide/default.nix" "${test_root}/orca.before"
-for failure in tag asset build; do
-    export TEST_ORCA_RELEASE=v2.0.0 TEST_ORCA_MISSING_ASSET=0 TEST_BUILD_FAILURE=0
-    case "$failure" in
-    tag) TEST_ORCA_RELEASE=v2.0.0-alpha ;;
-    asset) TEST_ORCA_MISSING_ASSET=1 ;;
-    build) TEST_BUILD_FAILURE=1 ;;
-    esac
-    if "${TEST_REPO}/scripts/update-orca-ide.sh" >/dev/null 2>&1; then
-        echo "Expected Orca ${failure} failure" >&2
-        exit 1
-    fi
-    cmp "${test_root}/orca.before" "${TEST_REPO}/pkgs/orca-ide/default.nix"
-done
-unset TEST_ORCA_RELEASE TEST_ORCA_MISSING_ASSET TEST_BUILD_FAILURE
 
 "${TEST_REPO}/scripts/update-emdash.sh" >/dev/null
 rg -q 'version = "2.0.0";' "${TEST_REPO}/pkgs/emdash/default.nix"

@@ -1,1 +1,0 @@
-update-prebuilt-github.sh
