@@ -12,15 +12,14 @@
   localPackageNames =
     filter (name: entries.${name} == "directory") (attrNames entries);
   mdschemaVersion = "0.16.0";
-  upstreamTools = pkgs: let
-    inherit (pkgs.stdenv.hostPlatform) system isLinux;
+  packageOverrides = pkgs: let
+    inherit (pkgs.stdenv.hostPlatform) system;
     source =
       if system == "x86_64-darwin"
       then pkgs
       else unstableFor system;
   in
     {
-      inherit (source) beads databricks-cli jsongrep rtk snip;
       acli = import ./acli.nix {
         inherit pkgs;
         candidate = source.acli;
@@ -46,31 +45,20 @@
           });
       inherit (overlay-ca-security pkgs pkgs) uv;
     }
-    // pkgs.lib.optionalAttrs isLinux {inherit (source) jpegli;}
     // pkgs.lib.optionalAttrs (system == "x86_64-linux") {
       bend = source.bend2.overrideAttrs (old: {
         makeWrapperArgs = old.makeWrapperArgs ++ ["--set-default" "BEND_NO_TELEMETRY" "1"];
       });
-      photorec = pkgs.testdisk // {meta = pkgs.testdisk.meta // {mainProgram = "photorec";};};
     };
-  mkLocal = pkgs:
-    listToAttrs (map
-      (name: {
-        inherit name;
-        value =
-          if name == "jpegli"
-          then pkgs.jpegli.bin
-          else pkgs.${name};
-      })
-      (localPackageNames ++ attrNames (upstreamTools pkgs)));
+  mkLocal = pkgs: pkgs.lib.getAttrs (localPackageNames ++ attrNames (packageOverrides pkgs)) pkgs;
   cachePackageNames = system: outputs: let
-    inherit (inputs.nixpkgs.lib) optional versionOlder;
-    intelMac = system == "x86_64-darwin";
-    # Keep the redistributable backports and Bend's wrapper in Cachix.
-    custom = ["bend"] ++ optional intelMac "uv" ++ optional (intelMac || versionOlder (unstableFor system).mdschema.version mdschemaVersion) "mdschema";
-    upstream = builtins.removeAttrs (upstreamTools (pkgsFor system)) custom;
+    inherit (inputs.nixpkgs.lib) optional versionAtLeast;
+    upstream =
+      if system == "x86_64-darwin"
+      then []
+      else ["uv"] ++ optional (versionAtLeast (unstableFor system).mdschema.version mdschemaVersion) "mdschema";
   in
-    attrNames (builtins.removeAttrs outputs (attrNames upstream ++ ["synology-drive-client-pinned"]));
+    attrNames (builtins.removeAttrs outputs (["acli"] ++ upstream));
   overlay-local = final: prev:
     listToAttrs (map
       (name: {
@@ -97,19 +85,7 @@
           prev.callPackage pkgPath (moldArgs // fileArgs);
       })
       localPackageNames)
-    // upstreamTools prev
-    // {
-      # Keep the public name. The original recipe under pkgs/ is archived.
-      synology-drive-client-pinned = let
-        system = prev.stdenv.hostPlatform.system;
-        source =
-          if system == "x86_64-darwin"
-          then prev
-          else unstableFor system;
-        client = source.synology-drive-client;
-      in
-        client // {passthru = (client.passthru or {}) // {updateSkipReason = "Provided by nixpkgs; update flake inputs";};};
-    };
+    // packageOverrides prev;
   overlay-fixes = _final: prev: {
     pythonPackagesExtensions =
       prev.pythonPackagesExtensions

@@ -6914,7 +6914,7 @@
         "features/media/default.nix"
       ],
       "path": "features/media/_production.nix",
-      "sha256": "4a9da15477be041ab5b304af50bb8947650d7489bc5933fbe733e75f305b3cf1",
+      "sha256": "1757675c87dfb8e2d3c8f4eab8d7f830baa5b76ae699b904e190ce4df7d4be8d",
       "status": "used"
     },
     {
@@ -8424,24 +8424,24 @@
         "wiring:Flake wiring"
       ],
       "kind": "infrastructure",
-      "lines": 97,
+      "lines": 84,
       "merge_into": null,
       "parents": [
         "nix/default.nix"
       ],
       "path": "nix/outputs.nix",
-      "sha256": "c125f802e55cc55b797c948ad5e1db6240209edcf4c45a8f88e37fb872ab0a5a",
+      "sha256": "febcb8e7a9f732a9d0d1a53d470781e8e6a4f2f47a742ca046196b415724842c",
       "status": "wiring-only"
     },
     {
       "children": [],
       "contexts": [],
       "kind": "infrastructure",
-      "lines": 232,
+      "lines": 208,
       "merge_into": null,
       "parents": [],
       "path": "nix/packages.nix",
-      "sha256": "937189a5dbcc1b230180ce9645440993a755382c824c0749957fac4f003e9692",
+      "sha256": "2bf7e0f511f8d4b26d8be92851f395e756fe7167c8cdeed2669b60e27abd22c0",
       "status": "unobserved"
     },
     {

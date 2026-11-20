@@ -4,7 +4,7 @@
   ...
 }: {
   home.packages = [
-    stable.testdisk # Includes photorec and fidentify
+    stable.testdisk # Recover lost partitions and files
     stable.flite # flite -f <file>; TTS Engine
     stable.gperftools # Google Performance Tools (gperftools) for profiling and performance analysis
     stable.nuclear # Music streaming app

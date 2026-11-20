@@ -69,20 +69,7 @@ in {
         '';
     };
 
-    packages =
-      stable.lib.filterAttrs (_: package: stable.lib.meta.availableOn stable.stdenv.hostPlatform package) (mkLocal stable)
-      // {
-        win11-icon-theme =
-          stable.win11-icon-theme or (stable.callPackage (builtins.path {
-            path = ../pkgs/win11-icon-theme;
-            name = "win11-icon-theme";
-          }) {});
-        win11os-kde =
-          stable.win11os-kde or (stable.callPackage (builtins.path {
-            path = ../pkgs/win11os-kde;
-            name = "win11os-kde";
-          }) {});
-      };
+    packages = stable.lib.filterAttrs (_: package: stable.lib.meta.availableOn stable.stdenv.hostPlatform package) (mkLocal stable);
 
     devShells.default = stable.mkShell {
       # Tools needed before the first Home Manager activation.
