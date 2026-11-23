@@ -8,6 +8,13 @@
 }: let
   bin = "${config.home.homeDirectory}/.local/bin";
   darwin = stable.stdenv.hostPlatform.isDarwin;
+  nixosMcp = stable.writeShellScript "mcp-nixos" ''
+    # Python treats an empty override as a module name instead of using its default.
+    if [[ -z "''${_PYTHON_SYSCONFIGDATA_NAME:-}" ]]; then
+      unset _PYTHON_SYSCONFIGDATA_NAME
+    fi
+    exec ${lib.getExe stable.mcp-nixos} "$@"
+  '';
   nodeRepl = stable.writeShellScriptBin "mcp-node-repl" ''
     export NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS=1000
     export NODE_REPL_NODE_MODULE_DIRS="${local.chatgpt}/lib/chatgpt/resources/cua_node/lib/node_modules"
@@ -114,7 +121,7 @@ in {
         {
           ".local/bin/codex".source = codex;
           ".local/bin/opencode".source = lib.getExe (stable.callPackage ../../pkgs/opencode-v2 {});
-          ".local/bin/mcp-nixos".source = lib.getExe stable.mcp-nixos;
+          ".local/bin/mcp-nixos".source = nixosMcp;
           ".local/bin/playwright-mcp".source = lib.getExe unstable.playwright-mcp;
           ".local/bin/chrome-devtools-mcp".source = lib.getExe local.chrome-devtools-mcp;
           ".local/bin/dbhub".source = lib.getExe local.dbhub;

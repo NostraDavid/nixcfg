@@ -38,6 +38,7 @@ in {
             "args": sys.argv[1:],
             "config": os.environ.get("OPENCODE_CONFIG_CONTENT"),
             "path": os.environ["PATH"],
+            "sysconfigdata": os.environ.get("_PYTHON_SYSCONFIGDATA_NAME"),
         }))
       '';
     launchers = profile: darwin: let
@@ -111,10 +112,13 @@ in {
     lokiNoNodeRepl = assert lib.all (profile: !(profile.nixcfg.mcp.servers ? node_repl) && !(profile.home.file ? ".local/bin/mcp-node-repl") && !(builtins.any (p: (p.name or "") == "mcp-node-repl") profile.home.packages)) [home work]; true;
     packages = assert lib.all (profile: lib.all (name: builtins.any (p: (p.pname or "") == name) profile.home.packages) packages) allProfiles; true;
     stableNixos = assert lib.all (profile:
-      builtins.elem (toString profile.home.file.".local/bin/mcp-nixos".source) [
-        (lib.getExe pkgs.mcp-nixos)
-        (lib.getExe flake.darwinConfigurations.loki.pkgs.mcp-nixos)
-      ])
+      builtins.any (package:
+        builtins.elem (toString package) [
+          (toString pkgs.mcp-nixos)
+          (toString flake.darwinConfigurations.loki.pkgs.mcp-nixos)
+        ])
+      profile.home.packages
+      && profile.home.file.".local/bin/mcp-nixos".source == profile.home.file.".local/bin/opencode-mcp-nixos".source)
     allProfiles; true;
     noHeadroom = assert lib.all (profile:
       !(profile.nixcfg.mcp.servers ? headroom)

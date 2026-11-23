@@ -109,6 +109,14 @@ for platform in ("linux", "macos"):
             name,
             result,
         )
+    for value in (None, "", "_sysconfigdata_custom"):
+        nixos_env = env.copy()
+        if value is None:
+            nixos_env.pop("_PYTHON_SYSCONFIGDATA_NAME", None)
+        else:
+            nixos_env["_PYTHON_SYSCONFIGDATA_NAME"] = value
+        subprocess.run([wrappers / (platform + "-mcp-nixos")], env=nixos_env, check=True)
+        assert json.loads(capture.read_text())["sysconfigdata"] == (value or None)
 
 
 # Native JSON clients use portable shell launchers without PATH lookup.
