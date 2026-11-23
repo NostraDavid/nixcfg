@@ -20,14 +20,5 @@
     }
   ],
   "servers": {
-    "agent-memory": {
-      "args": [
-        "-c",
-        "exec \"$HOME/.local/bin/mcp-agent-memory\" \"$@\"",
-        "agent-memory"
-      ],
-      "command": "/bin/sh",
-      "type": "stdio"
-    }
   }
 }
