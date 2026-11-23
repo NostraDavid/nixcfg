@@ -9,17 +9,17 @@ stdenvNoCC.mkDerivation (finalAttrs: let
   assets = {
     x86_64-linux = {
       name = "linux-x64";
-      hash = "sha256-Es3NSVl+98KnpLDIlIvHCBEvtZAevOPlSYMXG2JAVZU=";
+      hash = "sha256-KJ6AT/rlT+lY0L4+qDdNyAan40HTzzTl/sqBrQwfQb8=";
     };
     aarch64-darwin = {
       name = "darwin-arm64";
-      hash = "sha256-lQE0Q82rDsClMMnKRRb42fqfldtXg9dltlBcTW6QQ88=";
+      hash = "sha256-6VuShal/PXmkrhEiJkpD9yUidAlE3i3I/xuSN2QYkm0=";
     };
   };
   asset = assets.${stdenvNoCC.hostPlatform.system};
 in {
   pname = "twg";
-  version = "1.4.5";
+  version = "1.4.6";
   src = fetchurl {
     url = "https://teamwork-graph.atlassian.com/cli/twg-${asset.name}-v${finalAttrs.version}";
     inherit (asset) hash;

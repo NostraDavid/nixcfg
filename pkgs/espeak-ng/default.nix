@@ -14,12 +14,12 @@
 (espeak-ng.override {
   inherit asyncSupport klattSupport mbrolaSupport pcaudiolibSupport sonicSupport speechPlayerSupport;
 }).overrideAttrs (finalAttrs: old: {
-  version = "1.52.0-unstable-2026-11-08";
+  version = "1.52.0-unstable-2026-11-19";
   src = fetchFromGitHub {
     owner = "espeak-ng";
     repo = "espeak-ng";
-    rev = "688cb60368d6e0998f3632af8d1c3c2ad4191fc2";
-    hash = "sha256-4fkbXp1ttT8QHDIlLT1h3VrL5QqHoQLIw6U9pv+v71E=";
+    rev = "ee9fa7cc4704d683020526f47a9655f14c8d5f4c";
+    hash = "sha256-9loaRX8pzaJrKAJ8e3BipCVOSWmH9zybB643o6uyQ4I=";
   };
   # Upstream includes the backports and searches XDG paths for MBROLA voices.
   # Only the MBROLA executable still needs an absolute Nix path.
