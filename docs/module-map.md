@@ -59,10 +59,10 @@ Dependencies, service-only packages, manual installations and external work prof
 | apps | 89 |
 | bragi | 178 |
 | certs | 87 |
-| donar | 565 |
+| donar | 566 |
 | forgejo | 88 |
 | forgejo-lab | 87 |
-| frigg | 520 |
+| frigg | 521 |
 | homepage | 88 |
 | k3s | 88 |
 | loki | 148 |
@@ -70,7 +70,7 @@ Dependencies, service-only packages, manual installations and external work prof
 | nextcloud | 90 |
 | openbao | 89 |
 | proxy | 87 |
-| wodan | 550 |
+| wodan | 551 |
 
 ## Entry points
 

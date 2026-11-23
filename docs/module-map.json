@@ -6185,13 +6185,13 @@
         "NixOS:wodan"
       ],
       "kind": "feature",
-      "lines": 65,
+      "lines": 66,
       "merge_into": null,
       "parents": [
         "features/development/default.nix"
       ],
       "path": "features/development/_mantle.nix",
-      "sha256": "a9c94230cf95c3c80234546edcd00c6b864f25a87d3d396919fd38e172239d92",
+      "sha256": "bf7add5c8754264f919fd9366d5fdc851b57d21610870183d4212fba5d4edd70",
       "status": "used"
     },
     {
@@ -9219,7 +9219,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.51.2"
+          "version": "0.51.3"
         },
         {
           "name": "attr",
@@ -9274,7 +9274,7 @@
         {
           "name": "ctx",
           "origin": "home:david",
-          "version": "2.4.1"
+          "version": "2.5.0"
         },
         {
           "name": "curl",
@@ -9284,7 +9284,7 @@
         {
           "name": "dbhub",
           "origin": "home:david",
-          "version": "2.0.0"
+          "version": "2.1.0"
         },
         {
           "name": "dbus",
@@ -9349,7 +9349,7 @@
         {
           "name": "espeak-ng",
           "origin": "home:david",
-          "version": "1.52.0-unstable-2026-11-08"
+          "version": "1.52.0-unstable-2026-11-19"
         },
         {
           "name": "exfatprogs",
@@ -9464,7 +9464,7 @@
         {
           "name": "herdr-core",
           "origin": "home:david",
-          "version": "0.1.21"
+          "version": "0.1.22"
         },
         {
           "name": "hicolor-icon-theme",
@@ -9799,7 +9799,7 @@
         {
           "name": "omp",
           "origin": "home:david",
-          "version": "18.20.3"
+          "version": "19.0.0"
         },
         {
           "name": "opencode-v2",
@@ -10626,7 +10626,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.51.2"
+          "version": "0.51.3"
         },
         {
           "name": "at-spi2-core",
@@ -10761,12 +10761,12 @@
         {
           "name": "cachix",
           "origin": "home:david",
-          "version": "1.12.1"
+          "version": "1.15.0"
         },
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1111.71025"
+          "version": "26.1117.41037"
         },
         {
           "name": "chrome-devtools-mcp",
@@ -10776,7 +10776,7 @@
         {
           "name": "chromium",
           "origin": "home:david",
-          "version": "157.0.8103.78"
+          "version": "158.0.8127.36"
         },
         {
           "name": "cloc",
@@ -10791,7 +10791,7 @@
         {
           "name": "codex",
           "origin": "home:david",
-          "version": "0.170.0"
+          "version": "0.171.0"
         },
         {
           "name": "colordiff",
@@ -10816,7 +10816,7 @@
         {
           "name": "ctx",
           "origin": "home:david",
-          "version": "2.4.1"
+          "version": "2.5.0"
         },
         {
           "name": "ctx7",
@@ -10836,7 +10836,7 @@
         {
           "name": "dbhub",
           "origin": "home:david",
-          "version": "2.0.0"
+          "version": "2.1.0"
         },
         {
           "name": "dbus",
@@ -10861,7 +10861,7 @@
         {
           "name": "delta",
           "origin": "home:david",
-          "version": "0.20.1"
+          "version": "0.21.2"
         },
         {
           "name": "devenv",
@@ -10991,7 +10991,7 @@
         {
           "name": "espeak-ng",
           "origin": "home:david",
-          "version": "1.52.0-unstable-2026-11-08"
+          "version": "1.52.0-unstable-2026-11-19"
         },
         {
           "name": "evolution",
@@ -11161,7 +11161,7 @@
         {
           "name": "gh",
           "origin": "home:david",
-          "version": "2.104.0"
+          "version": "2.105.0"
         },
         {
           "name": "ghostty",
@@ -11177,6 +11177,11 @@
           "name": "gigatoken",
           "origin": "home:david",
           "version": "0.11.0"
+        },
+        {
+          "name": "gimp",
+          "origin": "home:david",
+          "version": "3.0.8"
         },
         {
           "name": "git",
@@ -11281,7 +11286,7 @@
         {
           "name": "grype",
           "origin": "home:david",
-          "version": "0.121.3"
+          "version": "0.122.0"
         },
         {
           "name": "gvfs",
@@ -11331,7 +11336,7 @@
         {
           "name": "herdr-core",
           "origin": "home:david",
-          "version": "0.1.21"
+          "version": "0.1.22"
         },
         {
           "name": "hicolor-icon-theme",
@@ -11491,7 +11496,7 @@
         {
           "name": "k3s",
           "origin": "home:david",
-          "version": "1.35.8+k3s1"
+          "version": "1.35.10+k3s1"
         },
         {
           "name": "k9s",
@@ -11661,7 +11666,7 @@
         {
           "name": "kitty",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "kmenuedit",
@@ -11851,7 +11856,7 @@
         {
           "name": "libreoffice",
           "origin": "home:david",
-          "version": "25.8.5.2"
+          "version": "26.2.7.3"
         },
         {
           "name": "libressl",
@@ -12356,7 +12361,7 @@
         {
           "name": "omp",
           "origin": "home:david",
-          "version": "18.20.3"
+          "version": "19.0.0"
         },
         {
           "name": "opencode-v2",
@@ -12426,7 +12431,7 @@
         {
           "name": "oxlint",
           "origin": "home:david",
-          "version": "1.91.0"
+          "version": "1.94.0"
         },
         {
           "name": "p7zip",
@@ -12821,7 +12826,7 @@
         {
           "name": "sbomnix",
           "origin": "home:david",
-          "version": "1.9.0"
+          "version": "1.10.0"
         },
         {
           "name": "scalene",
@@ -12876,7 +12881,7 @@
         {
           "name": "signal-desktop",
           "origin": "home:david",
-          "version": "8.32.0"
+          "version": "8.35.0"
         },
         {
           "name": "sipcalc",
@@ -13011,7 +13016,7 @@
         {
           "name": "syft",
           "origin": "home:david",
-          "version": "1.56.0"
+          "version": "1.57.2"
         },
         {
           "name": "synology-drive-client",
@@ -13151,7 +13156,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.7"
+          "version": "0.13.9"
         },
         {
           "name": "viddy",
@@ -13466,7 +13471,7 @@
         {
           "name": "zed-editor",
           "origin": "home:david",
-          "version": "1.28.1"
+          "version": "1.29.3"
         },
         {
           "name": "zellij",
@@ -14484,7 +14489,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.51.2"
+          "version": "0.51.3"
         },
         {
           "name": "at-spi2-core",
@@ -14614,12 +14619,12 @@
         {
           "name": "cachix",
           "origin": "home:david",
-          "version": "1.12.1"
+          "version": "1.15.0"
         },
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1111.71025"
+          "version": "26.1117.41037"
         },
         {
           "name": "chrome-devtools-mcp",
@@ -14629,7 +14634,7 @@
         {
           "name": "chromium",
           "origin": "home:david",
-          "version": "157.0.8103.78"
+          "version": "158.0.8127.36"
         },
         {
           "name": "cloc",
@@ -14644,7 +14649,7 @@
         {
           "name": "codex",
           "origin": "home:david",
-          "version": "0.170.0"
+          "version": "0.171.0"
         },
         {
           "name": "colordiff",
@@ -14664,7 +14669,7 @@
         {
           "name": "cpupower",
           "origin": "system",
-          "version": "6.18.63"
+          "version": "6.18.64"
         },
         {
           "name": "csvkit",
@@ -14674,7 +14679,7 @@
         {
           "name": "ctx",
           "origin": "home:david",
-          "version": "2.4.1"
+          "version": "2.5.0"
         },
         {
           "name": "ctx7",
@@ -14694,7 +14699,7 @@
         {
           "name": "dbhub",
           "origin": "home:david",
-          "version": "2.0.0"
+          "version": "2.1.0"
         },
         {
           "name": "dbus",
@@ -14719,7 +14724,7 @@
         {
           "name": "delta",
           "origin": "home:david",
-          "version": "0.20.1"
+          "version": "0.21.2"
         },
         {
           "name": "devenv",
@@ -14844,7 +14849,7 @@
         {
           "name": "espeak-ng",
           "origin": "home:david",
-          "version": "1.52.0-unstable-2026-11-08"
+          "version": "1.52.0-unstable-2026-11-19"
         },
         {
           "name": "evolution",
@@ -14989,7 +14994,7 @@
         {
           "name": "gh",
           "origin": "home:david",
-          "version": "2.104.0"
+          "version": "2.105.0"
         },
         {
           "name": "ghostty",
@@ -15005,6 +15010,11 @@
           "name": "gigatoken",
           "origin": "home:david",
           "version": "0.11.0"
+        },
+        {
+          "name": "gimp",
+          "origin": "home:david",
+          "version": "3.0.8"
         },
         {
           "name": "git",
@@ -15099,7 +15109,7 @@
         {
           "name": "grype",
           "origin": "home:david",
-          "version": "0.121.3"
+          "version": "0.122.0"
         },
         {
           "name": "gvfs",
@@ -15149,7 +15159,7 @@
         {
           "name": "herdr-core",
           "origin": "home:david",
-          "version": "0.1.21"
+          "version": "0.1.22"
         },
         {
           "name": "hicolor-icon-theme",
@@ -15464,7 +15474,7 @@
         {
           "name": "kitty",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "kmenuedit",
@@ -16074,7 +16084,7 @@
         {
           "name": "omp",
           "origin": "home:david",
-          "version": "18.20.3"
+          "version": "19.0.0"
         },
         {
           "name": "opencode-v2",
@@ -16139,7 +16149,7 @@
         {
           "name": "oxlint",
           "origin": "home:david",
-          "version": "1.91.0"
+          "version": "1.94.0"
         },
         {
           "name": "p7zip",
@@ -16504,7 +16514,7 @@
         {
           "name": "sbomnix",
           "origin": "home:david",
-          "version": "1.9.0"
+          "version": "1.10.0"
         },
         {
           "name": "scalene",
@@ -16559,7 +16569,7 @@
         {
           "name": "signal-desktop",
           "origin": "home:david",
-          "version": "8.32.0"
+          "version": "8.35.0"
         },
         {
           "name": "sipcalc",
@@ -16679,7 +16689,7 @@
         {
           "name": "syft",
           "origin": "home:david",
-          "version": "1.56.0"
+          "version": "1.57.2"
         },
         {
           "name": "synology-drive-client",
@@ -16704,7 +16714,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.10"
+          "version": "0.1.11"
         },
         {
           "name": "taplo",
@@ -16819,7 +16829,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.7"
+          "version": "0.13.9"
         },
         {
           "name": "viddy",
@@ -17089,7 +17099,7 @@
         {
           "name": "zed-editor",
           "origin": "home:david",
-          "version": "1.28.1"
+          "version": "1.29.3"
         },
         {
           "name": "zellij",
@@ -18077,7 +18087,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.51.2"
+          "version": "0.51.3"
         },
         {
           "name": "bash-interactive",
@@ -18147,7 +18157,7 @@
         {
           "name": "ctx",
           "origin": "home:david",
-          "version": "2.4.1"
+          "version": "2.5.0"
         },
         {
           "name": "curl",
@@ -18192,12 +18202,12 @@
         {
           "name": "dbhub",
           "origin": "home:david",
-          "version": "2.0.0"
+          "version": "2.1.0"
         },
         {
           "name": "delta",
           "origin": "home:david",
-          "version": "0.20.1"
+          "version": "0.21.2"
         },
         {
           "name": "devenv",
@@ -18237,7 +18247,7 @@
         {
           "name": "espeak-ng",
           "origin": "home:david",
-          "version": "1.52.0-unstable-2026-11-08"
+          "version": "1.52.0-unstable-2026-11-19"
         },
         {
           "name": "fast-resume",
@@ -18327,7 +18337,7 @@
         {
           "name": "herdr-core",
           "origin": "home:david",
-          "version": "0.1.21"
+          "version": "0.1.22"
         },
         {
           "name": "hm-session-vars.sh",
@@ -18382,7 +18392,7 @@
         {
           "name": "kitty",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "ksnip",
@@ -18552,7 +18562,7 @@
         {
           "name": "omp",
           "origin": "home:david",
-          "version": "18.20.3"
+          "version": "19.0.0"
         },
         {
           "name": "opencode-v2",
@@ -18572,7 +18582,7 @@
         {
           "name": "pandacode",
           "origin": "home:david",
-          "version": "0.3.130"
+          "version": "0.3.139"
         },
         {
           "name": "patch",
@@ -18672,7 +18682,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.10"
+          "version": "0.1.11"
         },
         {
           "name": "terminus-font-ttf",
@@ -18717,7 +18727,7 @@
         {
           "name": "twg",
           "origin": "home:david",
-          "version": "1.4.5"
+          "version": "1.4.6"
         },
         {
           "name": "ultimate-oldschool-pc-font-pack",
@@ -18732,7 +18742,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.7"
+          "version": "0.13.9"
         },
         {
           "name": "vim",
@@ -18823,7 +18833,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.51.2"
+          "version": "0.51.3"
         },
         {
           "name": "bash-interactive",
@@ -18878,7 +18888,7 @@
         {
           "name": "ctx",
           "origin": "home:david",
-          "version": "2.4.1"
+          "version": "2.5.0"
         },
         {
           "name": "curl",
@@ -18888,12 +18898,12 @@
         {
           "name": "dbhub",
           "origin": "home:david",
-          "version": "2.0.0"
+          "version": "2.1.0"
         },
         {
           "name": "delta",
           "origin": "home:david",
-          "version": "0.20.1"
+          "version": "0.21.2"
         },
         {
           "name": "devenv",
@@ -18958,7 +18968,7 @@
         {
           "name": "espeak-ng",
           "origin": "home:david",
-          "version": "1.52.0-unstable-2026-11-08"
+          "version": "1.52.0-unstable-2026-11-19"
         },
         {
           "name": "fast-resume",
@@ -19043,7 +19053,7 @@
         {
           "name": "herdr-core",
           "origin": "home:david",
-          "version": "0.1.21"
+          "version": "0.1.22"
         },
         {
           "name": "hm-session-vars.sh",
@@ -19093,7 +19103,7 @@
         {
           "name": "kitty",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "ksnip",
@@ -19248,7 +19258,7 @@
         {
           "name": "omp",
           "origin": "home:david",
-          "version": "18.20.3"
+          "version": "19.0.0"
         },
         {
           "name": "opencode-v2",
@@ -19268,7 +19278,7 @@
         {
           "name": "pandacode",
           "origin": "home:david",
-          "version": "0.3.130"
+          "version": "0.3.139"
         },
         {
           "name": "patch",
@@ -19408,7 +19418,7 @@
         {
           "name": "twg",
           "origin": "home:david",
-          "version": "1.4.5"
+          "version": "1.4.6"
         },
         {
           "name": "ultimate-oldschool-pc-font-pack",
@@ -19428,7 +19438,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.7"
+          "version": "0.13.9"
         },
         {
           "name": "vim",
@@ -20270,7 +20280,7 @@
         {
           "name": "openbao",
           "origin": "system",
-          "version": "2.6.5"
+          "version": "2.6.6"
         },
         {
           "name": "openbao-ops",
@@ -20917,7 +20927,7 @@
         {
           "name": "ast-grep",
           "origin": "home:david",
-          "version": "0.51.2"
+          "version": "0.51.3"
         },
         {
           "name": "attr",
@@ -21032,12 +21042,12 @@
         {
           "name": "cachix",
           "origin": "home:david",
-          "version": "1.12.1"
+          "version": "1.15.0"
         },
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1111.71025"
+          "version": "26.1117.41037"
         },
         {
           "name": "chrome-devtools-mcp",
@@ -21047,7 +21057,7 @@
         {
           "name": "chromium",
           "origin": "home:david",
-          "version": "157.0.8103.78"
+          "version": "158.0.8127.36"
         },
         {
           "name": "cloc",
@@ -21062,7 +21072,7 @@
         {
           "name": "codex",
           "origin": "home:david",
-          "version": "0.170.0"
+          "version": "0.171.0"
         },
         {
           "name": "codex-desktop-safe",
@@ -21092,7 +21102,7 @@
         {
           "name": "ctx",
           "origin": "home:david",
-          "version": "2.4.1"
+          "version": "2.5.0"
         },
         {
           "name": "ctx7",
@@ -21122,7 +21132,7 @@
         {
           "name": "dbhub",
           "origin": "home:david",
-          "version": "2.0.0"
+          "version": "2.1.0"
         },
         {
           "name": "dbus",
@@ -21147,7 +21157,7 @@
         {
           "name": "delta",
           "origin": "home:david",
-          "version": "0.20.1"
+          "version": "0.21.2"
         },
         {
           "name": "devenv",
@@ -21282,12 +21292,12 @@
         {
           "name": "espeak-ng",
           "origin": "home:david",
-          "version": "1.52.0-unstable-2026-11-08"
+          "version": "1.52.0-unstable-2026-11-19"
         },
         {
           "name": "espeak-ng",
           "origin": "system",
-          "version": "1.52.0-unstable-2026-11-08"
+          "version": "1.52.0-unstable-2026-11-19"
         },
         {
           "name": "evolution",
@@ -21462,7 +21472,7 @@
         {
           "name": "gh",
           "origin": "home:david",
-          "version": "2.104.0"
+          "version": "2.105.0"
         },
         {
           "name": "ghostty",
@@ -21478,6 +21488,11 @@
           "name": "gigatoken",
           "origin": "home:david",
           "version": "0.11.0"
+        },
+        {
+          "name": "gimp",
+          "origin": "home:david",
+          "version": "3.0.8"
         },
         {
           "name": "git",
@@ -21557,7 +21572,7 @@
         {
           "name": "google-chrome",
           "origin": "home:david",
-          "version": "157.0.8103.78"
+          "version": "158.0.8127.36"
         },
         {
           "name": "gparted",
@@ -21582,7 +21597,7 @@
         {
           "name": "grype",
           "origin": "home:david",
-          "version": "0.121.3"
+          "version": "0.122.0"
         },
         {
           "name": "gvfs",
@@ -21632,7 +21647,7 @@
         {
           "name": "herdr-core",
           "origin": "home:david",
-          "version": "0.1.21"
+          "version": "0.1.22"
         },
         {
           "name": "hicolor-icon-theme",
@@ -21932,7 +21947,7 @@
         {
           "name": "kitty",
           "origin": "home:david",
-          "version": "0.50.0"
+          "version": "0.51.0"
         },
         {
           "name": "kmenuedit",
@@ -22622,7 +22637,7 @@
         {
           "name": "omp",
           "origin": "home:david",
-          "version": "18.20.3"
+          "version": "19.0.0"
         },
         {
           "name": "openbao-maintain",
@@ -22682,7 +22697,7 @@
         {
           "name": "oxlint",
           "origin": "home:david",
-          "version": "1.91.0"
+          "version": "1.94.0"
         },
         {
           "name": "p7zip",
@@ -22692,7 +22707,7 @@
         {
           "name": "pandacode",
           "origin": "home:david",
-          "version": "0.3.130"
+          "version": "0.3.139"
         },
         {
           "name": "parallel",
@@ -22817,7 +22832,7 @@
         {
           "name": "playwright-cli",
           "origin": "home:david",
-          "version": "0.1.24"
+          "version": "0.1.25"
         },
         {
           "name": "playwright-mcp",
@@ -23067,7 +23082,7 @@
         {
           "name": "sbomnix",
           "origin": "home:david",
-          "version": "1.9.0"
+          "version": "1.10.0"
         },
         {
           "name": "scalene",
@@ -23122,7 +23137,7 @@
         {
           "name": "signal-desktop",
           "origin": "home:david",
-          "version": "8.32.0"
+          "version": "8.35.0"
         },
         {
           "name": "sipcalc",
@@ -23257,7 +23272,7 @@
         {
           "name": "syft",
           "origin": "home:david",
-          "version": "1.56.0"
+          "version": "1.57.2"
         },
         {
           "name": "synology-drive-client",
@@ -23282,7 +23297,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.10"
+          "version": "0.1.11"
         },
         {
           "name": "taplo",
@@ -23392,7 +23407,7 @@
         {
           "name": "uv",
           "origin": "home:david",
-          "version": "0.13.7"
+          "version": "0.13.9"
         },
         {
           "name": "viddy",
