@@ -33,6 +33,7 @@
     stable.xz # XZ compression
     stable.zstd # Zstandard compression
     stable.bashInteractive
+    stable.iperf2
     stable.iperf3
     stable.mc
     unstable.bat

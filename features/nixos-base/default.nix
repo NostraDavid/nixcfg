@@ -39,6 +39,7 @@
         pkgs.which # Command lookup
         pkgs.xz # XZ compression
         pkgs.zstd # Zstandard compression
+        pkgs.iperf2
         pkgs.iperf3
         pkgs.mc
         pkgs.neovim
