@@ -5,37 +5,33 @@ description: "Review branch or PR changes against the base branch for correctnes
 
 # PR Review
 
-Voer de review read-only uit. Baseer alle claims op de output van
-`~/.agents/skills/review-git-branch/scripts/branch-compare.sh`, de repository-instructies en controleerbare bron-
-of test-evidence.
+Voer de review read-only uit. Baseer alle claims op het vergelijkingsrapport,
+de repository-instructies en controleerbaar bewijs uit de broncode of tests.
 
 ## Workflow
 
-1. Bepaal de repository-root en voer het gebundelde script uit:
+1. Open en lees [git-review-report.md](templates/git-review-report.md) vanuit
+   de map van dit `SKILL.md` voordat je de review begint. Vul de template in
+   volgens de HTML-commentaren en geef het ingevulde rapport zonder die
+   commentaren.
+2. Gebruik een aangeleverd rapport van `branch-compare.sh` voor de gevraagde
+   vergelijking. Bepaal anders de repository-root en voer het gebundelde script uit.
 
    `bash ~/.agents/skills/review-git-branch/scripts/branch-compare.sh --repo <repository-root>`
 
    Gebruik `--base <git-ref>` wanneer de gebruiker een base noemt. Het script
    geeft één Markdown-rapport met base, merge-base, commits, diff-stat,
-   gewijzigde paden, diff-checks en patch. Gebruik dat rapport als primaire
-   diff-input; voer geen alternatieve branch-heuristiek uit.
-2. Als het script faalt of geen niet-lege diff oplevert, maak geen inhoudelijke
-   review. Meld de fout en vraag om een expliciete base-ref wanneer nodig.
-3. Lees toepasselijke `AGENTS.md`-, `README`-, CI- en testinstructies voordat
+   gewijzigde paden, diff-checks en patch. Gebruik het rapport als primaire
+   diff-input.
+3. Als het script faalt of de diff leeg is, meld dan de reden in plaats van
+   een inhoudelijke review. Vraag om een expliciete base-ref
+   wanneer nodig.
+4. Lees toepasselijke `AGENTS.md`-, `README`-, CI- en testinstructies voordat
    je conclusies trekt. Inspecteer de gewijzigde files en relevante context.
    Beantwoord de vijf vragen hieronder voor de gewijzigde code die data verwerkt.
-4. Gebruik `templates/output.md` als rapportstructuur. Vat eerst de semantische
-   wijzigingen samen en geef daarna findings op correctness, security,
-   schaalbaarheid en tests.
-5. Geef per finding severity, evidence met bestand en regel of diff-hunk,
-   consequence, confidence en de kleinste geloofwaardige remediation. Vermeld
-   ook non-blocking verbeterpunten voor de lange termijn; laat een punt alleen
-   weg als er geen controleerbare evidence of concrete verbetering is.
-6. Noteer tests als run, not run of unknown met commando en resultaat. Claim
-   nooit dat tests slagen zonder uitvoerbare evidence; noem ontbrekende
-   repository- of runtime-informatie expliciet.
-7. Sluit af met een beperkte verdict voor deze diff. Voer geen edits, commits,
-   pushes, dependency-installaties of andere mutaties uit.
+5. Vergelijk je antwoord vóór verzending met de gelezen template. Controleer
+   de sectiekoppen, hun volgorde en de ingevulde velden. Noteer `unknown`
+   bij ontbrekend bewijs of `not applicable` met een reden.
 
 ## Vijf vragen over schaal en resourcegebruik
 
@@ -63,13 +59,3 @@ onderbouwd antwoord, `unknown` bij ontbrekende informatie of `not applicable`
 met een reden. Label aannames over productievolumes en latentie expliciet.
 Rapporteer risico's met hetzelfde evidence-contract als andere findings;
 gebruik kleine tests als bewijs voor het gedrag op die testgrootte.
-
-## Output contract
-
-- Begin met scope, current branch, base branch en verdict.
-- Beschrijf de belangrijkste gedragswijzigingen vóór de findings.
-- Orden findings van high naar low en laat lege categorieën niet als bewezen
-  veilig doorgaan.
-- Neem ook non-blocking findings op als codeverbetering voor de lange termijn;
-   vermeld daarbij altijd bestand en regel of diff-hunk.
-- Vermeld gewijzigde files, teststatus, beperkingen en open vragen.
