@@ -9,10 +9,10 @@
   ripgrep,
   stdenvNoCC,
 }: let
-  version = "1.147.0";
+  version = "1.148.0";
   # to grab the hash, run:
   # nix store prefetch-file https://update.code.visualstudio.com/<version>/linux-x64/stable
-  srcHash = "sha256-b9ixRgDyqN24tIM9i/KI89xMNLKHjSxsP+x+FsgQI7w=";
+  srcHash = "sha256-es2vAaHXonxVgoFW7D/b51uOCAkHD+zRDeAixJgqDxY=";
   src = fetchurl {
     url = "https://update.code.visualstudio.com/${version}/linux-x64/stable";
     name = "vscode-${version}.tar.gz";

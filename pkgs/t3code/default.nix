@@ -6,9 +6,9 @@
   unzip,
 }: let
   pname = "t3code";
-  version = "0.1.11";
-  linuxHash = "sha256-i6oGp7uqP3KdaUZvshHtcAbWpuTYALns2s2DH9FoaxQ=";
-  darwinHash = "sha256-LpJFQDHb/6xF+dxeQ0ge09KdiR+un9WAzu6vKO/l8jA=";
+  version = "0.1.12";
+  linuxHash = "sha256-ZrkVUVcd9tKbVctZApXt9BHP+WyVqP6z9Bw8pZXXIuI=";
+  darwinHash = "sha256-bMxS4Q2dQGeTjbfNU11Q2Bk4ZP6/oc+myEhbw6p9v7c=";
   linuxAsset =
     if lib.versionOlder version "0.1.10"
     then "T3-Code-${version}-x86_64.AppImage"

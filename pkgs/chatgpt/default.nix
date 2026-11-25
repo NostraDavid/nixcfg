@@ -11,10 +11,10 @@ chatgpt.overrideAttrs (old: {
     old.passthru
     // {
       sources.x86_64-linux = rec {
-        version = "26.1117.41037";
+        version = "26.1120.50957";
         src = {
           url = "https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_${version}_amd64.deb";
-          hash = "sha256-gw4lG2ykrUX+aQQSenkOjwD3wm7UyAOUc/cyPHxOJpI=";
+          hash = "sha256-6Ks435bWBw/V1FgqYGSQY3coJDu1Kentrhmz8KbmZNI=";
         };
       };
     };
