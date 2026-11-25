@@ -421,6 +421,7 @@ def launch_code(command: list[str], env: dict[str, str]) -> int:
         return sp.run(  # noqa: S603
             command,
             env=env,
+            stdin=None if "-" in command else sp.DEVNULL,
             check=False,
             timeout=CLI_LAUNCH_TIMEOUT_SECONDS,
         ).returncode
