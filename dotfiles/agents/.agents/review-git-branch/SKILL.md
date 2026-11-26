@@ -28,6 +28,8 @@ de repository-instructies en controleerbaar bewijs uit de broncode of tests.
    wanneer nodig.
 4. Lees toepasselijke `AGENTS.md`-, `README`-, CI- en testinstructies voordat
    je conclusies trekt. Inspecteer de gewijzigde files en relevante context.
+   Controleer of de diff aan de beschikbare vereisten en bestaande garanties
+   voldoet.
    Beantwoord de vijf vragen hieronder voor de gewijzigde code die data verwerkt.
 5. Vergelijk je antwoord vóór verzending met de gelezen template. Controleer
    de sectiekoppen, hun volgorde en de ingevulde velden. Noteer `unknown`
