@@ -57,20 +57,20 @@ Dependencies, service-only packages, manual installations and external work prof
 | Machine | Unique configured package names |
 | --- | ---: |
 | apps | 89 |
-| bragi | 178 |
+| bragi | 180 |
 | certs | 87 |
-| donar | 566 |
+| donar | 568 |
 | forgejo | 88 |
 | forgejo-lab | 87 |
-| frigg | 521 |
+| frigg | 523 |
 | homepage | 88 |
 | k3s | 88 |
-| loki | 148 |
-| mimir2 | 137 |
+| loki | 150 |
+| mimir2 | 139 |
 | nextcloud | 90 |
 | openbao | 89 |
 | proxy | 87 |
-| wodan | 551 |
+| wodan | 553 |
 
 ## Entry points
 
@@ -470,7 +470,7 @@ before merging. These checks do not establish semantic redundancy.
 | [features/media/_apps.nix](../features/media/_apps.nix) | 28 | features/media/default.nix |
 | [features/media/_tools.nix](../features/media/_tools.nix) | 31 | features/media/default.nix |
 | [features/nix-index/_home.nix](../features/nix-index/_home.nix) | 29 | features/nix-index/default.nix |
-| [features/portable-runtime/_home.nix](../features/portable-runtime/_home.nix) | 48 | features/portable-runtime/default.nix |
+| [features/portable-runtime/_home.nix](../features/portable-runtime/_home.nix) | 49 | features/portable-runtime/default.nix |
 | [features/whatpulse/_home.nix](../features/whatpulse/_home.nix) | 11 | features/whatpulse/default.nix |
 | [features/workstation-extra/_default.nix](../features/workstation-extra/_default.nix) | 7 | features/workstation-extra/default.nix |
 | [features/workstation-extra/_development-core.nix](../features/workstation-extra/_development-core.nix) | 31 | features/workstation-extra/_development-packages.nix |

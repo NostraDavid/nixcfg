@@ -6394,11 +6394,11 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 30,
+      "lines": 40,
       "merge_into": null,
       "parents": [],
       "path": "features/fonts/default.nix",
-      "sha256": "2a71d9d17efd16033483a2b957e05f4d96502639e78c7de96226f678dc37ac78",
+      "sha256": "627892f3fd48e56cf47e72c1b639fcedd92b57fd0cb0c4a95ed2a12665ebc78b",
       "status": "used"
     },
     {
@@ -6849,13 +6849,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 148,
+      "lines": 155,
       "merge_into": null,
       "parents": [
         "features/mcp/default.nix"
       ],
       "path": "features/mcp/_home.nix",
-      "sha256": "4e3a0861999a5e254377f97544ef32d8b331b1b5148c7e5bd6ccfdec48a577dd",
+      "sha256": "1f5507bfb659f4f6181d552c94207cd498e46f0db6fdd36794eba4390c6191d1",
       "status": "used"
     },
     {
@@ -7101,11 +7101,11 @@
         "Home Manager:mimir2"
       ],
       "kind": "feature",
-      "lines": 53,
+      "lines": 54,
       "merge_into": null,
       "parents": [],
       "path": "features/nixos-base/default.nix",
-      "sha256": "68624229ab1d3cd2ef9c399499373ea518ea21d2001fb50ee21e82d74ee446c2",
+      "sha256": "b3cf4847697dd6bc2654e863fe256a9981d11c93ac8e517d5562b343ca76f53c",
       "status": "used"
     },
     {
@@ -7229,13 +7229,13 @@
         "optional:loki + workstation"
       ],
       "kind": "feature",
-      "lines": 48,
+      "lines": 49,
       "merge_into": "features/portable-runtime/default.nix",
       "parents": [
         "features/portable-runtime/default.nix"
       ],
       "path": "features/portable-runtime/_home.nix",
-      "sha256": "18d23431b460711804ea4eed4c4c0e572b77deb0ce64c3b5a74214a3525c2d08",
+      "sha256": "c7459e2eb666433beba198a14532c156a6a00c3f12cffc2741ab6e5be29642a3",
       "status": "used"
     },
     {
@@ -8903,6 +8903,11 @@
         {
           "name": "iperf",
           "origin": "system",
+          "version": "2.2.1"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
           "version": "3.20"
         },
         {
@@ -9063,7 +9068,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -9254,7 +9259,7 @@
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.13.0"
+          "version": "1.14.0"
         },
         {
           "name": "cloc",
@@ -9459,7 +9464,7 @@
         {
           "name": "herdr-app",
           "origin": "home:david",
-          "version": "0.1.16"
+          "version": "0.1.18"
         },
         {
           "name": "herdr-core",
@@ -9495,6 +9500,21 @@
           "name": "hyprland",
           "origin": "system",
           "version": "0.55.4"
+        },
+        {
+          "name": "ioskeley-mono-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
+          "name": "ioskeley-mono-Term-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
+          "version": "2.2.1"
         },
         {
           "name": "iperf",
@@ -9804,7 +9824,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -10275,6 +10295,11 @@
         {
           "name": "iperf",
           "origin": "system",
+          "version": "2.2.1"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
           "version": "3.20"
         },
         {
@@ -10435,7 +10460,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -10766,12 +10791,12 @@
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1117.41037"
+          "version": "26.1120.50957"
         },
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.13.0"
+          "version": "1.14.0"
         },
         {
           "name": "chromium",
@@ -10791,7 +10816,7 @@
         {
           "name": "codex",
           "origin": "home:david",
-          "version": "0.171.0"
+          "version": "0.172.0"
         },
         {
           "name": "colordiff",
@@ -10921,7 +10946,7 @@
         {
           "name": "dotnet-sdk",
           "origin": "home:david",
-          "version": "8.0.427"
+          "version": "8.0.428"
         },
         {
           "name": "dprint",
@@ -11331,7 +11356,7 @@
         {
           "name": "herdr-app",
           "origin": "home:david",
-          "version": "0.1.16"
+          "version": "0.1.18"
         },
         {
           "name": "herdr-core",
@@ -11409,6 +11434,16 @@
           "version": "3.3.40-1"
         },
         {
+          "name": "ioskeley-mono-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
+          "name": "ioskeley-mono-Term-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
           "name": "iotop",
           "origin": "home:david",
           "version": "0.6"
@@ -11417,6 +11452,11 @@
           "name": "ipcalc",
           "origin": "home:david",
           "version": "1.0.3"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
+          "version": "2.2.1"
         },
         {
           "name": "iperf",
@@ -12326,12 +12366,12 @@
         {
           "name": "nvidia-settings",
           "origin": "system",
-          "version": "595.71.05"
+          "version": "595.112.07"
         },
         {
           "name": "nvidia-x11",
           "origin": "system",
-          "version": "595.71.05"
+          "version": "595.112.07"
         },
         {
           "name": "nvme-cli",
@@ -12366,7 +12406,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openobex",
@@ -13181,7 +13221,7 @@
         {
           "name": "vscode",
           "origin": "home:david",
-          "version": "1.147.0"
+          "version": "1.148.0"
         },
         {
           "name": "vscode-langservers-extracted",
@@ -13687,6 +13727,11 @@
         {
           "name": "iperf",
           "origin": "system",
+          "version": "2.2.1"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
           "version": "3.20"
         },
         {
@@ -13847,7 +13892,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -14133,6 +14178,11 @@
         {
           "name": "iperf",
           "origin": "system",
+          "version": "2.2.1"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
           "version": "3.20"
         },
         {
@@ -14293,7 +14343,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -14624,12 +14674,12 @@
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1117.41037"
+          "version": "26.1120.50957"
         },
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.13.0"
+          "version": "1.14.0"
         },
         {
           "name": "chromium",
@@ -14649,7 +14699,7 @@
         {
           "name": "codex",
           "origin": "home:david",
-          "version": "0.171.0"
+          "version": "0.172.0"
         },
         {
           "name": "colordiff",
@@ -15154,7 +15204,7 @@
         {
           "name": "herdr-app",
           "origin": "home:david",
-          "version": "0.1.16"
+          "version": "0.1.18"
         },
         {
           "name": "herdr-core",
@@ -15232,6 +15282,16 @@
           "version": "3.3.40-1"
         },
         {
+          "name": "ioskeley-mono-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
+          "name": "ioskeley-mono-Term-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
           "name": "iotop",
           "origin": "home:david",
           "version": "0.6"
@@ -15240,6 +15300,11 @@
           "name": "ipcalc",
           "origin": "home:david",
           "version": "1.0.3"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
+          "version": "2.2.1"
         },
         {
           "name": "iperf",
@@ -16089,7 +16154,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openobex",
@@ -16714,7 +16779,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.11"
+          "version": "0.1.12"
         },
         {
           "name": "taplo",
@@ -16849,7 +16914,7 @@
         {
           "name": "vscode",
           "origin": "home:david",
-          "version": "1.147.0"
+          "version": "1.148.0"
         },
         {
           "name": "vscode-langservers-extracted",
@@ -17320,6 +17385,11 @@
         {
           "name": "iperf",
           "origin": "system",
+          "version": "2.2.1"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
           "version": "3.20"
         },
         {
@@ -17480,7 +17550,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -17766,6 +17836,11 @@
         {
           "name": "iperf",
           "origin": "system",
+          "version": "2.2.1"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
           "version": "3.20"
         },
         {
@@ -17931,7 +18006,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -18132,7 +18207,7 @@
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.13.0"
+          "version": "1.14.0"
         },
         {
           "name": "cloc",
@@ -18332,7 +18407,7 @@
         {
           "name": "herdr-app",
           "origin": "home:david",
-          "version": "0.1.16"
+          "version": "0.1.18"
         },
         {
           "name": "herdr-core",
@@ -18353,6 +18428,21 @@
           "name": "hurl",
           "origin": "home:david",
           "version": "8.1.0"
+        },
+        {
+          "name": "ioskeley-mono-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
+          "name": "ioskeley-mono-Term-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
+          "name": "iperf",
+          "origin": "home:david",
+          "version": "2.2.1"
         },
         {
           "name": "iperf",
@@ -18567,7 +18657,7 @@
         {
           "name": "opencode-v2",
           "origin": "home:david",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openssl",
@@ -18582,7 +18672,7 @@
         {
           "name": "pandacode",
           "origin": "home:david",
-          "version": "0.3.139"
+          "version": "0.3.146"
         },
         {
           "name": "patch",
@@ -18682,7 +18772,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.11"
+          "version": "0.1.12"
         },
         {
           "name": "terminus-font-ttf",
@@ -18727,7 +18817,7 @@
         {
           "name": "twg",
           "origin": "home:david",
-          "version": "1.4.6"
+          "version": "1.4.7"
         },
         {
           "name": "ultimate-oldschool-pc-font-pack",
@@ -18868,7 +18958,7 @@
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.13.0"
+          "version": "1.14.0"
         },
         {
           "name": "cloc",
@@ -19048,7 +19138,7 @@
         {
           "name": "herdr-app",
           "origin": "home:david",
-          "version": "0.1.16"
+          "version": "0.1.18"
         },
         {
           "name": "herdr-core",
@@ -19074,6 +19164,21 @@
           "name": "hurl",
           "origin": "home:david",
           "version": "8.1.0"
+        },
+        {
+          "name": "ioskeley-mono-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
+          "name": "ioskeley-mono-Term-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
+          "name": "iperf",
+          "origin": "home:david",
+          "version": "2.2.1"
         },
         {
           "name": "iperf",
@@ -19263,7 +19368,7 @@
         {
           "name": "opencode-v2",
           "origin": "home:david",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openssl",
@@ -19278,7 +19383,7 @@
         {
           "name": "pandacode",
           "origin": "home:david",
-          "version": "0.3.139"
+          "version": "0.3.146"
         },
         {
           "name": "patch",
@@ -19418,7 +19523,7 @@
         {
           "name": "twg",
           "origin": "home:david",
-          "version": "1.4.6"
+          "version": "1.4.7"
         },
         {
           "name": "ultimate-oldschool-pc-font-pack",
@@ -19659,6 +19764,11 @@
         {
           "name": "iperf",
           "origin": "system",
+          "version": "2.2.1"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
           "version": "3.20"
         },
         {
@@ -19824,7 +19934,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -20120,6 +20230,11 @@
         {
           "name": "iperf",
           "origin": "system",
+          "version": "2.2.1"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
           "version": "3.20"
         },
         {
@@ -20290,7 +20405,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -20576,6 +20691,11 @@
         {
           "name": "iperf",
           "origin": "system",
+          "version": "2.2.1"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
           "version": "3.20"
         },
         {
@@ -20736,7 +20856,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -21047,12 +21167,12 @@
         {
           "name": "chatgpt",
           "origin": "home:david",
-          "version": "26.1117.41037"
+          "version": "26.1120.50957"
         },
         {
           "name": "chrome-devtools-mcp",
           "origin": "home:david",
-          "version": "1.13.0"
+          "version": "1.14.0"
         },
         {
           "name": "chromium",
@@ -21072,7 +21192,7 @@
         {
           "name": "codex",
           "origin": "home:david",
-          "version": "0.171.0"
+          "version": "0.172.0"
         },
         {
           "name": "codex-desktop-safe",
@@ -21217,7 +21337,7 @@
         {
           "name": "dotnet-sdk",
           "origin": "home:david",
-          "version": "8.0.427"
+          "version": "8.0.428"
         },
         {
           "name": "dprint",
@@ -21642,7 +21762,7 @@
         {
           "name": "herdr-app",
           "origin": "home:david",
-          "version": "0.1.16"
+          "version": "0.1.18"
         },
         {
           "name": "herdr-core",
@@ -21720,6 +21840,16 @@
           "version": "3.3.40-1"
         },
         {
+          "name": "ioskeley-mono-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
+          "name": "ioskeley-mono-Term-NF",
+          "origin": "home:david",
+          "version": "v2.1.0"
+        },
+        {
           "name": "iotop",
           "origin": "home:david",
           "version": "0.6"
@@ -21728,6 +21858,11 @@
           "name": "ipcalc",
           "origin": "home:david",
           "version": "1.0.3"
+        },
+        {
+          "name": "iperf",
+          "origin": "system",
+          "version": "2.2.1"
         },
         {
           "name": "iperf",
@@ -22647,7 +22782,7 @@
         {
           "name": "opencode-v2",
           "origin": "system",
-          "version": "2.3.2"
+          "version": "2.4.1"
         },
         {
           "name": "openresolv",
@@ -22707,7 +22842,7 @@
         {
           "name": "pandacode",
           "origin": "home:david",
-          "version": "0.3.139"
+          "version": "0.3.146"
         },
         {
           "name": "parallel",
@@ -23297,7 +23432,7 @@
         {
           "name": "t3code",
           "origin": "home:david",
-          "version": "0.1.11"
+          "version": "0.1.12"
         },
         {
           "name": "taplo",
@@ -23437,7 +23572,7 @@
         {
           "name": "vscode",
           "origin": "home:david",
-          "version": "1.147.0"
+          "version": "1.148.0"
         },
         {
           "name": "vscode-langservers-extracted",
