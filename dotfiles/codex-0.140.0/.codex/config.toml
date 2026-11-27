@@ -6,6 +6,9 @@ model_reasoning_effort = "xhigh"
 personality = "pragmatic"
 service_tier = "default"
 
+[agents]
+default_subagent_reasoning_effort = "medium"
+
 [analytics]
 enabled = false
 
