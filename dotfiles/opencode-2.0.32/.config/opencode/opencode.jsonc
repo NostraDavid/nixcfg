@@ -7,7 +7,7 @@
     "codex": {
       "description": "Primary orchestrator. Owns decisions, delegates bounded implementation work, and reviews every result.",
       "mode": "primary",
-      "model": "openai/gpt-6.2-sol#high",
+      "model": "openai/gpt-6.2-sol#xhigh",
       "permissions": [
         {
           "action": "subagent",

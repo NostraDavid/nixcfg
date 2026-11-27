@@ -55,9 +55,9 @@ tool.
 
 The managed configuration is
 `dotfiles/opencode-2.0.32/.config/opencode/opencode.jsonc`. The root model is
-`openai/gpt-6.2-sol`. OpenCode V2 stores the reasoning variant on each agent.
-The default `codex` agent uses `high`, and the `opencode-worker` subagent uses
-`medium`.
+`openai/gpt-6.2-sol` without a variant. The default `codex` agent uses
+`openai/gpt-6.2-sol#xhigh`, and the `opencode-worker` subagent uses
+`openai/gpt-6.2-sol#medium`.
 
 Provider policies allow Tensorx and OpenAI. Authentication remains local; no
 credential is stored in the file. To connect OpenAI, use `/connect` in OpenCode

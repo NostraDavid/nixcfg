@@ -57,13 +57,14 @@ assert.deepEqual(config.agents.codex.permissions, [
 ]);
 const provider = "tensorx";
 assert.deepEqual(Object.keys(config.providers), [provider]);
+assert.equal(source.model, "openai/gpt-6.2-sol");
 assert.equal(config.model.providerID, "openai");
 assert.equal(config.model.model, "gpt-6.2-sol");
 assert.ok(!("variant" in config.model), "The v2 root model does not retain a variant");
 assert.deepEqual(config.agents.codex.model, {
     providerID: "openai",
     model: "gpt-6.2-sol",
-    variant: "high",
+    variant: "xhigh",
 });
 assert.equal(config.agents["opencode-worker"].model.providerID, "openai");
 assert.deepEqual(config.policies.filter(rule => rule.action === "provider.use"), [
