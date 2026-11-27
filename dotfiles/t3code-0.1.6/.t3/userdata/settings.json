@@ -19,7 +19,7 @@
   ],
   "defaultModelSelection": {
     "instanceId": "codex",
-    "model": "gpt-6-luna",
+    "model": "gpt-6.2-sol",
     "options": [
       {
         "id": "reasoningEffort",
