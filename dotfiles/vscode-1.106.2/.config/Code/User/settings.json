@@ -173,7 +173,7 @@
   "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorStyle": "block",
-  "editor.fontFamily": "'Iosevka Nerd Font', 'JetBrainsMono NF', monospace",
+  "editor.fontFamily": "'IoskeleyMono Nerd Font Mono', 'Iosevka Nerd Font Mono', 'JetBrainsMono NF', monospace",
   "editor.fontLigatures": true,
   "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.inlineSuggest.enabled": true,
@@ -544,5 +544,6 @@
   ],
   "yaml.maxItemsComputed": 10000,
   "zig.zls.enabled": "on",
-  "svelte.enable-ts-plugin": true
+  "svelte.enable-ts-plugin": true,
+  "editor.allowVariableFontsInAccessibilityMode": true
 }
