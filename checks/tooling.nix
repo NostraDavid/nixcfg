@@ -221,8 +221,10 @@ in {
           inherit (host) pkgs;
         }) (builtins.attrValues (host.config.home-manager.users or {})))
       systems;
-    hasFonts = pkgs: packages:
-      lib.all (font: builtins.elem font.outPath (map (p: p.outPath) packages)) (fonts.nixos {inherit pkgs;}).fonts.packages;
+    hasFonts = pkgs: packages: let
+      unstable = unstableFor pkgs.stdenv.hostPlatform.system;
+    in
+      lib.all (font: builtins.elem font.outPath (map (p: p.outPath) packages)) (fonts.nixos {inherit pkgs unstable;}).fonts.packages;
   in
     assert lib.all (host: hasFonts host.pkgs host.config.fonts.packages) systems;
     assert lib.all (home: hasFonts home.pkgs home.config.home.packages && (home.pkgs.stdenv.hostPlatform.isLinux -> home.config.fonts.fontconfig.enable)) homes; true;
